@@ -1,0 +1,4 @@
+### Borra una respuesta
+DELETE http://{{host}}/api/answer/1
+Authorization: Bearer {{token}}
+Content-Type: application/json

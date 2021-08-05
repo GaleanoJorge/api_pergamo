@@ -1,0 +1,73 @@
+### Recibe un array de los eventTickets que se desean Guardar-Editar
+POST http://{{host}}/api/requireTickets HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "data": [
+        {
+            "id": 1,
+            "event_concept_id": 4,
+            "passenger_user_id": 1,
+            "origin": "Mocoa",
+            "destination": "Pto Caicedo",
+            "back": null,
+            "departure_date": "2021-04-02T05:00:00.000000Z",
+            "return_date": "2021-04-08T05:00:00.000000Z",
+            "departure_observations": null,
+            "return_observations": null
+        },
+        {
+            "id": 2,
+            "event_concept_id": 4,
+            "passenger_user_id": 1,
+            "origin": "Mocoa",
+            "destination": "Pasto",
+            "back": null,
+            "departure_date": "2021-04-03T05:00:00.000000Z",
+            "return_date": "2021-04-07T06:00:00.000000Z",
+            "departure_observations": null,
+            "return_observations": null
+        }
+    ]
+}
+
+### Recibe un array de los eventTickets que se desean Actualizar despues de comprarlos
+PUT http://{{host}}/api/buyTickets HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "data": [
+        {
+            "id": 1,
+            "change_observations": null,
+            "ticket_number": "0001",
+            "airline": "Condor",
+            "total_value": 10000
+        },
+        {
+            "id": 2,
+            "change_observations": null,
+            "ticket_number": "0002",
+            "airline": "Villalia",
+            "total_value": 12000
+        }
+    ]
+}
+
+### Carga la informacion complementaria de toda una vigencia de tiquetes por medio de un archivo plano.
+POST http://{{host}}/api/chargeDataTickets?validity_id=1 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="xls_tickets"; filename="AAA_-_Rama_judicial_2DIC.xls"
+
+< C:\laragon\www\api-ensename-ejrlb\storage\AAA_-_Rama_judicial_2DIC.xls
+--WebAppBoundary--
+
+### Obtener un reporte en excel de los tiquetes de una vigencia
+GET http://{{host}}/api/exportExcelReportTickets?validity_id=1
+Authorization: Bearer {{token}}
+Accept: application/json

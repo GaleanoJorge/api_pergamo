@@ -1,0 +1,89 @@
+### Show de eventConcept
+GET http://{{host}}/api/eventConcept/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###Devuelve todos los datos de la tabla event_concept, si se necesitan solo algunos separar en el front. (CONCEPTOS EXTRA enviar stage=extra) (CONCEPTOS ESPECIALES enviar concept_type_id=3) (CONCEPTOS PROYECTADOS enviar stage=project) (CONCEPTOS TRANSPORTE [PARA EJECUCION] enviar concept_type_id=2)
+GET http://{{host}}/api/eventConcept?pagination=false&event_id=1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Inserta un concepto de transporte extra, desde el concepto al ticket
+POST http://{{host}}/api/storeTicketExtra HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "eventConcept":
+    {
+        "concept_id": 2,
+        "real_date": "2021-04-08",
+        "event_id": 1
+    },
+    "eventTicket":
+    {
+        "passenger_user_id": 1,
+        "origin": "Villa",
+        "destination": null,
+        "back": null,
+        "departure_date": null,
+        "return_date": null,
+        "departure_observations": null,
+        "return_observations": null
+    }
+}
+
+### Actualiza un concepto de transporte extra, desde el concepto al ticket
+PUT http://{{host}}/api/updateTicketExtra HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "eventConcept":
+    {
+        "id": 8,
+        "concept_id": 2,
+        "real_date": "2021-04-10",
+        "event_id": 1
+    },
+    "eventTicket":
+    {
+        "id": 3,
+        "passenger_user_id": 1,
+        "origin": "Villa",
+        "destination": "lejos",
+        "back": null,
+        "departure_date": null,
+        "return_date": null,
+        "departure_observations": null,
+        "return_observations": null
+    }
+}
+
+###
+PUT http://{{host}}/api/executeEventConceptArray HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "data": [
+        {
+        "id": 2,
+        "real_date": "2021-03-08",
+        "real_quantity": 1,
+        "real_unit_value": 6000
+        },
+        {
+        "id": 4,
+        "real_date": "2021-03-09",
+        "real_quantity": 3,
+        "real_unit_value":10000
+        },
+        {
+        "id": 5,
+        "real_date": "2021-03-18",
+        "real_quantity": 4,
+        "real_unit_value": 20000
+        }
+    ]
+}

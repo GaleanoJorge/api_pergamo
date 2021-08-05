@@ -1,0 +1,41 @@
+[
+    {
+        "name": "No Definido"
+    },
+    {
+        "name": "Preescolar"
+    },
+    {
+        "name": "Básica Primaria"
+    },
+    {
+        "name": "Básica Secundaria (Bachillerato Básico)"
+    },
+    {
+        "name": "Media Académica o Clásica (Bachillerato Básico)"
+    },
+    {
+        "name": "Media Técnica (Bachillerato Técnico)"
+    },
+    {
+        "name": "Normalista"
+    },
+    {
+        "name": "Técnica Profesional"
+    },
+    {
+        "name": "Tecnológica"
+    },
+    {
+        "name": "Profesional"
+    },
+    {
+        "name": "Especialización"
+    },
+    {
+        "name": "Maestría"
+    },
+    {
+        "name": "Doctorado"
+    }
+]

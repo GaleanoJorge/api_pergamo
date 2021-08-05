@@ -1,0 +1,24 @@
+### Show del evento con todo los datos de los labels para exposicion
+GET http://{{host}}/api/event
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Show del evento con todo los datos de los labels para exposicion
+GET http://{{host}}/api/event/1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Lista los eventos aprobados para auditar y realizar su ejecucion
+GET http://{{host}}/api/executeEvents?subprogram_id=11
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Lista un resumen de los eventos aprobados mostrando solo los costos logisticos
+GET http://{{host}}/api/reportLogisticSummary?subprogram_id=11&pagination=false
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Lista un resumen de los eventos aprobados mostrando solo los costos de transporte
+GET http://{{host}}/api/reportTransportSummary?subprogram_id=11&pagination=false
+Authorization: Bearer {{token}}
+Accept: application/json

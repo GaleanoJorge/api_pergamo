@@ -1,0 +1,3 @@
+delivery/*
+!delivery/testAdjunto.zip
+!.gitignore

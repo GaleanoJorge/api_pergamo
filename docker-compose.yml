@@ -1,0 +1,37 @@
+version: "3"
+services:
+  app:
+    build:
+      args:
+        user: ejrlb
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: api-ensename
+    container_name: ensename-app
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - ensename
+
+  nginx:
+    image: nginx:alpine
+    container_name: ensename-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8007:80
+      - "8443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - ensename
+
+networks:
+  ensename:
+    driver: bridge

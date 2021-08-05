@@ -1,0 +1,16 @@
+###Index del reporte asignado vs proyectado vs ejecutado, se envia el subprogram_id con el animo de que la columna subprograma al darle clic lleve al
+###lista de "presupuesto ejecutado" filtrando las del subprograma <<http://127.0.0.1:8000/api/executeEvents>>
+###[Jeyson Programar interfaz con DT]
+GET http://{{host}}/api/reportAllocatedBudget?pagination=false
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Primer pantalla de la matriz de conceptos logisticos, se envia el subprogram_id con el animo de que la columna subprograma al darle clic lleve a una lista resumen <<pendiente>>
+GET http://{{host}}/api/reportConsolidatedLogistics?pagination=false
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Primer pantalla de la matriz de conceptos transporte, se envia el subprogram_id con el animo de que la columna subprograma al darle clic lleve a una lista resumen <<pendiente>>
+GET http://{{host}}/api/reportConsolidatedTransport?pagination=false
+Authorization: Bearer {{token}}
+Accept: application/json

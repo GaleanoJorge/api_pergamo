@@ -1,0 +1,3036 @@
+{
+	"info": {
+		"_postman_id": "d9d8e35c-4f4e-4027-acc4-bca3b44eab7d",
+		"name": "Api New Enseñame V2.0 DEV",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "henryg@etraining.edu.co",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						}
+					],
+					"options": {
+						"urlencoded": {}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/login",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTU4MjIwNywiZXhwIjoxNTg5NTg1ODA3LCJuYmYiOjE1ODk1ODIyMDcsImp0aSI6IkttZWZrdWdsOFRNNG9QVXUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.gtDhvjbTh4Hn1kHInrp9QFBFOQwCTpAbHPtJvMg_zIs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/refresh",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "origin/allByUserAuth",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODgxOTg1MTAsImV4cCI6MTU4ODIwMjExMCwibmJmIjoxNTg4MTk4NTEwLCJqdGkiOiJsSjB0cExGOWZiWHk3N3l1Iiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.SYy_LYzhoDebb0P8NpNpIMP97mOMw7xgDbClAki5qcw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/origin/allByUserAuth",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"origin",
+						"allByUserAuth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category/allByOrigin/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODgxOTg1MTAsImV4cCI6MTU4ODIwMjExMCwibmJmIjoxNTg4MTk4NTEwLCJqdGkiOiJsSjB0cExGOWZiWHk3N3l1Iiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.SYy_LYzhoDebb0P8NpNpIMP97mOMw7xgDbClAki5qcw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category/allByOrigin/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category",
+						"allByOrigin",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "course/allByCategory/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg2MzEyNDEsImV4cCI6MTU4ODYzNDg0MSwibmJmIjoxNTg4NjMxMjQxLCJqdGkiOiJ4Y0NtR1hhdUNEb2Z5SmgyIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7Q_HZC0MiD-IFmnscBxekjMF8acyBFuO1iXeib-eZ30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/course/allByCategory/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"course",
+						"allByCategory",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "course/userRoleByCourse/courseId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg2MzEyNDEsImV4cCI6MTU4ODYzNDg0MSwibmJmIjoxNTg4NjMxMjQxLCJqdGkiOiJ4Y0NtR1hhdUNEb2Z5SmgyIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7Q_HZC0MiD-IFmnscBxekjMF8acyBFuO1iXeib-eZ30",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/course/userRoleByCourse/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"course",
+						"userRoleByCourse",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "module/allByCourse/courseId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg4MDUxMTMsImV4cCI6MTU4ODgwODcxMywibmJmIjoxNTg4ODA1MTEzLCJqdGkiOiJLeFl4ZllqeDNCUXZ1U2tlIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.QlIQGC-qG58NV1lhg4Qz4E50DJtU5K7-csEEFsAnSd8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/module/allByCourse/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"module",
+						"allByCourse",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "session/allByModule/moduleId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg4MDUxMTMsImV4cCI6MTU4ODgwODcxMywibmJmIjoxNTg4ODA1MTEzLCJqdGkiOiJLeFl4ZllqeDNCUXZ1U2tlIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.QlIQGC-qG58NV1lhg4Qz4E50DJtU5K7-csEEFsAnSd8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/session/allByModule/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"session",
+						"allByModule",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "activity/allBySession/sessionId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg4OTQ2NDYsImV4cCI6MTU4ODg5ODI0NiwibmJmIjoxNTg4ODk0NjQ2LCJqdGkiOiJsakNKUEE2MHJYN1ZEOVdLIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.xAl-G49vidPRgWeJ15NQJbj586xB9RQ1JzBJk0AfCJ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/activity/allBySession/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"activity",
+						"allBySession",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "groupActivity/allByActivity/activityId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg4OTQ2NDYsImV4cCI6MTU4ODg5ODI0NiwibmJmIjoxNTg4ODk0NjQ2LCJqdGkiOiJsakNKUEE2MHJYN1ZEOVdLIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.xAl-G49vidPRgWeJ15NQJbj586xB9RQ1JzBJk0AfCJ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/groupActivity/allByActivity/3",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groupActivity",
+						"allByActivity",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "groupActivity/userByGroupActivity/groupActivityId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg4OTQ2NDYsImV4cCI6MTU4ODg5ODI0NiwibmJmIjoxNTg4ODk0NjQ2LCJqdGkiOiJsakNKUEE2MHJYN1ZEOVdLIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.xAl-G49vidPRgWeJ15NQJbj586xB9RQ1JzBJk0AfCJ4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/groupActivity/userByGroupActivity/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"groupActivity",
+						"userByGroupActivity",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delivery/allByActivity/activityId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg5ODEzMjksImV4cCI6MTU4ODk4NDkyOSwibmJmIjoxNTg4OTgxMzI5LCJqdGkiOiJZYWVycUwwNHVhc1lxY1VOIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fGmXU39SJYgelr-7BNrklZhR6MJywAskqJ0H9n47pzY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/delivery/allByActivity/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"delivery",
+						"allByActivity",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "score/allByDelivery/deliveryId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODg5ODEzMjksImV4cCI6MTU4ODk4NDkyOSwibmJmIjoxNTg4OTgxMzI5LCJqdGkiOiJZYWVycUwwNHVhc1lxY1VOIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fGmXU39SJYgelr-7BNrklZhR6MJywAskqJ0H9n47pzY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/score/allByDelivery/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"score",
+						"allByDelivery",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category/goalByCategory/categoryId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODkzMTYwNDgsImV4cCI6MTU4OTMxOTY0OCwibmJmIjoxNTg5MzE2MDQ4LCJqdGkiOiJrZlBna1I1dTNGZHA3UzJpIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.orIqtl8PPh8pEONg0JB1Pmoe9jzE5nwffwf41JRnAXs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category/goalByCategory/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category",
+						"goalByCategory",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delivery/allGroupActivity/deliveryId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODkzMjU3MDYsImV4cCI6MTU4OTMyOTMwNiwibmJmIjoxNTg5MzI1NzA2LCJqdGkiOiJFYUE3dkxSWndYWlU1SGR0Iiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.gy5N3uhr0Y9-AoqgQzc4Tcqng1HlNaZGQWTrhZOIGCk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/delivery/allGroupActivity/3",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"delivery",
+						"allGroupActivity",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "competition/allByCourse/courseId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1ODkzMjU3MDYsImV4cCI6MTU4OTMyOTMwNiwibmJmIjoxNTg5MzI1NzA2LCJqdGkiOiJFYUE3dkxSWndYWlU1SGR0Iiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.gy5N3uhr0Y9-AoqgQzc4Tcqng1HlNaZGQWTrhZOIGCk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/competition/allByCourse/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"competition",
+						"allByCourse",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role index",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTgxNDM4MywiZXhwIjoxNTg5ODE3OTgzLCJuYmYiOjE1ODk4MTQzODMsImp0aSI6Ik0xS25TTTlaREdVdUh0OEUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.r8ov3CBqCCyHSG0_82KEDOafQHbJ84pYXySLvwv_U4g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTgxNDM4MywiZXhwIjoxNTg5ODE3OTgzLCJuYmYiOjE1ODk4MTQzODMsImp0aSI6Ik0xS25TTTlaREdVdUh0OEUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.r8ov3CBqCCyHSG0_82KEDOafQHbJ84pYXySLvwv_U4g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estado\": 1,\n\t\"nombre\": \"eliminar\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTU5MjE1OCwiZXhwIjoxNTg5NTk1NzU4LCJuYmYiOjE1ODk1OTIxNTgsImp0aSI6IjI0NHhIblR3OGJpbndPemYiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.9A635S1LEpo45McVXGOaiKdKS4es7Od61zN_8Q4o9es",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTgxNDM4MywiZXhwIjoxNTg5ODE3OTgzLCJuYmYiOjE1ODk4MTQzODMsImp0aSI6Ik0xS25TTTlaREdVdUh0OEUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.r8ov3CBqCCyHSG0_82KEDOafQHbJ84pYXySLvwv_U4g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estado\": 2,\n\t\"nombre\": \"Prueba\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/8",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role eliminar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU4OTgxNDM4MywiZXhwIjoxNTg5ODE3OTgzLCJuYmYiOjE1ODk4MTQzODMsImp0aSI6Ik0xS25TTTlaREdVdUh0OEUiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.r8ov3CBqCCyHSG0_82KEDOafQHbJ84pYXySLvwv_U4g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/4",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "permission index",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAwOTI4NCwiZXhwIjoxNTkwMDEyODg0LCJuYmYiOjE1OTAwMDkyODQsImp0aSI6ImNWc0tFZTVsaHl5c1FmekYiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.WIZw7fd606eIXFp3R5oLFNgAaHnpqHXolQkr-x6XYsQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/permission",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"permission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "permission show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAwOTI4NCwiZXhwIjoxNTkwMDEyODg0LCJuYmYiOjE1OTAwMDkyODQsImp0aSI6ImNWc0tFZTVsaHl5c1FmekYiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.WIZw7fd606eIXFp3R5oLFNgAaHnpqHXolQkr-x6XYsQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/permission/2",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"permission",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "permission update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAwOTI4NCwiZXhwIjoxNTkwMDEyODg0LCJuYmYiOjE1OTAwMDkyODQsImp0aSI6ImNWc0tFZTVsaHl5c1FmekYiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.WIZw7fd606eIXFp3R5oLFNgAaHnpqHXolQkr-x6XYsQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"nombre\": \"Registrar\",\n\t\"clase\": \"bg-green\",\n\t\"icono\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/permission/2",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"permission",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item/role/permission/byRoleId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAxMzA3NCwiZXhwIjoxNTkwMDE2Njc0LCJuYmYiOjE1OTAwMTMwNzQsImp0aSI6IkZNcHZzRVFlSkZYN2dIbE0iLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.AQ32pVtwpmnLvV_xrnx1IeXV5STXHJMVb1rOmqEjG88",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/role/permission/byRole/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"role",
+						"permission",
+						"byRole",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item/role/permission",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAxMzA3NCwiZXhwIjoxNTkwMDE2Njc0LCJuYmYiOjE1OTAwMTMwNzQsImp0aSI6IkZNcHZzRVFlSkZYN2dIbE0iLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.AQ32pVtwpmnLvV_xrnx1IeXV5STXHJMVb1rOmqEjG88",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"item\": 1,\n\t\"rol\": 1,\n\t\"permiso\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/role/permission",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"role",
+						"permission"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item/role/permission/id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDAxMzA3NCwiZXhwIjoxNTkwMDE2Njc0LCJuYmYiOjE1OTAwMTMwNzQsImp0aSI6IkZNcHZzRVFlSkZYN2dIbE0iLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.AQ32pVtwpmnLvV_xrnx1IeXV5STXHJMVb1rOmqEjG88",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"item\": 1,\n\t\"rol\": 1,\n\t\"permiso\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/role/permission/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"role",
+						"permission",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA3MDIzOSwiZXhwIjoxNTkwMDczODM5LCJuYmYiOjE1OTAwNzAyMzksImp0aSI6InZweGJndE5Rc0dOUks0R3giLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FBrooqY5KVMKkw68V3-7Gd_QlWyd6oq0WBhkoID5yEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA3MDIzOSwiZXhwIjoxNTkwMDczODM5LCJuYmYiOjE1OTAwNzAyMzksImp0aSI6InZweGJndE5Rc0dOUks0R3giLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FBrooqY5KVMKkw68V3-7Gd_QlWyd6oq0WBhkoID5yEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"item_padre\": null,\n\t\"nombre\": \"otra prueba\",\n\t\"ruta\": null,\n\t\"icono\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA3MDIzOSwiZXhwIjoxNTkwMDczODM5LCJuYmYiOjE1OTAwNzAyMzksImp0aSI6InZweGJndE5Rc0dOUks0R3giLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FBrooqY5KVMKkw68V3-7Gd_QlWyd6oq0WBhkoID5yEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/22",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA3MDIzOSwiZXhwIjoxNTkwMDczODM5LCJuYmYiOjE1OTAwNzAyMzksImp0aSI6InZweGJndE5Rc0dOUks0R3giLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FBrooqY5KVMKkw68V3-7Gd_QlWyd6oq0WBhkoID5yEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"item_padre\": null,\n\t\"nombre\": \"otra prueba\",\n\t\"ruta\": \"alguna ruta\",\n\t\"icono\": \"algun icono\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/20",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "item eliminar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA3MDIzOSwiZXhwIjoxNTkwMDczODM5LCJuYmYiOjE1OTAwNzAyMzksImp0aSI6InZweGJndE5Rc0dOUks0R3giLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.FBrooqY5KVMKkw68V3-7Gd_QlWyd6oq0WBhkoID5yEM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/item/22",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"item",
+						"22"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA5ODcyNiwiZXhwIjoxNTkwMTAyMzI2LCJuYmYiOjE1OTAwOTg3MjYsImp0aSI6IjBRWmxzTTVxQmF1RjVCcXoiLCJzdWIiOjIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.y4oDzd-jZxner8SNiHPH7O-feTyIEh3D4YUmvtwAkXI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/status",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "course/allByUserRole/{roleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDA5OTk5NCwiZXhwIjoxNTkwMTAzNTk0LCJuYmYiOjE1OTAwOTk5OTQsImp0aSI6IlRqalNqWmlOaUJKSVNpU0IiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.bD-wwUMuMN--b5e2nCbqpxYmMZr955elIFxE__4h5CM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/course/allByUserRole/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"course",
+						"allByUserRole",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "institution index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/institution",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"institution"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "institution store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"nombre\": \"prueba municipio\",\n\t\"municipio\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/institution",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"institution"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "institution show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/institution/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"institution",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "institution update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"nombre\": \"pruebas municipio\",\n\t\"municipio\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/institution/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"institution",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "institution delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/institution/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"institution",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "country",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/country",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"country"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "region/byCountry/{countryId}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/region/byCountry/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"region",
+						"byCountry",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "municipality/byRegion/{regionId}",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDE2OTM5OCwiZXhwIjoxNTkwMTcyOTk4LCJuYmYiOjE1OTAxNjkzOTgsImp0aSI6Ikh6QThtZzcwVlh3dWh1TjQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5XB_nd_rdpx6vdkt4ogjewRfe2qKVaYqqyefo0V3Uw0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/municipality/byRegion/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"municipality",
+						"byRegion",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "gender",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUxMDI1OCwiZXhwIjoxNTkwNTEzODU4LCJuYmYiOjE1OTA1MTAyNTgsImp0aSI6Ik9IMU90akdhSExuRWRBVjIiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.yKSvWTvjcmNqrt7dkpYccT5_LhfYamU5vAC4J5JzWYo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/gender",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"gender"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "academicLevel",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUyMDg5MCwiZXhwIjoxNTkwNTI0NDkwLCJuYmYiOjE1OTA1MjA4OTAsImp0aSI6IkdqWUJXa2drNm1SUUljTE4iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ._b7M4Sw49E79KZONt8oM8zxczs9mO8Kz1Zs0sFCZRM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/academicLevel",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"academicLevel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "identificationType",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUyMDg5MCwiZXhwIjoxNTkwNTI0NDkwLCJuYmYiOjE1OTA1MjA4OTAsImp0aSI6IkdqWUJXa2drNm1SUUljTE4iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ._b7M4Sw49E79KZONt8oM8zxczs9mO8Kz1Zs0sFCZRM8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/identificationType",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"identificationType"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMDMzNywiZXhwIjoxNTkwNTMzOTM3LCJuYmYiOjE1OTA1MzAzMzcsImp0aSI6ImNWQ1UwNkZab2Z1cFB0SEEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pSHgcrqKwQIvgyu0bpU12YFUQy6WB131WBleVCqX29k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2,\n\t\"identification\": null,\n\t\"firstname\": \"Henry\",\n\t\"middlefirstname\": null,\n\t\"lastname\": null,\n\t\"middlelastname\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMDMzNywiZXhwIjoxNTkwNTMzOTM3LCJuYmYiOjE1OTA1MzAzMzcsImp0aSI6ImNWQ1UwNkZab2Z1cFB0SEEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pSHgcrqKwQIvgyu0bpU12YFUQy6WB131WBleVCqX29k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"estado\": 1,\n\t\"género\": 1,\n\t\"nivel_académico\": 2,\n\t\"tipo_de_identificación\": 1,\n\t\"lugar_de_nacimiento\": 1,\n\t\"usuario\": \"probando\",\n\t\"correo\": \"probando@etraining.co\",\n\t\"contraseña\": \"123456\",\n\t\"confirmar_contraseña\": \"123456\",\n\t\"primer_nombre\": \"Nombre prueba\",\n\t\"segundo_nombre\": null,\n\t\"primer_apellido\": \"Apellido prueba\",\n\t\"segundo_apellido\": null,\n\t\"número_de_identificación\": 1110555333,\n\t\"fecha_de_nacimiento\": \"1991-01-01\",\n\t\"celular\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMDMzNywiZXhwIjoxNTkwNTMzOTM3LCJuYmYiOjE1OTA1MzAzMzcsImp0aSI6ImNWQ1UwNkZab2Z1cFB0SEEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pSHgcrqKwQIvgyu0bpU12YFUQy6WB131WBleVCqX29k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMDMzNywiZXhwIjoxNTkwNTMzOTM3LCJuYmYiOjE1OTA1MzAzMzcsImp0aSI6ImNWQ1UwNkZab2Z1cFB0SEEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pSHgcrqKwQIvgyu0bpU12YFUQy6WB131WBleVCqX29k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"estado\": 2,\n\t\"género\": 1,\n\t\"nivel_académico\": 2,\n\t\"tipo_de_identificación\": 1,\n\t\"lugar_de_nacimiento\": 1,\n\t\"usuario\": \"probando\",\n\t\"correo\": \"probando@etraining.co\",\n\t\"contraseña\": null,\n\t\"confirmar_contraseña\": null,\n\t\"primer_nombre\": \"Nombre prueba\",\n\t\"segundo_nombre\": null,\n\t\"primer_apellido\": \"Apellido prueba\",\n\t\"segundo_apellido\": null,\n\t\"número_de_identificación\": 1110555333,\n\t\"fecha_de_nacimiento\": \"1991-01-01\",\n\t\"celular\": 3000000000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMDMzNywiZXhwIjoxNTkwNTMzOTM3LCJuYmYiOjE1OTA1MzAzMzcsImp0aSI6ImNWQ1UwNkZab2Z1cFB0SEEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pSHgcrqKwQIvgyu0bpU12YFUQy6WB131WBleVCqX29k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/auth/roles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDUzMzAzMSwiZXhwIjoxNTkwNTM2NjMxLCJuYmYiOjE1OTA1MzMwMzEsImp0aSI6IkY5a3F1d3pWQUFVRjVlbzQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.3XIkldjnROyVv0IMzKL4NHS_5vTnoevgAoMdxbYNZJM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/auth/roles",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"auth",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category index",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDYxMzQ2OCwiZXhwIjoxNTkwNjE3MDY4LCJuYmYiOjE1OTA2MTM0NjgsImp0aSI6Ilh6REk3NWFEZzV3Z1R0dFciLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.K9ljrlV2n07W9sYpaTiL-f42nsNEMVtrGlvmbxg46Ko",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 2,\n\t\"identification\": null,\n\t\"firstname\": \"Henry\",\n\t\"middlefirstname\": null,\n\t\"lastname\": null,\n\t\"middlelastname\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category store",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8zNS4yMzkuMTYuMTQ2OjgwMDFcL2FwaVwvbG9naW4iLCJpYXQiOjE1OTA3MTMxNDEsImV4cCI6MTU5MDcxNjc0MSwibmJmIjoxNTkwNzEzMTQxLCJqdGkiOiJRMTd5MFNZRzJISUhLWGpMIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.QlpWCTLyTURFq5TUSzFc3UsylZXDfTFKmDC9yG1M460",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"categoria_padre\": null,\n\t\"origen\": 1,\n\t\"estado\": 1,\n\t\"nombre\": \"Probando category 9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category show",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDYxNDQzMywiZXhwIjoxNTkwNjE4MDMzLCJuYmYiOjE1OTA2MTQ0MzMsImp0aSI6IlVXQ0hwYkszdGtlaTJVeDciLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.xKou0YOfGK68Kdgkhyo8XEhKkTc5TjjJ9VtkpPD8_NU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category/5",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDYxNTg5NiwiZXhwIjoxNTkwNjE5NDk2LCJuYmYiOjE1OTA2MTU4OTYsImp0aSI6IkVydEZvWmJjc2N4Mm1JSTYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5_rU8yXYsDc-FRSYu9k5znKdVzU2Vu_yLEiQebxBw1s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"categoria_padre\": null,\n\t\"origen\": 1,\n\t\"estado\": 2,\n\t\"nombre\": \"Probando category\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category/12",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "category delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MDYxNTg5NiwiZXhwIjoxNTkwNjE5NDk2LCJuYmYiOjE1OTA2MTU4OTYsImp0aSI6IkVydEZvWmJjc2N4Mm1JSTYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.5_rU8yXYsDc-FRSYu9k5znKdVzU2Vu_yLEiQebxBw1s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/category/12",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"category",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customField/allByCourse/{courseId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTEzNDM5MSwiZXhwIjoxNTkxMTM3OTkxLCJuYmYiOjE1OTExMzQzOTEsImp0aSI6InJYN0p4c01TOWFCR2hLaU8iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ft0AD_D1-SMDPEzOkcJRzHJykpNdx0yQ5agQ470CJ7s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/customField/allByCourse/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"customField",
+						"allByCourse",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customField/allByInstitution/{InstitutionId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTEzNDM5MSwiZXhwIjoxNTkxMTM3OTkxLCJuYmYiOjE1OTExMzQzOTEsImp0aSI6InJYN0p4c01TOWFCR2hLaU8iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ft0AD_D1-SMDPEzOkcJRzHJykpNdx0yQ5agQ470CJ7s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/customField/allByInstitution/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"customField",
+						"allByInstitution",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "customField/allByUserRole/{userRoleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTEzNDM5MSwiZXhwIjoxNTkxMTM3OTkxLCJuYmYiOjE1OTExMzQzOTEsImp0aSI6InJYN0p4c01TOWFCR2hLaU8iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ft0AD_D1-SMDPEzOkcJRzHJykpNdx0yQ5agQ470CJ7s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/customField/allByUserRole/6",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"customField",
+						"allByUserRole",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "origin index",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTEzNDM5MSwiZXhwIjoxNTkxMTM3OTkxLCJuYmYiOjE1OTExMzQzOTEsImp0aSI6InJYN0p4c01TOWFCR2hLaU8iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ft0AD_D1-SMDPEzOkcJRzHJykpNdx0yQ5agQ470CJ7s",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/origin",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"origin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role/userByRole/{roleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTIwNTcxNCwiZXhwIjoxNTkxMjA5MzE0LCJuYmYiOjE1OTEyMDU3MTQsImp0aSI6Ik1oRFlZc2xFYlFudGhyWmkiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZrCC-xmjxIoa6E-3QI2WVLu0Qem_5of4IsgT7U3b7Zs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/userByRole/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"userByRole",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role/addUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTMwNzgwNiwiZXhwIjoxNTkxMzExNDA2LCJuYmYiOjE1OTEzMDc4MDYsImp0aSI6IkN3SE02ZGhZdDV3RU9GdjYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.yunJwEvmqSmV9qA8GQZSG04wwvCcQVX0hFYx_kMlvKM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"usuario\": 1,\n\t\"rol\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/addUser",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"addUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/addParentUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTMwNzgwNiwiZXhwIjoxNTkxMzExNDA2LCJuYmYiOjE1OTEzMDc4MDYsImp0aSI6IkN3SE02ZGhZdDV3RU9GdjYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.yunJwEvmqSmV9qA8GQZSG04wwvCcQVX0hFYx_kMlvKM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"usuario_hijo\": 4,\n\t\"usuario_padre\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/addParentUser",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"addParentUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/allChildrenOfParentUser/{parentUserId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTMwNzgwNiwiZXhwIjoxNTkxMzExNDA2LCJuYmYiOjE1OTEzMDc4MDYsImp0aSI6IkN3SE02ZGhZdDV3RU9GdjYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.yunJwEvmqSmV9qA8GQZSG04wwvCcQVX0hFYx_kMlvKM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/allChildrenOfParentUser/1",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"allChildrenOfParentUser",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role/deleteUser/{roleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTM5NDU3NiwiZXhwIjoxNTkxMzk4MTc2LCJuYmYiOjE1OTEzOTQ1NzYsImp0aSI6Imd5MDJLNDZBbDdSdXozYXoiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.l31BVNN_FqkaIy4OMxfn64wb2cySHK1rdujtARK17U0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1,\n\t\"usuario\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/role/deleteUser/3",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"role",
+						"deleteUser",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/rating/averageByStudentCourseAndMinMax",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTcxODM3NiwiZXhwIjoxNTkxNzIxOTc2LCJuYmYiOjE1OTE3MTgzNzYsImp0aSI6Ikl3a1R4NE1sWVVOM0dsNFAiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.cDqktM1OT0V2pAnFdmWTgF9x_uh7Qij7k_JV6sL4Y_Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estudiante\": 2,\n\t\"curso\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/rating/averageByStudentCourseAndMinMax",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"rating",
+						"averageByStudentCourseAndMinMax"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/rating/averageDeliveryRegion",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTcxNDE3MywiZXhwIjoxNTkxNzE3NzczLCJuYmYiOjE1OTE3MTQxNzMsImp0aSI6IkZOellMZHNKZ3Q2NUo4dUQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.k5oBlQRxGKBRCtwY85zvLxefg1DSxY56wnET38pDMCQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/rating/averageDeliveryRegion",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"rating",
+						"averageDeliveryRegion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/percentage/competitionByStudentCourse",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTcxODM3NiwiZXhwIjoxNTkxNzIxOTc2LCJuYmYiOjE1OTE3MTgzNzYsImp0aSI6Ikl3a1R4NE1sWVVOM0dsNFAiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.cDqktM1OT0V2pAnFdmWTgF9x_uh7Qij7k_JV6sL4Y_Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estudiante\": 2,\n\t\"curso\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/percentage/competitionByStudentCourse",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"percentage",
+						"competitionByStudentCourse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/rating/activityByStudentCourse",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTcxODM3NiwiZXhwIjoxNTkxNzIxOTc2LCJuYmYiOjE1OTE3MTgzNzYsImp0aSI6Ikl3a1R4NE1sWVVOM0dsNFAiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.cDqktM1OT0V2pAnFdmWTgF9x_uh7Qij7k_JV6sL4Y_Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estudiante\": 2,\n\t\"curso\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/rating/activityByStudentCourse",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"rating",
+						"activityByStudentCourse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/progress/expectedByStudentCourseInstitutionRegion",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTg5NDgzNCwiZXhwIjoxNTkxODk4NDM0LCJuYmYiOjE1OTE4OTQ4MzQsImp0aSI6ImM5eUVEZ2ZlMllDTTlndDEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Lp5mF9kWzCy16nsyegHjvrPMlBE1B_WT24wi0vDCixY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estudiante\": 2,\n\t\"curso\": 3,\n\t\"institución\": 1,\n\t\"departamento\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/progress/expectedByStudentCourseInstitutionRegion",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"progress",
+						"expectedByStudentCourseInstitutionRegion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/rating/allByStudentCourse",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MTk5NjExMiwiZXhwIjoxNTkxOTk5NzEyLCJuYmYiOjE1OTE5OTYxMTIsImp0aSI6IkQyb3dMQzJDUTZRZ0gzVE4iLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.NNMN3LPPFvBODwWCRrw2zGpRpMRWlN6eZFxsaJgNNjA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"estudiante\": 2,\n\t\"curso\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/report/rating/allByStudentCourse",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"report",
+						"rating",
+						"allByStudentCourse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/auth/changeRole/{roleId}",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMVwvYXBpXC9sb2dpbiIsImlhdCI6MTU5MjQzNzMyMCwiZXhwIjoxNTkyNDQwOTIwLCJuYmYiOjE1OTI0MzczMjAsImp0aSI6InNSR21TZXBWYzhXdTA5Q3EiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.YV5HlfGpFuvQYutgb52M7OAPfRPxZ6jCkKow4tmhPUY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"role_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://35.239.16.146:8001/api/user/auth/changeRole/2",
+					"protocol": "http",
+					"host": [
+						"35",
+						"239",
+						"16",
+						"146"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"user",
+						"auth",
+						"changeRole",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/rating/aprovedStudents",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9sb2dpbiIsImlhdCI6MTU5NDM5NDgzOSwiZXhwIjoxNTk0Mzk4NDM5LCJuYmYiOjE1OTQzOTQ4MzksImp0aSI6IjU2MDBUV3FydjNKWXB3WnAiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.2Db8mrf4NShVgJzqpME2_s2dmSS5fuuV1fhfsdIK75g",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"institucion\": 18\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/report/rating/approvedStudents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"report",
+						"rating",
+						"approvedStudents"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/percentage/noApprovedStudents",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/progress/studentPendingDelivery",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/percentage/groupAndIndividualDeliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/report/rating/gradePointTeachers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/report/percentage/studentCompetitionsTecnovsTecnos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report/progress/gradePointAveragePerCourse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/report/progress/approvedDeliveries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/report/progress/approvedDeliveries2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

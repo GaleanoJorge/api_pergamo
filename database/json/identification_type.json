@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Cédula de Ciudadanía",
+        "code": "CC",
+        "sga_origin_fk": 1
+    },
+    {
+        "name": "Cédula de Extranjería",
+        "code": "CE",
+        "sga_origin_fk": 2
+    },
+    {
+        "name": "Tarjeta de identidad",
+        "code": "TI",
+        "sga_origin_fk": 6
+    },
+    {
+        "name": "Pasaporte",
+        "code": "PA",
+        "sga_origin_fk": 7
+    },
+    {
+        "name": "NUIP",
+        "code": "NUIP",
+        "sga_origin_fk": 8
+    },
+    {
+        "name": "Otro",
+        "code": "OTRO",
+        "sga_origin_fk": 0
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Lectura",
+        "class": null,
+        "icon": null,
+        "action": "read"
+    },
+    {
+        "name": "Crear",
+        "class": null,
+        "icon": null,
+        "action": "create"
+    },
+    {
+        "name": "Actualizar",
+        "class": null,
+        "icon": null,
+        "action": "update"
+    },
+    {
+        "name": "Eliminar",
+        "class": null,
+        "icon": null,
+        "action": "delete"
+    }
+]

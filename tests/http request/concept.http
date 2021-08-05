@@ -1,0 +1,50 @@
+### Lista conceptos de vigecia 1 y su equivalente en vigencia 2
+GET http://{{host}}/api/copyValidity?validity_id=1&new_validity_id=2&concept_type_id=1&municipality_id=86001
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Devuelve los arrays auxiliares para el formulario de conceptos y la interfaz de cambio de vigencia
+GET http://{{host}}/api/getConceptAuxiliaryData
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Recibe un array de los conceptos que se copiaran de una vigencia a otra que se desean Guardar-Editar (*Necesita el envio de la nueva vigencia)
+POST http://{{host}}/api/storeNewValidityConcepts?new_validity_id=2 HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "data": [
+        {
+            "id": 1,
+            "concept_base_id": 1,
+            "validity_id": 1,
+            "municipality_id": 86001,
+            "unit_id": 1,
+            "unit_value": 50000,
+            "created_at": "2021-03-23T20:54:44.000000Z",
+            "updated_at": "2021-03-23T20:54:50.000000Z",
+            "ciudad": "MOCOA",
+            "vigencia": "2020",
+            "unidad": "UNIDAD",
+            "new_validity_concept_id": 8,
+            "new_validity_unit_value": 55000
+        },
+        {
+            "id": 3,
+            "concept_base_id": 2,
+            "validity_id": 1,
+            "municipality_id": 86001,
+            "unit_id": 2,
+            "unit_value": 15000,
+            "created_at": "2021-03-23T21:06:17.000000Z",
+            "updated_at": "2021-03-23T21:06:17.000000Z",
+            "ciudad": "MOCOA",
+            "vigencia": "2020",
+            "unidad": "CAJA",
+            "new_validity_concept_id": null,
+            "new_validity_unit_value": 18000
+        }
+    ]
+}
+

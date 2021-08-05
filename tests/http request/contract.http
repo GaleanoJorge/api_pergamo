@@ -1,0 +1,13 @@
+### Recibe un array de los eventTickets que se desean Actualizar despues de comprarlos
+PATCH http://{{host}}/api/contract/1/updateEvents HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "events": [1,3]
+}
+
+### Devuelve los eventos de un contrato
+GET http://{{host}}/api/contract/1/events
+Authorization: Bearer {{token}}
+Content-Type: application/json
