@@ -8,11 +8,11 @@ class Campus extends BaseCampus
 {
 	protected $fillable = [
 		'name',
-		'country_id'
+		'region_id'
 	];
 
-	public function countrys()
+	public function region()
     {
-        return $this->belongsTo(Country::class, 'country_id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 }

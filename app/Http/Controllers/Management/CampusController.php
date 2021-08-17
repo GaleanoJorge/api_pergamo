@@ -46,11 +46,12 @@ class CampusController extends Controller
     {
         $Campus = new Campus;
         $Campus->name = $request->name;
+        $Campus->region_id = $request->region_id;
         $Campus->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Campus creado exitosamente',
+            'message' => 'Sede creado exitosamente',
             'data' => ['campus' => $Campus->toArray()]
         ]);
     }
@@ -68,7 +69,7 @@ class CampusController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Campus obtenido exitosamente',
+            'message' => 'Sedes obtenido exitosamente',
             'data' => ['campus' => $Campus]
         ]);
     }
@@ -84,6 +85,7 @@ class CampusController extends Controller
     {
         $Campus = Campus::find($id);
         $Campus->name = $request->name;
+        $Campus->region_id = $request->region_id;
         $Campus->save();
 
         return response()->json([

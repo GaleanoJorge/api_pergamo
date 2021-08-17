@@ -141,6 +141,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'campus/byUser/{userId}',
         'Admin\UserCampusController@getByUser'
     );
+    Route::post('usercampus', 'Admin\UserCampusController@store');
 
     //Educational Institution
     Route::apiResource('institution', 'Admin\InstitutionController');

@@ -17,7 +17,7 @@ class CampusSeeder extends Seeder
         foreach(json_decode($jStatus) as $row){
             Campus::create([
                 'name' => $row->name,
-                'country_id' => $row->country_id
+                'region_id' => $row->region_id
             ]);
         }
     }

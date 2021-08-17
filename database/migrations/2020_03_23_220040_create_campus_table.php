@@ -16,11 +16,11 @@ class CreateCampusTable extends Migration
         Schema::create('campus', function (Blueprint $table) {
             $table->tinyIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedsmallInteger('region_id');
             $table->timestamps();
-            $table->index('country_id');
-            $table->foreign('country_id')->references('id')
-            ->on('country');
+            $table->index('region_id');
+            $table->foreign('region_id')->references('id')
+            ->on('region');
         });
     }
 

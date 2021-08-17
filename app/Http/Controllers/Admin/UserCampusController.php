@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\UserCampus;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 
 class UserCampusController extends Controller
 {
@@ -19,7 +20,7 @@ class UserCampusController extends Controller
     public function getByUser(int $userId): JsonResponse
     {
         $campus = UserCampus::where('user_id', $userId)
-            ->with('campus')
+            ->with('campus','campus.region')
             ->get()->toArray();
 
         return response()->json([
@@ -32,31 +33,28 @@ class UserCampusController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param ItemRolePermissionRequest $request
      * @return JsonResponse
      */
-    public function store(ItemRolePermissionRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
-        $exist = ItemRolePermission::where([
-            ['item_id', $request->item],
-            ['role_id', $request->rol],
-            ['permission_id', $request->permiso]
+        $exist = UserCampus::where([
+            ['user_id', $request->user_id],
+            ['campus_id', $request->campus_id]
         ])->get()->count();
 
         if ($exist) {
-            throw new Exception("El permiso en el item ya existe para ese rol", 423);
+            throw new Exception("La sede ya esta asociada a este usuario", 423);
         }
 
-        $itemRolePermission = new ItemRolePermission;
-        $itemRolePermission->item_id = $request->item;
-        $itemRolePermission->role_id = $request->rol;
-        $itemRolePermission->permission_id = $request->permiso;
-        $itemRolePermission->save();
+        $userCampus = new UserCampus;
+        $userCampus->user_id = $request->user_id;
+        $userCampus->campus_id = $request->campus_id;
+        $userCampus->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Permiso del rol en el item creado exitosamente',
-            'data' => ['itemRolePermission' => $itemRolePermission->toArray()]
+            'message' => 'Sede asignada ecitosamente',
+            'data' => ['userCampus' => $userCampus->toArray()]
         ]);
     }
 

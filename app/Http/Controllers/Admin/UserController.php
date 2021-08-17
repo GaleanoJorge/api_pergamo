@@ -221,30 +221,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): JsonResponse
     {
-        /* $data = $request->validated(); */
-        if ($request->is_judicial_branch == 1) {
-            $rules = [
-                'municipality_id' => 'required',
-                'circuit_id' => 'required',
-                'district_id' => 'required',
-                'sectional_council_id' => 'required',
-                'region_id' => 'required',
-                'specialty_id' => 'required',
-                'office_id' => 'required',
-                'dependence_id' => 'required',
-                'entity_id' => 'required',
-                'position_id' => 'required',
-            ];
-        } else {
-            $rules = [
-                'municipality_id' => 'required',
-                'region_id' => 'required',
-                'entity_id' => 'required',
-                'position_id' => 'required',
-            ];
-        }
-
-        $request->validate($rules);
 
         \DB::beginTransaction();
 
@@ -265,88 +241,18 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->middlelastname = $request->middlelastname;
         $user->identification = $request->identification;
-        $user->is_judicial_branch = $request->is_judicial_branch;
         $user->birthday = $request->birthday;
         $user->phone = $request->phone;
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->save();
 
-        $curriculum = new Curriculum;
-        $curriculum->user_id = $user->id;
-        $curriculum->municipality_id = @$request->municipality_id;
-        $curriculum->region_id = @$request->region_id;
-        $curriculum->entity_id = @$request->entity_id;
-        $curriculum->position_id = @$request->position_id;
-        if ($request->file('curriculum_pdf')) {
-            $path = Storage::disk('public')->put('curriculum', $request->file('curriculum_pdf'));
-            $curriculum->curriculum_pdf = $path;
-        }
-        $curriculum->inactive = 0;
-
-        $curriculum->circuit_id = (@$request->circuit_id) ? @$request->circuit_id : NULL;
-        $curriculum->district_id = (@$request->district_id) ? @$request->district_id : NULL;
-        $curriculum->sectional_council_id = (@$request->sectional_council_id) ? @$request->sectional_council_id : NULL;
-        $curriculum->specialty_id = (@$request->specialty_id) ? @$request->specialty_id : NULL;
-        $curriculum->office_id = (@$request->office_id) ? @$request->office_id : NULL;
-        $curriculum->dependence_id = (@$request->dependence_id) ? @$request->dependence_id : NULL;
-        $curriculum->save();
 
         $userRole = new UserRole;
         $userRole->role_id = $request->role_id;
         $userRole->user_id = $user->id;
         $userRole->save();
 
-        if ($request->course_id) {
-            $curriculum_id= Curriculum::select('id')->where('user_id',$user->id)->where('inactive', 0)->get()->toArray();
-        
-            $userRoleCourse = new UserRoleCourse;
-            $userRoleCourse->user_role_id = $userRole->id;
-            $userRoleCourse->course_id = $request->course_id;
-            $userRoleCourse->curriculum_id = $curriculum_id[0]['id'];
-            $userRoleCourse->save();
-
-            $category= UserRoleCourse::select('course.category_id as category_id')->join('course', 'course.id', '=', 'user_role_course.course_id')->where('user_role_course.course_id',$request->course_id)->get()->toArray();
-            if($category[0]["category_id"]==2){
-                $group_id = Group::select('id')->where('course_id', $request->course_id)->get()->toArray();
-                if($group_id){
-                    $userRole = UserRole::select('id')->where([
-                        ['user_id', $user->id],
-                        ['role_id', 5],
-                    ]);
-                    $userRoleGroup = UserRoleGroup::where([
-                        ['user_role_id', $userRole->first()->id],
-                        ['group_id',$group_id[0]['id']],
-                    ]);        
-                    if ($userRoleGroup->count() == 0) {
-                        $userRoleGroup = new UserRoleGroup;
-                        $userRoleGroup->user_role_id = $userRole->first()->id;
-                        $userRoleGroup->group_id = $group_id[0]['id'];
-                        $userRoleGroup->status_id = 1;
-                        $userRoleGroup->save();
-                    }
-                   
-                    $userRC=UserRoleCourse::select('id')->where('user_role_id',$userRole->first()->id)->where('course_id',$request->course_id)->Get()->toArray();
-                    if($userRC){
-                    $userRoleCourse = UserRoleCourse::find($userRC[0]['id']);
-                    $userRoleCourse->inscription_status_id = 1;
-                    $userRoleCourse->save();
-                    }
-                }
-                
-            }
-        }
-
-
-
-        if ($request->categories) {
-            foreach ($request->categories as $category_id) {
-                $userRoleCourseCategory = new UserRoleCategoryInscription;
-                $userRoleCourseCategory->user_role_id = $userRole->id;
-                $userRoleCourseCategory->category_id = $category_id;
-                $userRoleCourseCategory->save();
-            }
-        }
 
         \DB::commit();
 
@@ -392,17 +298,6 @@ class UserController extends Controller
                 'roles'
             )->get()->toArray();
 
-        $aux_curriculum = Curriculum::select('curriculum.*', 'municipality.region_id', 'region.country_id')
-            ->leftJoin('municipality', 'municipality.id', 'curriculum.municipality_id')
-            ->leftJoin('region', 'region.id', 'municipality.region_id')
-            ->where('user_id', $id)
-            ->where('inactive', 0)->get()->toArray();
-        $user[0]["curriculum"] = @$aux_curriculum[0];
-
-        $cr_categories = UserRoleCategoryInscription::select('category_id')
-            ->join('user_role', 'user_role.id', 'user_role_category_inscription.user_role_id')
-            ->where('user_role.user_id', $id)->get()->toArray();
-        $user[0]["categories"] = array_column(@$cr_categories, 'category_id');
 
         return response()->json([
             'status' => true,
@@ -471,29 +366,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
-        if ($request->is_judicial_branch == 1) {
-            $rules = [
-                'municipality_id' => 'required',
-                'circuit_id' => 'required',
-                'district_id' => 'required',
-                'sectional_council_id' => 'required',
-                'region_id' => 'required',
-                'specialty_id' => 'required',
-                'office_id' => 'required',
-                'dependence_id' => 'required',
-                'entity_id' => 'required',
-                'position_id' => 'required',
-            ];
-        } else {
-            $rules = [
-                'municipality_id' => 'required',
-                'region_id' => 'required',
-                'entity_id' => 'required',
-                'position_id' => 'required',
-            ];
-        }
-
-        $request->validate($rules);
+         
 
         \DB::beginTransaction();
 
@@ -510,7 +383,6 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->middlelastname = $request->middlelastname;
         $user->identification = $request->identification;
-        $user->is_judicial_branch = $request->is_judicial_branch;
         $user->birthday = $request->birthday;
         $user->phone = $request->phone;
         $user->landline = $request->landline;
@@ -526,124 +398,6 @@ class UserController extends Controller
         }
         $user->save();
 
-        $cr_curriculum = Curriculum::select('*')->where('user_id', $user->id)->get()->toArray();
-        if (count($cr_curriculum) > 0) {
-            for ($i = 0; $i < count($cr_curriculum); $i++) {
-                $curriculum = Curriculum::find($cr_curriculum[$i]["id"]);
-                $curriculum->inactive = 1;
-                $curriculum->save();
-            }
-        }
-        $cr_curriculum2 = Curriculum::select('*')->where('user_id', $user->id)
-            ->Where('position_id', 'like', '%' . @$request->position_id . '%')
-            ->Where('entity_id', 'like', '%' . @$request->entity_id . '%')
-            ->Where('region_id', 'like', '%' . @$request->region_id . '%')
-            ->Where('municipality_id', 'like', '%' . @$request->municipality_id . '%')
-            ->Where('circuit_id', 'like', '%' . @$request->circuit_id . '%')
-            ->Where('district_id', 'like', '%' . @$request->district_id . '%')
-            ->Where('sectional_council_id', 'like', '%' . @$request->sectional_council_id . '%')
-            ->Where('specialty_id', 'like', '%' . @$request->specialty_id . '%')
-            ->Where('office_id', 'like', '%' . @$request->office_id . '%')
-            ->Where('dependence_id', 'like', '%' . @$request->dependence_id . '%')
-            ->first();
-        if ($cr_curriculum2 === null) {
-            $curriculum = new Curriculum;
-            $curriculum->user_id = $user->id;
-            $curriculum->municipality_id = @$request->municipality_id;
-            $curriculum->region_id = @$request->region_id;
-            $curriculum->entity_id = @$request->entity_id;
-            $curriculum->position_id = @$request->position_id;
-            if ($request->file('curriculum_pdf')) {
-                $path = Storage::disk('public')->put('curriculum', $request->file('curriculum_pdf'));
-                $curriculum->curriculum_pdf = $path;
-            }
-            if ($request->is_judicial_branch == 1) {
-                $curriculum->circuit_id = ($request->circuit_id) ? $request->circuit_id : NULL;
-                $curriculum->district_id = ($request->district_id) ? $request->district_id : NULL;
-                $curriculum->sectional_council_id = (@$request->sectional_council_id) ? @$request->sectional_council_id : NULL;
-                $curriculum->specialty_id = (@$request->specialty_id) ? @$request->specialty_id : NULL;
-                $curriculum->office_id = (@$request->office_id) ? @$request->office_id : NULL;
-                $curriculum->dependence_id = (@$request->dependence_id) ? @$request->dependence_id : NULL;
-            }
-            $curriculum->inactive = 0;
-            $curriculum->save();
-        } else {
-            $curriculum->inactive = 0;
-            if ($request->file('curriculum_pdf')) {
-                $path = Storage::disk('public')->put('curriculum', $request->file('curriculum_pdf'));
-                $curriculum->curriculum_pdf = $path;
-            }
-            $curriculum->save();
-        }
-
-
-
-      
-        if ($request->course_id) {
-            $cr_aux = UserRole::select('id')->where('user_id', $user->id)
-                ->where('role_id', 5)->get()->toArray();
-            if (count($cr_aux) > 0) {
-                $userRoleId = $cr_aux[0]["id"];
-            } else {
-                $userRole = new UserRole;
-                $userRole->user_id = $user->id;
-                $userRole->role_id = 5;
-                $userRole->save();
-                $userRoleId = $userRole->id;
-            }
-            $user=UserRoleCourse::where('user_role_id',$userRoleId)->where('course_id',$request->course_id)->Get()->toArray();
-            $curriculum_id= Curriculum::select('id')->where('user_id',$id)->where('inactive', 0)->get()->toArray();
-            if(!$user){
-            $userRoleCourse = new UserRoleCourse;
-            $userRoleCourse->user_role_id = $userRoleId;
-            $userRoleCourse->course_id = $request->course_id;
-            $userRoleCourse->curriculum_id = $curriculum_id[0]['id'];
-            $userRoleCourse->save();
-            }
-        
-            $category= UserRoleCourse::select('course.category_id as category_id')->join('course', 'course.id', '=', 'user_role_course.course_id')->where('user_role_course.course_id',$request->course_id)->get()->toArray();
-            if($category[0]["category_id"]==2){
-                $group_id = Group::select('id')->where('course_id', $request->course_id)->get()->toArray();
-                if($group_id){
-                    $userRole = UserRole::select('id')->where([
-                        ['user_id', $id],
-                        ['role_id', 5],
-                    ]);
-                    $userRoleGroup = UserRoleGroup::where([
-                        ['user_role_id', $userRole->first()->id],
-                        ['group_id',$group_id[0]['id']],
-                    ]);        
-                    if ($userRoleGroup->count() == 0) {
-                        $userRoleGroup = new UserRoleGroup;
-                        $userRoleGroup->user_role_id = $userRole->first()->id;
-                        $userRoleGroup->group_id = $group_id[0]['id'];
-                        $userRoleGroup->status_id = 1;
-                        $userRoleGroup->save();
-                    }
-                   
-                    $userRC=UserRoleCourse::select('id')->where('user_role_id',$userRoleId)->where('course_id',$request->course_id)->Get()->toArray();
-                    if($userRC){
-                    $userRoleCourse = UserRoleCourse::find($userRC[0]['id']);
-                    $userRoleCourse->inscription_status_id = 1;
-                    $userRoleCourse->save();
-                    }
-                }
-                
-            }
-        }
-
-
-        if ($request->categories) {
-            $cr_aux = UserRole::select('id')->where('user_id', $user->id)
-                ->where('role_id', 4)->get()->toArray();
-            if (count($cr_aux) > 0) {
-                $userRoleId = $cr_aux[0]["id"];
-
-                foreach ($request->categories as $category_id) {
-                    UserRoleCategoryInscription::firstOrCreate(['user_role_id' => $userRoleId, 'category_id' => $category_id]);
-                }
-            }
-        }
 
         \DB::commit();
 
@@ -687,30 +441,19 @@ class UserController extends Controller
         $ethnicitys = Ethnicity::get();
         $identificationTypes = IdentificationType::get();
         $status = Status::get();
-        $categories = Category::get();
 
         if ($request->query("activo", true) === "true") {
-            $offices = Office::where('status_id', 1)->get();
-            $entities = Entity::where('status_id', 1)->get();
             $positions = Position::where('status_id', 1)->get();
             $specialties = Specialty::where('status_id', 1)->get();
-            $dependences = Dependence::where('status_id', 1)->get();
-            $sectionalCouncils = SectionalCouncil::where('status_id', 1)->get();
         } else {
-            $offices = Office::get();
-            $entities = Entity::get();
             $positions = Position::get();
             $specialties = Specialty::get();
-            $dependences = Dependence::get();
-            $sectionalCouncils = SectionalCouncil::get();
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Auxiliares obtenidas exitosamente',
             'data' => [
-                'offices' => $offices->toArray(),
-                'entities' => $entities->toArray(),
                 'academicLevels' => $academicLevels->toArray(),
                 'countries' => $countries->toArray(),
                 'genders' => $genders->toArray(),
@@ -719,9 +462,6 @@ class UserController extends Controller
                 'positions' => $positions->toArray(),
                 'status' => $status->toArray(),
                 'specialties' => $specialties->toArray(),
-                'dependences' => $dependences->map->toArray(),
-                'sectionalCouncils' => $sectionalCouncils->toArray(),
-                'categories' => $categories->toArray()
             ]
         ]);
     }
