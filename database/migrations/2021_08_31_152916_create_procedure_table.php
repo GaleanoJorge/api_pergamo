@@ -14,7 +14,7 @@ class CreateProcedureTable extends Migration
     public function up()
     {
         Schema::create('procedure', function (Blueprint $table) {
-            $table->bigIncrements('prd_id');
+            $table->bigIncrements('id');
             $table->string('prd_code');
             $table->string('prd_equivalent');
             $table->string('prd_name');
@@ -24,20 +24,21 @@ class CreateProcedureTable extends Migration
             $table->unsignedTinyInteger('prd_gender');
             $table->integer('prd_state');
             $table->unsignedBigInteger('prd_purpose');
+            $table->time('prd_time');
             $table->timestamps();
-
+            
             $table->index('prd_category');
             $table->index('prd_age');
             $table->index('prd_gender');
             $table->index('prd_purpose');
 
-            $table->foreign('prd_category')->references('prc_id')
+            $table->foreign('prd_category')->references('id')
                 ->on('procedure_category');
-            $table->foreign('prd_age')->references('pra_id')
+            $table->foreign('prd_age')->references('id')
                 ->on('procedure_age'); 
                 $table->foreign('prd_gender')->references('id')
                 ->on('gender');
-                $table->foreign('prd_purpose')->references('prp_id')
+                $table->foreign('prd_purpose')->references('id')
                 ->on('procedure_purpose');  
         });
     }

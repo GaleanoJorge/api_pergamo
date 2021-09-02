@@ -14,7 +14,7 @@ class CreateProcedureAgeTable extends Migration
     public function up()
     {
         Schema::create('procedure_age', function (Blueprint $table) {
-            $table->bigIncrements('pra_id');
+            $table->bigIncrements('id');
             $table->string('pra_name');
             $table->integer('pra_begin');
             $table->integer('pra_end');
