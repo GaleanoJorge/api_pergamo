@@ -238,6 +238,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Campus
     Route::apiResource('campus', 'Management\CampusController');
 
+    //Procedimiento Edad
+    Route::apiResource('procedure_age', 'Management\ProcedureAgeController');
+
+    //Categorias de Procedimiento
+    Route::apiResource('procedure_category', 'Management\ProcedureCategoryController');
+
+    //Objetivo de Procedimiento
+    Route::apiResource('procedure_purpose', 'Management\ProcedurePurposeController');
+
+    //Procedimiento
+    Route::apiResource('procedure', 'Management\ProcedureController');
+
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 

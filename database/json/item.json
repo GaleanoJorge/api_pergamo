@@ -106,5 +106,44 @@
         "route": "/pages/setting/users",
         "icon": "people-outline",
         "show_menu": "1"
+
+    },
+    {
+        "id": "54",
+        "item_parent_id": "10",
+        "name": "Edad del procedimiento",
+        "code": "procedure-age",
+        "route": "/pages/setting/procedure-age",
+        "icon": "clock-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "55",
+        "item_parent_id": "10",
+        "name": "Categoria del procedimiento",
+        "code": "procedure-category",
+        "route": "/pages/setting/procedure-category",
+        "icon": "book-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "56",
+        "item_parent_id": "10",
+        "name": "Proposito del procedimiento",
+        "code": "procedure-purpose",
+        "route": "/pages/setting/procedure-purpose",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+
+        
+    },
+    {
+        "id": "57",
+        "item_parent_id": "10",
+        "name": "Procedimiento",
+        "code": "procedure",
+        "route": "/pages/setting/procedure",
+        "icon": "cast-outline",
+        "show_menu": "1"
     }
 ]
