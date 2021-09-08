@@ -250,6 +250,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento
     Route::apiResource('procedure', 'Management\ProcedureController');
 
+     //Tipos de personas contablemente
+     Route::apiResource('company_kindperson', 'Management\CompanyKindpersonController');
+
+     //Categoría de la empresa
+     Route::apiResource('company_category', 'Management\CompanyCategoryController');
+
+     //Tipo de compañias de entidades de salud
+     Route::apiResource('company_type', 'Management\CompanyTypeController');
+
+     //Tipos de identificaciones
+     Route::apiResource('identification_type', 'Management\IdentificationTypeController');
+    
+
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 
