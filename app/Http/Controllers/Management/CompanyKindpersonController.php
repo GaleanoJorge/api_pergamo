@@ -62,9 +62,9 @@ class CompanyKindpersonController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function show(int $cok_id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $CompanyKindperson = CompanyKindperson::where('cok_id', $cok_id)
+        $CompanyKindperson = CompanyKindperson::where('id', $id)
             ->get()->toArray();
 
         return response()->json([

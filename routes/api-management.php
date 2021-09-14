@@ -250,19 +250,60 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento
     Route::apiResource('procedure', 'Management\ProcedureController');
 
-     //Tipos de personas contablemente
-     Route::apiResource('company_kindperson', 'Management\CompanyKindpersonController');
+    //Tipos de personas contablemente
+    Route::apiResource('company_kindperson', 'Management\CompanyKindpersonController');
 
-     //Categoría de la empresa
-     Route::apiResource('company_category', 'Management\CompanyCategoryController');
+    //Categoría de la empresa
+    Route::apiResource('company_category', 'Management\CompanyCategoryController');
 
-     //Tipo de compañias de entidades de salud
-     Route::apiResource('company_type', 'Management\CompanyTypeController');
+    //Tipo de compañias de entidades de salud
+    Route::apiResource('company_type', 'Management\CompanyTypeController');
 
-     //Tipos de identificaciones
-     Route::apiResource('identification_type', 'Management\IdentificationTypeController');
+    //Tipos de identificaciones
+    Route::apiResource('identification_type', 'Management\IdentificationTypeController');
+
+    //Direccion de Correos electronico de las compañias
+    Route::apiResource('company_mail', 'Management\CompanyMailController');
+
+    //Asociacion de las empresas con los documentos solicitantes
+    Route::apiResource('company_document', 'Management\CompanyDocumentController');
+
+    //Documentos contables
+    Route::apiResource('document_account', 'Management\DocumentAccountController');
+
+    //Documentos 
+    Route::apiResource('document', 'Management\DocumentController');
+
+    //Gurpos de la clasificación industrial internacional uniforme
+    Route::apiResource('ciiu_group', 'Management\CiiuGroupController');
+
+    //Division de la clasificación industrial internacional uniforme
+    Route::apiResource('ciiu_division', 'Management\CiiuDivisionController');
+
+    //Clase de la clasificación industrial internacional uniforme 
+    Route::apiResource('ciiu_class', 'Management\CiiuClassController');
+
+    //Asociación de las actividades economicas con las emrpresas 
+    Route::apiResource('company_ciiu', 'Management\CompanyCiiuController');
+
+    //Asociación de las actividades economicas con las emrpresas 
+    Route::apiResource('company_fiscal', 'Management\CompanyFiscalController');
+
+    //Guarda la responsabilidad fiscal del contribuyente
+    Route::apiResource('fiscal_characteristic', 'Management\FiscalCharacteristicController');
+
+    //Priorizacion de los atributos fiscales
+    Route::apiResource('fiscal_clasification', 'Management\FiscalClasificationController');
+
+    //Impuestos
+    Route::apiResource('company_taxes', 'Management\CompanyTaxesController');
+
+     //Impuestos
+     Route::apiResource('taxes', 'Management\TaxesController');
+
+     //Empresas dentro de las que se indetifican las prestadoras de salud
+     Route::apiResource('company', 'Management\CompanyController');
     
-
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 

@@ -17,8 +17,12 @@ class CreateCiiuGroupTable extends Migration
             $table->bigIncrements('id');
             $table->string('cig_code');
             $table->string('cig_name');
-            $table->bigInteger('cig_division');
+            $table->unsignedBigInteger('cig_division');
             $table->timestamps();
+
+            $table->index('cig_division');
+            $table->foreign('cig_division')->references('id')
+            ->on('ciiu_division');
         });
     }
 

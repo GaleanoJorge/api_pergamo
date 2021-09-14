@@ -17,8 +17,11 @@ class CreateCiiuClassTable extends Migration
             $table->bigIncrements('id');
             $table->string('cic_code');
             $table->string('cic_name');
-            $table->bigInteger('cic_group');
+            $table->unsignedBigInteger('cic_group');
             $table->timestamps();
+            $table->index('cic_group');
+            $table->foreign('cic_group')->references('id')
+            ->on('ciiu_group');
         });
     }
 

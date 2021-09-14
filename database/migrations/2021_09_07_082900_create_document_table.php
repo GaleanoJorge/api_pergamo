@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanyCiiuTable extends Migration
+class CreateDocumentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,16 @@ class CreateCompanyCiiuTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_ciiu', function (Blueprint $table) {
+        Schema::create('document', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('cii_company');
-            $table->bigInteger('cii_class');
-            $table->bigInteger('cii_clasification');
+            $table->string('doc_name');
+            $table->unsignedTinyInteger('doc_state');
             $table->timestamps();
+            $table->index('doc_state');
+            $table->foreign('doc_state')->references('id')
+            ->on('status');
+
+            
         });
     }
 
@@ -29,6 +33,6 @@ class CreateCompanyCiiuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_ciiu');
+        Schema::dropIfExists('document');
     }
 }

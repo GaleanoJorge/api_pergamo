@@ -17,9 +17,9 @@ class CreateTaxesTable extends Migration
             $table->bigIncrements('id');
             $table->string('tax_code');
             $table->string('tax_name');
-
             $table->timestamps();
         });
+            
     }
 
     /**

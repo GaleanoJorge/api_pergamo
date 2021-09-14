@@ -16,8 +16,12 @@ class CreateDocumentAccountTable extends Migration
         Schema::create('document_account', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('dac_name');
-            $table->integer('dac_state');
+            $table->unsignedTinyInteger('dac_state');
             $table->timestamps();
+
+            $table->index('dac_state');
+            $table->foreign('dac_state')->references('id')
+            ->on('status');
         });
     }
 

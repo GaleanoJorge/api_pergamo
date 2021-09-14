@@ -19,7 +19,7 @@
     },
     {
         "id": "11",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Roles",
         "code": "roles",
         "route": "/pages/setting/roles",
@@ -28,7 +28,7 @@
     },
     {
         "id": "12",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Permisos",
         "code": "permisos",
         "route": "/pages/setting/permissions",
@@ -37,7 +37,7 @@
     },
     {
         "id": "13",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Ítems",
         "code": "items",
         "route": "/pages/setting/items",
@@ -46,7 +46,7 @@
     },
     {
         "id": "14",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Sedes",
         "code": "campus",
         "route": "/pages/setting/campus",
@@ -55,7 +55,7 @@
     },
     {
         "id": "19",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Cargos",
         "code": "cargos",
         "route": "/pages/setting/position",
@@ -64,7 +64,7 @@
     },
     {
         "id": "22",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Departamento",
         "code": "region",
         "route": "/pages/setting/region",
@@ -73,7 +73,7 @@
     },
     {
         "id": "23",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Ciudad",
         "code": "ciudad",
         "route": "/pages/setting/municipality",
@@ -100,7 +100,7 @@
     },
     {
         "id": "53",
-        "item_parent_id": "10",
+        "item_parent_id": "65",
         "name": "Usuarios",
         "code": "users",
         "route": "/pages/setting/users",
@@ -110,7 +110,7 @@
     },
     {
         "id": "54",
-        "item_parent_id": "10",
+        "item_parent_id": "68",
         "name": "Edad del procedimiento",
         "code": "procedure-age",
         "route": "/pages/setting/procedure-age",
@@ -119,7 +119,7 @@
     },
     {
         "id": "55",
-        "item_parent_id": "10",
+        "item_parent_id": "68",
         "name": "Categoria del procedimiento",
         "code": "procedure-category",
         "route": "/pages/setting/procedure-category",
@@ -128,7 +128,7 @@
     },
     {
         "id": "56",
-        "item_parent_id": "10",
+        "item_parent_id": "68",
         "name": "Proposito del procedimiento",
         "code": "procedure-purpose",
         "route": "/pages/setting/procedure-purpose",
@@ -139,11 +139,121 @@
     },
     {
         "id": "57",
-        "item_parent_id": "10",
+        "item_parent_id": "68",
         "name": "Procedimiento",
         "code": "procedure",
         "route": "/pages/setting/procedure",
         "icon": "cast-outline",
+        "show_menu": "1"
+    
+     },
+    {
+        "id": "58",
+        "item_parent_id": "69",
+        "name": "Tipo de Persona Contable",
+        "code": "company-kindperson",
+        "route": "/pages/setting/company-kindperson",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "59",
+        "item_parent_id": "69",
+        "name": "Categoria de compañia",
+        "code": "company-category",
+        "route": "/pages/setting/company-category",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "60",
+        "item_parent_id": "69",
+        "name": "Tipo de compañía",
+        "code": "company-type",
+        "route": "/pages/setting/company-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "61",
+        "item_parent_id": "69",
+        "name": "Correos de compañias",
+        "code": "company-mail",
+        "route": "/pages/setting/company-mail",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "62",
+        "item_parent_id": "69",
+        "name": "Documentos de compañia",
+        "code": "company-document",
+        "route": "/pages/setting/company-document",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "63",
+        "item_parent_id": "69",
+        "name": "Documentos contables",
+        "code": "document-account",
+        "route": "/pages/setting/document-account",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "64",
+        "item_parent_id": "69",
+        "name": "Documentos",
+        "code": "document",
+        "route": "/pages/setting/document",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "65",
+        "item_parent_id": "10",
+        "name": "Configuración de sistema",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "66",
+        "item_parent_id": "10",
+        "name": "Configuración asistencial",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "67",
+        "item_parent_id": "10",
+        "name": "Configuración financiera",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    
+    },
+    {
+        "id": "68",
+        "item_parent_id": "66",
+        "name": "Procedimientos",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "69",
+        "item_parent_id": "67",
+        "name": "Compañía",
+        "code": null,
+        "route": null,
+        "icon": "",
         "show_menu": "1"
     }
 ]
