@@ -18,6 +18,52 @@
         "show_menu": "1"
     },
     {
+        "id": "65",
+        "item_parent_id": "10",
+        "name": "Configuración de sistema",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "66",
+        "item_parent_id": "10",
+        "name": "Configuración asistencial",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "67",
+        "item_parent_id": "10",
+        "name": "Configuración financiera",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    
+    },
+    {
+        "id": "68",
+        "item_parent_id": "66",
+        "name": "Procedimientos",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "69",
+        "item_parent_id": "67",
+        "name": "Compañía",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
         "id": "11",
         "item_parent_id": "65",
         "name": "Roles",
@@ -209,51 +255,6 @@
         "route": "/pages/setting/document",
         "icon": "",
         "show_menu": "1"
-    },
-    {
-        "id": "65",
-        "item_parent_id": "10",
-        "name": "Configuración de sistema",
-        "code": null,
-        "route": null,
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "66",
-        "item_parent_id": "10",
-        "name": "Configuración asistencial",
-        "code": null,
-        "route": null,
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "67",
-        "item_parent_id": "10",
-        "name": "Configuración financiera",
-        "code": null,
-        "route": null,
-        "icon": "",
-        "show_menu": "1"
-    
-    },
-    {
-        "id": "68",
-        "item_parent_id": "66",
-        "name": "Procedimientos",
-        "code": null,
-        "route": null,
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "69",
-        "item_parent_id": "67",
-        "name": "Compañía",
-        "code": null,
-        "route": null,
-        "icon": "",
-        "show_menu": "1"
     }
+  
 ]

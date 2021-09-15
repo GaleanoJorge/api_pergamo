@@ -22,7 +22,7 @@ class CreateCompanyTable extends Migration
             $table->unsignedBigInteger('com_type');
             $table->bigInteger('com_administrator');
             $table->unsignedBigInteger('com_country');
-            $table->unsignedBigInteger('com_city');
+            $table->unsignedsmallInteger('com_city');
             $table->string('com_address');
             $table->string('com_phone');
             $table->string('com_web');
