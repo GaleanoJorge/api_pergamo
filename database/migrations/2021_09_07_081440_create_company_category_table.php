@@ -15,7 +15,7 @@ class CreateCompanyCategoryTable extends Migration
     {
         Schema::create('company_category', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('coc_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

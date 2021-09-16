@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class CompanyType
  * 
  * @property int $id
- * @property string $cot_name
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

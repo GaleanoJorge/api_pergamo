@@ -23,7 +23,7 @@ class ProcedureAgeController extends Controller
             $ProcedureAge = ProcedureAge::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $ProcedureAge = ProcedureAge::where('pra_name', 'like', '%' . $request->search . '%');
+            $ProcedureAge = ProcedureAge::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $ProcedureAge = ProcedureAge::get()->toArray();
@@ -46,9 +46,9 @@ class ProcedureAgeController extends Controller
     public function store(ProcedureAgeRequest $request): JsonResponse
     {
         $ProcedureAge = new ProcedureAge;
-        $ProcedureAge->pra_name = $request->pra_name;
-        $ProcedureAge->pra_begin = $request->pra_begin;
-        $ProcedureAge->pra_end = $request->pra_end;
+        $ProcedureAge->name = $request->name;
+        $ProcedureAge->begin = $request->begin;
+        $ProcedureAge->end = $request->end;
         $ProcedureAge->save();
 
         return response()->json([
@@ -64,9 +64,9 @@ class ProcedureAgeController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function show(int $pra_id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $ProcedureAge = ProcedureAge::where('pra_id', $pra_id)
+        $ProcedureAge = ProcedureAge::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
@@ -86,9 +86,9 @@ class ProcedureAgeController extends Controller
     public function update(ProcedureAgeRequest $request, int $id): JsonResponse
     {
         $ProcedureAge = ProcedureAge::find($id);
-        $ProcedureAge->pra_name = $request->pra_name;
-        $ProcedureAge->pra_begin = $request->pra_begin;
-        $ProcedureAge->pra_end = $request->pra_end;
+        $ProcedureAge->name = $request->name;
+        $ProcedureAge->begin = $request->begin;
+        $ProcedureAge->end = $request->end;
         $ProcedureAge->save();
 
         return response()->json([

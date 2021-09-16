@@ -8,9 +8,9 @@ use App\Models\Base\CompanyCiiu as BaseCompanyCiiu;
 class CompanyCiiu extends BaseCompanyCiiu
 {
     protected $fillable = [
-      'cii_company',
-      'cii_class',
-      'cii_clasification',
+      'company_id',
+      'class_id',
+      'clasification_id',
 	
 	];
 }

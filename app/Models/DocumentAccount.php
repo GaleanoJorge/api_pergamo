@@ -8,8 +8,8 @@ use App\Models\Base\DocumentAccount as BaseDocumentAccount;
 class DocumentAccount extends BaseDocumentAccount
 {
     protected $fillable = [
-		'dac_name',
-    'dac_state'
+		'name',
+    'state'
     
 	
 	];

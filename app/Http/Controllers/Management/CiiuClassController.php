@@ -24,7 +24,7 @@ class CiiuClassController extends Controller
             CiiuClass::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CiiuClass  = CiiuClass::where('cic_name', 'like', '%' . $request->search . '%');
+            $CiiuClass  = CiiuClass::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CiiuClass = CiiuClass::get()->toArray();
@@ -46,9 +46,9 @@ class CiiuClassController extends Controller
     public function store(CiiuClassRequest $request): JsonResponse
     {
         $CiiuClass = new CiiuClass;
-        $CiiuClass->cic_code = $request->cic_code;
-        $CiiuClass->cic_name = $request->cic_name; 
-        $CiiuClass->cic_group = $request->cic_group; 
+        $CiiuClass->code = $request->code;
+        $CiiuClass->name = $request->name; 
+        $CiiuClass->group_id = $request->group_id; 
         $CiiuClass->save();
 
         return response()->json([
@@ -85,9 +85,9 @@ class CiiuClassController extends Controller
     public function update(CiiuClassRequest $request, int $id): JsonResponse
     {
         $CiiuClass = CiiuClass::find($id);
-        $CiiuClass->cic_code = $request->cic_code;
-        $CiiuClass->cic_name = $request->cic_name; 
-        $CiiuClass->cic_group = $request->cic_group;
+        $CiiuClass->code = $request->code;
+        $CiiuClass->name = $request->name; 
+        $CiiuClass->group_id = $request->group_id;
         $CiiuClass->save();
 
         return response()->json([

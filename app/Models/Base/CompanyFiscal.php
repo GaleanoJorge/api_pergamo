@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class CompanyFiscal
  * 
  * @property int $id
- * @property BigInteger $cof_company
- * @property BigInteger $cof_characteristic
- * @property BigInteger $cof_clasification
+ * @property BigInteger $company_id
+ * @property BigInteger $characteristic_id
+ * @property BigInteger $clasification_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

@@ -45,8 +45,8 @@ class TaxesController extends Controller
     public function store(TaxesRequest $request): JsonResponse
     {
         $Taxes = new Taxes;
-        $Taxes->tax_code = $request->tax_code;
-        $Taxes->tax_name = $request->tax_name;
+        $Taxes->code = $request->code;
+        $Taxes->name = $request->name;
         $Taxes->save();
 
         return response()->json([
@@ -83,8 +83,8 @@ class TaxesController extends Controller
     public function update(TaxesRequest $request, int $id): JsonResponse
     {
         $Taxes = Taxes::find($id);
-        $Taxes->tax_code = $request->tax_code;
-        $Taxes->tax_name = $request->tax_name;
+        $Taxes->code = $request->code;
+        $Taxes->name = $request->name;
         $Taxes->save();
 
         return response()->json([

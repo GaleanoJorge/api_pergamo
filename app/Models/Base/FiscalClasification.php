@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class FiscalClasiication
  * 
  * @property int $id
- * @property string $fst_name
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

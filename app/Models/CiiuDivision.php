@@ -8,8 +8,8 @@ use App\Models\Base\CiiuDivision as BaseCiiuDivision;
 class CiiuDivision extends BaseCiiuDivision
 {
     protected $fillable = [
-		'cid_code',
-    'cid_name',
+		'code',
+    'name',
          
 	
 	];

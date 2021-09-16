@@ -24,8 +24,8 @@ class TaxesRequest extends FormRequest
     public function rules()
     {
         return [
-            'tax_code' => 'required',
-            'tax_name' => 'required',
+            'code' => 'required',
+            'name' => 'required',
             
         ];
     }

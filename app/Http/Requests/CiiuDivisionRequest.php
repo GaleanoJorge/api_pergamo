@@ -24,8 +24,8 @@ class CiiuDivisionRequest extends FormRequest
     public function rules()
     {
         return [
-            'cid_code' => 'required',
-            'cid_name' => 'required',
+            'code' => 'required',
+            'name' => 'required',
  
            
         ];

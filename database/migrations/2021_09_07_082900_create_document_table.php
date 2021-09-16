@@ -15,11 +15,12 @@ class CreateDocumentTable extends Migration
     {
         Schema::create('document', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('doc_name');
-            $table->unsignedTinyInteger('doc_state');
+            $table->string('name');
+            $table->unsignedTinyInteger('status_id');
             $table->timestamps();
-            $table->index('doc_state');
-            $table->foreign('doc_state')->references('id')
+
+            $table->index('status_id');
+            $table->foreign('status_id')->references('id')
             ->on('status');
 
             

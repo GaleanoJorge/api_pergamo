@@ -9,8 +9,8 @@ class FiscalCharacteristic extends BaseFiscalCharacteristic
   {
     protected $fillable = [
 
-		'fsc_code',
-    'fsc_name',
+		'code',
+    'name',
     
          
 	

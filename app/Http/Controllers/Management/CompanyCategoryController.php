@@ -23,7 +23,7 @@ class CompanyCategoryController extends Controller
             $CompanyCategory = CompanyCategory::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyCategory  = CompanyCategory::where('coc_name', 'like', '%' . $request->search . '%');
+            $CompanyCategory  = CompanyCategory::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyCategory = CompanyCategory::get()->toArray();
@@ -45,7 +45,7 @@ class CompanyCategoryController extends Controller
     public function store(CompanyCategoryRequest $request): JsonResponse
     {
         $CompanyCategory = new CompanyCategory;
-        $CompanyCategory->coc_name = $request->coc_name;
+        $CompanyCategory->name = $request->name;
         
         $CompanyCategory->save();
 
@@ -83,7 +83,7 @@ class CompanyCategoryController extends Controller
     public function update(CompanyCategoryRequest $request, int $id): JsonResponse
     {
         $CompanyCategory = CompanyCategory::find($id);
-        $CompanyCategory->coc_name = $request->coc_name;
+        $CompanyCategory->name = $request->name;
         
         $CompanyCategory->save();
 

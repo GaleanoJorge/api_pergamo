@@ -8,9 +8,9 @@ use App\Models\Base\CompanyFiscal as BaseCompanyFiscal;
 class CompanyFiscal extends BaseCompanyFiscal
 {
     protected $fillable = [
-		'cof_company',
-    'cof_characteristic',
-    'cof_clasification',
+		'company_id',
+    'characteristic_id',
+    'clasification_id',
          
 	
 	];

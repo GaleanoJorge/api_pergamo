@@ -23,7 +23,7 @@ class DocumentAccountController extends Controller
             $DocumentAccount = DocumentAccount::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $DocumentAccount  = DocumentAccount::where('dac_name', 'like', '%' . $request->search . '%');
+            $DocumentAccount  = DocumentAccount::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $DocumentAccount = DocumentAccount::get()->toArray();
@@ -45,8 +45,8 @@ class DocumentAccountController extends Controller
     public function store(DocumentAccountRequest $request): JsonResponse
     {
         $DocumentAccount = new DocumentAccount;
-        $DocumentAccount->dac_name = $request->dac_name;
-        $DocumentAccount->dac_state = $request->dac_state;
+        $DocumentAccount->name = $request->name;
+        $DocumentAccount->status_id = $request->status_id;
        
         $DocumentAccount->save();
 
@@ -84,8 +84,8 @@ class DocumentAccountController extends Controller
     public function update(DocumentAccountRequest $request, int $id): JsonResponse
     {
         $DocumentAccount = DocumentAccount::find($id);
-        $DocumentAccount->dac_name = $request->dac_name;
-        $DocumentAccount->dac_state = $request->dac_state;
+        $DocumentAccount->name = $request->name;
+        $DocumentAccount->status_id = $request->status_id;
         $DocumentAccount->save();
 
         return response()->json([

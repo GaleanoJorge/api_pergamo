@@ -24,9 +24,9 @@ class CiiuClassRequest extends FormRequest
     public function rules()
     {
         return [
-            'cic_code' => 'required',
-            'cic_name' => 'required',
-            'cic_group' => 'required',
+            'code' => 'required',
+            'name' => 'required',
+            'group_id' => 'required',
                       
             
            

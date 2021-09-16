@@ -24,7 +24,7 @@ class CompanyCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'coc_name' => 'required'
+            'name' => 'required'
         ];
     }
 }

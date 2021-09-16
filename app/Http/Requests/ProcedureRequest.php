@@ -25,16 +25,16 @@ class ProcedureRequest extends FormRequest
     {
         return [
             //
-            'prd_code' => 'required',
-            'prd_equivalent' => 'required',
-            'prd_name' => 'required',
-            'prd_category' => 'required',
-            'prd_nopos' => 'required',
-            'prd_age' => 'required',
-            'prd_gender' => 'required',
-            'prd_state' => 'required',
-            'prd_purpose' => 'required',
-            'prd_time' => 'required',
+            'code' => 'required',
+            'equivalent' => 'required',
+            'name' => 'required',
+            'category_id' => 'required',
+            'nopos' => 'required',
+            'age_id' => 'required',
+            'gender_id' => 'required',
+            'status_id' => 'required',
+            'purpose_id' => 'required',
+            'time' => 'required',
           
 
         ];

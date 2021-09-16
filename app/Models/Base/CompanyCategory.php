@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class CompanyCategory
  * 
  * @property int $id
- * @property string $coc_name
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

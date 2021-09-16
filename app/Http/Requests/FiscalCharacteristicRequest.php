@@ -24,8 +24,8 @@ class FiscalCharacteristicRequest extends FormRequest
     public function rules()
     {
         return [
-            'fsc_code' => 'required',
-            'fsc_name' => 'required',
+            'code' => 'required',
+            'name' => 'required',
             
         ];
     }

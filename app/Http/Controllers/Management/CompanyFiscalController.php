@@ -23,7 +23,7 @@ class CompanyFiscalController extends Controller
             $CompanyFiscal = CompanyFiscal::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyFiscal  = CompanyFiscal::where('cof_name', 'like', '%' . $request->search . '%');
+            $CompanyFiscal  = CompanyFiscal::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyFiscal = CompanyFiscal::get()->toArray();
@@ -45,9 +45,9 @@ class CompanyFiscalController extends Controller
     public function store(CompanyFiscalRequest $request): JsonResponse
     {
         $CompanyFiscal = new CompanyFiscal;
-        $CompanyFiscal->cof_company = $request->cof_company;
-        $CompanyFiscal->cof_characteristic = $request->cof_characteristic;
-        $CompanyFiscal->cof_clasification= $request->cof_clasification;
+        $CompanyFiscal->company_id = $request->company_id;
+        $CompanyFiscal->characteristic_id = $request->characteristic_id;
+        $CompanyFiscal->clasification_id= $request->clasification_id;
         $CompanyFiscal->save();
 
         return response()->json([
@@ -84,9 +84,9 @@ class CompanyFiscalController extends Controller
     public function update(CompanyFiscalRequest $request, int $id): JsonResponse
     {
         $CompanyFiscal = CompanyFiscal::find($id);
-        $CompanyFiscal->cof_company = $request->cof_company;
-        $CompanyFiscal->cof_characteristic = $request->cof_characteristic;
-        $CompanyFiscal->cof_clasification= $request->cof_clasification;
+        $CompanyFiscal->company_id = $request->company_id;
+        $CompanyFiscal->characteristic_id = $request->characteristic_id;
+        $CompanyFiscal->clasification_id= $request->clasification_id;
         $CompanyFiscal->save();
 
         return response()->json([

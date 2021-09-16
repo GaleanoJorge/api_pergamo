@@ -45,29 +45,29 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request): JsonResponse
     {
         $Company = new Company;
-        $Company->com_identype = $request->com_identype;
-        $Company->com_code = $request->com_code;
-        $Company->com_name= $request->com_name;
-        $Company->com_category= $request->com_category;
-        $Company->com_type = $request->com_type;
-        $Company->com_administrator = $request->com_administrator;
-        $Company->com_country = $request->com_country;
-        $Company->com_city = $request->com_city;
-        $Company->com_address = $request->com_address;
-        $Company->com_phone = $request->com_phone;
-        $Company->com_web = $request->com_web;
-        $Company->com_mail = $request->com_mail;
-        $Company->com_representative = $request->com_representative;
-        $Company->com_repre_phone = $request->com_repre_phone;
-        $Company->com_repre_mail = $request->com_repre_mail;
-        $Company->com_repre_identification = $request->com_repre_identification;
-        $Company->com_iva = $request->com_iva;
-        $Company->com_retainer = $request->com_retainer;
-        $Company->com_kindperson = $request->com_kindperson;
-        $Company->com_registration = $request->com_registration;
-        $Company->com_opportunity = $request->com_opportunity;
-        $Company->com_discount = $request->com_discount;
-        $Company->com_term = $request->com_term;
+        $Company->identype_id= $request->identype_id;
+        $Company->code = $request->code;
+        $Company->name= $request->name;
+        $Company->category_id= $request->category_id;
+        $Company->type = $request->type;
+        $Company->administrator = $request->administrator;
+        $Company->country_id = $request->country_id;
+        $Company->city_id = $request->city_id;
+        $Company->address = $request->address;
+        $Company->phone = $request->phone;
+        $Company->web = $request->web;
+        $Company->mail = $request->mail;
+        $Company->representative = $request->representative;
+        $Company->repre_phone = $request->repre_phone;
+        $Company->repre_mail = $request->repre_mail;
+        $Company->repreentification = $request->repreentification;
+        $Company->iva = $request->iva;
+        $Company->retainer = $request->retainer;
+        $Company->kindperson_id = $request->kindperson_id;
+        $Company->registration = $request->registration;
+        $Company->opportunity = $request->opportunity;
+        $Company->discount = $request->discount;
+        $Company->term = $request->term;
         $Company->save();
 
         return response()->json([
@@ -104,29 +104,29 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, int $id): JsonResponse
     {
         $Company = Company::find($id);
-        $Company->com_identype = $request->com_identype;
-        $Company->com_code = $request->com_code;
-        $Company->com_name= $request->com_name;
-        $Company->com_category= $request->com_category;
-        $Company->com_type = $request->com_type;
-        $Company->com_administrator = $request->com_administrator;
-        $Company->com_country = $request->com_country;
-        $Company->com_city = $request->com_city;
-        $Company->com_address = $request->com_address;
-        $Company->com_phone = $request->com_phone;
-        $Company->com_web = $request->com_web;
-        $Company->com_mail = $request->com_mail;
-        $Company->com_representative = $request->com_representative;
-        $Company->com_repre_phone = $request->com_repre_phone;
-        $Company->com_repre_mail = $request->com_repre_mail;
-        $Company->com_repre_identification = $request->com_repre_identification;
-        $Company->com_iva = $request->com_iva;
-        $Company->com_retainer = $request->com_retainer;
-        $Company->com_kindperson = $request->com_kindperson;
-        $Company->com_registration = $request->com_registration;
-        $Company->com_opportunity = $request->com_opportunity;
-        $Company->com_discount = $request->com_discount;
-        $Company->com_term = $request->com_term;
+        $Company->identype_id = $request->identype_id;
+        $Company->code = $request->code;
+        $Company->name= $request->name;
+        $Company->category_id= $request->category_id ;
+        $Company->type = $request->type;
+        $Company->administrator = $request->administrator;
+        $Company->country_id = $request->country_id;
+        $Company->city_id = $request->city_id;
+        $Company->address = $request->address;
+        $Company->phone = $request->phone;
+        $Company->web = $request->web;
+        $Company->mail = $request->mail;
+        $Company->representative = $request->representative;
+        $Company->repre_phone = $request->repre_phone;
+        $Company->repre_mail = $request->repre_mail;
+        $Company->repreentification = $request->repreentification;
+        $Company->iva = $request->iva;
+        $Company->retainer = $request->retainer;
+        $Company->kindperson_id = $request->kindperson_id;
+        $Company->registration = $request->registration;
+        $Company->opportunity = $request->opportunity;
+        $Company->discount = $request->discount;
+        $Company->term = $request->term;
 
         return response()->json([
             'status' => true,

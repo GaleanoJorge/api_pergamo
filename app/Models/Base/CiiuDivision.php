@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class CiiuDivision
  * 
  * @property int $id
- * @property string $cid_code
- * @property string $cid_name
+ * @property string $code
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

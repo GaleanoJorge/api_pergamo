@@ -9,7 +9,7 @@ class FiscalClasification extends BaseFiscalClasification
 {
     protected $fillable = [
       
-		'fst_name',
+		'name',
 
          
 	

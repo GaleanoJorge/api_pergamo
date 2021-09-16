@@ -15,13 +15,13 @@ class CreateCiiuGroupTable extends Migration
     {
         Schema::create('ciiu_group', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cig_code');
-            $table->string('cig_name');
-            $table->unsignedBigInteger('cig_division');
+            $table->string('code');
+            $table->string('name');
+            $table->unsignedBigInteger('division_id');
             $table->timestamps();
 
-            $table->index('cig_division');
-            $table->foreign('cig_division')->references('id')
+            $table->index('division_id');
+            $table->foreign('division_id')->references('id')
             ->on('ciiu_division');
         });
     }

@@ -46,16 +46,16 @@ class ProcedureController extends Controller
     public function store(ProcedureRequest $request): JsonResponse
     {
         $Procedure = new Procedure;
-        $Procedure->prd_code = $request->prd_code;
-        $Procedure->prd_equivalent = $request->prd_equivalent;
-        $Procedure->prd_name = $request->prd_name;
-        $Procedure->prd_category = $request->prd_category;
-        $Procedure->prd_nopos = $request->prd_nopos;
-        $Procedure->prd_age = $request->prd_age;
-        $Procedure->prd_gender = $request->prd_gender;
-        $Procedure->prd_state = $request->prd_state;
-        $Procedure->prd_purpose = $request->prd_purpose;
-        $Procedure->prd_time = $request->prd_time;
+        $Procedure->code = $request->code;
+        $Procedure->equivalent = $request->equivalent;
+        $Procedure->name = $request->name;
+        $Procedure->category_id = $request->category_id;
+        $Procedure->nopos = $request->nopos;
+        $Procedure->age_id = $request->age_id;
+        $Procedure->gender = $request->gender;
+        $Procedure->status_id = $request->status_id;
+        $Procedure->purpose_id = $request->purpose_id;
+        $Procedure->time = $request->time;
         
         $Procedure->save();
 
@@ -94,16 +94,16 @@ class ProcedureController extends Controller
     public function update(ProcedureRequest $request, int $id): JsonResponse
     {
         $Procedure = new Procedure;
-        $Procedure->prd_code = $request->prd_code;
-        $Procedure->prd_equivalent = $request->prd_equivalent;
-        $Procedure->prd_name = $request->prd_name;
-        $Procedure->prd_category = $request->prd_category;
-        $Procedure->prd_nopos = $request->prd_nopos;
-        $Procedure->prd_age = $request->prd_age;
-        $Procedure->prd_gender = $request->prd_gender;
-        $Procedure->prd_state = $request->prd_state;
-        $Procedure->prd_purpose = $request->prd_purpose;
-        $Procedure->prd_time = $request->prd_time;
+        $Procedure->code = $request->code;
+        $Procedure->equivalent = $request->equivalent;
+        $Procedure->name = $request->name;
+        $Procedure->category_id = $request->category_id;
+        $Procedure->nopos = $request->nopos;
+        $Procedure->age_id = $request->age_id;
+        $Procedure->gender_id = $request->gender_id;
+        $Procedure->status_id = $request->status_id;
+        $Procedure->purpose_id = $request->purpose_id;
+        $Procedure->time = $request->time;
         $Procedure->save();
 
         return response()->json([

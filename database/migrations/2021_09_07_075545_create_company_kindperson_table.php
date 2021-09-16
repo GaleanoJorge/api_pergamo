@@ -15,7 +15,7 @@ class CreateCompanyKindpersonTable extends Migration
     {
         Schema::create('company_kindperson', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cok_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

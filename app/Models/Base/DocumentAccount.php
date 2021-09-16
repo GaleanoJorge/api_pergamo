@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class DocumentAccount
  * 
  * @property int $id
- * @property string $dac_name
- * @property TinyInteger $dac_state
+ * @property string $name
+ * @property TinyInteger $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

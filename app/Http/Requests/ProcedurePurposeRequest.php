@@ -25,8 +25,8 @@ class ProcedurePurposeRequest extends FormRequest
     {
         return [
             //
-            'prp_name' => 'required',
-            'prp_code' => 'required',
+            'name' => 'required',
+            'code' => 'required',
         ];
     }
 }

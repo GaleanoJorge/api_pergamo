@@ -24,9 +24,9 @@ class CompanyFiscalRequest extends FormRequest
     public function rules()
     {
         return [
-            'cof_company' => 'required',
-            'cof_characteristic' => 'required',
-            'cof_clasification' => 'required',
+            'company_id' => 'required',
+            'characteristic_id' => 'required',
+            'clasification_id' => 'required',
             
 
         ];

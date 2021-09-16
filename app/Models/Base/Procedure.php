@@ -14,16 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  * Class Procedure
  * 
  * @property int $id
- * @property string $prd_code
- * @property string $prd_equivalent
- * @property string $prd_name
- * @property int $prd_category
- * @property int $prd_nopos
- * @property int $prd_age
- * @property int $prd_gender
- * @property int $prd_state
- * @property int $prd_purpose
- * @property Carbon $prd_time
+ * @property string $code
+ * @property string $equivalent
+ * @property string $name
+ * @property int $category_id
+ * @property int $nopos
+ * @property int $age_id
+ * @property int $gender_id
+ * @property int $status_id
+ * @property int $purpose_id
+ * @property Carbon $time
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

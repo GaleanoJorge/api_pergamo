@@ -8,9 +8,9 @@ use App\Models\Base\CiiuGroup as BaseCiiuGroup;
 class CiiuGroup extends BaseCiiuGroup
 {
     protected $fillable = [
-		'cig_code',
-    'cig_name',
-    'cig_division',
+		'code',
+    'name',
+    'division_id',
          
 	
 	];

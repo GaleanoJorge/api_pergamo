@@ -25,9 +25,9 @@ class ProcedureAgeRequest extends FormRequest
     {
         return [
             //
-            'pra_name' => 'required',
-            'pra_begin' => 'required|between: 0,120',
-            'pra_end' => 'required|between:0,120'
+            'name' => 'required',
+            'begin' => 'required|between: 0,120',
+            'end' => 'required|between:0,120'
         ];
     }
 }

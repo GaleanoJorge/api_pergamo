@@ -24,7 +24,7 @@ class CiiuDivisionController extends Controller
             CiiuDivision::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CiiuDivision  = CiiuDivision::where('cid_name', 'like', '%' . $request->search . '%');
+            $CiiuDivision  = CiiuDivision::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CiiuDivision = CiiuDivision::get()->toArray();
@@ -46,8 +46,8 @@ class CiiuDivisionController extends Controller
     public function store(CiiuDivisionRequest $request): JsonResponse
     {
         $CiiuDivision = new CiiuDivision;
-        $CiiuDivision->cid_code = $request->cid_code;
-        $CiiuDivision->cid_name = $request->cid_name;  
+        $CiiuDivision->code = $request->code;
+        $CiiuDivision->name = $request->name;  
         $CiiuDivision->save();
 
         return response()->json([
@@ -84,8 +84,8 @@ class CiiuDivisionController extends Controller
     public function update(CiiuDivisionRequest $request, int $id): JsonResponse
     {
         $CiiuDivision = CiiuDivision::find($id);
-        $CiiuDivision->cid_code = $request->cid_code;
-        $CiiuDivision->cid_name = $request->cid_name;  
+        $CiiuDivision->code = $request->code;
+        $CiiuDivision->name = $request->name;  
         $CiiuDivision->save();
 
         return response()->json([

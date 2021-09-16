@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class ProcedureAge
  * 
  * @property int $id
- * @property string $pra_name
- * @property int $pra_egin
- * @property int $pra_end 
+ * @property string $name
+ * @property int $egin
+ * @property int $end 
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class CompanyCiiu
  * 
  * @property int $id
- * @property bigInteger $cii_company
- * @property bigInteger $cii_class
- * @property bigInteger $cii_clasification
+ * @property bigInteger $company_id
+ * @property bigInteger $class_id
+ * @property bigInteger $clasification_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

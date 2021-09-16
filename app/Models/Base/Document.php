@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Document
  * 
  * @property int $id
- * @property string $doc_name
- * @property TinyInteger $doc_state
+ * @property string $name
+ * @property TinyInteger $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

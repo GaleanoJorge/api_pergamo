@@ -23,7 +23,7 @@ class CompanyCiiuController extends Controller
             $CompanyCiiu = CompanyCiiu::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyCiiu  = CompanyCiiu::where('cii_name', 'like', '%' . $request->search . '%');
+            $CompanyCiiu  = CompanyCiiu::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyCiiu = CompanyCiiu::get()->toArray();
@@ -45,9 +45,9 @@ class CompanyCiiuController extends Controller
     public function store(CompanyCiiuRequest $request): JsonResponse
     {
         $CompanyCiiu = new CompanyCiiu;
-        $CompanyCiiu->cii_company = $request->cii_company;
-        $CompanyCiiu->cii_class = $request->cii_class;
-        $CompanyCiiu->cii_clasification = $request->cii_clasification;
+        $CompanyCiiu->company_id = $request->company_id;
+        $CompanyCiiu->class_id = $request->class_id;
+        $CompanyCiiu->clasification_id = $request->clasification_id;
         $CompanyCiiu->save();
 
         return response()->json([
@@ -84,9 +84,9 @@ class CompanyCiiuController extends Controller
     public function update(CompanyCiiuRequest $request, int $id): JsonResponse
     {
         $CompanyCiiu = CompanyCiiu::find($id);
-        $CompanyCiiu->cii_company = $request->cii_company;
-        $CompanyCiiu->cii_class = $request->cii_class;
-        $CompanyCiiu->cii_clasification = $request->cii_clasification;
+        $CompanyCiiu->company_id = $request->company_id;
+        $CompanyCiiu->class_id = $request->class_id;
+        $CompanyCiiu->clasification_id = $request->clasification_id;
         $CompanyCiiu->save();
 
         return response()->json([

@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class FiscalCharacteristic
  * 
  * @property int $id
- * @property string $fsc_code
- * @property string $fsc_name
+ * @property string $code
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

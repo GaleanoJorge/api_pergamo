@@ -24,10 +24,10 @@ class CompanyMailRequest extends FormRequest
     public function rules()
     {
         return [
-            'cma_company' => 'required',
-            'cma_mail' => 'required',
-            'cma_city' => 'required',
-            'cma_document' => 'required',
+            'company_id' => 'required',
+            'mail' => 'required',
+            'city_id' => 'required',
+            'document_id' => 'required',
         ];
     }
 }

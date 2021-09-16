@@ -23,7 +23,7 @@ class ProcedurePurposeController extends Controller
             $ProcedurePurpose = ProcedurePurpose::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $ProcedurePurpose = ProcedurePurpose::where('prp_name', 'like', '%' . $request->search . '%');
+            $ProcedurePurpose = ProcedurePurpose::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $ProcedurePurpose = ProcedurePurpose::get()->toArray();
@@ -46,8 +46,8 @@ class ProcedurePurposeController extends Controller
     public function store(ProcedurePurposeRequest $request): JsonResponse
     {
         $ProcedurePurpose = new ProcedurePurpose;
-        $ProcedurePurpose->prp_name = $request->prp_name;
-        $ProcedurePurpose->prp_code = $request->prp_code;
+        $ProcedurePurpose->name = $request->name;
+        $ProcedurePurpose->code = $request->code;
       
         $ProcedurePurpose->save();
 
@@ -86,8 +86,8 @@ class ProcedurePurposeController extends Controller
     public function update(ProcedurePurposeRequest $request, int $id): JsonResponse
     {
         $ProcedurePurpose = ProcedurePurpose::find($id);
-        $ProcedurePurpose->prp_name = $request->prp_name;
-        $ProcedurePurpose->prp_code = $request->prp_code;
+        $ProcedurePurpose->name = $request->name;
+        $ProcedurePurpose->code = $request->code;
     
         $ProcedurePurpose->save();
 

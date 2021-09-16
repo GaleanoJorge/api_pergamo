@@ -8,8 +8,8 @@ use App\Models\Base\ProcedureAge as BaseProcedureAge;
 class ProcedureAge extends BaseProcedureAge
 {
     protected $fillable = [
-		'pra_name',
-		'pra_begin',
-        'pra_end',
+		'name',
+		'begin',
+        'end',
 	];
 }

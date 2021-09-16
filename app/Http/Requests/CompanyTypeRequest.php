@@ -24,7 +24,7 @@ class CompanyTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'cot_name' => 'required'
+            'name' => 'required'
         ];
     }
 }

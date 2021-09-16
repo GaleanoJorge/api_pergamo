@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $ta_code
- * @property string $tax_name
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

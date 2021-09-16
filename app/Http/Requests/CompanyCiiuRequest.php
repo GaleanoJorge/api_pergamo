@@ -24,9 +24,9 @@ class CompanyCiiuRequest extends FormRequest
     public function rules()
     {
         return [
-            'cii_company' => 'required',
-            'cii_class' => 'required',
-            'cii_clasification' => 'required',
+            'company_id' => 'required',
+            'class_id' => 'required',
+            'clasification_id' => 'required',
 
         ];
     }

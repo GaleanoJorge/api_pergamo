@@ -15,48 +15,48 @@ class CreateCompanyTable extends Migration
     {
         Schema::create('company', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedTinyInteger('com_identype');
-            $table->string('com_code');
-            $table->string('com_name');
-            $table->unsignedBigInteger('com_category');
-            $table->unsignedBigInteger('com_type');
-            $table->bigInteger('com_administrator');
-            $table->unsignedBigInteger('com_country');
-            $table->unsignedsmallInteger('com_city');
-            $table->string('com_address');
-            $table->string('com_phone');
-            $table->string('com_web');
-            $table->string('com_mail');
-            $table->string('com_representative');
-            $table->string('com_repre_phone');
-            $table->string('com_repre_mail');
-            $table->string('com_repre_identification');
-            $table->integer('com_iva');
-            $table->integer('com_retainer');
-            $table->unsignedBigInteger('com_kindperson');
-            $table->integer('com_registration');
-            $table->integer('com_opportunity');
-            $table->integer('com_discount');
-            $table->integer('com_term');
+            $table->unsignedTinyInteger('identype_id');
+            $table->string('code');
+            $table->string('name');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('type_id');
+            $table->bigInteger('administrator');
+            $table->unsignedBigInteger('country_id');
+            $table->unsignedsmallInteger('city_id');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('web');
+            $table->string('mail');
+            $table->string('representative');
+            $table->string('repre_phone');
+            $table->string('repre_mail');
+            $table->string('repre_identification');
+            $table->integer('iva');
+            $table->integer('retainer');
+            $table->unsignedBigInteger('kindperson_id');
+            $table->integer('registration');
+            $table->integer('opportunity');
+            $table->integer('discount');
+            $table->integer('term');
 
             $table->timestamps();
-            $table->index('com_identype');
-            $table->foreign('com_identype')->references('id')
+            $table->index('identype_id');
+            $table->foreign('identype_id')->references('id')
             ->on('identification_type');
-            $table->index('com_category');
-            $table->foreign('com_category')->references('id')
+            $table->index('category_id');
+            $table->foreign('category_id')->references('id')
             ->on('company_category');
-            $table->index('com_country');
-            $table->foreign('com_country')->references('id')
+            $table->index('country_id');
+            $table->foreign('country_id')->references('id')
             ->on('country');
-            $table->index('com_type');
-            $table->foreign('com_type')->references('id')
+            $table->index('type_id');
+            $table->foreign('type_id')->references('id')
             ->on('company_type');
-            $table->index('com_kindperson');
-            $table->foreign('com_kindperson')->references('id')
+            $table->index('kindperson_id');
+            $table->foreign('kindperson_id')->references('id')
             ->on('company_kindperson');
-            $table->index('com_city');
-            $table->foreign('com_city')->references('id')
+            $table->index('city_id');
+            $table->foreign('city_id')->references('id')
             ->on('region');
             
 

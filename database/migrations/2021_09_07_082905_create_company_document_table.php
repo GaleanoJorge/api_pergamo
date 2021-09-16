@@ -15,16 +15,16 @@ class CreateCompanyDocumentTable extends Migration
     {
         Schema::create('company_document', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cdc_company');
-            $table->unsignedBigInteger('cdc_document');
-            $table->string('cdc_file');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('document_id');
+            $table->string('file');
             $table->timestamps();
 
-            $table->index('cdc_company');
-            $table->foreign('cdc_company')->references('id')
+            $table->index('company_id');
+            $table->foreign('company_id')->references('id')
             ->on('company');
-            $table->index('cdc_document');
-            $table->foreign('cdc_document')->references('id')
+            $table->index('document_id');
+            $table->foreign('document_id')->references('id')
             ->on('document');
         });
     }

@@ -23,7 +23,7 @@ class CompanyTypeController extends Controller
             $CompanyType = CompanyType::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyType  = CompanyType::where('cot_name', 'like', '%' . $request->search . '%');
+            $CompanyType  = CompanyType::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyType = CompanyType::get()->toArray();
@@ -45,7 +45,7 @@ class CompanyTypeController extends Controller
     public function store(CompanyTypeRequest $request): JsonResponse
     {
         $CompanyType = new CompanyType;
-        $CompanyType->cot_name = $request->cot_name;
+        $CompanyType->name = $request->name;
         
         $CompanyType->save();
 
@@ -83,7 +83,7 @@ class CompanyTypeController extends Controller
     public function update(CompanyTypeRequest $request, int $id): JsonResponse
     {
         $CompanyType = CompanyType::find($id);
-        $CompanyType->cot_name = $request->cot_name;
+        $CompanyType->name = $request->name;
         
         $CompanyType->save();
 

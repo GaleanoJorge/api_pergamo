@@ -15,8 +15,8 @@ class CreateProcedurePurposeTable extends Migration
     {
         Schema::create('procedure_purpose', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('prp_code');
-            $table->string('prp_name');
+            $table->string('code');
+            $table->string('name');
             $table->timestamps();
         });
     }

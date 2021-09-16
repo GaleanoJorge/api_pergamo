@@ -25,7 +25,7 @@ class CompanyKindpersonRequest extends FormRequest
     {
         return [
             //
-            'cok_name' => 'required',
+            'name' => 'required',
             
         ];
     }

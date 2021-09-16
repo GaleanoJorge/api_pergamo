@@ -24,7 +24,7 @@ class CiiuGroupController extends Controller
             CiiuGroup::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CiiuGroup  = CiiuGroup::where('cig_name', 'like', '%' . $request->search . '%');
+            $CiiuGroup  = CiiuGroup::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CiiuGroup = CiiuGroup::get()->toArray();
@@ -46,9 +46,9 @@ class CiiuGroupController extends Controller
     public function store(CiiuGroupRequest $request): JsonResponse
     {
         $CiiuGroup = new CiiuGroup;
-        $CiiuGroup->cig_code = $request->cig_code;
-        $CiiuGroup->cig_name = $request->cig_name; 
-        $CiiuGroup->cig_division = $request->cig_division; 
+        $CiiuGroup->code = $request->code;
+        $CiiuGroup->name = $request->name; 
+        $CiiuGroup->division_id  = $request->division_id; 
         $CiiuGroup->save();
 
         return response()->json([
@@ -85,9 +85,9 @@ class CiiuGroupController extends Controller
     public function update(CiiuGroupRequest $request, int $id): JsonResponse
     {
         $CiiuGroup = CiiuGroup::find($id);
-        $CiiuGroup->cig_code = $request->cig_code;
-        $CiiuGroup->cig_name = $request->cig_name;  
-        $CiiuGroup->cig_division = $request->cig_division; 
+        $CiiuGroup->code = $request->code;
+        $CiiuGroup->name = $request->name;  
+        $CiiuGroup->division_id = $request->division_id; 
         $CiiuGroup->save();
 
         return response()->json([

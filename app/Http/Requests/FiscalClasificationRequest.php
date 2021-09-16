@@ -24,7 +24,7 @@ class FiscalClasificationRequest extends FormRequest
     public function rules()
     {
         return [
-            'fst_name' => 'required',
+            'name' => 'required',
             
             
 

@@ -24,8 +24,8 @@ class DocumentRequest extends FormRequest
     public function rules()
     {
         return [
-            'doc_name' => 'required',
-            'doc_state' => 'required',          
+            'name' => 'required',
+            'status_id' => 'required',          
             
            
         ];

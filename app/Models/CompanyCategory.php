@@ -8,7 +8,7 @@ use App\Models\Base\CompanyCategory as BaseCompanyCategory;
 class CompanyCategory extends BaseCompanyCategory
 {
     protected $fillable = [
-		'coc_name',
+		'name',
 		
 	];
 }

@@ -15,8 +15,8 @@ class CreateFiscalCharacteristicTable extends Migration
     {
         Schema::create('fiscal_characteristic', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('fsc_code');
-            $table->string('fsc_name');
+            $table->string('code');
+            $table->string('name');
             $table->timestamps();
         });
     }

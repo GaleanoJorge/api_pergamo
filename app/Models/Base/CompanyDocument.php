@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class CompanyMail
+ * Class CompanyDocument
  * 
  * @property int $id
- * @property BigInteger $cdc_company
- * @property BigInteger $cdc_document
- * @property string $cdc_file
+ * @property BigInteger $company_id
+ * @property BigInteger $document_id
+ * @property string $file
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

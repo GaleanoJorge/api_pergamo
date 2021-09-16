@@ -15,8 +15,8 @@ class CreateCiiuDivisionTable extends Migration
     {
         Schema::create('ciiu_division', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cid_code');
-            $table->string('cid_name');
+            $table->string('code');
+            $table->string('name');
             $table->timestamps();
         });
     }

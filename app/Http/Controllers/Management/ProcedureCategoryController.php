@@ -23,7 +23,7 @@ class ProcedureCategoryController extends Controller
             $ProcedureCategory = ProcedureCategory::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $ProcedureCategory = ProcedureCategory::where('prc_name', 'like', '%' . $request->search . '%');
+            $ProcedureCategory = ProcedureCategory::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $ProcedureCategory = ProcedureCategory::get()->toArray();
@@ -46,7 +46,7 @@ class ProcedureCategoryController extends Controller
     public function store(ProcedureCategoryRequest $request): JsonResponse
     {
         $ProcedureCategory = new ProcedureCategory;
-        $ProcedureCategory->prc_name = $request->prc_name;
+        $ProcedureCategory->name = $request->name;
       
         $ProcedureCategory->save();
 
@@ -63,7 +63,7 @@ class ProcedureCategoryController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function show(int $prc_id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         $ProcedureCategory = ProcedureCategory::where('id', $id)
             ->get()->toArray();
@@ -85,7 +85,7 @@ class ProcedureCategoryController extends Controller
     public function update(ProcedureCategoryRequest $request, int $id): JsonResponse
     {
         $ProcedureCategory = ProcedureCategory::find($id);
-        $ProcedureCategory->prc_name = $request->prc_name;
+        $ProcedureCategory->name = $request->name;
     
         $ProcedureCategory->save();
 

@@ -24,9 +24,9 @@ class CompanyDocumentRequest extends FormRequest
     public function rules()
     {
         return [
-            'cdc_company' => 'required',
-            'cdc_document' => 'required',
-            'cdc_file' => 'required',
+            'company_id' => 'required',
+            'document_id' => 'required',
+            'file' => 'required',
             
            
         ];

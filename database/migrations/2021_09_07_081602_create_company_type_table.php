@@ -15,7 +15,7 @@ class CreateCompanyTypeTable extends Migration
     {
         Schema::create('company_type', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('cot_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

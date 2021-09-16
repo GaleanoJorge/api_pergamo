@@ -8,7 +8,7 @@ use App\Models\Base\CompanyType as BaseCompanyType;
 class CompanyType extends BaseCompanyType
 {
     protected $fillable = [
-		'cot_name',
+		'name',
 		
 	];
 }

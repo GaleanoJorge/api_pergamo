@@ -8,16 +8,16 @@ use App\Models\Base\Procedure as BaseProcedure;
 class Procedure extends BaseProcedure
 {
     protected $fillable = [
-		'prd_code',
-		'prd_equivalent',
-        'prd_name',
-		'prd_category',
-		'prd_nopos',
-        'prd_age',
-		'prd_gender',
-		'prd_state',
-        'prd_purpose',
-		'prd_time',
+		'code',
+		'equivalent',
+        'name',
+		'category_id',
+		'nopos',
+        'age_id',
+		'gender_id',
+		'status_id',
+        'purpose_id',
+		'time',
 		
 	];
 }

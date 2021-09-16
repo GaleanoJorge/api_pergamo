@@ -45,8 +45,8 @@ class DocumentController extends Controller
     public function store(DocumentRequest $request): JsonResponse
     {
         $Document = new Document;
-        $Document->doc_name = $request->doc_name;
-        $Document->doc_state = $request->doc_state;  
+        $Document->name = $request->name;
+        $Document->status_id = $request->statud_id;  
         $Document->save();
 
         return response()->json([
@@ -83,8 +83,8 @@ class DocumentController extends Controller
     public function update(DocumentRequest $request, int $id): JsonResponse
     {
         $Document = Document::find($id);
-        $Document->doc_name = $request->doc_name;
-        $Document->doc_state = $request->doc_state;
+        $Document->name = $request->name;
+        $Document->status_id = $request->status_id;
         $Document->save();
 
         return response()->json([

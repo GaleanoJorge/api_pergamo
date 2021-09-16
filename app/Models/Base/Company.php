@@ -14,29 +14,29 @@ use Illuminate\Database\Eloquent\Model;
  * Class Company
  * 
  * @property int $id
- * @property TinyInteger com_identype
- * @property string $com_code
- * @property string $com_name
- * @property BigInteger $com_category
- * @property BigInteger $com_type
- * @property BigInteger $com_administrator
- * @property BigInteger $com_country
- * @property BigInteger $com_city
- * @property string $com_address
- * @property string $com_phone
- * @property string $com_web
- * @property string $com_mail
- * @property string $com_representative
- * @property string $com_repre_phone
- * @property string $com_repre_mail
- * @property string $com_repre_identification
- * @property Integer $com_iva
- * @property Integer $com_retainer
- * @property BigInteger $com_kindperson
- * @property Integer $com_registration
- * @property Integer $com_opportunity
- * @property Integer $com_discount
- * @property Integer $com_term
+ * @property TinyInteger identype_id
+ * @property string $code
+ * @property string $name
+ * @property BigInteger $category_id
+ * @property BigInteger $type
+ * @property BigInteger $administrator
+ * @property BigInteger $country_id
+ * @property BigInteger $city_id
+ * @property string $address
+ * @property string $phone
+ * @property string $web
+ * @property string $mail
+ * @property string $representative
+ * @property string $repre_phone
+ * @property string $repre_mail
+ * @property string $repre_identification
+ * @property Integer $iva
+ * @property Integer $retainer
+ * @property BigInteger $kindperson_id
+ * @property Integer $registration
+ * @property Integer $opportunity
+ * @property Integer $discount
+ * @property Integer $term
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

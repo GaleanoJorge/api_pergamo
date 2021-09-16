@@ -15,31 +15,34 @@ class CreateProcedureTable extends Migration
     {
         Schema::create('procedure', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('prd_code');
-            $table->string('prd_equivalent');
-            $table->string('prd_name');
-            $table->unsignedBigInteger('prd_category');
-            $table->integer('prd_nopos');
-            $table->unsignedBigInteger('prd_age');
-            $table->unsignedTinyInteger('prd_gender');
-            $table->integer('prd_state');
-            $table->unsignedBigInteger('prd_purpose');
-            $table->time('prd_time');
+            $table->string('code');
+            $table->string('equivalent');
+            $table->string('name');
+            $table->unsignedBigInteger('category_id');
+            $table->integer('nopos');
+            $table->unsignedBigInteger('age_id');
+            $table->unsignedTinyInteger('gender_id');
+            $table->integer('status_id');
+            $table->unsignedBigInteger('purpose_id');
+            $table->time('time');
             $table->timestamps();
             
-            $table->index('prd_category');
-            $table->index('prd_age');
-            $table->index('prd_gender');
-            $table->index('prd_purpose');
+            $table->index('category_id');
+            $table->index('age_id');
+            $table->index('gender_id');
+            $table->index('purpose_id');
+            $table->index('status_id');
 
-            $table->foreign('prd_category')->references('id')
+            $table->foreign('category_id')->references('id')
                 ->on('procedure_category');
-            $table->foreign('prd_age')->references('id')
+            $table->foreign('age_id')->references('id')
                 ->on('procedure_age'); 
-                $table->foreign('prd_gender')->references('id')
+            $table->foreign('gender_id')->references('id')
                 ->on('gender');
-                $table->foreign('prd_purpose')->references('id')
+            $table->foreign('purpose_id')->references('id')
                 ->on('procedure_purpose');  
+                $table->foreign('status_id')->references('id')
+                ->on('status');
         });
     }
 

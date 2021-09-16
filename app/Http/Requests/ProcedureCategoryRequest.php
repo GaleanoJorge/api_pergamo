@@ -25,7 +25,7 @@ class ProcedureCategoryRequest extends FormRequest
     {
         return [
             //
-            'prc_name' => 'required',
+            'name' => 'required',
             
         ];
     }

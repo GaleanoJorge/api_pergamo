@@ -24,8 +24,8 @@ class DocumentAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'dac_name' => 'required',
-            'dac_state' => 'required',
+            'name' => 'required',
+            'status_id' => 'required',
             
             
            

@@ -23,7 +23,7 @@ class CompanyKindpersonController extends Controller
             $CompanyKindperson = CompanyKindperson::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyKindperson  = CompanyKindperson::where('cok_name', 'like', '%' . $request->search . '%');
+            $CompanyKindperson  = CompanyKindperson::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyKindperson = CompanyKindperson::get()->toArray();
@@ -45,7 +45,7 @@ class CompanyKindpersonController extends Controller
     public function store(CompanyKindpersonRequest $request): JsonResponse
     {
         $CompanyKindperson = new CompanyKindperson;
-        $CompanyKindperson->cok_name = $request->cok_name;
+        $CompanyKindperson->name = $request->name;
         
         $CompanyKindperson->save();
 
@@ -83,7 +83,7 @@ class CompanyKindpersonController extends Controller
     public function update(CompanyKindpersonRequest $request, int $id): JsonResponse
     {
         $CompanyKindperson = CompanyKindperson::find($id);
-        $CompanyKindperson->cok_name = $request->cok_name;
+        $CompanyKindperson->name = $request->name;
         
         $CompanyKindperson->save();
 

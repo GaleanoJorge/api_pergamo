@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ProcedureCategory
  * 
  * @property int $id
- * @property string $prc_name 
+ * @property string $name 
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

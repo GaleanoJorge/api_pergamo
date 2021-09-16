@@ -15,7 +15,7 @@ class CreateFiscalClasificationTable extends Migration
     {
         Schema::create('fiscal_clasification', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('fst_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

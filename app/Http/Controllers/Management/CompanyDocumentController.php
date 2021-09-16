@@ -23,7 +23,7 @@ class CompanyDocumentController extends Controller
             $CompanyDocument = CompanyDocument::orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $CompanyDocument  = CompanyDocument::where('cdc_name', 'like', '%' . $request->search . '%');
+            $CompanyDocument  = CompanyDocument::where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $CompanyDocument = CompanyDocument::get()->toArray();
@@ -45,9 +45,9 @@ class CompanyDocumentController extends Controller
     public function store(CompanyDocumentRequest $request): JsonResponse
     {
         $CompanyDocument = new CompanyDocument;
-        $CompanyDocument->cdc_company = $request->cdc_company;
-        $CompanyDocument->cdc_document = $request->cdc_document;
-        $CompanyDocument->cdc_file = $request->cdc_file;
+        $CompanyDocument->company_id = $request->company_id;
+        $CompanyDocument->document_id = $request->document_id;
+        $CompanyDocument->file = $request->file;
         
         $CompanyDocument->save();
 
@@ -85,9 +85,9 @@ class CompanyDocumentController extends Controller
     public function update(CompanyDocumentRequest $request, int $id): JsonResponse
     {
         $CompanyDocument = CompanyDocument::find($id);
-        $CompanyDocument->cdc_company = $request->cdc_company;
-        $CompanyDocument->cdc_document = $request->cdc_document;
-        $CompanyDocument->cdc_file = $request->cdc_file;
+        $CompanyDocument->company_id = $request->company_id;
+        $CompanyDocument->document_id = $request->document_id;
+        $CompanyDocument->file = $request->file;
         $CompanyDocument->save();
 
         return response()->json([

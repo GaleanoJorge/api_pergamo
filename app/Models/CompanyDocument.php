@@ -8,9 +8,9 @@ use App\Models\Base\CompanyDocument as BaseCompanyDocument;
 class CompanyDocument extends BaseCompanyDocument
 {
     protected $fillable = [
-		'cdc_company',
-    'cdc_document',
-    'cdc_file' ,
+		'company_id',
+    'document_id',
+    'file' ,
 	
 	];
 }

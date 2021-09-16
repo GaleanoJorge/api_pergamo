@@ -15,7 +15,7 @@ class CreateProcedureCategoryTable extends Migration
     {
         Schema::create('procedure_category', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('prc_name');
+            $table->string('name');
             $table->timestamps();
         });
     }

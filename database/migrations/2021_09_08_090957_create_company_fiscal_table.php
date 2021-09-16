@@ -15,18 +15,19 @@ class CreateCompanyFiscalTable extends Migration
     {
         Schema::create('company_fiscal', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cof_company');
-            $table->unsignedBigInteger('cof_characteristic');
-            $table->unsignedBigInteger('cof_clasification');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('characteristic_id');
+            $table->unsignedBigInteger('clasification_id');
             $table->timestamps();
-            $table->index('cof_company');
-            $table->foreign('cof_company')->references('id')
+
+            $table->index('companycompany_id');
+            $table->foreign('company_id')->references('id')
             ->on('company');
-            $table->index('cof_characteristic');
-            $table->foreign('cof_characteristic')->references('id')
+            $table->index('characteristic_id');
+            $table->foreign('characteristic_id')->references('id')
             ->on('fiscal_characteristic');
-            $table->index('cof_clasification');
-            $table->foreign('cof_clasification')->references('id')
+            $table->index('clasification_id');
+            $table->foreign('clasification_id')->references('id')
             ->on('fiscal_clasification');
         });
     }

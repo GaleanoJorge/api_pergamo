@@ -14,10 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  * Class CompanyMail
  * 
  * @property int $id
- * @property BigInteger $cma_company
- * @property string $cma_mail
- * @property SmallInteger $cma_city
- * @property BigInteger $cma_document
+ * @property BigInteger $company_id
+ * @property string $mail
+ * @property SmallInteger $city_id
+ * @property BigInteger $document_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

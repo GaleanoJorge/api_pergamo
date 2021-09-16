@@ -45,10 +45,10 @@ class CompanyMailController extends Controller
     public function store(CompanyMailRequest $request): JsonResponse
     {
         $CompanyMail =new CompanyMail;
-        $CompanyMail->cma_company = $request->cma_company;
-        $CompanyMail->cma_mail = $request->cma_mail;
-        $CompanyMail->cma_city = $request->cma_city;
-        $CompanyMail->cma_document = $request->cma_document;
+        $CompanyMail->company_id= $request->company_id;
+        $CompanyMail->mail = $request->mail;
+        $CompanyMail->city_id = $request->_city_id;
+        $CompanyMail->document_id = $requet->document_id;
         $CompanyMail->save();
 
         return response()->json([
@@ -85,10 +85,10 @@ class CompanyMailController extends Controller
     public function update(CompanyMailRequest $request, int $id): JsonResponse
     {
         $CompanyMail = CompanyMail::find($id);
-        $CompanyMail->cma_company = $request->cma_company;
-        $CompanyMail->cma_mail = $request->cma_mail;
-        $CompanyMail->cma_city = $request->cma_city;
-        $CompanyMail->cma_document = $request->cma_document;
+        $CompanyMail->company_id = $request->company_id;
+        $CompanyMail->mail = $request->mail;
+        $CompanyMail->city_id= $request->city_id;
+        $CompanyMail->document_id = $request->document_id;
         $CompanyMail->save();
 
         return response()->json([

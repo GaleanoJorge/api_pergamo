@@ -15,18 +15,18 @@ class CreateCompanyCiiuTable extends Migration
     {
         Schema::create('company_ciiu', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('cii_company');
-            $table->unsignedBigInteger('cii_class');
-            $table->unsignedBigInteger('cii_clasification');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('clasification_id');
             $table->timestamps();
-            $table->index('cii_company');
-            $table->foreign('cii_company')->references('id')
+            $table->index('company_id');
+            $table->foreign('company_id')->references('id')
             ->on('company');
-            $table->index('cii_class');
-            $table->foreign('cii_class')->references('id')
+            $table->index('class_id');
+            $table->foreign('class_id')->references('id')
             ->on('ciiu_class');
-            $table->index('cii_clasification');
-            $table->foreign('cii_clasification')->references('id')
+            $table->index('clasification_id');
+            $table->foreign('clasification_id')->references('id')
             ->on('fiscal_clasification');
         });
     }

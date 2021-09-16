@@ -8,7 +8,7 @@ use App\Models\Base\Taxes as BaseTaxes;
 class Taxes extends BaseTaxes
 {
     protected $fillable = [
-		'tax_code',
-    'tax_name',
+		'code',
+    'name',
 	];
 }
