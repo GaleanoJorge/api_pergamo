@@ -24,9 +24,9 @@ class CiiuGroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'cig_code' => 'required',
-            'cig_name' => 'required',
-            'cig_division' => 'required'
+            'code' => 'required',
+            'name' => 'required',
+            'division_id' => 'required'
         ];
     }
 }

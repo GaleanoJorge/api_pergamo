@@ -10,7 +10,7 @@ class CreateCiiuGroupTable extends Migration
      * Run the migrations.
      *
      * @return void
-     */
+     */                                                                                                                             
     public function up()
     {
         Schema::create('ciiu_group', function (Blueprint $table) {

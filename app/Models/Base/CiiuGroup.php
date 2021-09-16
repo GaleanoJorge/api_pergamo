@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class CiiuGroup
  * 
  * @property int $id
- * @property string $cig_code
- * @property string $cig_name
- * @property string $cig_division
+ * @property string $code
+ * @property string $name
+ * @property string $division_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

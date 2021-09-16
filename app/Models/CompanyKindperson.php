@@ -8,7 +8,7 @@ use App\Models\Base\CompanyKindperson as BaseCompanyKindperson;
 class CompanyKindperson extends BaseCompanyKindperson
 {
     protected $fillable = [
-		'cok_name',
+		'name',
 		
 	];
 }
