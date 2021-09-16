@@ -22,7 +22,7 @@ class CreateProcedureTable extends Migration
             $table->integer('nopos');
             $table->unsignedBigInteger('age_id');
             $table->unsignedTinyInteger('gender_id');
-            $table->integer('status_id');
+            $table->unsignedTinyInteger('status_id');
             $table->unsignedBigInteger('purpose_id');
             $table->time('time');
             $table->timestamps();
@@ -41,7 +41,7 @@ class CreateProcedureTable extends Migration
                 ->on('gender');
             $table->foreign('purpose_id')->references('id')
                 ->on('procedure_purpose');  
-                $table->foreign('status_id')->references('id')
+            $table->foreign('status_id')->references('id')
                 ->on('status');
         });
     }

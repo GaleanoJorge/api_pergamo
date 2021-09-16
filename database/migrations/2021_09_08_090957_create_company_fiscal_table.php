@@ -20,7 +20,7 @@ class CreateCompanyFiscalTable extends Migration
             $table->unsignedBigInteger('clasification_id');
             $table->timestamps();
 
-            $table->index('companycompany_id');
+            $table->index('company_id');
             $table->foreign('company_id')->references('id')
             ->on('company');
             $table->index('characteristic_id');
