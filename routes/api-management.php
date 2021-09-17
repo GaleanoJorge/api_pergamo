@@ -247,6 +247,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Objetivo de Procedimiento
     Route::apiResource('procedure_purpose', 'Management\ProcedurePurposeController');
 
+    //Clasificación de RIPS
+    Route::apiResource('purpose_service','Management\PurposeServiceController');
+
+    //Tipo de procedimiento
+    Route::apiResource('procedure_type', 'Management\ProcedureTypeController');
+
+    //Tipo de PBS plan básico de salud
+    Route::apiResource('pbs_type', 'Management\PbsTypeController');
+
+    //Tipo de registros individuales de prestación de servicios de salud
+    Route::apiResource('rips_type', 'Management\RipsTypeController');
+
+    //Contiene las abreviaturas de los archivos para los rips
+    Route::apiResource('rips_typefile', 'Management\RipsTypefileController');
+
     //Procedimiento
     Route::apiResource('procedure', 'Management\ProcedureController');
 

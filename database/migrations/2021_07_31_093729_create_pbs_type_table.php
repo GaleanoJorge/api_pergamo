@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProcedureCategoryTable extends Migration
+class CreatePbsTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateProcedureCategoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('procedure_category', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('pbs_type', function (Blueprint $table) {
+            $table->BigIncrements('id');
             $table->string('name');
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ class CreateProcedureCategoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('procedure_category');
+        Schema::dropIfExists('pbs_type');
     }
 }
