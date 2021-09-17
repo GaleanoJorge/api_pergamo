@@ -12,6 +12,7 @@ use App\Models\District;
 use App\Models\Entity;
 use App\Models\Office;
 use App\Models\Position;
+use App\Models\Document;
 use App\Models\Question;
 use App\Models\Role;
 use App\Models\SectionalCouncil;
@@ -41,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Collection|Entity[] $entities
  * @property Collection|Office[] $offices
  * @property Collection|Position[] $positions
+ * @property Collection|Document[] $documents
  * @property Collection|Question[] $questions
  * @property Collection|Role[] $roles
  * @property Collection|SectionalCouncil[] $sectional_councils
@@ -87,6 +89,11 @@ class Status extends Model
 	public function positions()
 	{
 		return $this->hasMany(Position::class);
+	}
+
+	public function documents()
+	{
+		return $this->hasMany(Document::class);
 	}
 
 	public function questions()

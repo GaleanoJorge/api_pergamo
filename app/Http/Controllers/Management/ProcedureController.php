@@ -18,27 +18,30 @@ class ProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $Procedures = Procedure::select();
 
-        if ($request->_sort) {
-            $Procedure = Procedure::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $Procedures->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $Procedure = Procedure::where('pra_name', 'like', '%' . $request->search . '%');
+            $Procedures->where('name','like','%' . $request->search. '%')
+            >orWhere('code', 'like', '%' . $request->search . '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $Procedure = Procedure::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $Procedure = Procedure::paginate($per_page, '*', 'page', $page);
-        }
-
+        
+        if($request->query("pagination", true)=="false"){
+            $Procedures=$Procedures->get()->toArray();    
+        }else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $Procedures=$Procedures->paginate($per_page,'*','page',$page); 
+        }     
 
         return response()->json([
             'status' => true,
-            'message' => 'Procedimiento obtenidas exitosamente',
-            'data' => ['procedure' => $Procedure]
+            'message' => 'Cargos obtenidos exitosamente',
+            'data' => ['procedure_purpose' => $ProcedurePurposes]
         ]);
     }
     

@@ -18,27 +18,29 @@ class ProcedurePurposeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $ProcedurePurposes = ProcedurePurpose::select();
 
-        if ($request->_sort) {
-            $ProcedurePurpose = ProcedurePurpose::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $ProcedurePurposes->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $ProcedurePurpose = ProcedurePurpose::where('name', 'like', '%' . $request->search . '%');
+            $ProcedurePurposes->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $ProcedurePurpose = ProcedurePurpose::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $ProcedurePurpose = ProcedurePurpose::paginate($per_page, '*', 'page', $page);
-        }
-
+        
+        if($request->query("pagination", true)=="false"){
+            $ProcedurePurposes=$ProcedurePurposes->get()->toArray();    
+        }else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ProcedurePurposes=$ProcedurePurposes->paginate($per_page,'*','page',$page); 
+        }     
 
         return response()->json([
             'status' => true,
-            'message' => 'Objeto del procedimiento obtenidas exitosamente',
-            'data' => ['procedure_purpose' => $ProcedurePurpose]
+            'message' => 'Cargos obtenidos exitosamente',
+            'data' => ['procedure_purpose' => $ProcedurePurposes]
         ]);
     }
     

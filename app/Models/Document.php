@@ -9,8 +9,6 @@ class Document extends BaseDocument
 {
     protected $fillable = [
 		'name',
-    'state',
-         
-	
-	];
+    'status_id',
+         	];
 }
