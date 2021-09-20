@@ -318,7 +318,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
      //Empresas dentro de las que se indetifican las prestadoras de salud
      Route::apiResource('company', 'Management\CompanyController');
-    
+
+     //Nombre del tipo de iva
+     Route::apiResource('iva', 'Management\IvaController');
+
+     //Numero de días para el termino de pago
+     Route::apiResource('payment_terms', 'Management\PaymentTermsController');
+
+     //Tabla parametro para seleccionar identificar si las empresas son autorretendoras
+     Route::apiResource('retiner', 'Management\RetinerController');
+
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 
