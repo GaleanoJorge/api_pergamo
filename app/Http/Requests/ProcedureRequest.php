@@ -28,12 +28,13 @@ class ProcedureRequest extends FormRequest
             'code' => 'required',
             'equivalent' => 'required',
             'name' => 'required',
-            'category_id' => 'required',
-            'nopos' => 'required',
-            'age_id' => 'required',
+            'procedure_category_id' => 'required',
+            'pbs_type_id' => 'required',
+            'procedure_age_id' => 'required',
             'gender_id' => 'required',
             'status_id' => 'required',
-            'purpose_id' => 'required',
+            'procedure_purpose_id' => 'required',
+            'purpose_service_id' => 'required',
             'time' => 'required',
           
 

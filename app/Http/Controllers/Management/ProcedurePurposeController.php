@@ -39,7 +39,7 @@ class ProcedurePurposeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Cargos obtenidos exitosamente',
+            'message' => 'Propositos de procedimientos obtenidos exitosamente',
             'data' => ['procedure_purpose' => $ProcedurePurposes]
         ]);
     }

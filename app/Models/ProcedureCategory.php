@@ -9,6 +9,7 @@ class ProcedureCategory extends BaseProcedureCategory
 {
     protected $fillable = [
 		'name',
+		'rips_type_id',
 		
 	];
 }

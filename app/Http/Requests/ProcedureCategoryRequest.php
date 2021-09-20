@@ -26,6 +26,7 @@ class ProcedureCategoryRequest extends FormRequest
         return [
             //
             'name' => 'required',
+            'rips_type_id'=> 'required',
             
         ];
     }

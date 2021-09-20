@@ -39,7 +39,7 @@ class ProcedureCategoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Cargos obtenidos exitosamente',
+            'message' => 'Categorias de procedimientos obtenidos exitosamente',
             'data' => ['procedure_category' => $ProcedureCategories]
         ]);
     }
@@ -49,7 +49,7 @@ class ProcedureCategoryController extends Controller
     {
         $ProcedureCategory = new ProcedureCategory;
         $ProcedureCategory->name = $request->name;
-      
+        $ProcedureCategory->rips_type_id = $request->rips_type_id;      
         $ProcedureCategory->save();
 
         return response()->json([
@@ -88,7 +88,7 @@ class ProcedureCategoryController extends Controller
     {
         $ProcedureCategory = ProcedureCategory::find($id);
         $ProcedureCategory->name = $request->name;
-    
+        $ProcedureCategory->rips_type_id = $request->rips_type_id;
         $ProcedureCategory->save();
 
         return response()->json([

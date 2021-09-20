@@ -18,27 +18,31 @@ class RipsTypefileController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $RipsTypefiles = RipsTypefile::select();
 
-        if ($request->_sort) {
-            $RipsTypefile = RipsTypefile::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $RipsTypefiles->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $RipsTypefile = RipsTypefile::where('name', 'like', '%' . $request->search . '%');
+            $RipsTypefiles->where('name','like','%' . $request->search. '%')
+            >orWhere('code', 'like', '%' . $request->search . '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $RipsTypefile = RipsTypefile::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $RipsTypefile = RipsTypefile::paginate($per_page, '*', 'page', $page);
-        }
+        
+        if($request->query("pagination", true)=="false"){
+            $RipsTypefiles=$RipsTypefiles->get()->toArray();    
+        }else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $RipsTypefiles=$RipsTypefiles->paginate($per_page,'*','page',$page); 
+        }     
 
 
         return response()->json([
             'status' => true,
             'message' => 'Contiene las abreviaturas de los archivos para los rips obtenidas exitosamente',
-            'data' => ['rips_typefile' => $RipsTypefile]
+            'data' => ['rips_typefile' => $RipsTypefiles]
         ]);
     }
     

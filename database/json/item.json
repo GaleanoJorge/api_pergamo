@@ -160,7 +160,7 @@
         "name": "Edad del procedimiento",
         "code": "procedure-age",
         "route": "/pages/setting/procedure-age",
-        "icon": "clock-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -169,7 +169,7 @@
         "name": "Categoria del procedimiento",
         "code": "procedure-category",
         "route": "/pages/setting/procedure-category",
-        "icon": "book-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -178,7 +178,7 @@
         "name": "Proposito del procedimiento",
         "code": "procedure-purpose",
         "route": "/pages/setting/procedure-purpose",
-        "icon": "book-open-outline",
+        "icon": "",
         "show_menu": "1"
 
         
@@ -189,7 +189,7 @@
         "name": "Procedimiento",
         "code": "procedure",
         "route": "/pages/setting/procedure",
-        "icon": "cast-outline",
+        "icon": "",
         "show_menu": "1"
     
      },
@@ -253,6 +253,51 @@
         "name": "Documentos",
         "code": "document",
         "route": "/pages/setting/document",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "70",
+        "item_parent_id": "68",
+        "name": "Tipo de rips",
+        "code": "rips-type",
+        "route": "/pages/setting/rips-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "71",
+        "item_parent_id": "68",
+        "name": "Tipo de documento rips",
+        "code": "rips-typefile",
+        "route": "/pages/setting/rips-typefile",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "72",
+        "item_parent_id": "68",
+        "name": "Tipo de Pbs",
+        "code": "pbs-type",
+        "route": "/pages/setting/pbs-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "73",
+        "item_parent_id": "68",
+        "name": "Proposito del servicio",
+        "code": "purpose-service",
+        "route": "/pages/setting/purpose-service",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "74",
+        "item_parent_id": "68",
+        "name": "Tipo de procedimiento",
+        "code": "procedure-type",
+        "route": "/pages/setting/procedure-type",
         "icon": "",
         "show_menu": "1"
     }
