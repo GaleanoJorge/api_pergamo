@@ -106,7 +106,7 @@ class CiiuGroupController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $CiiuGroup = Document::find($id);
+            $CiiuGroup = CiiuGroup::find($id);
             $CiiuGroup->delete();
 
             return response()->json([
