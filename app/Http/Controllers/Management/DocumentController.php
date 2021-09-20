@@ -18,26 +18,33 @@ class DocumentController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $documents = Document::with('status');
 
-        if ($request->_sort) {
-            $Document = Document::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $documents->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $Document  = Document::where('name', 'like', '%' . $request->search . '%');
-        }
-        if ($request->query("pagination", true) === "false") {
-            $Document = Document::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $Document = Document::paginate($per_page, '*', 'page', $page);
+            $documents->where('name','like','%' . $request->search. '%');
         }
 
+        if ($request->status_id) {
+            $documents->where('status_id', $request->status_id);
+        }
+        
+        if($request->query("pagination", true)=="false"){
+            $documents=$documents->get()->toArray();    
+        }else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $documents=$documents->paginate($per_page,'*','page',$page); 
+        }     
 
         return response()->json([
             'status' => true,
-            'message' => 'Lista de documentos de la empresas asociados exitosamente',
-            'data' => ['document' => $Document]
+            'message' => 'Cargos obtenidos exitosamente',
+            'data' => ['document' => $documents]
         ]);
     }
     
@@ -46,7 +53,7 @@ class DocumentController extends Controller
     {
         $Document = new Document;
         $Document->name = $request->name;
-        $Document->status_id = $request->statud_id;  
+        $Document->status_id = $request->status_id;  
         $Document->save();
 
         return response()->json([
@@ -64,7 +71,7 @@ class DocumentController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $Document = Document::where('id', $id)
+        $Document = Document::where('id', $id)->with('status')
             ->get()->toArray();
 
         return response()->json([

@@ -18,27 +18,33 @@ class ProcedureAgeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $ProcedureAges = ProcedureAge::select();
 
-        if ($request->_sort) {
-            $ProcedureAge = ProcedureAge::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $ProcedureAges->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $ProcedureAge = ProcedureAge::where('name', 'like', '%' . $request->search . '%');
-        }
-        if ($request->query("pagination", true) === "false") {
-            $ProcedureAge = ProcedureAge::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $ProcedureAge = ProcedureAge::paginate($per_page, '*', 'page', $page);
+            $ProcedureAges->where('name','like','%' . $request->search. '%');
         }
 
+        if ($request->status_id) {
+            $ProcedureAges->where('status_id', $request->status_id);
+        }
+        
+        if($request->query("pagination", true)=="false"){
+            $ProcedureAges=$ProcedureAges->get()->toArray();    
+        }else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ProcedureAges=$ProcedureAges->paginate($per_page,'*','page',$page); 
+        }     
 
         return response()->json([
             'status' => true,
-            'message' => 'Edad del procedimiento obtenidas exitosamente',
-            'data' => ['procedure_age' => $ProcedureAge]
+            'message' => 'Cargos obtenidos exitosamente',
+            'data' => ['procedure_age' => $ProcedureAges]
         ]);
     }
     
