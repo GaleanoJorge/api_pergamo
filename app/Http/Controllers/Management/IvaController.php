@@ -18,21 +18,25 @@ class IvaController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $Iva = Iva::select();
 
-        if ($request->_sort) {
-            $Iva = $Iva = Iva::orderBy($request->_sort, $request->_order);
-            Iva::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $Iva->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $Iva  = Iva::where('name', 'like', '%' . $request->search . '%');
+            $Iva->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $Iva = Iva::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $Iva = Iva::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $Iva=$Iva->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $Iva=$Iva->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([

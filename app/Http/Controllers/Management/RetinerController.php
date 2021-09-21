@@ -18,22 +18,25 @@ class RetinerController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $Retiner = Retiner::select();
 
-        if ($request->_sort) {
-            $Retiner = $Retiner = Retiner::orderBy($request->_sort, $request->_order);
-            Retiner::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $Retiner->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $Retiner  = Retiner::where('name', 'like', '%' . $request->search . '%');
+            $Retiner->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $Retiner = Retiner::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $Retiner = Retiner::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $Retiner=$Retiner->get()->toArray();    
         }
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $Retiner=$Retiner->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,

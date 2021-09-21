@@ -18,31 +18,29 @@ class CompanyMailController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CompanyMail = CiCompanyMailiuClass::select();
 
-        if ($request->_sort) {
-            $CompanyMail = CompanyMail::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CompanyMail->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CompanyMail  = CompanyMail::where('name', 'like', '%' . $request->search . '%');
+            $CompanyMail->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CompanyMail = CompanyMail::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CompanyMail = CompanyMail::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CompanyMail=$CompanyMail->get()->toArray();    
         }
-
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Correo Electronico de la empresa obtenidas exitosamente',
-            'data' => ['company_mail' => $CompanyMail]
-        ]);
-    }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CompanyMail=$CompanyMail->paginate($per_page,'*','page',$page); 
+        } 
+    }    
     
 
-    public function store(CompanyMailRequest $request): JsonResponse
+        public function store(CompanyMailRequest $request): JsonResponse
     {
         $CompanyMail =new CompanyMail;
         $CompanyMail->company_id= $request->company_id;

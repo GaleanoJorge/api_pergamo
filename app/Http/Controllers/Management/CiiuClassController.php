@@ -17,22 +17,27 @@ class CiiuClassController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
-    {
 
-        if ($request->_sort) {
-            $CiiuClass = $CiiuClass = CiiuClass::orderBy($request->_sort, $request->_order);
-            CiiuClass::orderBy($request->_sort, $request->_order);
-        }
+    {
+        $CiiuClass = CiiuClass::select();
+
+        if($request->_sort){
+            $CiiuClass->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CiiuClass  = CiiuClass::where('name', 'like', '%' . $request->search . '%');
+            $CiiuClass->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CiiuClass = CiiuClass::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CiiuClass = CiiuClass::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CiiuClass=$CiiuClass->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CiiuClass=$CiiuClass->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([

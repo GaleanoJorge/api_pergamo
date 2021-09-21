@@ -18,20 +18,25 @@ class CompanyTaxesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CompanyTaxes = CompanyTaxes::select();
 
-        if ($request->_sort) {
-            $CompanyTaxes = CompanyTaxes::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CompanyTaxes->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CompanyTaxes  = CompanyTaxes::where('name', 'like', '%' . $request->search . '%');
+            $CompanyTaxes->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CompanyTaxes = CompanyTaxes::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CompanyTaxes = CompanyTaxes::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CompanyTaxes=$CompanyTaxes->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CompanyTaxes=$CompanyTaxes->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([

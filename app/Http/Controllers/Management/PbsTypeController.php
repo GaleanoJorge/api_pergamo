@@ -18,22 +18,25 @@ class PbsTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $PbsType = PbsType::select();
 
-        if ($request->_sort) {
-            $PbsType = PbsType::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $PbsType->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $PbsType = PbsType::where('name', 'like', '%' . $request->search . '%');
+            $PbsType->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $PbsType = PbsType::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $PbsType = PbsType::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $PbsType=$PbsType->get()->toArray();    
         }
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $PbsType=$PbsType->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,

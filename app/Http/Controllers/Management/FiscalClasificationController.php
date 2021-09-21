@@ -18,22 +18,25 @@ class FiscalClasificationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $FiscalClasification = FiscalClasification::select();
 
-        if ($request->_sort) {
-            $FiscalClasification = FiscalClasification::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $FiscalClasification->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $FiscalClasification  = FiscalClasification::where('name', 'like', '%' . $request->search . '%');
+            $FiscalClasification->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $FiscalCaracteristic = FiscalCaracteristic::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $FiscalClasification = FiscalClasification::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $FiscalClasification=$FiscalClasification->get()->toArray();    
         }
-
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $FiscalClasification=$FiscalClasification->paginate($per_page,'*','page',$page); 
+        } 
         return response()->json([
             'status' => true,
             'message' => 'Priorizacion de los atributos fiscales de la empresa obtenida exitosamente',

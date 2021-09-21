@@ -18,21 +18,25 @@ class CiiuGroupController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CiiuGroup = CiiuGroup::select();
 
-        if ($request->_sort) {
-            $CiiuGroup = $CiiuGroup = CiiuGroup::orderBy($request->_sort, $request->_order);
-            CiiuGroup::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CiiuGroup->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CiiuGroup  = CiiuGroup::where('name', 'like', '%' . $request->search . '%');
+            $CiiuGroup->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CiiuGroup = CiiuGroup::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CiiuGroup = CiiuGroup::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CiiuGroup=$CiiuGroup->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CiiuGroup=$CiiuGroup->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([

@@ -18,22 +18,25 @@ class PaymentTermsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $PaymentTerms = PaymentTerms::select();
 
-        if ($request->_sort) {
-            $PaymentTerms = $PaymentTerms = PaymentTerms::orderBy($request->_sort, $request->_order);
-            PaymentTerms::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $PaymentTerms->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $PaymentTerms  = PaymentTerms::where('name', 'like', '%' . $request->search . '%');
+            $PaymentTerms->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $PaymentTerms = PaymentTerms::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $PaymentTerms = PaymentTerms::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $PaymentTerms=$PaymentTerms->get()->toArray();    
         }
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $PaymentTerms=$PaymentTerms->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,

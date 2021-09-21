@@ -18,20 +18,25 @@ class CompanyController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $Company = Company::select();
 
-        if ($request->_sort) {
-            $Company = Company::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $Company->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $Company  = Company::where('cma_name', 'like', '%' . $request->search . '%');
+            $Company->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $Company = Company::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $Company = Company::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $Company=$Company->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $Company=$Company->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([

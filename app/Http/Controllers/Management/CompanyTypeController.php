@@ -18,29 +18,26 @@ class CompanyTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CompanyType = CompanyType::select();
 
-        if ($request->_sort) {
-            $CompanyType = CompanyType::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CompanyType->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CompanyType  = CompanyType::where('name', 'like', '%' . $request->search . '%');
+            $CompanyType->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CompanyType = CompanyType::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CompanyType = CompanyType::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CompanyType=$CompanyType->get()->toArray();    
         }
-
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Tipo de compañias de entidades de salud obtenidas exitosamente',
-            'data' => ['company_type' => $CompanyType]
-        ]);
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CompanyType=$CompanyType->paginate($per_page,'*','page',$page); 
+        } 
     }
-    
 
     public function store(CompanyTypeRequest $request): JsonResponse
     {

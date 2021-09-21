@@ -18,20 +18,24 @@ class CiiuDivisionController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CiiuDivision = CiiuDivision::select();
 
-        if ($request->_sort) {
-            $CiiuDivision = $CiiuDivision = CiiuDivision::orderBy($request->_sort, $request->_order);
-            CiiuDivision::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CiiuDivision->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CiiuDivision  = CiiuDivision::where('name', 'like', '%' . $request->search . '%');
+            $CiiuDivision->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CiiuDivision = CiiuDivision::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CiiuDivision = CiiuDivision::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CiiuDivision=$CiiuDivision->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CiiuDivision=$CiiuDivision->paginate($per_page,'*','page',$page); 
         }
 
 

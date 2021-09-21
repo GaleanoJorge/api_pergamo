@@ -18,21 +18,25 @@ class CompanyCiiuController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CompanyCiiu = CompanyCiiu::select();
 
-        if ($request->_sort) {
-            $CompanyCiiu = CompanyCiiu::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CompanyCiiu->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CompanyCiiu  = CompanyCiiu::where('name', 'like', '%' . $request->search . '%');
+            $CompanyCiiu->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CompanyCiiu = CompanyCiiu::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CompanyCiiu = CompanyCiiu::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $CompanyCiiu=$CompanyCiiu->get()->toArray();    
         }
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CompanyCiiu=$CompanyCiiu->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,

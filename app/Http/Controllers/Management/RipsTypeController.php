@@ -18,22 +18,25 @@ class RipsTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $RipsType = RipsType::select();
 
-        if ($request->_sort) {
-            $RipsType = RipsType::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $RipsType->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $RipsType = RipsType::where('name', 'like', '%' . $request->search . '%');
+            $RipsType->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $RipsType = RipsType::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $RipsType = RipsType::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $RipsType=$RipsType->get()->toArray();    
         }
-
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $RipsType=$RipsType->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,

@@ -18,21 +18,26 @@ class CompanyCategoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $CompanyCategory = CompanyCategory::select();
 
-        if ($request->_sort) {
-            $CompanyCategory = CompanyCategory::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $CompanyCategory->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $CompanyCategory  = CompanyCategory::where('name', 'like', '%' . $request->search . '%');
+            $CompanyCategory->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $CompanyCategory = CompanyCategory::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-            $CompanyCategory = CompanyCategory::paginate($per_page, '*', 'page', $page);
-        }
+        
+        if($request->query("pagination", true)=="false"){
+            $CompanyCategory=$CompanyCategory->get()->toArray();    
 
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $CompanyCategory=$CompanyCategory->paginate($per_page,'*','page',$page); 
+        } 
 
         return response()->json([
             'status' => true,
