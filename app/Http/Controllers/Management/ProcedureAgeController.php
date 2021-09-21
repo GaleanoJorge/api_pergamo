@@ -43,7 +43,7 @@ class ProcedureAgeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Cargos obtenidos exitosamente',
+            'message' => 'Edad del procedimiento obtenidos exitosamente',
             'data' => ['procedure_age' => $ProcedureAges]
         ]);
     }

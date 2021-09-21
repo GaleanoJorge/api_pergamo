@@ -18,31 +18,31 @@ class RipsTypefileController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $RipsTypefile = RipsTypefile::select();
+        $RipsTypefiles = RipsTypefile::select();
 
         if($request->_sort){
-            $RipsTypefile->orderBy($request->_sort, $request->_order);
+            $RipsTypefiles->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $RipsTypefile->where('name','like','%' . $request->search. '%');
+            $RipsTypefiles->where('name','like','%' . $request->search. '%')
+            >orWhere('code', 'like', '%' . $request->search . '%');
         }
         
         if($request->query("pagination", true)=="false"){
-            $RipsTypefile=$RipsTypefile->get()->toArray();    
-        }
-        else{
+            $RipsTypefiles=$RipsTypefiles->get()->toArray();    
+        }else{
             $page= $request->query("current_page", 1);
             $per_page=$request->query("per_page", 10);
             
-            $RipsTypefile=$RipsTypefile->paginate($per_page,'*','page',$page); 
-        } 
+            $RipsTypefiles=$RipsTypefiles->paginate($per_page,'*','page',$page); 
+        }     
 
 
         return response()->json([
             'status' => true,
             'message' => 'Contiene las abreviaturas de los archivos para los rips obtenidas exitosamente',
-            'data' => ['rips_typefile' => $RipsTypefile]
+            'data' => ['rips_typefile' => $RipsTypefiles]
         ]);
     }
     

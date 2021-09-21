@@ -11,12 +11,13 @@ class Procedure extends BaseProcedure
 		'code',
 		'equivalent',
         'name',
-		'category_id',
-		'nopos',
-        'age_id',
+		'procedure_category_id',
+		'pbs_type_id',
+        'procedure_age_id',
 		'gender_id',
 		'status_id',
-        'purpose_id',
+        'procedure_purpose_id',
+		'purpose_service_id',
 		'time',
 		
 	];

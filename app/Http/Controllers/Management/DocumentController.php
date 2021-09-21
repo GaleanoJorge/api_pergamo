@@ -43,7 +43,7 @@ class DocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Cargos obtenidos exitosamente',
+            'message' => 'Documentos obtenidos exitosamente',
             'data' => ['document' => $documents]
         ]);
     }
