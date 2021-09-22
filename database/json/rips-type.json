@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Control",
+        "rips_typefile_id": 1
+    },
+    {
+        "name": "Transacciones",
+        "rips_typefile_id":2
+    },   
+    {
+        "name": "Usuarios de los servicios de salud",
+        "rips_typefile_id": 3
+    },    
+    {
+        "name": "Consulta",
+        "rips_typefile_id": 4
+    },    
+    {
+        "name": "Procedimientos",
+        "rips_typefile_id": 5
+    },
+    {
+        "name": "Urgencias con observación",
+        "rips_typefile_id": 6
+    },
+    {
+        "name": "Hospitalización",
+        "rips_typefile_id": 7
+    },
+    {
+        "name": "Recién nacidos",
+        "rips_typefile_id": 8
+    },
+    {
+        "name": "Medicamentos",
+        "rips_typefile_id": 9
+    },
+    {
+        "name": "Otros servicios",
+        "rips_typefile_id": 10
+    }    
+   
+  
+]

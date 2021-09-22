@@ -1,0 +1,24 @@
+[
+    {
+        "code": 1,
+        "name": "Diagnostico"
+    },
+    {
+        "code": 2,
+        "name": "Terapéutico"
+    },
+    {
+        "code": 3,
+        "name": "Protección Especifica"
+    },
+    {
+        "code": 4,
+        "name": "Detencción temprana de enfermedad general"
+    },
+    {
+        "code": 5,
+        "name": "Detencción temprana de enfermedad profesional"
+    }
+   
+  
+]

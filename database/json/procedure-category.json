@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Procedimientos Quirúgicos",
+        "rips_type_id": 5
+    },
+    {
+        "name": "Procedimientos NO Quirúgicos",
+        "rips_type_id":5
+    },   
+    {
+        "name": "Consultas",
+        "rips_type_id": 5
+    },    
+    {
+        "name": "Imagenes Diagnosticas",
+        "rips_type_id": 5
+    },    
+    {
+        "name": "Laboratorios",
+        "rips_type_id": 5
+    },
+    {
+        "name": "Terapias",
+        "rips_type_id": 5
+    },
+    {
+        "name": "Otors",
+        "rips_type_id": 10
+    },
+    {
+        "name": "Recién nacidos",
+        "rips_type_id": 8
+    },
+    {
+        "name": "Estancias",
+        "rips_type_id": 7
+    },
+    {
+        "name": "Inmunizaciones",
+        "rips_type_id": 10
+    }    
+   
+  
+]

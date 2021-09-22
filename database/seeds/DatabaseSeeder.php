@@ -11,6 +11,17 @@ class DatabaseSeeder extends Seeder
          */
         public function run()
         {
+                
+                
+                
+                $this->call(RipsTypefileSeeder::class);
+                $this->call(RipsTypeSeeder::class);
+                $this->call(ProcedureCategorySeeder::class);
+                $this->call(ProcedureAgeSeeder::class);
+                $this->call(ProcedurePurposeSeeder::class);
+                $this->call(PbsTypeSeeder::class);
+                $this->call(ProcedureTypeSeeder::class);
+                $this->call(PurposeServiceSeeder::class);
                 $this->call(CountrySeeder::class);
                 $this->call(StatusSeeder::class);
                 $this->call(IdentificationTypeSeeder::class);
