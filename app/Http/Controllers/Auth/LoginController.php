@@ -34,7 +34,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if (!$token = auth($this->guard)->attempt($credentials)) {
 
@@ -44,7 +44,7 @@ class LoginController extends Controller
             ], 401);
         }
 
-        $user = User::where('email', $request->email)
+        $user = User::where('username', $request->username)
             ->with('roles')
             ->select('id', 'status_id', 'email_verified_at')
             ->get()->first();
@@ -91,7 +91,7 @@ class LoginController extends Controller
      */
     public function loginJWH(LoginRequest $request): JsonResponse
     {
-       // $credentials = request(['email', 'password']);
+       // $credentials = request(['username', 'password']);
 
         $user= Auth::loginUsingId($request->id);
 
@@ -104,7 +104,7 @@ class LoginController extends Controller
             ], 401);
         }
 
-        $user = User::where('email', $request->email)
+        $user = User::where('username', $request->username)
                 ->with('roles')
                 ->select('id')
                 ->get()->first();

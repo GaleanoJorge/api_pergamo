@@ -300,6 +300,123 @@
         "route": "/pages/setting/procedure-type",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "75",
+        "item_parent_id": "69",
+        "name": "Iva",
+        "code": "iva",
+        "route": "/pages/setting/iva",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "76",
+        "item_parent_id": "69",
+        "name": "Autorretenedor",
+        "code": "retiner",
+        "route": "/pages/setting/retiner",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "77",
+        "item_parent_id": "69",
+        "name": "Clasificación industrial internacional uniforme",
+        "code": "ciiu-division",
+        "route": "/pages/setting/ciiu-division",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "78",
+        "item_parent_id": "69",
+        "name": "Gurpos de la clasificación industrial internacional uniforme",
+        "code": "ciiu-group",
+        "route": "/pages/setting/ciiu-group",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "79",
+        "item_parent_id": "69",
+        "name": "Clase de la clasificación industrial internacional uniforme",
+        "code": "ciiu-class",
+        "route": "/pages/setting/ciiu-class",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "80",
+        "item_parent_id": "69",
+        "name": "Asociación actividades económicas",
+        "code": "company-ciiu",
+        "route": "/pages/setting/company-ciiu",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "81",
+        "item_parent_id": "69",
+        "name": "Responsabilidad fiscal del contribuyente",
+        "code": "fiscal-characteristic",
+        "route": "/pages/setting/fiscal-characteristic",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "82",
+        "item_parent_id": "69",
+        "name": "Priorizacion de los atributos fiscales",
+        "code": "fiscal-clasification",
+        "route": "/pages/setting/fiscal-clasification",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "83",
+        "item_parent_id": "69",
+        "name": "Asociación de caracteristicas fiscales con compañia",
+        "code": "company-fiscal",
+        "route": "/pages/setting/company-fiscal",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "84",
+        "item_parent_id": "69",
+        "name": "Terminos del pago",
+        "code": "payment-terms",
+        "route": "/pages/setting/payment-terms",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "85",
+        "item_parent_id": "69",
+        "name": "Impuestos",
+        "code": "taxes",
+        "route": "/pages/setting/taxes",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "86",
+        "item_parent_id": "69",
+        "name": "Asociación de la empresa con los impuestos",
+        "code": "company-taxes",
+        "route": "/pages/setting/company-taxes",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "87",
+        "item_parent_id": "69",
+        "name": "Compañias",
+        "code": "company",
+        "route": "/pages/setting/company",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]
