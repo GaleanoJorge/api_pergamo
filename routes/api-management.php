@@ -328,6 +328,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
      //Tabla parametro para seleccionar identificar si las empresas son autorretendoras
      Route::apiResource('retiner', 'Management\RetinerController');
 
+     //Manual Tarifario 
+    Route::apiResource('manual', 'Management\ManualController');
+
+    //Asociación de los manuales con los procedimientos y las tarifas
+    Route::apiResource('manual_price', 'Management\ManualPriceController');
+
+    //Tipo de precio que uilizan las tarifas en salud UVR y Valor 
+    Route::apiResource('price_type', 'Management\PriceTypeController');
+
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 
