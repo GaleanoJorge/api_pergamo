@@ -289,7 +289,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Documentos 
     Route::apiResource('document', 'Management\DocumentController');
 
-    //Gurpos de la clasificación industrial internacional uniforme
+    //Grupos de la clasificación industrial internacional uniforme
     Route::apiResource('ciiu_group', 'Management\CiiuGroupController');
 
     //Division de la clasificación industrial internacional uniforme

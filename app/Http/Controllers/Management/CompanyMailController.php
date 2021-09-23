@@ -18,7 +18,7 @@ class CompanyMailController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $CompanyMail = CiCompanyMailiuClass::select();
+        $CompanyMail = CompanyMail::select();
 
         if($request->_sort){
             $CompanyMail->orderBy($request->_sort, $request->_order);
@@ -37,6 +37,11 @@ class CompanyMailController extends Controller
             
             $CompanyMail=$CompanyMail->paginate($per_page,'*','page',$page); 
         } 
+        return response()->json([
+            'status' => true,
+            'message' => 'Correo Electronico de la empresa obtenido exitosamente',
+            'data' => ['company_mail' => $CompanyMail->toArray()]
+        ]);
     }    
     
 

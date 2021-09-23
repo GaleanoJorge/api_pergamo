@@ -41,7 +41,7 @@ class CompanyTaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa obtenidas exitosamente',
+            'message' => 'Impuestos de la compañía obtenidas exitosamente',
             'data' => ['company_taxes' => $CompanyTaxes]
         ]);
     }
@@ -57,7 +57,7 @@ class CompanyTaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa creada exitosamente',
+            'message' => 'Impuestos de la compañía creada exitosamente',
             'data' => ['company_taxes' => $CompanyTaxes->toArray()]
         ]);
     }
@@ -75,7 +75,7 @@ class CompanyTaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa obtenido exitosamente',
+            'message' => 'Impuestos de la compañía obtenido exitosamente',
             'data' => ['company_taxes' => $CompanyTaxes]
         ]);
     }
@@ -96,7 +96,7 @@ class CompanyTaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa actualizado exitosamente',
+            'message' => 'Impuestos de la compañía actualizado exitosamente',
             'data' => ['company_taxes' => $CompanyTaxes]
         ]);
     }
@@ -115,12 +115,12 @@ class CompanyTaxesController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Impuestos de la empresa eliminado exitosamente'
+                'message' => 'Impuestos de la compañía eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Impuestos de la empresa esta en uso, no es posible eliminarlo'
+                'message' => 'Impuestos de la compañía esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

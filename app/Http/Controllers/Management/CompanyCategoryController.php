@@ -41,7 +41,7 @@ class CompanyCategoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Categoría de la empresa obtenidas exitosamente',
+            'message' => 'Categoría de la compañía obtenidas exitosamente',
             'data' => ['company_category' => $CompanyCategory]
         ]);
     }
@@ -56,7 +56,7 @@ class CompanyCategoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Categoría de la empresa creada exitosamente',
+            'message' => 'Categoría de la compañía creada exitosamente',
             'data' => ['company_company' => $CompanyCategory->toArray()]
         ]);
     }
@@ -74,7 +74,7 @@ class CompanyCategoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Categoría de la empresa obtenido exitosamente',
+            'message' => 'Categoría de la compañía obtenido exitosamente',
             'data' => ['company_category' => $CompanyCategory]
         ]);
     }
@@ -94,7 +94,7 @@ class CompanyCategoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Categoría de la empresa  actualizado exitosamente',
+            'message' => 'Categoría de la compañía actualizado exitosamente',
             'data' => ['company_category' => $CompanyCategory]
         ]);
     }
@@ -113,12 +113,12 @@ class CompanyCategoryController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Categoría de la empresa eliminado exitosamente'
+                'message' => 'Categoría de la compañía eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Categoría de la empresa esta en uso, no es posible eliminarlo'
+                'message' => 'Categoría de la compañía esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

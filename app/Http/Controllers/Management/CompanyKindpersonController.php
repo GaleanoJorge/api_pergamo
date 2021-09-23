@@ -40,7 +40,7 @@ class CompanyKindpersonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipos de personas contablemente obtenidas exitosamente',
+            'message' => 'Tipos de personas contables obtenidas exitosamente',
             'data' => ['company_kindperson' => $CompanyKindperson]
         ]);
     }
@@ -55,7 +55,7 @@ class CompanyKindpersonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de persona contablemente creada exitosamente',
+            'message' => 'Tipo de persona contable creada exitosamente',
             'data' => ['company_kindperson' => $CompanyKindperson->toArray()]
         ]);
     }
@@ -73,7 +73,7 @@ class CompanyKindpersonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de persona contablemente obtenido exitosamente',
+            'message' => 'Tipo de persona contable obtenido exitosamente',
             'data' => ['company_kindperson' => $CompanyKindperson]
         ]);
     }
@@ -93,7 +93,7 @@ class CompanyKindpersonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de persona contablemente  actualizado exitosamente',
+            'message' => 'Tipo de persona contable actualizado exitosamente',
             'data' => ['company_kindperson' => $CompanyKindperson]
         ]);
     }
@@ -112,12 +112,12 @@ class CompanyKindpersonController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Tipo de persona contablemente eliminado exitosamente'
+                'message' => 'Tipo de persona contable eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tipo de persona contablemente esta en uso, no es posible eliminarlo'
+                'message' => 'Tipo de persona contable esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

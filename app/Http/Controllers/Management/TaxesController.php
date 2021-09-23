@@ -37,6 +37,12 @@ class TaxesController extends Controller
             
             $Taxes=$Taxes->paginate($per_page,'*','page',$page); 
         } 
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Impuestos de la compañía obtenidas exitosamente',
+            'data' => ['taxes' => $Taxes]
+        ]);
     }   
 
     public function store(TaxesRequest $request): JsonResponse
@@ -48,7 +54,7 @@ class TaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa creada exitosamente',
+            'message' => 'Impuestos de la compañía creada exitosamente',
             'data' => ['taxes' => $Taxes->toArray()]
         ]);
     }
@@ -66,7 +72,7 @@ class TaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa obtenido exitosamente',
+            'message' => 'Impuestos de la compañía obtenido exitosamente',
             'data' => ['company_taxes' => $Taxes]
         ]);
     }
@@ -86,7 +92,7 @@ class TaxesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Impuestos de la empresa actualizado exitosamente',
+            'message' => 'Impuestos de la compañía actualizado exitosamente',
             'data' => ['taxes' => $Taxes]
         ]);
     }
@@ -105,12 +111,12 @@ class TaxesController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Impuestos de la empresa eliminado exitosamente'
+                'message' => 'Impuestos de la compañía eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Impuestos de la empresa esta en uso, no es posible eliminarlo'
+                'message' => 'Impuestos de la compañía esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

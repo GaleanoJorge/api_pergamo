@@ -41,7 +41,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud obtenidas exitosamente',
+            'message' => 'compañías dentro de las que se indetifican las prestadoras de salud obtenidas exitosamente',
             'data' => ['company' => $Company]
         ]);
     }
@@ -77,7 +77,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud creada exitosamente',
+            'message' => 'compañías dentro de las que se indetifican las prestadoras de salud creada exitosamente',
             'data' => ['company' => $Company->toArray()]
         ]);
     }
@@ -95,7 +95,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud obtenido exitosamente',
+            'message' => 'compañías dentro de las que se indetifican las prestadoras de salud obtenido exitosamente',
             'data' => ['company' => $Company]
         ]);
     }
@@ -135,7 +135,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud actualizado exitosamente',
+            'message' => 'compañías dentro de las que se indetifican las prestadoras de salud actualizado exitosamente',
             'data' => ['company' => $Company]
         ]);
     }
@@ -154,12 +154,12 @@ class CompanyController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud eliminado exitosamente'
+                'message' => 'compañías dentro de las que se indetifican las prestadoras de salud eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Empresas dentro de las que se indetifican las prestadoras de salud esta en uso, no es posible eliminarlo'
+                'message' => 'compañías dentro de las que se indetifican las prestadoras de salud esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

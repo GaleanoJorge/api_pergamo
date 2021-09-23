@@ -58,7 +58,7 @@ class DocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Lista de documentos de la empresas creada exitosamente',
+            'message' => 'Lista de documentos de la compañías creada exitosamente',
             'data' => ['docuemnt' => $Document->toArray()]
         ]);
     }
@@ -76,7 +76,7 @@ class DocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Lista de documentos de la empresas obtenido exitosamente',
+            'message' => 'Lista de documentos de la compañías obtenido exitosamente',
             'data' => ['document' => $Document]
         ]);
     }
@@ -96,7 +96,7 @@ class DocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Lista de documentos de la empresas actualizado exitosamente',
+            'message' => 'Lista de documentos de la compañías actualizado exitosamente',
             'data' => ['document' => $Document]
         ]);
     }
@@ -115,12 +115,12 @@ class DocumentController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Lista de documentos de la empresas eliminado exitosamente'
+                'message' => 'Lista de documentos de la compañías eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Lista de documentos de la empresas esta en uso, no es posible eliminarlo'
+                'message' => 'Lista de documentos de la compañías esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

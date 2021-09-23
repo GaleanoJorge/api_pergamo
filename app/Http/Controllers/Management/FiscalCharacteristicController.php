@@ -40,7 +40,7 @@ class FiscalCharacteristicController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Responsabilidad fiscal del contribuyente de la empresa obtenida exitosamente',
+            'message' => 'Responsabilidad fiscal del contribuyente de la compañía obtenida exitosamente',
             'data' => ['fiscal_characteristic' => $FiscalCharacteristic]
         ]);
     }
@@ -49,13 +49,13 @@ class FiscalCharacteristicController extends Controller
     public function store(FiscalCharacteristicRequest $request): JsonResponse
     {
         $FiscalCharacteristic = new FiscalCharacteristic;
-        $FiscalCharacteristic->fsc_code = $request->fsc_code;
-        $FiscalCharacteristic->fsc_name = $request->fsc_name;
+        $FiscalCharacteristic->code = $request->code;
+        $FiscalCharacteristic->name = $request->name;
         $FiscalCharacteristic->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Responsabilidad fiscal del contribuyente de la empresa creada exitosamente',
+            'message' => 'Responsabilidad fiscal del contribuyente de la compañía creada exitosamente',
             'data' => ['fiscal_characteristic' => $FiscalCharacteristic->toArray()]
         ]);
     }
@@ -73,7 +73,7 @@ class FiscalCharacteristicController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Responsabilidad fiscal del contribuyente de la empresa obtenido exitosamente',
+            'message' => 'Responsabilidad fiscal del contribuyente de la compañía obtenido exitosamente',
             'data' => ['fiscal_characteristic' => $FiscalCharacteristic]
         ]);
     }
@@ -87,13 +87,13 @@ class FiscalCharacteristicController extends Controller
     public function update(FiscalCharacteristicRequest $request, int $id): JsonResponse
     {
         $FiscalCharacteristic =  FiscalCharacteristic::find($id);
-        $FiscalCharacteristic->fsc_code = $request->fsc_code;
-        $FiscalCharacteristic->fsc_name = $request->fsc_name;
+        $FiscalCharacteristic->code = $request->code;
+        $FiscalCharacteristic->name = $request->name;
         $FiscalCharacteristic->save();;
 
         return response()->json([
             'status' => true,
-            'message' => 'Responsabilidad fiscal del contribuyente de la empresa actualizado exitosamente',
+            'message' => 'Responsabilidad fiscal del contribuyente de la compañía actualizado exitosamente',
             'data' => ['fiscal_characteristic' => $FiscalCharacteristic]
         ]);
     }
@@ -112,12 +112,12 @@ class FiscalCharacteristicController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Responsabilidad fiscal del contribuyente de la empresa eliminado exitosamente'
+                'message' => 'Responsabilidad fiscal del contribuyente de la compañía eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Responsabilidad fiscal del contribuyente de la empresa esta en uso, no es posible eliminarlo'
+                'message' => 'Responsabilidad fiscal del contribuyente de la compañía esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

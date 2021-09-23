@@ -37,6 +37,12 @@ class CompanyTypeController extends Controller
             
             $CompanyType=$CompanyType->paginate($per_page,'*','page',$page); 
         } 
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Tipos de compañías obtenidos exitosamente',
+            'data' => ['company_type' => $CompanyType]
+        ]);
     }
 
     public function store(CompanyTypeRequest $request): JsonResponse
@@ -48,7 +54,7 @@ class CompanyTypeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de compañias de entidades de salud creada exitosamente',
+            'message' => 'Tipo de compañías de entidades de salud creada exitosamente',
             'data' => ['company_type' => $CompanyType->toArray()]
         ]);
     }
@@ -66,7 +72,7 @@ class CompanyTypeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de compañias de entidades de salud obtenido exitosamente',
+            'message' => 'Tipo de compañías de entidades de salud obtenido exitosamente',
             'data' => ['company_type' => $CompanyType]
         ]);
     }
@@ -86,7 +92,7 @@ class CompanyTypeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de compañias de entidades de salud actualizado exitosamente',
+            'message' => 'Tipo de compañías de entidades de salud actualizado exitosamente',
             'data' => ['company_type' => $CompanyType]
         ]);
     }

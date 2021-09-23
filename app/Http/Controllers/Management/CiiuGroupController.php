@@ -41,7 +41,7 @@ class CiiuGroupController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Gurpos de la clasificación industrial internacional uniforme asociados exitosamente',
+            'message' => 'Grupos de la clasificación industrial internacional uniforme asociados exitosamente',
             'data' => ['ciiu_group' => $CiiuGroup]
         ]);
     }
@@ -57,7 +57,7 @@ class CiiuGroupController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Gurpos de la clasificación industrial internacional uniforme creada exitosamente',
+            'message' => 'Grupos de la clasificación industrial internacional uniforme creada exitosamente',
             'data' => ['ciiu_group' => $CiiuGroup->toArray()]
         ]);
     }
@@ -75,7 +75,7 @@ class CiiuGroupController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Gurpos de la clasificación industrial internacional uniforme obtenido exitosamente',
+            'message' => 'Grupos de la clasificación industrial internacional uniforme obtenido exitosamente',
             'data' => ['ciiu_group' => $CiiuGroup]
         ]);
     }
@@ -96,7 +96,7 @@ class CiiuGroupController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Gurpos de la clasificación industrial internacional uniforme actualizado exitosamente',
+            'message' => 'Grupos de la clasificación industrial internacional uniforme actualizado exitosamente',
             'data' => ['ciiu_group' => $CiiuGroup]
         ]);
     }
@@ -115,12 +115,12 @@ class CiiuGroupController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Gurpos de la clasificación industrial internacional uniforme eliminado exitosamente'
+                'message' => 'Grupos de la clasificación industrial internacional uniforme eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Gurpos de la clasificación industrial internacional uniforme esta en uso, no es posible eliminarlo'
+                'message' => 'Grupos de la clasificación industrial internacional uniforme esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

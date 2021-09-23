@@ -40,7 +40,7 @@ class CompanyDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Documentos de la empresas asociados exitosamente',
+            'message' => 'Documentos de la compañías asociados exitosamente',
             'data' => ['company_document' => $CompanyDocument]
         ]);
     }
@@ -57,7 +57,7 @@ class CompanyDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Documentos de la empresas creada exitosamente',
+            'message' => 'Documentos de la compañías creada exitosamente',
             'data' => ['company_docuemnt' => $CompanyDocument->toArray()]
         ]);
     }
@@ -75,7 +75,7 @@ class CompanyDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Documentos de la empresas obtenido exitosamente',
+            'message' => 'Documentos de la compañías obtenido exitosamente',
             'data' => ['company_document' => $CompanyDocument]
         ]);
     }
@@ -96,7 +96,7 @@ class CompanyDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Documentos de la empresas actualizado exitosamente',
+            'message' => 'Documentos de la compañías actualizado exitosamente',
             'data' => ['company_document' => $CompanyDocument]
         ]);
     }
@@ -115,12 +115,12 @@ class CompanyDocumentController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Documentos de la empresas eliminado exitosamente'
+                'message' => 'Documentos de la compañías eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Documentos de la empresas esta en uso, no es posible eliminarlo'
+                'message' => 'Documentos de la compañías esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

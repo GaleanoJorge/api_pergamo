@@ -39,7 +39,7 @@ class FiscalClasificationController extends Controller
         } 
         return response()->json([
             'status' => true,
-            'message' => 'Priorizacion de los atributos fiscales de la empresa obtenida exitosamente',
+            'message' => 'Priorizacion de los atributos fiscales de la compañía obtenida exitosamente',
             'data' => ['fiscal_clasification' => $FiscalClasification]
         ]);
     }
@@ -48,12 +48,12 @@ class FiscalClasificationController extends Controller
     public function store(FiscalClasificationRequest $request): JsonResponse
     {
         $FiscalClasification = new FiscalClasification;
-        $FiscalClasification->fst_name = $request->fst_name;
+        $FiscalClasification->name = $request->name;
         $FiscalClasification->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Priorizacion de los atributos fiscales de la empresa creada exitosamente',
+            'message' => 'Priorizacion de los atributos fiscales de la compañía creada exitosamente',
             'data' => ['fiscal_clasification' => $FiscalClasification->toArray()]
         ]);
     }
@@ -71,7 +71,7 @@ class FiscalClasificationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Priorizacion de los atributos fiscales de la empresa obtenido exitosamente',
+            'message' => 'Priorizacion de los atributos fiscales de la compañía obtenido exitosamente',
             'data' => ['fiscal_clasification' => $FiscalClasification]
         ]);
     }
@@ -85,12 +85,12 @@ class FiscalClasificationController extends Controller
     public function update(FiscalClasificationRequest $request, int $id): JsonResponse
     {
         $FiscalClasification = FiscalClasification::find($id);
-        $FiscalClasification->fst_name = $request->fst_name;
+        $FiscalClasification->name = $request->name;
         $FiscalClasification->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Priorizacion de los atributos fiscales de la empresa actualizado exitosamente',
+            'message' => 'Priorizacion de los atributos fiscales de la compañía actualizado exitosamente',
             'data' => ['fiscal_clasification' => $FiscalClasification]
         ]);
     }
@@ -109,12 +109,12 @@ class FiscalClasificationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Priorizacion de los atributos fiscales de la empresa eliminado exitosamente'
+                'message' => 'Priorizacion de los atributos fiscales de la compañía eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Priorizacion de los atributos fiscales de la empresa esta en uso, no es posible eliminarlo'
+                'message' => 'Priorizacion de los atributos fiscales de la compañía esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

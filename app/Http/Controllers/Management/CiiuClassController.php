@@ -42,7 +42,7 @@ class CiiuClassController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de la clasificación industrial internacional uniforme  asociados exitosamente',
+            'message' => 'Clase de la clasificación industrial internacional uniforme asociados exitosamente',
             'data' => ['ciiu_class' => $CiiuClass]
         ]);
     }
@@ -58,7 +58,7 @@ class CiiuClassController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de la clasificación industrial internacional uniforme  creada exitosamente',
+            'message' => 'Clase de la clasificación industrial internacional uniforme creada exitosamente',
             'data' => ['ciiu_class' => $CiiuClass->toArray()]
         ]);
     }
@@ -76,7 +76,7 @@ class CiiuClassController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de la clasificación industrial internacional uniforme  obtenido exitosamente',
+            'message' => 'Clase de la clasificación industrial internacional uniforme obtenido exitosamente',
             'data' => ['ciiu_class' => $CiiuClass]
         ]);
     }
@@ -97,7 +97,7 @@ class CiiuClassController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de la clasificación industrial internacional uniforme  actualizado exitosamente',
+            'message' => 'Clase de la clasificación industrial internacional uniforme actualizado exitosamente',
             'data' => ['ciiu_class' => $CiiuClass]
         ]);
     }
@@ -116,12 +116,12 @@ class CiiuClassController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Clase de la clasificación industrial internacional uniforme  eliminado exitosamente'
+                'message' => 'Clase de la clasificación industrial internacional uniforme eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Clase de la clasificación industrial internacional uniforme  esta en uso, no es posible eliminarlo'
+                'message' => 'Clase de la clasificación industrial internacional uniforme esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

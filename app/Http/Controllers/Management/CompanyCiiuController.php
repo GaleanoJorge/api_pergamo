@@ -40,7 +40,7 @@ class CompanyCiiuController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociación de las actividades economicas con las emrpresas  obtenidas exitosamente',
+            'message' => 'Asociación de las actividades economicas con las compañías obtenidas exitosamente',
             'data' => ['company_ciiu' => $CompanyCiiu]
         ]);
     }
@@ -56,7 +56,7 @@ class CompanyCiiuController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociación de las actividades economicas con las emrpresas  creada exitosamente',
+            'message' => 'Asociación de las actividades economicas con las compañías creada exitosamente',
             'data' => ['company_ciiu' => $CompanyCiiu->toArray()]
         ]);
     }
@@ -74,7 +74,7 @@ class CompanyCiiuController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociación de las actividades economicas con las emrpresas  obtenido exitosamente',
+            'message' => 'Asociación de las actividades economicas con las compañías obtenido exitosamente',
             'data' => ['company_ciiu' => $CompanyCiiu]
         ]);
     }
@@ -95,7 +95,7 @@ class CompanyCiiuController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociación de las actividades economicas con las emrpresas  actualizado exitosamente',
+            'message' => 'Asociación de las actividades economicas con las compañías actualizado exitosamente',
             'data' => ['company_ciiu' => $CompanyCiiu]
         ]);
     }
@@ -114,12 +114,12 @@ class CompanyCiiuController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Asociación de las actividades economicas con las emrpresas  eliminado exitosamente'
+                'message' => 'Asociación de las actividades economicas con las compañías eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Asociación de las actividades economicas con las emrpresas  esta en uso, no es posible eliminarlo'
+                'message' => 'Asociación de las actividades economicas con las compañías esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }
