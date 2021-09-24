@@ -24,12 +24,13 @@ class CompanyRequest extends FormRequest
     public function rules()
     {
         return [
-        'company_id' => 'required',
-        'identype_id' => 'required',
-        'code' => 'required',
+        
+        'identification_type_id' => 'required',
+        'identification' => 'required',
+        'verification' => 'required',
         'name' => 'required',
-        'category' => 'required',
-        'type' => 'required',
+        'company_category_id' => 'required',
+        'company_type_id' => 'required',
         'administrator' => 'required',
         'country_id' => 'required',
         'city_id' => 'required',
@@ -41,13 +42,13 @@ class CompanyRequest extends FormRequest
         'repre_phone' => 'required',
         'repre_mail' => 'required',
         'repre_identification' => 'required',
-        'iva' => 'required',
-        'retainer' => 'required',
-        'kindperson_id' => 'required',
+        'iva_id' => 'required',
+        'retiner_id' => 'required',
+        'company_kindperson_id' => 'required',
         'registration' => 'required',
         'opportunity' => 'required',
         'discount' => 'required',
-        'term' => 'required',
+        'payment_terms_id' => 'required',
 
         ];
     }

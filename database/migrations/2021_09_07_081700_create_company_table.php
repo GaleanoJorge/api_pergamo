@@ -15,7 +15,8 @@ class CreateCompanyTable extends Migration
     {
         Schema::create('company', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedTinyInteger('identype_id');
+            $table->unsignedTinyInteger('identification_type_id');
+            $table->string('identification');
             $table->integer('verification');
             $table->string('name');
             $table->unsignedBigInteger('company_category_id');
@@ -40,8 +41,8 @@ class CreateCompanyTable extends Migration
             $table->unsignedBigInteger('payment_terms_id');
             $table->timestamps();
 
-            $table->index('identype_id');
-            $table->foreign('identype_id')->references('id')
+            $table->index('identification_type_id');
+            $table->foreign('identification_type_id')->references('id')
             ->on('identification_type');
             $table->index('company_category_id');
             $table->foreign('company_category_id')->references('id')

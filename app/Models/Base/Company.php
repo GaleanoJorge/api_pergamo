@@ -14,11 +14,12 @@ use Illuminate\Database\Eloquent\Model;
  * Class Company
  * 
  * @property int $id
- * @property TinyInteger identype_id
- * @property string $code
+ * @property BigInteger identification_type_id
+ * @property string $identification
+ * @property Integer verification
  * @property string $name
- * @property BigInteger $category_id
- * @property BigInteger $type
+ * @property BigInteger $company_category_id
+ * @property BigInteger $company_type_id
  * @property BigInteger $administrator
  * @property BigInteger $country_id
  * @property BigInteger $city_id
@@ -30,13 +31,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $repre_phone
  * @property string $repre_mail
  * @property string $repre_identification
- * @property Integer $iva
- * @property Integer $retainer
- * @property BigInteger $kindperson_id
+ * @property Integer $iva_id
+ * @property Integer $retiner_id
+ * @property BigInteger $compamny_kindperson_id
  * @property Integer $registration
  * @property Integer $opportunity
  * @property Integer $discount
- * @property Integer $term
+ * @property Integer $payment_terms_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

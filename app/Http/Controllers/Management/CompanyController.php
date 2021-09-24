@@ -50,11 +50,12 @@ class CompanyController extends Controller
     public function store(CompanyRequest $request): JsonResponse
     {
         $Company = new Company;
-        $Company->identype_id= $request->identype_id;
-        $Company->code = $request->code;
+        $Company->identification_type_id = $request->identification_type_id;
+        $Company->identification = $request->identification;
+        $Company->verification = $request->verification; 
         $Company->name= $request->name;
-        $Company->category_id= $request->category_id;
-        $Company->type = $request->type;
+        $Company->company_category_id= $request->company_category_id ;
+        $Company->company_type_id = $request->company_type_id;
         $Company->administrator = $request->administrator;
         $Company->country_id = $request->country_id;
         $Company->city_id = $request->city_id;
@@ -65,14 +66,14 @@ class CompanyController extends Controller
         $Company->representative = $request->representative;
         $Company->repre_phone = $request->repre_phone;
         $Company->repre_mail = $request->repre_mail;
-        $Company->repreentification = $request->repreentification;
-        $Company->iva = $request->iva;
-        $Company->retainer = $request->retainer;
-        $Company->kindperson_id = $request->kindperson_id;
+        $Company->repre_identification = $request->repre_identification;
+        $Company->iva_id = $request->iva_id;
+        $Company->retiner_id = $request->retiner_id;
+        $Company->company_kindperson_id = $request->company_kindperson_id;
         $Company->registration = $request->registration;
         $Company->opportunity = $request->opportunity;
         $Company->discount = $request->discount;
-        $Company->term = $request->term;
+        $Company->payment_terms_id = $request->payment_terms_id;
         $Company->save();
 
         return response()->json([
@@ -109,11 +110,12 @@ class CompanyController extends Controller
     public function update(CompanyRequest $request, int $id): JsonResponse
     {
         $Company = Company::find($id);
-        $Company->identype_id = $request->identype_id;
-        $Company->code = $request->code;
+        $Company->identification_type_id = $request->identification_type_id;
+        $Company->identification = $request->identification;
+        $Company->verification = $request->verification; 
         $Company->name= $request->name;
-        $Company->category_id= $request->category_id ;
-        $Company->type = $request->type;
+        $Company->company_category_id= $request->company_category_id ;
+        $Company->company_type_id = $request->company_type_id;
         $Company->administrator = $request->administrator;
         $Company->country_id = $request->country_id;
         $Company->city_id = $request->city_id;
@@ -124,14 +126,16 @@ class CompanyController extends Controller
         $Company->representative = $request->representative;
         $Company->repre_phone = $request->repre_phone;
         $Company->repre_mail = $request->repre_mail;
-        $Company->repreentification = $request->repreentification;
-        $Company->iva = $request->iva;
-        $Company->retainer = $request->retainer;
-        $Company->kindperson_id = $request->kindperson_id;
+        $Company->repre_identification = $request->repre_identification;
+        $Company->iva_id = $request->iva_id;
+        $Company->retiner_id = $request->retiner_id;
+        $Company->company_kindperson_id = $request->company_kindperson_id;
         $Company->registration = $request->registration;
         $Company->opportunity = $request->opportunity;
         $Company->discount = $request->discount;
-        $Company->term = $request->term;
+        $Company->payment_terms_id = $request->payment_terms_id;
+        $Company->save();
+        
 
         return response()->json([
             'status' => true,

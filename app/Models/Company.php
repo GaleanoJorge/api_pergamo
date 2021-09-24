@@ -9,11 +9,12 @@ class Company extends BaseCompany
 {
     protected $fillable = [
 
-      'identype_id',
-      'code',
+      'identification_type_id',
+      'identification',
+      'verification',
       'name',
-      'category_id',
-      'type',
+      'company_category_id',
+      'company_type_id',
       'administrator',
       'country_id',
       'city_id',
@@ -25,13 +26,13 @@ class Company extends BaseCompany
       'repre_phone',
       'repre_mail',
       'repre_identification',
-      'iva',
-      'retainer',
-      'kindperson_id',
+      'iva_id',
+      'retiner_id',
+      'company_kindperson_id',
       'registration',
       'opportunity',
       'discount',
-      'term'
+      'payment_terms_id'
 
 	
 	];
