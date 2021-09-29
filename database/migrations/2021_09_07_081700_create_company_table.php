@@ -21,7 +21,7 @@ class CreateCompanyTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('company_category_id');
             $table->unsignedBigInteger('company_type_id');
-            $table->bigInteger('administrator');
+            $table->string('administrator');
             $table->unsignedBigInteger('country_id');
             $table->unsignedsmallInteger('city_id');
             $table->string('address');

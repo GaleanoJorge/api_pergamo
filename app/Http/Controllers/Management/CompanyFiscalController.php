@@ -50,8 +50,8 @@ class CompanyFiscalController extends Controller
     {
         $CompanyFiscal = new CompanyFiscal;
         $CompanyFiscal->company_id = $request->company_id;
-        $CompanyFiscal->characteristic_id = $request->characteristic_id;
-        $CompanyFiscal->clasification_id= $request->clasification_id;
+        $CompanyFiscal->fiscal_characteristic_id = $request->fiscal_characteristic_id;
+        $CompanyFiscal->fiscal_clasification_id= $request->fiscal_clasification_id;
         $CompanyFiscal->save();
 
         return response()->json([
@@ -89,8 +89,8 @@ class CompanyFiscalController extends Controller
     {
         $CompanyFiscal = CompanyFiscal::find($id);
         $CompanyFiscal->company_id = $request->company_id;
-        $CompanyFiscal->characteristic_id = $request->characteristic_id;
-        $CompanyFiscal->clasification_id= $request->clasification_id;
+        $CompanyFiscal->fiscal_characteristic_id = $request->fiscal_characteristic_id;
+        $CompanyFiscal->fiscal_clasification_id= $request->fiscal_clasification_id;
         $CompanyFiscal->save();
 
         return response()->json([

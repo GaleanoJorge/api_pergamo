@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property BigInteger $company_category_id
  * @property BigInteger $company_type_id
- * @property BigInteger $administrator
+ * @property string $administrator
  * @property BigInteger $country_id
  * @property BigInteger $city_id
  * @property string $address

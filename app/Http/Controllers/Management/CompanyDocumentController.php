@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyDocumentRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyDocumentController extends Controller
 {
@@ -51,8 +52,10 @@ class CompanyDocumentController extends Controller
         $CompanyDocument = new CompanyDocument;
         $CompanyDocument->company_id = $request->company_id;
         $CompanyDocument->document_id = $request->document_id;
-        $CompanyDocument->file = $request->file;
-        
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $CompanyDocument->file = $path;
+        }    
         $CompanyDocument->save();
 
         return response()->json([
@@ -91,7 +94,10 @@ class CompanyDocumentController extends Controller
         $CompanyDocument = CompanyDocument::find($id);
         $CompanyDocument->company_id = $request->company_id;
         $CompanyDocument->document_id = $request->document_id;
-        $CompanyDocument->file = $request->file;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $CompanyDocument->file = $path;
+        }    
         $CompanyDocument->save();
 
         return response()->json([

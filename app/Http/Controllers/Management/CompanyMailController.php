@@ -50,8 +50,8 @@ class CompanyMailController extends Controller
         $CompanyMail =new CompanyMail;
         $CompanyMail->company_id= $request->company_id;
         $CompanyMail->mail = $request->mail;
-        $CompanyMail->city_id = $request->_city_id;
-        $CompanyMail->document_id = $requet->document_id;
+        $CompanyMail->city_id = $request->city_id;
+        $CompanyMail->document_id = $request->document_id;
         $CompanyMail->save();
 
         return response()->json([
