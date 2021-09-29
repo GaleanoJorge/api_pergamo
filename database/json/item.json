@@ -417,6 +417,15 @@
         "route": "/pages/setting/company",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "88",
+        "item_parent_id": "67",
+        "name": "Manual Tarifario",
+        "code": "manual",
+        "route": "/pages/setting/manual",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]

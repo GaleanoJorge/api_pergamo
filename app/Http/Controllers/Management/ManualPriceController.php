@@ -44,16 +44,56 @@ class ManualPriceController extends Controller
             'data' => ['manual_price' => $ManualPrice]
         ]);
     }
+
+           /**
+     * Get procedure by manual.
+     *
+     * @param  int  $manualId
+     * @return JsonResponse
+     */
+    public function getByManual(Request $request, int $manualId): JsonResponse
+    {
+        $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('procedure','price_type');
+        if ($request->search) {
+            $ManualPrice->where('value', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $ManualPrice = $ManualPrice->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ManualPrice = $ManualPrice->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimientos por Manual tarifario obtenido exitosamente',
+            'data' => ['manual_price' => $ManualPrice]
+        ]);
+    }
     
 
     public function store(ManualPriceRequest $request): JsonResponse
     {
+        $ManualPriceFilter = ManualPrice::where([
+            ['manual_id', $request->manual_id],
+            ['procedure_id',$request->procedure_id]
+        ])->get();
+        if ($ManualPriceFilter->count() == 0) {
         $ManualPrice = new ManualPrice;
         $ManualPrice->manual_id = $request->manual_id;
         $ManualPrice->procedure_id = $request->procedure_id;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
         $ManualPrice->save();
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'El procedimiento ya se encuentra asociado'
+            ], 423);
+        }
 
         return response()->json([
             'status' => true,

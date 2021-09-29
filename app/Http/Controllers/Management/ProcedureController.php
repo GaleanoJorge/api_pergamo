@@ -26,7 +26,7 @@ class ProcedureController extends Controller
 
         if ($request->search) {
             $Procedures->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            ->orWhere('code', 'like', '%' . $request->search . '%');
         }
         
         if($request->query("pagination", true)=="false"){
@@ -98,17 +98,18 @@ class ProcedureController extends Controller
      */
     public function update(ProcedureRequest $request, int $id): JsonResponse
     {
-        $Procedure = new Procedure;
+        $Procedure = Procedure::find($id);
         $Procedure->code = $request->code;
         $Procedure->equivalent = $request->equivalent;
         $Procedure->name = $request->name;
         $Procedure->procedure_category_id = $request->procedure_category_id;
-        $Procedure->nopos = $request->nopos;
-        $Procedure->age_id = $request->age_id;
+        $Procedure->pbs_type_id = $request->pbs_type_id;
+        $Procedure->procedure_age_id = $request->procedure_age_id;
         $Procedure->gender_id = $request->gender_id;
-        $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->status_id = $request->status_id;
-        $Procedure->purpose_id = $request->purpose_id;
+        $Procedure->procedure_purpose_id = $request->procedure_purpose_id;
+        $Procedure->purpose_service_id = $request->purpose_service_id;
+        $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
         $Procedure->save();
 
