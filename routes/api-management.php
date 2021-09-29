@@ -341,6 +341,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Tipo de precio que uilizan las tarifas en salud UVR y Valor 
     Route::apiResource('price_type', 'Management\PriceTypeController');
 
+    //Empresas que fabrican medicamentos
+    Route::apiResource('factory', 'Management\FactoryController');
+
     //CourseType
     Route::apiResource('course_type', 'Management\CourseTypeController');
 
