@@ -359,6 +359,33 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //CourseModule
     Route::apiResource('courseModule', 'Management\CourseModuleController');
     Route::get('modulesByCourse', 'Management\CourseModuleController@indexModulesByCourse');
+    
+   //Producto Generico
+   Route::apiResource('product_generic', 'Management\ProductGenericController');
+    
+   //Presentacion del producto
+   Route::apiResource('product_presentation', 'Management\ProductPresentationController');
+   
+   //Concentracion del producto
+   Route::apiResource('product_concentration', 'Management\ProductConcentrationController');
+   
+   //Concentración del producto
+   Route::apiResource('measurement_units', 'Management\MeasurementUnitsController');
+
+   //Grupo del producto
+   Route::apiResource('product_group', 'Management\ProductGroupController');
+
+   //Categoria del producto
+   Route::apiResource('product_category', 'Management\ProductCategoryController');
+
+   //Subcategoria del producto
+   Route::apiResource('product_subcategory', 'Management\ProductSubcategoryController');
+
+   //Vía de  Administración 
+   Route::apiResource('administration_route', 'Management\AdministrationRouteController');
+
+   //Unidad de Consumo
+   Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
 
     //CourseThemes
     Route::apiResource('courseThemes', 'Management\CourseThemesController');
