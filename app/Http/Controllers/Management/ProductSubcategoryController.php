@@ -45,6 +45,23 @@ class ProductSubcategoryController extends Controller
         ]);
     }
     
+            /**
+     * Display a listing of the resource
+     *
+     * @param integer $product_category_id
+     * @return JsonResponse
+     */
+    public function getSubcategoryByCategory(int $product_category_id): JsonResponse
+    {
+        $ProductSubcategory = ProductSubcategory::where('product_category_id', $product_category_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'SubCategoria de producto obtenidos exitosamente',
+            'data' => ['product_subcategory' => $ProductSubcategory]
+        ]);
+    }
 
     public function store(ProductSubcategoryRequest $request): JsonResponse
     {

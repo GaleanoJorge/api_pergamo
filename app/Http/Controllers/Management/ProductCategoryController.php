@@ -45,6 +45,23 @@ class ProductCategoryController extends Controller
         ]);
     }
     
+        /**
+     * Display a listing of the resource
+     *
+     * @param integer $product_group_id
+     * @return JsonResponse
+     */
+    public function getCategoryByGroup(int $product_group_id): JsonResponse
+    {
+        $ProductCategory = ProductCategory::where('product_group_id', $product_group_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Categoria de producto obtenidos exitosamente',
+            'data' => ['product_category' => $ProductCategory]
+        ]);
+    }
 
     public function store(ProductCategoryRequest $request): JsonResponse
     {

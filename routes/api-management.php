@@ -52,6 +52,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Region
     Route::apiResource('region', 'Management\RegionController');
 
+    //product category by group
+    Route::get(
+        'productCategory/byGroup/{product_group_id}',
+        'Management\ProductCategoryController@getCategoryByGroup'
+    );
+
+    //product subcategory by category
+    Route::get(
+        'productSubcategory/byCategory/{product_category_id}',
+        'Management\ProductSubcategoryController@getSubcategoryByCategory'
+    );
+
     //Position
     Route::apiResource('position', 'Management\PositionController');
 
@@ -359,7 +371,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //CourseModule
     Route::apiResource('courseModule', 'Management\CourseModuleController');
     Route::get('modulesByCourse', 'Management\CourseModuleController@indexModulesByCourse');
-    
+
    //Producto Generico
    Route::apiResource('product_generic', 'Management\ProductGenericController');
     

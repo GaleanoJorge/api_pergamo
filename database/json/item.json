@@ -439,9 +439,99 @@
     {
         "id": "90",
         "item_parent_id": "89",
-        "name": "Fabrica",
+        "name": "Fabricante",
         "code": "factory",
         "route": "/pages/setting/factory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "91",
+        "item_parent_id": "66",
+        "name": "Producto genérico",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "92",
+        "item_parent_id": "91",
+        "name": "Ruta de administración",
+        "code": "administration-route",
+        "route": "/pages/setting/administration-route",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "93",
+        "item_parent_id": "91",
+        "name": "Unidades de medida",
+        "code": "measurement-units",
+        "route": "/pages/setting/measurement-units",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "94",
+        "item_parent_id": "91",
+        "name": "Concentración del producto",
+        "code": "product-concentration",
+        "route": "/pages/setting/product-concentration",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "95",
+        "item_parent_id": "91",
+        "name": "Unidad de consumo",
+        "code": "consumption-unit",
+        "route": "/pages/setting/consumption-unit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "96",
+        "item_parent_id": "91",
+        "name": "Grupo del producto",
+        "code": "product-group",
+        "route": "/pages/setting/product-group",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "97",
+        "item_parent_id": "91",
+        "name": "Presentación del producto",
+        "code": "product-presentation",
+        "route": "/pages/setting/product-presentation",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "99",
+        "item_parent_id": "91",
+        "name": "Categoria del producto",
+        "code": "product-category",
+        "route": "/pages/setting/product-category",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "100",
+        "item_parent_id": "91",
+        "name": "Subcategoria del producto",
+        "code": "product-subcategory",
+        "route": "/pages/setting/product-subcategory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "101",
+        "item_parent_id": "91",
+        "name": "Producto Genérico",
+        "code": "product-generic",
+        "route": "/pages/setting/product-generic",
         "icon": "",
         "show_menu": "1"
     }
