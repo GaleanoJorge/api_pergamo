@@ -30,7 +30,16 @@ class ProductGenericRequest extends FormRequest
             'measurement_units_id' => 'required',
             'product_presentation_id' => 'required',
             'description' => 'required',
-
+            'pbs_type_id'=> 'required',
+            'product_subcategory_id'=> 'required',
+            'consumption_unit_id'=> 'required',
+            'administration_route_id'=> 'required',
+            'special_controller_medicene_id'=> 'required',
+            'code_atc'=> 'required',
+            'implantable_id'=> 'required',
+            'reuse_id'=> 'required',
+            'invasive_id'=> 'required',
+            'consignment_id'=> 'required',
         ];
     }
 }

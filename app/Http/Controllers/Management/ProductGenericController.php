@@ -54,6 +54,16 @@ class ProductGenericController extends Controller
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
         $ProductGeneric->description = $request->description;       
+        $ProductGeneric->pbs_type_id = $request->descripbs_type_idption;
+        $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
+        $ProductGeneric->consumption_unit_id = $request->consumption_unit_id;  
+        $ProductGeneric->administration_route_id = $request->administration_route_id;  
+        $ProductGeneric->special_controller_medicene_id = $request->special_controller_medicene_id;  
+        $ProductGeneric->code_atc = $request->code_atc;  
+        $ProductGeneric->implantable_id = $request->implantable_id; 
+        $ProductGeneric->reuse_id = $request->reuse_id;
+        $ProductGeneric->invasive_id = $request->invasive_id;
+        $ProductGeneric->consignment_id = $request->consignment_id; 
         $ProductGeneric->save();
 
         return response()->json([
@@ -96,6 +106,16 @@ class ProductGenericController extends Controller
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
         $ProductGeneric->description = $request->description;       
+        $ProductGeneric->pbs_type_id = $request->descripbs_type_idption;
+        $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
+        $ProductGeneric->consumption_unit_id = $request->consumption_unit_id;  
+        $ProductGeneric->administration_route_id = $request->administration_route_id;  
+        $ProductGeneric->special_controller_medicene_id = $request->special_controller_medicene_id;  
+        $ProductGeneric->code_atc = $request->code_atc;  
+        $ProductGeneric->implantable_id = $request->implantable_id; 
+        $ProductGeneric->reuse_id = $request->reuse_id;
+        $ProductGeneric->invasive_id = $request->invasive_id;
+        $ProductGeneric->consignment_id = $request->consignment_id;      
         $ProductGeneric->save();
 
         return response()->json([

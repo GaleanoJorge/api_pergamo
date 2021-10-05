@@ -20,6 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $measurement_units_id
  * @property int $product_presentation_id
  * @property string $description
+ * @property int $pbs_type_id
+ * @property int $product_subcategory_id
+ * @property int $consumption_unit_id
+ * @property string $administration_route_id
+ * @property string $special_controller_medicene_id
+ * @property string $code_atc
+ * @property string $implantable_id
+ * @property string $reuse_id
+ * @property string $invasive_id
+* @property string $consignment_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
