@@ -15,15 +15,8 @@ class CreateTypeAssetsTable extends Migration
     {
         Schema::create('type_assets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->unsignedBigInteger('fixed_assets_id');
-            $table->string('plate_number');
+            $table->string('name');      
             $table->timestamps();
-
-            $table->index('fixed_assets_id');
-	        $table->foreign('fixed_assets_id')->references('id')
-                ->on('fixed_assets');
-
 
         });
     }

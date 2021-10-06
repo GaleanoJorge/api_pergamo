@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
- * @property int $fixed_assets_id
- * @property string $plate_number
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

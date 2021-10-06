@@ -26,8 +26,7 @@ class TypeAssetsRequest extends FormRequest
         return [
             //
             'name' => 'required',
-            'fixed_assets_id'=> 'required',
-            'plate_number' => 'required',
+            
             
         ];
     }

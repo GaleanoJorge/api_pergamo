@@ -10,8 +10,6 @@ class TypeAssets extends BaseTypeAssets
 protected $fillable = [
 
 	'name',
-	'fixed_assets_id',
-    'plate_number',
 	
        
 	];

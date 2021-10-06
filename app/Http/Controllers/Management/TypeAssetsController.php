@@ -50,8 +50,6 @@ class TypeAssetsController extends Controller
     {
         $TypeAssets = new TypeAssets;
         $TypeAssets->name = $request->name;
-        $TypeAssets->fixed_assets_id = $request->fixed_assets_id;
-        $TypeAssets->plate_number = $request->plate_number;
         $TypeAssets->save();
 
         return response()->json([
@@ -89,9 +87,7 @@ class TypeAssetsController extends Controller
     public function update(TypeAssetsRequest $request, int $id): JsonResponse
     {
         $TypeAssets = TypeAssets ::find($id);
-        $TypeAssets->name = $request->name;
-        $TypeAssets->fixed_assets_id = $request->fixed_assets_id;
-        $TypeAssets->plate_number = $request->plate_number;       
+        $TypeAssets->name = $request->name;      
         $TypeAssets->save();
 
         return response()->json([

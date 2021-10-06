@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $product_presentation_id
  * @property int $consumption_unit_id
  * @property int $factory_id
+ * @property int $type_assets_id
+ * @property string $plate_number
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

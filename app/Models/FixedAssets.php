@@ -14,6 +14,9 @@ protected $fillable = [
     'product_presentation_id',
 	'consumption_unit_id',
 	'factory_id',
+	'type_assets_id',
+	'plate_number',
+
        
 	];
 }

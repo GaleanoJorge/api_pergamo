@@ -30,6 +30,8 @@ class FixedAssetsRequest extends FormRequest
             'product_presentation_id' => 'required',
             'consumption_unit_id'=> 'required',
             'factory_id'=> 'required',
+            'type_assets_id'=> 'required',
+            'plate_number' => 'required'
             
         ];
     }

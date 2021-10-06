@@ -54,6 +54,8 @@ class FixedAssetsController extends Controller
         $FixedAssets->product_presentation_id = $request->product_presentation_id;
         $FixedAssets->consumption_unit_id = $request->consumption_unit_id; 
         $FixedAssets->factory_id = $request->factory_id; 
+        $FixedAssets->type_assets_id = $request->type_assets_id;
+        $FixedAssets->plate_number = $request->plate_number; 
         $FixedAssets->save();
 
         return response()->json([
@@ -95,7 +97,9 @@ class FixedAssetsController extends Controller
         $FixedAssets->product_subcategory_id = $request->product_subcategory_id;
         $FixedAssets->product_presentation_id = $request->product_presentation_id;
         $FixedAssets->consumption_unit_id = $request->consumption_unit_id; 
-        $FixedAssets->factory_id = $request->factory_id;       
+        $FixedAssets->factory_id = $request->factory_id;
+        $FixedAssets->type_assets_id = $request->type_assets_id;
+        $FixedAssets->plate_number = $request->plate_number;       
         $FixedAssets->save();
 
         return response()->json([

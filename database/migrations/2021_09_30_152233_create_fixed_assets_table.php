@@ -19,6 +19,8 @@ class CreateFixedAssetsTable extends Migration
             $table->unsignedBigInteger('product_presentation_id');
             $table->unsignedBigInteger('consumption_unit_id');
             $table->unsignedBigInteger('factory_id');
+            $table->unsignedBigInteger('type_assets_id');
+            $table->string('plate_number');
             $table->timestamps();
 
             $table->index('product_subcategory_id');
@@ -32,7 +34,10 @@ class CreateFixedAssetsTable extends Migration
                 ->on('consumption_unit');
             $table->index('factory_id');
             $table->foreign('factory_id')->references('id')
-                    ->on('factory');
+                ->on('factory');
+            $table->index('type_assets_id');
+            $table->foreign('type_assets_id')->references('id')
+                ->on('type_assets');
         });
     }
 
