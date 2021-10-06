@@ -25,8 +25,7 @@ class ProductSubcategoryController extends Controller
         }            
 
         if ($request->search) {
-            $ProductSubcategory->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            $ProductSubcategory->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

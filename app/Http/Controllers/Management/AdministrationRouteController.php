@@ -25,8 +25,7 @@ class AdministrationRouteController extends Controller
         }            
 
         if ($request->search) {
-            $AdministrationRoute->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            $AdministrationRoute->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

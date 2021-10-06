@@ -26,7 +26,7 @@ class FactoryController extends Controller
 
         if ($request->search) {
             $Factory->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            ->orWhere('identification', 'like', '%' . $request->search . '%');
         }
         
         if($request->query("pagination", true)=="false"){

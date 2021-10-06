@@ -25,8 +25,7 @@ class ProductGroupController extends Controller
         }            
 
         if ($request->search) {
-            $ProductGroup->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            $ProductGroup->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

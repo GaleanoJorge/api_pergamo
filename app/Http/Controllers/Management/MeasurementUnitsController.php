@@ -25,8 +25,7 @@ class MeasurementUnitsController extends Controller
         }            
 
         if ($request->search) {
-            $MeasurementUnits->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            $MeasurementUnits->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

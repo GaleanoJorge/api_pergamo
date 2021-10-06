@@ -18,12 +18,11 @@ protected $fillable = [
 	'product_subcategory_id',
 	'consumption_unit_id',
 	'administration_route_id',
-	'special_controller_medicene_id',
+	'special_controller_medicene',
 	'code_atc',
-	'implantable_id',
-	'reuse_id',
-	'invasive_id',
-	'consignment_id',
-       
+	'implantable',
+	'reuse',
+	'invasive',
+	'consignment',     
 	];
 }

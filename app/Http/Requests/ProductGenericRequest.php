@@ -34,12 +34,12 @@ class ProductGenericRequest extends FormRequest
             'product_subcategory_id'=> 'required',
             'consumption_unit_id'=> 'required',
             'administration_route_id'=> 'required',
-            'special_controller_medicene_id'=> 'required',
+            'special_controller_medicine'=> 'required',
             'code_atc'=> 'required',
-            'implantable_id'=> 'required',
-            'reuse_id'=> 'required',
-            'invasive_id'=> 'required',
-            'consignment_id'=> 'required',
+            'implantable'=> 'required',
+            'reuse'=> 'required',
+            'invasive'=> 'required',
+            'consignment'=> 'required',
         ];
     }
 }

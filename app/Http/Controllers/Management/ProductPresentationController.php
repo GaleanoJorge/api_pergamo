@@ -25,8 +25,7 @@ class ProductPresentationController extends Controller
         }            
 
         if ($request->search) {
-            $ProductPresentation->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
+            $ProductPresentation->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

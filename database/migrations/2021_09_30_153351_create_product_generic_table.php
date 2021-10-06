@@ -24,12 +24,12 @@ class CreateProductGenericTable extends Migration
             $table->unsignedBigInteger('product_subcategory_id'); 
             $table->unsignedBigInteger('consumption_unit_id'); 
             $table->unsignedBigInteger('administration_route_id');
-            $table->string ('special_controller_medicene_id');
+            $table->Integer ('special_controller_medicine');
             $table->string ('code_atc');
-            $table->string ('implantable_id');
-            $table->string ('reuse_id');
-            $table->string ('invasive_id');
-            $table->string ('consignment_id');
+            $table->Integer ('implantable');
+            $table->Integer ('reuse');
+            $table->Integer ('invasive');
+            $table->Integer ('consignment');
             $table->timestamps();
 
 
