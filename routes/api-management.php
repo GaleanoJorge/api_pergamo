@@ -343,6 +343,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
      //Manual Tarifario 
     Route::apiResource('manual', 'Management\ManualController');
 
+    
     //Asociación de los manuales con los procedimientos y las tarifas
     Route::apiResource('manual_price', 'Management\ManualPriceController');
     Route::get(
@@ -398,6 +399,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
    //Unidad de Consumo
    Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
+
+
+   //Activos Fijos 
+   Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+
+   //Tipos de Activos Fijos
+   Route::apiResource('type_assets', 'Management\TypeAssetsController');
+
 
     //CourseThemes
     Route::apiResource('courseThemes', 'Management\CourseThemesController');
