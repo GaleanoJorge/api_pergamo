@@ -15,6 +15,7 @@ class CreateFixedAssetsTable extends Migration
     {
         Schema::create('fixed_assets', function (Blueprint $table) {  
             $table->bigIncrements('id');
+            $table->string('name');
             $table->unsignedBigInteger('product_subcategory_id');
             $table->unsignedBigInteger('product_presentation_id');
             $table->unsignedBigInteger('consumption_unit_id');

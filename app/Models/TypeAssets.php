@@ -8,9 +8,6 @@ use App\Models\Base\TypeAssets as BaseTypeAssets;
 class TypeAssets extends BaseTypeAssets
 {
 protected $fillable = [
-
-	'name',
-	
-       
+	'name',     
 	];
 }
