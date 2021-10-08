@@ -534,6 +534,33 @@
         "route": "/pages/setting/product-generic",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "102",
+        "item_parent_id": "67",
+        "name": "Activos Fijos",
+        "code": "",
+        "route": "",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "103",
+        "item_parent_id": "102",
+        "name": "Tipo de activo fijo",
+        "code": "type-assets",
+        "route": "/pages/setting/type-assets",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "104",
+        "item_parent_id": "102",
+        "name": "Activos fijos",
+        "code": "fixed-assets",
+        "route": "/pages/setting/fixed-assets",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]
