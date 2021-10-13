@@ -561,6 +561,42 @@
         "route": "/pages/setting/fixed-assets",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "105",
+        "item_parent_id": "89",
+        "name": "Estados del invima",
+        "code": "invima-status",
+        "route": "/pages/setting/invima-status",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "106",
+        "item_parent_id": "89",
+        "name": "Condiciones de almacenaje",
+        "code": "storage-conditions",
+        "route": "/pages/setting/storage-conditions",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "107",
+        "item_parent_id": "89",
+        "name": "Riesgo",
+        "code": "risk",
+        "route": "/pages/setting/risk",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "108",
+        "item_parent_id": "89",
+        "name": "Producto",
+        "code": "product",
+        "route": "/pages/setting/product",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]

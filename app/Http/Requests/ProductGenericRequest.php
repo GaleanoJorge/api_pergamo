@@ -33,13 +33,13 @@ class ProductGenericRequest extends FormRequest
             'pbs_type_id'=> 'required',
             'product_subcategory_id'=> 'required',
             'consumption_unit_id'=> 'required',
-            'administration_route_id'=> 'required',
-            'special_controller_medicine'=> 'required',
-            'code_atc'=> 'required',
-            'implantable'=> 'required',
-            'reuse'=> 'required',
-            'invasive'=> 'required',
-            'consignment'=> 'required',
+            'administration_route_id',
+            'special_controller_medicine',
+            'code_atc',
+            'implantable',
+            'reuse',
+            'invasive',
+            'consignment',
         ];
     }
 }

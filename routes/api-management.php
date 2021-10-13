@@ -67,6 +67,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Position
     Route::apiResource('position', 'Management\PositionController');
 
+    //Status Invima
+    Route::apiResource('invima_status', 'Management\InvimaStatusController');
+
+    //Product
+    Route::apiResource('product', 'Management\ProductController');
+
+    //Risk
+    Route::apiResource('risk', 'Management\RiskController');
+
+    //Storage Conditions
+    Route::apiResource('storage_conditions', 'Management\StorageConditionsController');
+
     //Specialty
     Route::apiResource('specialty', 'Management\SpecialtyController');
 
