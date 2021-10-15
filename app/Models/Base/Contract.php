@@ -6,36 +6,39 @@
 
 namespace App\Models\Base;
 
-use App\Models\ContractPayment;
-use App\Models\ContractState;
-use App\Models\Event;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Contract
+ * Class CiiuGroup
  * 
  * @property int $id
- * @property string $code
- * @property string $modification_description
- * @property float $modification_value
- * @property Carbon $date_ini
- * @property Carbon $date_fin
- * @property int $user_id
- * @property float $allocation_resource
- * @property float $contract_value
- * @property string $object
+ * @property string $number_contract
+ * @property int $campus_id
+ * @property int $type_contract_id
+ * @property int $occasional
+ * @property double $amount
+ * @property date $start_date
+ * @property date $finish_date
+ * @property int $status_id
+ * @property int $firms_id
+ * @property int $civil_policy_insurance_id
+ * @property double $value_civil_policy
+ * @property date $start_date_civil_policy
+ * @property date $finish_date_civil_policy
+ * @property int $contractual_policy_insurance_id
+ * @property double $value_contractual_policy
+ * @property date $start_date_contractual_policy
+ * @property date $finish_date_contractual_policy
+ * @property datetime $date_of_delivery_of_invoices
+ * @property int $expiration_days_portafolio
+ * @property int $discount
  * @property string $observations
- * @property int $contract_state_id
+ * @property string $objective
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
- * @property ContractState $contract_state
- * @property User $user
- * @property Collection|ContractPayment[] $contract_payments
- * @property Collection|Event[] $events
  *
  * @package App\Models\Base
  */
@@ -43,36 +46,5 @@ class Contract extends Model
 {
 	protected $table = 'contract';
 
-	protected $casts = [
-		'modification_value' => 'float',
-		'user_id' => 'int',
-		'allocation_resource' => 'float',
-		'contract_value' => 'float',
-		'contract_state_id' => 'int'
-	];
-
-	protected $dates = [
-		'date_ini',
-		'date_fin'
-	];
-
-	public function contract_state()
-	{
-		return $this->belongsTo(ContractState::class);
-	}
-
-	public function user()
-	{
-		return $this->belongsTo(User::class);
-	}
-
-	public function contract_payments()
-	{
-		return $this->hasMany(ContractPayment::class);
-	}
-
-	public function events()
-	{
-		return $this->hasMany(Event::class);
-	}
+	
 }

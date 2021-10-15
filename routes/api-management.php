@@ -419,6 +419,36 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Tipos de Activos Fijos
    Route::apiResource('type_assets', 'Management\TypeAssetsController');
 
+   //Contratos
+   Route::apiResource('contract', 'Management\ContractController');
+
+   //Tipos de Contratos
+   Route::apiResource('type_contract', 'Management\TypeContractController');
+
+   //Contratos
+   Route::apiResource('contract', 'Management\ContractController');
+
+   //Firmas (Contratistas, Contratante)
+   Route::apiResource('firms', 'Management\FirmsController');
+
+   //Archivo del contrato
+   Route::apiResource('file_contract', 'Management\FileContractController');
+
+   //Tipo de portafolios
+   Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
+
+   //Cobertura de atención 
+   Route::apiResource('coverage', 'Management\CoverageController');
+
+   //Modalidad del servicio
+   Route::apiResource('modality', 'Management\ModalityController');
+
+   //Portafolio de servicios
+   Route::apiResource('services_briefcase', 'Management\ServicesBriefcaseController');
+
+   //Aseguradoras
+   Route::apiResource('insurance_carrier', 'Management\InsuranceCarrierController');
+
 
     //CourseThemes
     Route::apiResource('courseThemes', 'Management\CourseThemesController');
