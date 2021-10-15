@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ManualPrice;
+use App\Models\Manual;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -73,10 +74,42 @@ class ManualPriceController extends Controller
             'data' => ['manual_price' => $ManualPrice]
         ]);
     }
+
+              /**
+     * Get procedure by manual.
+     *
+     * @param  int  $manualId
+     * @return JsonResponse
+     */
+    public function getByManual2(Request $request, int $manualId): JsonResponse
+    {
+        $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('product','price_type');
+        if ($request->search) {
+            $ManualPrice->where('value', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $ManualPrice = $ManualPrice->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ManualPrice = $ManualPrice->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Medicamentos
+             por Manual tarifario obtenido exitosamente',
+            'data' => ['manual_price' => $ManualPrice]
+        ]);
+    }
     
 
     public function store(ManualPriceRequest $request): JsonResponse
-    {
+    {   
+        $Manual = Manual::select('type_manual')->where('id', $request->manual_id)->get();
+        if($Manual[0]->type_manual==0){
         $ManualPriceFilter = ManualPrice::where([
             ['manual_id', $request->manual_id],
             ['procedure_id',$request->procedure_id]
@@ -85,6 +118,7 @@ class ManualPriceController extends Controller
         $ManualPrice = new ManualPrice;
         $ManualPrice->manual_id = $request->manual_id;
         $ManualPrice->procedure_id = $request->procedure_id;
+        $ManualPrice->product_id = null;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
         $ManualPrice->save();
@@ -100,6 +134,32 @@ class ManualPriceController extends Controller
             'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
             'data' => ['manual_price' => $ManualPrice->toArray()]
         ]);
+    }else{
+        $ManualPriceFilter = ManualPrice::where([
+            ['manual_id', $request->manual_id],
+            ['product_id',$request->procedure_id]
+        ])->get();
+        if ($ManualPriceFilter->count() == 0) {
+        $ManualPrice = new ManualPrice;
+        $ManualPrice->manual_id = $request->manual_id;
+        $ManualPrice->product_id = $request->procedure_id;
+        $ManualPrice->procedure_id = null;
+        $ManualPrice->value = $request->value;
+        $ManualPrice->price_type_id = $request->price_type_id;
+        $ManualPrice->save();
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'El medicamento ya se encuentra asociado'
+            ], 423);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Asociación de los manuales con los medicamentos y las tarifas creada exitosamente',
+            'data' => ['manual_price' => $ManualPrice->toArray()]
+        ]);
+    }
     }
 
     /**

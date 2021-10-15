@@ -17,6 +17,7 @@ class CreateManualTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->Integer('year');
+            $table->Integer('type_manual');
             $table->unsignedTinyInteger('status_id');
             $table->timestamps();
 

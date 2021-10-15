@@ -10,8 +10,7 @@ class Manual extends BaseManual
     protected $fillable = [
 		'name',
     'year',
+    'type_manual',
     'status_id',
-         
-	
 	];
 }
