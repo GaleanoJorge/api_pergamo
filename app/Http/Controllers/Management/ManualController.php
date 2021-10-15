@@ -51,6 +51,7 @@ class ManualController extends Controller
         $Manual = new Manual;
         $Manual->name = $request->name;
         $Manual->year = $request->year;
+        $Manual->type_manual = $request->type_manual;
         $Manual->status_id = $request->status_id;
         $Manual->save();
 
@@ -90,6 +91,7 @@ class ManualController extends Controller
         $Manual = Manual::find($id);
         $Manual->name = $request->name;
         $Manual->year = $request->year;
+        $Manual->type_manual = $request->type_manual;
         $Manual->status_id = $request->status_id;
         $Manual->save();
 

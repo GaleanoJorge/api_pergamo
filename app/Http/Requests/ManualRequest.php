@@ -26,6 +26,7 @@ class ManualRequest extends FormRequest
         return [
             'name' => 'required',
             'year' => 'required',
+            'type_manual' => 'required',
             'status_id' => 'required'
         ];
     }

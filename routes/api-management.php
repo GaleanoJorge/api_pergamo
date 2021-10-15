@@ -362,6 +362,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'ManualPrice/ProcedureByManual/{manualId}',
         'Management\ManualPriceController@getByManual'
     );
+    Route::get(
+        'ManualPrice/ProcedureByManual2/{manualId}',
+        'Management\ManualPriceController@getByManual2'
+    );
 
     //Tipo de precio que uilizan las tarifas en salud UVR y Valor 
     Route::apiResource('price_type', 'Management\PriceTypeController');
