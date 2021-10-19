@@ -597,6 +597,78 @@
         "route": "/pages/setting/product",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "109",
+        "item_parent_id": "67",
+        "name": "Configuración de contrato",
+        "code": "",
+        "route": "",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "110",
+        "item_parent_id": "109",
+        "name": "Cobertura",
+        "code": "coverage",
+        "route": "/pages/setting/coverage",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "111",
+        "item_parent_id": "109",
+        "name": "Modalidad",
+        "code": "modality",
+        "route": "/pages/setting/modality",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "112",
+        "item_parent_id": "109",
+        "name": "Tipo de catalogo",
+        "code": "type-briefcase",
+        "route": "/pages/setting/type-briefcase",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "113",
+        "item_parent_id": "89",
+        "name": "Aseguradoras",
+        "code": "insurance-carrier",
+        "route": "/pages/setting/insurance-carrier",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "114",
+        "item_parent_id": "109",
+        "name": "Firmas",
+        "code": "firms",
+        "route": "/pages/setting/firms",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "115",
+        "item_parent_id": "109",
+        "name": "Tipo de contrato",
+        "code": "type-contract",
+        "route": "/pages/setting/type-contract",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "116",
+        "item_parent_id": null,
+        "name": "Contrato",
+        "code": "contract",
+        "route": "/pages/contract/list",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]

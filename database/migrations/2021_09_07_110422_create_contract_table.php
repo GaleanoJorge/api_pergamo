@@ -16,7 +16,8 @@ class CreateContractTable extends Migration
         Schema::create('contract', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('number_contract');
-            $table->unsignedtinyInteger('campus_id');
+            $table->string('name');
+            $table->unsignedbigInteger('company_id');
             $table->unsignedBigInteger('type_contract_id');
             $table->integer('occasional');
             $table->double('amount');
@@ -38,8 +39,8 @@ class CreateContractTable extends Migration
             $table->string('observations');
             $table->string('objective');
             $table->timestamps();
-            $table->index('campus_id');
-            $table->foreign('campus_id')->references('id')->on('campus');
+            $table->index('company_id');
+            $table->foreign('company_id')->references('id')->on('company');
             $table->index('type_contract_id');
             $table->foreign('type_contract_id')->references('id')->on('type_contract');
             $table->index('status_id');
