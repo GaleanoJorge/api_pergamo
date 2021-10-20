@@ -15,7 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $number_contract
- * @property int $campus_id
+ * @property string $name
+ * @property int $company_id
  * @property int $type_contract_id
  * @property int $occasional
  * @property double $amount

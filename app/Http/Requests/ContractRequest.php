@@ -25,7 +25,8 @@ class ContractRequest extends FormRequest
     {
         return [
             'number_contract' => 'required',
-            'campus_id' => 'required',
+            'name' => 'required',
+            'company_id' => 'required',
             'type_contract_id' => 'required',
             'occasional' => 'required',
             'amount' => 'required',

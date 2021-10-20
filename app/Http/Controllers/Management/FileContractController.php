@@ -49,7 +49,10 @@ class FileContractController extends Controller
     {
         $FileContract = new FileContract;
         $FileContract->name = $request->name;
-        $FileContract->file = $request->file;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $FileContract->file = $path;
+        }    
         $FileContract->contract_id = $request->contract_id;
         
         $FileContract->save();
@@ -89,7 +92,10 @@ class FileContractController extends Controller
     {
         $FileContract = FileContract::find($id);
         $FileContract->name = $request->name;
-        $FileContract->file = $request->file;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $FileContract->file = $path;
+        }   
         $FileContract->contract_id = $request->contract_id;
         $FileContract->save();
 

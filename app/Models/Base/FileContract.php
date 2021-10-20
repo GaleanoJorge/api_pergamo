@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class FileContract extends Model
 {
-	protected $table = 'FileContract';
+	protected $table = 'file_contract';
 
 	
 }

@@ -51,7 +51,8 @@ class ContractController extends Controller
     {
         $Contract = new Contract;
         $Contract->number_contract = $request->number_contract;
-        $Contract->campus_id = $request->campus_id;
+        $Contract->name = $request->name;
+        $Contract->company_id = $request->company_id;
         $Contract->type_contract_id = $request->type_contract_id;
         $Contract->occasional = $request->occasional;
         $Contract->amount = $request->amount;
@@ -112,7 +113,8 @@ class ContractController extends Controller
     {
         $Contract = Contract::find($id);
         $Contract->number_contract = $request->number_contract;
-        $Contract->campus_id = $request->campus_id;
+        $Contract->name = $request->name;
+        $Contract->company_id = $request->company_id;
         $Contract->type_contract_id = $request->type_contract_id;
         $Contract->occasional = $request->occasional;
         $Contract->amount = $request->amount;
