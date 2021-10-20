@@ -438,6 +438,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Archivo del contrato
    Route::apiResource('file_contract', 'Management\FileContractController');
 
+   Route::get(
+    'FileContract/FileByContract/{contractId}',
+    'Management\FileContractController@getByContract'
+);
+
    //Tipo de portafolios
    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
 

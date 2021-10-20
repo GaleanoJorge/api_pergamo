@@ -45,6 +45,35 @@ class FileContractController extends Controller
         ]);
     }
 
+            /**
+     * Get procedure by manual.
+     *
+     * @param  int  $contractId
+     * @return JsonResponse
+     */
+    public function getByContract(Request $request, int $contractId): JsonResponse
+    {
+        $FileContract = FileContract::where('contract_id', $contractId);
+        if ($request->search) {
+            $FileContract->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $FileContract = $FileContract->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $FileContract = $FileContract->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Archivos por contrato obtenido exitosamente',
+            'data' => ['file_contract' => $FileContract]
+        ]);
+    }
+
     public function store(FileContractRequest $request): JsonResponse
     {
         $FileContract = new FileContract;
