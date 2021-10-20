@@ -23,7 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property date $start_date
  * @property date $finish_date
  * @property int $status_id
- * @property int $firms_id
+ * @property int $firms_contractor_id
+ * @property int $firms_contracting_id
  * @property int $civil_policy_insurance_id
  * @property double $value_civil_policy
  * @property date $start_date_civil_policy
@@ -32,7 +33,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property double $value_contractual_policy
  * @property date $start_date_contractual_policy
  * @property date $finish_date_contractual_policy
- * @property datetime $date_of_delivery_of_invoices
+ * @property int $start_date_invoice
+ * @property int $finish_date_invoice
+ * @property int $time_delivery_invoice
  * @property int $expiration_days_portafolio
  * @property int $discount
  * @property string $observations

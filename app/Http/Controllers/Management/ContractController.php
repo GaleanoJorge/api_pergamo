@@ -59,7 +59,8 @@ class ContractController extends Controller
         $Contract->start_date = $request->start_date;
         $Contract->finish_date = $request->finish_date;
         $Contract->status_id = $request->status_id;
-        $Contract->firms_id = $request->firms_id;
+        $Contract->firms_contractor_id = $request->firms_contractor_id;
+        $Contract->firms_contracting_id = $request->firms_contracting_id;
         $Contract->civil_policy_insurance_id = $request->civil_policy_insurance_id;
         $Contract->value_civil_policy = $request->value_civil_policy;
         $Contract->start_date_civil_policy = $request->start_date_civil_policy;
@@ -68,7 +69,9 @@ class ContractController extends Controller
         $Contract->value_contractual_policy = $request->value_contractual_policy;
         $Contract->start_date_contractual_policy = $request->start_date_contractual_policy;
         $Contract->finish_date_contractual_policy = $request->finish_date_contractual_policy;
-        $Contract->date_of_delivery_of_invoices = $request->date_of_delivery_of_invoices;
+        $Contract->start_date_invoice = $request->start_date_invoice;
+        $Contract->finish_date_invoice = $request->finish_date_invoice;
+        $Contract->time_delivery_invoice = $request->time_delivery_invoice;
         $Contract->expiration_days_portafolio = $request->expiration_days_portafolio;
         $Contract->discount = $request->discount;
         $Contract->observations = $request->observations;

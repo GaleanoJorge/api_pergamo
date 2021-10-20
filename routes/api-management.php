@@ -458,6 +458,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Aseguradoras
    Route::apiResource('insurance_carrier', 'Management\InsuranceCarrierController');
 
+    //Registro de contrato
+    Route::apiResource('contract_log', 'Management\ContractLogController');
+
+    //Estado del Contrato
+    Route::apiResource('contract_status', 'Management\ContractStatusController');
+
 
     //CourseThemes
     Route::apiResource('courseThemes', 'Management\CourseThemesController');
