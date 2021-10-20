@@ -8,7 +8,8 @@ class Contract extends BaseContract
 {
 	protected $fillable = [
 		'number_contract',
-        'campus_id',
+        'name',
+        'company_id',
         'type_contract_id',
         'occasional',
         'amount',
