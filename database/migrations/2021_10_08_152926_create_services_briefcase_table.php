@@ -15,20 +15,27 @@ class CreateServicesBriefcaseTable extends Migration
     {
         Schema::create('services_briefcase', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+            $table->integer('factor');
+            $table->double('value');
             $table->unsignedBigInteger('contract_id');
-            $table->unsignedBigInteger('procedure_id');
-            $table->unsignedBigInteger('modality_id');
+            $table->unsignedTinyInteger('campus_id');
+            $table->unsignedBigInteger('manual_price_id');
+            $table->unsignedBigInteger('type_briefcase_id');
             $table->timestamps();
 
             $table->index('contract_id');
             $table->foreign('contract_id')->references('id')
                     ->on('contract');
-            $table->index('procedure_id');
-            $table->foreign('procedure_id')->references('id')
-                    ->on('procedure');
-            $table->index('modality_id');
-            $table->foreign('modality_id')->references('id')
-                    ->on('modality');
+            $table->index('campus_id');
+            $table->foreign('campus_id')->references('id')
+                    ->on('campus');
+            $table->index('manual_price_id');
+            $table->foreign('manual_price_id')->references('id')
+                    ->on('manual_price');
+            $table->index('type_briefcase_id');
+            $table->foreign('type_briefcase_id')->references('id')
+                    ->on('type_briefcase');
         });
     }
 
