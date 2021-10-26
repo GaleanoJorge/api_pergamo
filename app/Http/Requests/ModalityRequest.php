@@ -25,7 +25,6 @@ class ModalityRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'coverage_id' => 'required',
         ];
     }
 }

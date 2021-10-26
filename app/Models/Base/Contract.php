@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\ContractStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double $amount
  * @property date $start_date
  * @property date $finish_date
- * @property int $status_id
+ * @property int $contract_status_id
  * @property int $firms_contractor_id
  * @property int $firms_contracting_id
  * @property int $civil_policy_insurance_id
@@ -49,6 +50,16 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
 	protected $table = 'contract';
+	
+	protected $casts = [
+		'contract_status_id' => 'int',
+	];
+
+	public function contract_status()
+	{
+		return $this->belongsTo(ContractStatus::class);
+	}
+
 
 	
 }

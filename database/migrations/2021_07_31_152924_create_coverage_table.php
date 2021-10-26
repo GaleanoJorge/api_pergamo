@@ -16,12 +16,12 @@ class CreateCoverageTable extends Migration
         Schema::create('coverage', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('type_briefcase_id');
+            $table->unsignedBigInteger('modality_id');
             $table->timestamps();
 
-            $table->index('type_briefcase_id');
-            $table->foreign('type_briefcase_id')->references('id')
-                    ->on('type_briefcase');
+            $table->index('modality_id');
+            $table->foreign('modality_id')->references('id')
+                    ->on('modality');
         });
     }
 

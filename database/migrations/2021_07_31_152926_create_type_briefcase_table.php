@@ -17,6 +17,12 @@ class CreateTypeBriefcaseTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->timestamps();
+
+            $table->unsignedBigInteger('coverage_id');
+
+            $table->index('coverage_id');
+            $table->foreign('coverage_id')->references('id')
+                    ->on('coverage');
         });
     }
 

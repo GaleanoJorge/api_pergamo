@@ -41,7 +41,7 @@ class CoverageController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cobertura obtenidos exitosamente',
-            'data' => ['type_briefcase' => $Coverage]
+            'data' => ['coverage' => $Coverage]
         ]);
     }
 
@@ -49,14 +49,14 @@ class CoverageController extends Controller
     {
         $Coverage = new Coverage;
         $Coverage->name = $request->name;
-        $Coverage->type_briefcase_id = $request->type_briefcase_id;
+        $Coverage->modality_id = $request->modality_id;
         
         $Coverage->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Cobertura creada exitosamente',
-            'data' => ['type_briefcase' => $Coverage->toArray()]
+            'data' => ['coverage' => $Coverage->toArray()]
         ]);
     }
 
@@ -74,7 +74,7 @@ class CoverageController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cobertura obtenido exitosamente',
-            'data' => ['type_briefcase' => $Coverage]
+            'data' => ['coverage' => $Coverage]
         ]);
     }
 
@@ -88,14 +88,14 @@ class CoverageController extends Controller
     {
         $Coverage = Coverage::find($id);
         $Coverage->name = $request->name;
-        $Coverage->type_briefcase_id = $request->type_briefcase_id;
+        $Coverage->modality_id = $request->modality_id;
         
         $Coverage->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Cobertura actualizado exitosamente',
-            'data' => ['type_briefcase' => $Coverage]
+            'data' => ['coverage' => $Coverage]
         ]);
     }
 

@@ -18,7 +18,7 @@ class ContractController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Contract = Contract::select();
+        $Contract = Contract::with('contract_status');
 
         if($request->_sort){
             $Contract->orderBy($request->_sort, $request->_order);
@@ -58,7 +58,7 @@ class ContractController extends Controller
         $Contract->amount = $request->amount;
         $Contract->start_date = $request->start_date;
         $Contract->finish_date = $request->finish_date;
-        $Contract->status_id = $request->status_id;
+        $Contract->contract_status_id = $request->contract_status_id;
         $Contract->firms_contractor_id = $request->firms_contractor_id;
         $Contract->firms_contracting_id = $request->firms_contracting_id;
         $Contract->civil_policy_insurance_id = $request->civil_policy_insurance_id;
@@ -120,7 +120,7 @@ class ContractController extends Controller
         $Contract->amount = $request->amount;
         $Contract->start_date = $request->start_date;
         $Contract->finish_date = $request->finish_date;
-        $Contract->status_id = $request->status_id;
+        $Contract->contract_status_id = $request->contract_status_id;
         $Contract->firms_id = $request->firms_id;
         $Contract->civil_policy_insurance_id = $request->civil_policy_insurance_id;
         $Contract->value_civil_policy = $request->value_civil_policy;

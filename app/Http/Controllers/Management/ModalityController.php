@@ -49,7 +49,6 @@ class ModalityController extends Controller
     {
         $Modality = new Modality;
         $Modality->name = $request->name;
-        $Modality->coverage_id = $request->coverage_id;
         
         $Modality->save();
 
@@ -88,7 +87,6 @@ class ModalityController extends Controller
     {
         $Modality = Modality::find($id);
         $Modality->name = $request->name;
-        $Modality->coverage_id = $request->coverage_id;
         
         $Modality->save();
 

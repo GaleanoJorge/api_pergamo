@@ -455,6 +455,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Portafolio de servicios
    Route::apiResource('services_briefcase', 'Management\ServicesBriefcaseController');
 
+    //Portafolio de servicios por contrato
+    Route::get(
+    'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
+     'Management\ServicesBriefcaseController@getByBriefcase'
+    );
+
+    //Portafolio de servicios
+    Route::apiResource('briefcase', 'Management\BriefcaseController');
+
+     //Portafolio de servicios por contrato
+     Route::get(
+        'briefcasecontract/briefcaseByContract/{contractId}',
+        'Management\BriefcaseController@getByContract'
+    );
+
    //Aseguradoras
    Route::apiResource('insurance_carrier', 'Management\InsuranceCarrierController');
 

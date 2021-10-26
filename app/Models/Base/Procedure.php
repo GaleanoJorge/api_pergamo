@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\ProcedureCategory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,6 +35,16 @@ use Illuminate\Database\Eloquent\Model;
 class Procedure extends Model
 {
 	protected $table = 'procedure';
+
+	protected $casts = [
+		'procedure_category_id' => 'int',
+	];
+
+	public function procedure_category()
+	{
+		return $this->belongsTo(ProcedureCategory::class);
+	}
+
 
 	
 }

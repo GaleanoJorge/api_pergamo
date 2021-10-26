@@ -669,6 +669,15 @@
         "route": "/pages/contract/list",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "117",
+        "item_parent_id": "109",
+        "name": "Estado del contrato",
+        "code": "contract-status",
+        "route": "/pages/setting/contract-status",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]

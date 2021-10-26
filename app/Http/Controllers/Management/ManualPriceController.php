@@ -19,7 +19,7 @@ class ManualPriceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ManualPrice = ManualPrice::select();
+        $ManualPrice = ManualPrice::with('procedure','product','price_type','manual');
 
         if($request->_sort){
             $ManualPrice->orderBy($request->_sort, $request->_order);
