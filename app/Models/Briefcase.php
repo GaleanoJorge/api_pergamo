@@ -13,7 +13,6 @@ class Briefcase extends BaseBriefcase
 		'type_briefcase_id',
 		'coverage_id',
 		'modality_id',
-		'campus_id',
 		'status_id',
 	];
 }

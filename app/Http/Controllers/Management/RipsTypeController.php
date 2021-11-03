@@ -18,7 +18,7 @@ class RipsTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $RipsType = RipsType::select();
+        $RipsType = RipsType::with('rips_typefile');
 
         if($request->_sort){
             $RipsType->orderBy($request->_sort, $request->_order);

@@ -15,13 +15,9 @@ class CreateCoverageTable extends Migration
     {
         Schema::create('coverage', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code');
             $table->string('name');
-            $table->unsignedBigInteger('modality_id');
             $table->timestamps();
-
-            $table->index('modality_id');
-            $table->foreign('modality_id')->references('id')
-                    ->on('modality');
         });
     }
 

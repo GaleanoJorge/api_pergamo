@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Briefcase;
+use App\Models\CampusBriefcase;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class BriefcaseController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Briefcase = Briefcase::with('type_briefcase','coverage','modality','campus','status');
+        $Briefcase = Briefcase::with('type_briefcase','coverage','modality','status');
 
         if($request->_sort){
             $Briefcase->orderBy($request->_sort, $request->_order);
@@ -53,7 +54,7 @@ class BriefcaseController extends Controller
      */
     public function getByContract(Request $request, int $contractId): JsonResponse
     {
-        $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','campus','status');
+        $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
         if ($request->search) {
             $Briefcase->where('name', 'like', '%' . $request->search . '%')
             ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -83,9 +84,20 @@ class BriefcaseController extends Controller
         $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
-        $Briefcase->campus_id = $request->campus_id;
         $Briefcase->status_id = $request->status_id;
         $Briefcase->save();
+
+        $id = Briefcase::latest('id')->first();
+
+        foreach($request->campus_id as $item ){
+        $CampusBriefcase=new CampusBriefcase;
+        $CampusBriefcase->campus_id=$item;
+        $CampusBriefcase->briefcase_id=$id->id;
+        $CampusBriefcase->save();
+        }
+
+
+
 
         return response()->json([
             'status' => true,
@@ -122,13 +134,18 @@ class BriefcaseController extends Controller
     {
         $Briefcase = Briefcase::find($id);
         $Briefcase->name = $request->name;
-        $Briefcase->contract_id = $request->contract_id;
         $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
-        $Briefcase->campus_id = $request->campus_id;
         $Briefcase->status_id = $request->status_id;
-        
+        $Briefcase->save();
+
+        foreach($request->campus_id as $item ){
+        $CampusBriefcase=new CampusBriefcase;
+        $CampusBriefcase->campus_id=$item;
+        $CampusBriefcase->briefcase_id=$id;
+        $CampusBriefcase->save();
+        }
         $Briefcase->save();
 
         return response()->json([

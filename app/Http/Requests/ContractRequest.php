@@ -33,6 +33,7 @@ class ContractRequest extends FormRequest
             'start_date' => 'required|date',
             'finish_date' => 'required|date|after_or_equal:date_ini',
             'contract_status_id' => 'required',
+            'regime_id' => 'required',
             'firms_contractor_id' => 'required',
             'firms_contracting_id' => 'required',
             'civil_policy_insurance_id' => 'required',

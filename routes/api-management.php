@@ -461,6 +461,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
      'Management\ServicesBriefcaseController@getByBriefcase'
     );
 
+   //Sedes del Portafolio de servicios
+   Route::apiResource('campus_briefcase', 'Management\CampusBriefcaseController');
+
+    //Portafolio de servicios por contrato
+    Route::get(
+        'campus_briefcase/campusByBriefcase/{briefcaseId}',
+        'Management\CampusBriefcaseController@getByBriefcase'
+    );
+
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');
 

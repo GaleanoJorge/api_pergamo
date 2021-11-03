@@ -49,7 +49,7 @@ class TypeBriefcaseController extends Controller
     {
         $TypeBriefcase = new TypeBriefcase;
         $TypeBriefcase->name = $request->name;
-        $TypeBriefcase->coverage_id = $request->coverage_id;
+        $TypeBriefcase->code = $request->code;
         
         $TypeBriefcase->save();
 
@@ -88,7 +88,7 @@ class TypeBriefcaseController extends Controller
     {
         $TypeBriefcase = TypeBriefcase::find($id);
         $TypeBriefcase->name = $request->name;
-        $TypeBriefcase->coverage_id = $request->coverage_id;
+        $TypeBriefcase->code = $request->code;
         $TypeBriefcase->save();
 
         return response()->json([

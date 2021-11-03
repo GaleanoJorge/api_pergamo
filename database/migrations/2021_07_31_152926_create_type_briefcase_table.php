@@ -15,14 +15,9 @@ class CreateTypeBriefcaseTable extends Migration
     {
         Schema::create('type_briefcase', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code');
             $table->string('name');
             $table->timestamps();
-
-            $table->unsignedBigInteger('coverage_id');
-
-            $table->index('coverage_id');
-            $table->foreign('coverage_id')->references('id')
-                    ->on('coverage');
         });
     }
 

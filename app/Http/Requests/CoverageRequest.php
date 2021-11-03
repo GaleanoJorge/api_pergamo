@@ -25,7 +25,7 @@ class CoverageRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'modality_id' => 'required',
+            'code' => 'required',
         ];
     }
 }

@@ -27,7 +27,7 @@ class CreateProcedureTable extends Migration
             $table->unsignedTinyInteger('gender_id');
             $table->unsignedTinyInteger('status_id');
             $table->unsignedBigInteger('procedure_purpose_id');
-            $table->time('time');
+            $table->time('time')->nullable();
             $table->timestamps();
             
             $table->index('procedure_category_id');

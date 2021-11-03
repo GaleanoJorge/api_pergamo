@@ -35,7 +35,6 @@ class ProcedureRequest extends FormRequest
             'status_id' => 'required',
             'procedure_purpose_id' => 'required',
             'purpose_service_id' => 'required',
-            'time' => 'required',
           
 
         ];

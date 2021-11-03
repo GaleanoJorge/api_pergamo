@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServicesBriefcaseTable extends Migration
+class CreateCampusBriefcaseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,18 @@ class CreateServicesBriefcaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('services_briefcase', function (Blueprint $table) {
+        Schema::create('campus_briefcase', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('factor');
-            $table->double('value');
+            $table->unsignedTinyInteger('campus_id');
             $table->unsignedBigInteger('briefcase_id');
-            $table->unsignedBigInteger('manual_price_id');
             $table->timestamps();
 
             $table->index('briefcase_id');
             $table->foreign('briefcase_id')->references('id')
                     ->on('briefcase');
-            $table->index('manual_price_id');
-            $table->foreign('manual_price_id')->references('id')
-                    ->on('manual_price');
+            $table->index('campus_id');
+            $table->foreign('campus_id')->references('id')
+                    ->on('campus');
         });
     }
 
@@ -37,6 +35,6 @@ class CreateServicesBriefcaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services_briefcase');
+        Schema::dropIfExists('campus_briefcase');
     }
 }

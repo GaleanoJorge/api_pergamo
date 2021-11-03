@@ -322,7 +322,7 @@
     {
         "id": "77",
         "item_parent_id": "69",
-        "name": "Clasificación industrial internacional uniforme",
+        "name": "División clasificación industrial",
         "code": "ciiu-division",
         "route": "/pages/setting/ciiu-division",
         "icon": "",
@@ -331,7 +331,7 @@
     {
         "id": "78",
         "item_parent_id": "69",
-        "name": "Gurpos de la clasificación industrial internacional uniforme",
+        "name": "Grupos de la clasificación industrial internacional uniforme",
         "code": "ciiu-group",
         "route": "/pages/setting/ciiu-group",
         "icon": "",
@@ -430,7 +430,7 @@
     {
         "id": "89",
         "item_parent_id": "66",
-        "name": "Medicamentos",
+        "name": "Producto",
         "code": null,
         "route": null,
         "icon": "",
@@ -457,7 +457,7 @@
     {
         "id": "92",
         "item_parent_id": "91",
-        "name": "Ruta de administración",
+        "name": "Vía de administración",
         "code": "administration-route",
         "route": "/pages/setting/administration-route",
         "icon": "",
@@ -628,7 +628,7 @@
     {
         "id": "112",
         "item_parent_id": "109",
-        "name": "Tipo de catalogo",
+        "name": "Tipo de portafolio",
         "code": "type-briefcase",
         "route": "/pages/setting/type-briefcase",
         "icon": "",

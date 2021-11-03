@@ -35,6 +35,7 @@ class CreateContractTable extends Migration
             $table->date('start_date_contractual_policy');
             $table->date('finish_date_contractual_policy');
             $table->integer('start_date_invoice');
+            $table->unsignedBigInteger('regime_id');
             $table->integer('finish_date_invoice');
             $table->integer('time_delivery_invoice');
             $table->integer('expiration_days_portafolio');
@@ -56,6 +57,8 @@ class CreateContractTable extends Migration
             $table->foreign('civil_policy_insurance_id')->references('id')->on('insurance_carrier');
             $table->index('contractual_policy_insurance_id');
             $table->foreign('contractual_policy_insurance_id')->references('id')->on('insurance_carrier');
+            $table->index('regime_id');
+            $table->foreign('regime_id')->references('id')->on('type_briefcase');
             
         });
 

@@ -7,33 +7,37 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
-use App\Models\RipsType;
+use App\Models\Briefcase;
+use App\Models\Campus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ProcedureCategory
+ * Class CampusBriefcase
  * 
  * @property int $id
- * @property string $name 
- * @property int $rips_type_id 
+ * @property int $briefcase_id
+ * @property int $campus_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class ProcedureCategory extends Model
+class CampusBriefcase extends Model
 {
-	protected $table = 'procedure_category';
+	protected $table = 'campus_briefcase';
 
 	protected $casts = [
-		'rips_type_id' => 'int',
+		'campus_id' => 'int',
+		'briefcase_id' => 'int',
 	];
 
-	public function rips_type()
+	public function campus()
 	{
-		return $this->belongsTo(RipsType::class);
+		return $this->belongsTo(Campus::class);
 	}
+
+
 	
 }

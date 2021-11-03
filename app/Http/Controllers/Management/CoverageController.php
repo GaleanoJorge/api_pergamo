@@ -49,7 +49,7 @@ class CoverageController extends Controller
     {
         $Coverage = new Coverage;
         $Coverage->name = $request->name;
-        $Coverage->modality_id = $request->modality_id;
+        $Coverage->code = $request->code;
         
         $Coverage->save();
 
@@ -88,7 +88,7 @@ class CoverageController extends Controller
     {
         $Coverage = Coverage::find($id);
         $Coverage->name = $request->name;
-        $Coverage->modality_id = $request->modality_id;
+        $Coverage->code = $request->code;
         
         $Coverage->save();
 
