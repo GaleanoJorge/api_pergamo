@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Procedure;
+use App\Models\ProcedurePackage;
+use App\Models\ManualPrice;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -44,6 +46,68 @@ class ProcedureController extends Controller
             'data' => ['procedure' => $Procedures]
         ]);
     }
+
+            /**
+    * @param  int  $packageId
+     * Get procedure by manual.
+     *
+     * @return JsonResponse
+     */
+    public function getByProcedure(Request $request,int $packageId): JsonResponse
+    {
+        $ProcedurePackage=ProcedurePackage::where('procedure_package_id','=',$packageId)->pluck('procedure_id')->toArray();
+        $Procedure = Procedure::whereNotIn('id', $ProcedurePackage)->where('procedure_type_id','!=',3);
+        if ($request->search) {
+            $Procedure->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $Procedure = $Procedure->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Procedure = $Procedure->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Paquete de procedimientos obtenido exitosamente',
+            'data' => ['procedure_package' => $Procedure]
+        ]);
+    }
+
+
+                 /**
+    * @param  int  $manualId
+     * Get procedure by manual.
+     *
+     * @return JsonResponse
+     */
+    public function getByManual(Request $request,int $manualId): JsonResponse
+    {
+        $ManualPrice=ManualPrice::where('manual_id','=',$manualId)->pluck('procedure_id')->toArray();        
+        $Procedure = Procedure::whereNotIn('id', $ManualPrice);
+        if ($request->search) {
+            $Procedure->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $Procedure = $Procedure->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Procedure = $Procedure->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Paquete de procedimientos obtenido exitosamente',
+            'data' => ['procedure' => $Procedure]
+        ]);
+    }
+
     
 
     public function store(ProcedureRequest $request): JsonResponse

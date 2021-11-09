@@ -146,11 +146,33 @@ class ServicesBriefcaseController extends Controller
     public function update(ServicesBriefcaseRequest $request, int $id): JsonResponse
     {
         $ServicesBriefcase = ServicesBriefcase::find($id);
-        $ServicesBriefcase->contract_id = $request->contract_id;
-        $ServicesBriefcase->procedure_id = $request->procedure_id;
-        $ServicesBriefcase->modality_id = $request->modality_id;
-        
+        if($request->price_type_id==1){
+            if($request->sign==0){
+                $request->factor=$request->factor+100;
+                $ServicesBriefcase->value = $request->value*$request->factor/100;
+                $factor=$request->factor-100;
+                $ServicesBriefcase->factor = '+'.$factor;
+            }else{
+                $tem=$request->value*$request->factor/100;
+                $ServicesBriefcase->value = $request->value-$tem;
+                $ServicesBriefcase->factor = '-'.$request->factor;
+            }
+        }else{
+            if($request->sign==0){
+                $request->factor=$request->factor+100;
+                $ServicesBriefcase->value = 30284*$request->value*$request->factor/100;
+                $ServicesBriefcase->factor = '+'.$request->factor;
+            }else{
+                $tem=30284*$request->value*$request->factor/100;
+                $ServicesBriefcase->value = $request->value-$tem;
+                $ServicesBriefcase->factor = '-'.$request->factor;
+            }
+            
+        }
+        $ServicesBriefcase->briefcase_id = $request->briefcase_id;
+        $ServicesBriefcase->manual_price_id = $request->manual_price_id;
         $ServicesBriefcase->save();
+        
 
         return response()->json([
             'status' => true,

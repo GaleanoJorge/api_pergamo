@@ -289,6 +289,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento
     Route::apiResource('procedure', 'Management\ProcedureController');
 
+    //Procedimiento para manual
+    Route::get('procedure_bymanual/{id}', 'Management\ProcedureController@getByManual');
+
+    //Procedimiento para paquete
+    Route::get('procedure_bypackage/{id}', 'Management\ProcedureController@getByProcedure');
+
+       //Procedimiento para paquete all
+    Route::apiResource('procedure_package', 'Management\ProcedurePackageController');
+
+    //Procedimiento para paquete all
+    Route::get('bypackage_procedure/{id}', 'Management\ProcedurePackageController@getByPackage');
+
     //Tipos de personas contablemente
     Route::apiResource('company_kindperson', 'Management\CompanyKindpersonController');
 
@@ -361,6 +373,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'ManualPrice/ProcedureByManual/{manualId}',
         'Management\ManualPriceController@getByManual'
+    );
+    Route::get(
+        'manual_pricebybriefcase/{briefcaseId}',
+        'Management\ManualPriceController@getByBriefcase'
     );
     Route::get(
         'ManualPrice/ProcedureByManual2/{manualId}',
@@ -454,6 +470,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
    //Portafolio de servicios
    Route::apiResource('services_briefcase', 'Management\ServicesBriefcaseController');
+
+    //Portafolio de servicios
+    Route::put('services_updatebriefcase/{id}', 'Management\ServicesBriefcaseController@update');
+
+    //manual price filter x manual
+    Route::get('manual_price/{id}/{id2}', 'Management\ManualPriceController@getByFilterManual');
 
     //Portafolio de servicios por contrato
     Route::get(
