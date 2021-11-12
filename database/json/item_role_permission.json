@@ -1503,6 +1503,66 @@
         "item_id": "117",
         "role_id": "1",
         "permission_id": "4"
+    },
+    {
+        "item_id": "118",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "118",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "118",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "118",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "119",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "119",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "119",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "119",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "120",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "120",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "120",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "120",
+        "role_id": "1",
+        "permission_id": "4"
     }
 ]
 

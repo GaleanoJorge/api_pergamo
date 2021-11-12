@@ -573,6 +573,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //AnswerType
     Route::apiResource('answerType', 'Management\AnswerTypeController');
 
+    //Glosas
+    Route::apiResource('objetion_type', 'Management\ObjetionTypeController');
+    Route::apiResource('repeated_initial', 'Management\RepeatedInitialController');
+    Route::apiResource('received_by', 'Management\ReceivedByController');
+    Route::apiResource('gloss_modality', 'Management\GlossModalityController');
+    Route::apiResource('gloss_ambit', 'Management\GlossAmbitController');
+    Route::apiResource('gloss_service', 'Management\GlossServiceController');
+    Route::apiResource('objetion_code', 'Management\ObjetionCodeController');
+    Route::apiResource('gloss', 'Management\GlossController');
+
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
     Route::put('answer/{id}/move/{direction}', 'Management\AnswerController@move');

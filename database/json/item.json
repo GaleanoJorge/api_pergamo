@@ -678,6 +678,33 @@
         "route": "/pages/setting/contract-status",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "118",
+        "item_parent_id": null,
+        "name": "Glosas",
+        "code": "gloss",
+        "route": "/pages/gloss/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "119",
+        "item_parent_id": "67",
+        "name": "Configuración de Glosas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "120",
+        "item_parent_id": "119",
+        "name": "Tipo de Objeción",
+        "code": "objetion-code",
+        "route": "/pages/setting/objetion-code",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]
