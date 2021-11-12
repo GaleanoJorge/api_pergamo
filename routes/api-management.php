@@ -437,6 +437,54 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
    //Archivo del contrato
    Route::apiResource('file_contract', 'Management\FileContractController');
+   
+   //seleccion RH
+   Route::apiResource('select_rh', 'Management\SelectRhController');
+
+   //Estado de nivel de estudio
+   Route::apiResource('study_level_status', 'Management\StudyLevelStatusController');
+   
+   //Barrio/Vereda De Residencia
+   Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
+
+   //Ocupaciones
+   Route::apiResource('activities', 'Management\ActivitiesController');
+
+   //Vía de ingreso de l paciente
+   Route::apiResource('admission_route', 'Management\AdmissionRouteController');
+
+   //Ambito de atención
+   Route::apiResource('scope_of_attention', 'Management\ScopeOfAttentionController');
+
+   //Programa en el cual va a ser atendio
+   Route::apiResource('program', 'Management\ProgramController');
+
+   //Piso 
+   Route::apiResource('flat', 'Management\FlatController');
+
+   //Pabellón
+   Route::apiResource('pavilion', 'Management\PavilionController');
+
+   //Cama asignada al paciente
+   Route::apiResource('bed', 'Management\BedController');
+
+   //Discapacidad del usuario
+   Route::apiResource('inability', 'Management\InabilityController');
+
+   //Atención Especial
+   Route::apiResource('special_attention', 'Management\SpecialAttentionController');
+
+   //Grupo Poblacional
+   Route::apiResource('population_group', 'Management\PopulationGroupController');
+   
+   //Información del paciente
+   Route::apiResource('patient_data', 'Management\PatientDataController');
+
+   //Tipo de afiliado
+   Route::apiResource('affiliate_type', 'Management\AffiliateTypeController');
+
+   //Admisiones
+   Route::apiResource('admissions', 'Management\AdmissionsController');
 
    Route::get(
     'FileContract/FileByContract/{contractId}',
@@ -464,6 +512,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Estado del Contrato
     Route::apiResource('contract_status', 'Management\ContractStatusController');
 
+
+    //Estado Civil del usuario
+    Route::apiResource('marital_status', 'Management\MaritalStatusController');
 
     //CourseThemes
     Route::apiResource('courseThemes', 'Management\CourseThemesController');

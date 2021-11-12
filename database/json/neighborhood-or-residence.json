@@ -1,0 +1,415 @@
+[
+    
+        {
+            "name": "El Refugio",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San Isidro-Patios",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Pardo Rubio",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Chicó Lago",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Chapinero",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Sagrado Corazón",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Macarena",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Las Nieves",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Las Cruces",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Lourdes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San Blas",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Sociego",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "20 de Julio",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Gloria",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Los Libertadores",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Flora",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Danubio",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Gran Yomasa",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Comuneros",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Alfonso López",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Parque Entrenubes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ciudad Usme",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Venecia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Tunjuelito",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Apogeo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Bosa Occidental",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Bosa Central",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "El Porvenir",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Tintal Sur",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Castilla",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Américas",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Carvajal",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Kennedy Central",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Timiza",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Tintal Norte",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Calandaima",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Corabastos",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Gran Britalia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Patio Bonito",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Las Margaritas",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Bavaria",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Fontibón",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Fontibón-San Pablo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Zona Franca",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ciudad Salitre Occidente",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Granjas de Techo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Modelia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Capellanía",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Aeropuerto Eldorado",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Las Ferias",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Minuto de Dios",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Boyacá Real",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Santa Cecilia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Bolivia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Garcés Navas",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Engativá",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Jardín Botánico",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Álamos",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Academia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Guaymaral",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San José de Bavaria",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Britalia",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "El Prado",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Alhambra",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Casablanca Suba",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Niza",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Floresta",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Suba",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "El Rincón",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Tibabuyes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Los Andes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "12 de Octubre",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Los Alcázares",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Parque Salitre",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Galerías",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Teusaquillo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Parque Simón Bolívar",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Esmeralda",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Quinta Paredes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ciudad Salitre Oriental",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Santa Isabel",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Sabana",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ciudad Jardín",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Restrepo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ciudad Montes",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Muzú",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San Rafael",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Zona Industrial",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Puente Aranda",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "La Candelaria",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San José",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Quiroga",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Marco Fidel Suárez",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Marruecos",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Diana Turbay",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "El Mochuelo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Monteblanco",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Arborizadora",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "San Francisco",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Lucero",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "El Tesoro",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Ismael Perdomo",
+            "municipality_id": "11001"
+        },
+        {
+            "name": "Jerusalén",
+            "municipality_id": "11001"
+        }
+    ]

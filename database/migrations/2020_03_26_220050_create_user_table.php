@@ -39,6 +39,19 @@ class CreateUserTable extends Migration
             $table->bigInteger('sync_id')->nullable();
             $table->boolean('force_reset_password')->unsigned()->default('0');
             $table->integer('sga_origin_fk')->nullable();
+            $table->unsignedBigInteger('birthplace_country_id');
+            $table->unsignedsmallInteger('birthplace_region_id');
+            $table->string('residence_address');
+            $table->unsignedsmallInteger('residence_region_id');
+            $table->unsignedBigInteger('residence_municipality_id');
+            $table->unsignedBigInteger('study_level_status_id');
+            $table->unsignedBigInteger('activities_id');
+            $table->unsignedBigInteger('neighborhood_or_residence_id');
+            $table->unsignedBigInteger('select_rh_id');
+            $table->unsignedBigInteger('marital_status_id');
+            $table->unsignedBigInteger('inability_id');
+            $table->unsignedBigInteger('population_group_id');
+            
             $table->rememberToken();
             $table->timestamps();
             $table->index('sga_origin_fk');
@@ -47,6 +60,25 @@ class CreateUserTable extends Migration
             $table->index('academic_level_id');
             $table->index('identification_type_id');
             $table->index('birthplace_municipality_id');
+            $table->index('select_rh_id');
+            $table->index('birthplace_country_id');
+            $table->index('birthplace_region_id');
+            $table->index('residence_region_id');
+            $table->index('residence_municipality_id');
+            $table->index('neighborhood_or_residence_id');
+            $table->index('activities_id');
+            $table->index('study_level_status_id');
+            $table->index('marital_status_id');
+            $table->index('population_group_id');
+            $table->index('inability_id');
+          
+           
+            $table->foreign('inability_id')->references('id')
+            ->on('inability');
+            $table->foreign('population_group_id')->references('id')
+            ->on('population_group');
+            $table->foreign('marital_status_id')->references('id')
+                ->on('marital_status');
             $table->foreign('status_id')->references('id')
                 ->on('status');
             $table->foreign('gender_id')->references('id')
@@ -58,7 +90,23 @@ class CreateUserTable extends Migration
             $table->foreign('birthplace_municipality_id')->references('id')
                 ->on('municipality');
             $table->foreign('ethnicity_id')->references('id')
-                ->on('ethnicity');
+                ->on('ethnicity');  
+            $table->foreign('select_rh_id')->references('id')
+                ->on('select_rh');    
+            $table->foreign('birthplace_country_id')->references('id')
+                ->on('country');  
+            $table->foreign('birthplace_region_id')->references('id')
+                ->on('region');   
+            $table->foreign('residence_region_id')->references('id')
+                ->on('region'); 
+            $table->foreign('residence_municipality_id')->references('id')
+                ->on('municipality');  
+            $table->foreign('neighborhood_or_residence_id')->references('id')
+                ->on('neighborhood_or_residence');     
+            $table->foreign('activities_id')->references('id')
+                ->on('activities');
+            $table->foreign('study_level_status_id')->references('id')
+                ->on('study_level_status');
         });
     }
 

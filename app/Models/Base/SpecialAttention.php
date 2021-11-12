@@ -11,11 +11,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MeasurementUnits
- 
+ * Class SpecialAttention
  * 
  * @property int $id
- * @property string $code
  * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -23,9 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class MeasurementUnits extends Model
+class SpecialAttention extends Model
 {
-	protected $table = 'measurement_units';
+	protected $table = 'special_attention';
 
 	
 }

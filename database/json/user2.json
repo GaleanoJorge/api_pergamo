@@ -16,6 +16,20 @@
         "birthday": "1993-02-17",
         "phone": "3192797007",
         "reset_password": 0,
-        "sga_origin_pk": 1
+        "sga_origin_pk": 1,
+        "select_rh_id": 1,
+        "birthplace_country_id": 1,
+        "birthplace_region_id": 4,
+        "residence_address": "Av cra 68 # 13 - 61 ",
+        "residence_region_id": 3,
+        "residence_municipality_id": 11001,
+        "study_level_status_id": 1,
+        "activities_id": 1,
+        "neighborhood_or_residence_id": 1,
+        "marital_status_id" : 2,
+        "inability_id" : 2,
+        "population_group_id" : 2
+
+
     }
 ]

@@ -33,6 +33,15 @@ class DatabaseSeeder extends Seeder
                 $this->call(RegionSeeder::class);
                 $this->call(MunicipalitySeeder::class);
                 $this->call(AcademicLevelSeeder::class);
+                $this->call(ActivitiesSeeder::class);
+                $this->call(NeighborhoodOrResidenceSeeder::class);
+                $this->call(SelectRhSeeder::class);
+                $this->call(StudyLevelStatusSeeder::class);
+                $this->call(MaritalStatusSeeder::class);
+                $this->call(InabilitySeeder::class);
+                $this->call(PopulationGroupSeeder::class);
+                $this->call(AffiliateTypeSeeder::class);
+                
                 // $this->call(EducationalInstitutionSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
