@@ -700,9 +700,18 @@
     {
         "id": "120",
         "item_parent_id": "119",
-        "name": "Tipo de Objeción",
+        "name": "Codigo de Objeción",
         "code": "objetion-code",
         "route": "/pages/setting/objetion-code",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "121",
+        "item_parent_id": "119",
+        "name": "Tipo de Objeción",
+        "code": "objetion-type",
+        "route": "/pages/setting/objetion-type",
         "icon": "",
         "show_menu": "1"
     }
