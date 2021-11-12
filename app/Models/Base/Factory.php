@@ -13,9 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Factory
  * 
- * @property int $identification_type_id
- * @property string $identification
- * @property string $verification
  * @property string $name
  * @property int $status_id
  * @property Carbon $created_at

@@ -7,33 +7,34 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
-use App\Models\RipsType;
+use App\Models\Procedure;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ProcedureCategory
+ * Class ProcedurePackage
  * 
  * @property int $id
- * @property string $name 
- * @property int $rips_type_id 
+ * @property int $procedure_package_id
+ * @property int $procedure_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class ProcedureCategory extends Model
+class ProcedurePackage extends Model
 {
-	protected $table = 'procedure_category';
+	protected $table = 'procedure_package';
 
 	protected $casts = [
-		'rips_type_id' => 'int',
+		'procedure_package_id' => 'int',
+		'procedure_id' => 'int',
 	];
 
-	public function rips_type()
+	public function procedure()
 	{
-		return $this->belongsTo(RipsType::class);
+		return $this->belongsTo(Procedure::class);
 	}
-	
+		
 }

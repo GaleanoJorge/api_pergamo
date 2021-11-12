@@ -18,7 +18,7 @@ class ProcedureCategoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProcedureCategories = ProcedureCategory::select();
+        $ProcedureCategories = ProcedureCategory::with('rips_type');
 
         if($request->_sort){
             $ProcedureCategories->orderBy($request->_sort, $request->_order);

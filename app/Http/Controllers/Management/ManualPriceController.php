@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ManualPrice;
+use App\Models\ServicesBriefcase;
 use App\Models\Manual;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -19,7 +20,7 @@ class ManualPriceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ManualPrice = ManualPrice::select();
+        $ManualPrice = ManualPrice::with('procedure','product','price_type','manual');
 
         if($request->_sort){
             $ManualPrice->orderBy($request->_sort, $request->_order);
@@ -45,6 +46,70 @@ class ManualPriceController extends Controller
             'data' => ['manual_price' => $ManualPrice]
         ]);
     }
+
+
+                       /**
+    * @param  int  $briefcaseId
+     * Get procedure by briefcase.
+     *
+     * @return JsonResponse
+     */
+    public function getByBriefcase(Request $request,int $briefcaseId): JsonResponse
+    {
+        $ServicesBriefcase=ServicesBriefcase::where('briefcase_id','=',$briefcaseId)->pluck('manual_price_id')->toArray();        
+        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)->with('procedure','product','price_type','manual');
+        if ($request->search) {
+            $ManualPrice->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $ManualPrice = $ManualPrice->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ManualPrice = $ManualPrice->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Asociación de los manuales con los procedimientos y las tarifas exitoso',
+            'data' => ['manual_price' => $ManualPrice]
+        ]);
+    }
+
+                           /**
+    * @param  int  $briefcaseId
+    * @param  int  $manualId
+     * Get procedure by briefcase.
+     *
+     * @return JsonResponse
+     */
+    public function getByFilterManual(Request $request,int $briefcaseId, int $manualId): JsonResponse
+    {
+        $ServicesBriefcase=ServicesBriefcase::where('briefcase_id','=',$briefcaseId)->pluck('manual_price_id')->toArray();        
+        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)->with('procedure','product','price_type','manual')
+        ->where('manual_id',$manualId);
+        if ($request->search) {
+            $ManualPrice->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $ManualPrice = $ManualPrice->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ManualPrice = $ManualPrice->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Asociación de los manuales con los procedimientos y las tarifas exitoso',
+            'data' => ['manual_price' => $ManualPrice]
+        ]);
+    }
+
 
            /**
      * Get procedure by manual.

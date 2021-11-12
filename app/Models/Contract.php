@@ -15,7 +15,7 @@ class Contract extends BaseContract
         'amount',
         'start_date',
         'finish_date',
-        'status_id',
+        'contract_status_id',
         'firms_contractor_id',
         'firms_contracting_id',
         'civil_policy_insurance_id',

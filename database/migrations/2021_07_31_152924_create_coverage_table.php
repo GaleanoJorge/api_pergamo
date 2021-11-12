@@ -15,13 +15,9 @@ class CreateCoverageTable extends Migration
     {
         Schema::create('coverage', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code');
             $table->string('name');
-            $table->unsignedBigInteger('type_briefcase_id');
             $table->timestamps();
-
-            $table->index('type_briefcase_id');
-            $table->foreign('type_briefcase_id')->references('id')
-                    ->on('type_briefcase');
         });
     }
 

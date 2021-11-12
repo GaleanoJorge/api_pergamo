@@ -9,6 +9,7 @@ namespace App\Models\Base;
 use Carbon\Carbon;
 use App\Models\Procedure;
 use App\Models\Product;
+use App\Models\Manual;
 use App\Models\PriceType;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +35,7 @@ class ManualPrice extends Model
 	protected $table = 'manual_price';
 
 	protected $casts = [
+		'manual_id' => 'int',
 		'procedure_id' => 'int',
 		'product_id' => 'int',
 		'price_type_id' => 'int',
@@ -53,6 +55,9 @@ class ManualPrice extends Model
 	{
 		return $this->belongsTo(PriceType::class);
 	}
-
+	public function manual()
+	{
+		return $this->belongsTo(Manual::class);
+	}
 	
 }

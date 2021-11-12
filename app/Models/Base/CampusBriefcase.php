@@ -8,40 +8,36 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\Briefcase;
-use App\Models\ManualPrice;
+use App\Models\Campus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ServicesBriefcase
+ * Class CampusBriefcase
  * 
  * @property int $id
  * @property int $briefcase_id
- * @property int $manual_price_id
- *  @property int $value
- * @property int $factor
+ * @property int $campus_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class ServicesBriefcase extends Model
+class CampusBriefcase extends Model
 {
-	protected $table = 'services_briefcase';
+	protected $table = 'campus_briefcase';
 
 	protected $casts = [
+		'campus_id' => 'int',
 		'briefcase_id' => 'int',
-		'manual_price_id' => 'int',
 	];
 
-	public function briefcase()
+	public function campus()
 	{
-		return $this->belongsTo(Briefcase::class);
+		return $this->belongsTo(Campus::class);
 	}
 
-	public function manual_price()
-	{
-		return $this->belongsTo(ManualPrice::class);
-	}
+
+	
 }

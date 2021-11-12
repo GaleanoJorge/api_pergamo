@@ -26,9 +26,6 @@ class FactoryRequest extends FormRequest
         return [
             //
         
-            'identification_type_id' => 'required',
-            'identification' => 'required',
-            'verification' => 'required',
             'name' => 'required',
             'status_id' => 'required',
     

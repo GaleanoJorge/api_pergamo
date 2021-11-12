@@ -24,9 +24,10 @@ class ServicesBriefcaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'contract_id' => 'required',
-            'proceduere_id' => 'required',
-            'modality_id' => 'required',
+            'briefcase_id' => '',
+            'manual_price_id' => '',
+            'value' => '',
+            'factor' => '',
         ];
     }
 }

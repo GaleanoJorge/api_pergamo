@@ -25,7 +25,7 @@ class CoverageRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'type_briefcase_id' => 'required',
+            'code' => 'required',
         ];
     }
 }

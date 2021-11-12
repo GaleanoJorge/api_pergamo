@@ -49,9 +49,6 @@ class FactoryController extends Controller
     public function store(FactoryRequest $request): JsonResponse
     {
         $Factory = new Factory;
-        $Factory->identification_type_id = $request->identification_type_id;
-        $Factory->identification = $request->identification;
-        $Factory->verification = $request->verification;
         $Factory->name = $request->name; 
         $Factory->status_id = $request->status_id;
         $Factory->save();
@@ -90,9 +87,6 @@ class FactoryController extends Controller
     public function update(FactoryRequest $request, int $id): JsonResponse
     {
         $Factory = Factory ::find($id);
-        $Factory->identification_type_id = $request->identification_type_id;
-        $Factory->identification = $request->identification;
-        $Factory->verification = $request->verification;
         $Factory->name = $request->name; 
         $Factory->status_id = $request->status_id;
         $Factory->save();

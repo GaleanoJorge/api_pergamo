@@ -8,9 +8,10 @@ use App\Models\Base\ServicesBriefcase as BaseServicesBriefcase;
 class ServicesBriefcase extends BaseServicesBriefcase
 {
     protected $fillable = [
-		'contract_id',
-		'proceduere_id',
-		'modality_id',
+		'briefcase_id',
+		'manual_price_id',
+		'value',
+		'factor',
 		
 	];
 }

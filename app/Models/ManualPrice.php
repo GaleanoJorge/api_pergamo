@@ -10,6 +10,7 @@ class ManualPrice extends BaseManualPrice
     protected $fillable = [
 		'manual_id',
     'procedure_id',
+    'product_id',
     'value',
     'price_type_id'
          

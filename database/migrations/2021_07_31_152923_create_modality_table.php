@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypeBriefcaseTable extends Migration
+class CreateModalityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateTypeBriefcaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_briefcase', function (Blueprint $table) {
+        Schema::create('modality', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('code');
             $table->string('name');
             $table->timestamps();
+
         });
     }
 
@@ -27,6 +29,6 @@ class CreateTypeBriefcaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_briefcase');
+        Schema::dropIfExists('modality');
     }
 }

@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\RipsTypefile;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,5 +27,13 @@ class RipsType extends Model
 {
 	protected $table = 'rips_type';
 
+	protected $casts = [
+		'rips_typefile_id' => 'int',
+	];
+
+	public function rips_typefile()
+	{
+		return $this->belongsTo(RipsTypefile::class);
+	}
 	
 }
