@@ -711,6 +711,15 @@
         "show_menu": "1"
     },
     {
+        "id": "122",
+        "item_parent_id": "119",
+        "name": "Reiterado - Inicializado",
+        "code": "repeated-initial",
+        "route": "/pages/setting/repeated-initial",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
         "id": "123",
         "item_parent_id": "119",
         "name": "Forma de recibido",
