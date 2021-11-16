@@ -43,7 +43,6 @@
         "route": null,
         "icon": "",
         "show_menu": "1"
-    
     },
     {
         "id": "68",
@@ -152,7 +151,6 @@
         "route": "/pages/setting/users",
         "icon": "people-outline",
         "show_menu": "1"
-
     },
     {
         "id": "54",
@@ -180,8 +178,6 @@
         "route": "/pages/setting/procedure-purpose",
         "icon": "",
         "show_menu": "1"
-
-        
     },
     {
         "id": "57",
@@ -191,8 +187,7 @@
         "route": "/pages/setting/procedure",
         "icon": "",
         "show_menu": "1"
-    
-     },
+    },
     {
         "id": "58",
         "item_parent_id": "69",
@@ -714,6 +709,14 @@
         "route": "/pages/setting/objetion-type",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "123",
+        "item_parent_id": "119",
+        "name": "Forma de recibido",
+        "code": "received-by",
+        "route": "/pages/setting/received-by",
+        "icon": "",
+        "show_menu": "1"
     }
-  
 ]
