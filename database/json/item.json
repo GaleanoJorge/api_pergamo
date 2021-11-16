@@ -728,4 +728,14 @@
         "icon": "",
         "show_menu": "1"
     }
+    ,
+    {
+        "id": "124",
+        "item_parent_id": "119",
+        "name": "Modalidad de Glosas",
+        "code": "gloss-modality",
+        "route": "/pages/setting/gloss-modality",
+        "icon": "",
+        "show_menu": "1"
+    }
 ]

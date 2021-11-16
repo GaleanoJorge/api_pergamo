@@ -18,7 +18,7 @@ class GlossModalityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $GlossModality = GlossModality::select();
+        $GlossModality = GlossModality::with('status');
 
         if ($request->_sort) {
             $GlossModality->orderBy($request->_sort, $request->_order);
@@ -26,6 +26,10 @@ class GlossModalityController extends Controller
 
         if ($request->search) {
             $GlossModality->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->status_id) {
+            $GlossModality->where('status_id', $request->status_id);
         }
 
         if ($request->query("pagination", true) == "false") {
