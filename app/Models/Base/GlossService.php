@@ -33,10 +33,10 @@ class GlossService extends Model
 
 	public function status()
 	{
-		return $this->hasMany(Status::class);
+		return $this->belongsTo(Status::class);
 	}
 	public function gloss_ambit()
 	{
-		return $this->hasMany(GlossAmbit::class);
+		return $this->belongsTo(GlossAmbit::class);
 	}
 }

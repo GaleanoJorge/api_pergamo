@@ -18,7 +18,7 @@ class GlossServiceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $GlossService = GlossService::select();
+        $GlossService = GlossService::with('status', 'gloss_ambit');
 
         if ($request->_sort) {
             $GlossService->orderBy($request->_sort, $request->_order);
@@ -26,6 +26,12 @@ class GlossServiceController extends Controller
 
         if ($request->search) {
             $GlossService->where('name', 'like', '%' . $request->search . '%');
+        }
+        if ($request->gloss_ambit_id) {
+            $GlossService->where('gloss_ambit_id', $request->gloss_ambit_id);
+        }
+        if ($request->status_id) {
+            $GlossService->where('status_id', $request->status_id);
         }
 
         if ($request->query("pagination", true) == "false") {
