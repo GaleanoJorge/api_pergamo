@@ -18,7 +18,7 @@ class GlossAmbitController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $GlossAmbit = GlossAmbit::select();
+        $GlossAmbit = GlossAmbit::with('status', 'gloss_modality');
 
         if ($request->_sort) {
             $GlossAmbit->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,13 @@ class GlossAmbitController extends Controller
         if ($request->search) {
             $GlossAmbit->where('name', 'like', '%' . $request->search . '%');
         }
+        if ($request->gloss_modality_id) {
+            $GlossModality->where('gloss_modality_id', $request->gloss_modality_id);
+        }
+        if ($request->status_id) {
+            $GlossModality->where('status_id', $request->status_id);
+        }
+
 
         if ($request->query("pagination", true) == "false") {
             $GlossAmbit = $GlossAmbit->get()->toArray();

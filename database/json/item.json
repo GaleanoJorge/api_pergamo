@@ -727,14 +727,22 @@
         "route": "/pages/setting/received-by",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
+    },
     {
         "id": "124",
         "item_parent_id": "119",
         "name": "Modalidad de Glosas",
         "code": "gloss-modality",
         "route": "/pages/setting/gloss-modality",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "125",
+        "item_parent_id": "119",
+        "name": "Ambito de Glosas",
+        "code": "gloss-ambit",
+        "route": "/pages/setting/gloss-ambit",
         "icon": "",
         "show_menu": "1"
     }

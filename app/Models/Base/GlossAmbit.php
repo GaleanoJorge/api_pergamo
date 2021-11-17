@@ -33,10 +33,10 @@ class GlossAmbit extends Model
 
 	public function status()
 	{
-		return $this->hasMany(Status::class);
+		return $this->belongsTo(Status::class);
 	}
 	public function gloss_modality()
 	{
-		return $this->hasMany(GlossModality::class);
+		return $this->belongsTo(GlossModality::class);
 	}
 }
