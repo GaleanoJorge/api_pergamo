@@ -28,10 +28,10 @@ class GlossAmbitController extends Controller
             $GlossAmbit->where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->gloss_modality_id) {
-            $GlossModality->where('gloss_modality_id', $request->gloss_modality_id);
+            $GlossAmbit->where('gloss_modality_id', $request->gloss_modality_id);
         }
         if ($request->status_id) {
-            $GlossModality->where('status_id', $request->status_id);
+            $GlossAmbit->where('status_id', $request->status_id);
         }
 
 
