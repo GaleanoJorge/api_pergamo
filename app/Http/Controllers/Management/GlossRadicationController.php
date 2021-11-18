@@ -2,15 +2,16 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossRadication;
-use Illuminate\Http\JsonRadication;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GlossRadicationRequest;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class GlossRadicationController extends Controller
 { 
-    public function index(Request $request): JsonRadication
+    public function index(Request $request): JsonResponse
     {
         $GlossRadication = GlossRadication::with('gloss','gloss_response');
 
@@ -41,11 +42,11 @@ class GlossRadicationController extends Controller
         ]);
     }
 
-    public function store(GlossRadicationRequest $request): JsonRadication
+    public function store(GlossRadicationRequest $request): JsonResponse
     {
         $GlossRadication = new GlossRadication;
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
-        $GlossRadication->radication_date = $request->radication_date; 
+        $GlossRadication->radication_date = Carbon::now()->toTimeString();
         $GlossRadication->observation = $request->observation;         
         $GlossRadication->save();
 
@@ -60,9 +61,9 @@ class GlossRadicationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return JsonRadication
+     * @return JsonResponse
      */
-    public function show(int $id): JsonRadication
+    public function show(int $id): JsonResponse
     {
         $GlossRadication = GlossRadication::where('id', $id)
             ->get()->toArray();
@@ -78,13 +79,13 @@ class GlossRadicationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  int  $id
-     * @return JsonRadication
+     * @return JsonResponse
      */
-    public function update(GlossRadicationRequest $request, int $id): JsonRadication
+    public function update(GlossRadicationRequest $request, int $id): JsonResponse
     {
         $GlossRadication = GlossRadication::find($id);
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
-        $GlossRadication->radication_date = $request->radication_date; 
+        $GlossRadication->radication_date = Carbon::now()->toTimeString();
         $GlossRadication->observation = $request->observation;
        
         $GlossRadication->save();
@@ -100,9 +101,9 @@ class GlossRadicationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return JsonRadication
+     * @return JsonResponse
      */
-    public function destroy(int $id): JsonRadication
+    public function destroy(int $id): JsonResponse
     {
         try {
             $GlossRadication = GlossRadication::find($id);

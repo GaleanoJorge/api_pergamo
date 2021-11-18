@@ -6,7 +6,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GlossResponseRequest;
-use Illuminate\Database\QueryException;
+use Illuminate\Database\QueryException; 
+use Carbon\Carbon;
 
 class GlossResponseController extends Controller
 { 
@@ -29,9 +30,7 @@ class GlossResponseController extends Controller
         }
         if ($request->objetion_code_response_id) {
             $GlossResponse->where('objetion_code_response_id', $request->objetion_code_response_id);
-        }
-
-         
+        }         
         if ($request->query("pagination", true) == "false") {
             $GlossResponse = $GlossResponse->get()->toArray();
         } else {
@@ -54,7 +53,7 @@ class GlossResponseController extends Controller
         $GlossResponse->gloss_id = $request->gloss_id;        
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-        $GlossResponse->response_date = Carbon\Carbon::now();
+        $GlossResponse->response_date = Carbon::now()->toTimeString();
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
 
@@ -97,7 +96,7 @@ class GlossResponseController extends Controller
         $GlossResponse->gloss_id = $request->gloss_id;        
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-        $GlossResponse->response_date = Carbon\Carbon::now();
+        $GlossResponse->response_date = Carbon::now()->toTimeString();
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
         $GlossResponse->save();
