@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Gloss;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::select();
+        $Gloss = Gloss::with('company','campus','objetion_type','repeated_initial','gloss_modality','gloss_ambit','gloss_service','objetion_code','user','received_by');
 
         if($request->_sort){
             $Gloss->orderBy($request->_sort, $request->_order);
@@ -58,7 +59,7 @@ class GlossController extends Controller
         $Gloss->gloss_modality_id=$request->gloss_modality_id;
         $Gloss->gloss_service_id=$request->gloss_service_id;
         $Gloss->objetion_code_id=$request->objetion_code_id;
-        $Gloss->user_id=$request->user_id;
+        $Gloss->user_id=Auth::user()->id;
         $Gloss->received_by_id=$request->received_by_id;
         $Gloss->invoice_prefix=$request->invoice_prefix;
         $Gloss->objetion_detail=$request->objetion_detail;
@@ -112,7 +113,7 @@ class GlossController extends Controller
         $Gloss->gloss_modality_id=$request->gloss_modality_id;
         $Gloss->gloss_service_id=$request->gloss_service_id;
         $Gloss->objetion_code_id=$request->objetion_code_id;
-        $Gloss->user_id=$request->user_id;
+        $Gloss->user_id=Auth::user()->id;
         $Gloss->received_by_id=$request->received_by_id;
         $Gloss->invoice_prefix=$request->invoice_prefix;
         $Gloss->objetion_detail=$request->objetion_detail;
