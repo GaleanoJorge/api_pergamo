@@ -17,6 +17,7 @@ class Gloss extends BaseGloss
     'gloss_modality_id',
     'gloss_service_id',
     'objetion_code_id',
+    'gloss_status_id',
     'user_id',
     'received_by_id',
     'invoice_prefix',
