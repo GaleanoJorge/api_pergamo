@@ -21,7 +21,7 @@ class GlossRadicationController extends Controller
         if ($request->search) {
             $GlossRadication->where('name', 'like', '%' . $request->search . '%');
         }
-        if ($request->gloss_id) {
+        if ($request->gloss_response_id) {
             $GlossRadication->where('gloss_response_id', $request->gloss_response_id);
         }
          

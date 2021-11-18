@@ -24,6 +24,13 @@ class GlossResponseController extends Controller
         if ($request->gloss_id) {
             $GlossResponse->where('gloss_id', $request->gloss_id);
         }
+        if ($request->objetion_response_id) {
+            $GlossResponse->where('objetion_response_id', $request->objetion_response_id);
+        }
+        if ($request->objetion_code_response_id) {
+            $GlossResponse->where('objetion_code_response_id', $request->objetion_code_response_id);
+        }
+
          
         if ($request->query("pagination", true) == "false") {
             $GlossResponse = $GlossResponse->get()->toArray();
