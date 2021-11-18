@@ -27,12 +27,12 @@ class CreateGlossResponseTable extends Migration
             $table->foreign('gloss_id')->references('id')
             ->on('gloss'); 
 
-            $table->index('description_code_id');
-            $table->foreign('description_code_id')->references('id')
+            $table->index('objetion_code_response_id');
+            $table->foreign('objetion_code_response_id')->references('id')
             ->on('objetion_code_response'); 
             
-            $table->index('pertinent_injustified_id');
-            $table->foreign('pertinent_injustified_id')->references('id')
+            $table->index('objetion_response_id');
+            $table->foreign('objetion_response_id')->references('id')
             ->on('objetion_response'); 
         }); 
     }

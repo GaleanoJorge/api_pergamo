@@ -745,8 +745,7 @@
         "route": "/pages/setting/gloss-ambit",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
+    },
     {
         "id": "126",
         "item_parent_id": "119",
@@ -755,8 +754,7 @@
         "route": "/pages/setting/gloss-service",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
+    },
     {
         "id": "138",
         "item_parent_id": "119",
@@ -765,7 +763,7 @@
         "route": "/pages/setting/objetion-code-response",
         "icon": "",
         "show_menu": "1"
-    } ,
+    },
     {
         "id": "139",
         "item_parent_id": "119",

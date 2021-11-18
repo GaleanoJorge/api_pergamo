@@ -21,7 +21,7 @@ class CreateGlossRadicationTable extends Migration
             $table->timestamps();
 
             $table->index('gloss_response_id');
-            $table->foreign('gloss_response_id')->references('gloss_response')
+            $table->foreign('gloss_response_id')->references('id')
             ->on('gloss_response'); 
         });
     }
