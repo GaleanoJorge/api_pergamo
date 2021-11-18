@@ -756,4 +756,23 @@
         "icon": "",
         "show_menu": "1"
     }
+    ,
+    {
+        "id": "138",
+        "item_parent_id": "119",
+        "name": "Codigo de objecion respuesta",
+        "code": "objetion-code-response",
+        "route": "/pages/setting/objetion-code-response",
+        "icon": "",
+        "show_menu": "1"
+    } ,
+    {
+        "id": "139",
+        "item_parent_id": "119",
+        "name": "Objeción respuesta",
+        "code": "objetion-response",
+        "route": "/pages/setting/objetion-response",
+        "icon": "",
+        "show_menu": "1"
+    }
 ]
