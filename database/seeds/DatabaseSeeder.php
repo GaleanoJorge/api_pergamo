@@ -53,6 +53,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(PermissionSeeder::class);
                 $this->call(ItemSeeder::class);
                 $this->call(ItemRolePermissionSeeder::class);
+                $this->call(GlossStatusSeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);
                 //$this->call(CustomFieldTypeSeeder::class);

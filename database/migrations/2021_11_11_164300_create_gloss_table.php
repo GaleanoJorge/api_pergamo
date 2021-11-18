@@ -28,6 +28,7 @@ class CreateGlossTable extends Migration
             $table->unsignedBigInteger('gloss_ambit_id');
             $table->unsignedBigInteger('gloss_service_id');
             $table->unsignedBigInteger('objetion_code_id');
+            $table->unsignedBigInteger('gloss_status_id');
             $table->string('objetion_detail');
             $table->integer('invoice_value');
             $table->integer('objeted_value');
@@ -41,6 +42,8 @@ class CreateGlossTable extends Migration
             $table->index('repeated_initial_id');
             $table->foreign('repeated_initial_id')->references('id')
             ->on('repeated_initial');
+            $table->foreign('gloss_status_id')->references('id')
+            ->on('gloss_status');
             $table->index('company_id');
             $table->foreign('company_id')->references('id')
             ->on('company');

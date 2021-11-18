@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\GlossAmbit;
 use App\Models\GlossModality;
 use App\Models\GlossService;
+use App\Models\GlossStatus;
 use App\Models\ObjetionCode;
 use App\Models\ObjetionType;
 use App\Models\ReceivedBy;
@@ -90,5 +91,9 @@ class Gloss extends Model
 	public function received_by()
 	{
 		return $this->belongsTo(ReceivedBy::class);
+	}
+	public function gloss_status()
+	{
+		return $this->belongsTo(GlossStatus::class);
 	}
 }
