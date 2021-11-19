@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossResponse;
+use App\Models\Gloss;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -58,6 +59,10 @@ class GlossResponseController extends Controller
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
 
         $GlossResponse->save();
+
+        $Gloss= Gloss::find($request->gloss_id);
+        $Gloss->gloss_status_id=2;
+        $Gloss->save();
 
         return response()->json([
             'status' => true,
