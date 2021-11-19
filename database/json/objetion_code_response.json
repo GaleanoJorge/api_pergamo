@@ -1,0 +1,18 @@
+[
+    {
+        "code": "96",
+        "name": "Glosa o devolución injustificada"
+    },
+    {
+        "code": "97",
+        "name": "No subsanada"
+    },
+    {
+        "code": "98",
+        "name": "Subsanada parcial"
+    },
+    {
+        "code": "99",
+        "name": "Subsanada"
+    }
+]
