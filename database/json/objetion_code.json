@@ -1,5 +1,9 @@
 [
     {
+        "code": "101",
+        "name": "Facturación-Estancia"
+    },
+    {
         "code": "102",
         "name": "Facturación-Consultas, interconsultas y visitas médicas"
     },
