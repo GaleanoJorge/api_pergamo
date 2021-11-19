@@ -585,6 +585,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('objetion_response', 'Management\ObjetionResponseController');
     Route::apiResource('objetion_code_response', 'Management\ObjetionCodeResponseController');
     Route::apiResource('gloss_response', 'Management\GlossResponseController');
+    Route::apiResource('gloss_radication', 'Management\GlossRadicationController');
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');

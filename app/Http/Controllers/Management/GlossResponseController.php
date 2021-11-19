@@ -14,7 +14,7 @@ class GlossResponseController extends Controller
 { 
     public function index(Request $request): JsonResponse
     {
-        $GlossResponse = GlossResponse::with('gloss','objetion_response','objetion_code_response');
+        $GlossResponse = GlossResponse::with('objetion_response','objetion_code_response');
 
         if ($request->_sort) {
             $GlossResponse->orderBy($request->_sort, $request->_order);
@@ -54,10 +54,9 @@ class GlossResponseController extends Controller
         $GlossResponse->gloss_id = $request->gloss_id;        
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-        $GlossResponse->response_date = Carbon::now()->toTimeString();
+        $GlossResponse->response_date = Carbon::now();
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
-
         $GlossResponse->save();
 
         $Gloss= Gloss::find($request->gloss_id);
@@ -101,7 +100,7 @@ class GlossResponseController extends Controller
         $GlossResponse->gloss_id = $request->gloss_id;        
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-        $GlossResponse->response_date = Carbon::now()->toTimeString();
+        $GlossResponse->response_date = Carbon::now();
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
         $GlossResponse->save();

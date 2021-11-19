@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossRadication;
+use App\Models\Gloss;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class GlossRadicationController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Respuesta de radicación Glosa obtenidos exitosamente',
-            'data' => ['gloss_response' => $GlossRadication]
+            'data' => ['gloss_radication' => $GlossRadication]
         ]);
     }
 
@@ -46,14 +47,18 @@ class GlossRadicationController extends Controller
     {
         $GlossRadication = new GlossRadication;
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
-        $GlossRadication->radication_date = Carbon::now()->toTimeString();
-        $GlossRadication->observation = $request->observation;         
+        $GlossRadication->radication_date = Carbon::now();
+        $GlossRadication->observation = $request->observation;
         $GlossRadication->save();
+
+        $Gloss= Gloss::find($request->gloss_id);
+        $Gloss->gloss_status_id=3;
+        $Gloss->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Respuesta de radicación Glosa creados exitosamente',
-            'data' => ['gloss_response' => $GlossRadication->toArray()]
+            'data' => ['gloss_radication' => $GlossRadication->toArray()]
         ]);
     }
 
@@ -71,7 +76,7 @@ class GlossRadicationController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Servicio de radicación Glosa obtenidos exitosamente',
-            'data' => ['gloss_response' => $GlossRadication]
+            'data' => ['gloss_radication' => $GlossRadication]
         ]);
     }
 
@@ -85,7 +90,7 @@ class GlossRadicationController extends Controller
     {
         $GlossRadication = GlossRadication::find($id);
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
-        $GlossRadication->radication_date = Carbon::now()->toTimeString();
+        $GlossRadication->radication_date = Carbon::now();
         $GlossRadication->observation = $request->observation;
        
         $GlossRadication->save();
@@ -93,7 +98,7 @@ class GlossRadicationController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Respuesta de radicación Glosa actualizados exitosamente',
-            'data' => ['gloss_response' => $GlossRadication]
+            'data' => ['gloss_radication' => $GlossRadication]
         ]);
     }
 

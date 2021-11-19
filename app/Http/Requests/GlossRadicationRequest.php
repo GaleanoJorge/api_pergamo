@@ -25,7 +25,6 @@ class GlossRadicationRequest extends FormRequest
     {
         return [
             'gloss_response_id' => 'required',
-            'radication_date' => 'required', 
             'observation' => 'required',
         ];
     }
