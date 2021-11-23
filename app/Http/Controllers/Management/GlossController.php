@@ -46,6 +46,41 @@ class GlossController extends Controller
         ]);
     }
 
+    public function import(Request $request)
+    {
+        foreach ($request->toArray() as $key => $item) {
+            $Gloss = Gloss::where('invoice_prefix', '=', $item["Prefijo_Factura"])->where('invoice_consecutive', '=', $item['Consecutivo_Factura'])->first();
+            if (!$Gloss) {
+                $Gloss = new Gloss;
+                $Gloss->objetion_type_id = $item['Tipo_Objecion'];
+                $Gloss->repeated_initial_id = $item['Inicial_o_Reiterada'];
+                $Gloss->company_id = $item['EAPB'];
+                $Gloss->campus_id = $item['Sede'];
+                $Gloss->gloss_ambit_id = $item['Ambito'];
+                $Gloss->gloss_modality_id = $item['Modalidad'];
+                $Gloss->gloss_service_id = $item['Servicio'];
+                $Gloss->objetion_code_id = $item['Cod_Objeción'];
+                $Gloss->gloss_status_id = 1;
+                $Gloss->user_id = Auth::user()->id;
+                $Gloss->received_by_id = $item['Medio_Recibido'];
+                $Gloss->invoice_prefix = $item['Prefijo_Factura'];
+                $Gloss->objetion_detail = $item['Detalle_de_Objeción'];
+                $Gloss->invoice_consecutive = $item['Consecutivo_Factura'];
+                $Gloss->objeted_value = $item['Vr_Objetado'];
+                $Gloss->invoice_value = $item['Cantidad'];
+                $Gloss->emission_date = $item['F_Emision'];
+                $Gloss->radication_date = $item['F_Radicacion'];
+                $Gloss->received_date = $item['F_Recibido'];
+                $Gloss->save();
+            }
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Glosas creadas exitosamente',
+            'data' => ['gloss' => $request->toArray()]
+        ]);
+    }
+
 
     public function store(GlossRequest $request): JsonResponse
     {
