@@ -9,6 +9,7 @@ namespace App\Models\Base;
 use App\Models\Status;
 use App\Models\ObjetionResponse;
 use App\Models\ObjetionCodeResponse;
+use App\Models\User;
 use Carbon\Carbon; 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $status_id
  * @property int $gloss_ambit_id
  * @property string $name
+ * @property BigInteger $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *  
@@ -36,6 +38,10 @@ class GlossResponse extends Model
 	public function objetion_response()
 	{
 		return $this->belongsTo(ObjetionResponse::class);
+	}
+	public function user()
+	{
+		return $this->belongsTo(User::class);
 	}
 	public function objetion_code_response()
 	{

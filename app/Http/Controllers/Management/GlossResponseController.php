@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Models\GlossResponse;
 use App\Models\Gloss;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class GlossResponseController extends Controller
 { 
     public function index(Request $request): JsonResponse
     {
-        $GlossResponse = GlossResponse::with('objetion_response','objetion_code_response');
+        $GlossResponse = GlossResponse::with('objetion_response','objetion_code_response', 'user');
 
         if ($request->_sort) {
             $GlossResponse->orderBy($request->_sort, $request->_order);
@@ -55,6 +56,7 @@ class GlossResponseController extends Controller
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response_date = Carbon::now();
+        $GlossResponse->user_id = Auth::user()->id;
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
         $GlossResponse->save();
@@ -101,6 +103,7 @@ class GlossResponseController extends Controller
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response_date = Carbon::now();
+        $GlossResponse->user_id = Auth::user()->id;
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
         $GlossResponse->save();

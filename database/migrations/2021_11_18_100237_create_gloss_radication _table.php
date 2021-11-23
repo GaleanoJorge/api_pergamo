@@ -18,7 +18,12 @@ class CreateGlossRadicationTable extends Migration
             $table->unsignedBigInteger('gloss_response_id');
             $table->string('radication_date');
             $table->string('observation');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->foreign('user_id')->references('id')
+            ->on('users');
 
             $table->index('gloss_response_id');
             $table->foreign('gloss_response_id')->references('id')

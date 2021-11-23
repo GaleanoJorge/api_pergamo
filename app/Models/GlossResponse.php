@@ -8,6 +8,7 @@ class GlossResponse extends BaseGlossResponse
 {
 	protected $fillable = [
 		'gloss_id',
+		'user_id',
 		'response_date',
 		'objetion_code_response_id',
 		'objetion_response_id', 

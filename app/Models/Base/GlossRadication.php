@@ -7,6 +7,7 @@
 namespace App\Models\Base;
  
 use App\Models\GlossResponse;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $status_id
  * @property int $gloss_ambit_id
+ * @property BigInteger $user_id
  * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -35,4 +37,8 @@ class GlossRadication extends Model
 	{
 		return $this->belongsTo(GlossResponse::class);
 	} 
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 }

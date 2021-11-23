@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossRadication;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Gloss;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ class GlossRadicationController extends Controller
 { 
     public function index(Request $request): JsonResponse
     {
-        $GlossRadication = GlossRadication::with('gloss','gloss_response');
+        $GlossRadication = GlossRadication::with('gloss','gloss_response', 'user');
 
         if ($request->_sort) {
             $GlossRadication->orderBy($request->_sort, $request->_order);
@@ -48,9 +49,9 @@ class GlossRadicationController extends Controller
         $GlossRadication = new GlossRadication;
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
         $GlossRadication->radication_date = Carbon::now();
+        $GlossRadication->user_id = Auth::user()->id;
         $GlossRadication->observation = $request->observation;
         $GlossRadication->save();
-
         $Gloss= Gloss::find($request->gloss_id);
         $Gloss->gloss_status_id=3;
         $Gloss->save();
@@ -91,6 +92,7 @@ class GlossRadicationController extends Controller
         $GlossRadication = GlossRadication::find($id);
         $GlossRadication->gloss_response_id = $request->gloss_response_id;
         $GlossRadication->radication_date = Carbon::now();
+        $GlossRadication->user_id = Auth::user()->id;
         $GlossRadication->observation = $request->observation;
        
         $GlossRadication->save();

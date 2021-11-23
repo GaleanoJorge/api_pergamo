@@ -21,7 +21,12 @@ class CreateGlossResponseTable extends Migration
             $table->string('accepted_value');
             $table->string('value_not_accepted'); 
             $table->unsignedBigInteger('objetion_response_id');
-            $table->timestamps(); 
+            $table->unsignedBigInteger('user_id');
+            $table->timestamps();
+
+            $table->index('user_id');
+            $table->foreign('user_id')->references('id')
+            ->on('users');
 
             $table->index('gloss_id');
             $table->foreign('gloss_id')->references('id')
