@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossRadication;
@@ -9,13 +10,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GlossRadicationRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class GlossRadicationController extends Controller
-{ 
+{
     public function index(Request $request): JsonResponse
     {
-        $GlossRadication = GlossRadication::with('gloss','gloss_response', 'user');
+        $GlossRadication = GlossRadication::with('gloss_response', 'user');
 
         if ($request->_sort) {
             $GlossRadication->orderBy($request->_sort, $request->_order);
@@ -27,7 +29,7 @@ class GlossRadicationController extends Controller
         if ($request->gloss_response_id) {
             $GlossRadication->where('gloss_response_id', $request->gloss_response_id);
         }
-         
+
         if ($request->query("pagination", true) == "false") {
             $GlossRadication = $GlossRadication->get()->toArray();
         } else {
@@ -51,9 +53,13 @@ class GlossRadicationController extends Controller
         $GlossRadication->radication_date = Carbon::now();
         $GlossRadication->user_id = Auth::user()->id;
         $GlossRadication->observation = $request->observation;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $GlossRadication->file = $path;
+        }
         $GlossRadication->save();
-        $Gloss= Gloss::find($request->gloss_id);
-        $Gloss->gloss_status_id=3;
+        $Gloss = Gloss::find($request->gloss_id);
+        $Gloss->gloss_status_id = 3;
         $Gloss->save();
 
         return response()->json([
@@ -94,7 +100,10 @@ class GlossRadicationController extends Controller
         $GlossRadication->radication_date = Carbon::now();
         $GlossRadication->user_id = Auth::user()->id;
         $GlossRadication->observation = $request->observation;
-       
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $GlossRadication->file = $path;
+        }
         $GlossRadication->save();
 
         return response()->json([

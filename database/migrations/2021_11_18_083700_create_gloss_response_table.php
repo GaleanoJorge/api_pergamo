@@ -19,7 +19,8 @@ class CreateGlossResponseTable extends Migration
             $table->date('response_date');
             $table->unsignedBigInteger('objetion_code_response_id');
             $table->string('accepted_value');
-            $table->string('value_not_accepted'); 
+            $table->string('value_not_accepted');
+            $table->string('file');
             $table->unsignedBigInteger('objetion_response_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

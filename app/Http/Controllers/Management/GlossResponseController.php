@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Management;
 
 use App\Models\GlossResponse;
@@ -8,14 +9,15 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GlossResponseRequest;
-use Illuminate\Database\QueryException; 
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class GlossResponseController extends Controller
-{ 
+{
     public function index(Request $request): JsonResponse
     {
-        $GlossResponse = GlossResponse::with('objetion_response','objetion_code_response', 'user');
+        $GlossResponse = GlossResponse::with('objetion_response', 'objetion_code_response', 'user');
 
         if ($request->_sort) {
             $GlossResponse->orderBy($request->_sort, $request->_order);
@@ -32,7 +34,7 @@ class GlossResponseController extends Controller
         }
         if ($request->objetion_code_response_id) {
             $GlossResponse->where('objetion_code_response_id', $request->objetion_code_response_id);
-        }         
+        }
         if ($request->query("pagination", true) == "false") {
             $GlossResponse = $GlossResponse->get()->toArray();
         } else {
@@ -52,17 +54,21 @@ class GlossResponseController extends Controller
     public function store(GlossResponseRequest $request): JsonResponse
     {
         $GlossResponse = new GlossResponse;
-        $GlossResponse->gloss_id = $request->gloss_id;        
+        $GlossResponse->gloss_id = $request->gloss_id;
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response_date = Carbon::now();
         $GlossResponse->user_id = Auth::user()->id;
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $GlossResponse->file = $path;
+        }
         $GlossResponse->save();
 
-        $Gloss= Gloss::find($request->gloss_id);
-        $Gloss->gloss_status_id=2;
+        $Gloss = Gloss::find($request->gloss_id);
+        $Gloss->gloss_status_id = 2;
         $Gloss->save();
 
         return response()->json([
@@ -99,13 +105,17 @@ class GlossResponseController extends Controller
     public function update(GlossResponseRequest $request, int $id): JsonResponse
     {
         $GlossResponse = GlossResponse::find($id);
-        $GlossResponse->gloss_id = $request->gloss_id;        
+        $GlossResponse->gloss_id = $request->gloss_id;
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response_date = Carbon::now();
         $GlossResponse->user_id = Auth::user()->id;
         $GlossResponse->accepted_value = $request->accepted_value;
         $GlossResponse->value_not_accepted = $request->value_not_accepted;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $GlossResponse->file = $path;
+        }
         $GlossResponse->save();
 
         return response()->json([

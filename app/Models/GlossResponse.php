@@ -13,6 +13,7 @@ class GlossResponse extends BaseGlossResponse
 		'objetion_code_response_id',
 		'objetion_response_id', 
 		'accepted_value',
+		'file' ,
 		'value_not_accepted'
 	];
 }

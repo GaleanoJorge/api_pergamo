@@ -18,6 +18,7 @@ class CreateGlossRadicationTable extends Migration
             $table->unsignedBigInteger('gloss_response_id');
             $table->string('radication_date');
             $table->string('observation');
+            $table->string('file');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

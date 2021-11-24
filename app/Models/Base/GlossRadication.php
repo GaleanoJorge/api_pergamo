@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $gloss_ambit_id
  * @property BigInteger $user_id
  * @property string $name
+ * @property string $file
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *  

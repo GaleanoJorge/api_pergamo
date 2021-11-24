@@ -11,5 +11,6 @@ class GlossRadication extends BaseGlossRadication
 		'user_id',
 		'radication_date',
 		'observation',
+		'file' ,
 	];
 }
