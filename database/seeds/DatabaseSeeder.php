@@ -62,6 +62,15 @@ class DatabaseSeeder extends Seeder
                 $this->call(PermissionSeeder::class);
                 $this->call(ItemSeeder::class);
                 $this->call(ItemRolePermissionSeeder::class);
+                $this->call(ObjetionCodeSeeder::class);
+                $this->call(ObjetionResponseSeeder::class);
+                $this->call(GlossStatusSeeder::class);
+                $this->call(GlossModalitySeeder::class);
+                $this->call(GlossAmbitSeeder::class);
+                $this->call(GlossServiceSeeder::class);
+                $this->call(ObjetionCodeResponseSeeder::class);
+                $this->call(ObjetionTypeSeeder::class);
+                $this->call(RepeatedInitialSeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);
                 //$this->call(CustomFieldTypeSeeder::class);

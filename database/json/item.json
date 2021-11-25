@@ -43,7 +43,6 @@
         "route": null,
         "icon": "",
         "show_menu": "1"
-    
     },
     {
         "id": "68",
@@ -152,7 +151,6 @@
         "route": "/pages/setting/users",
         "icon": "people-outline",
         "show_menu": "1"
-
     },
     {
         "id": "54",
@@ -180,8 +178,6 @@
         "route": "/pages/setting/procedure-purpose",
         "icon": "",
         "show_menu": "1"
-
-        
     },
     {
         "id": "57",
@@ -191,8 +187,7 @@
         "route": "/pages/setting/procedure",
         "icon": "",
         "show_menu": "1"
-    
-     },
+    },
     {
         "id": "58",
         "item_parent_id": "69",
@@ -667,7 +662,7 @@
         "name": "Contrato",
         "code": "contract",
         "route": "/pages/contract/list",
-        "icon": "",
+        "icon": "file-text-outline",
         "show_menu": "1"
     },
     {
@@ -678,6 +673,104 @@
         "route": "/pages/setting/contract-status",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "118",
+        "item_parent_id": null,
+        "name": "Glosas",
+        "code": "gloss",
+        "route": "/pages/gloss/list",
+        "icon": "book-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "119",
+        "item_parent_id": "67",
+        "name": "Configuración de Glosas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "120",
+        "item_parent_id": "119",
+        "name": "Codigo de Objeción",
+        "code": "objetion-code",
+        "route": "/pages/setting/objetion-code",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "121",
+        "item_parent_id": "119",
+        "name": "Tipo de Objeción",
+        "code": "objetion-type",
+        "route": "/pages/setting/objetion-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "122",
+        "item_parent_id": "119",
+        "name": "Reiterado - Inicializado",
+        "code": "repeated-initial",
+        "route": "/pages/setting/repeated-initial",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "123",
+        "item_parent_id": "119",
+        "name": "Forma de recibido",
+        "code": "received-by",
+        "route": "/pages/setting/received-by",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "124",
+        "item_parent_id": "119",
+        "name": "Modalidad de Glosas",
+        "code": "gloss-modality",
+        "route": "/pages/setting/gloss-modality",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "125",
+        "item_parent_id": "119",
+        "name": "Ambito de Glosas",
+        "code": "gloss-ambit",
+        "route": "/pages/setting/gloss-ambit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "126",
+        "item_parent_id": "119",
+        "name": "Servicio de Glosas",
+        "code": "gloss-service",
+        "route": "/pages/setting/gloss-service",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "138",
+        "item_parent_id": "119",
+        "name": "Codigo de objecion respuesta",
+        "code": "objetion-code-response",
+        "route": "/pages/setting/objetion-code-response",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "139",
+        "item_parent_id": "119",
+        "name": "Objeción respuesta",
+        "code": "objetion-response",
+        "route": "/pages/setting/objetion-response",
+        "icon": "",
+        "show_menu": "1"
     }
-  
 ]

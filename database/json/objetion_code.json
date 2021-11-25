@@ -1,0 +1,382 @@
+[
+    {
+        "code": "101",
+        "name": "Facturación-Estancia"
+    },
+    {
+        "code": "102",
+        "name": "Facturación-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "103",
+        "name": "Facturación-Honorarios médicos en procedimientos"
+    },
+    {
+        "code": "104",
+        "name": "Facturación-Honorarios otros profesionales asistenciales"
+    },
+    {
+        "code": "105",
+        "name": "Facturación-Derechos de sala"
+    },
+    {
+        "code": "106",
+        "name": "Facturación-Materiales"
+    },
+    {
+        "code": "107",
+        "name": "Facturación-Medicamentos"
+    },
+    {
+        "code": "108",
+        "name": "Facturación-Ayudas diagnósticas"
+    },
+    {
+        "code": "109",
+        "name": "Facturación-Atención integral (caso, conjunto integral de atenciones, paquete o grupo relacionado por diagnóstico)"
+    },
+    {
+        "code": "110",
+        "name": "Facturación-Servicio o insumo incluido en caso, conjunto integral de atenciones, paquete o grupo relacionado por diagnóstico"
+    },
+    {
+        "code": "111",
+        "name": "Facturación-Servicio o insumo incluido en estancia o derechos de sala"
+    },
+    {
+        "code": "112",
+        "name": "Facturación-Factura excede topes autorizados"
+    },
+    {
+        "code": "113",
+        "name": "Facturación-Facturar por separado por tipo de recobro (Comité Técnico Científico, (CTC), accidente de trabajo o enfermedad profesional (ATEP), tutelas)"
+    },
+    {
+        "code": "114",
+        "name": "Facturación-Error en suma de conceptos facturados"
+    },
+    {
+        "code": "115",
+        "name": "Facturación-Datos insuficientes del usuario"
+    },
+    {
+        "code": "116",
+        "name": "Facturación-Usuario o servicio corresponde a otro plan o responsable"
+    },
+    {
+        "code": "117",
+        "name": "Facturación-Usuario retirado o moroso"
+    },
+    {
+        "code": "118",
+        "name": "Facturación-Valor en letras diferentes a valor en números"
+    },
+    {
+        "code": "119",
+        "name": "Facturación-Error en descuento pactado"
+    },
+    {
+        "code": "120",
+        "name": "Facturación-Recibo de pago compartido."
+    },
+    {
+        "code": "122",
+        "name": "Facturación-Prescripción dentro de los términos legales o pactados entre las partes"
+    },
+    {
+        "code": "123",
+        "name": "Facturación-Procedimiento o actividad"
+    },
+    {
+        "code": "124",
+        "name": "Facturación-Falta firma del prestador de servicios de salud"
+    },
+    {
+        "code": "125",
+        "name": "Facturación-Examen o actividad pertenece a detección temprana y protección especifica"
+    },
+    {
+        "code": "126",
+        "name": "Facturación-Usuario o servicio corresponde a capitación"
+    },
+    {
+        "code": "127",
+        "name": "Facturación-Servicio o procedimiento incluido en otro"
+    },
+    {
+        "code": "128",
+        "name": "Facturación-Orden cancelada al prestador de servicios de salud"
+    },
+    {
+        "code": "151",
+        "name": "Facturación-Recobro en contrato de capitación por servicios prestados por otro prestador."
+    },
+    {
+        "code": "152",
+        "name": "Facturación-Disminución en el número de personas incluidas en la capitación."
+    },
+    {
+        "code": "201",
+        "name": "Tarifas-Estancia"
+    },
+    {
+        "code": "202",
+        "name": "Tarifas-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "203",
+        "name": "Tarifas-Honorarios médicos en procedimientos"
+    },
+    {
+        "code": "204",
+        "name": "Tarifas-Honorarios otros profesionales asistenciales"
+    },
+    {
+        "code": "205",
+        "name": "Tarifas-Derechos de sala"
+    },
+    {
+        "code": "206",
+        "name": "Tarifas-Materiales"
+    },
+    {
+        "code": "207",
+        "name": "Tarifas-Medicamentos"
+    },
+    {
+        "code": "208",
+        "name": "Tarifas-Ayudas diagnósticas"
+    },
+    {
+        "code": "209",
+        "name": "Tarifas-Atención integral (caso, conjunto integral de atenciones, paquete o grupo relacionado por diagnóstico)"
+    },
+    {
+        "code": "223",
+        "name": "Tarifas-Procedimiento o actividad"
+    },
+    {
+        "code": "229",
+        "name": "Tarifas-Recargos no pactados"
+    },
+    {
+        "code": "301",
+        "name": "Soportes-Estancia"
+    },
+    {
+        "code": "302",
+        "name": "Soportes-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "303",
+        "name": "Soportes-Honorarios médicos en procedimientos"
+    },
+    {
+        "code": "304",
+        "name": "Soportes-Honorarios otros profesionales asistenciales"
+    },
+    {
+        "code": "307",
+        "name": "Soportes-Medicamentos"
+    },
+    {
+        "code": "308",
+        "name": "Soportes-Ayudas diagnósticas"
+    },
+    {
+        "code": "309",
+        "name": "Soportes-Atención integral (caso, conjunto integral de atenciones, paquete o grupo relacionado por diagnóstico)"
+    },
+    {
+        "code": "320",
+        "name": "Soportes-Recibo de pago compartido."
+    },
+    {
+        "code": "331",
+        "name": "Soportes-Bonos o vouchers sin firma del paciente, con enmendaduras o tachones"
+    },
+    {
+        "code": "332",
+        "name": "Soportes-Detalle de cargos"
+    },
+    {
+        "code": "333",
+        "name": "Soportes-Copia de historia clínica completa"
+    },
+    {
+        "code": "335",
+        "name": "Soportes-Formato Accidente de trabajo y enfermedad profesional ATEP"
+    },
+    {
+        "code": "336",
+        "name": "Soportes-Copia de factura o detalle de cargos de seguro obligatorio de accidentes de tránsito SOAT"
+    },
+    {
+        "code": "337",
+        "name": "Soportes-Orden o fórmula médica"
+    },
+    {
+        "code": "338",
+        "name": "Soportes-Hoja de traslado en ambulancia"
+    },
+    {
+        "code": "339",
+        "name": "Soportes-Comprobante de recibido del usuario"
+    },
+    {
+        "code": "340",
+        "name": "Soportes-Registro de anestesia"
+    },
+    {
+        "code": "341",
+        "name": "Soportes-Descripción quirúrgica"
+    },
+    {
+        "code": "342",
+        "name": "Soportes-Lista de precios"
+    },
+    {
+        "code": "401",
+        "name": "Autorizacion-Estancia"
+    },
+    {
+        "code": "402",
+        "name": "Autorizacion-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "406",
+        "name": "Autorizacion-Materiales"
+    },
+    {
+        "code": "408",
+        "name": "Autorizacion-Ayudas diagnósticas"
+    },
+    {
+        "code": "423",
+        "name": "Autorizacion-Procedimiento o actividad"
+    },
+    {
+        "code": "430",
+        "name": "Autorizacion-Autorización de servicios adicionales"
+    },
+    {
+        "code": "443",
+        "name": "Autorizacion-Orden o autorización de servicios vencida"
+    },
+    {
+        "code": "444",
+        "name": "Autorizacion-Profesional que ordena no adscrito"
+    },
+    {
+        "code": "501",
+        "name": "Cobertura-Estancia"
+    },
+    {
+        "code": "502",
+        "name": "Cobertura-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "506",
+        "name": "Cobertura-Materiales"
+    },
+    {
+        "code": "507",
+        "name": "Cobertura-Medicamentos"
+    },
+    {
+        "code": "508",
+        "name": "Cobertura-Ayudas diagnósticas"
+    },
+    {
+        "code": "523",
+        "name": "Cobertura-Procedimiento o actividad"
+    },
+    {
+        "code": "527",
+        "name": "Cobertura-Servicio o procedimiento incluido en otro"
+    },
+    {
+        "code": "545",
+        "name": "Cobertura-Servicio no pactado"
+    },
+    {
+        "code": "546",
+        "name": "Cobertura-Cobertura sin agotar en"
+    },
+    {
+        "code": "601",
+        "name": "Pertinencia-Estancia"
+    },
+    {
+        "code": "602",
+        "name": "Pertinencia-Consultas, interconsultas y visitas médicas"
+    },
+    {
+        "code": "603",
+        "name": "Pertinencia-Honorarios médicos en procedimientos"
+    },
+    {
+        "code": "604",
+        "name": "Pertinencia-Honorarios otros profesionales asistenciales"
+    },
+    {
+        "code": "605",
+        "name": "Pertinencia-Derechos de sala"
+    },
+    {
+        "code": "606",
+        "name": "Pertinencia-Materiales"
+    },
+    {
+        "code": "607",
+        "name": "Pertinencia-Medicamentos"
+    },
+    {
+        "code": "608",
+        "name": "Pertinencia-Ayudas diagnósticas"
+    },
+    {
+        "code": "623",
+        "name": "Pertinencia-Procedimiento o actividad"
+    },
+    {
+        "code": "653",
+        "name": "Pertinencia-Urgencia no pertinente."
+    },
+    {
+        "code": "816",
+        "name": "Devoluciones-Usuario o servicio corresponde a otro plan o responsable"
+    },
+    {
+        "code": "817",
+        "name": "Devoluciones-Usuario retirado o moroso"
+    },
+    {
+        "code": "821",
+        "name": "Devoluciones-Autorización principal no existe o no corresponde al prestador de servicios de salud"
+    },
+    {
+        "code": "834",
+        "name": "Devoluciones-Resumen de egreso o epicrisis, hoja de atención de urgencias u odontograma."
+    },
+    {
+        "code": "844",
+        "name": "Devoluciones-Profesional que ordena no adscrito"
+    },
+    {
+        "code": "847",
+        "name": "Devoluciones-Faltan soportes de justificación para recobros (Comité Técnico Científico, (CTC), accidente de trabajo o enfermedad profesional (ATEP), tutelas)"
+    },
+    {
+        "code": "848",
+        "name": "Devoluciones-Informe atención inicial de urgencias"
+    },
+    {
+        "code": "849",
+        "name": "Devoluciones-Factura no cumple requisitos legales"
+    },
+    {
+        "code": "850",
+        "name": "Devoluciones-Factura ya cancelada"
+    }
+]

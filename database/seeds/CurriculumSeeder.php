@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Curriculum;
 use App\Models\Circuit;
+use App\Models\Log;
 use App\Models\Dependence;
 use App\Models\Entity;
 use App\Models\District;
