@@ -582,6 +582,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('gloss_service', 'Management\GlossServiceController');
     Route::apiResource('objetion_code', 'Management\ObjetionCodeController');
     Route::apiResource('gloss', 'Management\GlossController');
+    Route::get('gloss/byStatus/{status}', 'Management\GlossController@getByStatus');
+    Route::apiResource('gloss_status', 'Management\GlossStatusController');
     Route::apiResource('objetion_response', 'Management\ObjetionResponseController');
     Route::apiResource('objetion_code_response', 'Management\ObjetionCodeResponseController');
     Route::apiResource('gloss_response', 'Management\GlossResponseController');

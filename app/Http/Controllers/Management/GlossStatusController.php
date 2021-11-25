@@ -41,7 +41,7 @@ class GlossStatusController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Estados de glosas obtenidos exitosamente',
-            'data' => ['objetion_type' => $GlossStatus]
+            'data' => ['gloss_status' => $GlossStatus]
         ]);
     }
 
