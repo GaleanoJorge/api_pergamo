@@ -45,6 +45,25 @@ class BedController extends Controller
             'data' => ['bed' => $Bed]
         ]);
     }
+
+                     /**
+     * Display a listing of the resource
+     *
+     * @param integer $pavilion_id
+     * @return JsonResponse
+     */
+    public function getBedByPavilion(int $pavilion_id,int $ambit): JsonResponse
+    {
+        $Bed = Bed::where('pavilion_id', $pavilion_id)->where('status_bed_id','=','1')->where('bed_or_office','=',$ambit)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas obtenidos exitosamente',
+            'data' => ['bed' => $Bed]
+        ]);
+    }
+    
     
 
     public function store(BedRequest $request): JsonResponse
@@ -52,6 +71,9 @@ class BedController extends Controller
         $Bed = new Bed;
         $Bed->code = $request->code; 
         $Bed->name = $request->name; 
+        $Bed->status_bed_id = $request->status_bed_id; 
+        $Bed->bed_or_office = $request->bed_or_office; 
+        $Bed->pavilion_id = $request->pavilion_id; 
          
         
         $Bed->save();
@@ -92,6 +114,9 @@ class BedController extends Controller
         $Bed = Bed::find($id); 
         $Bed->code = $request->code; 
         $Bed->name = $request->name; 
+        $Bed->status_bed_id = $request->status_bed_id; 
+        $Bed->pavilion_id = $request->pavilion_id; 
+        $Bed->bed_or_office = $request->bed_or_office; 
           
         
         

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Region;
 use App\Models\Country;
 use App\Models\Municipality;
+use App\Models\NeighborhoodOrResidence;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
@@ -59,6 +60,24 @@ class LocationController extends Controller
             'status' => true,
             'message' => 'Municipios por departamento obtenidos exitosamente',
             'data' => ['municipalitys' => $municipalitys]
+        ]);
+    }
+
+        /**
+     * Display a listing of the resource
+     *
+     * @param integer $municipalityId
+     * @return JsonResponse
+     */
+    public function getNeighborhoodResidenceByMunicipality(int $municipalityId): JsonResponse
+    {
+        $neighborhoodorresidence = NeighborhoodOrResidence::where('municipality_id', $municipalityId)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Barrios por municipio obtenidos exitosamente',
+            'data' => ['neighborhood_or_residence' => $neighborhoodorresidence]
         ]);
     }
 }

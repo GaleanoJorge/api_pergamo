@@ -45,13 +45,31 @@ class ScopeOfAttentionController extends Controller
             'data' => ['scope_of_attention' => $ScopeOfAttention]
         ]);
     }
+
+           /**
+     * Display a listing of the resource
+     *
+     * @param integer $admissions_route_id
+     * @return JsonResponse
+     */
+    public function getScopeByAdmission(int $admissions_route_id): JsonResponse
+    {
+        $ScopeOfAttention = ScopeOfAttention::where('admission_route_id', $admissions_route_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Ambito de atencion obtenidos exitosamente',
+            'data' => ['scope_of_attention' => $ScopeOfAttention]
+        ]);
+    }
     
 
     public function store(ScopeOfAttentionRequest $request): JsonResponse
     {
         $ScopeOfAttention = new ScopeOfAttention;
         $ScopeOfAttention->name = $request->name; 
-        $ScopeOfAttention->program_id = $request->program_id;
+        $ScopeOfAttention->admission_route_id = $request->admission_route_id;
         $ScopeOfAttention->save();
 
         return response()->json([
@@ -89,7 +107,7 @@ class ScopeOfAttentionController extends Controller
     {
         $ScopeOfAttention = ScopeOfAttention::find($id); 
         $ScopeOfAttention->name = $request->name; 
-        $ScopeOfAttention->program_id = $request->program_id;
+        $ScopeOfAttention->admission_route_id = $request->admission_route_id;
         
         $ScopeOfAttention->save();
 

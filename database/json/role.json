@@ -7,68 +7,14 @@
     },
     {
         "id": 2,
-        "name": "Coordinador",
+        "name": "Paciente",
         "status_id": 1,
         "sga_origin_fk": 3
     },
     {
         "id": 3,
-        "name": "Asistente Operativo",
+        "name": "Medico",
         "status_id": 1,
         "sga_origin_fk": 5
-    },
-    {
-        "id": 4,
-        "name": "Formador",
-        "status_id": 1,
-        "sga_origin_fk": 2
-    },
-    {
-        "id": 5,
-        "name": "Discente",
-        "status_id": 1,
-        "sga_origin_fk": 1
-    },
-    {
-        "id": 6,
-        "name": "Asistente Técnico",
-        "status_id": 1,
-        "sga_origin_fk": 6
-    },
-    {
-        "id": 7,
-        "name": "Auxiliar de Logística",
-        "status_id": 1,
-        "sga_origin_fk": 7
-    },
-    {
-        "id": 8,
-        "name": "Director",
-        "status_id": 1,
-        "sga_origin_fk": 8
-    },
-    {
-        "id": 9,
-        "name": "Discente (FJI)",
-        "status_id": 1,
-        "sga_origin_fk": 9
-    },
-    {
-        "id": 10,
-        "name": "Presupuesto",
-        "status_id": 1,
-        "sga_origin_fk": null
-    },
-    {
-        "id": 11,
-        "name": "Historicos",
-        "status_id": 1,
-        "sga_origin_fk": null
-    },
-    {
-        "id": 12,
-        "name": "Reportes",
-        "status_id": 1,
-        "sga_origin_fk": null
     }
 ]

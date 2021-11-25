@@ -472,17 +472,48 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Ambito de atención
    Route::apiResource('scope_of_attention', 'Management\ScopeOfAttentionController');
 
+    //Ambito por ruta de admisión
+    Route::get(
+     'scopeofattention/byAdmission/{admission_route_id}',
+     'Management\ScopeOfAttentionController@getScopeByAdmission'
+    );
+
    //Programa en el cual va a ser atendio
    Route::apiResource('program', 'Management\ProgramController');
 
+    //Ambito por ruta de admisión
+    Route::get(
+     'program/byScope/{scope_of_attention_id}',
+     'Management\ProgramController@getProgramByScope'
+       );
    //Piso 
    Route::apiResource('flat', 'Management\FlatController');
 
+       //Ambito por ruta de admisión
+       Route::get(
+        'flat/byCampus/{campus_id}',
+        'Management\FlatController@getFlatByCampus'
+          );
+
    //Pabellón
    Route::apiResource('pavilion', 'Management\PavilionController');
+   
+   //Ambito por ruta de admisión
+   Route::get(
+    'pavilion/byFlat/{flat_id}',
+    'Management\PavilionController@getPavilionByFlat'
+   );
 
    //Cama asignada al paciente
    Route::apiResource('bed', 'Management\BedController');
+
+   Route::get(
+    'bed/byPavilion/{pavilion_id}/{ambit}',
+    'Management\BedController@getBedByPavilion'
+   );
+
+     //Estados de la cama
+     Route::apiResource('status_bed', 'Management\StatusBedController');
 
    //Discapacidad del usuario
    Route::apiResource('inability', 'Management\InabilityController');
@@ -501,6 +532,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
    //Admisiones
    Route::apiResource('admissions', 'Management\AdmissionsController');
+
+   Route::get(
+    'admissions/ByPacient/{pacientId}',
+    'Management\AdmissionsController@getByPacient'
+);
+   
 
    Route::get(
     'FileContract/FileByContract/{contractId}',

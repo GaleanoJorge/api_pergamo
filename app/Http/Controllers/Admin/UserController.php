@@ -9,7 +9,11 @@ use App\Models\UserRole;
 use App\Models\UserRoleCourse;
 use App\Models\UserRoleCategoryInscription;
 use App\Models\Curriculum;
-use App\Models\UserUser;
+use App\Models\StudyLevelStatus;
+use App\Models\Activities;
+use App\Models\SelectRh;
+use App\Models\PopulationGroup;
+use App\Models\MaritalStatus;
 
 use App\Models\UserRoleGroup;
 use App\Models\Group;
@@ -44,6 +48,7 @@ use Beta\Microsoft\Graph\Model\Currency;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -56,21 +61,28 @@ class UserController extends Controller
      */
     public function indexByRole(Request $request, int $roleId): JsonResponse
     {
+
         $users = User::select(
             'users.*',
             \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')->with(
+        )  ->Join('user_role', 'users.id', 'user_role.user_id')
+        ->with(
             'status',
             'gender',
             'academic_level',
-            'identification_type'
+            'identification_type',
+            'admissions'
         )->where('user_role.role_id', $roleId)
             ->join('status', 'status.id', '=', 'users.status_id')
             ->join('identification_type', 'identification_type.id', '=', 'users.identification_type_id');
 
+          
+
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
         }
+
+        
 
         if ($request->search) {
             $users->where(function ($query) use ($request) {
@@ -93,6 +105,55 @@ class UserController extends Controller
 
             $users = $users->paginate($per_page, '*', 'page', $page);
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['users' => $users]
+        ]);
+    }
+
+
+        /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function indexByPacient(Request $request): JsonResponse
+    {
+
+        $users = DB::select('SELECT users.*, b.fecha FROM users JOIN user_role ON users.id = user_role.user_id LEFT JOIN (SELECT admissions.discharge_date AS fecha, admissions.id AS id FROM admissions ORDER BY admissions.id) b ON users.id = b.id WHERE user_role.role_id =2');
+        //$users = collect($users);
+        //$users = (object) $users;
+
+        if ($request->_sort) {
+            $users->orderBy($request->_sort, $request->_order);
+        }
+
+        
+
+        if ($request->search) {
+            $users->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('status.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('identification_type.name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+       /* if ($request->query("pagination", true) == "false") {
+            $users = $users;
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $users = $users->paginate($per_page, '*', 'page', $page);
+        }*/
 
         return response()->json([
             'status' => true,
@@ -230,6 +291,17 @@ class UserController extends Controller
         $user->academic_level_id = $request->academic_level_id;
         $user->identification_type_id = $request->identification_type_id;
         $user->birthplace_municipality_id = $request->birthplace_municipality_id;
+        $user->birthplace_country_id = $request->birthplace_country_id;
+        $user->birthplace_region_id = $request->birthplace_region_id;
+        $user->residence_region_id = $request->residence_region_id;
+        $user->residence_municipality_id = $request->residence_municipality_id;
+        $user->residence_address = $request->residence_address;
+        $user->study_level_status_id = $request->study_level_status_id;
+        $user->activities_id = $request->activities_id;
+        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+        $user->select_rh_id = $request->select_RH_id;
+        $user->marital_status_id = $request->marital_status_id;
+        $user->population_group_id = $request->population_group_id;
         $user->username = $request->username;
         $user->is_disability = $request->is_disability;
         $user->disability = $request->disability;
@@ -441,14 +513,12 @@ class UserController extends Controller
         $ethnicitys = Ethnicity::get();
         $identificationTypes = IdentificationType::get();
         $status = Status::get();
+        $study_level_status= StudyLevelStatus::get();
+        $activities= Activities::get();
+        $select_RH= SelectRh::get();
+        $population_group= PopulationGroup::get();
+        $marital_status= MaritalStatus::get();
 
-        if ($request->query("activo", true) === "true") {
-            $positions = Position::where('status_id', 1)->get();
-            $specialties = Specialty::where('status_id', 1)->get();
-        } else {
-            $positions = Position::get();
-            $specialties = Specialty::get();
-        }
 
         return response()->json([
             'status' => true,
@@ -459,9 +529,12 @@ class UserController extends Controller
                 'genders' => $genders->toArray(),
                 'ethnicitys' => $ethnicitys->toArray(),
                 'identificationTypes' => $identificationTypes->toArray(),
-                'positions' => $positions->toArray(),
+                'study_level_status' => $study_level_status->toArray(),
                 'status' => $status->toArray(),
-                'specialties' => $specialties->toArray(),
+                'activities' => $activities->toArray(),
+                'select_RH' => $select_RH->toArray(),
+                'population_group' => $population_group->toArray(),
+                'marital_status' => $marital_status->toArray(),
             ]
         ]);
     }

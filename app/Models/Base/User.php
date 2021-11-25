@@ -10,6 +10,7 @@ use App\Models\AcademicLevel;
 use App\Models\Category;
 use App\Models\Contract;
 use App\Models\Course;
+use App\Models\Admissions;
 use App\Models\Curriculum;
 use App\Models\Delivery;
 use App\Models\Ethnicity;
@@ -220,5 +221,12 @@ class User extends Model
 	public function user_users()
 	{
 		return $this->hasMany(UserUser::class, 'user_parent_id');
+	}
+
+	public function admissions()
+	{
+		return $this->belongsToMany(User::class,'admissions')
+		->withPivot('user_id')
+		->withTimestamps();
 	}
 }

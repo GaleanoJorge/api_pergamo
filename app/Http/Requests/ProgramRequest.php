@@ -26,7 +26,7 @@ class ProgramRequest extends FormRequest
         return [
             
             'name' => 'required',
-            
+            'scope_of_attention_id' => 'required',
             
             
         ];

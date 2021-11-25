@@ -25,7 +25,8 @@ class ScopeOfAttentionRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'program_id' => 'required',
+            'admission_route_id' => 'required',
+     
             
             
             

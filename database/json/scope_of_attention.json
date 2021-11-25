@@ -1,0 +1,17 @@
+[
+    {
+        "id":1,
+        "name": "Hospitalización",
+        "admission_route_id": 1
+    },
+    {
+        "id":2,
+        "name": "Ambulatorio",
+        "admission_route_id": 1
+    },
+    {
+        "id":3,
+        "name": "PAD",
+        "admission_route_id": 2
+    }
+]  

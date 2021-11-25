@@ -45,6 +45,25 @@ class PavilionController extends Controller
             'data' => ['pavilion' => $Pavilion]
         ]);
     }
+
+
+                 /**
+     * Display a listing of the resource
+     *
+     * @param integer $flat_id
+     * @return JsonResponse
+     */
+    public function getPavilionByFlat(int $flat_id): JsonResponse
+    {
+        $Pavilion = Pavilion::where('flat_id', $flat_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Programas obtenidos exitosamente',
+            'data' => ['pavilion' => $Pavilion]
+        ]);
+    }
     
 
     public function store(PavilionRequest $request): JsonResponse
@@ -52,7 +71,7 @@ class PavilionController extends Controller
         $Pavilion = new Pavilion;
         $Pavilion->code = $request->code; 
         $Pavilion->name = $request->name; 
-        $Pavilion->bed_id = $request->bed_id; 
+        $Pavilion->flat_id = $request->flat_id; 
         
         $Pavilion->save();
 
@@ -92,7 +111,7 @@ class PavilionController extends Controller
         $Pavilion = Pavilion::find($id); 
         $Pavilion->code = $request->code; 
         $Pavilion->name = $request->name; 
-        $Pavilion->bed_id = $request->bed_id;  
+        $Pavilion->flat_id = $request->flat_id; 
         
         
         $Pavilion->save();

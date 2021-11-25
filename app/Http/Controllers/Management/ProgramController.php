@@ -46,12 +46,29 @@ class ProgramController extends Controller
         ]);
     }
     
+              /**
+     * Display a listing of the resource
+     *
+     * @param integer $scope_of_attention_id
+     * @return JsonResponse
+     */
+    public function getProgramByScope(int $scope_of_attention_id): JsonResponse
+    {
+        $Program = Program::where('scope_of_attention_id', $scope_of_attention_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Programas obtenidos exitosamente',
+            'data' => ['program' => $Program]
+        ]);
+    }
 
     public function store(ProgramRequest $request): JsonResponse
     {
         $Program = new Program;
-        $Program->code = $request->code; 
         $Program->name = $request->name;
+        $Program->scope_of_attention_id = $request->scope_of_attention_id;
         $Program->save();
 
         return response()->json([
@@ -88,7 +105,7 @@ class ProgramController extends Controller
     public function update(ProgramRequest $request, int $id): JsonResponse
     {
         $Program = Program::find($id); 
-        $Program->code = $request->code; 
+        $Program->scope_of_attention_id = $request->scope_of_attention_id;
         $Program->name = $request->name; 
         
         

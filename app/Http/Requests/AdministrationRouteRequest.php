@@ -26,8 +26,6 @@ class AdministrationRouteRequest extends FormRequest
         return [
             //
             'name' => 'required',
-            
-
         ];
     }
 }

@@ -17,12 +17,14 @@ class CreatePavilionTable extends Migration
             $table->bigIncrements('id');
             $table->string('code');
             $table->string('name');
-            $table->unsignedBigInteger('bed_id');
+            $table->unsignedBigInteger('flat_id');
             $table->timestamps();
 
-            $table->index('bed_id');
-            $table->foreign('bed_id')->references('id')
-            ->on('bed');
+    
+            $table->index('flat_id');
+            $table->foreign('flat_id')->references('id')
+            ->on('flat');
+
         });
     }
 

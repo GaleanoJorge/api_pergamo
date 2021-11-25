@@ -45,6 +45,25 @@ class FlatController extends Controller
             'data' => ['flat' => $Flat]
         ]);
     }
+
+
+                 /**
+     * Display a listing of the resource
+     *
+     * @param integer $campus_id
+     * @return JsonResponse
+     */
+    public function getFlatByCampus(int $campus_id): JsonResponse
+    {
+        $Flat = Flat::where('campus_id', $campus_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Programas obtenidos exitosamente',
+            'data' => ['flat' => $Flat]
+        ]);
+    }
     
 
     public function store(FlatRequest $request): JsonResponse
@@ -52,7 +71,7 @@ class FlatController extends Controller
         $Flat = new Flat;
         $Flat->code = $request->code; 
         $Flat->name = $request->name; 
-        $Flat->pavilion_id = $request->pavilion_id; 
+        $Flat->campus_id = $request->campus_id; 
         
         $Flat->save();
 
@@ -92,8 +111,7 @@ class FlatController extends Controller
         $Flat = Flat::find($id); 
         $Flat->code = $request->code; 
         $Flat->name = $request->name; 
-        $Flat->pavilion_id = $request->pavilion_id;  
-        
+        $Flat->campus_id = $request->campus_id; 
         
         $Flat->save();
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ActivitiesRequest extends FormRequest
+class BedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,7 @@ class ActivitiesRequest extends FormRequest
         return [
             'code' => 'required',
             'name' => 'required',
+            'pavilion_id'=> 'required',
             
             
             

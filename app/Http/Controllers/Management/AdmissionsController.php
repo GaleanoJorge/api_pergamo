@@ -8,40 +8,71 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdmissionsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
 
-        $Admissionss = Admissions::select('*');
+        $Admissions = Admissions::with('users')->orderBy('created_at', 'desc');
 
         if ($request->_sort) {
-            $Admissionss->orderBy($request->_sort, $request->_order);
+            $Admissions->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->contract_id) {
-            $Admissionss->where('Admissionss.contract_id', $request->contract_id);
+            $Admissions->where('Admissions.contract_id', $request->contract_id);
         }
 
         if ($request->search) {
-            $Admissionss->where('Admissionss.code','like','%' . $request->search. '%')
-                    ->orWhere('Admissionss.code_technical_concept', 'like', '%' . $request->search . '%');
+            $Admissions->where('Admissions.code','like','%' . $request->search. '%')
+                    ->orWhere('Admissions.code_technical_concept', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) === "false") {
-            $Admissionss = $Admissionss->get()->toArray();
+            $Admissions = $Admissions->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $Admissionss = $Admissionss->paginate($per_page, '*', 'page', $page);
+            $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Admisión obtenidos exitosamente',
-            'data' => ['admissionss' => $Admissionss]
+            'data' => ['admissions' => $Admissions]
+        ]);
+    }
+
+                               /**
+    * @param  int  $pacientId
+     * Get procedure by briefcase.
+     *
+     * @return JsonResponse
+     */
+    public function getByPacient(Request $request, int $pacientId): JsonResponse
+    {       
+        $Admissions = Admissions::where('user_id',$pacientId)->with('admission_route','campus','program','pavilion','flat','bed','contract','scope_of_attention')->orderBy('created_at', 'desc');
+        if ($request->search) {
+            $Admissions->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $Admissions = $Admissions->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
+        }
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admisiones por paciente obtenidos exitosamente',
+            'data' => ['admissions' => $Admissions]
         ]);
     }
 
@@ -54,16 +85,17 @@ class AdmissionsController extends Controller
     public function store(AdmissionsRequest $request): JsonResponse
     {
         $Admissions = new Admissions;
-        $Admissions->admision_route = $request->admision_route;
+        $Admissions->admission_route_id = $request->admission_route_id;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->scope_of_attention_id = $request->scope_of_attention_id;
         $Admissions->program_id = $request->program_id;
         $Admissions->pavilion_id = $request->pavilion_id;
         $Admissions->flat_id = $request->flat_id;
         $Admissions->bed_id = $request->bed_id;
-        $Admissions->patient_data_id = $request->patient_data_id;
         $Admissions->contract_id = $request->contract_id;
         $Admissions->user_id = $request->user_id;
+        $Admissions->entry_date = Carbon::now();
+
         
         $Admissions->save();
         
@@ -102,14 +134,13 @@ class AdmissionsController extends Controller
     public function update(AdmissionsRequest $request, int $id): JsonResponse
     {
         $Admissions = Admissions::find($id);
-        $Admissions->admision_route = $request->admision_route;
+        $Admissions->admission_route_id = $request->admission_route_id;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->scope_of_attention_id = $request->scope_of_attention_id;
         $Admissions->program_id = $request->program_id;
         $Admissions->pavilion_id = $request->pavilion_id;
         $Admissions->flat_id = $request->flat_id;
         $Admissions->bed_id = $request->bed_id;
-        $Admissions->patient_data_id = $request->patient_data_id;
         $Admissions->contract_id = $request->contract_id;
         $Admissions->user_id = $request->user_id;
         $Admissions->save();

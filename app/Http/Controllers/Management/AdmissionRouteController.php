@@ -51,7 +51,6 @@ class AdmissionRouteController extends Controller
     {
         $AdmissionRoute = new AdmissionRoute;
         $AdmissionRoute->name = $request->name; 
-        $AdmissionRoute->scope_of_attention_id = $request->scope_of_attention_id;
         $AdmissionRoute->save();
 
         return response()->json([
@@ -89,7 +88,6 @@ class AdmissionRouteController extends Controller
     {
         $AdmissionRoute = AdmissionRoute::find($id); 
         $AdmissionRoute->name = $request->name; 
-        $AdmissionRoute->scope_of_attention_id = $request->scope_of_attention_id;
         
         $AdmissionRoute->save();
 

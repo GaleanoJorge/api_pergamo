@@ -32,7 +32,6 @@ class AdmissionsRequest extends FormRequest
             'flat_id' => 'required',
             'bed_id' => 'required',
             'contract_id' => 'required',
-            'patient_data_id' => 'required',
             'user_id' => 'required',
             
             

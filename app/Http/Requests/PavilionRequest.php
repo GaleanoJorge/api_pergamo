@@ -26,7 +26,7 @@ class PavilionRequest extends FormRequest
         return [
             'code' => 'required',
             'name' => 'required',
-            'bed_id' => 'required',
+            'flat_id' => 'required',
             
             
             

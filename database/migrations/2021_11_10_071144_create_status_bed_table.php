@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBedTable extends Migration
+class CreateStatusBedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateBedTable extends Migration
      */
     public function up()
     {
-        Schema::create('bed', function (Blueprint $table) {
+        Schema::create('status_bed', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
             $table->string('name');
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ class CreateBedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bed');
+        Schema::dropIfExists('status_bed');
     }
 }

@@ -678,6 +678,96 @@
         "route": "/pages/setting/contract-status",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "128",
+        "item_parent_id": "66",
+        "name": "Admisiones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "129",
+        "item_parent_id": "128",
+        "name": "Programa",
+        "code": "progfram",
+        "route": "/pages/setting/program",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "130",
+        "item_parent_id": "128",
+        "name": "Ambito de la atención",
+        "code": "scope-of-attention",
+        "route": "/pages/setting/scope-of-attention",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "131",
+        "item_parent_id": "128",
+        "name": "Ruta de admisión",
+        "code": "admission-route",
+        "route": "/pages/setting/admission-route",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "132",
+        "item_parent_id": "128",
+        "name": "Piso",
+        "code": "flat",
+        "route": "/pages/setting/flat",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "133",
+        "item_parent_id": "128",
+        "name": "Pabellón",
+        "code": "pavilion",
+        "route": "/pages/setting/pavilion",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "134",
+        "item_parent_id": "128",
+        "name": "Cama",
+        "code": "bed",
+        "route": "/pages/setting/bed",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "135",
+        "item_parent_id": "128",
+        "name": "Tipo de afiliación",
+        "code": "affiliate-type",
+        "route": "/pages/setting/affiliate-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "136",
+        "item_parent_id": "128",
+        "name": "Atención especial",
+        "code": "special-attention",
+        "route": "/pages/setting/special-attention",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "137",
+        "item_parent_id": null,
+        "name": "Admisiones",
+        "code": "admissions",
+        "route": "/pages/admissions/list",
+        "icon": "",
+        "show_menu": "1"
     }
   
 ]

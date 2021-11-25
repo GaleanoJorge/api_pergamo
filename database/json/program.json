@@ -1,0 +1,42 @@
+[
+    {
+        "id":1,
+        "name": "Unidad de cuidado crónico",
+        "scope_of_attention_id":1
+    },
+    {
+        "id":2,
+        "name": "Unidad de salud mental",
+        "scope_of_attention_id":1
+    },
+    {
+        "id":3,
+        "name": "Unidad de cuidado cognitivo",
+        "scope_of_attention_id":1
+    },
+    {
+        "id":4,
+        "name": "Hospitalización General",
+        "scope_of_attention_id":1
+    },
+    {
+        "id":5,
+        "name": "Unidad de rehabilitación",
+        "scope_of_attention_id":2
+    },
+    {
+        "id":6,
+        "name": "Unidad renal",
+        "scope_of_attention_id":2
+    },
+    {
+        "id":7,
+        "name": "PAD Crónico",
+        "scope_of_attention_id":3
+    },
+    {
+        "id":8,
+        "name": "PAD Agudo",
+        "scope_of_attention_id":3
+    }
+]  

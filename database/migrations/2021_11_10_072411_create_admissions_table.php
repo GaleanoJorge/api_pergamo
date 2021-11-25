@@ -23,7 +23,10 @@ class CreateAdmissionsTable extends Migration
             $table->unsignedBigInteger('flat_id');
             $table->unsignedBigInteger('bed_id');
             $table->unsignedBigInteger('contract_id');
-            $table->unsignedBigInteger('patient_data_id');
+            $table->unsignedBigInteger('diagnosis_id');
+            $table->dateTime('entry_date');
+            $table->dateTime('discharge_date');
+            $table->dateTime('medical_date');
             $table->unsignedBigInteger('user_id');
 
             
@@ -56,9 +59,6 @@ class CreateAdmissionsTable extends Migration
             $table->index('contract_id');
             $table->foreign('contract_id')->references('id')
             ->on('contract');
-            $table->index('patient_data_id');
-            $table->foreign('patient_data_id')->references('id')
-            ->on('patient_data');
 
         });
     }
