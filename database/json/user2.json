@@ -5,14 +5,14 @@
         "academic_level_id": 10,
         "identification_type_id": 4,
         "birthplace_municipality_id": 13001,
-        "username": "1031144461",
+        "username": "12345678",
         "email": "admin@hlips.com.co",
         "password": "12345678",
         "firstname": "Daniel",
         "middlefirstname": "",
         "lastname": "Montañez",
         "middlelastname": "Culma",
-        "identification": "1031144461",
+        "identification": "12345678",
         "birthday": "1993-02-17",
         "phone": "3192797007",
         "reset_password": 0,
@@ -29,7 +29,5 @@
         "marital_status_id" : 2,
         "inability_id" : 2,
         "population_group_id" : 2
-
-
     }
 ]

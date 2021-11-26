@@ -1,0 +1,14 @@
+[
+    {
+        "name": "INTRAMURAL",
+        "status_id": 1
+    },
+    {
+        "name": "DOMICILIARIO",
+        "status_id":1
+    },   
+    {
+        "name": "NO DEFINIDA",
+        "status_id": 1
+    }
+]

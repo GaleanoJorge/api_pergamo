@@ -1,0 +1,87 @@
+[
+    {
+        "name": "REHABILITACIÓN",
+        "gloss_ambit_id": 1,
+        "status_id": 1
+    },
+    {
+        "name": "SALUD MENTAL",
+        "gloss_ambit_id": 1,
+        "status_id": 1
+    },
+    {
+        "name": "UNIDAD RENAL",
+        "gloss_ambit_id": 1,
+        "status_id": 1
+    },
+    {
+        "name": "UNIDAD DE CUIDADO CRÓNICO",
+        "gloss_ambit_id": 2,
+        "status_id": 1
+    },
+    {
+        "name": "UNIDAD DE CUIDADO COGNITIVO",
+        "gloss_ambit_id":2,
+        "status_id": 1
+    },
+    {
+        "name": "UNIDAD DE SALUD MENTAL",
+        "gloss_ambit_id":2,
+        "status_id": 1
+    },
+    {
+        "name": "CERIC-DAR",
+        "gloss_ambit_id": 3,
+        "status_id": 1
+    },
+    {
+        "name": "FALLECIDOS",
+        "gloss_ambit_id":3,
+        "status_id": 1
+    },
+    {
+        "name": "PRASS-EDUCADORES",
+        "gloss_ambit_id": 3,
+        "status_id": 1
+    },
+    {
+        "name": "PRASS-OTRO",
+        "gloss_ambit_id": 3,
+        "status_id": 1
+    },
+    {
+        "name": "PRASS-TOMA DE MUESTRA",
+        "gloss_ambit_id": 3,
+        "status_id": 1
+    },
+    {
+        "name": "APLICACIÓN DE MEDICAMENTOS",
+        "gloss_ambit_id": 7,
+        "status_id": 1
+    },
+    {
+        "name": "OTRO",
+        "gloss_ambit_id": 7,
+        "status_id": 1
+    },
+    {
+        "name": "REHABILITACIÓN-PUNTUAL",
+        "gloss_ambit_id": 7,
+        "status_id": 1
+    },
+    {
+        "name": "CRÓNICO NO VENTILADO",
+        "gloss_ambit_id": 8,
+        "status_id": 1
+    },
+    {
+        "name": "CRÓNICO VENTILADO",
+        "gloss_ambit_id": 8,
+        "status_id": 1
+    },
+    {
+        "name": "NO DEFINIDO",
+        "gloss_ambit_id": 6,
+        "status_id": 1
+    }
+]

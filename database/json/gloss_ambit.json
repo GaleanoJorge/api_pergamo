@@ -1,0 +1,42 @@
+[
+    {
+        "name": "AMBULATORIO",
+        "gloss_modality_id": 1,
+        "status_id": 1
+    },
+    {
+        "name": "HOSPITALARIO",
+        "gloss_modality_id": 1,
+        "status_id":1
+    },   
+    {
+        "name": "COVID",
+        "gloss_modality_id": 2,
+        "status_id":1
+    },   
+    {
+        "name": "CRÓNICO-AG",
+        "gloss_modality_id": 2,
+        "status_id":1
+    },   
+    {
+        "name": "CRÓNICO-DOM",
+        "gloss_modality_id": 2,
+        "status_id":1
+    },   
+    {
+        "name": "NO DEFINIDO",
+        "gloss_modality_id": 3,
+        "status_id":1
+    },   
+    {
+        "name": "AGUDO",
+        "gloss_modality_id": 2,
+        "status_id":1
+    },   
+    {
+        "name": "CRÓNICO",
+        "gloss_modality_id": 2,
+        "status_id": 1
+    }
+]

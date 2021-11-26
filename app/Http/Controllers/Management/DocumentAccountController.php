@@ -18,7 +18,7 @@ class DocumentAccountController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DocumentAccount = DocumentAccount::with('status');;
+        $DocumentAccount = DocumentAccount::with('status');
 
         if($request->_sort){
             $DocumentAccount->orderBy($request->_sort, $request->_order);
