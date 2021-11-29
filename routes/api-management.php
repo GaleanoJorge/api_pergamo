@@ -502,6 +502,25 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Admisiones
    Route::apiResource('admissions', 'Management\AdmissionsController');
 
+   //Tipo de contrato del empleado
+   Route::apiResource('contract_type', 'Management\ContractTypeController');
+
+    //Centro de costos
+    Route::apiResource('cost_center', 'Management\CostCenterController');
+
+    //Tipo de profesional
+    Route::apiResource('type_professional', 'Management\TypeProfessionalController');
+
+    //Especialidad
+    Route::apiResource('special_field', 'Management\SpecialFieldController');
+
+    //Firma digital del profesional
+    Route::apiResource('medium_signature_file', 'Management\MediumSignatureFileController');
+
+
+
+
+
    Route::get(
     'FileContract/FileByContract/{contractId}',
     'Management\FileContractController@getByContract'
