@@ -6,34 +6,25 @@
 
 namespace App\Models\Base;
 
-use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Activities
+ * Class MediumSignatureFile
  * 
  * @property int $id
- * @property string $name
 
+ * @property string $file
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
- * @property Collection|Activity[] $activities
  *
  * @package App\Models\Base
  */
-class Activities extends Model
+class MediumSignatureFile extends Model
 {
-	protected $table = 'activities';
+	protected $table = 'medium_signature_file';
 
-	protected $casts = [
-		'group' => 'int'
-	];
-
-	public function activities()
-	{
-		return $this->hasMany(Activity::class);
-	}
+	
 }
