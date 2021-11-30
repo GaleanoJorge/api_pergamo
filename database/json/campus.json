@@ -1,1 +1,3 @@
-[{"name":"SEDE MONTEVIDEO","region_id":11},{"name":"SEDE J.J VARGAS","region_id":11},{"name":"SEDE BRAIN TRAIN","region_id":11}]
+[{"name":"SEDE BRAIN TRAIN","region_id":11}, {"name":"SEDE CHAPINERO","region_id":11},{"name":"SEDE J.J VARGAS","region_id":11}, {"name":"SEDE MONTEVIDEO","region_id":11}, {"name":"NO DEFINIDA","region_id":11},
+    {"name":"PAD-BOGOTA","region_id":11}, {"name":"PAD-BOYACA","region_id":15},{"name":"PAD-CUNDINAMARCA","region_id":25}, {"name":"SUBACHOQUE","region_id":25},
+     {"name":"HUILA","region_id":41}, {"name":"CABECERA","region_id":68}, {"name":"PAD-SANTANDER","region_id":68}, {"name":"CADIZ","region_id":73}, {"name":"PAD-TOLIMA","region_id":73},{"name":"CASTELLANA","region_id":11}]
