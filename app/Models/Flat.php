@@ -10,7 +10,7 @@ class Flat extends BaseFlat
     protected $fillable = [
     'code',
     'name',
-    'pavilion_id',
+    'campus_id',
     
 
 	];

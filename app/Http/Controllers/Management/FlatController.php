@@ -18,7 +18,7 @@ class FlatController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Flat = Flat::select();
+        $Flat = Flat::with('campus');
 
         if($request->_sort){
             $Flat->orderBy($request->_sort, $request->_order);

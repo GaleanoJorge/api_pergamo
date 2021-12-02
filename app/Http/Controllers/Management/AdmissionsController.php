@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Admissions;
+use App\Models\Location;
+use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
@@ -54,7 +56,7 @@ class AdmissionsController extends Controller
      */
     public function getByPacient(Request $request, int $pacientId): JsonResponse
     {       
-        $Admissions = Admissions::where('user_id',$pacientId)->with('admission_route','campus','program','pavilion','flat','bed','contract','scope_of_attention')->orderBy('created_at', 'desc');
+        $Admissions = Admissions::where('user_id',$pacientId)->with('users','campus','contract','location','location.admission_route','location.scope_of_attention','location.program','location.flat','location.pavilion','location.bed',)->orderBy('created_at', 'desc');
         if ($request->search) {
             $Admissions->where('name', 'like', '%' . $request->search . '%')
             ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -84,20 +86,32 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
+        $count      = Admissions::where('user_id',$request->user_id)->count();
         $Admissions = new Admissions;
-        $Admissions->admission_route_id = $request->admission_route_id;
+        $Admissions->consecutive = $count+1;
+        $Admissions->diagnosis_id = $request->diagnosis_id;;
         $Admissions->campus_id = $request->campus_id;
-        $Admissions->scope_of_attention_id = $request->scope_of_attention_id;
-        $Admissions->program_id = $request->program_id;
-        $Admissions->pavilion_id = $request->pavilion_id;
-        $Admissions->flat_id = $request->flat_id;
-        $Admissions->bed_id = $request->bed_id;
         $Admissions->contract_id = $request->contract_id;
         $Admissions->user_id = $request->user_id;
         $Admissions->entry_date = Carbon::now();
-
-        
         $Admissions->save();
+
+        $Location = new Location;
+        $Location->admissions_id = $Admissions->id;
+        $Location->admission_route_id = $request->admission_route_id;
+        $Location->scope_of_attention_id = $request->scope_of_attention_id;
+        $Location->program_id = $request->program_id;
+        $Location->pavilion_id = $request->pavilion_id;
+        $Location->flat_id = $request->flat_id;
+        $Location->bed_id = $request->bed_id;
+        $Location->user_id = $request->user_id;
+        $Location->entry_date = Carbon::now();
+        $Location->save();
+
+        $Bed= Bed::find($request->bed_id);
+        $Bed->status_bed_id=2;
+        $Bed->save();
+
         
 
         return response()->json([
@@ -131,19 +145,28 @@ class AdmissionsController extends Controller
      * @param integer $id
      * @return JsonResponse
      */
-    public function update(AdmissionsRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
+        if($request->medical_date==true){
+            $Admissions = Admissions::find($id);
+            $Admissions->discharge_date = Carbon::now();
+            $Admissions->save();
+
+            $Bed= Bed::find($request->bed_id);
+            $Bed->status_bed_id=1;
+            $Bed->save();
+        }else if($request->reversion==true){
+            $Admissions = Admissions::find($id);
+            $Admissions->medical_date = '0000-00-00 00:00:00';
+            $Admissions->save();
+        }
+        else{
         $Admissions = Admissions::find($id);
-        $Admissions->admission_route_id = $request->admission_route_id;
         $Admissions->campus_id = $request->campus_id;
-        $Admissions->scope_of_attention_id = $request->scope_of_attention_id;
-        $Admissions->program_id = $request->program_id;
-        $Admissions->pavilion_id = $request->pavilion_id;
-        $Admissions->flat_id = $request->flat_id;
-        $Admissions->bed_id = $request->bed_id;
         $Admissions->contract_id = $request->contract_id;
         $Admissions->user_id = $request->user_id;
         $Admissions->save();
+        }
 
         return response()->json([
             'status' => true,
