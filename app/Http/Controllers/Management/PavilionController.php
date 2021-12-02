@@ -18,7 +18,7 @@ class PavilionController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Pavilion = Pavilion::select();
+        $Pavilion = Pavilion::with('flat','flat.campus');
 
         if($request->_sort){
             $Pavilion->orderBy($request->_sort, $request->_order);

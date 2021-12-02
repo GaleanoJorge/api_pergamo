@@ -5,7 +5,7 @@
  */
 
 namespace App\Models\Base;
-
+use App\Models\Campus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $code
  * @property string $name
- * @property string $pavilion_id
+ * @property string $campus_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -27,5 +27,8 @@ class Flat extends Model
 {
 	protected $table = 'flat';
 
-	
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class);
+	}
 }

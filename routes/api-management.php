@@ -508,6 +508,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    Route::apiResource('bed', 'Management\BedController');
 
    Route::get(
+    'bedbyPacient',
+    'Management\BedController@getBedByPacient'
+   );
+   
+
+   Route::get(
     'bed/byPavilion/{pavilion_id}/{ambit}',
     'Management\BedController@getBedByPavilion'
    );
@@ -537,6 +543,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     'admissions/ByPacient/{pacientId}',
     'Management\AdmissionsController@getByPacient'
 );
+
+//location
+Route::apiResource('location', 'Management\LocationController');
+
+Route::put(
+    'location/changeService/{Id}',
+    'Management\LocationController@changeService'
+);
+
+
+
+//diagnosis
+Route::apiResource('diagnosis', 'Management\DiagnosisController');
    
 
    Route::get(

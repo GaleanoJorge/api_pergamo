@@ -18,7 +18,7 @@ class BedController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Bed = Bed::select();
+        $Bed = Bed::with('pavilion','pavilion.flat','pavilion.flat.campus','status_bed');
 
         if($request->_sort){
             $Bed->orderBy($request->_sort, $request->_order);
@@ -56,6 +56,42 @@ class BedController extends Controller
     {
         $Bed = Bed::where('pavilion_id', $pavilion_id)->where('status_bed_id','=','1')->where('bed_or_office','=',$ambit)
             ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas obtenidos exitosamente',
+            'data' => ['bed' => $Bed]
+        ]);
+    }
+    
+                         /**
+     * Display a listing of the resource
+     *
+     * @param integer $pavilion_id
+     * @return JsonResponse
+     */
+    public function getBedByPacient(Request $request): JsonResponse
+    {
+        $Bed = Bed::with('status_bed','location','location.admissions','location.admissions.users')->where('bed_or_office',1);
+
+        if($request->_sort){
+            $Bed->orderBy($request->_sort, $request->_order);
+        }            
+
+        if ($request->search) {
+            $Bed->where('name','like','%' . $request->search. '%');
+        }
+        
+        if($request->query("pagination", true)=="false"){
+            $Bed=$Bed->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $Bed=$Bed->paginate($per_page,'*','page',$page); 
+        } 
+
 
         return response()->json([
             'status' => true,
@@ -109,19 +145,24 @@ class BedController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(BedRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
-        $Bed = Bed::find($id); 
-        $Bed->code = $request->code; 
-        $Bed->name = $request->name; 
-        $Bed->status_bed_id = $request->status_bed_id; 
-        $Bed->pavilion_id = $request->pavilion_id; 
-        $Bed->bed_or_office = $request->bed_or_office; 
+        if($request==true){
+            $Bed = Bed::find($id); 
+            $Bed->status_bed_id = $request->status_bed_id; 
+            $Bed->save();
+        }else{
+            $Bed = Bed::find($id); 
+            $Bed->code = $request->code; 
+            $Bed->name = $request->name; 
+            $Bed->status_bed_id = $request->status_bed_id; 
+            $Bed->pavilion_id = $request->pavilion_id; 
+            $Bed->bed_or_office = $request->bed_or_office; 
           
         
         
         $Bed->save();
-
+        }
         return response()->json([
             'status' => true,
             'message' => 'Cama actualizado exitosamente',

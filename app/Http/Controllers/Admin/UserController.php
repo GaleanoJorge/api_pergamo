@@ -71,7 +71,9 @@ class UserController extends Controller
             'gender',
             'academic_level',
             'identification_type',
-            'admissions'
+            'admissions',
+            'admissions.location','admissions.contract',
+            'admissions.campus','admissions.location.admission_route','admissions.location.scope_of_attention','admissions.location.program','admissions.location.flat','admissions.location.pavilion','admissions.location.bed'
         )->where('user_role.role_id', $roleId)
             ->join('status', 'status.id', '=', 'users.status_id')
             ->join('identification_type', 'identification_type.id', '=', 'users.identification_type_id');

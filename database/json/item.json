@@ -851,7 +851,7 @@
         "name": "Admisiones",
         "code": "admissions",
         "route": "/pages/admissions/list",
-        "icon": "",
+        "icon": "people-outline",
         "show_menu": "1"
     },
     {
@@ -860,6 +860,15 @@
         "name": "Objeción respuesta",
         "code": "objetion-response",
         "route": "/pages/setting/objetion-response",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "140",
+        "item_parent_id": "128",
+        "name": "Diagnósticos",
+        "code": "diagnosis",
+        "route": "/pages/setting/diagnosis",
         "icon": "",
         "show_menu": "1"
     }
