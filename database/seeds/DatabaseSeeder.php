@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(AdmissionRouteSeeder::class);
                 $this->call(ScopeOfAttentionSeeder::class);
                 $this->call(ProgramSeeder::class);
+                $this->call(EthnicitySeeder::class);
+                $this->call(DiagnosisSeeder::class);
                 
                 // $this->call(EducationalInstitutionSeeder::class);
                 $this->call(RoleSeeder::class);

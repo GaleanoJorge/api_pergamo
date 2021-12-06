@@ -15,7 +15,8 @@ class CreateEthnicityTable extends Migration
     {
         Schema::create('ethnicity', function (Blueprint $table) {
             $table->tinyIncrements('id');
-            $table->text('name');
+            $table->string('name');
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }

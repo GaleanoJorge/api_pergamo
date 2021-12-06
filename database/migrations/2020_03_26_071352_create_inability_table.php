@@ -16,6 +16,7 @@ class CreateInabilityTable extends Migration
         Schema::create('inability', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('code');
             $table->timestamps();
         });
     }
