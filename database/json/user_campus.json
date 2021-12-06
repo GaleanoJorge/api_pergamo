@@ -1,8 +1,18 @@
 [
     {
         "user_id":1,
-        "campus_id":1},
+        "campus_id":4
+    },
     {
         "user_id":1,
-        "campus_id":2}
+        "campus_id":2
+    },
+    {
+        "user_id":2,
+        "campus_id":4
+    },
+    {
+        "user_id":3,
+        "campus_id":4
+    }
 ]

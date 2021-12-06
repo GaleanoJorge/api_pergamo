@@ -49,7 +49,7 @@ class GlossController extends Controller
 
     public function getByStatus(Request $request,int $status): JsonResponse
     {
-        $Gloss = Gloss::where('gloss_status_id',$status);
+        $Gloss = Gloss::where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status');
 
         if($request->_sort){
             $Gloss->orderBy($request->_sort, $request->_order);

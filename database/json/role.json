@@ -16,5 +16,17 @@
         "name": "Medico",
         "status_id": 1,
         "sga_origin_fk": 5
+    },
+    {
+        "id": 4,
+        "name": "Coordinación Glosas",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 5,
+        "name": "Analista Glosas",
+        "status_id": 1,
+        "sga_origin_fk": 5
     }
 ]

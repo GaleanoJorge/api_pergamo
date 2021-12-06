@@ -28,5 +28,10 @@
         "name": "Otro",
         "code": "OTRO",
         "sga_origin_fk": 0
+    },
+    {
+        "name": "Nit",
+        "code": "NIT",
+        "sga_origin_fk": 0
     }
 ]
