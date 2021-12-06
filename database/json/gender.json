@@ -1,6 +1,7 @@
 [
     {
         "name": "Femenino"
+        
     },
     {
         "name": "Masculino"
@@ -10,8 +11,7 @@
     },
     {
         "name": "Otro"
-    },
-    {
-        "name": "Ambos"
     }
+    
+    
 ]  
