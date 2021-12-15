@@ -871,5 +871,50 @@
         "route": "/pages/setting/diagnosis",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "141",
+        "item_parent_id": "66",
+        "name": "Personal Asistencial",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },    
+    {
+        "id": "142",
+        "item_parent_id": "141",
+        "name": "Tipo de contrato",
+        "code": "contract-type",
+        "route": "/pages/setting/contract-type",
+        "icon": "",
+        "show_menu": "1"
+    },    
+    {
+        "id": "143",
+        "item_parent_id": "141",
+        "name": "Especialidad",
+        "code": "special-field",
+        "route": "/pages/setting/special-field",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "144",
+        "item_parent_id": "141",
+        "name": "Tipo de profesional",
+        "code": "type-professional",
+        "route": "/pages/setting/type-professional",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "145",
+        "item_parent_id": "141",
+        "name": "Asistencial",
+        "code": "assistance",
+        "route": "/pages/setting/assistance",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

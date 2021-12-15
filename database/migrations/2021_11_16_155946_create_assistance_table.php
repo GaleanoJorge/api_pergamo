@@ -18,12 +18,11 @@ class CreateAssistanceTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('medical_record');
             $table->unsignedBigInteger('contract_type_id');
-            $table->unsignedBigInteger('cost_center_id');
+            $table->unsignedBigInteger('cost_center_id')->nulleable();
             $table->unsignedBigInteger('type_professional_id');
-            $table->unsignedBigInteger('special_field_id');
-            $table->unsignedBigInteger('medium_signature_file_id');
             $table->string('attends_external_consultation');
-            $table->string('server_multiple_patients');
+            $table->string('serve_multiple_patients');
+            $table->string('file_firm');
 
             
             $table->timestamps();
@@ -40,12 +39,6 @@ class CreateAssistanceTable extends Migration
             $table->index('type_professional_id');
             $table->foreign('type_professional_id')->references('id')
                 ->on('type_professional');
-            $table->index('special_field_id');
-            $table->foreign('special_field_id')->references('id')
-                ->on('special_field');
-            $table->index('medium_signature_file_id');
-            $table->foreign('medium_signature_file_id')->references('id')
-                    ->on('medium_signature_file');
             
         });
         

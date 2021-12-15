@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -16,8 +17,8 @@ class CreateUserTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->unsignedTinyInteger('status_id');
-            $table->unsignedTinyInteger('gender_id')->nullable();
-            $table->string('gender_type')->nullable();;
+            $table->unsignedTinyInteger('gender_id')->nullable(); 
+            $table->string('gender_type')->nullable(); 
             $table->boolean('is_disability');
             $table->string('disability')->nullable();
             $table->unsignedTinyInteger('ethnicity_id')->nullable();
@@ -44,6 +45,7 @@ class CreateUserTable extends Migration
             $table->string('residence_address')->nullable();
             $table->unsignedsmallInteger('residence_region_id')->nullable();
             $table->unsignedBigInteger('residence_municipality_id')->nullable();
+            $table->unsignedBigInteger('residence_country_id')->nullable();
             $table->unsignedBigInteger('study_level_status_id')->nullable();
             $table->unsignedBigInteger('activities_id')->nullable();
             $table->unsignedBigInteger('neighborhood_or_residence_id')->nullable();
@@ -65,6 +67,7 @@ class CreateUserTable extends Migration
             $table->index('birthplace_region_id');
             $table->index('residence_region_id');
             $table->index('residence_municipality_id');
+            $table->index('residence_country_id');
             $table->index('neighborhood_or_residence_id');
             $table->index('activities_id');
             $table->index('study_level_status_id');

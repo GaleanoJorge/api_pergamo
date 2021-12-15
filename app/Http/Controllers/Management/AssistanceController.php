@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class AssistanceController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -40,12 +40,12 @@ class AssistanceController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Personal Asistencial obtenido exitosamente',
-            'data' => ['assistance' => $Assistance->toArray()]
+            'data' => ['assistance' => $Assistance]
         ]);
     }    
     
 
-        public function store(AssistanceRequest $request): JsonResponse
+    public function store(AssistanceRequest $request): JsonResponse
     {
         $Assistance =new Assistance;
         $Assistance->user_id = $request->user_id;
@@ -98,10 +98,9 @@ class AssistanceController extends Controller
         $Assistance->contract_type_id= $request->contract_type_id;
         $Assistance->cost_center_id = $request->cost_center_id;
         $Assistance->type_professional_id = $request->type_professional_id;
-        $Assistance->medium_signature_file_id = $request->medium_signature_file_id;
+        $Assistance->file_firm = $request->file_firm;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;
-        $Assistance->special_field_id = $request->special_field_id;
         $Assistance->save();
 
         return response()->json([
