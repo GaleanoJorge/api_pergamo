@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use Notifications;
 use App\Models\User;
+use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\UserRoleCourse;
 use App\Models\UserRoleCategoryInscription;
@@ -509,17 +510,18 @@ class UserController extends Controller
 
     public function getAuxiliaryData(Request $request): JsonResponse
     {
-        $academicLevels = AcademicLevel::get();
-        $countries = Country::get();
-        $genders = Gender::get();
-        $ethnicitys = Ethnicity::get();
+        $academicLevels = AcademicLevel::orderBy('name')->get();
+        $countries = Country::orderBy('name')->get();
+        $genders = Gender::where('id','!=',3);
+        $ethnicitys = Ethnicity::orderBy('name')->get();
         $identificationTypes = IdentificationType::get();
         $status = Status::get();
-        $study_level_status= StudyLevelStatus::get();
-        $activities= Activities::get();
+        $study_level_status= StudyLevelStatus::orderBy('name')->get();
+        $activities= Activities::orderBy('name')->get();
         $select_RH= SelectRh::get();
-        $population_group= PopulationGroup::get();
-        $marital_status= MaritalStatus::get();
+        $population_group= PopulationGroup::orderBy('name')->get();
+        $marital_status= MaritalStatus::orderBy('name')->get();
+        $inabilitys= Inability::orderBy('name')->get();
 
 
         return response()->json([
@@ -528,7 +530,7 @@ class UserController extends Controller
             'data' => [
                 'academicLevels' => $academicLevels->toArray(),
                 'countries' => $countries->toArray(),
-                'genders' => $genders->toArray(),
+                'genders' => $genders->get()->toArray(),
                 'ethnicitys' => $ethnicitys->toArray(),
                 'identificationTypes' => $identificationTypes->toArray(),
                 'study_level_status' => $study_level_status->toArray(),
@@ -537,6 +539,7 @@ class UserController extends Controller
                 'select_RH' => $select_RH->toArray(),
                 'population_group' => $population_group->toArray(),
                 'marital_status' => $marital_status->toArray(),
+                'inability' => $inabilitys->toArray(),
             ]
         ]);
     }

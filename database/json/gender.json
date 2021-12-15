@@ -1,15 +1,18 @@
 [
     {
+        "code": "F",
         "name": "Femenino"
         
     },
-    {
+    {   "code": "M",
         "name": "Masculino"
     },
     {
+        "code": "A",
         "name": "Ambos"
     },
     {
+        "code": "O",
         "name": "Otro"
     }
     

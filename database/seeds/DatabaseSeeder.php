@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ProgramSeeder::class);
                 $this->call(CompanySeeder::class);
                 $this->call(ReceivedBySeeder::class);
+                $this->call(AdministrationRouteSeeder::class);
 
                 
                 $this->call(EthnicitySeeder::class);
