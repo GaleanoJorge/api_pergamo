@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Inability;
+use App\Models\Ethnicity;
 use Illuminate\Database\Seeder;
 
-class InabilitySeeder extends Seeder
+class EthnicitySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,11 +12,11 @@ class InabilitySeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/inability.json'));
+        $data = file_get_contents(database_path('json/ethnicity.json'));
 
         foreach (json_decode($data) as $row) {
             //print_r($row);
-            Inability::create([
+            Ethnicity::create([
                 
                 'name' =>  $row->name,
                 'code' =>  $row->code,

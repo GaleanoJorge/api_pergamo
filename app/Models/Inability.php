@@ -10,6 +10,7 @@ class Inability extends BaseInability
     protected $fillable = [
 
     'name',
+    'code'
    
     
 
