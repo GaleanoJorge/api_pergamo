@@ -1,16 +1,38 @@
-[{"name":"SEDE BRAIN TRAIN","region_id":3},
-     {"name":"SEDE CHAPINERO","region_id":3},
-     {"name":"SEDE J.J VARGAS","region_id":3}, 
-     {"name":"SEDE MONTEVIDEO","region_id":3}, 
-     {"name":"NO DEFINIDA","region_id":11},
-    {"name":"PAD-BOGOTA","region_id":3}, 
-    {"name":"PAD-BOYACA","region_id":5},
-    {"name":"PAD-CUNDINAMARCA","region_id":11}, 
-    {"name":"SUBACHOQUE","region_id":11},
-     {"name":"HUILA","region_id":13}, 
-     {"name":"CABECERA-SANTANDER","region_id":21}, 
-     {"name":"PAD-SANTANDER","region_id":21}, 
-     {"name":"CADIZ","region_id":23}, 
-     {"name":"PAD-TOLIMA","region_id":23},
-     {"name":"CASTELLANA","region_id":3}
-    ]
+[
+    {
+        "name": "SEDE BRAIN TRAIN",
+        "region_id": 3
+    },
+    {
+        "name": "SEDE CHAPINERO",
+        "region_id": 3
+    },
+    {
+        "name": "SEDE J.J VARGAS",
+        "region_id": 3
+    },
+    {
+        "name": "SEDE MONTEVIDEO",
+        "region_id": 3
+    },
+    {
+        "name": "SUBACHOQUE",
+        "region_id": 11
+    },
+    {
+        "name": "HUILA",
+        "region_id": 13
+    },
+    {
+        "name": "CABECERA-SANTANDER",
+        "region_id": 21
+    },
+    {
+        "name": "CADIZ",
+        "region_id": 23
+    },
+    {
+        "name": "CASTELLANA",
+        "region_id": 3
+    }
+]
