@@ -57,6 +57,7 @@ class GlossResponseController extends Controller
         $GlossResponse->gloss_id = $request->gloss_id;
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
+        $GlossResponse->response = $request->response;
         $GlossResponse->response_date = Carbon::now();
         $GlossResponse->user_id = Auth::user()->id;
         $GlossResponse->accepted_value = $request->accepted_value;
@@ -107,6 +108,7 @@ class GlossResponseController extends Controller
         $GlossResponse = GlossResponse::find($id);
         $GlossResponse->gloss_id = $request->gloss_id;
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
+        $GlossResponse->response = $request->response;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response_date = Carbon::now();
         $GlossResponse->user_id = Auth::user()->id;

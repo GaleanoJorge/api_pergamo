@@ -19,14 +19,18 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status');
+        $Gloss = Gloss::with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+        ->Join('company', 'gloss.company_id', 'company.id');
 
         if ($request->_sort) {
             $Gloss->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $Gloss->where('name', 'like', '%' . $request->search . '%');
+            $Gloss->where('invoice_prefix', 'like', '%' . $request->search . '%')
+            ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+            ->orWhere('received_date', 'like', '%' . $request->search . '%')
+            ->orWhere('company.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -47,16 +51,27 @@ class GlossController extends Controller
     }
 
 
-    public function getByStatus(Request $request,int $status): JsonResponse
+    public function getByStatus(Request $request,int $status,int $user_id): JsonResponse
     {
-        $Gloss = Gloss::where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status');
-
+        if($status==0){
+            $Gloss = Gloss::where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+            ->Join('company', 'gloss.company_id', 'company.id');
+        }else if($user_id==0){
+        $Gloss = Gloss::where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+        ->Join('company', 'gloss.company_id', 'company.id');
+        }else{
+            $Gloss = Gloss::where('gloss_status_id',$status)->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+            ->Join('company', 'gloss.company_id', 'company.id');
+        }
         if($request->_sort){
             $Gloss->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $Gloss->where('name','like','%' . $request->search. '%');
+            $Gloss->where('invoice_prefix', 'like', '%' . $request->search . '%')
+            ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+            ->orWhere('received_date', 'like', '%' . $request->search . '%')
+            ->orWhere('company.name', 'like', '%' . $request->search . '%');
         }
         
         if($request->query("pagination", true)=="false"){
@@ -79,11 +94,15 @@ class GlossController extends Controller
     public function import(Request $request)
     {
         foreach ($request->toArray() as $key => $item) {
-            $Gloss = Gloss::where('invoice_prefix', '=', $item["Prefijo_Factura"])->where('invoice_consecutive', '=', $item['Consecutivo_Factura'])->first();
-            if (!$Gloss) {
+            
                 $Gloss = new Gloss;
                 $Gloss->objetion_type_id = $item['Tipo_Objecion'];
-                $Gloss->repeated_initial_id = $item['Inicial_o_Reiterada'];
+                $GlossCon = Gloss::where('invoice_prefix', '=', $item["Prefijo_Factura"])->where('invoice_consecutive', '=', $item['Consecutivo_Factura'])->where('objetion_code_id','=',$item['Cod_Objeción'])->first();
+                if (!$GlossCon) {
+                    $Gloss->repeated_initial_id = 1;
+                }else{
+                    $Gloss->repeated_initial_id = 2;
+                }
                 $Gloss->company_id = $item['EAPB'];
                 $Gloss->campus_id = $item['Sede'];
                 $Gloss->gloss_ambit_id = $item['Ambito'];
@@ -101,9 +120,10 @@ class GlossController extends Controller
                 $Gloss->emission_date = $item['F_Emision'];
                 $Gloss->radication_date = $item['F_Radicacion'];
                 $Gloss->received_date = $item['F_Recibido'];
+                $Gloss->assing_user_id = $item['Analista_Asig'];
                 $Gloss->save();
+            
             }
-        }
         return response()->json([
             'status' => true,
             'message' => 'Glosas creadas exitosamente',
@@ -116,7 +136,12 @@ class GlossController extends Controller
     {
         $Gloss = new Gloss;
         $Gloss->objetion_type_id = $request->objetion_type_id;
-        $Gloss->repeated_initial_id = $request->repeated_initial_id;
+        $GlossCon = Gloss::where('invoice_prefix', '=', $request->invoice_prefix)->where('invoice_consecutive', '=',$request->invoice_consecutive)->where('objetion_code_id','=',$request->objetion_code_id)->first();
+        if (!$GlossCon) {
+            $Gloss->repeated_initial_id = 1;
+        }else{
+            $Gloss->repeated_initial_id = 2;
+        }
         $Gloss->company_id = $request->company_id;
         $Gloss->campus_id = $request->campus_id;
         $Gloss->gloss_ambit_id = $request->gloss_ambit_id;
@@ -134,6 +159,7 @@ class GlossController extends Controller
         $Gloss->emission_date = $request->emission_date;
         $Gloss->radication_date = $request->radication_date;
         $Gloss->received_date = $request->received_date;
+        $Gloss->assing_user_id = $request->assing_user_id;
         $Gloss->save();
 
         return response()->json([
@@ -171,7 +197,6 @@ class GlossController extends Controller
     {
         $Gloss = Gloss::find($id);
         $Gloss->objetion_type_id = $request->objetion_type_id;
-        $Gloss->repeated_initial_id = $request->repeated_initial_id;
         $Gloss->company_id = $request->company_id;
         $Gloss->campus_id = $request->campus_id;
         $Gloss->gloss_ambit_id = $request->gloss_ambit_id;
@@ -189,6 +214,8 @@ class GlossController extends Controller
         $Gloss->emission_date = $request->emission_date;
         $Gloss->radication_date = $request->radication_date;
         $Gloss->received_date = $request->received_date;
+        $Gloss->assing_user_id = $request->assing_user_id;
+
         $Gloss->save();
 
 

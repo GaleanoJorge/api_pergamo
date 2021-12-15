@@ -53,7 +53,7 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-    /**
+      /**
      * Display a listing of the resource
      *
      * @param Request $request
@@ -65,26 +65,27 @@ class UserController extends Controller
         $users = User::select(
             'users.*',
             \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )  ->Join('user_role', 'users.id', 'user_role.user_id')
-        ->with(
-            'status',
-            'gender',
-            'academic_level',
-            'identification_type',
-            'admissions',
-            'admissions.location','admissions.contract',
+        )->Join('user_role', 'users.id', 'user_role.user_id')
+        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+        
+        ->where('user_role.role_id', $roleId)
+            ->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'user_role',
+                'user_role.role',
+                'admissions',
+                'admissions.location','admissions.contract',
             'admissions.campus','admissions.location.admission_route','admissions.location.scope_of_attention','admissions.location.program','admissions.location.flat','admissions.location.pavilion','admissions.location.bed'
-        )->where('user_role.role_id', $roleId)
-            ->join('status', 'status.id', '=', 'users.status_id')
-            ->join('identification_type', 'identification_type.id', '=', 'users.identification_type_id');
+            )->orderBy('admissions.entry_date','DESC')->groupBy('id');
 
-          
+     
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
         }
-
-        
 
         if ($request->search) {
             $users->where(function ($query) use ($request) {
@@ -93,9 +94,7 @@ class UserController extends Controller
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('status.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('identification_type.name', 'like', '%' . $request->search . '%');
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -108,13 +107,55 @@ class UserController extends Controller
             $users = $users->paginate($per_page, '*', 'page', $page);
         }
 
+/*
+        $users = User::select(
+            'users.*',
+            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        )->Join('user_role', 'users.id', 'user_role.user_id')->with(
+            'status',
+            'gender',
+            'academic_level',
+            'identification_type'
+        )->where('user_role.role_id', $roleId)
+            ->join('status', 'status.id', '=', 'users.status_id')
+            ->join('identification_type', 'identification_type.id', '=', 'users.identification_type_id');
+
+        if ($roleId === 13) {
+            $users->where('users.status_id', '1');
+        }
+        if ($request->_sort) {
+            $users->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $users->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('businessname', 'like', '%' . $request->search . '%')
+                    ->orWhere('status.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('identification_type.name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $users = $users->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $users = $users->paginate($per_page, '*', 'page', $page);
+        }*/
+
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
             'data' => ['users' => $users]
         ]);
     }
-
 
         /**
      * Display a listing of the resource

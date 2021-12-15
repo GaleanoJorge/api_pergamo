@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GlossResponseRequest extends FormRequest
+class DiagnosisRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,8 @@ class GlossResponseRequest extends FormRequest
     public function rules()
     {
         return [
-            'gloss_id' => 'required',
-            'objetion_response_id' => 'required', 
-            'response'=> 'required',
-            'objetion_code_response_id' => 'required',
-            'accepted_value' => 'required',
-            'value_not_accepted' => 'required',
+            'code' => 'requires',
+            'name' => 'required
         ];
     }
 }

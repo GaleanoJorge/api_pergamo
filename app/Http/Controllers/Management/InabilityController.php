@@ -51,6 +51,7 @@ class InabilityController extends Controller
     {
         $Inability = new Inability;
         $Inability->name = $request->name; 
+        $Inability->code = $request->code; 
        
         $Inability->save();
 
@@ -89,6 +90,7 @@ class InabilityController extends Controller
     {
         $Inability = Inability::find($id);
         $Inability->name = $request->name; 
+        $Inability->code = $request->code; 
         
         $Inability->save();
 

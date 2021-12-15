@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
 
                 
+                $this->call(EthnicitySeeder::class);
+                $this->call(DiagnosisSeeder::class);
                 
                 // $this->call(EducationalInstitutionSeeder::class);
                 $this->call(RoleSeeder::class);

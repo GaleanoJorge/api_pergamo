@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Indígena",
+        "code":  1
+    },
+    {
+        "name": "ROM (gitano)",
+        "code":  2
+    },
+    {
+        "name": "Raizal del archipiélago de San Andrés y Providencia",
+        "code":  3
+    },
+    {
+        "name": "Palenquero de San Basilio ", 
+        "code": 4
+    },
+    {
+        "name": "Negro(a), mulato(a), afro colombiano(a) o afro descendiente",
+        "code":  5
+    },
+    {
+        "name": "Ninguna de las anteriores",
+        "code":  6
+    }
+]

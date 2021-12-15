@@ -1,20 +1,26 @@
 [
     {
-        "name": "Cognitiva"
+        "name": "Cognitiva",
+        "code": 1
     },
     {
-        "name": "Física"
+        "name": "Física",
+        "code": 2
     },
     {
-        "name": "Mental"
+        "name": "Mental",
+        "code": 3
     },
     {
-        "name": "Multidéficit"
+        "name": "Multidéficit",
+        "code": 4
     },
     {
-        "name": "Sensorial"
+        "name": "Sensorial",
+        "code": 5
     },
     {
-        "name": "Ninguna"
+        "name": "Ninguna",
+        "code": 6
     }
 ]  

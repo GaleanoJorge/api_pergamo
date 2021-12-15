@@ -34,6 +34,7 @@ class CreateGlossTable extends Migration
             $table->integer('objeted_value');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('received_by_id');
+            $table->unsignedBigInteger('assing_user_id');
             $table->timestamps();
 
             $table->index('objetion_type_id');
@@ -65,13 +66,12 @@ class CreateGlossTable extends Migration
             $table->index('user_id');
             $table->foreign('user_id')->references('id')
             ->on('users');
+            $table->index('assing_user_id');
+            $table->foreign('assing_user_id')->references('id')
+            ->on('users');
             $table->index('received_by_id');
             $table->foreign('received_by_id')->references('id')
-            ->on('received_by');
-
-            
-
-            
+            ->on('received_by');           
         });
 
     }
