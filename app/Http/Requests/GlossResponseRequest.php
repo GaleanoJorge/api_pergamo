@@ -26,6 +26,7 @@ class GlossResponseRequest extends FormRequest
         return [
             'gloss_id' => 'required',
             'objetion_response_id' => 'required', 
+            'response'=> 'required',
             'objetion_code_response_id' => 'required',
             'accepted_value' => 'required',
             'value_not_accepted' => 'required',

@@ -88,6 +88,10 @@ class Gloss extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+	public function assing_user()
+	{
+		return $this->belongsTo(User::class, 'assing_user_id', 'id');
+	}
 	public function received_by()
 	{
 		return $this->belongsTo(ReceivedBy::class);

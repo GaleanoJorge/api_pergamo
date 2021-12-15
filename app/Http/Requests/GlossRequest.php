@@ -26,7 +26,6 @@ class GlossRequest extends FormRequest
         return [
 
             'objetion_type_id' => 'required',
-            'repeated_initial_id' => 'required',
             'company_id' => 'required',
             'campus_id' => 'required',
             'gloss_ambit_id' => 'required',
@@ -42,6 +41,7 @@ class GlossRequest extends FormRequest
             'emission_date' => 'required',
             'radication_date' => 'required',
             'received_date' => 'required',
+            'assing_user_id'=>'required',
 
         ];
     }
