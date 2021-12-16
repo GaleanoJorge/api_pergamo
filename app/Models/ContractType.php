@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\ContarctType as BaseContarctType;
+use App\Models\Base\ContractType as BaseContractType;
 
-class ContarctType extends BaseContarctType
+class ContractType extends BaseContractType
 {
     protected $fillable = [
     

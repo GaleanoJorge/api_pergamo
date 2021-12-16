@@ -28,11 +28,11 @@ class AssistanceRequest extends FormRequest
             'medical_record' => 'required',
             'contract_type_id' => 'required',
             'cost_center_id' => 'required',
-            'type_proessional_id' => 'required',
-            'medium_signature_file_id' => 'required',
+            'type_professional_id' => 'required',
             'attends_external_consultation' => 'required',
-            'serve_multiple_patiens' => 'required',
-            'special_field_id' => 'required',
+            'serve_multiple_patients' => 'required',
+            'file_firm' => 'required',
+
         ];
     }
 }

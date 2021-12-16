@@ -13,10 +13,9 @@ class Assistance extends BaseAssistance
     'contract_type_id',
     'cost_center_id', 
     'type_professional_id', 
-    'medium_signature_file_id', 
     'attends_external_consultation', 
     'serve_multiple_patients', 
-    'special_field_id', 
+    'file_firm', 
 	
 	];
 }

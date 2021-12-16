@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TypeProfessionalRequest extends FormRequest
+class AssistanceSpecialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class TypeProfessionalRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-           
-            
-            
-            
+            'special_field_id' => 'required',
+            'assistance_id' => 'required',
+
         ];
     }
 }

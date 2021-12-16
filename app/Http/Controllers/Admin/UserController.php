@@ -6,6 +6,8 @@ use Exception;
 use Notifications;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\ContractType;
+use App\Models\Assistance;
 use App\Models\UserRoleCourse;
 use App\Models\UserRoleCategoryInscription;
 use App\Models\Curriculum;
@@ -44,11 +46,16 @@ use App\Http\Requests\StudentSyncRequest;
 use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
+use App\Models\AssistanceSpecial;
+use App\Models\CostCenter;
+use App\Models\SpecialField;
+use App\Models\TypeProfessional;
 use Beta\Microsoft\Graph\Model\Currency;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Mockery\Undefined;
 
 class UserController extends Controller
 {
@@ -339,6 +346,7 @@ class UserController extends Controller
         $user->residence_region_id = $request->residence_region_id;
         $user->residence_municipality_id = $request->residence_municipality_id;
         $user->residence_address = $request->residence_address;
+        $user->residence_country_id = $request->residence_country_id;
         $user->study_level_status_id = $request->study_level_status_id;
         $user->activities_id = $request->activities_id;
         $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
@@ -361,6 +369,34 @@ class UserController extends Controller
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->save();
+
+        if($request->role_id==3){
+            $assistance= new Assistance;
+            $assistance->user_id=$user->id;
+
+            $assistance->medical_record=$request->medical_record;
+            $assistance->contract_type_id=$request->contract_type_id;
+            $assistance->cost_center_id=$request->cost_center_id;
+            $assistance->type_professional_id=$request->type_professional_id;
+            $assistance->attends_external_consultation=$request->attends_external_consultation;
+            $assistance->serve_multiple_patients=$request->serve_multiple_patients;
+            
+            if ($request->file('file_firm')) {
+                $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
+                $assistance->file_firm = $path;
+            }
+            $assistance->save();
+
+            if(sizeof($request->special_field) > 0){
+                foreach($request->special_field as $item){
+                    $assistanceSpecial = new AssistanceSpecial;
+                    $assistanceSpecial->special_field_id = $item;
+                    $assistanceSpecial->assistance_id = $assistance->id;    
+                    $assistanceSpecial->save();
+                }
+            }
+
+        }
 
 
         $userRole = new UserRole;
@@ -410,7 +446,9 @@ class UserController extends Controller
                 'academic_level',
                 'identification_type',
                 'municipality',
-                'roles'
+                'roles',
+                'assistance',
+                'assistance.special_field'
             )->get()->toArray();
 
 
@@ -504,6 +542,7 @@ class UserController extends Controller
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
         $user->disability = $request->disability;
+        $user->residence_country_id = $request -> residence_country_id;
 
         if ($request->gender_id==3) {
             $user->gender_type = $request->gender_type;
@@ -512,6 +551,34 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
         }
         $user->save();
+
+        if($request->role_id==3){
+            $assistance= Assistance::find($request->assistance_id);
+            $assistance->medical_record=$request->medical_record;
+            $assistance->contract_type_id=$request->contract_type_id;
+            $assistance->cost_center_id=$request->cost_center_id;
+            $assistance->type_professional_id=$request->type_professional_id;
+            $assistance->attends_external_consultation=$request->attends_external_consultation;
+            $assistance->serve_multiple_patients=$request->serve_multiple_patients;
+            
+            if ($request->file('file_firm')) {
+                $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
+                $assistance->file_firm = $path;
+            }
+            $assistance->save();
+
+            if($request->special_field == null){
+                //if(sizeof($request->special_field) != 0 ){
+                foreach($request->special_field as $item){
+                    $assistanceSpecial = new AssistanceSpecial;
+                    $assistanceSpecial->special_field_id = $item;
+                    $assistanceSpecial->assistance_id = $assistance->id;    
+                    $assistanceSpecial->save();
+                }
+            //}
+            }
+
+        }
 
 
         \DB::commit();
@@ -561,6 +628,20 @@ class UserController extends Controller
         $select_RH= SelectRh::get();
         $population_group= PopulationGroup::get();
         $marital_status= MaritalStatus::get();
+        $contract_type= ContractType::get();
+        $cost_center= CostCenter::get();
+        $type_professional= TypeProfessional::get();
+        $special_field = SpecialField::where('type_professional_id',$request->type_professional_id);
+        // if($request->search){
+        //     $special_field->Orwhere('name', 'like', '%' . $request->search . '%');
+        // }
+        if ($request->search != 'undefined') {
+            $special_field->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+        
+        
 
 
         return response()->json([
@@ -578,6 +659,11 @@ class UserController extends Controller
                 'select_RH' => $select_RH->toArray(),
                 'population_group' => $population_group->toArray(),
                 'marital_status' => $marital_status->toArray(),
+                'contract_type' => $contract_type->toArray(),
+                'cost_center' => $cost_center->toArray(),
+                'type_professional' => $type_professional->toArray(),
+                'special_field' => $special_field->get()->toArray(),
+
             ]
         ]);
     }

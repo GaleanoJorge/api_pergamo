@@ -15,6 +15,7 @@ Route::post('user_assig_survey/{id}', 'Management\UserAssignSurveyController@upd
 Route::get('user_surveys/{id}', 'Management\UserAssignSurveyController@get_user_surveys');
 Route::apiResource('surveyInstance', 'Management\SurveyInstanceController');
 
+
 Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Origin
@@ -674,6 +675,12 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     //AssistanceSession
     Route::apiResource('assistanceSession', 'Management\AssistanceSessionController');
 
+    //Assistance
+    Route::apiResource('assistance', 'Management\AssistanceController');
+
+    //Assistance special
+    Route::apiResource('assistance_special', 'Management\AssistanceSpecialController');
+
     //UserRoleGroup
     Route::apiResource('userRoleGroup', 'Management\UserRoleGroupController');
     Route::get('userRoleByGroup/{userRoleId}', 'Management\UserRoleGroupController@getByGroup');
@@ -835,4 +842,5 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     Route::get('oldsga-reports/exportExcelEncuestasActividad', 'OldSGA\ReportsController@exportExcelEncuestasActividad');
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
+
 });
