@@ -19,7 +19,7 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+        $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
         ->Join('company', 'gloss.company_id', 'company.id');
 
         if ($request->_sort) {
@@ -54,13 +54,13 @@ class GlossController extends Controller
     public function getByStatus(Request $request,int $status,int $user_id): JsonResponse
     {
         if($status==0){
-            $Gloss = Gloss::where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+            $Gloss = Gloss::select('gloss.*')->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
             ->Join('company', 'gloss.company_id', 'company.id');
         }else if($user_id==0){
-        $Gloss = Gloss::where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+        $Gloss = Gloss::select('gloss.*')->where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
         ->Join('company', 'gloss.company_id', 'company.id');
         }else{
-            $Gloss = Gloss::where('gloss_status_id',$status)->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+            $Gloss = Gloss::select('gloss.*')->where('gloss_status_id',$status)->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
             ->Join('company', 'gloss.company_id', 'company.id');
         }
         if($request->_sort){
@@ -202,7 +202,9 @@ class GlossController extends Controller
         $Gloss->gloss_ambit_id = $request->gloss_ambit_id;
         $Gloss->gloss_modality_id = $request->gloss_modality_id;
         $Gloss->gloss_service_id = $request->gloss_service_id;
-        $Gloss->objetion_code_id = $request->objetion_code_id;
+        if($request->objetion_code_id){
+            $Gloss->objetion_code_id = $request->objetion_code_id;
+        }
         $Gloss->gloss_status_id = 1;
         $Gloss->user_id = Auth::user()->id;
         $Gloss->received_by_id = $request->received_by_id;
