@@ -31,12 +31,87 @@
     },
     {
         "id":7,
-        "name": "PAD Crónico",
+        "name": "Ventilado",
         "scope_of_attention_id":3
     },
     {
         "id":8,
-        "name": "PAD Agudo",
+        "name": "No Ventilado",
         "scope_of_attention_id":3
+    },
+    {
+        "id":9,
+        "name": "Antibioticoterapia",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":10,
+        "name": "Antibioticoterapia - Clínica De Heridas",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":11,
+        "name": "Aplicación De Medicamento",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":12,
+        "name": "Clínica De Heridas",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":13,
+        "name": "Consulta",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":14,
+        "name": "Destete De Oxigeno",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":15,
+        "name": "Hl Rehab",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":16,
+        "name": "Mixto",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":17,
+        "name": "Pac Salud Total",
+        "scope_of_attention_id":4
+    },
+    {
+        "id":18,
+        "name": "Puntual",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":19,
+        "name": "Rehabilitación",
+        "scope_of_attention_id":4
+    },
+    {
+        "id":20,
+        "name": "Rehabilitación - Clínica De Heridas",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":21,
+        "name": "Salud Total Pac",
+        "scope_of_attention_id":4
     }
 ]  
