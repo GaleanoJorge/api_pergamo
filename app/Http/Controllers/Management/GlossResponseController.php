@@ -53,8 +53,17 @@ class GlossResponseController extends Controller
 
     public function store(GlossResponseRequest $request): JsonResponse
     {
+        $cont=0;
+        $err=0;
+        $gloss_id=json_decode($request->gloss_id);
+        foreach($gloss_id as $item){
+        $validate= GlossResponse::where('gloss_id','=',$item)->get()->toArray();
+        if($validate){
+            $err++;
+        }else{
+        $cont++;
         $GlossResponse = new GlossResponse;
-        $GlossResponse->gloss_id = $request->gloss_id;
+        $GlossResponse->gloss_id = $item;
         $GlossResponse->objetion_response_id = $request->objetion_response_id;
         $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
         $GlossResponse->response = $request->response;
@@ -68,15 +77,17 @@ class GlossResponseController extends Controller
         }
         $GlossResponse->save();
 
-        $Gloss = Gloss::find($request->gloss_id);
+        $Gloss = Gloss::find($item);
         $Gloss->gloss_status_id = 2;
         $Gloss->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Respuesta de Glosa creados exitosamente',
-            'data' => ['gloss_response' => $GlossResponse->toArray()]
-        ]);
+    }
+    }
+    return response()->json([
+        'status' => true,
+        'message' => 'Respuesta de Glosa creados exitosamente',
+        'data' => 'Se han respondido ' . $cont . ' Correctamente. ' . $err . ' ya tienen respuesta.',
+        
+    ]);
     }
 
     /**
