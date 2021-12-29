@@ -8,9 +8,8 @@ use App\Models\Base\AdministrationRoute as BaseAdministrationRoute;
 class AdministrationRoute extends BaseAdministrationRoute
 {
     protected $fillable = [
-    
+
     'name',
     
-
 	];
 }

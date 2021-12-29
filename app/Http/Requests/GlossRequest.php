@@ -31,7 +31,7 @@ class GlossRequest extends FormRequest
             'gloss_ambit_id' => 'required',
             'gloss_modality_id' => 'required',
             'gloss_service_id' => 'required',
-            'objetion_code_id' => 'required',
+            'objetion_code_id',
             'received_by_id' => 'required',
             'invoice_prefix' => 'required',
             'objetion_detail' => 'required',
