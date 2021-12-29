@@ -430,6 +430,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Vía de  Administración 
    Route::apiResource('administration_route', 'Management\AdministrationRouteController');
 
+   //Obsevacion de novedades
+   Route::apiResource('observation_novelty', 'Management\ObservationNoveltyController');
+   
+   //Cambio de usuario
+   Route::apiResource('user_change', 'Management\UserChangeController');
+
    //Unidad de Consumo
    Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
 

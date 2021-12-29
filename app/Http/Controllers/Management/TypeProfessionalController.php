@@ -49,6 +49,7 @@ class TypeProfessionalController extends Controller
     
 
     public function store(TypeProfessionalRequest $request): JsonResponse
+
     {
         $TypeProfessional = new TypeProfessional;
        
@@ -70,6 +71,7 @@ class TypeProfessionalController extends Controller
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
+
     {
         $TypeProfessional = TypeProfessional::where('id', $id)
             ->get()->toArray();
@@ -88,6 +90,7 @@ class TypeProfessionalController extends Controller
      * @return JsonResponse
      */
     public function update(TypeProfessionalRequest $request, int $id): JsonResponse
+    
     {
         $TypeProfessional = TypeProfessional::find($id);
     
