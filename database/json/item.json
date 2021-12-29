@@ -916,5 +916,14 @@
         "route": "/pages/setting/assistance",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "146",
+        "item_parent_id": "65",
+        "name": "Observación de novedades",
+        "code": "observation-novelty",
+        "route": "/pages/setting/observation-novelty",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

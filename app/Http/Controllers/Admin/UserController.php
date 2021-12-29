@@ -50,6 +50,8 @@ use App\Models\AssistanceSpecial;
 use App\Models\CostCenter;
 use App\Models\SpecialField;
 use App\Models\TypeProfessional;
+use App\Models\ObservationNovelty;
+use App\Models\UserChange;
 use Beta\Microsoft\Graph\Model\Currency;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +91,9 @@ class UserController extends Controller
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
+        }
+        if($request->identification){
+            $users->where('identification','!=',$request->identification);
         }
 
         
@@ -293,7 +298,58 @@ class UserController extends Controller
     {
 
         \DB::beginTransaction();
+        $validate = User::Where('identification', $request->identification);
+        $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
+        if($validate){
+            if($validate_wrong_user){
+                $user = new User;
+                $user->status_id = $request->status_id;
+                $user->gender_id = $request->gender_id;
+                $user->academic_level_id = $request->academic_level_id;
+                $user->identification_type_id = $request->identification_type_id;
+                $user->birthplace_municipality_id = $request->birthplace_municipality_id;
+                $user->birthplace_country_id = $request->birthplace_country_id;
+                $user->birthplace_region_id = $request->birthplace_region_id;
+                $user->residence_region_id = $request->residence_region_id;
+                $user->residence_municipality_id = $request->residence_municipality_id;
+                $user->residence_address = $request->residence_address;
+                $user->residence_country_id = $request->residence_country_id;
+                $user->study_level_status_id = $request->study_level_status_id;
+                $user->activities_id = $request->activities_id;
+                $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+                $user->select_rh_id = $request->select_RH_id;
+                $user->marital_status_id = $request->marital_status_id;
+                $user->population_group_id = $request->population_group_id;
+                $user->username = $request->username;
+                $user->is_disability = $request->is_disability;
+                $user->disability = $request->disability;
+                $user->gender_type = $request->gender_type;
+                $user->email = $request->email;
+                $user->password = Hash::make($request->password);
+                $user->firstname = $request->firstname;
+                $user->middlefirstname = $request->middlefirstname;
+                $user->lastname = $request->lastname;
+                $user->middlelastname = $request->middlelastname;
+                $user->identification = $request->identification;
+                $user->birthday = $request->birthday;
+                $user->phone = $request->phone;
+                $user->landline = $request->landline;
+                $user->ethnicity_id = $request->ethnicity_id;
+                $user->save();
 
+                $userRole = new UserRole;
+                $userRole->role_id = $request->role_id;
+                $userRole->user_id = $user->id;
+                $userRole->save(); 
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Usuario exístente con este número de cedula',
+                ]);
+
+            }
+
+        }else{
         $user = new User;
         $user->status_id = $request->status_id;
         $user->gender_id = $request->gender_id;
@@ -361,8 +417,8 @@ class UserController extends Controller
         $userRole = new UserRole;
         $userRole->role_id = $request->role_id;
         $userRole->user_id = $user->id;
-        $userRole->save();
-
+        $userRole->save(); 
+    }
 
         \DB::commit();
 
@@ -582,14 +638,15 @@ class UserController extends Controller
         $ethnicitys = Ethnicity::get();
         $identificationTypes = IdentificationType::get();
         $status = Status::get();
-        $study_level_status= StudyLevelStatus::get();
-        $activities= Activities::get();
-        $select_RH= SelectRh::get();
-        $population_group= PopulationGroup::get();
-        $marital_status= MaritalStatus::get();
-        $contract_type= ContractType::get();
-        $cost_center= CostCenter::get();
-        $type_professional= TypeProfessional::get();
+        $study_level_status = StudyLevelStatus::get();
+        $activities = Activities::get();
+        $select_RH = SelectRh::get();
+        $population_group = PopulationGroup::get();
+        $marital_status = MaritalStatus::get();
+        $contract_type = ContractType::get();
+        $cost_center = CostCenter::get();
+        $type_professional = TypeProfessional::get();
+        //$observation_novelty = ObservationNovelty::get();
         $special_field = SpecialField::where('type_professional_id',$request->type_professional_id);
         // if($request->search){
         //     $special_field->Orwhere('name', 'like', '%' . $request->search . '%');
@@ -622,6 +679,7 @@ class UserController extends Controller
                 'cost_center' => $cost_center->toArray(),
                 'type_professional' => $type_professional->toArray(),
                 'special_field' => $special_field->get()->toArray(),
+                //'observation_novelty' => $observation_novelty->get()->toArray(),
 
             ]
         ]);

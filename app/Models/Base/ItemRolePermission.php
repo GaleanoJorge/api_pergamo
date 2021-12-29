@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $item_id
  * @property int $role_id
- * @property int $permission_id
+ * @property array $permission_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -35,7 +35,7 @@ class ItemRolePermission extends Model
 	protected $casts = [
 		'item_id' => 'int',
 		'role_id' => 'int',
-		'permission_id' => 'int'
+		'permission_id',
 	];
 
 	public function item()

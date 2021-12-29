@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
             'lastname' => 'required',
             'birthday' => 'nullable|date|before:16 years ago',
             'phone' => 'nullable|numeric',
-            'identification' => ['required', Rule::unique('users')->ignore($this->user)->where('identification_type_id', $this->identification_type_id)]
+            'identification' => ['required'/*, Rule::unique('users')->ignore($this->user)->where('identification_type_id', $this->identification_type_id)*/]
         ];
     }
 
@@ -57,7 +57,7 @@ class UserRequest extends FormRequest
             'password.regex' => 'La contraseña debe contener como mínimo: un número, un carácter especial, una letra mayúscula y una letra minúscula.',
             'confirm_password.required_if'  => 'La confirmación de la contraseña es obligatoria.',
             'birthday.before' => 'La fecha de nacimiento no es valida',
-            'identification.unique' => 'El número y tipo de documento ya estan registrados',
+            // 'identification.unique' => 'El número y tipo de documento ya estan registrados',
             'confirm_password.same' => 'Los campos contraseña y confirmar contraseña no coinciden',
         ];
     }
