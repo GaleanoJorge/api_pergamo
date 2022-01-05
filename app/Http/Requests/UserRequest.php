@@ -40,6 +40,8 @@ class UserRequest extends FormRequest
             'firstname' => 'required',
             'lastname' => 'required',
             'birthday' => 'nullable|date|before:16 years ago',
+            'activities_id' =>'required',
+            'age' => 'required',
             'phone' => 'nullable|numeric',
             'identification' => ['required'/*, Rule::unique('users')->ignore($this->user)->where('identification_type_id', $this->identification_type_id)*/]
         ];

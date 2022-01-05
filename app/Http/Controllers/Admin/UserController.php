@@ -54,11 +54,14 @@ use App\Models\TypeProfessional;
 use App\Models\ObservationNovelty;
 use App\Models\UserChange;
 use Beta\Microsoft\Graph\Model\Currency;
+use DateTime;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class UserController extends Controller
 {
@@ -375,8 +378,10 @@ class UserController extends Controller
                 $user->identification = $request->identification;
                 $user->birthday = $request->birthday;
                 $user->phone = $request->phone;
+                $user->age = $request -> age;
                 $user->landline = $request->landline;
                 $user->ethnicity_id = $request->ethnicity_id;
+                $user->force_reset_password = 1;
                 $user->save();
 
                 $userRole = new UserRole;
@@ -422,6 +427,7 @@ class UserController extends Controller
         $user->middlelastname = $request->middlelastname;
         $user->identification = $request->identification;
         $user->birthday = $request->birthday;
+        $user->age = $request -> age;
         $user->phone = $request->phone;
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
@@ -598,6 +604,8 @@ class UserController extends Controller
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
+        $user->age = $request -> age;
+        $user->activities_id = $request->activities_id;
         $user->disability = $request->disability;
         $user->residence_country_id = $request -> residence_country_id;
 

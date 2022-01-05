@@ -38,10 +38,12 @@ class ItemRolePermissionController extends Controller
      */
     public function store(ItemRolePermissionRequest $request): JsonResponse
     {
+        foreach($request->item as $idItem){
+        foreach($request->permission as $item){
         $exist = ItemRolePermission::where([
-            ['item_id', $request->item],
+            ['item_id', $idItem],
             ['role_id', $request->rol],
-            ['permission_id', $request->permiso]
+            ['permission_id', $item]
         ])->get()->count();
 
         if ($exist) {
@@ -49,10 +51,13 @@ class ItemRolePermissionController extends Controller
         }
 
         $itemRolePermission = new ItemRolePermission;
-        $itemRolePermission->item_id = $request->item;
+        $itemRolePermission->item_id = $idItem;
         $itemRolePermission->role_id = $request->rol;
-        $itemRolePermission->permission_id = $request->permiso;
+        $itemRolePermission->permission_id = $item;
         $itemRolePermission->save();
+
+        }
+        }
 
         return response()->json([
             'status' => true,
