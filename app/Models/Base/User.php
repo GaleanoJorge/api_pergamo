@@ -58,6 +58,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $phone
  * @property int $landline
  * @property int $sync_id
+ * @property int $age
  * @property bool $force_reset_password
  * @property int $sga_origin_fk
  * @property string $remember_token
@@ -104,6 +105,7 @@ class User extends Model
 		'phone' => 'int',
 		'landline' => 'int',
 		'sync_id' => 'int',
+		'age' => 'int',
 		'force_reset_password' => 'bool',
 		'sga_origin_fk' => 'int',
 		'is_judicial_branch' => 'bool'

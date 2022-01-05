@@ -58,7 +58,7 @@
         "activities_id": 60,
         "neighborhood_or_residence_id": 27,
         "marital_status_id" : 3,
-        "inability_id" : 6,
+        "inability_id" : 5,
         "population_group_id" : 5
     },
     {
@@ -89,7 +89,7 @@
         "activities_id": 60,
         "neighborhood_or_residence_id": 27,
         "marital_status_id" : 3,
-        "inability_id" : 6,
+        "inability_id" : 5,
         "population_group_id" : 5
     }
 ]
