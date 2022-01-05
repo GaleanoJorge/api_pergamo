@@ -44,6 +44,7 @@ class UserSeeder extends Seeder
             }
 
             $arrData[] = [
+                'id' => $row->id,
                 'status_id' => $row->status_id,
                 'gender_id' => $row->gender_id,
                 'academic_level_id' => $row->academic_level_id,

@@ -37,7 +37,7 @@ class GlossController extends Controller
             $Gloss = $Gloss->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $per_page = $request->query("per_page", 30);
 
             $Gloss = $Gloss->paginate($per_page, '*', 'page', $page);
         }
@@ -53,7 +53,11 @@ class GlossController extends Controller
 
     public function getByStatus(Request $request,int $status,int $user_id): JsonResponse
     {
-        if($status==0){
+        if($status==0 && $user_id==0){
+            $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+            ->Join('company', 'gloss.company_id', 'company.id');
+        }
+        else if($status==0){
             $Gloss = Gloss::select('gloss.*')->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
             ->Join('company', 'gloss.company_id', 'company.id');
         }else if($user_id==0){
@@ -79,7 +83,7 @@ class GlossController extends Controller
         }
         else{
             $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
+            $per_page=$request->query("per_page", 30);
             
             $Gloss=$Gloss->paginate($per_page,'*','page',$page); 
         } 
@@ -161,13 +165,32 @@ class GlossController extends Controller
         $Gloss->received_date = $request->received_date;
         $Gloss->assing_user_id = $request->assing_user_id;
         $Gloss->save();
-
+     
         return response()->json([
             'status' => true,
             'message' => 'Glosas creadas exitosamente',
             'data' => ['gloss' => $Gloss->toArray()]
         ]);
     }
+
+
+
+    public function ChangeStatusBriefcase(Request $request): JsonResponse
+    {  
+
+        $Gloss = Gloss::find($request->gloss_id);
+        $Gloss->gloss_status_id = $request->state_gloss;
+        $Gloss->save();
+     
+        return response()->json([
+            'status' => true,
+            'message' => 'Estado cambiado correctamente',
+            'data' => ['gloss' => $Gloss->toArray()]
+        ]);
+    }
+   
+     
+
 
     /**
      * Display the specified resource.

@@ -28,5 +28,11 @@
         "name": "Analista Glosas",
         "status_id": 1,
         "sga_origin_fk": 5
+    },
+    {
+        "id": 6,
+        "name": "Cartera",
+        "status_id": 1,
+        "sga_origin_fk": 5
     }
 ]

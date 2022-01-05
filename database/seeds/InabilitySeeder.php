@@ -17,7 +17,6 @@ class InabilitySeeder extends Seeder
         foreach (json_decode($data) as $row) {
             //print_r($row);
             Inability::create([
-                
                 'name' =>  $row->name,
                 'code' =>  $row->code,
             ]);

@@ -10,5 +10,11 @@
     },
     {
         "name": "Anulado"
+    },
+    {
+        "name": "Cartera"
+    },
+    {
+        "name": "En conciliación"
     }
 ]
