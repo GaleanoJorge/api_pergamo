@@ -19,7 +19,7 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
+        $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user','regimen')
         ->Join('company', 'gloss.company_id', 'company.id');
 
         if ($request->_sort) {
@@ -113,6 +113,7 @@ class GlossController extends Controller
                 $Gloss->gloss_modality_id = $item['Modalidad'];
                 $Gloss->gloss_service_id = $item['Servicio'];
                 $Gloss->objetion_code_id = $item['Cod_Objeción'];
+                $Gloss->regimen_id = $item['Regimen'];
                 $Gloss->gloss_status_id = 1;
                 $Gloss->user_id = Auth::user()->id;
                 $Gloss->received_by_id = $item['Medio_Recibido'];
@@ -152,6 +153,7 @@ class GlossController extends Controller
         $Gloss->gloss_modality_id = $request->gloss_modality_id;
         $Gloss->gloss_service_id = $request->gloss_service_id;
         $Gloss->objetion_code_id = $request->objetion_code_id;
+        $Gloss->regimen_id = $request->regime_id;
         $Gloss->gloss_status_id = 1;
         $Gloss->user_id = Auth::user()->id;
         $Gloss->received_by_id = $request->received_by_id;
@@ -230,6 +232,7 @@ class GlossController extends Controller
         }
         $Gloss->gloss_status_id = 1;
         $Gloss->user_id = Auth::user()->id;
+        $Gloss->regimen_id = $request->regime_id;
         $Gloss->received_by_id = $request->received_by_id;
         $Gloss->invoice_prefix = $request->invoice_prefix;
         $Gloss->objetion_detail = $request->objetion_detail;

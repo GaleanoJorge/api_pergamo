@@ -727,6 +727,7 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     Route::apiResource('objetion_response', 'Management\ObjetionResponseController');
     Route::apiResource('objetion_code_response', 'Management\ObjetionCodeResponseController');
     Route::apiResource('gloss_response', 'Management\GlossResponseController');
+    Route::apiResource('gloss_conciliations', 'Management\GlossConciliationsController');
     Route::apiResource('gloss_radication', 'Management\GlossRadicationController');
     Route::post('fileUpload', 'Management\GlossController@import');
 
