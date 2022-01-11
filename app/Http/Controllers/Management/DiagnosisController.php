@@ -41,7 +41,7 @@ class DiagnosisController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Diagnóstico asociados al paciente exitosamente',
+            'message' => 'Diagnósticos obtenidos exitosamente',
             'data' => ['diagnosis' => $Diagnosis]
         ]);
     }
@@ -58,7 +58,7 @@ class DiagnosisController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Diagnóstico creado exitosamente',
+            'message' => 'Diagnóstico asociado al paciente exitosamente',
             'data' => ['diagnosis' => $Diagnosis->toArray()]
         ]);
     }

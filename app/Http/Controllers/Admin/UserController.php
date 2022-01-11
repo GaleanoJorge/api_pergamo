@@ -607,6 +607,7 @@ class UserController extends Controller
         $user->age = $request -> age;
         $user->activities_id = $request->activities_id;
         $user->disability = $request->disability;
+        $user->residence_address = $request->residence_address;
         $user->residence_country_id = $request -> residence_country_id;
 
         if ($request->gender_id==3) {
