@@ -79,6 +79,8 @@ class ProcedurePackageController extends Controller
     public function store(ProcedurePackageRequest $request): JsonResponse
     {
         $ProcedurePackage = new ProcedurePackage;
+        $ProcedurePackage->value = $request->value;
+        $ProcedurePackage->manual_price_id = $request->manual_price_id;
         $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
         $ProcedurePackage->procedure_id = $request->procedure_id;
         $ProcedurePackage->save();
@@ -118,6 +120,8 @@ class ProcedurePackageController extends Controller
     public function update(ProcedurePackageRequest $request, int $id): JsonResponse
     {
         $ProcedurePackage = ProcedurePackage::find($id);
+        $ProcedurePackage->value = $request->value;
+        $ProcedurePackage->manual_price_id = $request->manual_price_id;
         $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
         $ProcedurePackage->procedure_id = $request->procedure_id;
         $ProcedurePackage->save();

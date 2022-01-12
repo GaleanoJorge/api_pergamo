@@ -24,6 +24,11 @@ class ManualPriceRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'own_code' => 'required',
+            'manual_procedure_type_id' => 'required',
+            'homologous' => '',
+            'product_id' => '',
             'manual_id' => 'required',
             'procedure_id' => 'required',
             'value' => 'required',

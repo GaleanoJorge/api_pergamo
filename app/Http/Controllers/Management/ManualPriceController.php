@@ -181,11 +181,15 @@ class ManualPriceController extends Controller
         ])->get();
         if ($ManualPriceFilter->count() == 0) {
         $ManualPrice = new ManualPrice;
+        $ManualPrice->name = $request->name;
+        $ManualPrice->own_code = $request->own_code;  
         $ManualPrice->manual_id = $request->manual_id;
         $ManualPrice->procedure_id = $request->procedure_id;
         $ManualPrice->product_id = null;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
+        $ManualPrice->manual_procedure_type_id=$request->manual_procedure_type_id;
+        $ManualPrice->homologous_id=$request->homologous_id;
         $ManualPrice->save();
         }else{
             return response()->json([
@@ -211,6 +215,10 @@ class ManualPriceController extends Controller
         $ManualPrice->procedure_id = null;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
+        $ManualPrice->name = $request->name;
+        $ManualPrice->own_code = $request->own_code; 
+        $ManualPrice->manual_procedure_type_id=$request->manual_procedure_type_id;
+        $ManualPrice->homologous_id=$request->homologous_id;
         $ManualPrice->save();
         }else{
             return response()->json([
@@ -258,6 +266,10 @@ class ManualPriceController extends Controller
         $ManualPrice->procedure_id = $request->procedure_id;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
+        $ManualPrice->name = $request->name;
+        $ManualPrice->own_code = $request->own_code; 
+        $ManualPrice->manual_procedure_type_id=$request->manual_procedure_type_id;
+        $ManualPrice->homologous_id=$request->homologous_id;
         $ManualPrice->save();
 
         return response()->json([

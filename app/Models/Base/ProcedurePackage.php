@@ -15,8 +15,10 @@ use Illuminate\Database\Eloquent\Model;
  * Class ProcedurePackage
  * 
  * @property int $id
+ * @property int $value
  * @property int $procedure_package_id
  * @property int $procedure_id
+ * @property int $manual_price_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -30,6 +32,7 @@ class ProcedurePackage extends Model
 	protected $casts = [
 		'procedure_package_id' => 'int',
 		'procedure_id' => 'int',
+		'manual_price_id' => 'int',
 	];
 
 	public function procedure()
