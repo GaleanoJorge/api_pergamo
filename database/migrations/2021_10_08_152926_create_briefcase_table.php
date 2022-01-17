@@ -17,7 +17,6 @@ class CreateBriefcaseTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('contract_id');
-            $table->unsignedBigInteger('type_briefcase_id');
             $table->unsignedBigInteger('coverage_id');
             $table->unsignedBigInteger('modality_id');
             $table->unsignedTinyInteger('status_id');
@@ -26,9 +25,6 @@ class CreateBriefcaseTable extends Migration
             $table->index('contract_id');
             $table->foreign('contract_id')->references('id')
                     ->on('contract');
-            $table->index('type_briefcase_id');
-            $table->foreign('type_briefcase_id')->references('id')
-                    ->on('type_briefcase');
             $table->index('coverage_id');
             $table->foreign('coverage_id')->references('id')
                     ->on('coverage');
