@@ -81,7 +81,6 @@ class BriefcaseController extends Controller
         $Briefcase = new Briefcase;
         $Briefcase->name = $request->name;
         $Briefcase->contract_id = $request->contract_id;
-        $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;
@@ -134,7 +133,6 @@ class BriefcaseController extends Controller
     {
         $Briefcase = Briefcase::find($id);
         $Briefcase->name = $request->name;
-        $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;

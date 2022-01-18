@@ -10,7 +10,6 @@ class Briefcase extends BaseBriefcase
     protected $fillable = [
 		'contract_id',
 		'name',
-		'type_briefcase_id',
 		'coverage_id',
 		'modality_id',
 		'status_id',

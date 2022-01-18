@@ -26,18 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $contract_status_id
  * @property int $firms_contractor_id
  * @property int $firms_contracting_id
- * @property int $civil_policy_insurance_id
  * @property int $regime_id
- * @property double $value_civil_policy
- * @property date $start_date_civil_policy
- * @property date $finish_date_civil_policy
- * @property int $contractual_policy_insurance_id
- * @property double $value_contractual_policy
- * @property date $start_date_contractual_policy
- * @property date $finish_date_contractual_policy
  * @property int $start_date_invoice
  * @property int $finish_date_invoice
- * @property int $time_delivery_invoice
  * @property int $expiration_days_portafolio
  * @property int $discount
  * @property string $observations

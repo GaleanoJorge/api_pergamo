@@ -182,7 +182,7 @@
     {
         "id": "57",
         "item_parent_id": "68",
-        "name": "Procedimiento",
+        "name": "Procedimiento C.U.P.S.",
         "code": "procedure",
         "route": "/pages/setting/procedure",
         "icon": "",
@@ -650,7 +650,7 @@
     {
         "id": "115",
         "item_parent_id": "109",
-        "name": "Tipo de contrato",
+        "name": "Régimen",
         "code": "type-contract",
         "route": "/pages/setting/type-contract",
         "icon": "",
@@ -923,6 +923,15 @@
         "name": "Observación de novedades",
         "code": "observation-novelty",
         "route": "/pages/setting/observation-novelty",
+        "icon": "eye-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "147",
+        "item_parent_id": "109",
+        "name": "Tipo de póliza",
+        "code": "policy-type",
+        "route": "/pages/setting/policy-type",
         "icon": "",
         "show_menu": "1"
     }

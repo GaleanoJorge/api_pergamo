@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\FileContractRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
 
 class FileContractController extends Controller
 {

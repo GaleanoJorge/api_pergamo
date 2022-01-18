@@ -436,6 +436,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
    //Cambio de usuario
    Route::apiResource('user_change', 'Management\UserChangeController');
 
+   //Tipo de poliza
+   Route::apiResource('policy_type', 'Management\PolicyTypeController');
+
+   //Póliza
+   Route::apiResource('policy', 'Management\PolicyController');
+
    //Unidad de Consumo
    Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
 
@@ -588,6 +594,10 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     'FileContract/FileByContract/{contractId}',
     'Management\FileContractController@getByContract'
 );
+
+    //Tener Póliza por contrato
+    Route::get('Policy/FileByContract/{contractId}',
+    'Management\PolicyController@getByContract');
 
    //Tipo de portafolios
    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');

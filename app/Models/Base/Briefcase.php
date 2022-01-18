@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $contract_id
  * @property string $name
- * @property int $type_briefcase_id
  * @property int $coverage_id
  * @property int $modality_id
  * @property int $status_id
@@ -35,7 +34,6 @@ class Briefcase extends Model
 	protected $table = 'briefcase';
 
 	protected $casts = [
-		'type_briefcase_id' => 'int',
 		'coverage_id' => 'int',
 		'modality_id' => 'int',
 		'status_id' => 'int',

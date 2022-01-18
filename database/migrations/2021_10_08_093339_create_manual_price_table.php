@@ -15,15 +15,15 @@ class CreateManualPriceTable extends Migration
     {
         Schema::create('manual_price', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('own_code');
-            $table->unsignedBigInteger('manual_id');
+            $table->string('name')->nullable();
+            $table->string('own_code')->nullable();
+            $table->unsignedBigInteger('manual_id')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('manual_procedure_type_id')->nullable();
             $table->string('homologous_id')->nullable();
             $table->Integer('value');
-            $table->unsignedBigInteger('price_type_id');
+            $table->unsignedBigInteger('price_type_id')->nullable();
             $table->timestamps();
 
 
