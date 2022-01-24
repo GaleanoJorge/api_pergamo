@@ -8,7 +8,7 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\Procedure;
-use App\Models\Product;
+use App\Models\ProductGeneric;
 use App\Models\Manual;
 use App\Models\PriceType;
 use App\Models\ProcedureType;
@@ -56,7 +56,7 @@ class ManualPrice extends Model
 
 	public function product()
 	{
-		return $this->belongsTo(Product::class);
+		return $this->belongsTo(ProductGeneric::class);
 	}
 
 	public function price_type()

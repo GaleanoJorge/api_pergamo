@@ -294,7 +294,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('procedure_bymanual/{id}', 'Management\ProcedureController@getByManual');
 
     //Procedimiento para paquete
-    Route::get('procedure_bypackage/{id}', 'Management\ProcedureController@getByProcedure');
+    Route::get('procedure_bypackage', 'Management\ProcedureController@getByProcedure');
 
        //Procedimiento para paquete all
     Route::apiResource('procedure_package', 'Management\ProcedurePackageController');

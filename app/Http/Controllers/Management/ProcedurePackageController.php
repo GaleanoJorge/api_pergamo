@@ -55,7 +55,7 @@ class ProcedurePackageController extends Controller
      */
     public function getByPackage(Request $request, int $packageId): JsonResponse
     {
-        $ProcedurePackage = ProcedurePackage::where('procedure_package_id', $packageId);
+        $ProcedurePackage = ProcedurePackage::where('procedure_package_id', $packageId)->with('procedure');
         if ($request->search) {
             $ProcedurePackage->where('name', 'like', '%' . $request->search . '%')
             ->Orwhere('id', 'like', '%' . $request->search . '%');

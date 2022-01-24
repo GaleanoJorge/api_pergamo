@@ -206,19 +206,19 @@ class ManualPriceController extends Controller
     }else{
         $ManualPriceFilter = ManualPrice::where([
             ['manual_id', $request->manual_id],
-            ['product_id',$request->procedure_id]
+            ['product_id',$request->product_id]
         ])->get();
         if ($ManualPriceFilter->count() == 0) {
         $ManualPrice = new ManualPrice;
         $ManualPrice->manual_id = $request->manual_id;
-        $ManualPrice->product_id = $request->procedure_id;
+        $ManualPrice->product_id = $request->product_id;
         $ManualPrice->procedure_id = null;
         $ManualPrice->value = $request->value;
         $ManualPrice->price_type_id = $request->price_type_id;
         $ManualPrice->name = $request->name;
-        $ManualPrice->own_code = $request->own_code; 
+        $ManualPrice->own_code = null;
         $ManualPrice->manual_procedure_type_id=$request->manual_procedure_type_id;
-        $ManualPrice->homologous_id=$request->homologous_id;
+        $ManualPrice->homologous_id=null;
         $ManualPrice->save();
         }else{
             return response()->json([

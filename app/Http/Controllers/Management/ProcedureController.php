@@ -53,10 +53,10 @@ class ProcedureController extends Controller
      *
      * @return JsonResponse
      */
-    public function getByProcedure(Request $request,int $packageId): JsonResponse
+    public function getByProcedure(Request $request): JsonResponse
     {
-        $ProcedurePackage=ProcedurePackage::where('procedure_package_id','=',$packageId)->pluck('procedure_id')->toArray();
-        $Procedure = Procedure::whereNotIn('id', $ProcedurePackage)->where('procedure_type_id','!=',3);
+        $ProcedurePackage=ProcedurePackage::pluck('procedure_id')->toArray();
+        $Procedure = Procedure::where('procedure_type_id','!=',3);
         if ($request->search) {
             $Procedure->where('name', 'like', '%' . $request->search . '%')
             ->Orwhere('id', 'like', '%' . $request->search . '%');
