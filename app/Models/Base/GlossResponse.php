@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $gloss_ambit_id
  * @property string $name
  * @property string $file
+ * @property int $justification_status
  * @property BigInteger $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at

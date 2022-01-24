@@ -56,11 +56,15 @@ class GlossResponseController extends Controller
         if ($request->single == 0) {
             $cont = 0;
             $err = 0;
+            $res_err = 0;
             $gloss_id = json_decode($request->gloss_id);
             foreach ($gloss_id as $item) {
                 $validate = GlossResponse::where('gloss_id', '=', $item)->get()->toArray();
+                $Gloss = Gloss::find($item);
                 if ($validate) {
                     $err++;
+                } else if($Gloss->objeted_value != $request->result){
+                    $res_err++;
                 } else {
                     $cont++;
                     $GlossResponse = new GlossResponse;
@@ -68,6 +72,7 @@ class GlossResponseController extends Controller
                     $GlossResponse->objetion_response_id = $request->objetion_response_id;
                     $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
                     $GlossResponse->response = $request->response;
+                    $GlossResponse->justification_status = $request->justification_status;
                     $GlossResponse->response_date = Carbon::now();
                     $GlossResponse->user_id = Auth::user()->id;
                     $GlossResponse->accepted_value = $request->accepted_value;
@@ -86,7 +91,7 @@ class GlossResponseController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Respuesta de Glosa creados exitosamente',
-                'data' => 'Se han respondido ' . $cont . ' Correctamente. ' . $err . ' ya tienen respuesta.',
+                'data' => 'Se han respondido ' . $cont . ' Correctamente. ' . $err . ' ya tienen respuesta y ' . $res_err . ' tienen valores invalidos',
 
             ]);
         } else {
@@ -94,6 +99,8 @@ class GlossResponseController extends Controller
             $GlossResponse->gloss_id = $request->gloss_id;        
             $GlossResponse->objetion_response_id = $request->objetion_response_id;
             $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
+            $GlossResponse->response = $request->response;
+            $GlossResponse->justification_status = $request->justification_status;
             $GlossResponse->response_date = Carbon::now();
             $GlossResponse->user_id = Auth::user()->id;
             $GlossResponse->accepted_value = $request->accepted_value;
@@ -107,7 +114,7 @@ class GlossResponseController extends Controller
             $Gloss= Gloss::find($request->gloss_id);
             $Gloss->gloss_status_id=2;
             $Gloss->save();
-    
+            
             return response()->json([
                 'status' => true,
                 'message' => 'Respuesta de Glosa creados exitosamente',

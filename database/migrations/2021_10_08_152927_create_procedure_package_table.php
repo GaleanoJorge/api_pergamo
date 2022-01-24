@@ -15,20 +15,20 @@ class CreateProcedurePackageTable extends Migration
     {
         Schema::create('procedure_package', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->BigInteger('value');
+            $table->BigInteger('value')->nullable();
             $table->unsignedBigInteger('procedure_package_id');
             $table->unsignedBigInteger('procedure_id');
-            $table->unsignedBigInteger('manual_price_id');
+            $table->unsignedBigInteger('price_type_id')->nullable();
             $table->timestamps();
 
             $table->index('procedure_package_id');
             $table->foreign('procedure_package_id')->references('id')
-                    ->on('procedure');
+                    ->on('manual_price');
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')
                     ->on('procedure');
-            $table->foreign('manual_price_id')->references('id')
-                    ->on('manual_price');
+            $table->foreign('price_type_id')->references('id')
+                    ->on('price_type');
         });
     }
 

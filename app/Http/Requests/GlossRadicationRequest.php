@@ -25,6 +25,7 @@ class GlossRadicationRequest extends FormRequest
     {
         return [
             'gloss_response_id' => 'required',
+
             'observation' => 'required',
         ];
     }

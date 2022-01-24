@@ -623,7 +623,7 @@
     {
         "id": "112",
         "item_parent_id": "109",
-        "name": "Tipo de portafolio",
+        "name": "Régimen",
         "code": "type-briefcase",
         "route": "/pages/setting/type-briefcase",
         "icon": "",
@@ -650,7 +650,7 @@
     {
         "id": "115",
         "item_parent_id": "109",
-        "name": "Régimen",
+        "name": "Tipo de contracto",
         "code": "type-contract",
         "route": "/pages/setting/type-contract",
         "icon": "",

@@ -19,8 +19,9 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user','regimen')
-        ->Join('company', 'gloss.company_id', 'company.id');
+        $Gloss = Gloss::select('gloss.*','gloss_response.id AS response_id')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user','regimen')
+        ->Join('company', 'gloss.company_id', 'company.id')
+        ->leftjoin('gloss_response', 'gloss.id', '=', 'gloss_response.gloss_id')->orderBy('received_date', 'ASC');
 
         if ($request->_sort) {
             $Gloss->orderBy($request->_sort, $request->_order);
