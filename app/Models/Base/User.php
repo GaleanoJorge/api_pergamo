@@ -63,6 +63,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $sga_origin_fk
  * @property string $remember_token
  * @property bool $is_judicial_branch
+ * @property string $file
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

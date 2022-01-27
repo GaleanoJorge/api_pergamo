@@ -25,7 +25,7 @@ class DiagnosisRequest extends FormRequest
     {
         return [
             'code' => 'requires',
-            'name' => 'required
+            'name' => 'required'
         ];
     }
 }

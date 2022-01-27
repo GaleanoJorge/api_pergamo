@@ -379,6 +379,10 @@ class UserController extends Controller
                 $user->birthday = $request->birthday;
                 $user->phone = $request->phone;
                 $user->age = $request -> age;
+                if ($request->file('file')) {
+                    $path = Storage::disk('public')->put('file', $request->file('file'));
+                    $user->file = $path;
+                }
                 $user->landline = $request->landline;
                 $user->ethnicity_id = $request->ethnicity_id;
                 $user->force_reset_password = 1;
@@ -431,6 +435,10 @@ class UserController extends Controller
         $user->phone = $request->phone;
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $user->file = $path;
+        }
         $user->save();
 
         if($request->role_id==3){
@@ -605,6 +613,10 @@ class UserController extends Controller
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
         $user->age = $request -> age;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $user->file = $path;
+        }
         $user->activities_id = $request->activities_id;
         $user->disability = $request->disability;
         $user->residence_address = $request->residence_address;
