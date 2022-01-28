@@ -122,6 +122,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Municipality::class, 'birthplace_municipality_id');
     }
 
+    public function residence_municipality()
+    {
+        return $this->belongsTo(Municipality::class, 'residence_municipality_id');
+    }
+
+    public function residence()
+    {
+        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+    }
+
+
     public function deliveries()
     {
         return $this->hasMany(Delivery::class);

@@ -120,27 +120,49 @@ class UserController extends Controller
             $users = $users->paginate($per_page, '*', 'page', $page);
         }
 
-/*
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['users' => $users]
+        ]);
+    }
+
+        /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function indexPacientByPAD(Request $request, int $roleId): JsonResponse
+    {
+
         $users = User::select(
             'users.*',
             \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')->with(
-            'status',
-            'gender',
-            'academic_level',
-            'identification_type'
-        )->where('user_role.role_id', $roleId)
-            ->join('status', 'status.id', '=', 'users.status_id')
-            ->join('identification_type', 'identification_type.id', '=', 'users.identification_type_id');
+        )->Join('user_role', 'users.id', 'user_role.user_id')
+        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+        ->Join('location', 'location.admissions_id', 'admissions.id')
+        
+        ->where('user_role.role_id', $roleId)
+        ->where('location.admission_route_id',2)
+            ->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'user_role',
+                'user_role.role',
+                'admissions',
+                'admissions.location','admissions.contract',
+            'admissions.campus','admissions.location.admission_route','admissions.location.scope_of_attention','admissions.location.program','admissions.location.flat','admissions.location.pavilion','admissions.location.bed'
+            )->orderBy('admissions.entry_date','DESC')->groupBy('id');
 
-        if ($roleId === 13) {
-            $users->where('users.status_id', '1');
-        }
+     
+
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
-        }
-        if($request->identification){
-            $users->where('identification','!=',$request->identification);
         }
 
         if ($request->search) {
@@ -150,10 +172,7 @@ class UserController extends Controller
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('businessname', 'like', '%' . $request->search . '%')
-                    ->orWhere('status.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('identification_type.name', 'like', '%' . $request->search . '%');
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -164,7 +183,7 @@ class UserController extends Controller
             $per_page = $request->query("per_page", 10);
 
             $users = $users->paginate($per_page, '*', 'page', $page);
-        }*/
+        }
 
         return response()->json([
             'status' => true,

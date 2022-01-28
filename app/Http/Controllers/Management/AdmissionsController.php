@@ -108,10 +108,11 @@ class AdmissionsController extends Controller
         $Location->entry_date = Carbon::now();
         $Location->save();
 
+        if($request->bed_id){
         $Bed= Bed::find($request->bed_id);
         $Bed->status_bed_id=2;
         $Bed->save();
-
+        }
         
 
         return response()->json([
