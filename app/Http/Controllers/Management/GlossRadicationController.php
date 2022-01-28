@@ -101,7 +101,7 @@ class GlossRadicationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Respuesta de radicación Glosa creados exitosamente',
+                'message' => 'Respuesta de radicación Glosa creado exitosamente',
                 'data' => ['gloss_radication' => $GlossRadication->toArray()]
             ]);
         }
