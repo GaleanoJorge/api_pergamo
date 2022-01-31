@@ -80,7 +80,6 @@ class ProcedurePackageController extends Controller
     {
         $ProcedurePackage = new ProcedurePackage;
         $ProcedurePackage->value = $request->value;
-        $ProcedurePackage->manual_price_id = $request->manual_price_id;
         $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
         $ProcedurePackage->procedure_id = $request->procedure_id;
         $ProcedurePackage->save();
