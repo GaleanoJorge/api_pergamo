@@ -46,7 +46,35 @@ class CompanyDocumentController extends Controller
         ]);
     }
     
+ /**
+     * Get documents by company.
+     *
+     * @param  int  $companyId
+     * @return JsonResponse
+     */
+    public function getByCompany(Request $request, int $companyId): JsonResponse
+    {
+        $CompanyDocument = CompanyDocument::where('company_id', $companyId);
+        if ($request->search) {
+            $CompanyDocument->where('name', 'like', '%' . $request->search . '%')
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $CompanyDocument = $CompanyDocument->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
 
+            $CompanyDocument = $CompanyDocument->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Documentos por empresa obtenidos exitosamente',
+            'data' => ['company_document' => $CompanyDocument]
+        ]);
+    }
+    
     public function store(CompanyDocumentRequest $request): JsonResponse
     {
         $CompanyDocument = new CompanyDocument;

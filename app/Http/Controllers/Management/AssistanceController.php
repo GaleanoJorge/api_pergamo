@@ -52,7 +52,8 @@ class AssistanceController extends Controller
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id= $request->contract_type_id;
         $Assistance->cost_center_id = $request->cost_center_id;
-        $Assistance->type_professional_id = $request->type_professional_id;
+        $Assistance->PAD_service = $request->PAD_service;
+        $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->medium_signature_file_id = $request->medium_signature_file_id;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;
@@ -97,10 +98,12 @@ class AssistanceController extends Controller
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id= $request->contract_type_id;
         $Assistance->cost_center_id = $request->cost_center_id;
-        $Assistance->type_professional_id = $request->type_professional_id;
-        $Assistance->file_firm = $request->file_firm;
+        $Assistance->PAD_service = $request->PAD_service;
+        $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;
+        $Assistance->special_field = $request->special_field;
+        $Assistance->file_firm = $request->file_firm;
         $Assistance->save();
 
         return response()->json([

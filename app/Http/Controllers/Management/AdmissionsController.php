@@ -86,39 +86,48 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
-        $count      = Admissions::where('user_id',$request->user_id)->count();
-        $Admissions = new Admissions;
-        $Admissions->consecutive = $count+1;
-        $Admissions->diagnosis_id = $request->diagnosis_id;;
-        $Admissions->campus_id = $request->campus_id;
-        $Admissions->contract_id = $request->contract_id;
-        $Admissions->user_id = $request->user_id;
-        $Admissions->entry_date = Carbon::now();
-        $Admissions->save();
+        if($request->saveFromAdmission == 1) {
 
-        $Location = new Location;
-        $Location->admissions_id = $Admissions->id;
-        $Location->admission_route_id = $request->admission_route_id;
-        $Location->scope_of_attention_id = $request->scope_of_attention_id;
-        $Location->program_id = $request->program_id;
-        $Location->pavilion_id = $request->pavilion_id;
-        $Location->flat_id = $request->flat_id;
-        $Location->bed_id = $request->bed_id;
-        $Location->user_id = $request->user_id;
-        $Location->entry_date = Carbon::now();
-        $Location->save();
+            $count = Admissions::where('user_id',$request->user_id)->count();
+            $Admissions = new Admissions;
+            $Admissions->consecutive = $count+1;
+            $Admissions->diagnosis_id = $request->diagnosis_id;;
+            $Admissions->campus_id = $request->campus_id;
+            $Admissions->contract_id = $request->contract_id;
+            $Admissions->user_id = $request->user_id;
+            $Admissions->entry_date = Carbon::now();
+            $Admissions->save();
+    
+            $Location = new Location;
+            $Location->admissions_id = $Admissions->id;
+            $Location->admission_route_id = $request->admission_route_id;
+            $Location->scope_of_attention_id = $request->scope_of_attention_id;
+            $Location->program_id = $request->program_id;
+            $Location->pavilion_id = $request->pavilion_id;
+            $Location->flat_id = $request->flat_id;
+            $Location->bed_id = $request->bed_id;
+            $Location->user_id = $request->user_id;
+            $Location->entry_date = Carbon::now();
+            $Location->save();
+    
+            $Bed= Bed::find($request->bed_id);
+            $Bed->status_bed_id=2;
+            $Bed->save();
+    
+            
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Admisión creado exitosamente',
+                'data' => ['admissions' => $Admissions->toArray()]
+            ]);
 
-        $Bed= Bed::find($request->bed_id);
-        $Bed->status_bed_id=2;
-        $Bed->save();
-
-        
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Admisión creado exitosamente',
-            'data' => ['admissions' => $Admissions->toArray()]
-        ]);
+        } else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Admisión creado exitosamente',
+            ]);
+        }
     }
 
     /**

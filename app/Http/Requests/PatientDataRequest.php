@@ -24,19 +24,17 @@ class PatientDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_data_firstname' => 'required',
-            'patient_data_middlefirstname' => 'required',
-            'patient_data_lastname' => 'required',
-            'patient_data_middlelastname' => 'required',
-            'patient_data_identification' => 'required',
-            'patient_data_phone' => 'required',
-            'patient_data_email' => 'required',
-            'patient_data_residence_address' => 'required',
+            'admissions_id' => 'required',
+            'patient_data_type' => 'required', 
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'identification' => 'required',
+            'phone' => '',
+            'email' => '',
+            'residence_address' => 'required',
             'identification_type_id' => 'required',
             'affiliate_type_id' => 'required',
             'special_attention_id' => 'required',
-            
-            
             
         ];
     }

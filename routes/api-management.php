@@ -317,8 +317,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Direccion de Correos electronico de las compañias
     Route::apiResource('company_mail', 'Management\CompanyMailController');
 
+    //Direcciones de correo por compañia
+    Route::get('company_mail/MailByCompany/{companyId}',
+    'Management\CompanyMailController@getByCompany');
+
     //Asociacion de las empresas con los documentos solicitantes
     Route::apiResource('company_document', 'Management\CompanyDocumentController');
+
+    //Documentos por compañia
+    Route::get('company_document/DocumentByCompany/{companyId}',
+    'Management\CompanyDocumentController@getByCompany');
+
 
     //Documentos contables
     Route::apiResource('document_account', 'Management\DocumentAccountController');
@@ -350,6 +359,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Impuestos
     Route::apiResource('company_taxes', 'Management\CompanyTaxesController');
 
+    // Impuestos para compañia
+    Route::get('company_taxes/TaxesByCompany/{companyId}',
+     'Management\CompanyTaxesController@getByCompany');
+
      //Impuestos
      Route::apiResource('taxes', 'Management\TaxesController');
 
@@ -358,6 +371,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
      //Nombre del tipo de iva
      Route::apiResource('iva', 'Management\IvaController');
+
+     //Nombre del tipo de Parentesco
+     Route::apiResource('relationship', 'Management\RelationshipController');
 
      //Numero de días para el termino de pago
      Route::apiResource('payment_terms', 'Management\PaymentTermsController');
@@ -438,6 +454,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
    //Tipo de poliza
    Route::apiResource('policy_type', 'Management\PolicyTypeController');
+   
+   //Datos de paciente (acompañante y/o responsable)
+   Route::apiResource('patient_data', 'Management\PatientDataController');
+
+   //Tener acompañante y/o responsable por paciente
+   Route::get('PatientData/PatientDatabyAdmission/{admissionId}',
+    'Management\PatientDataController@getByAdmissions');
 
    //Póliza
    Route::apiResource('policy', 'Management\PolicyController');
@@ -598,6 +621,10 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     //Tener Póliza por contrato
     Route::get('Policy/FileByContract/{contractId}',
     'Management\PolicyController@getByContract');
+
+    //Tener acompañante y/o responsable por paciente
+    // Route::get('Policy/FileByContract/{contractId}',
+    // 'Management\PolicyController@getByContract');
 
    //Tipo de portafolios
    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');

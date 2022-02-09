@@ -216,24 +216,6 @@
         "show_menu": "1"
     },
     {
-        "id": "61",
-        "item_parent_id": "69",
-        "name": "Correos de compañias",
-        "code": "company-mail",
-        "route": "/pages/setting/company-mail",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "62",
-        "item_parent_id": "69",
-        "name": "Documentos de compañia",
-        "code": "company-document",
-        "route": "/pages/setting/company-document",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "63",
         "item_parent_id": "69",
         "name": "Documentos contables",
@@ -392,15 +374,6 @@
         "name": "Impuestos",
         "code": "taxes",
         "route": "/pages/setting/taxes",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "86",
-        "item_parent_id": "69",
-        "name": "Asociación de la empresa con los impuestos",
-        "code": "company-taxes",
-        "route": "/pages/setting/company-taxes",
         "icon": "",
         "show_menu": "1"
     },
@@ -932,6 +905,15 @@
         "name": "Tipo de póliza",
         "code": "policy-type",
         "route": "/pages/setting/policy-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "148",
+        "item_parent_id": "69",
+        "name": "Perentesco",
+        "code": "relationship",
+        "route": "/pages/setting/relationship",
         "icon": "",
         "show_menu": "1"
     }

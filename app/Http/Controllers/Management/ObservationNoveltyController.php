@@ -17,7 +17,6 @@ class ObservationNoveltyController extends Controller
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse
-    
     {
         $ObservationNovelty = ObservationNovelty::select();
 
@@ -49,12 +48,9 @@ class ObservationNoveltyController extends Controller
 
     
     public function store(ObservationNoveltyRequest $request)
-    
     {
         $ObservationNovelty = new ObservationNovelty;
-        
         $ObservationNovelty->name = $request->name; 
-     
         $ObservationNovelty->save();
 
         return response()->json([
@@ -71,7 +67,6 @@ class ObservationNoveltyController extends Controller
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
-    
     {
         $ObservationNovelty = ObservationNovelty::where('id', $id)
             ->get()->toArray();
@@ -90,12 +85,9 @@ class ObservationNoveltyController extends Controller
      * @return JsonResponse
      */
     public function update(ObservationNoveltyRequest $request, int $id): JsonResponse
-   
     {
         $ObservationNovelty = ObservationNovelty::find($id);
-    
         $ObservationNovelty->name = $request->name; 
-
         $ObservationNovelty->save();
 
         return response()->json([

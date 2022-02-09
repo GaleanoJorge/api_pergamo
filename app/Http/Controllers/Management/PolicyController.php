@@ -47,7 +47,7 @@ class PolicyController extends Controller
         ]);
     }
 
-               /**
+    /**
      * Get procedure by manual.
      *
      * @param  int  $contractId

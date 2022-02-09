@@ -11,44 +11,70 @@ use Illuminate\Database\QueryException;
 
 class CompanyMailController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $CompanyMail = CompanyMail::select();
+        $CompanyMail = CompanyMail::with('region','document');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $CompanyMail->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $CompanyMail->where('name','like','%' . $request->search. '%');
+            $CompanyMail->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $CompanyMail=$CompanyMail->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $CompanyMail = $CompanyMail->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $CompanyMail = $CompanyMail->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $CompanyMail=$CompanyMail->paginate($per_page,'*','page',$page); 
-        } 
         return response()->json([
             'status' => true,
             'message' => 'Correo Electronico de la empresa obtenido exitosamente',
-            'data' => ['company_mail' => $CompanyMail->toArray()]
+            'data' => ['company_mail' => $CompanyMail]
         ]);
-    }    
-    
+    }
 
-        public function store(CompanyMailRequest $request): JsonResponse
+    /**
+     * Get mail by company.
+     *
+     * @param  int  $companyId
+     * @return JsonResponse
+     */
+    public function getByCompany(Request $request, int $companyId): JsonResponse
     {
-        $CompanyMail =new CompanyMail;
-        $CompanyMail->company_id= $request->company_id;
+        $CompanyMail = CompanyMail::where('company_id', $companyId)->with('region','document');
+        if ($request->search) {
+            $CompanyMail->where('name', 'like', '%' . $request->search . '%')
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $CompanyMail = $CompanyMail->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $CompanyMail = $CompanyMail->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Correos electronicos por empresa obtenidos exitosamente',
+            'data' => ['company_mail' => $CompanyMail]
+        ]);
+    }
+    public function store(CompanyMailRequest $request): JsonResponse
+    {
+        $CompanyMail = new CompanyMail;
+        $CompanyMail->company_id = $request->company_id;
         $CompanyMail->mail = $request->mail;
         $CompanyMail->city_id = $request->city_id;
         $CompanyMail->document_id = $request->document_id;
@@ -90,7 +116,7 @@ class CompanyMailController extends Controller
         $CompanyMail = CompanyMail::find($id);
         $CompanyMail->company_id = $request->company_id;
         $CompanyMail->mail = $request->mail;
-        $CompanyMail->city_id= $request->city_id;
+        $CompanyMail->city_id = $request->city_id;
         $CompanyMail->document_id = $request->document_id;
         $CompanyMail->save();
 
