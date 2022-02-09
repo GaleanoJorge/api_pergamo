@@ -1,0 +1,29 @@
+[
+    {
+        "name": "DIARIA"
+    },
+    {
+        "name": "INTERDIARIA"
+
+    },
+    {
+        "name": "SEMANAL"
+
+    },
+    {
+        "name": "QUINCENAL"
+
+    },
+    {
+        "name": "MENSUAL"
+
+    },
+    {
+        "name": "BIMENSUAL"
+
+    },
+    {
+        "name": "TRIMESTRAL"
+
+    }
+]

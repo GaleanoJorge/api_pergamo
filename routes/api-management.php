@@ -108,8 +108,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Category
     Route::get('category/all', 'Management\CategoryController@all');
-    Route::get('category/byprogram/{program}','Management\CategoryController@getByProgram');
-    Route::get('category/bysubprogram/{program}','Management\CategoryController@getBySubProgram');
+    Route::get('category/byprogram/{program}', 'Management\CategoryController@getByProgram');
+    Route::get('category/bysubprogram/{program}', 'Management\CategoryController@getBySubProgram');
     Route::apiResource('category', 'Management\CategoryController');
     Route::post('category/{id}', 'Management\CategoryController@update');
     Route::get(
@@ -273,7 +273,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('procedure_purpose', 'Management\ProcedurePurposeController');
 
     //Clasificación de RIPS
-    Route::apiResource('purpose_service','Management\PurposeServiceController');
+    Route::apiResource('purpose_service', 'Management\PurposeServiceController');
 
     //Tipo de procedimiento
     Route::apiResource('procedure_type', 'Management\ProcedureTypeController');
@@ -296,7 +296,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento para paquete
     Route::get('procedure_bypackage', 'Management\ProcedureController@getByProcedure');
 
-       //Procedimiento para paquete all
+    //Procedimiento para paquete all
     Route::apiResource('procedure_package', 'Management\ProcedurePackageController');
 
     //Procedimiento para paquete all
@@ -350,25 +350,25 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Impuestos
     Route::apiResource('company_taxes', 'Management\CompanyTaxesController');
 
-     //Impuestos
-     Route::apiResource('taxes', 'Management\TaxesController');
+    //Impuestos
+    Route::apiResource('taxes', 'Management\TaxesController');
 
-     //Empresas dentro de las que se indetifican las prestadoras de salud
-     Route::apiResource('company', 'Management\CompanyController');
+    //Empresas dentro de las que se indetifican las prestadoras de salud
+    Route::apiResource('company', 'Management\CompanyController');
 
-     //Nombre del tipo de iva
-     Route::apiResource('iva', 'Management\IvaController');
+    //Nombre del tipo de iva
+    Route::apiResource('iva', 'Management\IvaController');
 
-     //Numero de días para el termino de pago
-     Route::apiResource('payment_terms', 'Management\PaymentTermsController');
+    //Numero de días para el termino de pago
+    Route::apiResource('payment_terms', 'Management\PaymentTermsController');
 
-     //Tabla parametro para seleccionar identificar si las empresas son autorretendoras
-     Route::apiResource('retiner', 'Management\RetinerController');
+    //Tabla parametro para seleccionar identificar si las empresas son autorretendoras
+    Route::apiResource('retiner', 'Management\RetinerController');
 
-     //Manual Tarifario 
+    //Manual Tarifario 
     Route::apiResource('manual', 'Management\ManualController');
 
-    
+
     //Asociación de los manuales con los procedimientos y las tarifas
     Route::apiResource('manual_price', 'Management\ManualPriceController');
     Route::get(
@@ -406,154 +406,154 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('courseModule', 'Management\CourseModuleController');
     Route::get('modulesByCourse', 'Management\CourseModuleController@indexModulesByCourse');
 
-   //Producto Generico
-   Route::apiResource('product_generic', 'Management\ProductGenericController');
-    
-   //Presentacion del producto
-   Route::apiResource('product_presentation', 'Management\ProductPresentationController');
-   
-   //Concentracion del producto
-   Route::apiResource('product_concentration', 'Management\ProductConcentrationController');
-   
-   //Concentración del producto
-   Route::apiResource('measurement_units', 'Management\MeasurementUnitsController');
+    //Producto Generico
+    Route::apiResource('product_generic', 'Management\ProductGenericController');
 
-   //Grupo del producto
-   Route::apiResource('product_group', 'Management\ProductGroupController');
+    //Presentacion del producto
+    Route::apiResource('product_presentation', 'Management\ProductPresentationController');
 
-   //Categoria del producto
-   Route::apiResource('product_category', 'Management\ProductCategoryController');
+    //Concentracion del producto
+    Route::apiResource('product_concentration', 'Management\ProductConcentrationController');
 
-   //Subcategoria del producto
-   Route::apiResource('product_subcategory', 'Management\ProductSubcategoryController');
+    //Concentración del producto
+    Route::apiResource('measurement_units', 'Management\MeasurementUnitsController');
 
-   //Vía de  Administración 
-   Route::apiResource('administration_route', 'Management\AdministrationRouteController');
+    //Grupo del producto
+    Route::apiResource('product_group', 'Management\ProductGroupController');
 
-   //Obsevacion de novedades
-   Route::apiResource('observation_novelty', 'Management\ObservationNoveltyController');
-   
-   //Cambio de usuario
-   Route::apiResource('user_change', 'Management\UserChangeController');
+    //Categoria del producto
+    Route::apiResource('product_category', 'Management\ProductCategoryController');
 
-   //Tipo de poliza
-   Route::apiResource('policy_type', 'Management\PolicyTypeController');
+    //Subcategoria del producto
+    Route::apiResource('product_subcategory', 'Management\ProductSubcategoryController');
 
-   //Póliza
-   Route::apiResource('policy', 'Management\PolicyController');
+    //Vía de  Administración 
+    Route::apiResource('administration_route', 'Management\AdministrationRouteController');
 
-   //Unidad de Consumo
-   Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
+    //Obsevacion de novedades
+    Route::apiResource('observation_novelty', 'Management\ObservationNoveltyController');
+
+    //Cambio de usuario
+    Route::apiResource('user_change', 'Management\UserChangeController');
+
+    //Tipo de poliza
+    Route::apiResource('policy_type', 'Management\PolicyTypeController');
+
+    //Póliza
+    Route::apiResource('policy', 'Management\PolicyController');
+
+    //Unidad de Consumo
+    Route::apiResource('consumption_unit', 'Management\ConsumptionUnitController');
 
 
-   //Activos Fijos 
-   Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    //Activos Fijos 
+    Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
 
-   //Tipos de Activos Fijos
-   Route::apiResource('type_assets', 'Management\TypeAssetsController');
+    //Tipos de Activos Fijos
+    Route::apiResource('type_assets', 'Management\TypeAssetsController');
 
-   //Contratos
-   Route::apiResource('contract', 'Management\ContractController');
+    //Contratos
+    Route::apiResource('contract', 'Management\ContractController');
 
-   //Tipos de Contratos
-   Route::apiResource('type_contract', 'Management\TypeContractController');
+    //Tipos de Contratos
+    Route::apiResource('type_contract', 'Management\TypeContractController');
 
-   //Contratos
-   Route::apiResource('contract', 'Management\ContractController');
+    //Contratos
+    Route::apiResource('contract', 'Management\ContractController');
 
-   //Firmas (Contratistas, Contratante)
-   Route::apiResource('firms', 'Management\FirmsController');
+    //Firmas (Contratistas, Contratante)
+    Route::apiResource('firms', 'Management\FirmsController');
 
-   //Archivo del contrato
-   Route::apiResource('file_contract', 'Management\FileContractController');
-   
-   //seleccion RH
-   Route::apiResource('select_rh', 'Management\SelectRhController');
+    //Archivo del contrato
+    Route::apiResource('file_contract', 'Management\FileContractController');
 
-   //Estado de nivel de estudio
-   Route::apiResource('study_level_status', 'Management\StudyLevelStatusController');
-   
-   //Barrio/Vereda De Residencia
-   Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
+    //seleccion RH
+    Route::apiResource('select_rh', 'Management\SelectRhController');
 
-   //Ocupaciones
-   Route::apiResource('activities', 'Management\ActivitiesController');
+    //Estado de nivel de estudio
+    Route::apiResource('study_level_status', 'Management\StudyLevelStatusController');
 
-   //Vía de ingreso de l paciente
-   Route::apiResource('admission_route', 'Management\AdmissionRouteController');
+    //Barrio/Vereda De Residencia
+    Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
 
-   //Ambito de atención
-   Route::apiResource('scope_of_attention', 'Management\ScopeOfAttentionController');
+    //Ocupaciones
+    Route::apiResource('activities', 'Management\ActivitiesController');
+
+    //Vía de ingreso de l paciente
+    Route::apiResource('admission_route', 'Management\AdmissionRouteController');
+
+    //Ambito de atención
+    Route::apiResource('scope_of_attention', 'Management\ScopeOfAttentionController');
 
     //Ambito por ruta de admisión
     Route::get(
-     'scopeofattention/byAdmission/{admission_route_id}',
-     'Management\ScopeOfAttentionController@getScopeByAdmission'
+        'scopeofattention/byAdmission/{admission_route_id}',
+        'Management\ScopeOfAttentionController@getScopeByAdmission'
     );
 
-   //Programa en el cual va a ser atendio
-   Route::apiResource('program', 'Management\ProgramController');
+    //Programa en el cual va a ser atendio
+    Route::apiResource('program', 'Management\ProgramController');
 
     //Ambito por ruta de admisión
     Route::get(
-     'program/byScope/{scope_of_attention_id}',
-     'Management\ProgramController@getProgramByScope'
-       );
-   //Piso 
-   Route::apiResource('flat', 'Management\FlatController');
+        'program/byScope/{scope_of_attention_id}',
+        'Management\ProgramController@getProgramByScope'
+    );
+    //Piso 
+    Route::apiResource('flat', 'Management\FlatController');
 
-       //Ambito por ruta de admisión
-       Route::get(
+    //Ambito por ruta de admisión
+    Route::get(
         'flat/byCampus/{campus_id}',
         'Management\FlatController@getFlatByCampus'
-          );
+    );
 
-   //Pabellón
-   Route::apiResource('pavilion', 'Management\PavilionController');
-   
-   //Ambito por ruta de admisión
-   Route::get(
-    'pavilion/byFlat/{flat_id}',
-    'Management\PavilionController@getPavilionByFlat'
-   );
+    //Pabellón
+    Route::apiResource('pavilion', 'Management\PavilionController');
 
-   //Cama asignada al paciente
-   Route::apiResource('bed', 'Management\BedController');
+    //Ambito por ruta de admisión
+    Route::get(
+        'pavilion/byFlat/{flat_id}',
+        'Management\PavilionController@getPavilionByFlat'
+    );
 
-   Route::get(
-    'bedbyPacient',
-    'Management\BedController@getBedByPacient'
-   );
-   
+    //Cama asignada al paciente
+    Route::apiResource('bed', 'Management\BedController');
 
-   Route::get(
-    'bed/byPavilion/{pavilion_id}/{ambit}',
-    'Management\BedController@getBedByPavilion'
-   );
+    Route::get(
+        'bedbyPacient',
+        'Management\BedController@getBedByPacient'
+    );
 
-     //Estados de la cama
-     Route::apiResource('status_bed', 'Management\StatusBedController');
 
-   //Discapacidad del usuario
-   Route::apiResource('inability', 'Management\InabilityController');
+    Route::get(
+        'bed/byPavilion/{pavilion_id}/{ambit}',
+        'Management\BedController@getBedByPavilion'
+    );
 
-   //Atención Especial
-   Route::apiResource('special_attention', 'Management\SpecialAttentionController');
+    //Estados de la cama
+    Route::apiResource('status_bed', 'Management\StatusBedController');
 
-   //Grupo Poblacional
-   Route::apiResource('population_group', 'Management\PopulationGroupController');
-   
-   //Información del paciente
-   Route::apiResource('patient_data', 'Management\PatientDataController');
+    //Discapacidad del usuario
+    Route::apiResource('inability', 'Management\InabilityController');
 
-   //Tipo de afiliado
-   Route::apiResource('affiliate_type', 'Management\AffiliateTypeController');
+    //Atención Especial
+    Route::apiResource('special_attention', 'Management\SpecialAttentionController');
 
-   //Admisiones
-   Route::apiResource('admissions', 'Management\AdmissionsController');
+    //Grupo Poblacional
+    Route::apiResource('population_group', 'Management\PopulationGroupController');
 
-   //Tipo de contrato del empleado
-   Route::apiResource('contract_type', 'Management\ContractTypeController');
+    //Información del paciente
+    Route::apiResource('patient_data', 'Management\PatientDataController');
+
+    //Tipo de afiliado
+    Route::apiResource('affiliate_type', 'Management\AffiliateTypeController');
+
+    //Admisiones
+    Route::apiResource('admissions', 'Management\AdmissionsController');
+
+    //Tipo de contrato del empleado
+    Route::apiResource('contract_type', 'Management\ContractTypeController');
 
     //Centro de costos
     Route::apiResource('cost_center', 'Management\CostCenterController');
@@ -571,45 +571,59 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
 
-   Route::get(
-    'admissions/ByPacient/{pacientId}',
-    'Management\AdmissionsController@getByPacient'
-);
+    Route::get(
+        'admissions/ByPacient/{pacientId}',
+        'Management\AdmissionsController@getByPacient'
+    );
 
-//location
-Route::apiResource('location', 'Management\LocationController');
+    //location
+    Route::apiResource('location', 'Management\LocationController');
 
-Route::put(
-    'location/changeService/{Id}',
-    'Management\LocationController@changeService'
-);
+    Route::put(
+        'location/changeService/{Id}',
+        'Management\LocationController@changeService'
+    );
 
 
 
-//diagnosis
-Route::apiResource('diagnosis', 'Management\DiagnosisController');
-   
+    //diagnosis
+    Route::apiResource('diagnosis', 'Management\DiagnosisController');
 
-   Route::get(
-    'FileContract/FileByContract/{contractId}',
-    'Management\FileContractController@getByContract'
-);
+
+    Route::get(
+        'FileContract/FileByContract/{contractId}',
+        'Management\FileContractController@getByContract'
+    );
 
     //Tener Póliza por contrato
-    Route::get('Policy/FileByContract/{contractId}',
-    'Management\PolicyController@getByContract');
+    Route::get(
+        'Policy/FileByContract/{contractId}',
+        'Management\PolicyController@getByContract'
+    );
 
-   //Tipo de portafolios
-   Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
+    //Tipo de portafolios
+    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
 
-   //Cobertura de atención 
-   Route::apiResource('coverage', 'Management\CoverageController');
+    //Cobertura de atención 
+    Route::apiResource('coverage', 'Management\CoverageController');
 
-   //Modalidad del servicio
-   Route::apiResource('modality', 'Management\ModalityController');
+    //Tipo de atención para plan de manejo PAD 
+    Route::apiResource('type_of_attention', 'Management\TypeOfAttentionController');
 
-   //Portafolio de servicios
-   Route::apiResource('services_briefcase', 'Management\ServicesBriefcaseController');
+    //frecuencia para plan de manejo PAD
+    Route::apiResource('frequency', 'Management\FrequencyController');
+
+    //Plan de manejo PAD
+    Route::apiResource('management_plan', 'Management\ManagementPlanController');
+
+    //Portafolio de servicios
+    Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
+
+    //Modalidad del servicio
+    Route::apiResource('modality', 'Management\ModalityController');
+
+    //Portafolio de servicios
+    Route::apiResource('services_briefcase', 'Management\ServicesBriefcaseController');
 
     //Portafolio de servicios
     Route::put('services_updatebriefcase/{id}', 'Management\ServicesBriefcaseController@update');
@@ -619,12 +633,12 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
 
     //Portafolio de servicios por contrato
     Route::get(
-    'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
-     'Management\ServicesBriefcaseController@getByBriefcase'
+        'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
+        'Management\ServicesBriefcaseController@getByBriefcase'
     );
 
-   //Sedes del Portafolio de servicios
-   Route::apiResource('campus_briefcase', 'Management\CampusBriefcaseController');
+    //Sedes del Portafolio de servicios
+    Route::apiResource('campus_briefcase', 'Management\CampusBriefcaseController');
 
     //Portafolio de servicios por contrato
     Route::get(
@@ -635,14 +649,14 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');
 
-     //Portafolio de servicios por contrato
-     Route::get(
+    //Portafolio de servicios por contrato
+    Route::get(
         'briefcasecontract/briefcaseByContract/{contractId}',
         'Management\BriefcaseController@getByContract'
     );
 
-   //Aseguradoras
-   Route::apiResource('insurance_carrier', 'Management\InsuranceCarrierController');
+    //Aseguradoras
+    Route::apiResource('insurance_carrier', 'Management\InsuranceCarrierController');
 
     //Registro de contrato
     Route::apiResource('contract_log', 'Management\ContractLogController');
@@ -860,5 +874,4 @@ Route::apiResource('diagnosis', 'Management\DiagnosisController');
     Route::get('oldsga-reports/exportExcelEncuestasActividad', 'OldSGA\ReportsController@exportExcelEncuestasActividad');
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
-
 });

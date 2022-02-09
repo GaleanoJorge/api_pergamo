@@ -78,11 +78,17 @@ class ProcedurePackageController extends Controller
 
     public function store(ProcedurePackageRequest $request): JsonResponse
     {
+        $ProcedurePackageFilter = ProcedurePackage::where([
+            ['procedure_package_id', $request->procedure_package_id],
+            ['procedure_id',$request->procedure_id]
+            ])->get();
+            if ($ProcedurePackageFilter->count() == 0) {
         $ProcedurePackage = new ProcedurePackage;
         $ProcedurePackage->value = $request->value;
         $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
         $ProcedurePackage->procedure_id = $request->procedure_id;
         $ProcedurePackage->save();
+            }
 
 
         return response()->json([

@@ -934,5 +934,14 @@
         "route": "/pages/setting/policy-type",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "148",
+        "item_parent_id": null,
+        "name": "Plan de atención domiciliario",
+        "code": "pad",
+        "route": "/pages/pad/list",
+        "icon": "activity-outline",
+        "show_menu": "1"
     }
 ]
