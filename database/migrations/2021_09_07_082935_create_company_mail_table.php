@@ -29,7 +29,7 @@ class CreateCompanyMailTable extends Migration
             ->on('region');
             $table->index('document_id');
             $table->foreign('document_id')->references('id')
-            ->on('document_account');
+            ->on('document');
 
         });
     }

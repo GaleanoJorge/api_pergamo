@@ -28,8 +28,8 @@ class AdmissionsController extends Controller
         }
 
         if ($request->search) {
-            $Admissions->where('Admissions.code','like','%' . $request->search. '%')
-                    ->orWhere('Admissions.code_technical_concept', 'like', '%' . $request->search . '%');
+            $Admissions->where('Admissions.code', 'like', '%' . $request->search . '%')
+                ->orWhere('Admissions.code_technical_concept', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) === "false") {
@@ -48,18 +48,18 @@ class AdmissionsController extends Controller
         ]);
     }
 
-                               /**
-    * @param  int  $pacientId
+    /**
+     * @param  int  $pacientId
      * Get procedure by briefcase.
      *
      * @return JsonResponse
      */
     public function getByPacient(Request $request, int $pacientId): JsonResponse
-    {       
-        $Admissions = Admissions::where('user_id',$pacientId)->with('users','campus','contract','location','location.admission_route','location.scope_of_attention','location.program','location.flat','location.pavilion','location.bed',)->orderBy('created_at', 'desc');
+    {
+        $Admissions = Admissions::where('user_id', $pacientId)->with('users', 'campus', 'contract', 'location', 'location.admission_route', 'location.scope_of_attention', 'location.program', 'location.flat', 'location.pavilion', 'location.bed',)->orderBy('created_at', 'desc');
         if ($request->search) {
             $Admissions->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $Admissions = $Admissions->get()->toArray();
@@ -69,7 +69,7 @@ class AdmissionsController extends Controller
 
             $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
         }
-        
+
 
         return response()->json([
             'status' => true,
@@ -86,9 +86,9 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
-        $count      = Admissions::where('user_id',$request->user_id)->count();
+        $count      = Admissions::where('user_id', $request->user_id)->count();
         $Admissions = new Admissions;
-        $Admissions->consecutive = $count+1;
+        $Admissions->consecutive = $count + 1;
         $Admissions->diagnosis_id = $request->diagnosis_id;;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->contract_id = $request->contract_id;
@@ -108,12 +108,12 @@ class AdmissionsController extends Controller
         $Location->entry_date = Carbon::now();
         $Location->save();
 
-        if($request->bed_id){
-        $Bed= Bed::find($request->bed_id);
-        $Bed->status_bed_id=2;
-        $Bed->save();
+        if ($request->bed_id) {
+            $Bed = Bed::find($request->bed_id);
+            $Bed->status_bed_id = 2;
+            $Bed->save();
         }
-        
+
 
         return response()->json([
             'status' => true,
@@ -148,25 +148,24 @@ class AdmissionsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        if($request->medical_date==true){
+        if ($request->medical_date == true) {
             $Admissions = Admissions::find($id);
             $Admissions->discharge_date = Carbon::now();
             $Admissions->save();
 
-            $Bed= Bed::find($request->bed_id);
-            $Bed->status_bed_id=1;
+            $Bed = Bed::find($request->bed_id);
+            $Bed->status_bed_id = 1;
             $Bed->save();
-        }else if($request->reversion==true){
+        } else if ($request->reversion == true) {
             $Admissions = Admissions::find($id);
             $Admissions->medical_date = '0000-00-00 00:00:00';
             $Admissions->save();
-        }
-        else{
-        $Admissions = Admissions::find($id);
-        $Admissions->campus_id = $request->campus_id;
-        $Admissions->contract_id = $request->contract_id;
-        $Admissions->user_id = $request->user_id;
-        $Admissions->save();
+        } else {
+            $Admissions = Admissions::find($id);
+            $Admissions->campus_id = $request->campus_id;
+            $Admissions->contract_id = $request->contract_id;
+            $Admissions->user_id = $request->user_id;
+            $Admissions->save();
         }
 
         return response()->json([

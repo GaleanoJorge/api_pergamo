@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\SpecialAttetion as BaseSpecialAttetion;
+use App\Models\Base\SpecialAttention as BaseSpecialAttention;
 
-class SpecialAttetion extends BaseSpecialAttetion
+class SpecialAttention extends BaseSpecialAttention
 {
     protected $fillable = [  
     'name',
-    
-    
 
 	];
 }

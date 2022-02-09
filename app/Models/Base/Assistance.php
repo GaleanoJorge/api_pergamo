@@ -19,7 +19,8 @@ use App\Models\AssistanceSpecial;
  * @property string $medical_record
  * @property BigInteger $contract_type_id
  * @property BigInteger $cost_center_id
- * @property BigInteger $type_professional_id
+ * @property BigInteger $PAD_service
+ * @property BigInteger $PAD_patient_quantity
  * @property string $attends_external_consultation
  * @property string $serve_multiple_patients
  * @property string $file_firm

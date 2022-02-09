@@ -6,6 +6,8 @@
 
 namespace App\Models\Base;
 
+use App\Models\Document;
+use App\Models\Region;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -28,5 +30,18 @@ class CompanyMail extends Model
 {
 	protected $table = 'company_mail';
 
+	protected $casts = [
+		'city_id' => 'int',
+		'document_id' => 'int',
+	];
 	
+	public function region()
+	{
+		return $this->belongsTo(Region::class, 'city_id');
+	}
+
+	public function document()
+	{
+		return $this->belongsTo(Document::class);
+	}
 }

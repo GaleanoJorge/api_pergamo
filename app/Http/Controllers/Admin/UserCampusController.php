@@ -53,7 +53,7 @@ class UserCampusController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Sede asignada ecitosamente',
+            'message' => 'Sede asignada exitosamente',
             'data' => ['userCampus' => $userCampus->toArray()]
         ]);
     }
@@ -67,17 +67,17 @@ class UserCampusController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $itemRolePermission = ItemRolePermission::find($id);
-            $itemRolePermission->delete();
+            $userCampus = userCampus::find($id);
+            $userCampus->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Permiso del rol en el item eliminado exitosamente',
+                'message' => 'La sede se ha eliminado exitosamente',
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'El permiso del rol en el item está en uso, no es posible eliminarlo',
+                'message' => 'La sede está en uso, no es posible eliminarla',
             ], 423);
         }
     }

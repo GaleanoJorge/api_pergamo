@@ -66,7 +66,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
 class UserController extends Controller
 {
 
-      /**
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
@@ -79,9 +79,9 @@ class UserController extends Controller
             'users.*',
             \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
-        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-        
-        ->where('user_role.role_id', $roleId)
+            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+
+            ->where('user_role.role_id', $roleId)
             ->with(
                 'status',
                 'gender',
@@ -90,11 +90,18 @@ class UserController extends Controller
                 'user_role',
                 'user_role.role',
                 'admissions',
-                'admissions.location','admissions.contract',
-            'admissions.campus','admissions.location.admission_route','admissions.location.scope_of_attention','admissions.location.program','admissions.location.flat','admissions.location.pavilion','admissions.location.bed'
-            )->orderBy('admissions.entry_date','DESC')->groupBy('id');
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
-     
+
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
@@ -192,7 +199,7 @@ class UserController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
@@ -209,7 +216,7 @@ class UserController extends Controller
             $users->orderBy($request->_sort, $request->_order);
         }
 
-        
+
 
         if ($request->search) {
             $users->where(function ($query) use ($request) {
@@ -224,7 +231,7 @@ class UserController extends Controller
             });
         }
 
-       /* if ($request->query("pagination", true) == "false") {
+        /* if ($request->query("pagination", true) == "false") {
             $users = $users;
         } else {
             $page = $request->query("current_page", 1);
@@ -364,8 +371,8 @@ class UserController extends Controller
         \DB::beginTransaction();
         $validate = User::Where('identification', $request->identification);
         $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
-        if($validate){
-            if($validate_wrong_user){
+        if ($validate) {
+            if ($validate_wrong_user) {
                 $user = new User;
                 $user->status_id = $request->status_id;
                 $user->gender_id = $request->gender_id;
@@ -397,7 +404,7 @@ class UserController extends Controller
                 $user->identification = $request->identification;
                 $user->birthday = $request->birthday;
                 $user->phone = $request->phone;
-                $user->age = $request -> age;
+                $user->age = $request->age;
                 if ($request->file('file')) {
                     $path = Storage::disk('public')->put('file', $request->file('file'));
                     $user->file = $path;
@@ -410,90 +417,89 @@ class UserController extends Controller
                 $userRole = new UserRole;
                 $userRole->role_id = $request->role_id;
                 $userRole->user_id = $user->id;
-                $userRole->save(); 
-            }else{
+                $userRole->save();
+            } else {
                 return response()->json([
                     'status' => false,
                     'message' => 'Usuario exístente con este número de cedula',
                 ]);
-
             }
-
-        }else{
-        $user = new User;
-        $user->status_id = $request->status_id;
-        $user->gender_id = $request->gender_id;
-        $user->academic_level_id = $request->academic_level_id;
-        $user->identification_type_id = $request->identification_type_id;
-        $user->birthplace_municipality_id = $request->birthplace_municipality_id;
-        $user->birthplace_country_id = $request->birthplace_country_id;
-        $user->birthplace_region_id = $request->birthplace_region_id;
-        $user->residence_region_id = $request->residence_region_id;
-        $user->residence_municipality_id = $request->residence_municipality_id;
-        $user->residence_address = $request->residence_address;
-        $user->residence_country_id = $request->residence_country_id;
-        $user->study_level_status_id = $request->study_level_status_id;
-        $user->activities_id = $request->activities_id;
-        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
-        $user->select_rh_id = $request->select_RH_id;
-        $user->marital_status_id = $request->marital_status_id;
-        $user->population_group_id = $request->population_group_id;
-        $user->username = $request->username;
-        $user->is_disability = $request->is_disability;
-        $user->disability = $request->disability;
-        $user->gender_type = $request->gender_type;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->firstname = $request->firstname;
-        $user->middlefirstname = $request->middlefirstname;
-        $user->lastname = $request->lastname;
-        $user->middlelastname = $request->middlelastname;
-        $user->identification = $request->identification;
-        $user->birthday = $request->birthday;
-        $user->age = $request -> age;
-        $user->phone = $request->phone;
-        $user->landline = $request->landline;
-        $user->ethnicity_id = $request->ethnicity_id;
-        if ($request->file('file')) {
-            $path = Storage::disk('public')->put('file', $request->file('file'));
-            $user->file = $path;
-        }
-        $user->save();
-
-        if($request->role_id==3){
-            $assistance= new Assistance;
-            $assistance->user_id=$user->id;
-
-            $assistance->medical_record=$request->medical_record;
-            $assistance->contract_type_id=$request->contract_type_id;
-            $assistance->cost_center_id=$request->cost_center_id;
-            $assistance->type_professional_id=$request->type_professional_id;
-            $assistance->attends_external_consultation=$request->attends_external_consultation;
-            $assistance->serve_multiple_patients=$request->serve_multiple_patients;
-            
-            if ($request->file('file_firm')) {
-                $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
-                $assistance->file_firm = $path;
+        } else {
+            $user = new User;
+            $user->status_id = $request->status_id;
+            $user->gender_id = $request->gender_id;
+            $user->academic_level_id = $request->academic_level_id;
+            $user->identification_type_id = $request->identification_type_id;
+            $user->birthplace_municipality_id = $request->birthplace_municipality_id;
+            $user->birthplace_country_id = $request->birthplace_country_id;
+            $user->birthplace_region_id = $request->birthplace_region_id;
+            $user->residence_region_id = $request->residence_region_id;
+            $user->residence_municipality_id = $request->residence_municipality_id;
+            $user->residence_address = $request->residence_address;
+            $user->residence_country_id = $request->residence_country_id;
+            $user->study_level_status_id = $request->study_level_status_id;
+            $user->activities_id = $request->activities_id;
+            $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+            $user->select_rh_id = $request->select_RH_id;
+            $user->marital_status_id = $request->marital_status_id;
+            $user->population_group_id = $request->population_group_id;
+            $user->username = $request->username;
+            $user->is_disability = $request->is_disability;
+            $user->disability = $request->disability;
+            $user->gender_type = $request->gender_type;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->firstname = $request->firstname;
+            $user->middlefirstname = $request->middlefirstname;
+            $user->lastname = $request->lastname;
+            $user->middlelastname = $request->middlelastname;
+            $user->identification = $request->identification;
+            $user->birthday = $request->birthday;
+            $user->age = $request->age;
+            $user->phone = $request->phone;
+            $user->landline = $request->landline;
+            $user->ethnicity_id = $request->ethnicity_id;
+            if ($request->file('file')) {
+                $path = Storage::disk('public')->put('file', $request->file('file'));
+                $user->file = $path;
             }
-            $assistance->save();
+            $user->save();
 
-            if(sizeof($request->special_field) > 0){
-                foreach($request->special_field as $item){
-                    $assistanceSpecial = new AssistanceSpecial;
-                    $assistanceSpecial->special_field_id = $item;
-                    $assistanceSpecial->assistance_id = $assistance->id;    
-                    $assistanceSpecial->save();
+            if ($request->role_id == 3) {
+                $assistance = new Assistance;
+                $assistance->user_id = $user->id;
+
+                $assistance->medical_record = $request->medical_record;
+                $assistance->contract_type_id= $request->contract_type_id;
+                $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->PAD_service = $request->PAD_service;
+                $assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
+                $assistance->attends_external_consultation = $request->attends_external_consultation;
+                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+                $assistance->special_field = $request->special_field;
+
+                if ($request->file('file_firm')) {
+                    $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
+                    $assistance->file_firm = $path;
+                }
+                $assistance->save();
+
+                if (sizeof($request->special_field) > 0) {
+                    foreach ($request->special_field as $item) {
+                        $assistanceSpecial = new AssistanceSpecial;
+                        $assistanceSpecial->special_field_id = $item;
+                        $assistanceSpecial->assistance_id = $assistance->id;
+                        $assistanceSpecial->save();
+                    }
                 }
             }
 
+
+            $userRole = new UserRole;
+            $userRole->role_id = $request->role_id;
+            $userRole->user_id = $user->id;
+            $userRole->save();
         }
-
-
-        $userRole = new UserRole;
-        $userRole->role_id = $request->role_id;
-        $userRole->user_id = $user->id;
-        $userRole->save(); 
-    }
 
         \DB::commit();
 
@@ -513,7 +519,8 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuario creado exitosamente',
-            'data' => ['user' => $user]
+            'data' => ['user' => $user],
+            // 'data2' => ['assitance' => $assistance]
         ]);
     }
 
@@ -525,8 +532,11 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $user = User::select('users.*', 'municipality.region_id', 'region.country_id',
-        \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        $user = User::select(
+            'users.*',
+            'municipality.region_id',
+            'region.country_id',
+            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )
             ->leftJoin('municipality', 'municipality.id', 'users.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
@@ -609,7 +619,7 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, int $id): JsonResponse
     {
-         
+
 
         \DB::beginTransaction();
 
@@ -631,7 +641,7 @@ class UserController extends Controller
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
-        $user->age = $request -> age;
+        $user->age = $request->age;
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
             $user->file = $path;
@@ -639,9 +649,9 @@ class UserController extends Controller
         $user->activities_id = $request->activities_id;
         $user->disability = $request->disability;
         $user->residence_address = $request->residence_address;
-        $user->residence_country_id = $request -> residence_country_id;
+        $user->residence_country_id = $request->residence_country_id;
 
-        if ($request->gender_id==3) {
+        if ($request->gender_id == 3) {
             $user->gender_type = $request->gender_type;
         }
         if ($request->password) {
@@ -649,32 +659,31 @@ class UserController extends Controller
         }
         $user->save();
 
-        if($request->role_id==3){
-            $assistance= Assistance::find($request->assistance_id);
-            $assistance->medical_record=$request->medical_record;
-            $assistance->contract_type_id=$request->contract_type_id;
-            $assistance->cost_center_id=$request->cost_center_id;
-            $assistance->type_professional_id=$request->type_professional_id;
-            $assistance->attends_external_consultation=$request->attends_external_consultation;
-            $assistance->serve_multiple_patients=$request->serve_multiple_patients;
-            
+        if ($request->role_id == 3) {
+            $assistance = Assistance::find($user->id);
+            $assistance->medical_record = $request->medical_record;
+            $assistance->contract_type_id = $request->contract_type_id;
+            $assistance->cost_center_id = $request->cost_center_id;
+            $assistance->type_professional_id = $request->type_professional_id;
+            $assistance->attends_external_consultation = $request->attends_external_consultation;
+            $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+
             if ($request->file('file_firm')) {
                 $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
                 $assistance->file_firm = $path;
             }
             $assistance->save();
 
-            if($request->special_field == null){
+            if ($request->special_field == null) {
                 //if(sizeof($request->special_field) != 0 ){
-                foreach($request->special_field as $item){
+                foreach ($request->special_field as $item) {
                     $assistanceSpecial = new AssistanceSpecial;
                     $assistanceSpecial->special_field_id = $item;
-                    $assistanceSpecial->assistance_id = $assistance->id;    
+                    $assistanceSpecial->assistance_id = $assistance->id;
                     $assistanceSpecial->save();
                 }
-            //}
+                //}
             }
-
         }
 
 
@@ -716,21 +725,21 @@ class UserController extends Controller
     {
         $academicLevels = AcademicLevel::orderBy('name')->get();
         $countries = Country::orderBy('name')->get();
-        $genders = Gender::where('id','!=',3);
+        $genders = Gender::where('id', '!=', 3);
         $ethnicitys = Ethnicity::orderBy('name')->get();
         $identificationTypes = IdentificationType::get();
         $status = Status::get();
-        $study_level_status= StudyLevelStatus::orderBy('name')->get();
-        $activities= Activities::orderBy('name')->get();
-        $select_RH= SelectRh::get();
-        $population_group= PopulationGroup::orderBy('name')->get();
-        $marital_status= MaritalStatus::orderBy('name')->get();
-        $inabilitys= Inability::orderBy('name')->get();
+        $study_level_status = StudyLevelStatus::orderBy('name')->get();
+        $activities = Activities::orderBy('name')->get();
+        $select_RH = SelectRh::get();
+        $population_group = PopulationGroup::orderBy('name')->get();
+        $marital_status = MaritalStatus::orderBy('name')->get();
+        $inabilitys = Inability::orderBy('name')->get();
         $contract_type = ContractType::get();
         $cost_center = CostCenter::get();
         $type_professional = TypeProfessional::get();
         //$observation_novelty = ObservationNovelty::get();
-        $special_field = SpecialField::where('type_professional_id',$request->type_professional_id);
+        $special_field = SpecialField::where('type_professional_id', $request->type_professional_id);
         // if($request->search){
         //     $special_field->Orwhere('name', 'like', '%' . $request->search . '%');
         // }
@@ -739,8 +748,8 @@ class UserController extends Controller
                 $query->where('name', 'like', '%' . $request->search . '%');
             });
         }
-        
-        
+
+
 
 
         return response()->json([
