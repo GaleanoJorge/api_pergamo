@@ -34,5 +34,11 @@
         "name": "Cartera",
         "status_id": 1,
         "sga_origin_fk": 5
+    },
+    {
+        "id": 7,
+        "name": "Medico especialista",
+        "status_id": 1,
+        "sga_origin_fk": 5
     }
 ]

@@ -19,9 +19,9 @@ class CreateLocationTable extends Migration
             $table->unsignedBigInteger('admission_route_id');
             $table->unsignedBigInteger('scope_of_attention_id');
             $table->unsignedBigInteger('program_id');
-            $table->unsignedBigInteger('pavilion_id');
-            $table->unsignedBigInteger('flat_id');
-            $table->unsignedBigInteger('bed_id');
+            $table->unsignedBigInteger('pavilion_id')->nullable();
+            $table->unsignedBigInteger('flat_id')->nullable();
+            $table->unsignedBigInteger('bed_id')->nullable();
             $table->dateTime('entry_date');
             $table->dateTime('discharge_date');
             $table->unsignedBigInteger('user_id');
