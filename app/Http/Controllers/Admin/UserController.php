@@ -51,6 +51,7 @@ use App\Models\AssistanceSpecial;
 use App\Models\CostCenter;
 use App\Models\SpecialField;
 use App\Models\TypeProfessional;
+use App\Models\Residence;
 use App\Models\ObservationNovelty;
 use App\Models\UserChange;
 use Beta\Microsoft\Graph\Model\Currency;
@@ -388,6 +389,8 @@ class UserController extends Controller
                 $user->birthplace_municipality_id = $request->birthplace_municipality_id;
                 $user->birthplace_country_id = $request->birthplace_country_id;
                 $user->birthplace_region_id = $request->birthplace_region_id;
+                $user->locality_id = $request->locality_id;
+                $user->residence_id = $request->residence_id;
                 $user->residence_region_id = $request->residence_region_id;
                 $user->residence_municipality_id = $request->residence_municipality_id;
                 $user->residence_address = $request->residence_address;
@@ -429,7 +432,7 @@ class UserController extends Controller
 
                     $assistance->medical_record = $request->medical_record;
                     $assistance->contract_type_id = $request->contract_type_id;
-                    $assistance->cost_center_id = $request->cost_center_id;
+                    // $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
                     $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
@@ -471,6 +474,8 @@ class UserController extends Controller
             $user->birthplace_municipality_id = $request->birthplace_municipality_id;
             $user->birthplace_country_id = $request->birthplace_country_id;
             $user->birthplace_region_id = $request->birthplace_region_id;
+            $user->locality_id = $request->locality_id;
+            $user->residence_id = $request->residence_id;
             $user->residence_region_id = $request->residence_region_id;
             $user->residence_municipality_id = $request->residence_municipality_id;
             $user->residence_address = $request->residence_address;
@@ -510,7 +515,7 @@ class UserController extends Controller
 
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
-                $assistance->cost_center_id = $request->cost_center_id;
+                // $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
                 $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
@@ -523,7 +528,7 @@ class UserController extends Controller
                 }
                 $assistance->save();
 
-                if (is_array($request->special_field) == true ) {
+                if (is_array($request->special_field) == true) {
                     foreach ($request->special_field as $item) {
                         $assistanceSpecial = new AssistanceSpecial;
                         $assistanceSpecial->special_field_id = $item;
@@ -689,6 +694,8 @@ class UserController extends Controller
         $user->disability = $request->disability;
         $user->residence_address = $request->residence_address;
         $user->residence_country_id = $request->residence_country_id;
+        $user->locality_id = $request->locality_id;
+        $user->residence_id = $request->residence_id;
         $role = intval($request->role_id);
         if ($request->gender_id == 3) {
             $user->gender_type = $request->gender_type;
@@ -702,7 +709,7 @@ class UserController extends Controller
             $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
-            $assistance->cost_center_id = $request->cost_center_id;
+            // $assistance->cost_center_id = $request->cost_center_id;
             // $assistance->type_professional_id = $request->type_professional_id;
             $assistance->PAD_service = $request->PAD_service;
             $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
@@ -779,6 +786,7 @@ class UserController extends Controller
         $contract_type = ContractType::get();
         $cost_center = CostCenter::get();
         $type_professional = TypeProfessional::get();
+        $residence = Residence::orderBy('name')->get();
         //$observation_novelty = ObservationNovelty::get();
         $special_field = SpecialField::where('type_professional_id', $request->type_professional_id);
         // if($request->search){
@@ -813,6 +821,7 @@ class UserController extends Controller
                 'type_professional' => $type_professional->toArray(),
                 'inability' => $inabilitys->toArray(),
                 'special_field' => $special_field->get()->toArray(),
+                'residence' => $residence->toArray(),
                 //'observation_novelty' => $observation_novelty->get()->toArray(),
 
             ]

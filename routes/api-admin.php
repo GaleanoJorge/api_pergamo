@@ -177,6 +177,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Admin\LocationController@getNeighborhoodResidenceByMunicipality'
     );
 
+    Route::get(
+        'residence/locationbyMunicipality/{municipalityId}',
+        'Admin\LocationController@GetLocalityByMunicipality'
+    );
+
+    Route::get(
+        'residence/byLocality/{localityId}',
+        'Admin\LocationController@getNeighborhoodResidenceByLocality'
+    );
+
     //User
     Route::apiResource('user', 'Admin\UserController');
     Route::get('user/byRole/{roleId}', 'Admin\UserController@indexByRole');

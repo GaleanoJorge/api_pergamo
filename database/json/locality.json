@@ -1,0 +1,97 @@
+[
+    {   
+        "id": "1",
+        "name": "Usaquén",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "2",
+        "name": "Chapinero",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "3",
+        "name": "Santa Fe",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "4",
+        "name": "San Cristóbal",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "5",
+        "name": "Usme",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "6",
+        "name": "Tunjuelito",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "7",
+        "name": "Bosa",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "8",
+        "name": "Kennedy",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "9",
+        "name": "Fontibón",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "10",
+        "name": "Engativá",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "11",
+        "name": "Suba",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "12",
+        "name": "Barrios unidos",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "13",
+        "name": "Teusaquillo",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "14",
+        "name": "Mártires",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "15",
+        "name": "Antonio Nariño",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "16",
+        "name": "Puente Aranda",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "17",
+        "name": "La Candelaria",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "18",
+        "name": "Rafael Uribe",
+        "municipality_id": "11001"
+    },
+    {
+        "id": "19",
+        "name": "Ciudad Bolivar",
+        "municipality_id": "11001"
+    }
+]

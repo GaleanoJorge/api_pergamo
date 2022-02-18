@@ -374,6 +374,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Nombre del tipo de Parentesco
     Route::apiResource('relationship', 'Management\RelationshipController');
 
+    //Tipos de residencia
+    Route::apiResource('residence', 'Management\ResidenceController');
+
     //Numero de días para el termino de pago
     Route::apiResource('payment_terms', 'Management\PaymentTermsController');
 

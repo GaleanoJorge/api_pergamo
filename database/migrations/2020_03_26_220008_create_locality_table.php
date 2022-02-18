@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNeighborhoodOrResidenceTable extends Migration
+class CreateLocalityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateNeighborhoodOrResidenceTable extends Migration
      */
     public function up()
     {
-        Schema::create('neighborhood_or_residence', function (Blueprint $table) {
+        Schema::create('locality', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('municipality_id');
+            $table->unsignedBigInteger('municipality_id')->nullable();
             $table->timestamps();
 
             $table->index('municipality_id');
-            $table->foreign('municipality_id')->references('id')
-                ->on('municipality');
+            $table->foreign('municipality_id')->references('id')->on('municipality');
         });
     }
 
@@ -32,6 +31,6 @@ class CreateNeighborhoodOrResidenceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('neighborhood_or_residence');
+        Schema::dropIfExists('municipality');
     }
 }

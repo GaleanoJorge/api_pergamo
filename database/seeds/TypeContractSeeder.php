@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ContractType;
 use App\Models\TypeContract;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,10 @@ class TypeContractSeeder extends Seeder
         foreach (json_decode($data) as $row) {
             TypeContract::create([
         
+                'name' =>  $row->name,
+            ]);
+            ContractType::create([
+                
                 'name' =>  $row->name,
             ]);
         }

@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(MunicipalitySeeder::class);
                 $this->call(AcademicLevelSeeder::class);
                 $this->call(ActivitiesSeeder::class);
+                $this->call(LocalitySeeder::class);
                 $this->call(NeighborhoodOrResidenceSeeder::class);
                 $this->call(SelectRhSeeder::class);
                 $this->call(StudyLevelStatusSeeder::class);
@@ -84,8 +85,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(ObjetionCodeResponseSeeder::class);
                 $this->call(ObjetionTypeSeeder::class);
                 $this->call(RepeatedInitialSeeder::class);
-                $this->call(TypeOfAttention::class);
-                $this->call(FrequencySeeder::class);
+                $this->call(RelationshipSeeder::class);
+                $this->call(ResidenceSeeder::class);
+                //$this->call(TypeOfAttention::class);
+                //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);
                 //$this->call(CustomFieldTypeSeeder::class);

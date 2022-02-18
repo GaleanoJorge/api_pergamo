@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Models\NeighborhoodOrResidence;
 use Illuminate\Http\JsonResponse;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\NeighborhoodOrResidenceRequest;
 use Illuminate\Database\QueryException;
