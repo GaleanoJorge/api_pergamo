@@ -51,6 +51,7 @@ use App\Models\AssistanceSpecial;
 use App\Models\CostCenter;
 use App\Models\SpecialField;
 use App\Models\TypeProfessional;
+use App\Models\Residence;
 use App\Models\ObservationNovelty;
 use App\Models\UserChange;
 use Beta\Microsoft\Graph\Model\Currency;
@@ -134,7 +135,7 @@ class UserController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
@@ -147,11 +148,11 @@ class UserController extends Controller
             'users.*',
             \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
-        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-        ->Join('location', 'location.admissions_id', 'admissions.id')
-        
-        ->where('user_role.role_id', $roleId)
-        ->where('location.admission_route_id',2)
+            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            ->Join('location', 'location.admissions_id', 'admissions.id')
+
+            ->where('user_role.role_id', $roleId)
+            ->where('location.admission_route_id', 2)
             ->with(
                 'status',
                 'gender',
@@ -162,11 +163,18 @@ class UserController extends Controller
                 'user_role',
                 'user_role.role',
                 'admissions',
-                'admissions.location','admissions.contract',
-            'admissions.campus','admissions.location.admission_route','admissions.location.scope_of_attention','admissions.location.program','admissions.location.flat','admissions.location.pavilion','admissions.location.bed'
-            )->orderBy('admissions.entry_date','DESC')->groupBy('id');
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
-     
+
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
@@ -381,6 +389,8 @@ class UserController extends Controller
                 $user->birthplace_municipality_id = $request->birthplace_municipality_id;
                 $user->birthplace_country_id = $request->birthplace_country_id;
                 $user->birthplace_region_id = $request->birthplace_region_id;
+                $user->locality_id = $request->locality_id;
+                $user->residence_id = $request->residence_id;
                 $user->residence_region_id = $request->residence_region_id;
                 $user->residence_municipality_id = $request->residence_municipality_id;
                 $user->residence_address = $request->residence_address;
@@ -405,6 +415,8 @@ class UserController extends Controller
                 $user->birthday = $request->birthday;
                 $user->phone = $request->phone;
                 $user->age = $request->age;
+                $role = intval($request->role_id);
+
                 if ($request->file('file')) {
                     $path = Storage::disk('public')->put('file', $request->file('file'));
                     $user->file = $path;
@@ -413,6 +425,35 @@ class UserController extends Controller
                 $user->ethnicity_id = $request->ethnicity_id;
                 $user->force_reset_password = 1;
                 $user->save();
+
+                if ($role == 3) {
+                    $assistance = new Assistance;
+                    $assistance->user_id = $user->id;
+
+                    $assistance->medical_record = $request->medical_record;
+                    $assistance->contract_type_id = $request->contract_type_id;
+                    // $assistance->cost_center_id = $request->cost_center_id;
+                    $assistance->PAD_service = $request->PAD_service;
+                    $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
+                    $assistance->attends_external_consultation = $request->attends_external_consultation;
+                    $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+                    // $assistance->special_field = $request->special_field;
+
+                    if ($request->file('file_firm')) {
+                        $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
+                        $assistance->file_firm = $path;
+                    }
+                    $assistance->save();
+
+                    if (is_array($request->special_field) == true) {
+                        foreach ($request->special_field as $item) {
+                            $assistanceSpecial = new AssistanceSpecial;
+                            $assistanceSpecial->special_field_id = $item;
+                            $assistanceSpecial->assistance_id = $assistance->id;
+                            $assistanceSpecial->save();
+                        }
+                    }
+                }
 
                 $userRole = new UserRole;
                 $userRole->role_id = $request->role_id;
@@ -433,6 +474,8 @@ class UserController extends Controller
             $user->birthplace_municipality_id = $request->birthplace_municipality_id;
             $user->birthplace_country_id = $request->birthplace_country_id;
             $user->birthplace_region_id = $request->birthplace_region_id;
+            $user->locality_id = $request->locality_id;
+            $user->residence_id = $request->residence_id;
             $user->residence_region_id = $request->residence_region_id;
             $user->residence_municipality_id = $request->residence_municipality_id;
             $user->residence_address = $request->residence_address;
@@ -459,24 +502,25 @@ class UserController extends Controller
             $user->phone = $request->phone;
             $user->landline = $request->landline;
             $user->ethnicity_id = $request->ethnicity_id;
+            $role = intval($request->role_id);
             if ($request->file('file')) {
                 $path = Storage::disk('public')->put('file', $request->file('file'));
                 $user->file = $path;
             }
             $user->save();
 
-            if ($request->role_id == 3) {
+            if ($role == 3) {
                 $assistance = new Assistance;
                 $assistance->user_id = $user->id;
 
                 $assistance->medical_record = $request->medical_record;
-                $assistance->contract_type_id= $request->contract_type_id;
-                $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->contract_type_id = $request->contract_type_id;
+                // $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
-                $assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
+                $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                $assistance->special_field = $request->special_field;
+                // $assistance->special_field = $request->special_field;    
 
                 if ($request->file('file_firm')) {
                     $path = Storage::disk('public')->put('file_firm', $request->file('file_firm'));
@@ -484,7 +528,7 @@ class UserController extends Controller
                 }
                 $assistance->save();
 
-                if (sizeof($request->special_field) > 0) {
+                if (is_array($request->special_field) == true) {
                     foreach ($request->special_field as $item) {
                         $assistanceSpecial = new AssistanceSpecial;
                         $assistanceSpecial->special_field_id = $item;
@@ -650,7 +694,9 @@ class UserController extends Controller
         $user->disability = $request->disability;
         $user->residence_address = $request->residence_address;
         $user->residence_country_id = $request->residence_country_id;
-
+        $user->locality_id = $request->locality_id;
+        $user->residence_id = $request->residence_id;
+        $role = intval($request->role_id);
         if ($request->gender_id == 3) {
             $user->gender_type = $request->gender_type;
         }
@@ -659,12 +705,14 @@ class UserController extends Controller
         }
         $user->save();
 
-        if ($request->role_id == 3) {
-            $assistance = Assistance::find($user->id);
+        if ($role == 3) {
+            $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
-            $assistance->cost_center_id = $request->cost_center_id;
-            $assistance->type_professional_id = $request->type_professional_id;
+            // $assistance->cost_center_id = $request->cost_center_id;
+            // $assistance->type_professional_id = $request->type_professional_id;
+            $assistance->PAD_service = $request->PAD_service;
+            $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
             $assistance->attends_external_consultation = $request->attends_external_consultation;
             $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -674,7 +722,7 @@ class UserController extends Controller
             }
             $assistance->save();
 
-            if ($request->special_field == null) {
+            if (is_array($request->special_field) == true) {
                 //if(sizeof($request->special_field) != 0 ){
                 foreach ($request->special_field as $item) {
                     $assistanceSpecial = new AssistanceSpecial;
@@ -738,6 +786,7 @@ class UserController extends Controller
         $contract_type = ContractType::get();
         $cost_center = CostCenter::get();
         $type_professional = TypeProfessional::get();
+        $residence = Residence::orderBy('name')->get();
         //$observation_novelty = ObservationNovelty::get();
         $special_field = SpecialField::where('type_professional_id', $request->type_professional_id);
         // if($request->search){
@@ -772,6 +821,7 @@ class UserController extends Controller
                 'type_professional' => $type_professional->toArray(),
                 'inability' => $inabilitys->toArray(),
                 'special_field' => $special_field->get()->toArray(),
+                'residence' => $residence->toArray(),
                 //'observation_novelty' => $observation_novelty->get()->toArray(),
 
             ]
