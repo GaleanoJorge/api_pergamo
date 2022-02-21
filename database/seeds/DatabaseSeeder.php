@@ -84,7 +84,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ObjetionCodeResponseSeeder::class);
                 $this->call(ObjetionTypeSeeder::class);
                 $this->call(RepeatedInitialSeeder::class);
-                $this->call(TypeOfAttention::class);
+                $this->call(TypeOfAttentionSeeder::class);
                 $this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);
