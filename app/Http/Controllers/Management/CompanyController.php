@@ -27,6 +27,10 @@ class CompanyController extends Controller
         if ($request->search) {
             $Company->where('name','like','%' . $request->search. '%');
         }
+
+        if ($request->company_category_id) {
+            $Company->where('company_category_id', $request->company_category_id);
+        }
         
         if($request->query("pagination", true)=="false"){
             $Company=$Company->get()->toArray();    

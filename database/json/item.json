@@ -853,7 +853,7 @@
         "route": null,
         "icon": "",
         "show_menu": "1"
-    },    
+    },
     {
         "id": "142",
         "item_parent_id": "141",
@@ -862,7 +862,7 @@
         "route": "/pages/setting/contract-type",
         "icon": "",
         "show_menu": "1"
-    },    
+    },
     {
         "id": "143",
         "item_parent_id": "141",
@@ -924,6 +924,132 @@
         "code": "relationship",
         "route": "/pages/setting/relationship",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "151",
+        "item_parent_id": "66",
+        "name": "Dietas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "152",
+        "item_parent_id": "151",
+        "name": "Consistencias",
+        "code": "diet-consistency",
+        "route": "/pages/setting/diet-consistency",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "153",
+        "item_parent_id": "151",
+        "name": "Componente de dieta",
+        "code": "diet-componet",
+        "route": "/pages/setting/diet-componet",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "154",
+        "item_parent_id": "151",
+        "name": "Dieta terapéutica",
+        "code": "diet-therapeutic",
+        "route": "/pages/setting/diet-therapeutic",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "155",
+        "item_parent_id": "151",
+        "name": "Días de dietas",
+        "code": "diet-day",
+        "route": "/pages/setting/diet-day",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "156",
+        "item_parent_id": "151",
+        "name": "Semanas de dietas",
+        "code": "diet-week",
+        "route": "/pages/setting/diet-week",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "157",
+        "item_parent_id": "151",
+        "name": "Tipos de menú",
+        "code": "diet-menu-type",
+        "route": "/pages/setting/diet-menu-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "158",
+        "item_parent_id": "151",
+        "name": "Tipos de insumos",
+        "code": "diet-supply-type",
+        "route": "/pages/setting/diet-supply-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "159",
+        "item_parent_id": "151",
+        "name": "Insumos",
+        "code": "diet-supplies",
+        "route": "/pages/setting/diet-supplies",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "161",
+        "item_parent_id": "151",
+        "name": "Entradas de insumos",
+        "code": "diet-supplies-input",
+        "route": "/pages/setting/diet-supplies-input",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "160",
+        "item_parent_id": "151",
+        "name": "Inventario",
+        "code": "diet-stock",
+        "route": "/pages/setting/diet-stock",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "162",
+        "item_parent_id": "151",
+        "name": "Platos",
+        "code": "diet-dish",
+        "route": "/pages/setting/diet-dish",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "163",
+        "item_parent_id": "151",
+        "name": "Menús",
+        "code": "diet-menu",
+        "route": "/pages/setting/diet-menu",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "164",
+        "item_parent_id": null,
+        "name": "Dietas",
+        "code": "diets",
+        "route": "/pages/diets/list",
+        "icon": "shopping-cart-outline",
         "show_menu": "1"
     }
 ]
