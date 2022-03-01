@@ -920,10 +920,37 @@
     {
         "id": "149",
         "item_parent_id": "69",
-        "name": "Perentesco",
+        "name": "Parentesco",
         "code": "relationship",
         "route": "/pages/setting/relationship",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "150",
+        "item_parent_id": null,
+        "name": "Mipres",
+        "code": null,
+        "route": "/pages/mipres/list",
+        "icon": "arrow-right-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "151",
+        "item_parent_id": "150",
+        "name": "Mipres",
+        "code": null,
+        "route": null,
+        "icon": "arrow-right-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "152",
+        "item_parent_id": "150",
+        "name": "Mipres",
+        "code": null,
+        "route": null,
+        "icon": "arrow-right-outline",
         "show_menu": "1"
     }
 ]
