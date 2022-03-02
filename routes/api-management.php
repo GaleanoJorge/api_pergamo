@@ -389,6 +389,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Asociación de los manuales con los procedimientos y las tarifas
     Route::apiResource('manual_price', 'Management\ManualPriceController');
+    Route::post('fileUpload_manual_price/{id}', 'Management\ManualPriceController@import');
     Route::get(
         'ManualPrice/ProcedureByManual/{manualId}',
         'Management\ManualPriceController@getByManual'
