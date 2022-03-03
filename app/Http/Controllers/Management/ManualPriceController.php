@@ -252,10 +252,8 @@ class ManualPriceController extends Controller
                 try {
                     $ManualPrice = new ManualPrice;
                     $ManualPrice->name = $item['name'];
-                    if ($item['own_code'] != "") {
-                        $ManualPrice->own_code = $item['own_code'];
-                    }
-                        $ManualPrice->manual_procedure_type_id = $item['manual_procedure_type_id'];
+                    $ManualPrice->own_code = $item['own_code'];
+                    $ManualPrice->manual_procedure_type_id = $item['manual_procedure_type_id'];
                     if ($item['homologous_id'] != "") {
                         $ManualPrice->homologous_id = $item['homologous_id'];
                     }
@@ -264,8 +262,10 @@ class ManualPriceController extends Controller
                     } else {
                         $ManualPrice->manual_id = $id;
                     }
-                    if ($item['procedure_id'] != "") {
+                    if ($item['procedure_id']) {
                         $ManualPrice->procedure_id = $item['procedure_id'];
+                    } else {
+                        $ManualPrice->manual_procedure_type_id = -1;
                     }
                     if ($item['product_id'] != "") {
                         $ManualPrice->product_id = $item['product_id'];
