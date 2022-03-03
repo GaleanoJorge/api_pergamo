@@ -27,7 +27,7 @@ class ManualPriceRequest extends FormRequest
             'name' => 'required',
             'own_code' => 'required',
             'manual_procedure_type_id' => 'required',
-            'homologous' => 'required',
+            'homologous_id' => 'required',
             'product_id' => '',
             'manual_id' => 'required',
             'procedure_id' => '',

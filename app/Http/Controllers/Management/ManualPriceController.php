@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ManualPriceRequest;
+use App\Models\ProcedurePackage;
 use Illuminate\Database\QueryException;
 use PhpParser\Node\Stmt\TryCatch;
 
@@ -367,6 +368,8 @@ class ManualPriceController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $ProcedurePackageDelete = ProcedurePackage::where('procedure_package_id', $id);
+            $ProcedurePackageDelete->delete();
             $ManualPrice = ManualPrice::find($id);
             $ManualPrice->delete();
 
