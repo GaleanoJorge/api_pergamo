@@ -28,7 +28,28 @@ class ManualPriceController extends Controller
         }
 
         if ($request->search) {
-            $ManualPrice->where('name', 'like', '%' . $request->search . '%');
+            $ManualPrice->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('own_code', 'like', '%' . $request->search . '%')
+                ->orWhere('value', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->manual_procedure_id) {
+            $ManualPrice->where('manual_procedure_id', $request->manual_procedure_id);
+        }
+        if ($request->homologous_id) {
+            $ManualPrice->where('homologous_id', $request->homologous_id);
+        }
+        if ($request->manual_id) {
+            $ManualPrice->where('manual_id', $request->manual_id);
+        }
+        if ($request->procedure_id) {
+            $ManualPrice->where('procedure_id', $request->procedure_id);
+        }
+        if ($request->product_id) {
+            $ManualPrice->where('product_id', $request->product_id);
+        }
+        if ($request->price_type_id) {
+            $ManualPrice->where('price_type_id', $request->price_type_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -121,9 +142,13 @@ class ManualPriceController extends Controller
     {
         $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('procedure', 'price_type');
         if ($request->search) {
-            $ManualPrice->where('value', 'like', '%' . $request->search . '%')
-                ->Orwhere('id', 'like', '%' . $request->search . '%');
+            $ManualPrice->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('id', 'like', '%' . $request->search . '%')
+                ->orWhere('own_code', 'like', '%' . $request->search . '%')
+                ->orWhere('homologous_id', 'like', '%' . $request->search . '%')
+                ->orWhere('value', 'like', '%' . $request->search . '%');
         }
+        
         if ($request->query("pagination", true) === "false") {
             $ManualPrice = $ManualPrice->get()->toArray();
         } else {

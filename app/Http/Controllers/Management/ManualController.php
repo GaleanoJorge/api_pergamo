@@ -18,14 +18,20 @@ class ManualController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Manual = Manual::select();
+        $Manual = Manual::with('status');
 
         if($request->_sort){
             $Manual->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $Manual->where('name','like','%' . $request->search. '%');
+            $Manual->where('name','like','%' . $request->search. '%')
+            ->orWhere('year', 'like', '%' . $request->search . '%')
+            ->orWhere('type_manual', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->gloss_modality_id) {
+            $Manual->where('status_id', $request->status_id);
         }
         
         if($request->query("pagination", true)=="false"){

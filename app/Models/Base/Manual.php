@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,5 +29,8 @@ class Manual extends Model
 {
 	protected $table = 'manual';
 
-	
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
+	}
 }
