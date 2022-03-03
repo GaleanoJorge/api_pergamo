@@ -131,6 +131,9 @@ class BriefcaseController extends Controller
      */
     public function update(BriefcaseRequest $request, int $id): JsonResponse
     {
+        $CampusBriefcaseDelete = CampusBriefcase::where('briefcase_id',$id);
+        $CampusBriefcaseDelete->delete();
+
         $Briefcase = Briefcase::find($id);
         $Briefcase->name = $request->name;
         $Briefcase->coverage_id = $request->coverage_id;
