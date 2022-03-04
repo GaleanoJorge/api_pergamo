@@ -12,7 +12,7 @@ use Illuminate\Database\QueryException;
 
 class ProcedurePackageController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -21,24 +21,27 @@ class ProcedurePackageController extends Controller
     {
         $ProcedurePackage = ProcedurePackage::with('procedure');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ProcedurePackage->orderBy($request->_sort, $request->_order);
-        }            
+        }
+
+        if ($request->procedure_package_id) {
+            $ProcedurePackage->where('procedure_package_id', $request->procedure_package_id);
+        }
 
         if ($request->search) {
-            $ProcedurePackage->where('name','like','%' . $request->search. '%');
+            $ProcedurePackage->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ProcedurePackage=$ProcedurePackage->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $ProcedurePackage = $ProcedurePackage->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ProcedurePackage = $ProcedurePackage->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ProcedurePackage=$ProcedurePackage->paginate($per_page,'*','page',$page); 
-        } 
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Paquete de procedimientos obtenidos exitosamente',
@@ -47,7 +50,7 @@ class ProcedurePackageController extends Controller
     }
 
 
-                     /**
+    /**
      * Get procedure by manual.
      *
      * @param  int  $packageId
@@ -58,7 +61,7 @@ class ProcedurePackageController extends Controller
         $ProcedurePackage = ProcedurePackage::where('procedure_package_id', $packageId)->with('procedure');
         if ($request->search) {
             $ProcedurePackage->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $ProcedurePackage = $ProcedurePackage->get()->toArray();
@@ -80,15 +83,15 @@ class ProcedurePackageController extends Controller
     {
         $ProcedurePackageFilter = ProcedurePackage::where([
             ['procedure_package_id', $request->procedure_package_id],
-            ['procedure_id',$request->procedure_id]
-            ])->get();
-            if ($ProcedurePackageFilter->count() == 0) {
-        $ProcedurePackage = new ProcedurePackage;
-        $ProcedurePackage->value = $request->value;
-        $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
-        $ProcedurePackage->procedure_id = $request->procedure_id;
-        $ProcedurePackage->save();
-            }
+            ['procedure_id', $request->procedure_id]
+        ])->get();
+        if ($ProcedurePackageFilter->count() == 0) {
+            $ProcedurePackage = new ProcedurePackage;
+            $ProcedurePackage->value = $request->value;
+            $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
+            $ProcedurePackage->procedure_id = $request->procedure_id;
+            $ProcedurePackage->save();
+        }
 
 
         return response()->json([
@@ -124,14 +127,20 @@ class ProcedurePackageController extends Controller
      */
     public function update(ProcedurePackageRequest $request, int $id): JsonResponse
     {
-        $ProcedurePackage = ProcedurePackage::find($id);
-        $ProcedurePackage->value = $request->value;
-        $ProcedurePackage->manual_price_id = $request->manual_price_id;
-        $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
-        $ProcedurePackage->procedure_id = $request->procedure_id;
-        $ProcedurePackage->save();
+        $ProcedurePackageDelete = ProcedurePackage::where('procedure_package_id', $id);
+        $ProcedurePackageDelete->delete();
+        $components = json_decode($request->procedure_id);
 
-         return response()->json([
+        foreach ($components as $conponent) {
+            $ProcedurePackage = new ProcedurePackage;
+            $ProcedurePackage->procedure_package_id = $id;
+            // $ProcedurePackage->value = $conponent->value;
+            // $ProcedurePackage->manual_price_id = $conponent->manual_price_id;
+            $ProcedurePackage->procedure_id = $conponent;
+            $ProcedurePackage->save();
+        }
+
+        return response()->json([
             'status' => true,
             'message' => 'Paquete de procedimientos actualizado exitosamente',
             'data' => ['procedure_package' => $ProcedurePackage]
