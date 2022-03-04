@@ -385,6 +385,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Manual Tarifario 
     Route::apiResource('manual', 'Management\ManualController');
+    Route::put('manual_clone/{id}', 'Management\ManualController@clone');
 
 
     //Asociación de los manuales con los procedimientos y las tarifas

@@ -202,43 +202,59 @@ class ManualPriceController extends Controller
         $Manual = Manual::select('type_manual')->where('id', $request->manual_id)->get();
         if ($Manual[0]->type_manual == 0) {
             $ManualPriceFilter = ManualPrice::where([])->get();
-            if ($request->manual_procedure_type_id == 3) {
-                $ManualPrice = new ManualPrice;
-                $ManualPrice->name = $request->name;
-                $ManualPrice->own_code = $request->own_code;
-                $ManualPrice->manual_id = $request->manual_id;
-                $ManualPrice->procedure_id = $request->procedure_id;
-                $ManualPrice->product_id = null;
-                $ManualPrice->value = $request->value;
-                $ManualPrice->price_type_id = $request->price_type_id;
-                $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
-                $ManualPrice->homologous_id = $request->homologous_id;
-                $ManualPrice->save();
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
-                    'data' => ['manual_price' => $ManualPrice->toArray()]
-                ]);
-            } else {
+            $ManualPrice = new ManualPrice;
+            $ManualPrice->name = $request->name;
+            $ManualPrice->own_code = $request->own_code;
+            $ManualPrice->manual_id = $request->manual_id;
+            $ManualPrice->procedure_id = $request->procedure_id;
+            $ManualPrice->product_id = null;
+            $ManualPrice->value = $request->value;
+            $ManualPrice->price_type_id = $request->price_type_id;
+            $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
+            $ManualPrice->homologous_id = $request->homologous_id;
+            $ManualPrice->save();
+            return response()->json([
+                'status' => true,
+                'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
+                'data' => ['manual_price' => $ManualPrice->toArray()]
+            ]);
+            // if ($request->manual_procedure_type_id == 3) {
+            //     $ManualPrice = new ManualPrice;
+            //     $ManualPrice->name = $request->name;
+            //     $ManualPrice->own_code = $request->own_code;
+            //     $ManualPrice->manual_id = $request->manual_id;
+            //     $ManualPrice->procedure_id = $request->procedure_id;
+            //     $ManualPrice->product_id = null;
+            //     $ManualPrice->value = $request->value;
+            //     $ManualPrice->price_type_id = $request->price_type_id;
+            //     $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
+            //     $ManualPrice->homologous_id = $request->homologous_id;
+            //     $ManualPrice->save();
+            //     return response()->json([
+            //         'status' => true,
+            //         'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
+            //         'data' => ['manual_price' => $ManualPrice->toArray()]
+            //     ]);
+            // } else {
 
-                $ManualPrice = new ManualPrice;
-                $ManualPrice->name = $request->name;
-                $ManualPrice->own_code = $request->own_code;
-                $ManualPrice->manual_id = $request->manual_id;
-                $ManualPrice->procedure_id = $request->procedure_id;
-                $ManualPrice->product_id = null;
-                $ManualPrice->value = $request->value;
-                $ManualPrice->price_type_id = $request->price_type_id;
-                $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
-                $ManualPrice->homologous_id = $request->homologous_id;
-                $ManualPrice->save();
+            //     $ManualPrice = new ManualPrice;
+            //     $ManualPrice->name = $request->name;
+            //     $ManualPrice->own_code = $request->own_code;
+            //     $ManualPrice->manual_id = $request->manual_id;
+            //     $ManualPrice->procedure_id = $request->procedure_id;
+            //     $ManualPrice->product_id = null;
+            //     $ManualPrice->value = $request->value;
+            //     $ManualPrice->price_type_id = $request->price_type_id;
+            //     $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
+            //     $ManualPrice->homologous_id = $request->homologous_id;
+            //     $ManualPrice->save();
 
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
-                    'data' => ['manual_price' => $ManualPrice->toArray()]
-                ]);
-            }
+            //     return response()->json([
+            //         'status' => true,
+            //         'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
+            //         'data' => ['manual_price' => $ManualPrice->toArray()]
+            //     ]);
+            // }
         } else {
             $ManualPrice = new ManualPrice;
             $ManualPrice->manual_id = $request->manual_id;

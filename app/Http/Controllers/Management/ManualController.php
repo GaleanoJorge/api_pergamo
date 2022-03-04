@@ -110,6 +110,59 @@ class ManualController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function clone(ManualRequest $request, int $id): JsonResponse
+    {
+        $Manual = new Manual;
+        $Manual->name = $request->name;
+        $Manual->year = $request->year;
+        $Manual->type_manual = $request->type_manual;
+        $Manual->status_id = $request->status_id;
+        $Manual->save();
+
+        $ManualPricePackageBase = ManualPrice::where('manual_id', $id)
+            ->get()->toArray();
+
+        foreach ($ManualPricePackageBase as $MPB) {
+            $newMP = new ManualPrice;
+            $newMP->name = $MPB['name'];
+            $newMP->own_code = $MPB['own_code'];
+            $newMP->manual_id = $Manual->id;
+            $newMP->procedure_id = $MPB['procedure_id'];
+            $newMP->product_id = null;
+            $newMP->value = $MPB['value'];
+            $newMP->price_type_id = $MPB['price_type_id'];
+            $newMP->manual_procedure_type_id = $MPB['manual_procedure_type_id'];
+            $newMP->homologous_id = $MPB['homologous_id'];
+            $newMP->save();
+
+            if($MPB['manual_procedure_type_id'] == 3) {
+                $ProcedurePackage = ProcedurePackage::where('procedure_package_id', $MPB['id'])
+                    ->get()->toArray();
+                foreach ($ProcedurePackage as $element) {
+                    $newPPG = new ProcedurePackage;
+                    $newPPG->value = $element['value'];
+                    $newPPG->procedure_package_id = $newMP->id;
+                    $newPPG->procedure_id = $element['procedure_id'];
+                    $newPPG->save();
+                }
+            }
+
+            
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Manual tarifario clonado exitosamente',
+            'data' => ['manual' => $Manual]
+        ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -118,10 +171,10 @@ class ManualController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $ManualPricesPackagesDelete = ManualPrice::where('manual_id', $id)->where('manual_procedure_type_id', 3)->get()->toArray();
+            $ManualPricesPackagesDelete = ManualPrice::where('manual_id', $id)
+                ->where('manual_procedure_type_id', 3)->get()->toArray();
             foreach ($ManualPricesPackagesDelete as $element) {
-                $iden = $element['id'];
-                $ProcedurePackageDelete = ProcedurePackage::where('procedure_package_id', $iden);
+                $ProcedurePackageDelete = ProcedurePackage::where('procedure_package_id', $element['id']);
                 $ProcedurePackageDelete->delete();
             }
             $ManualPricesDelete = ManualPrice::where('manual_id', $id);
