@@ -1,0 +1,14 @@
+[
+    {
+        "name": "UNIDADES",
+        "code": "und"
+    },
+    {
+        "name": "KILOGRAMOS",
+        "code": "Kg"
+    },
+    {
+        "name": "LITROS",
+        "code": "L"
+    }
+]
