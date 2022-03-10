@@ -1001,6 +1001,24 @@
     {
         "id": "159",
         "item_parent_id": "151",
+        "name": "Platos",
+        "code": "diet-dish",
+        "route": "/pages/setting/diet-dish",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "160",
+        "item_parent_id": "151",
+        "name": "Menús",
+        "code": "diet-menu",
+        "route": "/pages/setting/diet-menu",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "161",
+        "item_parent_id": "151",
         "name": "Entradas de insumos",
         "code": "diet-supplies-input",
         "route": "/pages/setting/diet-supplies-input",
@@ -1008,7 +1026,7 @@
         "show_menu": "1"
     },
     {
-        "id": "160",
+        "id": "162",
         "item_parent_id": "151",
         "name": "Salidas de insumos",
         "code": "diet-supplies-output",
@@ -1017,29 +1035,11 @@
         "show_menu": "1"
     },
     {
-        "id": "161",
+        "id": "163",
         "item_parent_id": "151",
         "name": "Inventario",
         "code": "diet-stock",
         "route": "/pages/setting/diet-stock",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "162",
-        "item_parent_id": "151",
-        "name": "Platos",
-        "code": "diet-dish",
-        "route": "/pages/setting/diet-dish",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "163",
-        "item_parent_id": "151",
-        "name": "Menús",
-        "code": "diet-menu",
-        "route": "/pages/setting/diet-menu",
         "icon": "",
         "show_menu": "1"
     },
