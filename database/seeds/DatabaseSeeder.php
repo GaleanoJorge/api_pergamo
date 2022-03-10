@@ -97,6 +97,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(DietWeekSeeder::class);
                 $this->call(MeasurementUnitsSeeder::class);
                 $this->call(DietSuppliesSeeder::class);
+                $this->call(DietDishSeeder::class);
+                $this->call(DietDishStockSeeder::class);
+                $this->call(DietMenuSeeder::class);
+                $this->call(DietMenuDishSeeder::class);
 
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
