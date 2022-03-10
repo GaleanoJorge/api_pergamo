@@ -803,9 +803,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('diet_stock', 'Management\DietStockController');
     Route::apiResource('diet_supplies', 'Management\DietSuppliesController');
     Route::apiResource('diet_supply_type', 'Management\DietSupplyTypeController');
-    Route::apiResource('diet_therapeutic', 'Management\DietTherapeuticController');
+    Route::apiResource('diet_supplies_output', 'Management\DietSuppliesOutputController');
     Route::apiResource('diet_week', 'Management\DietWeekController');
-    Route::apiResource('diet_therapeutic_component', 'Management\DietTherapeuticComponentController');
+    Route::apiResource('diet_supplies_output_menu', 'Management\DietSuppliesOutputMenuController');
     Route::apiResource('diet_order', 'Management\DietOrderController');
     Route::apiResource('diet_supplies_input', 'Management\DietSuppliesInputController');
 

@@ -9,6 +9,7 @@ class DietMenu extends BaseDietMenu
 	protected $fillable = [
 		'name',
 		'diet_consistency_id',
+		'diet_component_id',
 		'diet_menu_type_id',
 		'diet_week_id',
 		'diet_day_id',

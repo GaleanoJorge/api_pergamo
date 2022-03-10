@@ -19,7 +19,7 @@ class DietMenuController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietMenu = DietMenu::with('diet_consistency', 'diet_menu_type', 'diet_week', 'diet_day');
+        $DietMenu = DietMenu::with('diet_consistency', 'diet_component', 'diet_menu_type', 'diet_week', 'diet_day');
 
         if ($request->_sort) {
             $DietMenu->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,9 @@ class DietMenuController extends Controller
 
         if ($request->search) {
             $DietMenu->where('name', 'like', '%' . $request->search . '%');
+        }
+        if ($request->diet_component_id) {
+            $DietMenu->where('diet_component_id', $request->diet_component_id);
         }
         if ($request->diet_consistency_id) {
             $DietMenu->where('diet_consistency_id', $request->diet_consistency_id);
@@ -63,6 +66,7 @@ class DietMenuController extends Controller
         $DietMenu = new DietMenu;
         $DietMenu->name = $request->name;
         $DietMenu->diet_consistency_id = $request->diet_consistency_id;
+        $DietMenu->diet_component_id = $request->diet_component_id;
         $DietMenu->diet_menu_type_id = $request->diet_menu_type_id;
         $DietMenu->diet_week_id = $request->diet_week_id;
         $DietMenu->diet_day_id = $request->diet_day_id;
@@ -105,6 +109,7 @@ class DietMenuController extends Controller
         $DietMenu = DietMenu::find($id);
         $DietMenu->name = $request->name;
         $DietMenu->diet_consistency_id = $request->diet_consistency_id;
+        $DietMenu->diet_component_id = $request->diet_component_id;
         $DietMenu->diet_menu_type_id = $request->diet_menu_type_id;
         $DietMenu->diet_week_id = $request->diet_week_id;
         $DietMenu->diet_day_id = $request->diet_day_id;

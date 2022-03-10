@@ -26,6 +26,7 @@ class DietMenuRequest extends FormRequest
         return [
             'name' => 'required',
             'diet_consistency_id' => 'required',
+            'diet_component_id' => 'required',
             'diet_menu_type_id' => 'required',
             'diet_week_id' => 'required',
             'diet_day_id' => 'required',

@@ -956,15 +956,6 @@
     {
         "id": "154",
         "item_parent_id": "151",
-        "name": "Dieta terapéutica",
-        "code": "diet-therapeutic",
-        "route": "/pages/setting/diet-therapeutic",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "155",
-        "item_parent_id": "151",
         "name": "Días de dietas",
         "code": "diet-day",
         "route": "/pages/setting/diet-day",
@@ -972,7 +963,7 @@
         "show_menu": "1"
     },
     {
-        "id": "156",
+        "id": "155",
         "item_parent_id": "151",
         "name": "Semanas de dietas",
         "code": "diet-week",
@@ -981,7 +972,7 @@
         "show_menu": "1"
     },
     {
-        "id": "157",
+        "id": "156",
         "item_parent_id": "151",
         "name": "Tipos de menú",
         "code": "diet-menu-type",
@@ -990,7 +981,7 @@
         "show_menu": "1"
     },
     {
-        "id": "158",
+        "id": "157",
         "item_parent_id": "151",
         "name": "Tipos de insumos",
         "code": "diet-supply-type",
@@ -999,7 +990,7 @@
         "show_menu": "1"
     },
     {
-        "id": "159",
+        "id": "158",
         "item_parent_id": "151",
         "name": "Insumos",
         "code": "diet-supplies",
@@ -1008,7 +999,7 @@
         "show_menu": "1"
     },
     {
-        "id": "161",
+        "id": "159",
         "item_parent_id": "151",
         "name": "Entradas de insumos",
         "code": "diet-supplies-input",
@@ -1018,6 +1009,15 @@
     },
     {
         "id": "160",
+        "item_parent_id": "151",
+        "name": "Salidas de insumos",
+        "code": "diet-supplies-output",
+        "route": "/pages/setting/diet-supplies-output",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "161",
         "item_parent_id": "151",
         "name": "Inventario",
         "code": "diet-stock",

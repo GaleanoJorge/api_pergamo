@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\DietTherapeutic;
+use App\Models\DietSuppliesOutput;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\DietTherapeuticRequest;
+use App\Http\Requests\DietSuppliesOutputRequest;
 use Illuminate\Database\QueryException;
 
-class DietTherapeuticController extends Controller
+class DietSuppliesOutputController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,48 +19,44 @@ class DietTherapeuticController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietTherapeutic = DietTherapeutic::with('diet_consistency');
+        $DietSuppliesOutput = DietSuppliesOutput::select();
 
         if ($request->_sort) {
-            $DietTherapeutic->orderBy($request->_sort, $request->_order);
+            $DietSuppliesOutput->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $DietTherapeutic->where('name', 'like', '%' . $request->search . '%');
-        }
-        if ($request->diet_consistency_id) {
-            $DietTherapeutic->where('diet_consistency_id', $request->diet_consistency_id);
+            $DietSuppliesOutput->where('date', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $DietTherapeutic = $DietTherapeutic->get()->toArray();
+            $DietSuppliesOutput = $DietSuppliesOutput->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 30);
 
-            $DietTherapeutic = $DietTherapeutic->paginate($per_page, '*', 'page', $page);
+            $DietSuppliesOutput = $DietSuppliesOutput->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Dietas terapeuticas obtenidas exitosamente',
-            'data' => ['diet_therapeutic' => $DietTherapeutic]
+            'data' => ['diet_supplies_output' => $DietSuppliesOutput]
         ]);
     }
 
-    public function store(DietTherapeuticRequest $request): JsonResponse
+    public function store(DietSuppliesOutputRequest $request): JsonResponse
     {
-        $DietTherapeutic = new DietTherapeutic;
-        $DietTherapeutic->name = $request->name;
-        $DietTherapeutic->diet_consistency_id = $request->diet_consistency_id;
+        $DietSuppliesOutput = new DietSuppliesOutput;
+        // $DietSuppliesOutput->date = $request->date;
        
-        $DietTherapeutic->save();
+        $DietSuppliesOutput->save();
      
         return response()->json([
             'status' => true,
             'message' => 'Dietas terapeuticas creadas exitosamente',
-            'data' => ['diet_therapeutic' => $DietTherapeutic->toArray()]
+            'data' => ['diet_supplies_output' => $DietSuppliesOutput->toArray()]
         ]);
     }
 
@@ -72,13 +68,13 @@ class DietTherapeuticController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $DietTherapeutic = DietTherapeutic::where('id', $id)
+        $DietSuppliesOutput = DietSuppliesOutput::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Dietas terapeuticas obtenidas exitosamente',
-            'data' => ['diet_therapeutic' => $DietTherapeutic]
+            'data' => ['diet_supplies_output' => $DietSuppliesOutput]
         ]);
     }
 
@@ -88,18 +84,17 @@ class DietTherapeuticController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(DietTherapeuticRequest $request, int $id): JsonResponse
+    public function update(DietSuppliesOutputRequest $request, int $id): JsonResponse
     {
-        $DietTherapeutic = DietTherapeutic::find($id);
-        $DietTherapeutic->name = $request->name;
-        $DietTherapeutic->diet_consistency_id = $request->diet_consistency_id;
+        $DietSuppliesOutput = DietSuppliesOutput::find($id);
+        // $DietSuppliesOutput->date = $request->date;
 
-        $DietTherapeutic->save();
+        $DietSuppliesOutput->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Dietas terapeuticas actualizadas exitosamente',
-            'data' => ['diet_therapeutic' => $DietTherapeutic]
+            'data' => ['diet_supplies_output' => $DietSuppliesOutput]
         ]);
     }
 
@@ -112,8 +107,8 @@ class DietTherapeuticController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $DietTherapeutic = DietTherapeutic::find($id);
-            $DietTherapeutic->delete();
+            $DietSuppliesOutput = DietSuppliesOutput::find($id);
+            $DietSuppliesOutput->delete();
 
             return response()->json([
                 'status' => true,

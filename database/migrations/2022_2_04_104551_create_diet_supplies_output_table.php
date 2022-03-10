@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDietTherapeuticTable extends Migration
+class CreateDietSuppliesOutputTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,10 @@ class CreateDietTherapeuticTable extends Migration
      */
     public function up()
     {
-        Schema::create('diet_therapeutic', function (Blueprint $table) {
+        Schema::create('diet_supplies_output', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->unsignedBigInteger('diet_consistency_id');
+            $table->string('date');
             $table->timestamps();
-
-            $table->index('diet_consistency_id');
-
-            $table->foreign('diet_consistency_id')->references('id')
-                ->on('diet_consistency');
         });
     }
 
@@ -33,6 +27,6 @@ class CreateDietTherapeuticTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('diet_therapeutic');
+        Schema::dropIfExists('diet_supplies_output');
     }
 }
