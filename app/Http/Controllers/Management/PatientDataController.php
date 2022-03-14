@@ -114,8 +114,10 @@ class PatientDataController extends Controller
             $PatientData->email = $request->email;
             $PatientData->residence_address = $request->residence_address;
             $PatientData->identification_type_id = $request->identification_type_id;
-            $PatientData->affiliate_type_id = $request->affiliate_type_id;
-            $PatientData->special_attention_id = $request->special_attention_id;
+            // $PatientData->affiliate_type_id = $request->affiliate_type_id;
+            // $PatientData->special_attention_id = $request->special_attention_id;
+            $PatientData->relationship_id = $request->relationship_id;
+            
     
             $PatientData->save();
     
@@ -200,8 +202,9 @@ class PatientDataController extends Controller
         $PatientData->email = $request->email;
         $PatientData->residence_address = $request->residence_address;
         $PatientData->identification_type_id = $request->identification_type_id;
-        $PatientData->affiliate_type_id = $request->affiliate_type_id;
-        $PatientData->special_attention_id = $request->special_attention_id;
+        // $PatientData->affiliate_type_id = $request->affiliate_type_id;
+        // $PatientData->special_attention_id = $request->special_attention_id;
+        $PatientData->relationship_id = $request->relationship_id;
 
         $PatientData->save();
 

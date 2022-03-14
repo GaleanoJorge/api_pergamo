@@ -952,5 +952,15 @@
         "route": null,
         "icon": "arrow-right-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "165",
+        "item_parent_id": null,
+        "name": "Plan de atención complementaria",
+        "code": "PAD-Complementary",
+        "route": "/pages/pad-complementary/list",
+        "icon": "bulb-outline",
+        "show_menu": "1"
     }
+
 ]

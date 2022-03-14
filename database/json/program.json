@@ -114,4 +114,11 @@
         "name": "Salud Total Pac",
         "scope_of_attention_id":4
     }
+    ,
+    {
+        "id":22,
+        "name": "Plan atención complementario",
+        "scope_of_attention_id":4
+    }
+
 ]  

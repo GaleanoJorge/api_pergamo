@@ -56,7 +56,7 @@ class CreateUserTable extends Migration
             $table->unsignedBigInteger('inability_id')->nullable();
             $table->unsignedBigInteger('population_group_id')->nullable();
             $table->string('file')->nullable();
-            $table->tinyInteger('age')->nullable();
+            $table->string('age')->nullable();
 
             $table->rememberToken();
             $table->timestamps();
