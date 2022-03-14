@@ -54,26 +54,44 @@ class BriefcaseController extends Controller
      */
     public function getByContract(Request $request, int $contractId): JsonResponse
     {
-        $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
-        if ($request->search) {
-            $Briefcase->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
-        }
-        if ($request->query("pagination", true) === "false") {
-            $Briefcase = $Briefcase->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $Briefcase = $Briefcase->paginate($per_page, '*', 'page', $page);
-        }
+        $Briefcase = Briefcase::where('contract_id', $contractId)
+            ->orderBy('name','asc')->get()->toArray();
 
         return response()->json([
             'status' => true,
-            'message' => 'Portafolio por contrato obtenido exitosamente',
+            'message' => 'Portafolios por contrato obtenido exitosamente',
             'data' => ['briefcase' => $Briefcase]
         ]);
     }
+
+    //  /**
+    //  * Get procedure by manual.
+    //  *
+    //  * @param  int  $contractId
+    //  * @return JsonResponse
+    //  */
+    // public function getByContract(Request $request, int $contractId): JsonResponse
+    // {
+    //     $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
+    //     if ($request->search) {
+    //         $Briefcase->where('name', 'like', '%' . $request->search . '%')
+    //         ->Orwhere('id', 'like', '%' . $request->search . '%');
+    //     }
+    //     if ($request->query("pagination", true) === "false") {
+    //         $Briefcase = $Briefcase->get()->toArray();
+    //     } else {
+    //         $page = $request->query("current_page", 1);
+    //         $per_page = $request->query("per_page", 10);
+
+    //         $Briefcase = $Briefcase->paginate($per_page, '*', 'page', $page);
+    //     }
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Portafolio por contrato obtenido exitosamente',
+    //         'data' => ['briefcase' => $Briefcase]
+    //     ]);
+    // }
 
 
     public function store(BriefcaseRequest $request): JsonResponse

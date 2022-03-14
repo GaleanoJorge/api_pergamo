@@ -79,6 +79,90 @@ class AdmissionsController extends Controller
     }
 
     /**
+     * @param  int  $pacientId
+     * Get procedure by briefcase.
+     *
+     * @return JsonResponse
+     */
+    public function ByPac(Request $request, int $roleId): JsonResponse
+    {
+        $Admissions = Admissions::Leftjoin('users', 'admissions.user_id', 'users.id')
+            ->select(
+                'admissions.*',
+                'users.identification_type_id',
+                'users.identification',
+                'users.email',
+                \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            )
+            ->LeftJoin('location', 'location.admissions_id', 'admissions.id')
+            // ->Join('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
+            // ->Join('reason_consultation', 'reason_consultation.admissions_id', 'admissions.id')
+
+            ->where('admissions.discharge_date', '!=', "0000-00-00 00:00:00")
+            ->where('location.program_id', 22)
+            ->with(
+                'status',
+                'gender',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'campus',
+                'contract',
+                'pac_monitoring',
+                'reason_consultation',
+                'location',
+                'location.admission_route',
+                'location.scope_of_attention',
+                'location.program',
+                'location.flat',
+                'location.pavilion',
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+
+
+        // if ($request->search) {
+        //     $Admissions->where('nombre_completo', 'like', '%' . $request->search . '%')
+        //         ->Orwhere('id', 'like', '%' . $request->search . '%');
+        // }
+        // if ($request->query("pagination", true) === "false") {
+        //     $Admissions = $Admissions->get()->toArray();
+        // } else {
+        //     $page = $request->query("current_page", 1);
+        //     $per_page = $request->query("per_page", 10);
+
+        //     $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
+        // }
+
+        if ($request->_sort) {
+            $Admissions->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $Admissions->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $Admissions = $Admissions->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Admisiones por paciente obtenidos exitosamente',
+            'data' => ['admissions' => $Admissions]
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param AdmissionsRequest $request
@@ -92,6 +176,7 @@ class AdmissionsController extends Controller
         $Admissions->diagnosis_id = $request->diagnosis_id;;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->contract_id = $request->contract_id;
+        $Admissions->briefcase_id = $request->contract_id;
         $Admissions->user_id = $request->user_id;
         $Admissions->entry_date = Carbon::now();
         $Admissions->save();
@@ -164,6 +249,7 @@ class AdmissionsController extends Controller
             $Admissions = Admissions::find($id);
             $Admissions->campus_id = $request->campus_id;
             $Admissions->contract_id = $request->contract_id;
+            $Admissions->briefcase = $request->contract_id;
             $Admissions->user_id = $request->user_id;
             $Admissions->save();
         }

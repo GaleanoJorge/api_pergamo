@@ -26,8 +26,8 @@ class CreatePatientDataTable extends Migration
             $table->bigInteger('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('residence_address');
-            $table->unsignedBigInteger('affiliate_type_id');
-            $table->unsignedBigInteger('special_attention_id');
+            $table->unsignedBigInteger('affiliate_type_id')->nullable();
+            $table->unsignedBigInteger('special_attention_id')->nullable();
             $table->unsignedBigInteger('relationship_id');
             $table->timestamps();
 

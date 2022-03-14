@@ -580,6 +580,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
+    Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
+    
 
     //Tipo de contrato del empleado
     Route::apiResource('contract_type', 'Management\ContractTypeController');
@@ -909,4 +911,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('oldsga-reports/exportExcelEncuestasActividad', 'OldSGA\ReportsController@exportExcelEncuestasActividad');
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
+
+    ////AnswerType
+    Route::apiResource('PacMonitoring', 'Management\PacMonitoringController');
 });

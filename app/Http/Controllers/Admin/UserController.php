@@ -141,6 +141,74 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+    public function ProfesionalsByCampus(Request $request, int $roleId): JsonResponse
+    {
+
+        $users = User::select(
+            'users.*',
+            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        )->Join('user_role', 'users.id', 'user_role.user_id')
+            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+
+            ->where('user_role.role_id', $roleId)
+            ->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'user_role',
+                'user_role.role',
+                'admissions',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+
+
+
+        if ($request->_sort) {
+            $users->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $users->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $users = $users->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $users = $users->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['users' => $users]
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function indexPacientByPAD(Request $request, int $roleId): JsonResponse
     {
 
@@ -213,11 +281,87 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+    public function indexPacientByPAC(Request $request, int $roleId): JsonResponse
+    {
+
+        $users = User::select(
+            'users.*',
+            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        )->Join('user_role', 'users.id', 'user_role.user_id')
+            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            ->Join('location', 'location.admissions_id', 'admissions.id')
+            ->leftjoin('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
+            ->leftjoin('reason_consultation', 'reason_consultation.admissions_id', 'admissions.id')
+
+            ->where('location.program_id', 22)
+            ->where('admissions.discharge_date','=', "0000-00-00 00:00:00")
+            ->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'user_role',
+                'user_role.role',
+                'admissions',
+                'admissions.pac_monitoring',
+                'admissions.reason_consultation',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+
+
+
+        if ($request->_sort) {
+            $users->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $users->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $users = $users->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $users = $users->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pacientes de plan complementario obtenidos exitosamente',
+            'data' => ['users' => $users]
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function indexByPacient(Request $request): JsonResponse
     {
 
         $users = DB::select('SELECT users.*, b.fecha FROM users JOIN user_role ON users.id = user_role.user_id LEFT JOIN (SELECT admissions.discharge_date AS fecha, admissions.id AS id FROM admissions ORDER BY admissions.id) b ON users.id = b.id WHERE user_role.role_id =2');
-        //$users = collect($users);
+        $users = collect($users);
         //$users = (object) $users;
 
         if ($request->_sort) {

@@ -40,5 +40,17 @@
         "name": "Medico especialista",
         "status_id": 1,
         "sga_origin_fk": 5
+    },
+    {
+        "id": 8,
+        "name": "Gestor mipress",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 9,
+        "name": "Gestor PAD Complementario",
+        "status_id": 1,
+        "sga_origin_fk": 5
     }
 ]
