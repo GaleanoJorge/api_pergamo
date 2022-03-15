@@ -141,7 +141,7 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexPacientByPAD(Request $request, int $roleId): JsonResponse
+    public function indexPacientByAdmission(Request $request, int $roleId): JsonResponse
     {
 
         $users = User::select(
@@ -152,7 +152,6 @@ class UserController extends Controller
             ->Join('location', 'location.admissions_id', 'admissions.id')
 
             ->where('user_role.role_id', $roleId)
-            ->where('location.admission_route_id', 2)
             ->with(
                 'status',
                 'gender',
@@ -178,6 +177,12 @@ class UserController extends Controller
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
+        }
+
+        if($request->admission_route_id){
+            $users->where('location.admission_route_id', $request->admission_route_id);
+        } else {
+            $users->where('location.admission_route_id', 2);
         }
 
         if ($request->search) {
