@@ -909,4 +909,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('oldsga-reports/exportExcelEncuestasActividad', 'OldSGA\ReportsController@exportExcelEncuestasActividad');
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
+
+
+    // Nomina OPS (TERCEROS ASISTENCIALES)
+
+    Route::apiResource('account_receivable', 'Management\AccountReceivableController');
+    Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
+    Route::apiResource('user_activity', 'Management\UserActivityController');
+    Route::apiResource('status_bill', 'Management\StatusBillController');
+
 });
