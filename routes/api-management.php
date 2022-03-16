@@ -808,6 +808,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('diet_supplies_output_menu', 'Management\DietSuppliesOutputMenuController');
     Route::apiResource('diet_order', 'Management\DietOrderController');
     Route::apiResource('diet_supplies_input', 'Management\DietSuppliesInputController');
+    Route::apiResource('diet_admission', 'Management\DietAdmissionController');
+    Route::apiResource('diet_admission_component', 'Management\DietAdmissionComponentController');
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');

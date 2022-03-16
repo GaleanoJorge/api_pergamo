@@ -1044,6 +1044,15 @@
         "show_menu": "1"
     },
     {
+        "id": "166",
+        "item_parent_id": "151",
+        "name": "Dietas admisiones",
+        "code": "diet-admission",
+        "route": "/pages/setting/diet-admission",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
         "id": "164",
         "item_parent_id": null,
         "name": "Dietas",
