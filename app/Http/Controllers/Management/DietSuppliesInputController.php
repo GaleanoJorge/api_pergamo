@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DietSuppliesInputRequest;
+use App\Models\DietStock;
 use Illuminate\Database\QueryException;
 
 class DietSuppliesInputController extends Controller
@@ -20,7 +21,7 @@ class DietSuppliesInputController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietSuppliesInput = DietSuppliesInput::with('diet_supplies','diet_supplies.measurement_units' ,'company', 'campus');
+        $DietSuppliesInput = DietSuppliesInput::with('diet_supplies', 'diet_supplies.measurement_units', 'company', 'campus');
 
         if ($request->_sort) {
             $DietSuppliesInput->orderBy($request->_sort, $request->_order);
@@ -68,6 +69,13 @@ class DietSuppliesInputController extends Controller
         $DietSuppliesInput->invoice_number = $request->invoice_number;
 
         $DietSuppliesInput->save();
+        
+        $DietStock = DietStock::where('diet_supplies_id', $request->diet_supplies_id)->first();
+        $cantidadBase = $DietStock->amount;
+        $cantidadAdicional = $request->amount;
+        $cantidadTotal = $cantidadBase + $cantidadAdicional;
+        $DietStock->amount = $cantidadTotal;
+        $DietStock->save();
 
         return response()->json([
             'status' => true,

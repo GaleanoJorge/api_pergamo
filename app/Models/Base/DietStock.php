@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property double $amount
  * @property BigInteger $diet_supplies_id
- * @property BigInteger $company_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -32,9 +31,5 @@ class DietStock extends Model
 	public function diet_supplies()
 	{
 		return $this->belongsTo(DietSupplies::class);
-	}
-	public function company()
-	{
-		return $this->belongsTo(Company::class);
 	}
 }

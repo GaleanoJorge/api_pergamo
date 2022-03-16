@@ -26,7 +26,6 @@ class DietStockRequest extends FormRequest
         return [
             'amount' => 'required',
             'diet_supplies_id' => 'required',
-            'company_id' => 'required',
         ];
     }
 }

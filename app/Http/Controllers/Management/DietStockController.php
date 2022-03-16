@@ -19,7 +19,7 @@ class DietStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietStock = DietStock::with('diet_supplies', 'company');
+        $DietStock = DietStock::with('diet_supplies');
 
         if ($request->_sort) {
             $DietStock->orderBy($request->_sort, $request->_order);
@@ -27,9 +27,6 @@ class DietStockController extends Controller
 
         if ($request->search) {
             $DietStock->where('amount', 'like', '%' . $request->search . '%');
-        }
-        if ($request->company_id) {
-            $DietStock->where('company_id', $request->company_id);
         }
         if ($request->diet_supplies_id) {
             $DietStock->where('diet_supplies_id', $request->diet_supplies_id);
@@ -56,7 +53,6 @@ class DietStockController extends Controller
     {
         $DietStock = new DietStock;
         $DietStock->amount = $request->amount;
-        $DietStock->company_id = $request->company_id;
         $DietStock->diet_supplies_id = $request->diet_supplies_id;
 
         $DietStock->save();
@@ -96,7 +92,6 @@ class DietStockController extends Controller
     {
         $DietStock = DietStock::find($id);
         $DietStock->amount = $request->amount;
-        $DietStock->company_id = $request->company_id;
         $DietStock->diet_supplies_id = $request->diet_supplies_id;
 
         $DietStock->save();

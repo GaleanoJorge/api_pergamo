@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\DietSupplies;
+use App\Models\DietStock;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -60,6 +61,11 @@ class DietSuppliesController extends Controller
         $DietSupplies->measurement_units_id = $request->measurement_units_id;
        
         $DietSupplies->save();
+
+        $DietStock = new DietStock;
+        $DietStock->diet_supplies_id = $DietSupplies->id;
+        $DietStock->amount = 0;
+        $DietStock->save();
      
         return response()->json([
             'status' => true,
@@ -117,6 +123,9 @@ class DietSuppliesController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            // $DietStock = DietStock::where('diet_supplies_id', $id);
+            // $DietStock->delete();
+
             $DietSupplies = DietSupplies::find($id);
             $DietSupplies->delete();
 
