@@ -8,8 +8,6 @@ use App\Models\Base\ChVitalSigns as BaseChVitalSigns;
 class ChVitalSigns extends BaseChVitalSigns
 {
   protected $fillable = [
-    'name',
-    'status',
     'cardiac_frequency',
     'respiratory_frequency',
     'temperature',
@@ -42,6 +40,8 @@ class ChVitalSigns extends BaseChVitalSigns
     'vital_hydration_id',
     'vital_ventilated_id',
     'vital_temperature_id',
-    'vital_neurological_id'
+    'vital_neurological_id',
+    'type_record_id',
+    'ch_record_id'
   ];
 }
