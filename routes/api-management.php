@@ -807,6 +807,26 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('diet_order', 'Management\DietOrderController');
     Route::apiResource('diet_supplies_input', 'Management\DietSuppliesInputController');
 
+    //historia clinica    
+    Route::apiResource('ch_diagnosis', 'Management\ChDiagnosisController');
+    Route::apiResource('ch_diagnosis_class', 'Management\ChDiagnosisClassController');
+    Route::apiResource('ch_diagnosis_type', 'Management\ChDiagnosisTypeController');
+    Route::apiResource('ch_external_cause', 'Management\ChExternalCauseController');
+    Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
+    Route::apiResource('ch_reason_consultation', 'Management\ChReasonConsultationController');
+    Route::apiResource('ch_record', 'Management\ChRecordController');
+    Route::apiResource('ch_review_system', 'Management\ChReviewSystemController');
+    Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
+    Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
+    Route::apiResource('type_record', 'Management\ChTypeRecordController');
+    Route::apiResource('ch_vital_hydration', 'Management\VitalHydrationController');
+    Route::apiResource('ch_vital_neurological', 'Management\VitalNeurologicalController');
+    Route::apiResource('ch_vital_signs', 'Management\ChVitalSignsController');
+    Route::apiResource('ch_vital_temperature', 'Management\VitalTemperatureController');
+    Route::apiResource('ch_vital_ventilated', 'Management\VitalVentilatedController');
+    Route::get('ch_record/byadmission/{id}', 'Management\ChRecordController@byadmission');
+    Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
+
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
     Route::put('answer/{id}/move/{direction}', 'Management\AnswerController@move');

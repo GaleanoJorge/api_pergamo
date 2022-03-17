@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(CompanyKindpersonSeeder::class);
                 $this->call(CompanyTypeSeeder::class);
                 $this->call(PriceTypeSeeder::class);
-                $this->call(RipsTypefileSeeder::class); 
+                $this->call(RipsTypefileSeeder::class);
                 $this->call(CompanyCategorySeeder::class);
                 $this->call(RipsTypeSeeder::class);
                 $this->call(ProcedureCategorySeeder::class);
@@ -51,11 +51,11 @@ class DatabaseSeeder extends Seeder
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
 
-                
+
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
 
-                
+
                 // $this->call(EducationalInstitutionSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
@@ -88,7 +88,15 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeOfAttentionSeeder::class);
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
-                $this->call(ResidenceSeeder::class);
+
+
+                $this->call(ChDiagnosisClassSeeder::class);
+                $this->call(ChDiagnosisTypeSeeder::class);
+                $this->call(ChExternalCauseSeeder::class);
+                $this->call(ChVitalHydrationSeeder::class);
+                $this->call(ChVitalNeurologicalSeeder::class);
+                $this->call(ChVitalTemperatureSeeder::class);
+                $this->call(ChVitalVentilatedSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
@@ -111,6 +119,6 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(UserRoleGroupSeeder::class);             
                 //MIGRATION-$this->call(AssistanceSessionSeeder::class);
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
-        
+
         }
 }
