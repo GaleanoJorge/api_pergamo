@@ -92,6 +92,8 @@ class AdmissionsController extends Controller
                 'users.identification_type_id',
                 'users.identification',
                 'users.email',
+                'users.residence_address',
+                'users.residence_municipality_id',
                 \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
             )
             ->LeftJoin('location', 'location.admissions_id', 'admissions.id')

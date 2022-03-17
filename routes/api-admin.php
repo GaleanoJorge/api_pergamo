@@ -190,6 +190,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //User
     Route::apiResource('user', 'Admin\UserController');
     Route::get('user/byRole/{roleId}', 'Admin\UserController@indexByRole');
+    Route::get('users/Profesionals', 'Admin\UserController@ProfesionalsByCampus');
     Route::get('user/byPAD/{roleId}', 'Admin\UserController@indexPacientByPAD');
     Route::get('user/byPAC/{roleId}', 'Admin\UserController@indexPacientByPAC');
     Route::get('userByPacient', 'Admin\UserController@indexByPacient');

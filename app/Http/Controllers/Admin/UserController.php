@@ -135,13 +135,14 @@ class UserController extends Controller
         ]);
     }
 
+    
     /**
      * Display a listing of the resource
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function ProfesionalsByCampus(Request $request, int $roleId): JsonResponse
+    public function ProfesionalsByCampus(Request $request): JsonResponse
     {
 
         $users = User::select(
@@ -150,7 +151,8 @@ class UserController extends Controller
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
-            ->where('user_role.role_id', $roleId)
+            ->orwhere('user_role.role_id', 3)
+            ->orwhere('user_role.role_id', 7)
             ->with(
                 'status',
                 'gender',
