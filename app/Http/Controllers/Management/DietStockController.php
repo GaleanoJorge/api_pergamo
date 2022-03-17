@@ -19,7 +19,7 @@ class DietStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietStock = DietStock::with('diet_supplies');
+        $DietStock = DietStock::with('diet_supplies', 'diet_supplies.measurement_units');
 
         if ($request->_sort) {
             $DietStock->orderBy($request->_sort, $request->_order);
