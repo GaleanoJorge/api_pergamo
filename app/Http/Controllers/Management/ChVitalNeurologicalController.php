@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\VitalNeurological;
+use App\Models\ChVitalNeurological;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BedRequest;
 use Illuminate\Database\QueryException;
 
-class VitalNeurologicalController extends Controller
+class ChVitalNeurologicalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,44 +18,44 @@ class VitalNeurologicalController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $VitalNeurological = VitalNeurological::select();
+        $ChVitalNeurological = ChVitalNeurological::select();
 
         if ($request->_sort) {
-            $VitalNeurological->orderBy($request->_sort, $request->_order);
+            $ChVitalNeurological->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $VitalNeurological->where('name', 'like', '%' . $request->search . '%');
+            $ChVitalNeurological->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $VitalNeurological = $VitalNeurological->get()->toArray();
+            $ChVitalNeurological = $ChVitalNeurological->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $VitalNeurological = $VitalNeurological->paginate($per_page, '*', 'page', $page);
+            $ChVitalNeurological = $ChVitalNeurological->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Neurológico obtenidos exitosamente',
-            'data' => ['ch_vital_neurological' => $VitalNeurological]
+            'data' => ['ch_vital_neurological' => $ChVitalNeurological]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $VitalNeurological = new VitalNeurological;
-        $VitalNeurological->name = $request->name;
-        $VitalNeurological->save();
+        $ChVitalNeurological = new ChVitalNeurological;
+        $ChVitalNeurological->name = $request->name;
+        $ChVitalNeurological->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Neurológico asociado al paciente exitosamente',
-            'data' => ['ch_vital_neurological' => $VitalNeurological->toArray()]
+            'data' => ['ch_vital_neurological' => $ChVitalNeurological->toArray()]
         ]);
     }
 
@@ -67,13 +67,13 @@ class VitalNeurologicalController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $VitalNeurological = VitalNeurological::where('id', $id)
+        $ChVitalNeurological = ChVitalNeurological::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Neurológico obtenido exitosamente',
-            'data' => ['ch_vital_neurological' => $VitalNeurological]
+            'data' => ['ch_vital_neurological' => $ChVitalNeurological]
         ]);
     }
 
@@ -85,14 +85,14 @@ class VitalNeurologicalController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $VitalNeurological = VitalNeurological::find($id);
-        $VitalNeurological->name = $request->name;
-        $VitalNeurological->save();
+        $ChVitalNeurological = ChVitalNeurological::find($id);
+        $ChVitalNeurological->name = $request->name;
+        $ChVitalNeurological->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Neurológico actualizado exitosamente',
-            'data' => ['ch_vital_neurological' => $VitalNeurological]
+            'data' => ['ch_vital_neurological' => $ChVitalNeurological]
         ]);
     }
 
@@ -105,8 +105,8 @@ class VitalNeurologicalController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $VitalNeurological = VitalNeurological::find($id);
-            $VitalNeurological->delete();
+            $ChVitalNeurological = ChVitalNeurological::find($id);
+            $ChVitalNeurological->delete();
 
             return response()->json([
                 'status' => true,

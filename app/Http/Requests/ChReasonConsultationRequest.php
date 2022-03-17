@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChEntryViewSystemRequest extends FormRequest
+class ChReasonConsultationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class ChEntryViewSystemRequest extends FormRequest
     public function rules()
     {
         return [
-            'condition' => 'required',
-            'name_title' => 'required',
-            'not_rated' => 'required',
-            'normal' => 'required',
-            'observation' => 'required'
+            'reason_consultation' => '',
+            'current_illness' => '',
+            'ch_external_cause_id' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '', 
         ];
     }
 }

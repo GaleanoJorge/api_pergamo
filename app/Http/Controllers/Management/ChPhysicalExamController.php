@@ -49,7 +49,11 @@ class ChPhysicalExamController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChPhysicalExam = new ChPhysicalExam; 
-        $ChPhysicalExam->name = $request->name; 
+        $ChPhysicalExam->revision = $request->revision; 
+        $ChPhysicalExam->observation = $request->observation; 
+        $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id; 
+        $ChPhysicalExam->type_record_id = $request->type_record_id; 
+        $ChPhysicalExam->ch_record_id = $request->ch_record_id; 
         $ChPhysicalExam->save();
 
         return response()->json([
@@ -86,10 +90,11 @@ class ChPhysicalExamController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChPhysicalExam = ChPhysicalExam::find($id);  
-        $ChPhysicalExam->name = $request->name; 
-          
-        
-        
+        $ChPhysicalExam->revision = $request->revision; 
+        $ChPhysicalExam->observation = $request->observation; 
+        $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id; 
+        $ChPhysicalExam->type_record_id = $request->type_record_id; 
+        $ChPhysicalExam->ch_record_id = $request->ch_record_id; 
         $ChPhysicalExam->save();
 
         return response()->json([

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\VitalTemperature;
+use App\Models\ChVitalTemperature;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BedRequest;
 use Illuminate\Database\QueryException;
 
-class VitalTemperatureController extends Controller
+class ChVitalTemperatureController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,46 +18,46 @@ class VitalTemperatureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $VitalTemperature = VitalTemperature::select();
+        $ChVitalTemperature = ChVitalTemperature::select();
 
         if ($request->_sort) {
-            $VitalTemperature->orderBy($request->_sort, $request->_order);
+            $ChVitalTemperature->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $VitalTemperature->where('name', 'like', '%' . $request->search . '%');
+            $ChVitalTemperature->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $VitalTemperature = $VitalTemperature->get()->toArray();
+            $ChVitalTemperature = $ChVitalTemperature->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $VitalTemperature = $VitalTemperature->paginate($per_page, '*', 'page', $page);
+            $ChVitalTemperature = $ChVitalTemperature->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Diagnósticos obtenidos exitosamente',
-            'data' => ['ch_vital_temperature' => $VitalTemperature]
+            'data' => ['ch_vital_temperature' => $ChVitalTemperature]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $VitalTemperature = new VitalTemperature;
-        $VitalTemperature->name = $request->name;
+        $ChVitalTemperature = new ChVitalTemperature;
+        $ChVitalTemperature->name = $request->name;
 
 
-        $VitalTemperature->save();
+        $ChVitalTemperature->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico asociado al paciente exitosamente',
-            'data' => ['ch_vital_temperature' => $VitalTemperature->toArray()]
+            'data' => ['ch_vital_temperature' => $ChVitalTemperature->toArray()]
         ]);
     }
 
@@ -69,13 +69,13 @@ class VitalTemperatureController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $VitalTemperature = VitalTemperature::where('id', $id)
+        $ChVitalTemperature = ChVitalTemperature::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico obtenido exitosamente',
-            'data' => ['ch_vital_temperature' => $VitalTemperature]
+            'data' => ['ch_vital_temperature' => $ChVitalTemperature]
         ]);
     }
 
@@ -87,17 +87,17 @@ class VitalTemperatureController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $VitalTemperature = VitalTemperature::find($id);
-        $VitalTemperature->name = $request->name;
+        $ChVitalTemperature = ChVitalTemperature::find($id);
+        $ChVitalTemperature->name = $request->name;
 
 
 
-        $VitalTemperature->save();
+        $ChVitalTemperature->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico actualizado exitosamente',
-            'data' => ['ch_vital_temperature' => $VitalTemperature]
+            'data' => ['ch_vital_temperature' => $ChVitalTemperature]
         ]);
     }
 
@@ -110,8 +110,8 @@ class VitalTemperatureController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $VitalTemperature = VitalTemperature::find($id);
-            $VitalTemperature->delete();
+            $ChVitalTemperature = ChVitalTemperature::find($id);
+            $ChVitalTemperature->delete();
 
             return response()->json([
                 'status' => true,

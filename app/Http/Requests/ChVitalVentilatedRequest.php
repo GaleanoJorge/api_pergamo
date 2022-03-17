@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChVitalTemperatureRequest extends FormRequest
+class ChVitalVentilatedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ChVitalTemperatureRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => ''
         ];
     }
 }

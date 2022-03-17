@@ -24,11 +24,12 @@ class ChDiagnosisRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' => 'required',
-            'ch_diagnosis_type_id' => 'required',
-            'ch_diagnosis_class_id' => 'required',
-            'diagnosis_id' => 'required',
-            'diagnosis_observation' => 'required',
+            'ch_diagnosis_type_id' => '',
+            'ch_diagnosis_class_id' => '',
+            'diagnosis_id' => '',
+            'diagnosis_observation' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '',
         ];
     }
 }

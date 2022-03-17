@@ -13,14 +13,12 @@ use App\Models\VitalNeurological;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ChVitalSigns 
  * @property int $id
- * @property string $status 
  * @property integer $cardiac_frequency
  * @property integer $respiratory_frequency
  * @property integer $temperature

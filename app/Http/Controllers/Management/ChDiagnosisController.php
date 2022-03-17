@@ -48,7 +48,12 @@ class ChDiagnosisController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChDiagnosis = new ChDiagnosis;
-        $ChDiagnosis->name = $request->name;
+        $ChDiagnosis->ch_diagnosis_type_id = $request->ch_diagnosis_type_id;
+        $ChDiagnosis->ch_diagnosis_class_id = $request->ch_diagnosis_class_id;
+        $ChDiagnosis->diagnosis_id = $request->diagnosis_id;
+        $ChDiagnosis->diagnosis_observation = $request->diagnosis_observation;
+        $ChDiagnosis->type_record_id = $request->type_record_id;
+        $ChDiagnosis->ch_record_id = $request->ch_record_id;
 
 
         $ChDiagnosis->save();
@@ -87,10 +92,12 @@ class ChDiagnosisController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChDiagnosis = ChDiagnosis::find($id);
-        $ChDiagnosis->name = $request->name;
-
-
-
+        $ChDiagnosis->ch_diagnosis_type_id = $request->ch_diagnosis_type_id;
+        $ChDiagnosis->ch_diagnosis_class_id = $request->ch_diagnosis_class_id;
+        $ChDiagnosis->diagnosis_id = $request->diagnosis_id;
+        $ChDiagnosis->diagnosis_observation = $request->diagnosis_observation;
+        $ChDiagnosis->type_record_id = $request->type_record_id;
+        $ChDiagnosis->ch_record_id = $request->ch_record_id;
         $ChDiagnosis->save();
 
         return response()->json([

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\VitalHydration;
+use App\Models\ChVitalHydration;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Base\ChChVitalHydration;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
-class VitalHydrationController extends Controller
+class ChVitalHydrationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,43 +18,43 @@ class VitalHydrationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $VitalHydration = VitalHydration::select();
+        $ChVitalHydration = ChVitalHydration::select();
 
         if ($request->_sort) {
-            $VitalHydration->orderBy($request->_sort, $request->_order);
+            $ChVitalHydration->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $VitalHydration->where('name', 'like', '%' . $request->search . '%');
+            $ChVitalHydration->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $VitalHydration = $VitalHydration->get()->toArray();
+            $ChVitalHydration = $ChVitalHydration->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $VitalHydration = $VitalHydration->paginate($per_page, '*', 'page', $page);
+            $ChVitalHydration = $ChVitalHydration->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Estado hidratación obtenidos exitosamente',
-            'data' => ['ch_vital_hydration' => $VitalHydration]
+            'data' => ['ch_vital_hydration' => $ChVitalHydration]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $VitalHydration = new VitalHydration;
-        $VitalHydration->name = $request->name;
-        $VitalHydration->save();
+        $ChVitalHydration = new ChVitalHydration;
+        $ChVitalHydration->name = $request->name;
+        $ChVitalHydration->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Estado hidratación asociado al paciente exitosamente',
-            'data' => ['ch_vital_hydration' => $VitalHydration->toArray()]
+            'data' => ['ch_vital_hydration' => $ChVitalHydration->toArray()]
         ]);
     }
 
@@ -65,13 +66,13 @@ class VitalHydrationController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $VitalHydration = VitalHydration::where('id', $id)
+        $ChVitalHydration = ChVitalHydration::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Estado hidratación obtenido exitosamente',
-            'data' => ['ch_vital_hydration' => $VitalHydration]
+            'data' => ['ch_vital_hydration' => $ChVitalHydration]
         ]);
     }
 
@@ -83,14 +84,14 @@ class VitalHydrationController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $VitalHydration = VitalHydration::find($id);
-        $VitalHydration->name = $request->name;
-        $VitalHydration->save();
+        $ChVitalHydration = ChVitalHydration::find($id);
+        $ChVitalHydration->name = $request->name;
+        $ChVitalHydration->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Estado hidratación actualizado exitosamente',
-            'data' => ['ch_vital_hydration' => $VitalHydration]
+            'data' => ['ch_vital_hydration' => $ChVitalHydration]
         ]);
     }
 
@@ -103,8 +104,8 @@ class VitalHydrationController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $VitalHydration = VitalHydration::find($id);
-            $VitalHydration->delete();
+            $ChVitalHydration = ChVitalHydration::find($id);
+            $ChVitalHydration->delete();
 
             return response()->json([
                 'status' => true,

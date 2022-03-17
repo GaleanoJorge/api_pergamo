@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\VitalVentilated;
+use App\Models\ChVitalVentilated;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BedRequest;
 use Illuminate\Database\QueryException;
 
-class VitalVentilatedController extends Controller
+class ChVitalVentilatedController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,44 +18,44 @@ class VitalVentilatedController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $VitalVentilated = VitalVentilated::select();
+        $ChVitalVentilated = ChVitalVentilated::select();
 
         if ($request->_sort) {
-            $VitalVentilated->orderBy($request->_sort, $request->_order);
+            $ChVitalVentilated->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $VitalVentilated->where('name', 'like', '%' . $request->search . '%');
+            $ChVitalVentilated->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $VitalVentilated = $VitalVentilated->get()->toArray();
+            $ChVitalVentilated = $ChVitalVentilated->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $VitalVentilated = $VitalVentilated->paginate($per_page, '*', 'page', $page);
+            $ChVitalVentilated = $ChVitalVentilated->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Modo ventilatorio obtenidos exitosamente',
-            'data' => ['ch_vital_ventilated' => $VitalVentilated]
+            'data' => ['ch_vital_ventilated' => $ChVitalVentilated]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $VitalVentilated = new VitalVentilated;
-        $VitalVentilated->name = $request->name;
-        $VitalVentilated->save();
+        $ChVitalVentilated = new ChVitalVentilated;
+        $ChVitalVentilated->name = $request->name;
+        $ChVitalVentilated->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Modo ventilatorio asociado al paciente exitosamente',
-            'data' => ['ch_vital_ventilated' => $VitalVentilated->toArray()]
+            'data' => ['ch_vital_ventilated' => $ChVitalVentilated->toArray()]
         ]);
     }
 
@@ -67,13 +67,13 @@ class VitalVentilatedController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $VitalVentilated = VitalVentilated::where('id', $id)
+        $ChVitalVentilated = ChVitalVentilated::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Modo ventilatorio obtenido exitosamente',
-            'data' => ['ch_vital_ventilated' => $VitalVentilated]
+            'data' => ['ch_vital_ventilated' => $ChVitalVentilated]
         ]);
     }
 
@@ -85,14 +85,14 @@ class VitalVentilatedController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $VitalVentilated = VitalVentilated::find($id);
-        $VitalVentilated->name = $request->name;
-        $VitalVentilated->save();
+        $ChVitalVentilated = ChVitalVentilated::find($id);
+        $ChVitalVentilated->name = $request->name;
+        $ChVitalVentilated->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Modo ventilatorio actualizado exitosamente',
-            'data' => ['ch_vital_ventilated' => $VitalVentilated]
+            'data' => ['ch_vital_ventilated' => $ChVitalVentilated]
         ]);
     }
 
@@ -105,8 +105,8 @@ class VitalVentilatedController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $VitalVentilated = VitalVentilated::find($id);
-            $VitalVentilated->delete();
+            $ChVitalVentilated = ChVitalVentilated::find($id);
+            $ChVitalVentilated->delete();
 
             return response()->json([
                 'status' => true,

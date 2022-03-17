@@ -45,11 +45,7 @@ class ChTypeReviewSystemController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChTypeReviewSystem = new ChTypeReviewSystem;
-        $ChTypeReviewSystem->condition = $request->condition;
-        $ChTypeReviewSystem->name_title = $request->name_title;
-        $ChTypeReviewSystem->not_rated = $request->not_rated;
-        $ChTypeReviewSystem->normal = $request->normal;
-        $ChTypeReviewSystem->observation = $request->observation;
+        $ChTypeReviewSystem->name = $request->name;
         $ChTypeReviewSystem->save();
 
         return response()->json([
@@ -86,11 +82,7 @@ class ChTypeReviewSystemController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChTypeReviewSystem = ChTypeReviewSystem::find($id);
-        $ChTypeReviewSystem->condition = $request->condition;
-        $ChTypeReviewSystem->name_title = $request->name_title;
-        $ChTypeReviewSystem->not_rated = $request->not_rated;
-        $ChTypeReviewSystem->normal = $request->normal;
-        $ChTypeReviewSystem->observation = $request->observation;
+        $ChTypeReviewSystem->name = $request->name;
         $ChTypeReviewSystem->save();
 
         return response()->json([
