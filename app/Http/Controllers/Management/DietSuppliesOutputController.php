@@ -19,7 +19,7 @@ class DietSuppliesOutputController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietSuppliesOutput = DietSuppliesOutput::select();
+        $DietSuppliesOutput = DietSuppliesOutput::with('campus');
 
         if ($request->_sort) {
             $DietSuppliesOutput->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,10 @@ class DietSuppliesOutputController extends Controller
 
         if ($request->search) {
             $DietSuppliesOutput->where('date', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->campus_id) {
+            $DietSuppliesOutput->where('campus_id', $request->campus_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -49,7 +53,7 @@ class DietSuppliesOutputController extends Controller
     public function store(DietSuppliesOutputRequest $request): JsonResponse
     {
         $DietSuppliesOutput = new DietSuppliesOutput;
-        // $DietSuppliesOutput->date = $request->date;
+        $DietSuppliesOutput->campus_id = $request->campus_id;
        
         $DietSuppliesOutput->save();
      
@@ -87,7 +91,7 @@ class DietSuppliesOutputController extends Controller
     public function update(DietSuppliesOutputRequest $request, int $id): JsonResponse
     {
         $DietSuppliesOutput = DietSuppliesOutput::find($id);
-        // $DietSuppliesOutput->date = $request->date;
+        $DietSuppliesOutput->campus_id = $request->campus_id;
 
         $DietSuppliesOutput->save();
 

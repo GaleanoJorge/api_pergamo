@@ -25,6 +25,7 @@ class DietStockRequest extends FormRequest
     {
         return [
             'amount' => 'required',
+            'campus_id' => 'required',
             'diet_supplies_id' => 'required',
         ];
     }

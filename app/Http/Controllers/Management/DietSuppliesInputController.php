@@ -69,13 +69,25 @@ class DietSuppliesInputController extends Controller
         $DietSuppliesInput->invoice_number = $request->invoice_number;
 
         $DietSuppliesInput->save();
-        
-        $DietStock = DietStock::where('diet_supplies_id', $request->diet_supplies_id)->first();
-        $cantidadBase = $DietStock->amount;
-        $cantidadAdicional = $request->amount;
-        $cantidadTotal = $cantidadBase + $cantidadAdicional;
-        $DietStock->amount = $cantidadTotal;
-        $DietStock->save();
+
+        $arrayTest = DietStock::where('diet_supplies_id', $request->diet_supplies_id)
+            ->where('campus_id', $request->campus_id)->get()->toArray();
+        if ($arrayTest) {
+            $DietStock = DietStock::where('diet_supplies_id', $request->diet_supplies_id)
+                ->where('campus_id', $request->campus_id)->first();
+            $cantidadBase = $DietStock->amount;
+            $cantidadAdicional = $request->amount;
+            $cantidadTotal = $cantidadBase + $cantidadAdicional;
+            $DietStock->amount = $cantidadTotal;
+            $DietStock->campus_id = $request->campus_id;
+            $DietStock->save();
+        } else {
+            $DietStock = new DietStock;
+            $DietStock->amount = $request->amount;
+            $DietStock->campus_id = $request->campus_id;
+            $DietStock->diet_supplies_id = $request->diet_supplies_id;
+            $DietStock->save();
+        }
 
         return response()->json([
             'status' => true,

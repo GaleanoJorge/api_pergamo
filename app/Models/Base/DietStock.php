@@ -7,7 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\DietSupplies;
-use App\Models\Company;
+use App\Models\Campus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property double $amount
  * @property BigInteger $diet_supplies_id
+ * @property BigInteger $campus_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -31,5 +32,9 @@ class DietStock extends Model
 	public function diet_supplies()
 	{
 		return $this->belongsTo(DietSupplies::class);
+	}
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class);
 	}
 }

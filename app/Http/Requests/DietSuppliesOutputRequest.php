@@ -25,6 +25,7 @@ class DietSuppliesOutputRequest extends FormRequest
     {
         return [
             'date' => '',
+            'campus_id' => 'required',
         ];
     }
 }

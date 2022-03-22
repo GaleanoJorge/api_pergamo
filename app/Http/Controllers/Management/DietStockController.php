@@ -19,7 +19,7 @@ class DietStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietStock = DietStock::with('diet_supplies', 'diet_supplies.measurement_units');
+        $DietStock = DietStock::with('diet_supplies', 'diet_supplies.measurement_units', 'campus');
 
         if ($request->_sort) {
             $DietStock->orderBy($request->_sort, $request->_order);
@@ -30,6 +30,9 @@ class DietStockController extends Controller
         }
         if ($request->diet_supplies_id) {
             $DietStock->where('diet_supplies_id', $request->diet_supplies_id);
+        }
+        if ($request->campus_id) {
+            $DietStock->where('campus_id', $request->campus_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -53,6 +56,7 @@ class DietStockController extends Controller
     {
         $DietStock = new DietStock;
         $DietStock->amount = $request->amount;
+        $DietStock->campus_id = $request->campus_id;
         $DietStock->diet_supplies_id = $request->diet_supplies_id;
 
         $DietStock->save();
@@ -92,6 +96,7 @@ class DietStockController extends Controller
     {
         $DietStock = DietStock::find($id);
         $DietStock->amount = $request->amount;
+        $DietStock->campus_id = $request->campus_id;
         $DietStock->diet_supplies_id = $request->diet_supplies_id;
 
         $DietStock->save();

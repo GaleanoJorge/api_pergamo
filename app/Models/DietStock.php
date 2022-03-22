@@ -8,6 +8,7 @@ class DietStock extends BaseDietStock
 {
 	protected $fillable = [
 		'amount',
+		'campus_id',
 		'diet_supplies_id',
 	];
 }

@@ -8,5 +8,6 @@ class DietSuppliesOutput extends BaseDietSuppliesOutput
 {
 	protected $fillable = [
 		'date',
+		'campus_id',
 	];
 }

@@ -101,7 +101,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(DietDishStockSeeder::class);
                 $this->call(DietMenuSeeder::class);
                 $this->call(DietMenuDishSeeder::class);
-                $this->call(DietStockSeeder::class);
 
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);

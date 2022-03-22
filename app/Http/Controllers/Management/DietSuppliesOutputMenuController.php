@@ -8,6 +8,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DietSuppliesOutputMenuRequest;
+use App\Models\DietDishStock;
+use App\Models\DietMenuDish;
+use App\Models\DietStock;
 use Illuminate\Database\QueryException;
 
 class DietSuppliesOutputMenuController extends Controller
@@ -53,7 +56,9 @@ class DietSuppliesOutputMenuController extends Controller
 
     public function store(DietSuppliesOutputMenuRequest $request): JsonResponse
     {
+        $campus_id = $request->amount;
         $components = json_decode($request->diet_menu_id);
+
 
         foreach ($components as $conponent) {
             $DietSuppliesOutputMenu = new DietSuppliesOutputMenu;
@@ -61,13 +66,38 @@ class DietSuppliesOutputMenuController extends Controller
             $DietSuppliesOutputMenu->diet_supplies_output_id = $request->diet_supplies_output_id;
             $DietSuppliesOutputMenu->diet_menu_id = $conponent->diet_menu_id;
 
+            $DietMenuDish = DietMenuDish::where('diet_menu_id', $conponent->diet_menu_id)->get()->toArray();
+            foreach ($DietMenuDish as $dish) {
+                $DietDishStock = DietDishStock::where('diet_dish_id', $dish['diet_dish_id'])->get()->toArray();
+                foreach ($DietDishStock as $supply) {
+                    $arrayTest = DietStock::where('diet_supplies_id', $request->diet_supplies_id)
+                        ->where('campus_id', $campus_id)->get()->toArray();
+                    if ($arrayTest) {
+                        $DietStock = DietStock::where('diet_supplies_id', $supply['diet_supplies_id'])->where('campus_id', $campus_id)->first();
+                        $cantidadBase = $DietStock->amount;
+                        $cantidadSustraida = $supply['amount'] * $conponent->amount;
+                        $cantidadTotal = $cantidadBase - $cantidadSustraida;
+                        $DietStock->amount = $cantidadTotal;
+                        $DietStock->save();
+                    } else {
+                        $DietStock = new DietStock;
+                        $cantidadBase = 0;
+                        $cantidadSustraida = $supply['amount'] * $conponent->amount;
+                        $cantidadTotal = $cantidadBase - $cantidadSustraida;
+                        $DietStock->amount = $cantidadTotal;
+                        $DietStock->campus_id = $campus_id;
+                        $DietStock->save();
+                    }
+                }
+            }
+
             $DietSuppliesOutputMenu->save();
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Salidas y menús creadas exitosamente',
-            'data' => ['diet_supplies_output_menu' => $DietSuppliesOutputMenu->toArray()]
+            'data' => ['diet_supplies_output_menu' => $DietSuppliesOutputMenu]
         ]);
     }
 

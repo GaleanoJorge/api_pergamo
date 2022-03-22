@@ -61,11 +61,6 @@ class DietSuppliesController extends Controller
         $DietSupplies->measurement_units_id = $request->measurement_units_id;
        
         $DietSupplies->save();
-
-        $DietStock = new DietStock;
-        $DietStock->diet_supplies_id = $DietSupplies->id;
-        $DietStock->amount = 0;
-        $DietStock->save();
      
         return response()->json([
             'status' => true,

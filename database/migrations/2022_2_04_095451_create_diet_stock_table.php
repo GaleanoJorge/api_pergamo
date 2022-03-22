@@ -17,12 +17,16 @@ class CreateDietStockTable extends Migration
             $table->bigIncrements('id');
             $table->double('amount');
             $table->unsignedBigInteger('diet_supplies_id');
+            $table->unsignedtinyInteger('campus_id');
             $table->timestamps();
 
             $table->index('diet_supplies_id');
+            $table->index('campus_id');
 
             $table->foreign('diet_supplies_id')->references('id')
                 ->on('diet_supplies');
+            $table->foreign('campus_id')->references('id')
+                ->on('campus');
         });
     }
 
