@@ -1,29 +1,39 @@
 [
     {
-        "name": "DIARIA"
+        "name": "DIARIA",
+        "days": "1"
     },
     {
-        "name": "INTERDIARIA"
+        "name": "INTERDIARIA",
+        "days": "2"
+
 
     },
     {
-        "name": "SEMANAL"
+        "name": "SEMANAL",
+        "days": "7"
+
 
     },
     {
-        "name": "QUINCENAL"
+        "name": "QUINCENAL",
+        "days": "15"
+
 
     },
     {
-        "name": "MENSUAL"
+        "name": "MENSUAL",
+        "days": "30"
 
     },
     {
-        "name": "BIMENSUAL"
+        "name": "BIMENSUAL",
+        "days": "60"
 
     },
     {
-        "name": "TRIMESTRAL"
+        "name": "TRIMESTRAL",
+        "days": "90"
 
     }
 ]

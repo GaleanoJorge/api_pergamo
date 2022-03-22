@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ManagementPlan;
+use App\Models\AssignedManagementPlan;
+use App\Models\Frequency;
 use App\Models\Location;
 use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
@@ -93,7 +95,32 @@ class ManagementPlanController extends Controller
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->save();
-        
+
+        $frequency= Frequency::where('id',$request->frequency_id)->get()->toArray();
+        foreach ($frequency as $key => $row) {
+            $diferencei=$row['days'] / $request->quantity;
+        }
+        $now=Carbon::now();
+        $finish=Carbon::now()->addDays($diferencei);
+        $diference=7;
+        for($i=0;$i< $request->quantity;$i++) {
+
+            if($i==0){
+                $start=$now;
+                $finish=$finish;
+            }else{
+                $diference=$diference+$diferencei;
+                $start=$finish;
+                $finish=Carbon::now()->addDays($diference);       
+            }
+            $assignedManagement= new AssignedManagementPlan;
+            $assignedManagement->start_date = $start;
+            $assignedManagement->finish_date =  $finish;
+            $assignedManagement->user_id = $request->assigned_user_id;
+            $assignedManagement->management_plan_id= $ManagementPlan->id;
+            $assignedManagement->save();
+        }
+       
 
         return response()->json([
             'status' => true,

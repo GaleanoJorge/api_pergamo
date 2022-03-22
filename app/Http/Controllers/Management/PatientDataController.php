@@ -116,6 +116,7 @@ class PatientDataController extends Controller
             $PatientData->identification_type_id = $request->identification_type_id;
             $PatientData->affiliate_type_id = $request->affiliate_type_id;
             $PatientData->special_attention_id = $request->special_attention_id;
+            $PatientData->relationship_id = $request->relationship_id;
     
             $PatientData->save();
     

@@ -642,6 +642,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
+
+    Route::get('assigned_management_plan/{managementId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
     // Route::get('Policy/FileByContract/{contractId}',
     // 'Management\PolicyController@getByContract');
@@ -678,6 +680,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'campus_briefcase/campusByBriefcase/{briefcaseId}',
         'Management\CampusBriefcaseController@getByBriefcase'
     );
+
+        //Portafolio de servicios por contrato
+        Route::get(
+            'location_capacity/AssistanceByLocation/{assistanceId}',
+            'Management\LocationCapacityController@getByLocality'
+        );
 
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');

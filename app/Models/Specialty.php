@@ -8,6 +8,7 @@ class Specialty extends BaseSpecialty
 {
 	protected $fillable = [
 		'name',
-		'status_id'
+		'status_id',
+		'type_professional_id'
 	];
 }

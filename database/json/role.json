@@ -1,43 +1,85 @@
 [
     {
         "id": 1,
-        "name": "Administrador",
+        "name": "ADMINISTRADOR",
         "status_id": 1,
         "sga_origin_fk": 4
     },
     {
         "id": 2,
-        "name": "Paciente",
+        "name": "PACIENTE",
         "status_id": 1,
         "sga_origin_fk": 3
     },
     {
         "id": 3,
-        "name": "Medico",
+        "name": "MEDICO GENERAL",
         "status_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 4,
-        "name": "Coordinación Glosas",
+        "name": "COORDINACIÓN DE GLOSAS",
         "status_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 5,
-        "name": "Analista Glosas",
+        "name": "ANALISTA DE GLOSAS",
         "status_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 6,
-        "name": "Cartera",
+        "name": "CARTERA",
         "status_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 7,
-        "name": "Medico especialista",
+        "name": "MEDICO ESPECIALISTA",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 8,
+        "name": "ENFERMERO (A)",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 9,
+        "name": "AUXILIAR DE ENFERMERÍA",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 10,
+        "name": "NUTRICIÓN",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 11,
+        "name": "PSICOLOGO (A)",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 12,
+        "name": "TRABAJO SOCIAL",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 13,
+        "name": "CUIDADOR",
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 14,
+        "name": "APOYO TERAPEUTICO",
         "status_id": 1,
         "sga_origin_fk": 5
     }

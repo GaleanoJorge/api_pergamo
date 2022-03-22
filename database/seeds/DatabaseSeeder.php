@@ -89,6 +89,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
                 $this->call(ResidenceSeeder::class);
+                $this->call(TypeProfessionalSeeder::class);
+                $this->call(SpecialtySeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

@@ -22,9 +22,6 @@ class CreateSpecialFieldTable extends Migration
             $table->foreign('type_professional_id')->references('id')
                 ->on('type_professional');
 
-
-
-
         });
     }
 
