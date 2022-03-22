@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class ChVitalSigns 
  * @property int $id
+ * @property string $clock
  * @property integer $cardiac_frequency
  * @property integer $respiratory_frequency
  * @property integer $temperature
@@ -41,17 +42,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $head_circunference
  * @property integer $abdominal_perimeter
  * @property integer $chest_perimeter
- * @property string $fetal_heart_rate
  * @property string $right_reaction
  * @property string $pupil_size_right
  * @property string $left_reaction
  * @property string $pupil_size_left
- * @property string $glomerular_filtration_rate  
- * @property string $cardiovascular_risk  
- * @property BigInteger $vital_hydration_id
- * @property BigInteger $vital_ventilated_id
- * @property BigInteger $vital_temperature_id
- * @property BigInteger $vital_neurological_id
+ * @property BigInteger $ch_vital_hydration_id
+ * @property BigInteger $ch_vital_ventilated_id
+ * @property BigInteger $ch_vital_temperature_id
+ * @property BigInteger $ch_vital_neurological_id
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at

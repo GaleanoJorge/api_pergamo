@@ -15,6 +15,7 @@ class CreateChVitalSignsTable extends Migration
     {
         Schema::create('ch_vital_signs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('clock');
             $table->integer('cardiac_frequency');
             $table->integer('respiratory_frequency');
             $table->string('temperature');
@@ -37,17 +38,14 @@ class CreateChVitalSignsTable extends Migration
             $table->integer('head_circunference');
             $table->integer('abdominal_perimeter');
             $table->integer('chest_perimeter');
-            $table->string('fetal_heart_rate');
             $table->string('right_reaction');
             $table->string('pupil_size_right');
             $table->string('left_reaction');
             $table->string('pupil_size_left');
-            $table->string('glomerular_filtration_rate'); //tfc
-            $table->string('cardiovascular_risk'); //tfc
-            $table->unsignedBigInteger('vital_hydration_id');
-            $table->unsignedBigInteger('vital_ventilated_id');
-            $table->unsignedBigInteger('vital_temperature_id');
-            $table->unsignedBigInteger('vital_neurological_id');
+            $table->unsignedBigInteger('ch_vital_hydration_id');
+            $table->unsignedBigInteger('ch_vital_ventilated_id');
+            $table->unsignedBigInteger('ch_vital_temperature_id');
+            $table->unsignedBigInteger('ch_vital_neurological_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -62,22 +60,22 @@ class CreateChVitalSignsTable extends Migration
 
 
 
-            $table->index('vital_hydration_id');
-            $table->foreign('vital_hydration_id')->references('id')
+            $table->index('ch_vital_hydration_id');
+            $table->foreign('ch_vital_hydration_id')->references('id')
                 ->on('ch_vital_hydration');
 
 
-            $table->index('vital_ventilated_id');
-            $table->foreign('vital_ventilated_id')->references('id')
+            $table->index('ch_vital_ventilated_id');
+            $table->foreign('ch_vital_ventilated_id')->references('id')
                 ->on('ch_vital_ventilated');
 
 
-            $table->index('vital_temperature_id');
-            $table->foreign('vital_temperature_id')->references('id')
+            $table->index('ch_vital_temperature_id');
+            $table->foreign('ch_vital_temperature_id')->references('id')
                 ->on('ch_vital_temperature');
 
-            $table->index('vital_neurological_id');
-            $table->foreign('vital_neurological_id')->references('id')
+            $table->index('ch_vital_neurological_id');
+            $table->foreign('ch_vital_neurological_id')->references('id')
                 ->on('ch_vital_neurological');
         });
     }

@@ -27,35 +27,7 @@ class ChVitalSignsController extends Controller
 
         if ($request->search) {
             $ChVitalSigns->where('status', 'like', '%' . $request->search . '%')
-                ->orWhere('cardiac_frequency', 'like', '%' . $request->search . '%')
-                ->orWhere('respiratory_frequency', 'like', '%' . $request->search . '%')
-                ->orWhere('temperature', 'like', '%' . $request->search . '%')
-                ->orWhere('oxigen_saturation', 'like', '%' . $request->search . '%')
-                ->orWhere('intracranial_pressure', 'like', '%' . $request->search . '%')
-                ->orWhere('cerebral_perfusion_pressure', 'like', '%' . $request->search . '%')
-                ->orWhere('intra_abdominal', 'like', '%' . $request->search . '%')
-                ->orWhere('pressure_systolic', 'like', '%' . $request->search . '%')
-                ->orWhere('pressure_diastolic', 'like', '%' . $request->search . '%')
-                ->orWhere('pressure_half', 'like', '%' . $request->search . '%')
-                ->orWhere('pulse', 'like', '%' . $request->search . '%')
-                ->orWhere('venous_pressure', 'like', '%' . $request->search . '%')
-                ->orWhere('size', 'like', '%' . $request->search . '%')
-                ->orWhere('weight', 'like', '%' . $request->search . '%')
-                ->orWhere('glucometry', 'like', '%' . $request->search . '%')
-                ->orWhere('body_mass_index', 'like', '%' . $request->search . '%')
-                ->orWhere('pulmonary_systolic', 'like', '%' . $request->search . '%')
-                ->orWhere('pulmonary_diastolic', 'like', '%' . $request->search . '%')
-                ->orWhere('pulmonary_half', 'like', '%' . $request->search . '%')
-                ->orWhere('head_circunference', 'like', '%' . $request->search . '%')
-                ->orWhere('abdominal_perimeter', 'like', '%' . $request->search . '%')
-                ->orWhere('chest_perimeter', 'like', '%' . $request->search . '%')
-                ->orWhere('fetal_heart_rate', 'like', '%' . $request->search . '%')
-                ->orWhere('right_reaction', 'like', '%' . $request->search . '%')
-                ->orWhere('pupil_size_right', 'like', '%' . $request->search . '%')
-                ->orWhere('left_reaction', 'like', '%' . $request->search . '%')
-                ->orWhere('pupil_size_left', 'like', '%' . $request->search . '%')
-                ->orWhere('glomerular_filtration_rate', 'like', '%' . $request->search . '%')
-                ->orWhere('cardiovascular_risk', 'like', '%' . $request->search . '%');
+                ->orWhere('cardiac_frequency', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -80,8 +52,7 @@ class ChVitalSignsController extends Controller
     public function store(ChVitalSignsRequest $request): JsonResponse
     {
         $ChVitalSigns = new ChVitalSigns;
-        $ChVitalSigns->status = $request->status;    
-        $ChVitalSigns->date =  $request->Fecha;
+        $ChVitalSigns->clock =  $request->clock;
         $ChVitalSigns->cardiac_frequency = $request->cardiac_frequency;
         $ChVitalSigns->respiratory_frequency = $request->respiratory_frequency;
         $ChVitalSigns->temperature = $request->temperature;
@@ -104,17 +75,14 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->head_circunference = $request->head_circunference;
         $ChVitalSigns->abdominal_perimeter = $request->abdominal_perimeter;
         $ChVitalSigns->chest_perimeter = $request->chest_perimeter;
-        $ChVitalSigns->fetal_heart_rate = $request->fetal_heart_rate;
         $ChVitalSigns->right_reaction = $request->right_reaction;
         $ChVitalSigns->pupil_size_right = $request->pupil_size_right;
         $ChVitalSigns->left_reaction = $request->left_reaction;
         $ChVitalSigns->pupil_size_left = $request->pupil_size_left;
-        $ChVitalSigns->glomerular_filtration_rate = $request->glomerular_filtration_rate; //tfc
-        $ChVitalSigns->cardiovascular_risk = $request->cardiovascular_risk; //tfc
-        $ChVitalSigns->vital_hydration_id = $request->vital_hydration_id;
-        $ChVitalSigns->vital_ventilated_id = $request->vital_ventilated_id;
-        $ChVitalSigns->vital_temperature_id = $request->vital_temperature_id;
-        $ChVitalSigns->vital_neurological_id =  $request->vital_neurological_id;
+        $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
+        $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
+        $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
+        $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
         $ChVitalSigns->save();
 
         return response()->json([
@@ -152,29 +120,29 @@ class ChVitalSignsController extends Controller
     public function update(ChVitalSignsRequest $request, int $id): JsonResponse
     {
         $ChVitalSigns = ChVitalSigns::find($id);
-        $ChVitalSigns->vital_hydration_id =  $request->vital_hydration_id;
-        $ChVitalSigns->vital_ventilated_id =  $request->vital_ventilated_id;
-        $ChVitalSigns->vital_temperature_id =  $request->vital_temperature_id;
-        $ChVitalSigns->vital_neurological_id =  $request->vital_neurological_id;
-        if ($request->vital_hydration_id) {
-            $ChVitalSigns->vital_hydration_id = $request->vital_hydration_id;
+        $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
+        $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
+        $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;
+        $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
+        if ($request->ch_vital_hydration_id) {
+            $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         }
-        if ($request->vital_hydration_id) {
-            $ChVitalSigns->vital_hydration_id = $request->vital_hydration_id;
+        if ($request->ch_vital_hydration_id) {
+            $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         }
-        if ($request->vital_ventilated_id) {
-            $ChVitalSigns->vital_ventilated_id = $request->vital_ventilated_id;
+        if ($request->ch_vital_ventilated_id) {
+            $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         }
-        if ($request->vital_temperature_id) {
-            $ChVitalSigns->vital_temperature_id = $request->vital_temperature_id;
+        if ($request->ch_vital_temperature_id) {
+            $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
         }
-        if ($request->vital_neurological_id) {
-            $ChVitalSigns->vital_neurological_id = $request->vital_neurological_id;
+        if ($request->ch_vital_neurological_id) {
+            $ChVitalSigns->ch_vital_neurological_id = $request->ch_vital_neurological_id;
         }
 
         $ChVitalSigns->condition =  $request->  // validar campo
             $ChVitalSigns->user_id = Auth::user()->id;
-        $ChVitalSigns->date =  $request->Fecha;
+        $ChVitalSigns->clock =  $request->clock;
         $ChVitalSigns->cardiac_frequency =  $request->cardiac_frequency;
         $ChVitalSigns->respiratory_frequency =  $request->respiratory_frequency;
         $ChVitalSigns->temperature =  $request->temperature;
@@ -197,32 +165,14 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->head_circunference =  $request->head_circunference;
         $ChVitalSigns->abdominal_perimeter =  $request->abdominal_perimeter;
         $ChVitalSigns->chest_perimeter =  $request->chest_perimeter;
-        $ChVitalSigns->fetal_heart_rate =  $request->fetal_heart_rate;
         $ChVitalSigns->right_reaction =  $request->right_reaction;
         $ChVitalSigns->pupil_size_right =  $request->pupil_size_right;
         $ChVitalSigns->left_reaction =  $request->left_reaction;
         $ChVitalSigns->pupil_size_left =  $request->pupil_size_left;
-        $ChVitalSigns->glomerular_filtration_rate =  $request->glomerular_filtration_rate; //tfc
-        $ChVitalSigns->cardiovascular_risk =  $request->cardiovascular_risk; //tfc
-        $ChVitalSigns->vital_hydration_id =  $request->vital_hydration_id;
+        $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->vital_ventilated_id =  $request->vital_ventilated_id;
         $ChVitalSigns->vital_temperature_id =  $request->vital_temperature_id;
         $ChVitalSigns->vital_neurological_id =  $request->vital_neurological_id;
-
-        /*  $ChVitalSigns->gloss_status_id = 1;
-        $ChVitalSigns->user_id = Auth::user()->id;
-        $ChVitalSigns->regimen_id = $request->regime_id;
-        $ChVitalSigns->received_by_id = $request->received_by_id;
-        $ChVitalSigns->invoice_prefix = $request->invoice_prefix;
-        $ChVitalSigns->objetion_detail = $request->objetion_detail;
-        $ChVitalSigns->invoice_consecutive = $request->invoice_consecutive;
-        $ChVitalSigns->objeted_value = $request->objeted_value;
-        $ChVitalSigns->invoice_value = $request->invoice_value;
-        $ChVitalSigns->emission_date = $request->emission_date;
-        $ChVitalSigns->radication_date = $request->radication_date;
-        $ChVitalSigns->received_date = $request->received_date;
-        $ChVitalSigns->assing_user_id = $request->assing_user_id;*/
-
         $ChVitalSigns->save();
 
 
