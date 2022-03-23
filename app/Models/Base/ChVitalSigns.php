@@ -6,13 +6,12 @@
 
 namespace App\Models\Base;
 
-use App\Models\VitalHydration;
-use App\Models\VitalVentilated;
-use App\Models\VitalTemperature;
-use App\Models\VitalNeurological;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
-
+use App\Models\ChVitalHydration;
+use App\Models\ChVitalNeurological;
+use App\Models\ChVitalTemperature;
+use App\Models\ChVitalVentilated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -63,19 +62,19 @@ class ChVitalSigns extends Model
 
 	public function vital_hydration()
 	{
-		return $this->belongsTo(VitalHydration::class);
+		return $this->belongsTo(ChVitalHydration::class);
 	}
 	public function vital_ventilated()
 	{
-		return $this->belongsTo(VitalVentilated::class);
+		return $this->belongsTo(ChVitalVentilated::class);
 	}
 	public function vital_temperature()
 	{
-		return $this->belongsTo(VitalTemperature::class);
+		return $this->belongsTo(ChVitalTemperature::class);
 	}
 	public function vital_neurological()
 	{
-		return $this->belongsTo(VitalNeurological::class);
+		return $this->belongsTo(ChVitalNeurological::class);
 	}
 	public function type_record()
 	{

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ChVitalSigns;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\ChVitalSignsRequest;
 use Illuminate\Database\QueryException;
 
 class ChVitalSignsController extends Controller
@@ -19,15 +17,17 @@ class ChVitalSignsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::with('vital_hydration', 'vital_ventilated', 'vital_temperature', 'vital_neurological');
+        //$ChVitalSigns = ChVitalSigns::with('vital_hydration', 'vital_ventilated', 'vital_temperature', 'vital_neurological');
+        $ChVitalSigns = ChVitalSigns::select();
 
         if ($request->_sort) {
             $ChVitalSigns->orderBy($request->_sort, $request->_order);
         }
-
-        if ($request->search) {
-            $ChVitalSigns->where('status', 'like', '%' . $request->search . '%')
-                ->orWhere('cardiac_frequency', 'like', '%' . $request->search . '%');
+        if ($request->ch_record_id) {
+            $ChVitalSigns->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+        if ($request->_sort) {
+            $ChVitalSigns->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -35,10 +35,8 @@ class ChVitalSignsController extends Controller
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 30);
-
             $ChVitalSigns = $ChVitalSigns->paginate($per_page, '*', 'page', $page);
         }
-
 
         return response()->json([
             'status' => true,
@@ -47,9 +45,42 @@ class ChVitalSignsController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function byrecord(Request $request, int $id): JsonResponse
+    {
+        $ChVitalSigns = ChVitalSigns::where('ch_record_id', $id);
+
+        if ($request->_sort) {
+            $ChVitalSigns->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $ChVitalSigns->where('status', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ChVitalSigns = $ChVitalSigns->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChVitalSigns = $ChVitalSigns->paginate($per_page, '*', 'page', $page);
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Registro paciente obtenidos exitosamente',
+            'data' => ['ch_vital_signs' => $ChVitalSigns]
+        ]);
+    }
 
     //validar
-    public function store(ChVitalSignsRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $ChVitalSigns = new ChVitalSigns;
         $ChVitalSigns->clock =  $request->clock;
@@ -61,7 +92,7 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->cerebral_perfusion_pressure = $request->cerebral_perfusion_pressure;
         $ChVitalSigns->intra_abdominal = $request->intra_abdominal;
         $ChVitalSigns->pressure_systolic = $request->pressure_systolic;
-        $ChVitalSigns->pressure_diastolic = $request->Diapressure_diastolicstolica;
+        $ChVitalSigns->pressure_diastolic = $request->pressure_diastolic;
         $ChVitalSigns->pressure_half = $request->pressure_half;
         $ChVitalSigns->pulse = $request->pulse;
         $ChVitalSigns->venous_pressure = $request->venous_pressure;
@@ -83,6 +114,9 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
         $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
+        $ChVitalSigns->type_record_id = $request->type_record_id;
+        $ChVitalSigns->ch_record_id = $request->ch_record_id;
+        $ChVitalSigns->save();
         $ChVitalSigns->save();
 
         return response()->json([
@@ -117,14 +151,10 @@ class ChVitalSignsController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(ChVitalSignsRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $ChVitalSigns = ChVitalSigns::find($id);
-        $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
-        $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
-        $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;
-        $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
-        if ($request->ch_vital_hydration_id) {
+        /*  if ($request->ch_vital_hydration_id) {
             $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         }
         if ($request->ch_vital_hydration_id) {
@@ -138,10 +168,8 @@ class ChVitalSignsController extends Controller
         }
         if ($request->ch_vital_neurological_id) {
             $ChVitalSigns->ch_vital_neurological_id = $request->ch_vital_neurological_id;
-        }
+        }*/
 
-        $ChVitalSigns->condition =  $request->  // validar campo
-            $ChVitalSigns->user_id = Auth::user()->id;
         $ChVitalSigns->clock =  $request->clock;
         $ChVitalSigns->cardiac_frequency =  $request->cardiac_frequency;
         $ChVitalSigns->respiratory_frequency =  $request->respiratory_frequency;
@@ -151,7 +179,7 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->cerebral_perfusion_pressure =  $request->cerebral_perfusion_pressure;
         $ChVitalSigns->intra_abdominal =  $request->intra_abdominal;
         $ChVitalSigns->pressure_systolic =  $request->pressure_systolic;
-        $ChVitalSigns->pressure_diastolic =  $request->Diapressure_diastolicstolica;
+        $ChVitalSigns->pressure_diastolic =  $request->pressure_diastolic;
         $ChVitalSigns->pressure_half =  $request->pressure_half;
         $ChVitalSigns->pulse =  $request->pulse;
         $ChVitalSigns->venous_pressure =  $request->venous_pressure;
@@ -170,9 +198,11 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->left_reaction =  $request->left_reaction;
         $ChVitalSigns->pupil_size_left =  $request->pupil_size_left;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
-        $ChVitalSigns->vital_ventilated_id =  $request->vital_ventilated_id;
-        $ChVitalSigns->vital_temperature_id =  $request->vital_temperature_id;
-        $ChVitalSigns->vital_neurological_id =  $request->vital_neurological_id;
+        $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
+        $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;
+        $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
+        $ChVitalSigns->type_record_id = $request->type_record_id;
+        $ChVitalSigns->ch_record_id = $request->ch_record_id;
         $ChVitalSigns->save();
 
 
