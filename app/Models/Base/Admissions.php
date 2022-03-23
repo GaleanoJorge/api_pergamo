@@ -18,6 +18,7 @@ use App\Models\Pavilion;
 use App\Models\Flat;
 use App\Models\Bed;
 use App\Models\Contract;
+use App\Models\PacMonitoring;
 use App\Models\ScopeOfAttention;
 
 
@@ -47,13 +48,36 @@ class Admissions extends Model
 		return $this->belongsTo(Contract::class);
 	}
 	public function users()
-{
-    return $this->belongsTo(User::class, 'user_id', 'id');
-}
-public function location()
-{
-	return $this->hasMany(Location::class);
-}
+	{
+		return $this->belongsTo(User::class, 'user_id', 'id');
+	}
+	public function location()
+	{
+		return $this->hasMany(Location::class);
+	}
 
-	
+	public function pac_monitoring()
+	{
+		return $this->hasMany(PacMonitoring::class);
+	}
+
+	public function reason_consultation()
+	{
+		return $this->hasMany(ReasonConsultation::class);
+	}
+
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
+	}
+
+	public function identification_type()
+	{
+		return $this->belongsTo(IdentificationType::class);
+	}
+
+	public function gender()
+	{
+		return $this->belongsTo(Gender::class);
+	}
 }

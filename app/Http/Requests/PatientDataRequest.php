@@ -33,8 +33,10 @@ class PatientDataRequest extends FormRequest
             'email' => '',
             'residence_address' => 'required',
             'identification_type_id' => 'required',
-            'affiliate_type_id' => 'required',
-            'special_attention_id' => 'required',
+            // 'affiliate_type_id' => 'required',
+            // 'special_attention_id' => 'required',
+            'relationship_id' => 'required',
+
             
         ];
     }

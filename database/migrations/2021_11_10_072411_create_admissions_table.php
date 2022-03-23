@@ -19,28 +19,34 @@ class CreateAdmissionsTable extends Migration
             $table->unsignedtinyInteger('campus_id');
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('diagnosis_id');
+            $table->unsignedBigInteger('briefcase_id');
             $table->dateTime('entry_date');
             $table->dateTime('discharge_date');
             $table->dateTime('medical_date');
             $table->unsignedBigInteger('user_id');
 
-            
+
             $table->timestamps();
 
-           
             $table->index('campus_id');
             $table->foreign('campus_id')->references('id')
-            ->on('campus');
+                ->on('campus');
+
             $table->index('user_id');
             $table->foreign('user_id')->references('id')
                 ->on('users');
+
             $table->index('contract_id');
             $table->foreign('contract_id')->references('id')
-            ->on('contract');
+                ->on('contract');
+
             $table->index('diagnosis_id');
             $table->foreign('diagnosis_id')->references('id')
-            ->on('diagnosis');
+                ->on('diagnosis');
 
+            $table->index('briefcase_id');
+            $table->foreign('briefcase_id')->references('id')
+                ->on('briefcase');
         });
     }
 
