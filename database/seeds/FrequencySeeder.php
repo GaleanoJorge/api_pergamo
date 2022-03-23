@@ -18,6 +18,7 @@ class FrequencySeeder extends Seeder
             //print_r($row);
             Frequency::create([
                 'name' => $row->name,
+                'days' => $row->days,
             ]);
         }
     }

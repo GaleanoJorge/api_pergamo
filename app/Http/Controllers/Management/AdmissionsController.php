@@ -240,9 +240,11 @@ class AdmissionsController extends Controller
             $Admissions->discharge_date = Carbon::now();
             $Admissions->save();
 
+            if($request->bed_id!=null){
             $Bed = Bed::find($request->bed_id);
             $Bed->status_bed_id = 1;
             $Bed->save();
+            }
         } else if ($request->reversion == true) {
             $Admissions = Admissions::find($id);
             $Admissions->medical_date = '0000-00-00 00:00:00';

@@ -102,6 +102,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(DietMenuSeeder::class);
                 $this->call(DietMenuDishSeeder::class);
 
+                $this->call(TypeProfessionalSeeder::class);
+                $this->call(SpecialtySeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
