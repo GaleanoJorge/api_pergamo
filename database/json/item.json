@@ -1018,42 +1018,6 @@
     },
     {
         "id": "161",
-        "item_parent_id": "151",
-        "name": "Entradas de insumos",
-        "code": "diet-supplies-input",
-        "route": "/pages/setting/diet-supplies-input",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "162",
-        "item_parent_id": "151",
-        "name": "Salidas de insumos",
-        "code": "diet-supplies-output",
-        "route": "/pages/setting/diet-supplies-output",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "163",
-        "item_parent_id": "151",
-        "name": "Inventario",
-        "code": "diet-stock",
-        "route": "/pages/setting/diet-stock",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "166",
-        "item_parent_id": "151",
-        "name": "Dietas admisiones",
-        "code": "diet-admission",
-        "route": "/pages/setting/diet-admission",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "164",
         "item_parent_id": null,
         "name": "Dietas",
         "code": "diets",
