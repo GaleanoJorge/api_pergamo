@@ -70,7 +70,8 @@ class DietSuppliesOutputMenuController extends Controller
             foreach ($DietMenuDish as $dish) {
                 $DietDishStock = DietDishStock::where('diet_dish_id', $dish['diet_dish_id'])->get()->toArray();
                 foreach ($DietDishStock as $supply) {
-                    $arrayTest = DietStock::where('diet_supplies_id', $request->diet_supplies_id)
+                    $idnecesario = $supply['diet_supplies_id'];
+                    $arrayTest = DietStock::where('diet_supplies_id', $idnecesario)
                         ->where('campus_id', $campus_id)->get()->toArray();
                     if ($arrayTest) {
                         $DietStock = DietStock::where('diet_supplies_id', $supply['diet_supplies_id'])->where('campus_id', $campus_id)->first();
@@ -86,6 +87,7 @@ class DietSuppliesOutputMenuController extends Controller
                         $cantidadTotal = $cantidadBase - $cantidadSustraida;
                         $DietStock->amount = $cantidadTotal;
                         $DietStock->campus_id = $campus_id;
+                        $DietStock->diet_supplies_id = $idnecesario;
                         $DietStock->save();
                     }
                 }
