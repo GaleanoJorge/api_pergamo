@@ -927,6 +927,15 @@
         "show_menu": "1"
     },
     {
+        "id": "150",
+        "item_parent_id": null,
+        "name": "Plan de atención complementaria",
+        "code": "PAD-Complementary",
+        "route": "/pages/pad-complementary/list",
+        "icon": "bulb-outline",
+        "show_menu": "1"
+    },
+    {
         "id": "151",
         "item_parent_id": "66",
         "name": "Dietas",
@@ -1022,16 +1031,9 @@
         "name": "Dietas",
         "code": "diets",
         "route": "/pages/diets/list",
-        "icon": "shopping-cart-outline"
-    },
-    {
-        "id": "150",
-        "item_parent_id": null,
-        "name": "Plan de atención complementaria",
-        "code": "PAD-Complementary",
-        "route": "/pages/pad-complementary/list",
-        "icon": "bulb-outline",
+        "icon": "shopping-cart-outline",
         "show_menu": "1"
+
     }
 
 ]

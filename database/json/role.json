@@ -84,14 +84,8 @@
         "sga_origin_fk": 5
     },
     {
-        "id": 8,
-        "name": "Gestor mipress",
-        "status_id": 1,
-        "sga_origin_fk": 5
-    },
-    {
-        "id": 9,
-        "name": "Gestor PAD Complementario",
+        "id": 15,
+        "name": "GESTOR PAD COMPLEMENTARIO",
         "status_id": 1,
         "sga_origin_fk": 5
     }
