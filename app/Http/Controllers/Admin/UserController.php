@@ -742,7 +742,7 @@ class UserController extends Controller
                         $imagePath = 'firmas/' . $random . '.png';
                         Storage::disk('public')->put($imagePath, base64_decode($image));
 
-                        $assistance->firm = $imagePath;
+                        $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
                     if($request->PAD_service!=0){
