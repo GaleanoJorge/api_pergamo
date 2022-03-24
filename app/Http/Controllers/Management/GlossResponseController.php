@@ -95,25 +95,33 @@ class GlossResponseController extends Controller
 
             ]);
         } else {
-            $GlossResponse = new GlossResponse;
-            $GlossResponse->gloss_id = $request->gloss_id;        
-            $GlossResponse->objetion_response_id = $request->objetion_response_id;
-            $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-            $GlossResponse->response = $request->response;
-            $GlossResponse->justification_status = $request->justification_status;
-            $GlossResponse->response_date = Carbon::now();
-            $GlossResponse->user_id = Auth::user()->id;
-            $GlossResponse->accepted_value = $request->accepted_value;
-            $GlossResponse->value_not_accepted = $request->value_not_accepted;
-            if ($request->file('file')) {
-                $path = Storage::disk('public')->put('file', $request->file('file'));
-                $GlossResponse->file = $path;
+            try {
+                $validate = GlossResponse::where('gloss_id', '=', $request->gloss_id)->get()->toArray();
+                if ($validate) {
+                    $request->gloss_id = -1;
+                }
+                $GlossResponse = new GlossResponse;
+                $GlossResponse->gloss_id = $request->gloss_id;        
+                $GlossResponse->objetion_response_id = $request->objetion_response_id;
+                $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
+                $GlossResponse->response = $request->response;
+                $GlossResponse->justification_status = $request->justification_status;
+                $GlossResponse->response_date = Carbon::now();
+                $GlossResponse->user_id = Auth::user()->id;
+                $GlossResponse->accepted_value = $request->accepted_value;
+                $GlossResponse->value_not_accepted = $request->value_not_accepted;
+                if ($request->file('file')) {
+                    $path = Storage::disk('public')->put('file', $request->file('file'));
+                    $GlossResponse->file = $path;
+                }
+                $GlossResponse->save();
+        
+                $Gloss= Gloss::find($request->gloss_id);
+                $Gloss->gloss_status_id=2;
+                $Gloss->save();
+            } catch (\Exception $e) {
+
             }
-            $GlossResponse->save();
-    
-            $Gloss= Gloss::find($request->gloss_id);
-            $Gloss->gloss_status_id=2;
-            $Gloss->save();
             
             return response()->json([
                 'status' => true,
