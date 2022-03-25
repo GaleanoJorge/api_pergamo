@@ -580,6 +580,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
+    Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
+    
 
     //Tipo de contrato del empleado
     Route::apiResource('contract_type', 'Management\ContractTypeController');
@@ -644,6 +646,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
+
+    Route::get('assigned_management_plan/{managementId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
     // Route::get('Policy/FileByContract/{contractId}',
     // 'Management\PolicyController@getByContract');
@@ -680,6 +684,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'campus_briefcase/campusByBriefcase/{briefcaseId}',
         'Management\CampusBriefcaseController@getByBriefcase'
     );
+
+        //Portafolio de servicios por contrato
+        Route::get(
+            'location_capacity/AssistanceByLocation/{assistanceId}',
+            'Management\LocationCapacityController@getByLocality'
+        );
 
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');
@@ -789,6 +799,47 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('gloss_conciliations', 'Management\GlossConciliationsController');
     Route::apiResource('gloss_radication', 'Management\GlossRadicationController');
     Route::post('fileUpload', 'Management\GlossController@import');
+
+    //Dietas
+    Route::apiResource('diet_component', 'Management\DietComponentController');
+    Route::apiResource('diet_consistency', 'Management\DietConsistencyController');
+    Route::apiResource('diet_day', 'Management\DietDayController');
+    Route::apiResource('diet_dish', 'Management\DietDishController');
+    Route::apiResource('diet_dish_stock', 'Management\DietDishStockController');
+    Route::apiResource('diet_menu', 'Management\DietMenuController');
+    Route::apiResource('diet_menu_dish', 'Management\DietMenuDishController');
+    Route::get('diet_menu_dish/byMenu/{menu_id}', 'Management\DietMenuDishController@getByMenuId');
+    Route::apiResource('diet_menu_type', 'Management\DietMenuTypeController');
+    Route::apiResource('diet_stock', 'Management\DietStockController');
+    Route::apiResource('diet_supplies', 'Management\DietSuppliesController');
+    Route::apiResource('diet_supply_type', 'Management\DietSupplyTypeController');
+    Route::apiResource('diet_supplies_output', 'Management\DietSuppliesOutputController');
+    Route::apiResource('diet_week', 'Management\DietWeekController');
+    Route::apiResource('diet_supplies_output_menu', 'Management\DietSuppliesOutputMenuController');
+    Route::apiResource('diet_order', 'Management\DietOrderController');
+    Route::apiResource('diet_supplies_input', 'Management\DietSuppliesInputController');
+    Route::apiResource('diet_admission', 'Management\DietAdmissionController');
+    Route::apiResource('diet_admission_component', 'Management\DietAdmissionComponentController');
+
+    //historia clinica    
+    Route::apiResource('ch_diagnosis', 'Management\ChDiagnosisController');
+    Route::apiResource('ch_diagnosis_class', 'Management\ChDiagnosisClassController');
+    Route::apiResource('ch_diagnosis_type', 'Management\ChDiagnosisTypeController');
+    Route::apiResource('ch_external_cause', 'Management\ChExternalCauseController');
+    Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
+    Route::apiResource('ch_reason_consultation', 'Management\ChReasonConsultationController');
+    Route::apiResource('ch_record', 'Management\ChRecordController');
+    Route::apiResource('ch_review_system', 'Management\ChReviewSystemController');
+    Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
+    Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
+    Route::apiResource('type_record', 'Management\ChTypeRecordController');
+    Route::apiResource('ch_vital_hydration', 'Management\ChVitalHydrationController');
+    Route::apiResource('ch_vital_neurological', 'Management\ChVitalNeurologicalController');
+    Route::apiResource('ch_vital_signs', 'Management\ChVitalSignsController');
+    Route::apiResource('ch_vital_temperature', 'Management\ChVitalTemperatureController');
+    Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
+    Route::get('ch_record/byadmission/{id}', 'Management\ChRecordController@byadmission');
+    Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
@@ -909,4 +960,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('oldsga-reports/exportExcelEncuestasActividad', 'OldSGA\ReportsController@exportExcelEncuestasActividad');
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
+
+    ////AnswerType
+    Route::apiResource('PacMonitoring', 'Management\PacMonitoringController');
 });

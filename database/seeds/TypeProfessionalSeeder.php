@@ -12,7 +12,7 @@ class TypeProfessionalSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/type-professional.json'));
+        $data = file_get_contents(database_path('json/type_professional.json'));
 
         foreach (json_decode($data) as $row) {
             TypeProfessional::create([

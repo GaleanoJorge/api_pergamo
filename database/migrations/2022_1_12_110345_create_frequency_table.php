@@ -16,9 +16,8 @@ class CreateFrequencyTable extends Migration
         Schema::create('frequency', function (Blueprint $table) {
             $table->TinyIncrements('id');
             $table->string('name');
+            $table->integer('days');
             $table->timestamps();
-        
-        
         });
     }
 

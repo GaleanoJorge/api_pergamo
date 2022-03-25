@@ -20,7 +20,16 @@ class Admissions extends BaseAdmissions
     'user_id',
     
 
-    
-
 	];
+
+    public function residence_municipality()
+    {
+        return $this->belongsTo(Municipality::class, 'residence_municipality_id');
+    }
+
+    public function residence()
+    {
+        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+    }
+
 }
