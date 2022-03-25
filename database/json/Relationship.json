@@ -1,35 +1,28 @@
 [
     {
-        "name": "Padre/Madre"
+        "name": "Esposo (a)"
     },
     {
-        "name": "Hija/o"
+        "name": "Hermano (a)"
     },
     {
-        "name": "Hermano/a"
+        "name": "Hijo (a)"
     },
     {
-        "name": "Tia/o"
+        "name": "Madre"
     },
     {
-        "name": "sorbino"
+        "name": "Padre"
     },
     {
-        "name": "amigo"
+        "name": "Sobrino (a)"
     },
     {
-        "name": "etc"
-    },{
-        "name": "vecino"
-    },{
-        "name": "conocido"
-    },{
-        "name": "Hijos"
-    },{
-        "name": "Hijos"
-    },{
-        "name": "Hijos"
-    },{
-        "name": "Hijos"
+        "name": "Tio (a)"
+    
+    },
+    {
+        "name": "Otro"
+    
     }
 ]
