@@ -963,4 +963,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     ////AnswerType
     Route::apiResource('PacMonitoring', 'Management\PacMonitoringController');
+
+    // Nomina OPS (TERCEROS ASISTENCIALES)
+
+    Route::apiResource('account_receivable', 'Management\AccountReceivableController');
+    Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
+    Route::apiResource('user_activity', 'Management\UserActivityController');
+    Route::apiResource('status_bill', 'Management\StatusBillController');
+    Route::apiResource('financial_data', 'Management\FinancialDataController');
+    Route::apiResource('bank_information', 'Management\BankInformationController');
+    Route::apiResource('retentions', 'Management\RetentionsController');
+
 });

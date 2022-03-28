@@ -8,7 +8,7 @@
         "rips_typefile_id":2
     },   
     {
-        "name": "Usuarios de los servicios de salud",
+        "name": "Usuarios de los Servicios de Salud",
         "rips_typefile_id": 3
     },    
     {
@@ -20,7 +20,7 @@
         "rips_typefile_id": 5
     },
     {
-        "name": "Urgencias con observación",
+        "name": "Urgencias con Observación",
         "rips_typefile_id": 6
     },
     {
@@ -28,7 +28,7 @@
         "rips_typefile_id": 7
     },
     {
-        "name": "Recién nacidos",
+        "name": "Recién Nacidos",
         "rips_typefile_id": 8
     },
     {
@@ -36,7 +36,7 @@
         "rips_typefile_id": 9
     },
     {
-        "name": "Otros servicios",
+        "name": "Otros Servicios",
         "rips_typefile_id": 10
     }    
    
