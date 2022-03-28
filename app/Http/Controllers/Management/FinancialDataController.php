@@ -19,14 +19,20 @@ class FinancialDataController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $FinancialData = FinancialData::select();
+        $FinancialData = FinancialData::with('bank_information_id');
+        
 
         if($request->_sort){
             $FinancialData->orderBy($request->_sort, $request->_order);
         }            
 
-        if ($request->search) {
+        if ($request->search) { 
             $FinancialData->where('name','like','%' . $request->search. '%');
+
+        }
+
+        if ($request->financial_data_id) {
+            $AccountReceivable->where('bank_information_id', $request->bank_information_id);
         }
         
         if($request->query("pagination", true)=="false"){

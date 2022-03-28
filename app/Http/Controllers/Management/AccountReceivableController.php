@@ -19,7 +19,7 @@ class AccountReceivableController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::select();
+        $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus');
 
         if($request->_sort){
             $AccountReceivable->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,15 @@ class AccountReceivableController extends Controller
 
         if ($request->search) {
             $AccountReceivable->where('name','like','%' . $request->search. '%');
+        }
+        if ($request->gloss_ambit_id) {
+            $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
+        }
+        if ($request->status_bill_id) {
+            $AccountReceivable->where('status_bill_id', $request->status_bill_id);
+        }
+        if ($request->campus_id) {
+            $AccountReceivable->where('campus_id', $request->campus_id);
         }
         
         if($request->query("pagination", true)=="false"){
@@ -52,9 +61,11 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = new AccountReceivable;
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->total_value_activities = $request->total_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit = $request->gloss_ambit;
-        $AccountReceivable->status_bill = $request->status_bill; 
+        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
+        $AccountReceivable->status_bill_id = $request->status_bill_id;
+        $AccountReceivable->campus_id = $request->campus_id;
         $AccountReceivable->observation = $request->observation; 
         $AccountReceivable->save();
 
@@ -93,9 +104,11 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = AccountReceivable::find($id);
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->total_value_activities = $request->total_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit = $request->gloss_ambit;
-        $AccountReceivable->status_bill = $request->status_bill; 
+        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
+        $AccountReceivable->status_bill_id = $request->status_bill_id;
+        $AccountReceivable->campus_id = $request->campus_id;
         $AccountReceivable->observation = $request->observation;
         $AccountReceivable->save();
 

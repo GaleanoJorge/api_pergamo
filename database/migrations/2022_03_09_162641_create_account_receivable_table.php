@@ -19,6 +19,7 @@ class CreateAccountReceivableTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('gloss_ambit_id');
             $table->unsignedBigInteger('status_bill_id');
+            $table->unsignedBigInteger('campus_id');
             $table->double('total_value_activities');
             $table->string('observation');
             $table->timestamps();
@@ -26,13 +27,16 @@ class CreateAccountReceivableTable extends Migration
             $table->index('user_id');
             $table->index('gloss_ambit_id');
             $table->index('status_bill_id');
+            $table->index('campus_id');
 
             $table->foreign('user_id')->references('id')
                 ->on('users');
             $table->foreign('gloss_ambit_id')->references('id')
                 ->on('gloss_ambit');
             $table->foreign('status_bill_id')->references('id')
-                ->on('status_bill');
+            ->on('status_bill');
+            $table->foreign('campus_id')->references('id')
+                ->on('campus');
         });
     }
 

@@ -925,5 +925,14 @@
         "route": "/pages/setting/relationship",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "162",
+        "item_parent_id": null,
+        "name": "Cuentas de cobro",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/list",
+        "icon": "layers-outline",
+        "show_menu": "1"
     }
 ]

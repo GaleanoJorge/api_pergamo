@@ -19,7 +19,7 @@ class RetentionsController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $Retentions = Retentions::select();
+        $Retentions = Retentions::with('accoun_receivable');
 
         if($request->_sort){
             $Retentions->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,10 @@ class RetentionsController extends Controller
 
         if ($request->search) {
             $Retentions->where('name','like','%' . $request->search. '%');
+        }
+
+        if ($request->status_bill_id) {
+            $AccountReceivable->where('account_receivble_id', $request->account_receivble_id);
         }
         
         if($request->query("pagination", true)=="false"){

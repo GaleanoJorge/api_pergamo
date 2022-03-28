@@ -12,8 +12,7 @@ class AccountReceivable extends BaseAccountReceivable
     'user_id',
     'gloss_ambit_id',
     'status_bill_id',
-    'observation',
-         
-	
+    'campus_id',
+    'observation',	
 	];
 }
