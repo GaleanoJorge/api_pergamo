@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\Municipality;
 use App\Models\NeighborhoodOrResidence;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Locality;
 
@@ -70,12 +71,21 @@ class LocationController extends Controller
      * @param integer $municipalityId
      * @return JsonResponse
      */
-    
-    public function GetLocalityByMunicipality(int $municipalityId): JsonResponse
+
+    public function GetLocalityByMunicipality(Request $request, int $municipalityId): JsonResponse
     {
         $locality = Locality::where('municipality_id', $municipalityId)
-            ->orderBy('name', 'asc')->get()->toArray();
+            ->orderBy('name', 'asc');
 
+
+        if ($request->query("pagination", true) == "false") {
+            $locality = $locality->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $locality = $locality->paginate($per_page, '*', 'page', $page);
+        }
         return response()->json([
             'status' => true,
             'message' => 'localidades por municipio obtenidos exitosamente',
