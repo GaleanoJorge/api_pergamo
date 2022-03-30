@@ -78,6 +78,7 @@ class DietSuppliesOutputMenuController extends Controller
                         $cantidadBase = $DietStock->amount;
                         $cantidadSustraida = $supply['amount'] * $conponent->amount;
                         $cantidadTotal = $cantidadBase - $cantidadSustraida;
+                        $DietStock->campus_id = $campus_id;
                         $DietStock->amount = $cantidadTotal;
                         $DietStock->save();
                     } else {
