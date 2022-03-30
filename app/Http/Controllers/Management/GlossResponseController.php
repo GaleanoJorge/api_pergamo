@@ -63,7 +63,7 @@ class GlossResponseController extends Controller
                 $Gloss = Gloss::find($item);
                 if ($validate) {
                     $err++;
-                } else if($Gloss->objeted_value != $request->result){
+                } else if ($Gloss->objeted_value != $request->result) {
                     $res_err++;
                 } else {
                     $cont++;
@@ -77,14 +77,17 @@ class GlossResponseController extends Controller
                     $GlossResponse->user_id = Auth::user()->id;
                     $GlossResponse->accepted_value = $request->accepted_value;
                     $GlossResponse->value_not_accepted = $request->value_not_accepted;
-                    if ($request->file('file')) {
-                        $path = Storage::disk('public')->put('file', $request->file('file'));
-                        $GlossResponse->file = $path;
-                    }
+                    $GlossResponse->file = $request->file;
                     $GlossResponse->save();
 
                     $Gloss = Gloss::find($item);
-                    $Gloss->gloss_status_id = 2;
+                    if ($Gloss->objetion_type_id == 2) {
+
+                        $Gloss->gloss_status_id = 3;
+                    } else {
+
+                        $Gloss->gloss_status_id = 2;
+                    }
                     $Gloss->save();
                 }
             }
@@ -96,7 +99,7 @@ class GlossResponseController extends Controller
             ]);
         } else {
             $GlossResponse = new GlossResponse;
-            $GlossResponse->gloss_id = $request->gloss_id;        
+            $GlossResponse->gloss_id = $request->gloss_id;
             $GlossResponse->objetion_response_id = $request->objetion_response_id;
             $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
             $GlossResponse->response = $request->response;
@@ -105,16 +108,18 @@ class GlossResponseController extends Controller
             $GlossResponse->user_id = Auth::user()->id;
             $GlossResponse->accepted_value = $request->accepted_value;
             $GlossResponse->value_not_accepted = $request->value_not_accepted;
-            if ($request->file('file')) {
-                $path = Storage::disk('public')->put('file', $request->file('file'));
-                $GlossResponse->file = $path;
-            }
-            $GlossResponse->save();
-    
-            $Gloss= Gloss::find($request->gloss_id);
-            $Gloss->gloss_status_id=2;
-            $Gloss->save();
+            // if ($request->file('file')) {
+            //     $path = Storage::disk('public')->put('file', $request->file('file'));
+            //     $GlossResponse->file = $path;
+            // }
+            $GlossResponse->file = $request->file;
             
+            $GlossResponse->save();
+
+            $Gloss = Gloss::find($request->gloss_id);
+            $Gloss->gloss_status_id = 2;
+            $Gloss->save();
+
             return response()->json([
                 'status' => true,
                 'message' => 'Respuesta de Glosa creados exitosamente',

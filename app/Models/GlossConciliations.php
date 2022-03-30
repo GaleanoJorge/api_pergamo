@@ -9,6 +9,7 @@ class GlossConciliations extends BaseGlossConciliations
 	protected $fillable = [
 		'gloss_id',
 		'user_id',
+		'objeted_value',
 		'cociliations_date',
 		'observations',
 		'accepted_value',
