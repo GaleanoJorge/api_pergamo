@@ -17,9 +17,9 @@ class CreateGlossConciliationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('gloss_id');
             $table->string('conciliations_date');
-            $table->string('observation');
+            $table->unsignedBigInteger('objeted_value');
             $table->unsignedBigInteger('user_id');
-            $table->string('file');
+            // $table->string('file');
             $table->timestamps();
 
             $table->index('user_id');

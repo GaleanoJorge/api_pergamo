@@ -1033,7 +1033,15 @@
         "route": "/pages/diets/list",
         "icon": "shopping-cart-outline",
         "show_menu": "1"
-
+    },
+    {
+        "id": "162",
+        "item_parent_id": null,
+        "name": "Conciliaciones",
+        "code": "conciliations",
+        "route": "/pages/gloss/conciliations",
+        "icon": "log-in-outline",
+        "show_menu": "1"
     }
 
 ]
