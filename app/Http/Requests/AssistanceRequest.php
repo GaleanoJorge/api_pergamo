@@ -27,7 +27,7 @@ class AssistanceRequest extends FormRequest
             'user_id' => 'required',
             'medical_record' => 'required',
             'contract_type_id' => 'required',
-            'cost_center_id' => '',
+            // 'cost_center_id' => '',
             'type_professional_id' => '',
             'attends_external_consultation' => 'required',
             'serve_multiple_patients' => 'required',

@@ -729,7 +729,6 @@ class UserController extends Controller
                     $assistance->contract_type_id = $request->contract_type_id;
                     // $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
-                    $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->special_field = $request->special_field;
@@ -745,22 +744,15 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-                    if($request->PAD_service!=0){
-                        $InstalledCapacity = new InstalledCapacity;
-                        $InstalledCapacity->user_id = $user->id;
-                        $InstalledCapacity->start_date = Carbon::now();
-                        $InstalledCapacity->finish_date = Carbon::now()->endOfMonth();
-                        $InstalledCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
-                        $InstalledCapacity->save();
-                        
-                    }
 
 
                     $id = Assistance::latest('id')->first();
-                    $array = explode(',', $request->localities_id);
+                    $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
                         $LocationCapacity = new LocationCapacity();
-                        $LocationCapacity->locality_id = $item;
+                        $LocationCapacity->locality_id = $item->locality_id;
+                        $LocationCapacity->PAD_patient_quantity = $item->amount;
+                        $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -837,7 +829,6 @@ class UserController extends Controller
                 $assistance->contract_type_id = $request->contract_type_id;
                 // $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
-                $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->special_field = $request->special_field;    
@@ -1015,7 +1006,6 @@ class UserController extends Controller
             // $assistance->cost_center_id = $request->cost_center_id;
             // $assistance->type_professional_id = $request->type_professional_id;
             $assistance->PAD_service = $request->PAD_service;
-            $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
             $assistance->attends_external_consultation = $request->attends_external_consultation;
             $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -1033,9 +1023,12 @@ class UserController extends Controller
 
             $id = Assistance::latest('id')->first();
 
-            foreach ($request->localities_id as $item) {
+            $array = json_decode($request->localities_id);
+            foreach ($array as $item) {
                 $LocationCapacity = new LocationCapacity();
-                $LocationCapacity->locality_id = $item;
+                $LocationCapacity->locality_id = $item->locality_id;
+                $LocationCapacity->PAD_patient_quantity = $item->amount;
+                $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                 $LocationCapacity->assistance_id = $id->id;
                 $LocationCapacity->save();
             }

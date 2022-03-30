@@ -18,7 +18,7 @@ class LocationCapacityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $LocationCapacity = LocationCapacity::select();
+        $LocationCapacity = LocationCapacity::with('residence','installed_capacity');
 
         if($request->_sort){
             $LocationCapacity->orderBy($request->_sort, $request->_order);
@@ -81,6 +81,8 @@ class LocationCapacityController extends Controller
         $LocationCapacity = new LocationCapacity;
         $LocationCapacity->assistance_id = $request->assistance_id;
         $LocationCapacity->location_id = $request->location_id;
+        $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
+        $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;
         $LocationCapacity->save();
 
         return response()->json([
@@ -119,6 +121,8 @@ class LocationCapacityController extends Controller
         $LocationCapacity = LocationCapacity::find($id);
         $LocationCapacity->assistance_id = $request->assistance_id;
         $LocationCapacity->location_id = $request->location_id;
+        $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
+        $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;
         $LocationCapacity->save();
 
         return response()->json([

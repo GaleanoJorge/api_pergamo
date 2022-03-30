@@ -13,7 +13,6 @@ class Assistance extends BaseAssistance
     'contract_type_id',
     'cost_center_id', 
     'PAD_service', 
-    'PAD_patient_quantity', 
     'attends_external_consultation', 
     'serve_multiple_patients', 
     'file_firm', 
