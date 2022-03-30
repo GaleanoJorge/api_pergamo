@@ -823,6 +823,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //historia clinica    
     Route::apiResource('ch_diagnosis', 'Management\ChDiagnosisController');
+    Route::get('ch_diagnosis/by_record/{id}/{type_record_id}', 'Management\ChDiagnosisController@getByRecord');
     Route::apiResource('ch_diagnosis_class', 'Management\ChDiagnosisClassController');
     Route::apiResource('ch_diagnosis_type', 'Management\ChDiagnosisTypeController');
     Route::apiResource('ch_external_cause', 'Management\ChExternalCauseController');
@@ -840,6 +841,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
+
+    
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');

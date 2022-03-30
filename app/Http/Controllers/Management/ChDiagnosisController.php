@@ -44,9 +44,32 @@ class ChDiagnosisController extends Controller
         ]);
     }
 
+      /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {
+        $ChDiagnosis = ChDiagnosis::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+            ->get()->toArray();
+        return response()->json([
+            'status' => true,
+            'message' => 'Diagnóstico obtenido exitosamente',
+            'data' => ['ch_diagnosis' => $ChDiagnosis]
+        ]);
+    }
 
     public function store(Request $request): JsonResponse
     {
+        if($request->ch_diagnosis_class_id==1){
+        $validate=ChDiagnosis::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_class_id',1)->first();
+        }else{
+            $validate=null;
+        }
+        if(!$validate){
         $ChDiagnosis = new ChDiagnosis;
         $ChDiagnosis->ch_diagnosis_type_id = $request->ch_diagnosis_type_id;
         $ChDiagnosis->ch_diagnosis_class_id = $request->ch_diagnosis_class_id;
@@ -54,8 +77,6 @@ class ChDiagnosisController extends Controller
         $ChDiagnosis->diagnosis_observation = $request->diagnosis_observation;
         $ChDiagnosis->type_record_id = $request->type_record_id;
         $ChDiagnosis->ch_record_id = $request->ch_record_id;
-
-
         $ChDiagnosis->save();
 
         return response()->json([
@@ -63,6 +84,12 @@ class ChDiagnosisController extends Controller
             'message' => 'Diagnóstico asociado al paciente exitosamente',
             'data' => ['ch_diagnosis' => $ChDiagnosis->toArray()]
         ]);
+    }else{
+        return response()->json([
+            'status' => false,
+            'message' => 'Ya tiene un diagnostico principal asociado'
+        ], 423);
+    }
     }
 
     /**

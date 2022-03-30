@@ -26,7 +26,7 @@ class ManagementPlanController extends Controller
         }
 
         if ($request->search) {
-            $ManagementPlan->where('name','like','%' . $request->search. '%');
+            $ManagementPlan->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) === "false") {
@@ -45,33 +45,32 @@ class ManagementPlanController extends Controller
         ]);
     }
 
-    public function getByAdmission(Request $request,int $id): JsonResponse
+    public function getByAdmission(Request $request, int $id): JsonResponse
     {
-        
-            $ManagementPlan = ManagementPlan::with('type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')->where('admissions_id',$id);
-        
-        
-        if($request->_sort){
+
+        $ManagementPlan = ManagementPlan::with('type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')->where('admissions_id', $id);
+
+
+        if ($request->_sort) {
             $ManagementPlan->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
             $ManagementPlan->where('invoice_prefix', 'like', '%' . $request->search . '%')
-            ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
-            ->orWhere('received_date', 'like', '%' . $request->search . '%')
-            ->orWhere('company.name', 'like', '%' . $request->search . '%');
+                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('received_date', 'like', '%' . $request->search . '%')
+                ->orWhere('company.name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ManagementPlan=$ManagementPlan->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $ManagementPlan = $ManagementPlan->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 30);
+
+            $ManagementPlan = $ManagementPlan->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 30);
-            
-            $ManagementPlan=$ManagementPlan->paginate($per_page,'*','page',$page); 
-        } 
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Planes obtenidos exitosamente',
@@ -96,31 +95,31 @@ class ManagementPlanController extends Controller
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->save();
 
-        $frequency= Frequency::where('id',$request->frequency_id)->get()->toArray();
+        $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
         foreach ($frequency as $key => $row) {
-            $diferencei=$row['days'] / $request->quantity;
+            $diferencei = $row['days'] / $request->quantity;
         }
-        $now=Carbon::now();
-        $finish=Carbon::now()->addDays($diferencei);
-        $diference=7;
-        for($i=0;$i< $request->quantity;$i++) {
+        $now = Carbon::now();
+        $finish = Carbon::now()->addDays($diferencei);
+        $diference = 7;
+        for ($i = 0; $i < $request->quantity; $i++) {
 
-            if($i==0){
-                $start=$now;
-                $finish=$finish;
-            }else{
-                $diference=$diference+$diferencei;
-                $start=$finish;
-                $finish=Carbon::now()->addDays($diference);       
+            if ($i == 0) {
+                $start = $now;
+                $finish = $finish;
+            } else {
+                $diference = $diference + $diferencei;
+                $start = $finish->addDays(1);
+                $finish = Carbon::now()->addDays($diference);
             }
-            $assignedManagement= new AssignedManagementPlan;
+            $assignedManagement = new AssignedManagementPlan;
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
             $assignedManagement->user_id = $request->assigned_user_id;
-            $assignedManagement->management_plan_id= $ManagementPlan->id;
+            $assignedManagement->management_plan_id = $ManagementPlan->id;
             $assignedManagement->save();
         }
-       
+
 
         return response()->json([
             'status' => true,
@@ -163,7 +162,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->save();
-        
+
 
         return response()->json([
             'status' => true,
