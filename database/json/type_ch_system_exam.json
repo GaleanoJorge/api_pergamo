@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Cardiovascular"
+    },
+    {
+        "name": "Gastrointestinal"
+    },
+    {
+        "name": "InfecciosoRespiratorio"
+    },
+    {
+        "name": "Neurológico"
+    },
+    {
+        "name": "Osteomuscular"
+    },
+    {
+        "name": "Piel y Faneras"
+    },
+    {
+        "name": "Renal"
+    },
+    {
+        "name": "Respiratorio"
+    }
+]
