@@ -29,7 +29,7 @@ class ManagementPlanRequest extends FormRequest
             'quantity' => 'required',
             'special_field_id',
             'admissions_id' => 'required',
-            'assigned_user_id' => 'required',    
+            'assigned_user_id' => '',    
         ];
     }
 }

@@ -1033,12 +1033,15 @@ class UserController extends Controller
 
             $id = Assistance::latest('id')->first();
 
+            if(is_array($request->special_field) == true){
+
             foreach ($request->localities_id as $item) {
                 $LocationCapacity = new LocationCapacity();
                 $LocationCapacity->locality_id = $item;
                 $LocationCapacity->assistance_id = $id->id;
                 $LocationCapacity->save();
             }
+        }
 
             if (is_array($request->special_field) == true) {
                 //if(sizeof($request->special_field) != 0 ){

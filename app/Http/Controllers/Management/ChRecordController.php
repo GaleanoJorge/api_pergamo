@@ -29,6 +29,11 @@ class ChRecordController extends Controller
             $ChRecord->where('status', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->record_id) {
+            $ChRecord->where('id',$request->record_id );
+        }
+
+
         if ($request->query("pagination", true) == "false") {
             $ChRecord = $ChRecord->get()->toArray();
         } else {
@@ -52,9 +57,9 @@ class ChRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function byadmission(Request $request, int $id): JsonResponse
+    public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
-        $ChRecord = ChRecord::where('admissions_id', $id);
+        $ChRecord = ChRecord::where('admissions_id', $id)->where('assigned_management_plan_id',$id2);
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -88,6 +93,7 @@ class ChRecordController extends Controller
         $ChRecord->status = $request->status;
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
+        $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
         $ChRecord->user_id = Auth::user()->id;
         $ChRecord->save();
 

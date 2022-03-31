@@ -163,6 +163,13 @@ class ManagementPlanController extends Controller
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->save();
 
+        $validate=AssignedManagementPlan::where('management_plan_id',$id)->get()->toArray();
+        foreach ($validate as $key => $value) {
+        $assignedManagement = AssignedManagementPlan::find($value['id']);
+        $assignedManagement->user_id = $request->assigned_user_id;
+        $assignedManagement->save();
+        }
+
 
         return response()->json([
             'status' => true,

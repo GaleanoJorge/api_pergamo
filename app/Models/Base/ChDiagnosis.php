@@ -6,9 +6,9 @@
 
 namespace App\Models\Base;
 
+use App\Models\ChDiagnosisClass;
+use App\Models\ChDiagnosisType;
 use App\Models\Diagnosis;
-use App\Models\DiagnosisClass;
-use App\Models\DiagnosisType; 
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use Carbon\Carbon;
@@ -41,11 +41,11 @@ class ChDiagnosis extends Model
 	}
 	public function ch_diagnosis_class()
 	{
-		return $this->belongsTo(DiagnosisClass::class);
+		return $this->belongsTo(ChDiagnosisClass::class);
 	}
 	public function ch_diagnosis_type()
 	{
-		return $this->belongsTo(DiagnosisType::class);
+		return $this->belongsTo(ChDiagnosisType::class);
 	}
 	public function type_record()
 	{
