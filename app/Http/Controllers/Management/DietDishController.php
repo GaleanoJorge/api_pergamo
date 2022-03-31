@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\DietDish;
+use App\Models\DietDishStock;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -106,6 +107,12 @@ class DietDishController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $DietDishStockDeleteArray = DietDishStock::where('diet_dish_id', $id)->get()->toArray();
+            foreach ($DietDishStockDeleteArray as $element) {
+                $DietDishStockDelete = DietDishStock::where('id', $element['id']);
+                $DietDishStockDelete->delete();
+            }
+            
             $DietDish = DietDish::find($id);
             $DietDish->delete();
 
