@@ -1,26 +1,26 @@
 [
     {
-        "name": "Abdomen"
+        "name": "ABDOMEN"
     },
     {
-        "name": "Cabeza cuello(ORL)"
+        "name": "CABEZA CUELLO (ORL)"
     },
     {
-        "name": "Extremidades"
+        "name": "EXTREMIDADES"
     },
     {
-        "name": "Genitourinario"
+        "name": "GENITOURINARIO"
     },
     {
-        "name": "Neurologico"
+        "name": "NEUROLÓGICO"
     },
     {
-        "name": "Otros"
+        "name": "OTROS"
     },
     {
-        "name": "Piel y faneras"
+        "name": "PIEL Y FANERAS"
     },
     {
-        "name": "Torax"
+        "name": "TORAX"
     }
 ]

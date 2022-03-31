@@ -826,18 +826,23 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_diagnosis_class', 'Management\ChDiagnosisClassController');
     Route::apiResource('ch_diagnosis_type', 'Management\ChDiagnosisTypeController');
     Route::apiResource('ch_external_cause', 'Management\ChExternalCauseController');
+    
     Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
     Route::apiResource('ch_system_exam', 'Management\ChSystemExamController');
+    Route::apiResource('ch_background', 'Management\ChBackgroundController');
 
     Route::get('ch_physical_exam/by_record/{id}/{type_record_id}', 'Management\ChPhysicalExamController@getByRecord');
-  
     Route::get('ch_system_exam/by_record/{id}/{type_record_id}', 'Management\ChSystemExamController@getByRecord');
+    Route::get('ch_background/by_record/{id}/{type_record_id}', 'Management\ChBackgroundController@getByRecord');
 
     Route::apiResource('ch_reason_consultation', 'Management\ChReasonConsultationController');
     Route::apiResource('ch_record', 'Management\ChRecordController');
     Route::apiResource('ch_review_system', 'Management\ChReviewSystemController');
+
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
     Route::apiResource('type_ch_system_exam', 'Management\ChTypeSystemExamController');
+    Route::apiResource('ch_type_background', 'Management\ChTypeBackgroundController');
+
     Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
     Route::apiResource('type_record', 'Management\ChTypeRecordController');
     Route::apiResource('ch_vital_hydration', 'Management\ChVitalHydrationController');
@@ -845,6 +850,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_signs', 'Management\ChVitalSignsController');
     Route::apiResource('ch_vital_temperature', 'Management\ChVitalTemperatureController');
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
+   
     Route::get('ch_record/byadmission/{id}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
 

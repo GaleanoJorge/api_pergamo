@@ -1,26 +1,26 @@
 [
     {
-        "name": "Cardiovascular"
+        "name": "CARDIOVASCULAR"
     },
     {
-        "name": "Gastrointestinal"
+        "name": "GASTROINTESTINAL"
     },
     {
-        "name": "InfecciosoRespiratorio"
+        "name": "INFECCIOSO RESPIRATORIO"
     },
     {
-        "name": "Neurológico"
+        "name": "NEUROLÓGICO"
     },
     {
-        "name": "Osteomuscular"
+        "name": "OSTEOMUSCULAR"
     },
     {
-        "name": "Piel y Faneras"
+        "name": "PIEL Y FANERAS"
     },
     {
-        "name": "Renal"
+        "name": "RENAL"
     },
     {
-        "name": "Respiratorio"
+        "name": "RESPIRATORIO"
     }
 ]
