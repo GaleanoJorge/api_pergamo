@@ -17,6 +17,7 @@ class CreatePacMonitoringTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('admissions_id');
             $table->date('application_date');
+            $table->string('type_plan');
             $table->string('authorization_pin');
             $table->unsignedBigInteger('profesional_user_id');
             $table->unsignedBigInteger('diagnosis_id');
