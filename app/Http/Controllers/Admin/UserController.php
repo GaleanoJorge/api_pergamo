@@ -752,6 +752,7 @@ class UserController extends Controller
                         $LocationCapacity = new LocationCapacity();
                         $LocationCapacity->locality_id = $item->locality_id;
                         $LocationCapacity->PAD_patient_quantity = $item->amount;
+                        $LocationCapacity->PAD_patient_attended = 0;
                         $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
@@ -1028,6 +1029,7 @@ class UserController extends Controller
                 $LocationCapacity = new LocationCapacity();
                 $LocationCapacity->locality_id = $item->locality_id;
                 $LocationCapacity->PAD_patient_quantity = $item->amount;
+                $LocationCapacity->PAD_patient_attended = 0;
                 $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                 $LocationCapacity->assistance_id = $id->id;
                 $LocationCapacity->save();

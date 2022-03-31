@@ -19,6 +19,7 @@ class CreateLocationCapacityTable extends Migration
             $table->unsignedBigInteger('locality_id');
             $table->unsignedBigInteger('PAD_patient_quantity')->nulleable();
             $table->unsignedBigInteger('PAD_patient_actual_capacity')->nulleable();
+            $table->unsignedBigInteger('PAD_patient_attended')->nulleable();
             $table->timestamps();
 
 

@@ -82,6 +82,7 @@ class LocationCapacityController extends Controller
         $LocationCapacity->assistance_id = $request->assistance_id;
         $LocationCapacity->location_id = $request->location_id;
         $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
+        $LocationCapacity->PAD_patient_attended = $request->PAD_patient_attended;
         $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;
         $LocationCapacity->save();
 
@@ -122,6 +123,7 @@ class LocationCapacityController extends Controller
         $LocationCapacity->assistance_id = $request->assistance_id;
         $LocationCapacity->location_id = $request->location_id;
         $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
+        $LocationCapacity->PAD_patient_attended = $request->PAD_patient_attended;
         $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;
         $LocationCapacity->save();
 

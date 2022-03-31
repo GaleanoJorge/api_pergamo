@@ -11,6 +11,7 @@ class LocationCapacity extends BaseLocationCapacity
       'assistance_id',
       'locality_id',
       'PAD_patient_quantity',
+      'PAD_patient_attended',
       'PAD_patient_actual_capacity',
 	];
 }

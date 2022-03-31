@@ -27,6 +27,7 @@ class LocationCapacityRequest extends FormRequest
             'installed_capacity_id' => 'numeric',
             'residence_id' => 'required|numeric',
             'PAD_patient_quantity' => 'required|numeric',
+            'PAD_patient_attended' => 'required|numeric',
             'PAD_patient_actual_capacity' => 'required|numeric',
         ];
     }

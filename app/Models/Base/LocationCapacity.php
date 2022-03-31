@@ -17,6 +17,7 @@ use App\Models\Locality;
  * 
  * @property int $id
  * @property BigInteger $PAD_patient_quantity
+ * @property BigInteger $PAD_patient_attended
  * @property BigInteger $PAD_patient_actual_capacity
  * @property int $assistance_id
  * @property int $locality_id
