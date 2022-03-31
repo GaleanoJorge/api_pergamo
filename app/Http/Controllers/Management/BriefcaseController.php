@@ -77,7 +77,7 @@ class BriefcaseController extends Controller
              $Briefcase->where('name', 'like', '%' . $request->search . '%')
              ->Orwhere('id', 'like', '%' . $request->search . '%');
          }
-         if ($request->query("pagination", true) === "false") {
+         if ($request->query("pagination", true) == "false") {
              $Briefcase = $Briefcase->get()->toArray();
          } else {
              $page = $request->query("current_page", 1);
