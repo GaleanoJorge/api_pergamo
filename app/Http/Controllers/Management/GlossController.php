@@ -8,6 +8,10 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\GlossRequest;
+use App\Models\ConciliationResponse;
+use App\Models\GlossConciliations;
+use App\Models\GlossResponse;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 
 class GlossController extends Controller
@@ -19,9 +23,9 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::select('gloss.*','gloss_response.id AS response_id')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user','regimen')
-        ->Join('company', 'gloss.company_id', 'company.id')
-        ->leftjoin('gloss_response', 'gloss.id', '=', 'gloss_response.gloss_id')->orderBy('received_date', 'ASC');
+        $Gloss = Gloss::select('gloss.*', 'gloss_response.id AS response_id')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user', 'regimen')
+            ->Join('company', 'gloss.company_id', 'company.id')
+            ->leftjoin('gloss_response', 'gloss.id', '=', 'gloss_response.gloss_id')->orderBy('received_date', 'ASC');
 
         if ($request->_sort) {
             $Gloss->orderBy($request->_sort, $request->_order);
@@ -29,9 +33,9 @@ class GlossController extends Controller
 
         if ($request->search) {
             $Gloss->where('invoice_prefix', 'like', '%' . $request->search . '%')
-            ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
-            ->orWhere('received_date', 'like', '%' . $request->search . '%')
-            ->orWhere('company.name', 'like', '%' . $request->search . '%');
+                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('received_date', 'like', '%' . $request->search . '%')
+                ->orWhere('company.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -52,43 +56,41 @@ class GlossController extends Controller
     }
 
 
-    public function getByStatus(Request $request,int $status,int $user_id): JsonResponse
+    public function getByStatus(Request $request, int $status, int $user_id): JsonResponse
     {
-        if($status==0 && $user_id==0){
-            $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
-            ->Join('company', 'gloss.company_id', 'company.id');
+        if ($status == 0 && $user_id == 0) {
+            $Gloss = Gloss::select('gloss.*')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user')
+                ->Join('company', 'gloss.company_id', 'company.id');
+        } else if ($status == 0) {
+            $Gloss = Gloss::select('gloss.*')->where('assing_user_id', $user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user')
+                ->Join('company', 'gloss.company_id', 'company.id');
+        } else if ($user_id == 0) {
+            $Gloss = Gloss::select('gloss.*')->where('gloss_status_id', $status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user')
+                ->Join('company', 'gloss.company_id', 'company.id');
+        } else {
+            $Gloss = Gloss::select('gloss.*')->where('gloss_status_id', $status)->where('assing_user_id', $user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user')
+                ->Join('company', 'gloss.company_id', 'company.id');
         }
-        else if($status==0){
-            $Gloss = Gloss::select('gloss.*')->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
-            ->Join('company', 'gloss.company_id', 'company.id');
-        }else if($user_id==0){
-        $Gloss = Gloss::select('gloss.*')->where('gloss_status_id',$status)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
-        ->Join('company', 'gloss.company_id', 'company.id');
-        }else{
-            $Gloss = Gloss::select('gloss.*')->where('gloss_status_id',$status)->where('assing_user_id',$user_id)->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status','assing_user')
-            ->Join('company', 'gloss.company_id', 'company.id');
-        }
-        if($request->_sort){
+        if ($request->_sort) {
             $Gloss->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Gloss->where('invoice_prefix', 'like', '%' . $request->search . '%')
-            ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
-            ->orWhere('received_date', 'like', '%' . $request->search . '%')
-            ->orWhere('company.name', 'like', '%' . $request->search . '%');
+            $Gloss->orwhere('invoice_prefix', 'like', '%' . $request->search . '%')
+                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('received_date', 'like', '%' . $request->search . '%')
+                ->orWhere('company.name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Gloss=$Gloss->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Gloss = $Gloss->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 30);
+
+            $Gloss = $Gloss->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 30);
-            
-            $Gloss=$Gloss->paginate($per_page,'*','page',$page); 
-        } 
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Glosas obtenidos exitosamente',
@@ -99,37 +101,36 @@ class GlossController extends Controller
     public function import(Request $request)
     {
         foreach ($request->toArray() as $key => $item) {
-            
-                $Gloss = new Gloss;
-                $Gloss->objetion_type_id = $item['Tipo_Objecion'];
-                $GlossCon = Gloss::where('invoice_prefix', '=', $item["Prefijo_Factura"])->where('invoice_consecutive', '=', $item['Consecutivo_Factura'])->where('objetion_code_id','=',$item['Cod_Objeción'])->first();
-                if (!$GlossCon) {
-                    $Gloss->repeated_initial_id = 1;
-                }else{
-                    $Gloss->repeated_initial_id = 2;
-                }
-                $Gloss->company_id = $item['EAPB'];
-                $Gloss->campus_id = $item['Sede'];
-                $Gloss->gloss_ambit_id = $item['Ambito'];
-                $Gloss->gloss_modality_id = $item['Modalidad'];
-                $Gloss->gloss_service_id = $item['Servicio'];
-                $Gloss->objetion_code_id = $item['Cod_Objeción'];
-                $Gloss->regimen_id = $item['Regimen'];
-                $Gloss->gloss_status_id = 1;
-                $Gloss->user_id = Auth::user()->id;
-                $Gloss->received_by_id = $item['Medio_Recibido'];
-                $Gloss->invoice_prefix = $item['Prefijo_Factura'];
-                $Gloss->objetion_detail = $item['Detalle_de_Objeción'];
-                $Gloss->invoice_consecutive = $item['Consecutivo_Factura'];
-                $Gloss->objeted_value = $item['Vr_Objetado'];
-                $Gloss->invoice_value = $item['Cantidad'];
-                $Gloss->emission_date = $item['F_Emision'];
-                $Gloss->radication_date = $item['F_Radicacion'];
-                $Gloss->received_date = $item['F_Recibido'];
-                $Gloss->assing_user_id = $item['Analista_Asig'];
-                $Gloss->save();
-            
+
+            $Gloss = new Gloss;
+            $Gloss->objetion_type_id = $item['Tipo_Objecion'];
+            $GlossCon = Gloss::where('invoice_prefix', '=', $item["Prefijo_Factura"])->where('invoice_consecutive', '=', $item['Consecutivo_Factura'])->where('objetion_code_id', '=', $item['Cod_Objeción'])->first();
+            if (!$GlossCon) {
+                $Gloss->repeated_initial_id = 1;
+            } else {
+                $Gloss->repeated_initial_id = 2;
             }
+            $Gloss->company_id = $item['EAPB'];
+            $Gloss->campus_id = $item['Sede'];
+            $Gloss->gloss_ambit_id = $item['Ambito'];
+            $Gloss->gloss_modality_id = $item['Modalidad'];
+            $Gloss->gloss_service_id = $item['Servicio'];
+            $Gloss->objetion_code_id = $item['Cod_Objeción'];
+            $Gloss->regimen_id = $item['Regimen'];
+            $Gloss->gloss_status_id = 1;
+            $Gloss->user_id = Auth::user()->id;
+            $Gloss->received_by_id = $item['Medio_Recibido'];
+            $Gloss->invoice_prefix = $item['Prefijo_Factura'];
+            $Gloss->objetion_detail = $item['Detalle_de_Objeción'];
+            $Gloss->invoice_consecutive = $item['Consecutivo_Factura'];
+            $Gloss->objeted_value = $item['Vr_Objetado'];
+            $Gloss->invoice_value = $item['Cantidad'];
+            $Gloss->emission_date = $item['F_Emision'];
+            $Gloss->radication_date = $item['F_Radicacion'];
+            $Gloss->received_date = $item['F_Recibido'];
+            $Gloss->assing_user_id = $item['Analista_Asig'];
+            $Gloss->save();
+        }
         return response()->json([
             'status' => true,
             'message' => 'Glosas creadas exitosamente',
@@ -142,10 +143,10 @@ class GlossController extends Controller
     {
         $Gloss = new Gloss;
         $Gloss->objetion_type_id = $request->objetion_type_id;
-        $GlossCon = Gloss::where('invoice_prefix', '=', $request->invoice_prefix)->where('invoice_consecutive', '=',$request->invoice_consecutive)->where('objetion_code_id','=',$request->objetion_code_id)->first();
+        $GlossCon = Gloss::where('invoice_prefix', '=', $request->invoice_prefix)->where('invoice_consecutive', '=', $request->invoice_consecutive)->where('objetion_code_id', '=', $request->objetion_code_id)->first();
         if (!$GlossCon) {
             $Gloss->repeated_initial_id = 1;
-        }else{
+        } else {
             $Gloss->repeated_initial_id = 2;
         }
         $Gloss->company_id = $request->company_id;
@@ -168,7 +169,7 @@ class GlossController extends Controller
         $Gloss->received_date = $request->received_date;
         $Gloss->assing_user_id = $request->assing_user_id;
         $Gloss->save();
-     
+
         return response()->json([
             'status' => true,
             'message' => 'Glosas creadas exitosamente',
@@ -179,20 +180,68 @@ class GlossController extends Controller
 
 
     public function ChangeStatusBriefcase(Request $request): JsonResponse
-    {  
+    {
 
-        $Gloss = Gloss::find($request->gloss_id);
-        $Gloss->gloss_status_id = $request->state_gloss;
-        $Gloss->save();
-     
-        return response()->json([
-            'status' => true,
-            'message' => 'Estado cambiado correctamente',
-            'data' => ['gloss' => $Gloss->toArray()]
-        ]);
+        if ($request->single == '0') {
+            $cont = 0;
+            $err = 0;
+            $gloss_id = json_decode($request->gloss_id);
+            foreach ($gloss_id as $item) {
+                $gloss = Gloss::find($item);
+                if($gloss->gloss_status_id == 2 || $gloss->gloss_status_id == 3){
+                    if ($request->state_gloss == "6") {
+                        $gloss_response = GlossResponse::select('gloss_response.*')->where("gloss_id", $item)->first();
+            
+                        $GlossConciliation = new GlossConciliations;
+                        $GlossConciliation->gloss_id = $item;
+                        $GlossConciliation->conciliations_date = Carbon::now();
+                        $GlossConciliation->objeted_value = $gloss_response->accepted_value;
+                        $GlossConciliation->user_id = Auth::user()->id;
+                        $GlossConciliation->save();
+                    }
+            
+                    $Gloss = Gloss::find($item);
+                    $Gloss->gloss_status_id = $request->state_gloss;
+                    $Gloss->save();
+
+                    $cont++;
+                } else {
+                    $err++;
+                }
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Estados cambiados correctamente',
+                'data' => 'Se han cambiado ' . $cont . ' correctamente. ' . $err . ' No aplican para el cambio de estado'
+            ]);
+
+        }else {
+            if ($request->state_gloss == "6") {
+                $gloss_response = GlossResponse::select('gloss_response.*')->where("gloss_id", $request->gloss_id)->first();
+    
+                $GlossConciliation = new GlossConciliations;
+                $GlossConciliation->gloss_id = $request->gloss_id;
+                $GlossConciliation->conciliations_date = Carbon::now();
+                $GlossConciliation->objeted_value = $gloss_response->accepted_value;
+                $GlossConciliation->user_id = Auth::user()->id;
+                $GlossConciliation->save();
+            }
+    
+            $Gloss = Gloss::find($request->gloss_id);
+            $Gloss->gloss_status_id = $request->state_gloss;
+            $Gloss->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Estado cambiado correctamente',
+                'data' => ['gloss' => $Gloss->toArray()]
+            ]);
+        }
+        
+
+
+        
     }
-   
-     
 
 
     /**
@@ -228,7 +277,7 @@ class GlossController extends Controller
         $Gloss->gloss_ambit_id = $request->gloss_ambit_id;
         $Gloss->gloss_modality_id = $request->gloss_modality_id;
         $Gloss->gloss_service_id = $request->gloss_service_id;
-        if($request->objetion_code_id){
+        if ($request->objetion_code_id) {
             $Gloss->objetion_code_id = $request->objetion_code_id;
         }
         $Gloss->gloss_status_id = 1;

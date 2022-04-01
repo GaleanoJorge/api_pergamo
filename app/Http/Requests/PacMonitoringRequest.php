@@ -26,6 +26,7 @@ class PacMonitoringRequest extends FormRequest
         return [
             'admissions_id' => 'required',
             'application_date' => '',
+            'type_plan' =>'',
             'authorization_pin' => '',
             'profesional_user_id' => '',
             'diagnosis_id' => '',           

@@ -7,7 +7,7 @@
     {
         "diet_dish_id": 1,
         "diet_supplies_id": 4,
-        "amount": 0.2
+        "amount": 200
     },
     {
         "diet_dish_id": 2,
@@ -17,11 +17,11 @@
     {
         "diet_dish_id": 2,
         "diet_supplies_id": 3,
-        "amount": 0.2
+        "amount": 200
     },
     {
         "diet_dish_id": 2,
         "diet_supplies_id": 5,
-        "amount": 0.2
+        "amount": 200
     }
 ]
