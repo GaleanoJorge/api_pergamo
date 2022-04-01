@@ -647,7 +647,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
 
-    Route::get('assigned_management_plan/{managementId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
+    Route::get('assigned_management_plan/{managementId}/{userId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
     // Route::get('Policy/FileByContract/{contractId}',
     // 'Management\PolicyController@getByContract');

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\AssignedManagementPlan;
 use Carbon\Carbon;
 
 class ChRecordController extends Controller
@@ -132,14 +133,15 @@ class ChRecordController extends Controller
     {
         $ChRecord = ChRecord::find($id);
         $ChRecord->status = $request->status;
-        $ChRecord->date_attention = $request->date_attention;
-        $ChRecord->admissions_id = $request->admissions_id;
-        $ChRecord->user_id = $request->user_id;
-        $ChRecord->date_finish = $request->date_finish;
-
-
-
+        $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
+
+        $ChRecord = ChRecord::find($id)->get();
+
+        $assigned= AssignedManagementPlan::where('id',$ChRecord->assigned_management_plan_id)->where('')->get();
+
+
+        
 
         return response()->json([
             'status' => true,
