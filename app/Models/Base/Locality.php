@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Locality extends Model
 {
-	protected $table = 'Locality';
+	protected $table = 'locality';
 
 	
 }
