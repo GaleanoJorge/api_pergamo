@@ -50,6 +50,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('municipality', 'Management\MunicipalityController');
     Route::get('municipalityAutocomplete', 'Management\MunicipalityController@autocomplete');
 
+    //Locality-neighborhood
+    Route::apiResource('locality', 'Management\LocalityController');
+    Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
+    Route::apiResource('pad_risk', 'Management\PadRiskController');
+    Route::apiResource('tariff', 'Management\TariffController');
+
     //Region
     Route::apiResource('region', 'Management\RegionController');
 

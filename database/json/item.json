@@ -1033,7 +1033,50 @@
         "route": "/pages/diets/list",
         "icon": "shopping-cart-outline",
         "show_menu": "1"
-
+    },
+    {
+        "id": "163",
+        "item_parent_id": "65",
+        "name": "Localidad",
+        "code": "localidad",
+        "route": "/pages/setting/locality",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "164",
+        "item_parent_id": "65",
+        "name": "Barrio",
+        "code": "barrio",
+        "route": "/pages/setting/neighborhood",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "165",
+        "item_parent_id": "67",
+        "name": "Configuración de Tarifas Médicos",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "166",
+        "item_parent_id": "165",
+        "name": "Riesgo de barrios",
+        "code": "risk-neighborhood",
+        "route": "/pages/setting/pad-risk",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "167",
+        "item_parent_id": "165",
+        "name": "Tarifas Médicos",
+        "code": "tariff",
+        "route": "/pages/setting/tariff",
+        "icon": "navigation-outline",
+        "show_menu": "1"
     }
-
 ]
