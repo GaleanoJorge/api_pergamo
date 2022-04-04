@@ -12,7 +12,7 @@ class StatusBillSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/status-bill.json'));
+        $data = file_get_contents(database_path('json/status_bill.json'));
 
         foreach (json_decode($data) as $row) {
             StatusBill::create([

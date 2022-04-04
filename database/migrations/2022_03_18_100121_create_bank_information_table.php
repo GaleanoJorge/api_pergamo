@@ -15,10 +15,20 @@ class CreateBankInformationTable extends Migration
     {
         Schema::create('bank_information', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('bank');
-            $table->string('account_type');  
+            $table->unsignedBigInteger('bank_id');
+            $table->unsignedBigInteger('account_type_id');  
             $table->double('account_number');
             $table->timestamps();
+
+            $table->index('bank_id');
+
+                $table->foreign('bank_id')->references('id')
+                    ->on('bank');
+
+                $table->index('account_type_id');
+
+                 $table->foreign('account_type_id')->references('id')
+                        ->on('account_type');
 
         });
     }

@@ -57,6 +57,7 @@ class FinancialDataController extends Controller
     public function store(FinancialDataRequest $request): JsonResponse
     {
         $FinancialData = new FinancialData;
+        $FinancialData->user_id = $request->user_id;
         $FinancialData->bank_information_id = $request->bank_information_id;
         $FinancialData->rut = $request->rut;
        
@@ -97,6 +98,7 @@ class FinancialDataController extends Controller
     public function update(FinancialDataRequest $request, int $id): JsonResponse
     {
         $FinancialData = FinancialData::find($id);
+        $FinancialData->user_id = $request->user_id;
         $FinancialData->bank_information_id = $request->bank_information_id;
         $FinancialData->rut = $request->rut;
         $FinancialData->save();

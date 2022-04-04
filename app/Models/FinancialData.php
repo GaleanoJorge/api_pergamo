@@ -8,6 +8,7 @@ use App\Models\Base\FinancialData as BaseFinancialData;
 class FinancialData extends BaseFinancialData
 {
     protected $fillable = [
+    'user_id',
 		'bank_information_id',
     'rut',
     
