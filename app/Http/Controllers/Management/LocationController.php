@@ -61,7 +61,7 @@ class LocationController extends Controller
         $Location->pavilion_id = $request->pavilion_id;
         $Location->flat_id = $request->flat_id;
         $Location->bed_id = $request->bed_id;
-        $Location->user_id = $request->user_id;
+        $Location->user_id = Auth::user()->id;
         $Location->entry_date = Carbon::now();
 
         

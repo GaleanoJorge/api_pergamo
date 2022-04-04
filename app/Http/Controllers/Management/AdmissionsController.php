@@ -11,13 +11,14 @@ use App\Http\Requests\AdmissionsRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AdmissionsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
 
-        $Admissions = Admissions::with('users')->orderBy('created_at', 'desc');
+        $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc');
 
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -56,7 +57,19 @@ class AdmissionsController extends Controller
      */
     public function getByPacient(Request $request, int $pacientId): JsonResponse
     {
-        $Admissions = Admissions::where('user_id', $pacientId)->with('users', 'campus', 'contract', 'location', 'location.admission_route', 'location.scope_of_attention', 'location.program', 'location.flat', 'location.pavilion', 'location.bed',)->orderBy('created_at', 'desc');
+        $Admissions = Admissions::where('patient_id', $pacientId)
+        ->with(
+            'patients',
+            'campus', 
+            'contract', 
+            'location', 
+            'location.admission_route', 
+            'location.scope_of_attention', 
+            'location.program', 
+            'location.flat', 
+            'location.pavilion', 
+            'location.bed',)->orderBy('created_at', 'desc');
+            
         if ($request->search) {
             $Admissions->where('name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -86,15 +99,15 @@ class AdmissionsController extends Controller
      */
     public function ByPac(Request $request, int $roleId): JsonResponse
     {
-        $Admissions = Admissions::Leftjoin('users', 'admissions.user_id', 'users.id')
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                'users.identification_type_id',
-                'users.identification',
-                'users.email',
-                'users.residence_address',
-                'users.residence_municipality_id',
-                \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                'patients.identification_type_id',
+                'patients.identification',
+                'patients.email',
+                'patients.residence_address',
+                'patients.residence_municipality_id',
+                \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
             ->LeftJoin('location', 'location.admissions_id', 'admissions.id')
             // ->Join('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
@@ -172,14 +185,14 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
-        $count      = Admissions::where('user_id', $request->user_id)->count();
+        $count      = Admissions::where('patient_id', $request->patient_id)->count();
         $Admissions = new Admissions;
         $Admissions->consecutive = $count + 1;
         $Admissions->diagnosis_id = $request->diagnosis_id;;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->contract_id = $request->contract_id;
         $Admissions->briefcase_id = $request->contract_id;
-        $Admissions->user_id = $request->user_id;
+        $Admissions->patient_id = $request->patient_id;
         $Admissions->entry_date = Carbon::now();
         $Admissions->save();
 
@@ -191,7 +204,7 @@ class AdmissionsController extends Controller
         $Location->pavilion_id = $request->pavilion_id;
         $Location->flat_id = $request->flat_id;
         $Location->bed_id = $request->bed_id;
-        $Location->user_id = $request->user_id;
+        $Location->user_id = Auth::user()->id;
         $Location->entry_date = Carbon::now();
         $Location->save();
 
@@ -254,7 +267,7 @@ class AdmissionsController extends Controller
             $Admissions->campus_id = $request->campus_id;
             $Admissions->contract_id = $request->contract_id;
             $Admissions->briefcase = $request->contract_id;
-            $Admissions->user_id = $request->user_id;
+            $Admissions->patient_id = $request->patient_id;
             $Admissions->save();
         }
 

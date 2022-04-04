@@ -254,6 +254,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('courses', 'Management\CourseMainController');
     Route::get('courses/byvalidity/{validityId}/{originId}/{categoryId}', 'Management\CourseMainController@index2');
 
+    // patients
+    Route::apiResource('patient', 'Management\PatientController');
+    Route::get('all_patients', 'Management\PatientController@indexByRole');
+    Route::post('PacientInscription', 'Management\PatientController@store');
+    Route::post('PacientInscription/{id}', 'Management\PatientController@update');
+    Route::get('patient/{id}', 'Management\PatientController@show');
+    Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
+    Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
+
+
+
+
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');

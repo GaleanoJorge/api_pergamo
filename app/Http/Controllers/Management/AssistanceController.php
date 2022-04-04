@@ -51,7 +51,7 @@ class AssistanceController extends Controller
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id= $request->contract_type_id;
-        $Assistance->cost_center_id = $request->cost_center_id;
+        // $Assistance->cost_center_id = $request->cost_center_id;
         $Assistance->PAD_service = $request->PAD_service;
         $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->medium_signature_file_id = $request->medium_signature_file_id;
@@ -97,7 +97,7 @@ class AssistanceController extends Controller
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id= $request->contract_type_id;
-        $Assistance->cost_center_id = $request->cost_center_id;
+        // $Assistance->cost_center_id = $request->cost_center_id;
         $Assistance->PAD_service = $request->PAD_service;
         $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
