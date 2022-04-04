@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\BillUserActivity as BaseBillUserActivity;
+use App\Models\Base\UserActivity as BaseUserActivity;
 
-class BillUserActivity extends BaseBillUserActivity
+class UserActivity extends BaseUserActivity
 {
     protected $fillable = [
 	

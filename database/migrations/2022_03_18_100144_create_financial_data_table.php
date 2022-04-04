@@ -15,6 +15,7 @@ class CreateFinancialDataTable extends Migration
     {
         Schema::create('financial_data', function (Blueprint $table) {
                 $table->bigIncrements('id');
+                $table->unsignedBigInteger('user_id');
                 $table->unsignedBigInteger('bank_information_id');
                 $table->string('rut');
                 $table->timestamps();
@@ -23,7 +24,11 @@ class CreateFinancialDataTable extends Migration
 
                 $table->foreign('bank_information_id')->references('id')
                     ->on('bank_information');
-               
+
+                $table->index('user_id');
+
+                 $table->foreign('user_id')->references('id')
+                        ->on('users');
 
                 
         });
@@ -36,6 +41,6 @@ class CreateFinancialDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_activity');
+        Schema::dropIfExists('financial_data');
     }
 }

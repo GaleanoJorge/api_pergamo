@@ -988,5 +988,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('financial_data', 'Management\FinancialDataController');
     Route::apiResource('bank_information', 'Management\BankInformationController');
     Route::apiResource('retentions', 'Management\RetentionsController');
+    Route::apiResource('account_type', 'Management\AccountTypeController');
+    Route::apiResource('bank', 'Management\BankController');
+    Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
+
 
 });

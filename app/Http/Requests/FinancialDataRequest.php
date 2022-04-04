@@ -24,7 +24,8 @@ class FinancialDataRequest extends FormRequest
     public function rules()
     {
         return [
-            'bank_information' => 'required',
+            'user_id' => 'required',
+            'bank_information_id' => 'required',
             'rut' => 'required',
        
             

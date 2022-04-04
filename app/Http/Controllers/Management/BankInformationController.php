@@ -17,9 +17,9 @@ class BankInformationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
-
     {
-        $BankInformation = BankInformation::select();
+    
+        $BankInformation = BankInformation::with('bank_id','account_type');
 
         if($request->_sort){
             $BankInformation->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,11 @@ class BankInformationController extends Controller
 
         if ($request->search) {
             $BankInformation->where('name','like','%' . $request->search. '%');
+        }
+
+        
+        if ($request->bank_infomation_id) {
+            $BankInformation->where('bank_id', $request->bank_id);
         }
         
         if($request->query("pagination", true)=="false"){

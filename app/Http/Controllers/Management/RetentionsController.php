@@ -107,9 +107,21 @@ class RetentionsController extends Controller
     public function update(RetentionsRequest $request, int $id): JsonResponse
     {
         $Retentions = Retentions::find($id);
-        $Retentions->bank = $request->bank;
-        $Retentions->account_type = $request->account_type;
-        $Retentions->account_number = $request->account_number;
+        $Retentions->account_receivable_id = $request->account_receivable_id;
+        $Retentions->rrt_salary = $request->rrt_salary;
+        $Retentions->rrt_comprehensive_salary = $request->rrt_comprehensive_salary;
+        $Retentions->rrt_means_transport = $request->rrt_means_transport;
+        $Retentions->rrt_holidays = $request->rrt_holidays;
+        $Retentions->incr_mandatory_pension_contributions = $request->incr_mandatory_pension_contributions;
+        $Retentions->incr_mandatory_fund_contributions = $request->incr_mandatory_fund_contributions;
+        $Retentions->incr_voluntary_contributions_funds= $request->incr_voluntary_contributions_funds;
+        $Retentions->incr_non_rental_income= $request->incr_non_rental_income;
+        $Retentions->d_home_interest_payment = $request->d_home_interest_payment;
+        $Retentions->d_dependent_payments = $request->d_dependent_payments;
+        $Retentions->d_health_payments = $request->d_health_payments;
+        $Retentions->re_contributions_voluntary_pension_fund = $request->re_contributions_voluntary_pension_fund;
+        $Retentions->re_contributions_accounts_AFC = $request->re_contributions_accounts_AFC;
+        $Retentions->re_other_extensive_income = $request->re_other_extensive_income;
         $Retentions->save();
 
         return response()->json([

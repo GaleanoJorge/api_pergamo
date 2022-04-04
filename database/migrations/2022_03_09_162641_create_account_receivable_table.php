@@ -19,7 +19,7 @@ class CreateAccountReceivableTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('gloss_ambit_id');
             $table->unsignedBigInteger('status_bill_id');
-            $table->unsignedBigInteger('campus_id');
+            $table->unsignedTinyInteger('campus_id');
             $table->double('total_value_activities');
             $table->string('observation');
             $table->timestamps();

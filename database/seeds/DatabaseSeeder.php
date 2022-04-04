@@ -105,6 +105,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeProfessionalSeeder::class);
                 $this->call(SpecialtySeeder::class);
 
+                //Terceros Asistenciales
+                $this->call(BankSeeder::class);
+                $this->call(AccountTypeSeeder::class);
+                $this->call(StatusBillSeeder::class);
 
                 $this->call(ChDiagnosisClassSeeder::class);
                 $this->call(ChDiagnosisTypeSeeder::class);

@@ -11,21 +11,21 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class FinancialData
+ * Class Bank
+ 
  * 
  * @property int $id
- * @property bigInteger $user_id
- * @property bigInteger $bank_information_id
- * @property string $rut
+ * @property string $code
+ * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class FinancialData extends Model
+class Bank extends Model
 {
-	protected $table = 'financial_data';
+	protected $table = 'bank';
 
 	
 }

@@ -8,8 +8,8 @@ use App\Models\Base\BankInformation as BaseBankInformation;
 class BankInformation extends BaseBankInformation
 {
     protected $fillable = [
-		'bank',
-    'account_type',
+		'bank_id',
+    'account_type_id',
     'account_number',
     
          

@@ -1,0 +1,127 @@
+[
+    {
+        "code": "1",
+        "name": "BANCO DE BOGOTÁ"
+    },
+    {
+        "code": "2",
+        "name": "BANCO POPULAR"
+    },
+    {
+        "code": "6",
+        "name": "BANCO CORPBANCA COLOMBIA"
+    },
+    {
+        "code": "7",
+        "name": "BANCOLOMBIA"
+    },
+    {
+        "code": "19",
+        "name": "CITIBANK"
+    },
+    {
+        "code": "12",
+        "name": "BANCO GNB SUDAMERIS"
+    },
+    {
+        "code": "13",
+        "name": "BANCO BBVA"
+    },
+    {
+        "code": "14",
+        "name": "HELM BANK"
+    },
+    {
+        "code": "19",
+        "name": "BANCO COLPATRIA"
+    },
+    {
+        "code": "23",
+        "name": "BANCO OCCIDENTE"
+    },
+    {
+        "code": "32",
+        "name": "BANCO CAJASOCIAL"
+    },
+    {
+        "code": "40",
+        "name": "BANCO AGRARIO"
+    },
+    {
+        "code": "42",
+        "name": "BNP PARIBAS COLOMBIA CORP.FINAN.S.A"
+    },
+    {
+        "code": "51",
+        "name": "BANCO DAVIVIENDA"
+    },
+    {
+        "code": "52",
+        "name": "BANCO AVVILLAS"
+    },
+    {
+        "code": "58",
+        "name": "BANCO PROCREDIT COL.S.A."
+    },
+    {
+        "code": "60",
+        "name": "BANCO PICHINCHA"
+    },
+    {
+        "code": "61",
+        "name": "BANCO COOMEVA"
+    },
+    {
+        "code": "62",
+        "name": "BANCO FALABELLA S.A."
+    },
+    {
+        "code": "63",
+        "name": "BANCO FINANDINA S.A."
+    },
+    {
+        "code": "65",
+        "name": "BANCO SANTANDER DE NEGOCIOS"
+    },
+    {
+        "code": "66",
+        "name": "BANCO COOPERATIVO COOPCENTRAL"
+    },
+    {
+        "code": "121",
+        "name": "FINANCIERA JURISCOOP S.A. COMPAÑÍA DE FINANCIAMIENTO"
+    },
+    {
+        "code": "283",
+        "name": "COOP. FINANCIERA DE ANTIOQUIA"
+    },
+    {
+        "code": "289",
+        "name": "COTRAFA COOPERATIVA FINANCIERA"
+    },
+    {
+        "code": "292",
+        "name": "CONFIAR"
+    },
+    {
+        "code": "370",
+        "name": "COLTEFINANCIERA S.A."
+    },
+    {
+        "code": "99",
+        "name": "PAGO EN CHEQUE"
+    },
+    {
+        "code": "98",
+        "name": "PAGO EN EFECTIVO"
+    },
+    {
+        "code": "97",
+        "name": "POR DEFINIR"
+    },
+    {
+        "code": "47",
+        "name": "BANCO MUNDO MUJER "
+    }
+]
+
