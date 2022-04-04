@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Creada"
+    },
+    {
+        "name": "Enviada"
+
+    },
+    {
+        "name": "Devuelta por gestor PAD"
+
+    },
+    {
+        "name": "Aprobada por gestor PAD"
+
+    },
+    {
+        "name": "Devuelta por Admin "
+
+    },
+    {
+        "name": "Aprobada por Admin "
+
+    },
+    {
+        "name": "Pagada"
+
+    },
+    {
+        "name": "Anulada"
+
+    }
+   
+  
+]
