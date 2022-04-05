@@ -69,7 +69,7 @@ class ProductController extends Controller
         $Product->minimum_stock = $request->minimum_stock;
         $Product->maximum_stock = $request->maximum_stock;
         $Product->generate_iva = $request->generate_iva;
-        
+        $Product->date_cum = $request->date_cum;
         $Product->save();
 
         return response()->json([
@@ -127,7 +127,7 @@ class ProductController extends Controller
         $Product->minimum_stock = $request->minimum_stock;
         $Product->maximum_stock = $request->maximum_stock;
         $Product->generate_iva = $request->generate_iva;
-        
+        $Product->date_cum = $request->date_cum;
         $Product->save();
 
         return response()->json([

@@ -28,5 +28,6 @@ protected $fillable = [
 	'minimum_stock',  
 	'maximum_stock',  
 	'generate_iva',  
+	'date_cum',  
 	];
 }

@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $minimum_stock
  * @property int $maximum_stock
  * @property int $generate_iva
+ * @property date $date_cum
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
