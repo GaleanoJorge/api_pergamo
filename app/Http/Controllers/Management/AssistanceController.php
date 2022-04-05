@@ -18,7 +18,7 @@ class AssistanceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Assistance = Assistance::select();
+        $Assistance = Assistance::with('user','special_field');
 
         if($request->_sort){
             $Assistance->orderBy($request->_sort, $request->_order);

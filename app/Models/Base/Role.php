@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\Log;
 use App\Models\LogLogin;
+use App\Models\RoleType;
 use App\Models\Permission;
 use App\Models\Status;
 use App\Models\User;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property int $status_id
+ * @property int $role_type_id
  * @property string $name
  * @property int $sga_origin_fk
  * @property Carbon $created_at
@@ -49,6 +51,11 @@ class Role extends Model
 	public function status()
 	{
 		return $this->belongsTo(Status::class);
+	}
+
+	public function role_type()
+	{
+		return $this->belongsTo(RoleType::class);
 	}
 
 	public function items()

@@ -935,6 +935,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('userRole/{userId}/{roleId}', 'Management\UserRoleController@getByUserRole');
     Route::get('userRoleCoordinator/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleCoordinator');
     Route::get('userRoleFormer/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleFormer');
+    Route::apiResource('role_type', 'Management\RoleTypeController');
 
 
     Route::get('get_students_by_course/{id}', 'Management\UserCertificateController@get_students');

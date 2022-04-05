@@ -9,7 +9,7 @@ use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
 use App\Models\Assistance;
-use App\Models\UserRoleCourse;
+use App\Models\Role;
 use App\Models\UserRoleCategoryInscription;
 use App\Models\Curriculum;
 use App\Models\InstalledCapacity;
@@ -721,13 +721,14 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
-                if ($role == 3 || $role == 7) {
+                $RoleType = Role::where('id', $role);
+                if ($RoleType && $RoleType->role_type_id == 2) {
                     $assistance = new Assistance;
                     $assistance->user_id = $user->id;
 
                     $assistance->medical_record = $request->medical_record;
                     $assistance->contract_type_id = $request->contract_type_id;
-                    // $assistance->cost_center_id = $request->cost_center_id;
+                    $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
@@ -822,13 +823,14 @@ class UserController extends Controller
             }
             $user->save();
 
-            if ($role == 3 || $role == 7) {
+            $RoleType = Role::where('id', $role);
+            if ($RoleType && $RoleType->role_type_id == 2) {
                 $assistance = new Assistance;
                 $assistance->user_id = $user->id;
 
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
-                // $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
@@ -850,7 +852,10 @@ class UserController extends Controller
 
                 foreach ($request->localities_id as $item) {
                     $LocationCapacity = new LocationCapacity();
-                    $LocationCapacity->locality_id = $item;
+                    $LocationCapacity->locality_id = $item->locality_id;
+                    $LocationCapacity->PAD_patient_quantity = $item->amount;
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                     $LocationCapacity->assistance_id = $id->id;
                     $LocationCapacity->save();
                 }
@@ -1000,11 +1005,12 @@ class UserController extends Controller
         }
         $user->save();
 
-        if ($role == 3 || $role == 7) {
+        $RoleType = Role::where('id', $role);
+        if ($RoleType && $RoleType->role_type_id == 2) {
             $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
-            // $assistance->cost_center_id = $request->cost_center_id;
+            $assistance->cost_center_id = $request->cost_center_id;
             // $assistance->type_professional_id = $request->type_professional_id;
             $assistance->PAD_service = $request->PAD_service;
             $assistance->attends_external_consultation = $request->attends_external_consultation;

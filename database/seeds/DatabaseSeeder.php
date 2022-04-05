@@ -56,6 +56,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(DiagnosisSeeder::class);
 
                 // $this->call(EducationalInstitutionSeeder::class);
+                $this->call(RoleTypeSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
                 $this->call(UserRoleSeeder::class);
