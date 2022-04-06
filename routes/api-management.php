@@ -691,11 +691,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\CampusBriefcaseController@getByBriefcase'
     );
 
-        //Portafolio de servicios por contrato
-        Route::get(
-            'location_capacity/AssistanceByLocation/{assistanceId}',
-            'Management\LocationCapacityController@getByLocality'
-        );
+    //Portafolio de servicios por contrato
+    Route::get(
+        'location_capacity/AssistanceByLocation/{assistanceId}',
+        'Management\LocationCapacityController@getByLocality'
+    );
+    Route::apiResource('location_capacity', 'Management\LocationCapacityController');
 
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');

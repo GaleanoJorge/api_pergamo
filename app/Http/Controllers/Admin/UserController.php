@@ -289,6 +289,10 @@ class UserController extends Controller
      */
     public function indexByRoleLocation(int $locality, int $roleId): JsonResponse
     {
+        $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
+
+        $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
+        $endDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st)->addMonth();
 
         $users = User::select(
             'assistance.id AS assistance_id','users.id'
@@ -301,7 +305,8 @@ class UserController extends Controller
 
             if ($locality) {
             foreach ($users as $key => $row) {
-                  $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->get()->toArray();
+                  $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate->addMonth()])
+                  ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
                   $pila = array();
                     foreach ($localityArr as $key => $row2) {
                         array_push($pila, $row2['locality_id'] );
@@ -721,8 +726,8 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
-                $RoleType = Role::where('id', $role);
-                if ($RoleType && $RoleType->role_type_id == 2) {
+                $RoleType = Role::where('id', $role)->get()->toArray();
+                if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                     $assistance = new Assistance;
                     $assistance->user_id = $user->id;
 
@@ -823,8 +828,8 @@ class UserController extends Controller
             }
             $user->save();
 
-            $RoleType = Role::where('id', $role);
-            if ($RoleType && $RoleType->role_type_id == 2) {
+            $RoleType = Role::where('id', $role)->get()->toArray();
+            if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                 $assistance = new Assistance;
                 $assistance->user_id = $user->id;
 
@@ -1005,8 +1010,8 @@ class UserController extends Controller
         }
         $user->save();
 
-        $RoleType = Role::where('id', $role);
-        if ($RoleType && $RoleType->role_type_id == 2) {
+        $RoleType = Role::where('id', $role)->get()->toArray();
+        if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
             $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;

@@ -1078,5 +1078,14 @@
         "route": "/pages/setting/tariff",
         "icon": "navigation-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "168",
+        "item_parent_id": "141",
+        "name": "Capacidad instalada",
+        "code": "type-professional",
+        "route": "/pages/setting/location-capacity",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

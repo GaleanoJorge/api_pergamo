@@ -8,35 +8,39 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LocationCapacityRequest;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class LocationCapacityController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $LocationCapacity = LocationCapacity::with('residence','installed_capacity');
+        $LocationCapacity = LocationCapacity::with('residence', 'installed_capacity');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $LocationCapacity->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $LocationCapacity->where('name','like','%' . $request->search. '%');
+            $LocationCapacity->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $LocationCapacity=$LocationCapacity->get()->toArray();    
+
+        if ($request->assistance_id) {
+            $LocationCapacity->where('assistance_id', $request->assistance_id);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $LocationCapacity=$LocationCapacity->paginate($per_page,'*','page',$page); 
-        } 
+
+        if ($request->query("pagination", true) == "false") {
+            $LocationCapacity = $LocationCapacity->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $LocationCapacity = $LocationCapacity->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -45,46 +49,69 @@ class LocationCapacityController extends Controller
         ]);
     }
 
-    
+    // public function getByEnabledAssistance(Request $request): JsonResponse
+    // {
+    //     $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
+
+    //     $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
+    //     $endDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st)->addMonth();
+
+    //     $EnabledAssistance = LocationCapacity::with('locality', 'assistance')
+    //         ->whereBetween('created_at', [$startDate, $endDate->addMonth()])
+    //         ->where('PAD_patient_actual_capacity', '>', 0)
+    //         ->where('locality_id', $request->locality_id)
+    //         ->get()->toArray();
+
+    //     return response()->json([
+    //         'status' => true,
+    //         'message' => 'Profesionales disponibles obtenidos exitosamente',
+    //         'data' => ['location_capacity' => $EnabledAssistance]
+    //     ]);
+    // }
 
     /* Get campus by portafolio.
     *
     * @param  int  $briefcaseId
     * @return JsonResponse
     */
-   public function getByLocality(Request $request, int $assistnceId): JsonResponse
-   {
-       $LocationCapacity = LocationCapacity::where('assistance_id', $assistnceId);
-       if ($request->search) {
-           $LocationCapacity->where('name', 'like', '%' . $request->search . '%')
-           ->Orwhere('id', 'like', '%' . $request->search . '%');
-       }
-       if ($request->query("pagination", true) === "false") {
-           $LocationCapacity = $LocationCapacity->get()->toArray();
-       } else {
-           $page = $request->query("current_page", 1);
-           $per_page = $request->query("per_page", 10);
+    public function getByLocality(Request $request, int $assistnceId): JsonResponse
+    {
+        $LocationCapacity = LocationCapacity::with('locality', 'assistance');
+        $LocationCapacity->where('assistance_id', $assistnceId)->orderBy('created_at', 'desc');
 
-           $LocationCapacity = $LocationCapacity->paginate($per_page, '*', 'page', $page);
-       }
+        if ($request->search) {
+            $LocationCapacity->where('name', 'like', '%' . $request->search . '%')
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $LocationCapacity = $LocationCapacity->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
 
-       return response()->json([
-           'status' => true,
-           'message' => 'Localidades obtenidas exitosamente',
-           'data' => ['location_capacity' => $LocationCapacity]
-       ]);
-   }
-    
+            $LocationCapacity = $LocationCapacity->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Localidades obtenidas exitosamente',
+            'data' => ['location_capacity' => $LocationCapacity],
+        ]);
+    }
+
 
     public function store(LocationCapacityRequest $request): JsonResponse
     {
-        $LocationCapacity = new LocationCapacity;
-        $LocationCapacity->assistance_id = $request->assistance_id;
-        $LocationCapacity->location_id = $request->location_id;
-        $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
-        $LocationCapacity->PAD_patient_attended = $request->PAD_patient_attended;
-        $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;
-        $LocationCapacity->save();
+        $array = json_decode($request->localities_id);
+        foreach ($array as $item) {
+            $LocationCapacity = new LocationCapacity;
+            $LocationCapacity->assistance_id = $request->assistance_id;
+            $LocationCapacity->locality_id = $item->locality_id;
+            $LocationCapacity->PAD_patient_quantity = $item->amount;
+            $LocationCapacity->PAD_patient_attended = 0;
+            $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
+            $LocationCapacity->save();
+        }
 
         return response()->json([
             'status' => true,
