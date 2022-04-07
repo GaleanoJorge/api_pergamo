@@ -287,8 +287,9 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRoleLocation(int $locality, int $roleId): JsonResponse
+    public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
     {
+        $roles = json_decode($request->roles);
         $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
 
         $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
@@ -297,30 +298,46 @@ class UserController extends Controller
         $users = User::select(
             'assistance.id AS assistance_id','users.id'
         )->Join('user_role', 'users.id', 'user_role.user_id')
-        ->Join('assistance', 'users.id', 'assistance.user_id')
+        ->Join('assistance', 'users.id', 'assistance.user_id');
 
-            ->where('user_role.role_id', $roleId);        
-            $users = $users->get()->toArray();
-            
+        $first = true;
+        foreach ($roles as $role) {
+            if ($first) {
+                $users->where('user_role.role_id', $role->role_id);
+                $first = false;
+            } else {
+                $users->orWhere('user_role.role_id', $role->role_id);
+            }       
+        }
 
-            if ($locality) {
+        $users = $users->get()->toArray();
+        
+
+        if ($locality) {
             foreach ($users as $key => $row) {
-                  $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate->addMonth()])
-                  ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
-                  $pila = array();
-                    foreach ($localityArr as $key => $row2) {
-                        array_push($pila, $row2['locality_id'] );
-                    }
-                  if (in_array($locality, $pila)) {
+                $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
+                ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                $pila = array();
+                foreach ($localityArr as $key => $row2) {
+                    array_push($pila, $row2['locality_id'] );
+                }
+                if (in_array($locality, $pila)) {
                     $usersfinal = User::select(
                         'users.*','assistance.id AS assistance_id',
                         \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                    )->Join('user_role', 'users.id', 'user_role.user_id')
-                    ->Join('assistance', 'users.id', 'assistance.user_id')
-                        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-            
-                        ->where('user_role.role_id', $roleId)
-                        ->where('users.id', $row['id'])
+                        )->Join('user_role', 'users.id', 'user_role.user_id')
+                        ->Join('assistance', 'users.id', 'assistance.user_id')
+                        ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                        $first = true;
+                        foreach ($roles as $role) {
+                            if ($first) {
+                                $usersfinal->where('user_role.role_id', $role->role_id);
+                                $first = false;
+                            } else {
+                                $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            }       
+                        }
+                        $usersfinal->where('users.id', $row['id'])
                         ->with(
                             'status',
                             'gender',
@@ -330,12 +347,20 @@ class UserController extends Controller
                             'user_role.role',
                             'assistance'
                         )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
-                    
-                        $usersfinal = $usersfinal->get()->toArray();
+                
+                    $usersfinal = $usersfinal->get()->toArray();
                 }else{
                     $usersfinal=array();
                 }           
             }
+        }
+
+        if (count($usersfinal) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se encontraron usuarios',
+                'data' => ['users' => $usersfinal]
+            ]);
         }
      
         return response()->json([
