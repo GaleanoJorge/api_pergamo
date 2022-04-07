@@ -19,6 +19,7 @@ use App\Models\Flat;
 use App\Models\Bed;
 use App\Models\Contract;
 use App\Models\PacMonitoring;
+use App\Models\Patient;
 use App\Models\ScopeOfAttention;
 
 
@@ -47,9 +48,9 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Contract::class);
 	}
-	public function users()
+	public function patients()
 	{
-		return $this->belongsTo(User::class, 'user_id', 'id');
+		return $this->belongsTo(Patient::class, 'patient_id', 'id');
 	}
 	public function location()
 	{

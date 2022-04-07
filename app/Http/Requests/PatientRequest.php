@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 
-class UserUpdateRequest extends FormRequest
+class PatientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,13 +35,13 @@ class UserUpdateRequest extends FormRequest
             'birthplace_municipality_id' => 'required',
             'username' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->id,
-            'password' => 'required_if:' . $this->id . ',==,null|nullable|between:8,20|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@()$%^&*=_{}[\]:;<>,.\/~`±§+-]).{8,20}$/',
-            'confirm_password' => 'required_if:' . $this->id . ',==,null|nullable|between:8,20|same:password',
             'firstname' => 'required',
             'lastname' => 'required',
-            'birthday' => '',
+            'birthday' => 'nullable|date|before:0 years ago',
+            'activities_id' =>'required',
+            'age' => 'required',
             'phone' => 'nullable|numeric',
-            'identification' => 'required',
+            'identification' => ['required'/*, Rule::unique('users')->ignore($this->user)->where('identification_type_id', $this->identification_type_id)*/]
         ];
     }
 
@@ -57,7 +57,7 @@ class UserUpdateRequest extends FormRequest
             'password.regex' => 'La contraseña debe contener como mínimo: un número, un carácter especial, una letra mayúscula y una letra minúscula.',
             'confirm_password.required_if'  => 'La confirmación de la contraseña es obligatoria.',
             // 'birthday.before' => 'La fecha de nacimiento no es valida',
-            'identification.unique' => 'El número y tipo de documento ya estan registrados',
+            // 'identification.unique' => 'El número y tipo de documento ya estan registrados',
             'confirm_password.same' => 'Los campos contraseña y confirmar contraseña no coinciden',
         ];
     }

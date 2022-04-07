@@ -23,7 +23,7 @@ class CreateAdmissionsTable extends Migration
             $table->dateTime('entry_date');
             $table->dateTime('discharge_date');
             $table->dateTime('medical_date');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('patient_id');
 
 
             $table->timestamps();
@@ -32,9 +32,9 @@ class CreateAdmissionsTable extends Migration
             $table->foreign('campus_id')->references('id')
                 ->on('campus');
 
-            $table->index('user_id');
-            $table->foreign('user_id')->references('id')
-                ->on('users');
+            $table->index('patient_id');
+            $table->foreign('patient_id')->references('id')
+                ->on('patients');
 
             $table->index('contract_id');
             $table->foreign('contract_id')->references('id')

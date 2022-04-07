@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Management;
 
 use Exception;
 use Notifications;
-use App\Models\User;
+use App\Models\Patient;
 use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
 use App\Models\Assistance;
-use App\Models\Role;
-use App\Models\UserUser;
+use App\Models\UserRoleCourse;
+use App\Models\UserRoleCategoryInscription;
 use App\Models\Curriculum;
 use App\Models\InstalledCapacity;
 use App\Models\StudyLevelStatus;
@@ -39,6 +39,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Actions\Sync\SyncStudent;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\PatientRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
@@ -68,7 +69,7 @@ use Symfony\Component\VarDumper\Cloner\Data;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class UserController extends Controller
+class PatientController extends Controller
 {
 
     /**
@@ -77,23 +78,19 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRole(Request $request, int $roleId): JsonResponse
+    public function indexByRole(Request $request): JsonResponse
     {
 
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-
-            ->where('user_role.role_id', $roleId)
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->with(
                 'status',
                 'gender',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role',
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
@@ -107,15 +104,15 @@ class UserController extends Controller
             )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
         if ($request->locality_id) {
-            $users->where('', $request->locality_id);
+            $patients->where('', $request->locality_id);
         }
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -126,18 +123,18 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'message' => 'Pacientes obtenidos exitosamente',
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -150,86 +147,16 @@ class UserController extends Controller
     public function ProfesionalsByCampus(Request $request): JsonResponse
     {
 
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            // ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-
-            ->orwhere('user_role.role_id', 3)
-            ->orwhere('user_role.role_id', 7)
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )->Join('user_role', 'patients.id', 'user_role.user_id')
+            ->leftjoin('admissions', 'patients.id', 'admissions.user_id')
             ->with(
                 'status',
                 'gender',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role',
-                // 'admissions',
-                // 'admissions.location',
-                // 'admissions.contract',
-                // 'admissions.campus',
-                // 'admissions.location.admission_route',
-                // 'admissions.location.scope_of_attention',
-                // 'admissions.location.program',
-                // 'admissions.location.flat',
-                // 'admissions.location.pavilion',
-                // 'admissions.location.bed'
-            )
-            // ->orderBy('admissions.entry_date', 'DESC')->groupBy('id')
-            ;
-
-
-
-        if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $users->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $users = $users->paginate($per_page, '*', 'page', $page);
-        }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
-        ]);
-    }
-
-    public function indexPacientByAdmission(Request $request, int $roleId): JsonResponse
-    {
-
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-            ->Join('location', 'location.admissions_id', 'admissions.id')
-
-            ->where('user_role.role_id', $roleId)
-            ->with(
-                'status',
-                'gender',
-                'academic_level',
-                'identification_type',
-                'residence_municipality',
-                'residence',
                 'user_role',
                 'user_role.role',
                 'admissions',
@@ -247,17 +174,11 @@ class UserController extends Controller
 
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->admission_route_id) {
-            $users->where('location.admission_route_id', $request->admission_route_id);
-        } else {
-            $users->where('location.admission_route_id', 2);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -268,18 +189,85 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'data' => ['patients' => $patients]
+        ]);
+    }
+
+    public function indexPacientByAdmission(Request $request, int $roleId): JsonResponse
+    {
+
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->Join('location', 'location.admissions_id', 'admissions.id')
+            ->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'admissions',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+
+
+
+        if ($request->_sort) {
+            $patients->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->admission_route_id) {
+            $patients->where('location.admission_route_id', $request->admission_route_id);
+        } else {
+            $patients->where('location.admission_route_id', 2);
+        }
+
+        if ($request->search) {
+            $patients->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $patients = $patients->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -289,59 +277,37 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
+    public function indexByRoleLocation(int $locality, int $roleId): JsonResponse
     {
-        $roles = json_decode($request->roles);
-        $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
 
-        $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
-        $endDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st)->addMonth();
-
-        $users = User::select(
+        $patients = Patient::select(
             'assistance.id AS assistance_id',
-            'users.id'
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->Join('assistance', 'users.id', 'assistance.user_id');
+            'patients.id'
+        )->Join('user_role', 'patients.id', 'user_role.user_id')
+            ->Join('assistance', 'patients.id', 'assistance.user_id')
 
-        $first = true;
-        foreach ($roles as $role) {
-            if ($first) {
-                $users->where('user_role.role_id', $role->role_id);
-                $first = false;
-            } else {
-                $users->orWhere('user_role.role_id', $role->role_id);
-            }
-        }
-
-        $users = $users->get()->toArray();
+            ->where('user_role.role_id', $roleId);
+        $patients = $patients->get()->toArray();
 
 
         if ($locality) {
-            foreach ($users as $key => $row) {
-                $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
-                    ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+            foreach ($patients as $key => $row) {
+                $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->get()->toArray();
                 $pila = array();
                 foreach ($localityArr as $key => $row2) {
                     array_push($pila, $row2['locality_id']);
                 }
                 if (in_array($locality, $pila)) {
-                    $usersfinal = User::select(
-                        'users.*',
+                    $patientsfinal = Patient::select(
+                        'patients.*',
                         'assistance.id AS assistance_id',
-                        \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                    )->Join('user_role', 'users.id', 'user_role.user_id')
-                        ->Join('assistance', 'users.id', 'assistance.user_id');
-                        // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                    $first = true;
-                    foreach ($roles as $role) {
-                        if ($first) {
-                            $usersfinal->where('user_role.role_id', $role->role_id);
-                            $first = false;
-                        } else {
-                            $usersfinal->orWhere('user_role.role_id', $role->role_id);
-                        }
-                    }
-                    $usersfinal->where('users.id', $row['id'])
+                        \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                    )->Join('user_role', 'patients.id', 'user_role.user_id')
+                        ->Join('assistance', 'patients.id', 'assistance.user_id')
+                        ->leftjoin('admissions', 'patients.id', 'admissions.user_id')
+
+                        ->where('user_role.role_id', $roleId)
+                        ->where('patients.id', $row['id'])
                         ->with(
                             'status',
                             'gender',
@@ -350,27 +316,19 @@ class UserController extends Controller
                             'user_role',
                             'user_role.role',
                             'assistance'
-                        )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                        )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
-                    $usersfinal = $usersfinal->get()->toArray();
+                    $patientsfinal = $patientsfinal->get()->toArray();
                 } else {
-                    $usersfinal = array();
+                    $patientsfinal = array();
                 }
             }
         }
 
-        if (count($usersfinal) == 0) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No se encontraron usuarios',
-                'data' => ['users' => $usersfinal]
-            ]);
-        }
-
         return response()->json([
             'status' => true,
-            'message' => 'Usuarios por locación obtenidos exitosamente',
-            'data' => ['users' => $usersfinal]
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patientsfinal]
         ]);
     }
 
@@ -383,16 +341,14 @@ class UserController extends Controller
     public function indexPacientByPAD(Request $request, int $roleId, int $userId): JsonResponse
     {
 
-        $users = User::select(
-            'users.*',
+        $patients = Patient::select(
+            'patients.*',
             'admissions.id AS admissions_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
-
-            ->where('user_role.role_id', $roleId)
             ->where('location.admission_route_id', 2)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
@@ -402,8 +358,6 @@ class UserController extends Controller
                 'identification_type',
                 'residence_municipality',
                 'residence',
-                'user_role',
-                'user_role.role',
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
@@ -418,23 +372,23 @@ class UserController extends Controller
 
         if ($request->userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
-            $users->where('management_plan.assigned_user_id', $userId);
+            $patients->where('management_plan.assigned_user_id', $userId);
         } else {
             $management = null;
         }
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->admission_route_id) {
-            $users->where('location.admission_route_id', $request->admission_route_id);
+            $patients->where('location.admission_route_id', $request->admission_route_id);
         } else {
-            $users->where('location.admission_route_id', 2);
+            $patients->where('location.admission_route_id', 2);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -445,19 +399,19 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users, 'management' => $management],
+            'data' => ['patients' => $patients, 'management' => $management],
         ]);
     }
 
@@ -470,11 +424,11 @@ class UserController extends Controller
     public function indexPacientByPAC(Request $request, int $roleId): JsonResponse
     {
 
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
             ->leftjoin('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
             ->leftjoin('reason_consultation', 'reason_consultation.admissions_id', 'admissions.id')
@@ -488,8 +442,6 @@ class UserController extends Controller
                 'identification_type',
                 'residence_municipality',
                 'residence',
-                'user_role',
-                'user_role.role',
                 'admissions',
                 'admissions.pac_monitoring',
                 'admissions.reason_consultation',
@@ -507,11 +459,11 @@ class UserController extends Controller
 
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -522,18 +474,18 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Pacientes de plan complementario obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -546,18 +498,18 @@ class UserController extends Controller
     public function indexByPacient(Request $request): JsonResponse
     {
 
-        $users = DB::select('SELECT users.*, b.fecha FROM users JOIN user_role ON users.id = user_role.user_id LEFT JOIN (SELECT admissions.discharge_date AS fecha, admissions.id AS id FROM admissions ORDER BY admissions.id) b ON users.id = b.id WHERE user_role.role_id =2');
-        $users = collect($users);
-        //$users = (object) $users;
+        $patients = DB::select('SELECT patients.*, b.fecha FROM patients JOIN user_role ON patients.id = user_role.user_id LEFT JOIN (SELECT admissions.discharge_date AS fecha, admissions.id AS id FROM admissions ORDER BY admissions.id) b ON patients.id = b.id WHERE user_role.role_id =2');
+        $patients = collect($patients);
+        //$patients = (object) $patients;
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
 
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -570,18 +522,18 @@ class UserController extends Controller
         }
 
         /* if ($request->query("pagination", true) == "false") {
-            $users = $users;
+            $patients = $patients;
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }*/
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -593,10 +545,10 @@ class UserController extends Controller
      */
     public function index(Request $request, int $roleId = null): JsonResponse
     {
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-        )->Join('user_role', 'users.id', 'user_role.user_id')
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )->Join('user_role', 'patients.id', 'user_role.user_id')
             ->with(
                 'status',
                 'gender',
@@ -607,15 +559,15 @@ class UserController extends Controller
             );
 
         if ($roleId > 0) {
-            $users = $users->where('user_role.role_id', $roleId);
+            $patients = $patients->where('user_role.role_id', $roleId);
         }
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -626,18 +578,18 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -649,29 +601,27 @@ class UserController extends Controller
      */
     public function index2(Request $request, int $roleId = null): JsonResponse
     {
-        $users = User::select(
-            'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        $patients = Patient::select(
+            'patients.*',
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )->with(
             'status',
             'gender',
             'academic_level',
             'identification_type',
-            'user_role',
-            'user_role.role'
         );
 
-        if ($roleId > 0) {
-            $users->Join('user_role', 'users.id', 'user_role.user_id');
-            $users = $users->where('user_role.role_id', $roleId);
-        }
+        // if ($roleId > 0) {
+        //     $patients->Join('user_role', 'patients.id', 'user_role.user_id');
+        //     $patients = $patients->where('user_role.role_id', $roleId);
+        // }
 
         if ($request->_sort) {
-            $users->orderBy($request->_sort, $request->_order);
+            $patients->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $users->where(function ($query) use ($request) {
+            $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('firstname', 'like', '%' . $request->search . '%')
@@ -682,234 +632,125 @@ class UserController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $users = $users->get()->toArray();
+            $patients = $patients->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $users = $users->paginate($per_page, '*', 'page', $page);
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users]
+            'data' => ['patients' => $patients]
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param UserRequest $request
+     * @param PatientRequest $request
      * @return JsonResponse
      */
-    public function store(UserRequest $request): JsonResponse
+    public function store(PatientRequest $request): JsonResponse
     {
 
         \DB::beginTransaction();
-        $validate = User::Where('identification', $request->identification);
-        $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
+        $validate = Patient::Where('identification', $request->identification);
+        $validate_wrong_user = UserChange::Join('patients', 'patients.id', 'user_change.wrong_user_id')->Where('patients.identification', $request->identification);
         if ($validate) {
             if ($validate_wrong_user) {
-                $user = new User;
-                $user->status_id = $request->status_id;
-                $user->gender_id = $request->gender_id;
-                $user->academic_level_id = $request->academic_level_id;
-                $user->identification_type_id = $request->identification_type_id;
-                $user->birthplace_municipality_id = $request->birthplace_municipality_id;
-                $user->birthplace_country_id = $request->birthplace_country_id;
-                $user->birthplace_region_id = $request->birthplace_region_id;
-                $user->locality_id = $request->locality_id;
-                $user->residence_id = $request->residence_id;
-                $user->residence_region_id = $request->residence_region_id;
-                $user->residence_municipality_id = $request->residence_municipality_id;
-                $user->residence_address = $request->residence_address;
-                $user->residence_country_id = $request->residence_country_id;
-                $user->study_level_status_id = $request->study_level_status_id;
-                $user->activities_id = $request->activities_id;
-                $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
-                $user->select_rh_id = $request->select_RH_id;
-                $user->marital_status_id = $request->marital_status_id;
-                $user->population_group_id = $request->population_group_id;
-                $user->username = $request->username;
-                $user->is_disability = $request->is_disability;
-                $user->disability = $request->disability;
-                $user->gender_type = $request->gender_type;
-                $user->email = $request->email;
-                $user->password = Hash::make($request->password);
-                $user->firstname = $request->firstname;
-                $user->middlefirstname = $request->middlefirstname;
-                $user->lastname = $request->lastname;
-                $user->middlelastname = $request->middlelastname;
-                $user->identification = $request->identification;
-                $user->birthday = $request->birthday;
-                $user->phone = $request->phone;
-                $user->age = $request->age;
-                $role = intval($request->role_id);
+                $patients = new Patient;
+                $patients->status_id = $request->status_id;
+                $patients->gender_id = $request->gender_id;
+                $patients->academic_level_id = $request->academic_level_id;
+                $patients->identification_type_id = $request->identification_type_id;
+                $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
+                $patients->birthplace_country_id = $request->birthplace_country_id;
+                $patients->birthplace_region_id = $request->birthplace_region_id;
+                $patients->locality_id = $request->locality_id;
+                $patients->residence_id = $request->residence_id;
+                $patients->residence_region_id = $request->residence_region_id;
+                $patients->residence_municipality_id = $request->residence_municipality_id;
+                $patients->residence_address = $request->residence_address;
+                $patients->residence_country_id = $request->residence_country_id;
+                $patients->study_level_status_id = $request->study_level_status_id;
+                $patients->activities_id = $request->activities_id;
+                $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+                $patients->select_rh_id = $request->select_RH_id;
+                $patients->marital_status_id = $request->marital_status_id;
+                $patients->population_group_id = $request->population_group_id;
+                $patients->username = $request->username;
+                $patients->is_disability = $request->is_disability;
+                $patients->disability = $request->disability;
+                $patients->gender_type = $request->gender_type;
+                $patients->email = $request->email;
+                $patients->firstname = $request->firstname;
+                $patients->middlefirstname = $request->middlefirstname;
+                $patients->lastname = $request->lastname;
+                $patients->middlelastname = $request->middlelastname;
+                $patients->identification = $request->identification;
+                $patients->birthday = $request->birthday;
+                $patients->phone = $request->phone;
+                $patients->age = $request->age;
 
                 if ($request->file('file')) {
                     $path = Storage::disk('public')->put('file', $request->file('file'));
-                    $user->file = $path;
+                    $patients->file = $path;
                 }
-                $user->landline = $request->landline;
-                $user->ethnicity_id = $request->ethnicity_id;
-                $user->force_reset_password = 1;
-                $user->save();
-
-                $RoleType = Role::where('id', $role)->get()->toArray();
-                if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
-                    $assistance = new Assistance;
-                    $assistance->user_id = $user->id;
-
-                    $assistance->medical_record = $request->medical_record;
-                    $assistance->contract_type_id = $request->contract_type_id;
-                    $assistance->cost_center_id = $request->cost_center_id;
-                    $assistance->PAD_service = $request->PAD_service;
-                    $assistance->attends_external_consultation = $request->attends_external_consultation;
-                    $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                    // $assistance->special_field = $request->special_field;
-
-                    if ($request->firm) {
-                        $image = $request->get('firm');  // your base64 encoded
-                        $image = str_replace('data:image/png;base64,', '', $image);
-                        $image = str_replace(' ', '+', $image);
-                        $random = Str::random(10);
-                        $imagePath = 'firmas/' . $random . '.png';
-                        Storage::disk('public')->put($imagePath, base64_decode($image));
-
-                        $assistance->file_firm = $imagePath;
-                    }
-                    $assistance->save();
-
-
-                    $id = Assistance::latest('id')->first();
-                    $array = json_decode($request->localities_id);
-                    foreach ($array as $item) {
-                        $LocationCapacity = new LocationCapacity();
-                        $LocationCapacity->locality_id = $item->locality_id;
-                        $LocationCapacity->PAD_patient_quantity = $item->amount;
-                        $LocationCapacity->PAD_patient_attended = 0;
-                        $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
-                        $LocationCapacity->assistance_id = $id->id;
-                        $LocationCapacity->save();
-                    }
-
-                    if (is_array($request->special_field) == true) {
-                        foreach ($request->special_field as $item) {
-                            $assistanceSpecial = new AssistanceSpecial;
-                            $assistanceSpecial->special_field_id = $item;
-                            $assistanceSpecial->assistance_id = $assistance->id;
-                            $assistanceSpecial->save();
-                        }
-                    }
-                }
-
-                $userRole = new UserRole;
-                $userRole->role_id = $request->role_id;
-                $userRole->user_id = $user->id;
-                $userRole->save();
+                $patients->landline = $request->landline;
+                $patients->ethnicity_id = $request->ethnicity_id;
+                $patients->force_reset_password = 1;
+                $patients->save();
             } else {
                 return response()->json([
-                    'status' => false,
+                    'status' => true,
                     'message' => 'Usuario exístente con este número de cedula',
                 ]);
             }
         } else {
-            $user = new User;
-            $user->status_id = $request->status_id;
-            $user->gender_id = $request->gender_id;
-            $user->academic_level_id = $request->academic_level_id;
-            $user->identification_type_id = $request->identification_type_id;
-            $user->birthplace_municipality_id = $request->birthplace_municipality_id;
-            $user->birthplace_country_id = $request->birthplace_country_id;
-            $user->birthplace_region_id = $request->birthplace_region_id;
-            $user->locality_id = $request->locality_id;
-            $user->residence_id = $request->residence_id;
-            $user->residence_region_id = $request->residence_region_id;
-            $user->residence_municipality_id = $request->residence_municipality_id;
-            $user->residence_address = $request->residence_address;
-            $user->residence_country_id = $request->residence_country_id;
-            $user->study_level_status_id = $request->study_level_status_id;
-            $user->activities_id = $request->activities_id;
-            $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
-            $user->select_rh_id = $request->select_RH_id;
-            $user->marital_status_id = $request->marital_status_id;
-            $user->population_group_id = $request->population_group_id;
-            $user->username = $request->username;
-            $user->is_disability = $request->is_disability;
-            $user->disability = $request->disability;
-            $user->gender_type = $request->gender_type;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->firstname = $request->firstname;
-            $user->middlefirstname = $request->middlefirstname;
-            $user->lastname = $request->lastname;
-            $user->middlelastname = $request->middlelastname;
-            $user->identification = $request->identification;
-            $user->birthday = $request->birthday;
-            $user->age = $request->age;
-            $user->phone = $request->phone;
-            $user->landline = $request->landline;
-            $user->ethnicity_id = $request->ethnicity_id;
-            $role = intval($request->role_id);
+            $patients = new Patient;
+            $patients->status_id = $request->status_id;
+            $patients->gender_id = $request->gender_id;
+            $patients->academic_level_id = $request->academic_level_id;
+            $patients->identification_type_id = $request->identification_type_id;
+            $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
+            $patients->birthplace_country_id = $request->birthplace_country_id;
+            $patients->birthplace_region_id = $request->birthplace_region_id;
+            $patients->locality_id = $request->locality_id;
+            $patients->residence_id = $request->residence_id;
+            $patients->residence_region_id = $request->residence_region_id;
+            $patients->residence_municipality_id = $request->residence_municipality_id;
+            $patients->residence_address = $request->residence_address;
+            $patients->residence_country_id = $request->residence_country_id;
+            $patients->study_level_status_id = $request->study_level_status_id;
+            $patients->activities_id = $request->activities_id;
+            $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+            $patients->select_rh_id = $request->select_RH_id;
+            $patients->marital_status_id = $request->marital_status_id;
+            $patients->population_group_id = $request->population_group_id;
+            $patients->username = $request->username;
+            $patients->is_disability = $request->is_disability;
+            $patients->disability = $request->disability;
+            $patients->gender_type = $request->gender_type;
+            $patients->email = $request->email;
+            $patients->firstname = $request->firstname;
+            $patients->middlefirstname = $request->middlefirstname;
+            $patients->lastname = $request->lastname;
+            $patients->middlelastname = $request->middlelastname;
+            $patients->identification = $request->identification;
+            $patients->birthday = $request->birthday;
+            $patients->age = $request->age;
+            $patients->phone = $request->phone;
+            $patients->landline = $request->landline;
+            $patients->ethnicity_id = $request->ethnicity_id;
+
             if ($request->file('file')) {
                 $path = Storage::disk('public')->put('file', $request->file('file'));
-                $user->file = $path;
+                $patients->file = $path;
             }
-            $user->save();
-
-            $RoleType = Role::where('id', $role)->get()->toArray();
-            if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
-                $assistance = new Assistance;
-                $assistance->user_id = $user->id;
-
-                $assistance->medical_record = $request->medical_record;
-                $assistance->contract_type_id = $request->contract_type_id;
-                $assistance->cost_center_id = $request->cost_center_id;
-                $assistance->PAD_service = $request->PAD_service;
-                $assistance->attends_external_consultation = $request->attends_external_consultation;
-                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                // $assistance->special_field = $request->special_field;    
-
-                if ($request->firm_file) {
-                    $image = $request->get('firm_file');  // your base64 encoded
-                    $image = str_replace('data:image/png;base64,', '', $image);
-                    $image = str_replace(' ', '+', $image);
-                    $random = Str::random(10);
-                    $imagePath = 'firmas/' . $random . '.png';
-                    Storage::disk('public')->put($imagePath, base64_decode($image));
-
-                    $assistance->firm = $imagePath;
-                }
-                $assistance->save();
-
-                $id = Assistance::latest('id')->first();
-
-                foreach ($request->localities_id as $item) {
-                    $LocationCapacity = new LocationCapacity();
-                    $LocationCapacity->locality_id = $item->locality_id;
-                    $LocationCapacity->PAD_patient_quantity = $item->amount;
-                    $LocationCapacity->PAD_patient_attended = 0;
-                    $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
-                    $LocationCapacity->assistance_id = $id->id;
-                    $LocationCapacity->save();
-                }
-
-                if (is_array($request->special_field) == true) {
-                    foreach ($request->special_field as $item) {
-                        $assistanceSpecial = new AssistanceSpecial;
-                        $assistanceSpecial->special_field_id = $item;
-                        $assistanceSpecial->assistance_id = $assistance->id;
-                        $assistanceSpecial->save();
-                    }
-                }
-            }
-
-
-            $userRole = new UserRole;
-            $userRole->role_id = $request->role_id;
-            $userRole->user_id = $user->id;
-            $userRole->save();
+            $patients->save();
         }
 
         \DB::commit();
@@ -920,9 +761,9 @@ class UserController extends Controller
             'mails.userRegistration',
             'Se ha realizado su registro en la Escuela Judicial Rodrigo Lara Bonilla',
             [
-                'id' => Crypt::encrypt($user->id),
+                'id' => Crypt::encrypt($patients->id),
                 'name' => $request->firstname . ' ' . $request->lastname,
-                'user' => $request->username,
+                'patients' => $request->username,
                 'password' => $request->password,
                 'host' => env('FRONT_URL')
             ]
@@ -930,8 +771,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuario creado exitosamente',
-            'data' => ['user' => $user],
-            // 'data2' => ['assitance' => $assistance]
+            'data' => ['patients' => $patients],
         ]);
     }
 
@@ -985,117 +825,59 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuario obtenido exitosamente',
-            'data' => ['user' => $aux_curriculum]
+            'data' => ['patients' => $aux_curriculum]
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UserUpdateRequest $request
+     * @param PatientRequest $request
      * @param integer $id
      * @return JsonResponse
      */
-    public function update(UserUpdateRequest $request, int $id): JsonResponse
+    public function update(PatientRequest $request, int $id): JsonResponse
     {
 
 
         \DB::beginTransaction();
 
-        $user = User::find($id);
-        $user->status_id = $request->status_id;
-        $user->gender_id = $request->gender_id;
-        $user->academic_level_id = $request->academic_level_id;
-        $user->identification_type_id = $request->identification_type_id;
-        $user->birthplace_municipality_id = $request->birthplace_municipality_id;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->firstname = $request->firstname;
-        $user->middlefirstname = $request->middlefirstname;
-        $user->lastname = $request->lastname;
-        $user->middlelastname = $request->middlelastname;
-        $user->identification = $request->identification;
-        $user->birthday = $request->birthday;
-        $user->phone = $request->phone;
-        $user->landline = $request->landline;
-        $user->ethnicity_id = $request->ethnicity_id;
-        $user->is_disability = $request->is_disability;
-        $user->age = $request->age;
-        if ($request->file('file')) {
-            $path = Storage::disk('public')->put('file', $request->file('file'));
-            $user->file = $path;
-        }
-        $user->activities_id = $request->activities_id;
-        $user->disability = $request->disability;
-        $user->residence_address = $request->residence_address;
-        $user->residence_country_id = $request->residence_country_id;
-        $user->locality_id = $request->locality_id;
-        $user->residence_id = $request->residence_id;
-        $role = intval($request->role_id);
+        $patients = Patient::find($id);
+        $patients->status_id = $request->status_id;
+        $patients->gender_id = $request->gender_id;
+        $patients->academic_level_id = $request->academic_level_id;
+        $patients->identification_type_id = $request->identification_type_id;
+        $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
+        $patients->username = $request->username;
+        $patients->email = $request->email;
+        $patients->firstname = $request->firstname;
+        $patients->middlefirstname = $request->middlefirstname;
+        $patients->lastname = $request->lastname;
+        $patients->middlelastname = $request->middlelastname;
+        $patients->identification = $request->identification;
+        $patients->birthday = $request->birthday;
+        $patients->phone = $request->phone;
+        $patients->landline = $request->landline;
+        $patients->ethnicity_id = $request->ethnicity_id;
+        $patients->is_disability = $request->is_disability;
+        $patients->age = $request->age;
+        $patients->activities_id = $request->activities_id;
+        $patients->disability = $request->disability;
+        $patients->residence_address = $request->residence_address;
+        $patients->residence_country_id = $request->residence_country_id;
+        $patients->locality_id = $request->locality_id;
+        $patients->residence_id = $request->residence_id;
         if ($request->gender_id == 3) {
-            $user->gender_type = $request->gender_type;
+            $patients->gender_type = $request->gender_type;
         }
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
-
-        $RoleType = Role::where('id', $role)->get()->toArray();
-        if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
-            $assistance = Assistance::find($request->assistance_id);
-            $assistance->medical_record = $request->medical_record;
-            $assistance->contract_type_id = $request->contract_type_id;
-            $assistance->cost_center_id = $request->cost_center_id;
-            // $assistance->type_professional_id = $request->type_professional_id;
-            $assistance->PAD_service = $request->PAD_service;
-            $assistance->attends_external_consultation = $request->attends_external_consultation;
-            $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-
-            if ($request->firm_file) {
-                $image = $request->get('firm_file');  // your base64 encoded
-                $image = str_replace('data:image/png;base64,', '', $image);
-                $image = str_replace(' ', '+', $image);
-                $random = Str::random(10);
-                $imagePath = 'firmas/' . $random . '.png';
-                Storage::disk('public')->put($imagePath, base64_decode($image));
-
-                $assistance->firm = $imagePath;
-            }
-            $assistance->save();
-
-            $id = Assistance::latest('id')->first();
-
-            $array = json_decode($request->localities_id);
-            foreach ($array as $item) {
-                $LocationCapacity = new LocationCapacity();
-                $LocationCapacity->locality_id = $item->locality_id;
-                $LocationCapacity->PAD_patient_quantity = $item->amount;
-                $LocationCapacity->PAD_patient_attended = 0;
-                $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
-                $LocationCapacity->assistance_id = $id->id;
-                $LocationCapacity->save();
-            }
-
-
-            if (is_array($request->special_field) == true) {
-                //if(sizeof($request->special_field) != 0 ){
-                foreach ($request->special_field as $item) {
-                    $assistanceSpecial = new AssistanceSpecial;
-                    $assistanceSpecial->special_field_id = $item;
-                    $assistanceSpecial->assistance_id = $assistance->id;
-                    $assistanceSpecial->save();
-                }
-                //}
-            }
-        }
-
+        $patients->save();
 
         \DB::commit();
 
         return response()->json([
             'status' => true,
             'message' => 'Usuario actualizado exitosamente',
-            'data' => ['user' => $user]
+            'data' => ['patients' => $patients]
         ]);
     }
 
@@ -1108,8 +890,8 @@ class UserController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $user = User::find($id);
-            $user->delete();
+            $patients = Patient::find($id);
+            $patients->delete();
 
             return response()->json([
                 'status' => true,
@@ -1192,63 +974,61 @@ class UserController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $user = User::select(
-            'users.*',
+        $patients = Patient::select(
+            'patients.*',
             'municipality.region_id',
             'region.country_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
-            ->leftJoin('municipality', 'municipality.id', 'users.birthplace_municipality_id')
+            ->leftJoin('municipality', 'municipality.id', 'patients.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
-            ->where('users.id', $id)->with(
+            ->where('patients.id', $id)
+            ->with(
                 'status',
                 'gender',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role',
-                // 'admissions',
-                // 'admissions.location',
-                // 'admissions.contract',
-                // 'admissions.campus',
-                // 'admissions.location.admission_route',
-                // 'admissions.location.scope_of_attention',
-                // 'admissions.location.program',
-                // 'admissions.location.flat',
-                // 'admissions.location.pavilion',
-                // 'admissions.location.bed',
-                'assistance'
+                'admissions',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed',
             )->get()->toArray();
 
 
         return response()->json([
             'status' => true,
-            'message' => 'Usuario obtenido exitosamente',
-            'data' => ['user' => $user]
+            'message' => 'Paciente obtenido exitosamente',
+            'data' => ['patients' => $patients]
         ]);
     }
 
 
     public function changeStatus(int $id): JsonResponse
     {
-        $user = User::find($id);
-        $status_id = User::where('id', $id)->get()->first()->status_id;
+        $patients = patient::find($id);
+        $status_id = patient::where('id', $id)->get()->first()->status_id;
         if ($status_id == 1) {
-            $user->status_id = 2;
+            $patients->status_id = 2;
         } else {
-            $user->status_id = 1;
+            $patients->status_id = 1;
         }
-        $user->save();
+        $patients->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Estado actualizado exitosamente',
-            'data' => ['user' => $user]
+            'data' => ['patients' => $patients]
         ]);
     }
 
     /**
-     * Add role to user
+     * Add role to patients
      *
      * @param UserParentRequest $request
      * @return JsonResponse
@@ -1277,7 +1057,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get children of parent user
+     * Get children of parent patients
      *
      * @param integer $userParentId
      * @return JsonResponse
@@ -1314,9 +1094,9 @@ class UserController extends Controller
 
     public function forceResetPassword(ForceResetPasswordRequest $request, int $id)
     {
-        $user = User::find($id);
-        $user->force_reset_password = $request->force_reset_password;
-        $user->save();
+        $patients = patient::find($id);
+        $patients->force_reset_password = $request->force_reset_password;
+        $patients->save();
 
         return response()->json([
             'status' => true,
@@ -1326,27 +1106,27 @@ class UserController extends Controller
 
     public function changePassword(ChangePasswordRequest $request)
     {
-        $user = User::find(Auth::user()->id);
+        $patients = patient::find(Auth::patients()->id);
 
-        if (Hash::check($request->password, $user->password)) {
+        if (Hash::check($request->password, $patients->password)) {
             return response()->json([
                 'status' => false,
                 'message' => 'La contraseña debe ser diferente a la antigua'
             ]);
         } else {
-            $user->password = Hash::make($request->password);
-            $user->force_reset_password = 0;
-            $user->save();
+            $patients->password = Hash::make($request->password);
+            $patients->force_reset_password = 0;
+            $patients->save();
             return response()->json([
                 'status' => true,
                 'message' => 'Contraseña Actualizada Correctamente',
-                'pass' => $user->password
+                'pass' => $patients->password
             ]);
         }
     }
 
     /**
-     * @description method to verify or validate user email
+     * @description method to verify or validate patients email
      *
      * @param $id Hash
      * @return array
@@ -1355,15 +1135,15 @@ class UserController extends Controller
     public function checkUser($hash)
     {
         $id = Crypt::decrypt($hash);
-        $user = User::find($id);
-        if ($user->email_verified_at != NULL) {
+        $patients = patient::find($id);
+        if ($patients->email_verified_at != NULL) {
             return response()->json([
                 'status' => true,
                 'message' => 'Email de usuario ya verificado'
             ]);
         }
-        $user->email_verified_at = date('Y-m-d H:i:s');
-        $user->save();
+        $patients->email_verified_at = date('Y-m-d H:i:s');
+        $patients->save();
         return response()->json([
             'status' => true,
             'message' => 'Email de usuario verificado'
@@ -1379,12 +1159,12 @@ class UserController extends Controller
      */
     public function findEmail(FindEmailRequest $request)
     {
-        $user = User::select('*')->where('identification', $request->identification)->Join('user_role', 'users.id', 'user_role.user_id')->Join('role', 'role.id', '=', 'user_role.role_id')->get()->toArray();
-        $status = count($user) > 0 ? true : false;
+        $patients = patient::select('*')->where('identification', $request->identification)->Join('user_role', 'patients.id', 'user_role.user_id')->Join('role', 'role.id', '=', 'user_role.role_id')->get()->toArray();
+        $status = count($patients) > 0 ? true : false;
         return response()->json([
             'status' => $status,
             'message' => 'Busqueda realizada',
-            'data' => $user
+            'data' => $patients
         ]);
     }
 
@@ -1398,7 +1178,7 @@ class UserController extends Controller
     public function findCertificate(FindEmailRequest $request)
     {
         $identification = $request->identification;
-        $user = User::select('*')
+        $patients = patient::select('*')
             ->with(
                 'user_role',
                 'user_role.role',
@@ -1415,11 +1195,11 @@ class UserController extends Controller
             ->where('identification', $identification)
             ->get()->toArray();
 
-        $status = count($user) > 0 ? true : false;
+        $status = count($patients) > 0 ? true : false;
         return response()->json([
             'status' => $status,
             'message' => 'Busqueda realizada',
-            'data' => $user
+            'data' => $patients
         ]);
     }
 }
