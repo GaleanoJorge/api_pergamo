@@ -16,15 +16,22 @@ class CreateFinancialDataTable extends Migration
         Schema::create('financial_data', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('user_id');
-                $table->unsignedBigInteger('bank_information_id');
+                $table->unsignedBigInteger('bank_id');
+                $table->unsignedBigInteger('account_type_id');  
+                $table->double('account_number');
                 $table->string('rut');
                 $table->timestamps();
     
-                $table->index('bank_information_id');
+                $table->index('bank_id');
 
-                $table->foreign('bank_information_id')->references('id')
-                    ->on('bank_information');
+                $table->foreign('bank_id')->references('id')
+                    ->on('bank');
 
+                $table->index('account_type_id');
+
+                 $table->foreign('account_type_id')->references('id')
+                        ->on('account_type');
+                        
                 $table->index('user_id');
 
                  $table->foreign('user_id')->references('id')

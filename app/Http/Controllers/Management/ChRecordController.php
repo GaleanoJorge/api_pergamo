@@ -136,9 +136,11 @@ class ChRecordController extends Controller
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
-        $ChRecord = ChRecord::find($id)->get();
+        $ChRecord = ChRecord::find($id)->get()->toArray();
 
-        $assigned= AssignedManagementPlan::where('id',$ChRecord->assigned_management_plan_id)->where('')->get();
+        $assigned= AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
+        $assigned->execution_date= Carbon::now();
+        $assigned->save();
 
 
         

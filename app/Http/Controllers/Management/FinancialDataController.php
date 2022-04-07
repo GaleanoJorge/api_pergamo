@@ -31,9 +31,6 @@ class FinancialDataController extends Controller
 
         }
 
-        if ($request->financial_data_id) {
-            $AccountReceivable->where('bank_information_id', $request->bank_information_id);
-        }
         
         if($request->query("pagination", true)=="false"){
             $FinancialData=$FinancialData->get()->toArray();    
@@ -58,8 +55,10 @@ class FinancialDataController extends Controller
     {
         $FinancialData = new FinancialData;
         $FinancialData->user_id = $request->user_id;
-        $FinancialData->bank_information_id = $request->bank_information_id;
+        $FinancialData->bank_id = $request->bank_id;
         $FinancialData->rut = $request->rut;
+        $FinancialData->account_type_id = $request->account_type_id;
+        $FinancialData->account_number = $request->account_number;
        
         
         $FinancialData->save();
@@ -99,8 +98,10 @@ class FinancialDataController extends Controller
     {
         $FinancialData = FinancialData::find($id);
         $FinancialData->user_id = $request->user_id;
-        $FinancialData->bank_information_id = $request->bank_information_id;
+        $FinancialData->bank_id = $request->bank_id;
         $FinancialData->rut = $request->rut;
+        $FinancialData->account_type_id = $request->account_type_id;
+        $FinancialData->account_number = $request->account_number;
         $FinancialData->save();
 
         return response()->json([

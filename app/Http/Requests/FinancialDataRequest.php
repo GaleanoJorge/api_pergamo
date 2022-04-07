@@ -25,12 +25,12 @@ class FinancialDataRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
-            'bank_information_id' => 'required',
             'rut' => 'required',
-       
-            
- 
-           
+            'user_id',
+            'bank_id',
+            'rut',
+            'account_type_id',
+            'account_number',
         ];
     }
 }

@@ -20,6 +20,7 @@ class CreateManagementPlanTable extends Migration
             $table->Integer('quantity');
             $table->unsignedBigInteger('special_field_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
+            $table->unsignedBigInteger('procedure_id');
             $table->unsignedBigInteger('assigned_user_id');
             $table->timestamps();
         
@@ -28,6 +29,7 @@ class CreateManagementPlanTable extends Migration
             $table->index('special_field_id');
             $table->index('admissions_id');
             $table->index('assigned_user_id');
+            $table->index('procedure_id');
 
             $table->foreign('type_of_attention_id')->references('id')
                 ->on('type_of_attention');
@@ -39,7 +41,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('admissions');
              $table->foreign('assigned_user_id')->references('id')
                 ->on('users');
-        
+                $table->foreign('procedure_id')->references('id')
+                ->on('procedure');
         });
     }
 
