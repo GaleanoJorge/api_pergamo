@@ -108,8 +108,12 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeProfessionalSeeder::class);
                 $this->call(SpecialtySeeder::class);
                 $this->call(TariffSeeder::class);
-                
-                
+
+                //Terceros Asistenciales
+                $this->call(BankSeeder::class);
+                $this->call(AccountTypeSeeder::class);
+                $this->call(StatusBillSeeder::class);
+
                 $this->call(ChDiagnosisClassSeeder::class);
                 $this->call(ChDiagnosisTypeSeeder::class);
                 $this->call(ChExternalCauseSeeder::class);
@@ -117,6 +121,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChVitalNeurologicalSeeder::class);
                 $this->call(ChVitalTemperatureSeeder::class);
                 $this->call(ChVitalVentilatedSeeder::class);
+                $this->call(ChTypePhysicalExamSeeder::class);
+                $this->call(ChTypeSystemExamSeeder::class);
+                $this->call(ChTypeBackgroundSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

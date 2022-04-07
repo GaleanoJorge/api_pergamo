@@ -1096,5 +1096,14 @@
         "route": "/pages/setting/location-capacity",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "169",
+        "item_parent_id": null,
+        "name": "Cuentas de cobro",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/list",
+        "icon": "layers-outline",
+        "show_menu": "1"
     }
 ]

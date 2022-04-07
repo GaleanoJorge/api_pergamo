@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\AssignedManagementPlan;
 use Carbon\Carbon;
 
 class ChRecordController extends Controller
@@ -28,6 +29,11 @@ class ChRecordController extends Controller
         if ($request->search) {
             $ChRecord->where('status', 'like', '%' . $request->search . '%');
         }
+
+        if ($request->record_id) {
+            $ChRecord->where('id',$request->record_id );
+        }
+
 
         if ($request->query("pagination", true) == "false") {
             $ChRecord = $ChRecord->get()->toArray();
@@ -52,9 +58,9 @@ class ChRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function byadmission(Request $request, int $id): JsonResponse
+    public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
-        $ChRecord = ChRecord::where('admissions_id', $id);
+        $ChRecord = ChRecord::where('admissions_id', $id)->where('assigned_management_plan_id',$id2);
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -88,6 +94,7 @@ class ChRecordController extends Controller
         $ChRecord->status = $request->status;
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
+        $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
         $ChRecord->user_id = Auth::user()->id;
         $ChRecord->save();
 
@@ -126,14 +133,17 @@ class ChRecordController extends Controller
     {
         $ChRecord = ChRecord::find($id);
         $ChRecord->status = $request->status;
-        $ChRecord->date_attention = $request->date_attention;
-        $ChRecord->admissions_id = $request->admissions_id;
-        $ChRecord->user_id = $request->user_id;
-        $ChRecord->date_finish = $request->date_finish;
-
-
-
+        $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
+
+        $ChRecord = ChRecord::find($id)->get()->toArray();
+
+        $assigned= AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
+        $assigned->execution_date= Carbon::now();
+        $assigned->save();
+
+
+        
 
         return response()->json([
             'status' => true,
