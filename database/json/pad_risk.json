@@ -1,11 +1,14 @@
 [
     {
-        "name": "BAJO"
+        "name": "T1",
+        "status_id": 1
     },
     {
-        "name": "MEDIO"
+        "name": "T2",
+        "status_id": 1
     },
     {
-        "name": "ALTO"
+        "name": "T3",
+        "status_id": 1
     }
 ]

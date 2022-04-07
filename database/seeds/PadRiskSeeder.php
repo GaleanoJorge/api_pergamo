@@ -16,7 +16,8 @@ class PadRiskSeeder extends Seeder
         
         foreach(json_decode($jPadRisk) as $row){
             PadRisk::create([
-                'name' => $row->name
+                'name' => $row->name,
+                'status_id' => $row->status_id
             ]);
         }
     }

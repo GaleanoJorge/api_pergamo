@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
+ * @property BigInteger $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -22,4 +23,9 @@ use Illuminate\Database\Eloquent\Model;
 class PadRisk extends Model
 {
 	protected $table = 'pad_risk';
+
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
+	}
 }

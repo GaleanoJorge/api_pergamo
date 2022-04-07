@@ -16,7 +16,13 @@ class CreatePadRiskTable extends Migration
         Schema::create('pad_risk', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->unsignedTinyInteger('status_id');
             $table->timestamps();
+
+            $table->index('status_id');
+
+            $table->foreign('status_id')->references('id')
+                ->on('status');
         });
     }
 
