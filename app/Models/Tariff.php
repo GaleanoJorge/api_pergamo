@@ -10,7 +10,7 @@ class Tariff extends BaseTariff
 		'name',
 		'amount',
 		'pad_risk_id',
-		'specialty_id',
+		'role_id',
 		'scope_of_attention_id',
 	];
 }

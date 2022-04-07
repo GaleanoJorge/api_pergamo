@@ -19,7 +19,9 @@ class TariffController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Tariff = Tariff::with('pad_risk', 'specialty', 'scope_of_attention');
+        $Tariff = Tariff::select('tariff.*')->with('pad_risk', 'pad_risk.status', 'role', 'scope_of_attention')
+            ->Join('pad_risk', 'pad_risk.id', '=', 'tariff.pad_risk_id')
+            ->Join('status', 'pad_risk.status_id', '=', 'status.id');
 
         if ($request->_sort) {
             $Tariff->orderBy($request->_sort, $request->_order);
@@ -31,11 +33,15 @@ class TariffController extends Controller
         if ($request->pad_risk_id) {
             $Tariff->where('pad_risk_id', $request->pad_risk_id);
         }
-        if ($request->specialty_id) {
-            $Tariff->where('specialty_id', $request->specialty_id);
+        if ($request->role_id) {
+            $Tariff->where('role_id', $request->role_id);
         }
         if ($request->scope_of_attention_id) {
             $Tariff->where('scope_of_attention_id', $request->scope_of_attention_id);
+        }
+
+        if ($request->status_id) {
+            $Tariff->where('status.id', $request->status_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -58,7 +64,7 @@ class TariffController extends Controller
     public function store(TariffRequest $request): JsonResponse
     {
         $TariffTest = Tariff::where('pad_risk_id', $request->pad_risk_id)
-            ->where('specialty_id', $request->specialty_id)
+            ->where('role_id', $request->role_id)
             ->where('scope_of_attention_id', $request->scope_of_attention_id)
             ->first();
         if ($TariffTest) {
@@ -71,12 +77,12 @@ class TariffController extends Controller
         $Tariff = new Tariff;
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
-        $Tariff->specialty_id = $request->specialty_id;
+        $Tariff->role_id = $request->role_id;
         $Tariff->pad_risk_id = $request->pad_risk_id;
         $Tariff->scope_of_attention_id = $request->scope_of_attention_id;
-       
+
         $Tariff->save();
-     
+
         return response()->json([
             'status' => true,
             'message' => 'Tarifas creadas exitosamente',
@@ -113,7 +119,7 @@ class TariffController extends Controller
         $Tariff = Tariff::find($id);
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
-        $Tariff->specialty_id = $request->specialty_id;
+        $Tariff->role_id = $request->role_id;
         $Tariff->pad_risk_id = $request->pad_risk_id;
         $Tariff->scope_of_attention_id = $request->scope_of_attention_id;
 

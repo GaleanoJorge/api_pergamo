@@ -1,0 +1,380 @@
+[
+    {
+        "name": "T1-MEDICO GENERAL-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "3",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-MEDICO ESPECIALISTA-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "7",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-ENFERMERO (A)-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "8",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-AUXILIAR DE ENFERMERÍA-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "9",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-NUTRICIÓN-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "10",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-PSICOLOGO (A)-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "11",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-TRABAJO SOCIAL-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "12",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-CUIDADOR-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "13",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-APOYO TERAPEUTICO-PAD Agudo",
+        "amount": "15000",
+        "pad_risk_id": "1",
+        "role_id": "14",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T1-MEDICO GENERAL-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "3",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-MEDICO ESPECIALISTA-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "7",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-ENFERMERO (A)-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "8",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-AUXILIAR DE ENFERMERÍA-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "9",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-NUTRICIÓN-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "10",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-PSICOLOGO (A)-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "11",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-TRABAJO SOCIAL-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "12",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-CUIDADOR-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "13",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T1-APOYO TERAPEUTICO-PAD Crónico",
+        "amount": "20000",
+        "pad_risk_id": "1",
+        "role_id": "14",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-MEDICO GENERAL-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "3",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-MEDICO ESPECIALISTA-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "7",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-ENFERMERO (A)-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "8",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-AUXILIAR DE ENFERMERÍA-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "9",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-NUTRICIÓN-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "10",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-PSICOLOGO (A)-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "11",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-TRABAJO SOCIAL-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "12",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-CUIDADOR-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "13",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-APOYO TERAPEUTICO-PAD Agudo",
+        "amount": "25000",
+        "pad_risk_id": "2",
+        "role_id": "14",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T2-MEDICO GENERAL-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "3",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-MEDICO ESPECIALISTA-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "7",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-ENFERMERO (A)-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "8",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-AUXILIAR DE ENFERMERÍA-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "9",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-NUTRICIÓN-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "10",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-PSICOLOGO (A)-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "11",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-TRABAJO SOCIAL-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "12",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-CUIDADOR-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "13",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T2-APOYO TERAPEUTICO-PAD Crónico",
+        "amount": "30000",
+        "pad_risk_id": "2",
+        "role_id": "14",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-MEDICO GENERAL-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "3",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-MEDICO ESPECIALISTA-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "7",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-ENFERMERO (A)-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "8",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-AUXILIAR DE ENFERMERÍA-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "9",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-NUTRICIÓN-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "10",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-PSICOLOGO (A)-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "11",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-TRABAJO SOCIAL-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "12",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-CUIDADOR-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "13",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-APOYO TERAPEUTICO-PAD Agudo",
+        "amount": "35000",
+        "pad_risk_id": "3",
+        "role_id": "14",
+        "scope_of_attention_id": "4"
+    },
+    {
+        "name": "T3-MEDICO GENERAL-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "3",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-MEDICO ESPECIALISTA-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "7",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-ENFERMERO (A)-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "8",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-AUXILIAR DE ENFERMERÍA-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "9",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-NUTRICIÓN-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "10",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-PSICOLOGO (A)-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "11",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-TRABAJO SOCIAL-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "12",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-CUIDADOR-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "13",
+        "scope_of_attention_id": "3"
+    },
+    {
+        "name": "T3-APOYO TERAPEUTICO-PAD Crónico",
+        "amount": "40000",
+        "pad_risk_id": "3",
+        "role_id": "14",
+        "scope_of_attention_id": "3"
+    }
+]  

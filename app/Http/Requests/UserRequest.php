@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             'identification_type_id' => 'required',
             'birthplace_municipality_id' => 'required',
             'username' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->id,
+            'email' => 'required|email',
             'password' => 'required_if:' . $this->id . ',==,null|nullable|between:8,20|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@()$%^&*=_{}[\]:;<>,.\/~`±§+-]).{8,20}$/',
             'confirm_password' => 'required_if:' . $this->id . ',==,null|nullable|between:8,20|same:password',
             'firstname' => 'required',

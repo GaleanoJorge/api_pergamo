@@ -27,7 +27,7 @@ class TariffRequest extends FormRequest
             'name' => 'required',
             'amount' => 'required',
             'pad_risk_id' => 'required',
-            'specialty_id' => 'required',
+            'role_id' => 'required',
             'scope_of_attention_id' => 'required',
         ];
     }

@@ -1064,7 +1064,7 @@
     {
         "id": "166",
         "item_parent_id": "165",
-        "name": "Riesgo de barrios",
+        "name": "Tarifa de barrios",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
         "icon": "navigation-outline",

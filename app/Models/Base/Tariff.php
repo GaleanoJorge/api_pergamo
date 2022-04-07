@@ -7,7 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\PadRisk;
-use App\Models\Specialty;
+use App\Models\Role;
 use App\Models\ScopeOfAttention;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double $name
  * @property double $amount
  * @property BigInteger $pad_risk_id
- * @property BigInteger $specialty_id
+ * @property BigInteger $role_id
  * @property BigInteger $scope_of_attention_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -36,9 +36,9 @@ class Tariff extends Model
 	{
 		return $this->belongsTo(PadRisk::class);
 	}
-	public function specialty()
+	public function role()
 	{
-		return $this->belongsTo(Specialty::class);
+		return $this->belongsTo(Role::class);
 	}
 	public function scope_of_attention()
 	{
