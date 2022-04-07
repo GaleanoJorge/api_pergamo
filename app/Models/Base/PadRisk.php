@@ -7,28 +7,25 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
-use App\Models\Municipality;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Locality
+ * Class PadRisk
  * 
  * @property int $id
  * @property string $name
- * @property BigInteger $municipality_id
+ * @property BigInteger $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
  *
  * @package App\Models\Base
  */
-class Locality extends Model
+class PadRisk extends Model
 {
-	protected $table = 'Locality';
+	protected $table = 'pad_risk';
 
-	public function municipality()
+	public function status()
 	{
-		return $this->belongsTo(Municipality::class);
+		return $this->belongsTo(Status::class);
 	}
 }

@@ -18,7 +18,7 @@ class NeighborhoodOrResidenceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $NeighborhoodOrResidence = NeighborhoodOrResidence::select();
+        $NeighborhoodOrResidence = NeighborhoodOrResidence::with('pad_risk', 'locality');
 
         if($request->_sort){
             $NeighborhoodOrResidence->orderBy($request->_sort, $request->_order);
@@ -26,6 +26,12 @@ class NeighborhoodOrResidenceController extends Controller
 
         if ($request->search) {
             $NeighborhoodOrResidence->where('name','like','%' . $request->search. '%');
+        }
+        if ($request->pad_risk_id) {
+            $NeighborhoodOrResidence->where('pad_risk_id', $request->pad_risk_id);
+        }
+        if ($request->locality_id) {
+            $NeighborhoodOrResidence->where('locality_id', $request->locality_id);
         }
         
         if($request->query("pagination", true)=="false"){
@@ -50,8 +56,9 @@ class NeighborhoodOrResidenceController extends Controller
     public function store(NeighborhoodOrResidenceRequest $request): JsonResponse
     {
         $NeighborhoodOrResidence = new NeighborhoodOrResidence;
-        $NeighborhoodOrResidence->name = $request->name; 
-        $NeighborhoodOrResidence->municipality_id = $request->municipality_id; 
+        $NeighborhoodOrResidence->name = $request->name;
+        $NeighborhoodOrResidence->pad_risk_id = $request->pad_risk_id;
+        $NeighborhoodOrResidence->locality_id = $request->locality_id;
         $NeighborhoodOrResidence->save();
 
         return response()->json([
@@ -88,8 +95,9 @@ class NeighborhoodOrResidenceController extends Controller
     public function update(NeighborhoodOrResidenceRequest $request, int $id): JsonResponse
     {
         $NeighborhoodOrResidence = NeighborhoodOrResidence::find($id);
-        $NeighborhoodOrResidence->name = $request->name; 
-        $NeighborhoodOrResidence->municipality_id = $request->municipality_id;  
+        $NeighborhoodOrResidence->name = $request->name;
+        $NeighborhoodOrResidence->pad_risk_id = $request->pad_risk_id;
+        $NeighborhoodOrResidence->locality_id = $request->locality_id;
         $NeighborhoodOrResidence->save();
 
         return response()->json([

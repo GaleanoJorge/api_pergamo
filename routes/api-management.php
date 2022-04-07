@@ -50,6 +50,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('municipality', 'Management\MunicipalityController');
     Route::get('municipalityAutocomplete', 'Management\MunicipalityController@autocomplete');
 
+    //Locality-neighborhood
+    Route::apiResource('locality', 'Management\LocalityController');
+    Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
+    Route::apiResource('pad_risk', 'Management\PadRiskController');
+    Route::apiResource('tariff', 'Management\TariffController');
+
     //Region
     Route::apiResource('region', 'Management\RegionController');
 
@@ -685,11 +691,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\CampusBriefcaseController@getByBriefcase'
     );
 
-        //Portafolio de servicios por contrato
-        Route::get(
-            'location_capacity/AssistanceByLocation/{assistanceId}',
-            'Management\LocationCapacityController@getByLocality'
-        );
+    //Portafolio de servicios por contrato
+    Route::get(
+        'location_capacity/AssistanceByLocation/{assistanceId}',
+        'Management\LocationCapacityController@getByLocality'
+    );
+    Route::apiResource('location_capacity', 'Management\LocationCapacityController');
+    Route::apiResource('role_attention', 'Management\RoleAttentionController');
 
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');
@@ -930,6 +938,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('userRole/{userId}/{roleId}', 'Management\UserRoleController@getByUserRole');
     Route::get('userRoleCoordinator/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleCoordinator');
     Route::get('userRoleFormer/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleFormer');
+    Route::apiResource('role_type', 'Management\RoleTypeController');
 
 
     Route::get('get_students_by_course/{id}', 'Management\UserCertificateController@get_students');

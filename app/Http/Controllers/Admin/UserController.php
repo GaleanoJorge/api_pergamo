@@ -9,7 +9,7 @@ use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
 use App\Models\Assistance;
-use App\Models\UserRoleCourse;
+use App\Models\Role;
 use App\Models\UserRoleCategoryInscription;
 use App\Models\Curriculum;
 use App\Models\InstalledCapacity;
@@ -287,35 +287,57 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRoleLocation(int $locality, int $roleId): JsonResponse
+    public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
     {
+        $roles = json_decode($request->roles);
+        $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
+
+        $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
+        $endDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st)->addMonth();
 
         $users = User::select(
             'assistance.id AS assistance_id','users.id'
         )->Join('user_role', 'users.id', 'user_role.user_id')
-        ->Join('assistance', 'users.id', 'assistance.user_id')
+        ->Join('assistance', 'users.id', 'assistance.user_id');
 
-            ->where('user_role.role_id', $roleId);        
-            $users = $users->get()->toArray();
-            
+        $first = true;
+        foreach ($roles as $role) {
+            if ($first) {
+                $users->where('user_role.role_id', $role->role_id);
+                $first = false;
+            } else {
+                $users->orWhere('user_role.role_id', $role->role_id);
+            }       
+        }
 
-            if ($locality) {
+        $users = $users->get()->toArray();
+        
+
+        if ($locality) {
             foreach ($users as $key => $row) {
-                  $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->get()->toArray();
-                  $pila = array();
-                    foreach ($localityArr as $key => $row2) {
-                        array_push($pila, $row2['locality_id'] );
-                    }
-                  if (in_array($locality, $pila)) {
+                $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
+                ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                $pila = array();
+                foreach ($localityArr as $key => $row2) {
+                    array_push($pila, $row2['locality_id'] );
+                }
+                if (in_array($locality, $pila)) {
                     $usersfinal = User::select(
                         'users.*','assistance.id AS assistance_id',
                         \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                    )->Join('user_role', 'users.id', 'user_role.user_id')
-                    ->Join('assistance', 'users.id', 'assistance.user_id')
-                        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-            
-                        ->where('user_role.role_id', $roleId)
-                        ->where('users.id', $row['id'])
+                        )->Join('user_role', 'users.id', 'user_role.user_id')
+                        ->Join('assistance', 'users.id', 'assistance.user_id')
+                        ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                        $first = true;
+                        foreach ($roles as $role) {
+                            if ($first) {
+                                $usersfinal->where('user_role.role_id', $role->role_id);
+                                $first = false;
+                            } else {
+                                $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            }       
+                        }
+                        $usersfinal->where('users.id', $row['id'])
                         ->with(
                             'status',
                             'gender',
@@ -325,12 +347,20 @@ class UserController extends Controller
                             'user_role.role',
                             'assistance'
                         )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
-                    
-                        $usersfinal = $usersfinal->get()->toArray();
+                
+                    $usersfinal = $usersfinal->get()->toArray();
                 }else{
                     $usersfinal=array();
                 }           
             }
+        }
+
+        if (count($usersfinal) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se encontraron usuarios',
+                'data' => ['users' => $usersfinal]
+            ]);
         }
      
         return response()->json([
@@ -721,15 +751,15 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
-                if ($role == 3 || $role == 7) {
+                $RoleType = Role::where('id', $role)->get()->toArray();
+                if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                     $assistance = new Assistance;
                     $assistance->user_id = $user->id;
 
                     $assistance->medical_record = $request->medical_record;
                     $assistance->contract_type_id = $request->contract_type_id;
-                    // $assistance->cost_center_id = $request->cost_center_id;
+                    $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
-                    $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->special_field = $request->special_field;
@@ -745,22 +775,16 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-                    if($request->PAD_service!=0){
-                        $InstalledCapacity = new InstalledCapacity;
-                        $InstalledCapacity->user_id = $user->id;
-                        $InstalledCapacity->start_date = Carbon::now();
-                        $InstalledCapacity->finish_date = Carbon::now()->endOfMonth();
-                        $InstalledCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
-                        $InstalledCapacity->save();
-                        
-                    }
 
 
                     $id = Assistance::latest('id')->first();
-                    $array = explode(',', $request->localities_id);
+                    $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
                         $LocationCapacity = new LocationCapacity();
-                        $LocationCapacity->locality_id = $item;
+                        $LocationCapacity->locality_id = $item->locality_id;
+                        $LocationCapacity->PAD_patient_quantity = $item->amount;
+                        $LocationCapacity->PAD_patient_attended = 0;
+                        $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -829,15 +853,15 @@ class UserController extends Controller
             }
             $user->save();
 
-            if ($role == 3 || $role == 7) {
+            $RoleType = Role::where('id', $role)->get()->toArray();
+            if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                 $assistance = new Assistance;
                 $assistance->user_id = $user->id;
 
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
-                // $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
-                $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->special_field = $request->special_field;    
@@ -858,7 +882,10 @@ class UserController extends Controller
 
                 foreach ($request->localities_id as $item) {
                     $LocationCapacity = new LocationCapacity();
-                    $LocationCapacity->locality_id = $item;
+                    $LocationCapacity->locality_id = $item->locality_id;
+                    $LocationCapacity->PAD_patient_quantity = $item->amount;
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                     $LocationCapacity->assistance_id = $id->id;
                     $LocationCapacity->save();
                 }
@@ -1008,14 +1035,14 @@ class UserController extends Controller
         }
         $user->save();
 
-        if ($role == 3 || $role == 7) {
+        $RoleType = Role::where('id', $role)->get()->toArray();
+        if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
             $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
-            // $assistance->cost_center_id = $request->cost_center_id;
+            $assistance->cost_center_id = $request->cost_center_id;
             // $assistance->type_professional_id = $request->type_professional_id;
             $assistance->PAD_service = $request->PAD_service;
-            $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
             $assistance->attends_external_consultation = $request->attends_external_consultation;
             $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -1033,9 +1060,13 @@ class UserController extends Controller
 
             $id = Assistance::latest('id')->first();
 
-            foreach ($request->localities_id as $item) {
+            $array = json_decode($request->localities_id);
+            foreach ($array as $item) {
                 $LocationCapacity = new LocationCapacity();
-                $LocationCapacity->locality_id = $item;
+                $LocationCapacity->locality_id = $item->locality_id;
+                $LocationCapacity->PAD_patient_quantity = $item->amount;
+                $LocationCapacity->PAD_patient_attended = 0;
+                $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                 $LocationCapacity->assistance_id = $id->id;
                 $LocationCapacity->save();
             }

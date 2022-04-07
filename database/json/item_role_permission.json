@@ -2328,5 +2328,125 @@
         "item_id": "162",
         "role_id": "1",
         "permission_id": "4"
+    },
+    {
+        "item_id": "163",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "163",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "163",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "163",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "164",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "164",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "164",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "164",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "165",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "165",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "165",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "165",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "166",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "166",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "166",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "166",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "167",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "167",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "167",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "167",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "168",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "168",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "168",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "168",
+        "role_id": "1",
+        "permission_id": "4"
     }
 ]

@@ -7,28 +7,19 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
-use App\Models\Municipality;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Locality
+ * Class RoleType
  * 
  * @property int $id
  * @property string $name
- * @property BigInteger $municipality_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
  *
  * @package App\Models\Base
  */
-class Locality extends Model
+class RoleType extends Model
 {
-	protected $table = 'Locality';
-
-	public function municipality()
-	{
-		return $this->belongsTo(Municipality::class);
-	}
+	protected $table = 'role_type';
 }
