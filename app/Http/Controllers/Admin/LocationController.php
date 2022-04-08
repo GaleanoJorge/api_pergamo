@@ -77,6 +77,9 @@ class LocationController extends Controller
         $locality = Locality::where('municipality_id', $municipalityId)
             ->orderBy('name', 'asc');
 
+        if ($request->search) {
+            $locality->where('name', 'like', '%' . $request->search . '%');
+        }
 
         if ($request->query("pagination", true) == "false") {
             $locality = $locality->get()->toArray();
