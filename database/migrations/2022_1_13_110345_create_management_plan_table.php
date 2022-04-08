@@ -21,7 +21,7 @@ class CreateManagementPlanTable extends Migration
             $table->unsignedBigInteger('special_field_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('procedure_id');
-            $table->unsignedBigInteger('assigned_user_id');
+            $table->unsignedBigInteger('assigned_user_id')->nullable();
             $table->timestamps();
         
             $table->index('type_of_attention_id');
@@ -42,7 +42,7 @@ class CreateManagementPlanTable extends Migration
              $table->foreign('assigned_user_id')->references('id')
                 ->on('users');
                 $table->foreign('procedure_id')->references('id')
-                ->on('procedure');
+                ->on('services_briefcase');
         });
     }
 

@@ -20,7 +20,7 @@ class ChRecordController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRecord = ChRecord::select();
+        $ChRecord = ChRecord::with('user', 'admissions');
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);

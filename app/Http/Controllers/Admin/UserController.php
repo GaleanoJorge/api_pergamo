@@ -177,7 +177,7 @@ class UserController extends Controller
                 // 'admissions.location.bed'
             )
             // ->orderBy('admissions.entry_date', 'DESC')->groupBy('id')
-            ;
+        ;
 
 
 
@@ -315,47 +315,51 @@ class UserController extends Controller
 
         $users = $users->get()->toArray();
 
-
-        if ($locality) {
-            foreach ($users as $key => $row) {
-                $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
-                    ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
-                $pila = array();
-                foreach ($localityArr as $key => $row2) {
-                    array_push($pila, $row2['locality_id']);
-                }
-                if (in_array($locality, $pila)) {
-                    $usersfinal = User::select(
-                        'users.*',
-                        'assistance.id AS assistance_id',
-                        \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                    )->Join('user_role', 'users.id', 'user_role.user_id')
-                        ->Join('assistance', 'users.id', 'assistance.user_id');
-                        // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                    $first = true;
-                    foreach ($roles as $role) {
-                        if ($first) {
-                            $usersfinal->where('user_role.role_id', $role->role_id);
-                            $first = false;
-                        } else {
-                            $usersfinal->orWhere('user_role.role_id', $role->role_id);
-                        }
+        $validacion = $locality != null;
+        if ($validacion) {
+            if (count($users) > 0) {
+                foreach ($users as $key => $row) {
+                    $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
+                        ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                    $pila = array();
+                    foreach ($localityArr as $key => $row2) {
+                        array_push($pila, $row2['locality_id']);
                     }
-                    $usersfinal->where('users.id', $row['id'])
-                        ->with(
-                            'status',
-                            'gender',
-                            'academic_level',
-                            'identification_type',
-                            'user_role',
-                            'user_role.role',
-                            'assistance'
-                        )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                    if (in_array($locality, $pila)) {
+                        $usersfinal = User::select(
+                            'users.*',
+                            'assistance.id AS assistance_id',
+                            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                        )->Join('user_role', 'users.id', 'user_role.user_id')
+                            ->Join('assistance', 'users.id', 'assistance.user_id');
+                        // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                        $first = true;
+                        foreach ($roles as $role) {
+                            if ($first) {
+                                $usersfinal->where('user_role.role_id', $role->role_id);
+                                $first = false;
+                            } else {
+                                $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            }
+                        }
+                        $usersfinal->where('users.id', $row['id'])
+                            ->with(
+                                'status',
+                                'gender',
+                                'academic_level',
+                                'identification_type',
+                                'user_role',
+                                'user_role.role',
+                                'assistance'
+                            )->orderBy('nombre_completo', 'DESC')->groupBy('id');
 
-                    $usersfinal = $usersfinal->get()->toArray();
-                } else {
-                    $usersfinal = array();
+                        $usersfinal = $usersfinal->get()->toArray();
+                    } else {
+                        $usersfinal = array();
+                    }
                 }
+            } else {
+                $usersfinal = array();
             }
         }
 
@@ -1020,6 +1024,7 @@ class UserController extends Controller
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
+        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         $user->age = $request->age;
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));

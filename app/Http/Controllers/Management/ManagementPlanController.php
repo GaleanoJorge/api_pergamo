@@ -93,6 +93,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->special_field_id = $request->special_field_id;
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
+        $ManagementPlan->procedure_id = $request->procedure_id;
         $ManagementPlan->save();
 
         $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
