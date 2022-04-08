@@ -11,6 +11,7 @@ class ChRecord extends BaseChRecord
     'status',
     'date_attention',
     'admissions_id',
+    'assigned_management_plan_id',
     'user_id',
     'date_finish',
   ];

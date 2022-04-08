@@ -116,6 +116,12 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
                 $this->call(ChTypeBackgroundSeeder::class);
+
+
+                $this->call(ChExamGynecologistsSeeder::class);
+                $this->call(ChFlowGynecologistsSeeder::class);
+                $this->call(ChPlanningGynecologistsSeeder::class);
+                $this->call(ChTypeGynecologistsSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

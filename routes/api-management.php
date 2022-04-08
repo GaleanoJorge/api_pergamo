@@ -853,8 +853,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
-
     
+    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    
+    Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
+    Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
+    Route::apiResource('ch_flow_gynecologists', 'Management\ChFlowGynecologistsController');
+    Route::apiResource('ch_exam_gynecologists', 'Management\ChExamGynecologistsController');
+    
+    Route::apiResource('ch_rst_cytology_gyneco', 'Management\ChRstCytologyGynecoController');
+    Route::apiResource('ch_rst_biopsy_gyneco', 'Management\ChRstBiopsyGynecoController');
+    Route::apiResource('ch_rst_mammography_gyneco', 'Management\ChRstMammographyGynecoController');
+    Route::apiResource('ch_rst_colposcipia_gyneco', 'Management\ChRstColposcipiaGynecoController');
+    Route::apiResource('ch_failure_method_gyneco', 'Management\ChFailureMethodGynecoController');
+    Route::apiResource('ch_method_planning_gyneco', 'Management\ChMethodPlanningGynecoController');
+
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
