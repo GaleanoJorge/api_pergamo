@@ -16,12 +16,9 @@ use App\Models\Locality;
  * Class Location capacity
  * 
  * @property int $id
- * @property BigInteger $PAD_patient_quantity
- * @property BigInteger $PAD_patient_attended
- * @property BigInteger $PAD_patient_actual_capacity
+ * @property BigInteger $PAD_base_patient_quantity
  * @property int $assistance_id
  * @property int $locality_id
- * @property date $validation_date
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -29,9 +26,9 @@ use App\Models\Locality;
  *
  * @package App\Models\Base
  */
-class LocationCapacity extends Model
+class BaseLocationCapacity extends Model
 {
-	protected $table = 'location_capacity';
+	protected $table = 'base_location_capacity';
 
 	public function assistance()
 	{

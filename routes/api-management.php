@@ -708,7 +708,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'location_capacity/AssistanceByLocation/{assistanceId}',
         'Management\LocationCapacityController@getByLocality'
     );
+    Route::get(
+        'base_location_capacity/AssistanceByLocation/{assistanceId}',
+        'Management\BaseLocationCapacityController@getByLocality'
+    );
     Route::apiResource('location_capacity', 'Management\LocationCapacityController');
+    Route::apiResource('base_location_capacity', 'Management\BaseLocationCapacityController');
     Route::apiResource('role_attention', 'Management\RoleAttentionController');
 
     //Portafolio de servicios

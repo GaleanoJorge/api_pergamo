@@ -49,6 +49,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\BaseLocationCapacity;
 use App\Models\CostCenter;
 use App\Models\Specialty;
 use App\Models\TypeProfessional;
@@ -292,10 +293,9 @@ class UserController extends Controller
     public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
     {
         $roles = json_decode($request->roles);
-        $st = '01/' . Carbon::now()->month . '/' . Carbon::now()->year . ' 00:00:00';
 
-        $startDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st);
-        $endDate = Carbon::createFromFormat('d/m/Y H:i:s',  $st)->addMonth();
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
         $users = User::select(
             'assistance.id AS assistance_id',
@@ -319,7 +319,7 @@ class UserController extends Controller
         if ($validacion) {
             if (count($users) > 0) {
                 foreach ($users as $key => $row) {
-                    $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('created_at', [$startDate, $endDate])
+                    $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
                         ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
                     $pila = array();
                     foreach ($localityArr as $key => $row2) {
@@ -789,11 +789,18 @@ class UserController extends Controller
                     $id = Assistance::latest('id')->first();
                     $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
+                        $BaseLocationCapacity = new BaseLocationCapacity();
+                        $BaseLocationCapacity->locality_id = $item->locality_id;
+                        $BaseLocationCapacity->assistance_id = $id->id;
+                        $BaseLocationCapacity->PAD_base_patient_quantity = $item->amount;
+                        $BaseLocationCapacity->save();
+
                         $LocationCapacity = new LocationCapacity();
                         $LocationCapacity->locality_id = $item->locality_id;
-                        $LocationCapacity->PAD_patient_quantity = $item->amount;
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
                         $LocationCapacity->PAD_patient_attended = 0;
-                        $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
+                        $LocationCapacity->validation_date = Carbon::now();
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -890,12 +897,19 @@ class UserController extends Controller
                 $id = Assistance::latest('id')->first();
 
                 foreach ($request->localities_id as $item) {
+                    $BaseLocationCapacity = new BaseLocationCapacity();
+                    $BaseLocationCapacity->locality_id = $item->locality_id;
+                    $BaseLocationCapacity->assistance_id = $id->id;
+                    $BaseLocationCapacity->PAD_base_patient_quantity = $item->amount;
+                    $BaseLocationCapacity->save();
+
                     $LocationCapacity = new LocationCapacity();
                     $LocationCapacity->locality_id = $item->locality_id;
-                    $LocationCapacity->PAD_patient_quantity = $item->amount;
-                    $LocationCapacity->PAD_patient_attended = 0;
-                    $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
                     $LocationCapacity->assistance_id = $id->id;
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->validation_date = Carbon::now();
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
                     $LocationCapacity->save();
                 }
 
@@ -1070,16 +1084,16 @@ class UserController extends Controller
 
             $id = Assistance::latest('id')->first();
 
-            $array = json_decode($request->localities_id);
-            foreach ($array as $item) {
-                $LocationCapacity = new LocationCapacity();
-                $LocationCapacity->locality_id = $item->locality_id;
-                $LocationCapacity->PAD_patient_quantity = $item->amount;
-                $LocationCapacity->PAD_patient_attended = 0;
-                $LocationCapacity->PAD_patient_actual_capacity = $item->amount;
-                $LocationCapacity->assistance_id = $id->id;
-                $LocationCapacity->save();
-            }
+            // $array = json_decode($request->localities_id);
+            // foreach ($array as $item) {
+            //     $LocationCapacity = new LocationCapacity();
+            //     $LocationCapacity->locality_id = $item->locality_id;
+            //     $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+            //     $LocationCapacity->PAD_patient_attended = 0;
+            //     $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+            //     $LocationCapacity->assistance_id = $id->id;
+            //     $LocationCapacity->save();
+            // }
 
 
             if (is_array($request->special_field) == true) {
@@ -1102,6 +1116,23 @@ class UserController extends Controller
             'message' => 'Usuario actualizado exitosamente',
             'data' => ['user' => $user]
         ]);
+    }
+
+    function getLocationCapacitiByDate(int $capacity, Carbon $date)
+    {
+        $currentDateFormat = Carbon::now()->startOfDay();
+        $firstDateFormat = Carbon::now()->startOfMonth();
+        $endDateFormat = Carbon::now()->endOfMonth();
+
+        $totalDiference = $firstDateFormat->diffInDays($endDateFormat);
+        $currentDiference = ($endDateFormat->diffInDays($currentDateFormat)) - 1;
+
+        if ($date->lt($endDateFormat)) {
+            return ceil($currentDiference * ($capacity / $totalDiference));
+        } else {
+            return $capacity;
+        }
+
     }
 
     /**

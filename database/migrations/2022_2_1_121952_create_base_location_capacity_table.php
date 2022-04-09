@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLocationCapacityTable extends Migration
+class CreateBaseLocationCapacityTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateLocationCapacityTable extends Migration
      */
     public function up()
     {
-        Schema::create('location_capacity', function (Blueprint $table) {
+        Schema::create('base_location_capacity', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('assistance_id');
             $table->unsignedBigInteger('locality_id');
-            $table->date('validation_date');
-            $table->unsignedBigInteger('PAD_patient_quantity')->nullable();
-            $table->unsignedBigInteger('PAD_patient_actual_capacity')->nullable();
-            $table->unsignedBigInteger('PAD_patient_attended')->nullable();
+            $table->unsignedBigInteger('PAD_base_patient_quantity')->nullable();
             $table->timestamps();
 
 
@@ -40,6 +37,6 @@ class CreateLocationCapacityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('location_capacity');
+        Schema::dropIfExists('base_location_capacity');
     }
 }
