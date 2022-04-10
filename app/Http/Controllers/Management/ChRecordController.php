@@ -6,9 +6,14 @@ use App\Models\ChRecord;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Admissions;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\AssignedManagementPlan;
+use App\Models\Assistance;
+use App\Models\Locality;
+use App\Models\LocationCapacity;
+use App\Models\Patient;
 use Carbon\Carbon;
 
 class ChRecordController extends Controller
@@ -31,7 +36,7 @@ class ChRecordController extends Controller
         }
 
         if ($request->record_id) {
-            $ChRecord->where('id',$request->record_id );
+            $ChRecord->where('id', $request->record_id);
         }
 
 
@@ -60,7 +65,7 @@ class ChRecordController extends Controller
      */
     public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
-        $ChRecord = ChRecord::where('admissions_id', $id)->where('assigned_management_plan_id',$id2);
+        $ChRecord = ChRecord::where('admissions_id', $id)->where('assigned_management_plan_id', $id2);
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -97,6 +102,21 @@ class ChRecordController extends Controller
         $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
         $ChRecord->user_id = Auth::user()->id;
         $ChRecord->save();
+
+        $assistance = Assistance::where('user_id', $request->user_id)->first();
+        $admission = Admissions::where('id', $request->admissions_id)->first();
+        $patient = Patient::where('id', $admission->patient_id)->first();
+        $locality = Locality::where('id', $patient->locality_id)->first();
+
+        $LocationCapacity = LocationCapacity::where('locality_id', $locality->id)
+            ->where('assistance_id', $assistance->id)
+            ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+            ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+            ->first();
+        if ($LocationCapacity) {
+            $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+            $LocationCapacity->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -138,12 +158,12 @@ class ChRecordController extends Controller
 
         $ChRecord = ChRecord::find($id)->get()->toArray();
 
-        $assigned= AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
-        $assigned->execution_date= Carbon::now();
+        $assigned = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
+        $assigned->execution_date = Carbon::now();
         $assigned->save();
 
 
-        
+
 
         return response()->json([
             'status' => true,
