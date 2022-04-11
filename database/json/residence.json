@@ -1,19 +1,21 @@
 [
     {
-        "name": "Rural"
+        "name": "RURAL"
     },
     {
-        "name": "Urbana"
+        "name": "URBANA"
 
     },
     {
-        "name": "Urbana dispersa"
+        "name": "URBANA DISPERSA"
 
     },
     {
-        "name": "Rural dispersa"
+        "name": "RURAL DISPERSA"
 
     }
    
   
 ]
+
+
