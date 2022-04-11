@@ -9,6 +9,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\AssignedManagementPlan;
+use App\Models\AccountReceivable;
+use App\Models\Admissions;
+use App\Models\Patient;
+use App\Models\Location;
+use App\Models\ManagementPlan;
+use App\Models\Tariff;
+use App\Models\BillUserActivity;
+
+use App\Models\NeighborhoodOrResidence;
 use Carbon\Carbon;
 
 class ChRecordController extends Controller
@@ -136,11 +145,50 @@ class ChRecordController extends Controller
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
-        $ChRecord = ChRecord::find($id)->get()->toArray();
 
-        $assigned= AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
+        $assigned= AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $assigned->execution_date= Carbon::now();
         $assigned->save();
+
+         $mes=Carbon::now()->month;
+
+         $validate=AccountReceivable::whereMonth('created_at', $mes)->get(); 
+         $user_id=AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
+         $AssignedManagementPlan=AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+         $ManagementPlan=ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+         $admissions_id=$ChRecord->admissions_id;
+         $admissions=Admissions::find($admissions_id);
+         $user_id=$admissions->patient_id;
+         $ambit=Location::find($admissions_id)->scope_of_attention_id;
+         $patient=Patient::find($user_id)->neighborhood_or_residence_id;
+         $tariff=NeighborhoodOrResidence::find($patient)->pad_risk_id;
+         $role=$request->role;
+         $valuetariff=Tariff::where('pad_risk_id',$tariff)->where('role_id',$role)->where('scope_of_attention_id',$ambit)->first();
+ 
+         if(!$validate){
+        //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
+            $AccountReceivable=new AccountReceivable;
+        $AccountReceivable->user_id = $user_id;
+        $AccountReceivable->status_bill_id = 1;
+        $AccountReceivable->save();
+        $billActivity=new BillUserActivity;
+        $billActivity->procedure_id=$ManagementPlan->procedure_id;
+        $billActivity->account_receivable_id=$AccountReceivable->id;
+        $billActivity->value=$valuetariff->amount;
+        $billActivity=save();
+         }else{
+         $AccountReceivable=AccountReceivable::find($validate[0]['id']);
+         $billActivity=new BillUserActivity;
+         $billActivity->procedure_id=$ManagementPlan->procedure_id;
+         $billActivity->account_receivable_id=$validate[0]['id'];
+         $billActivity->value=$valuetariff->amount;
+         $billActivity->save();
+         };
+
+
+
+
+        
 
 
         

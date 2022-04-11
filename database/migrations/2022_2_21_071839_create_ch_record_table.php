@@ -19,6 +19,7 @@
                 $table->date('date_attention');
                 $table->unsignedBigInteger('admissions_id');
                 $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('assigned_management_plan_id');
                 $table->date('date_finish');
                 $table->timestamps();
 
@@ -29,6 +30,10 @@
                     $table->index('user_id');
                     $table->foreign('user_id')->references('id')
                         ->on('users');
+
+                        $table->index('assigned_management_plan_id');
+                        $table->foreign('assigned_management_plan_id')->references('id')
+                            ->on('assigned_management_plan');
             });
         }
 

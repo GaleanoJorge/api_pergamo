@@ -1005,6 +1005,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('account_receivable', 'Management\AccountReceivableController');
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
+    Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
+
+    
     Route::apiResource('user_activity', 'Management\UserActivityController');
     Route::apiResource('status_bill', 'Management\StatusBillController');
     Route::apiResource('financial_data', 'Management\FinancialDataController');

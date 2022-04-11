@@ -86,6 +86,7 @@ class ManagementPlanController extends Controller
      */
     public function store(ManagementPlanRequest $request): JsonResponse
     {
+     
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
@@ -96,22 +97,26 @@ class ManagementPlanController extends Controller
         $ManagementPlan->procedure_id = $request->procedure_id;
         $ManagementPlan->save();
 
-        $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
-        foreach ($frequency as $key => $row) {
-            $diferencei = $row['days'] / $request->quantity;
-        }
-        $now = Carbon::now();
-        $finish = Carbon::now()->addDays($diferencei);
-        $diference = 7;
+        // $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
+        // foreach ($frequency as $key => $row) {
+        //     $diferencei = $row['days'] / $request->quantity;
+        // }
+        if($request->medical==false){
+        $now = Carbon::createFromDate($request->start_date);
+        $finish =Carbon::createFromDate($request->finish_date);
+        $diasDiferencia = $finish->diffInDays($now);
+        $diferencei = $diasDiferencia/$request->quantity;
+        $finish =Carbon::createFromDate($request->start_date)->addDays($diferencei);
+        $diference = $diferencei;
         for ($i = 0; $i < $request->quantity; $i++) {
 
             if ($i == 0) {
-                $start = $now;
+                $start = $request->start_date;
                 $finish = $finish;
             } else {
                 $diference = $diference + $diferencei;
                 $start = $finish->addDays(1);
-                $finish = Carbon::now()->addDays($diference);
+                $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
             }
             $assignedManagement = new AssignedManagementPlan;
             $assignedManagement->start_date = $start;
@@ -120,6 +125,7 @@ class ManagementPlanController extends Controller
             $assignedManagement->management_plan_id = $ManagementPlan->id;
             $assignedManagement->save();
         }
+    }
 
 
         return response()->json([
@@ -171,6 +177,30 @@ class ManagementPlanController extends Controller
         $assignedManagement->save();
         }
 
+
+        $now = Carbon::createFromDate($request->start_date);
+        $finish =Carbon::createFromDate($request->finish_date);
+        $diasDiferencia = $finish->diffInDays($now);
+        $diferencei = $diasDiferencia/$request->quantity;
+        $finish =Carbon::createFromDate($request->start_date)->addDays($diferencei);
+        $diference = $diferencei;
+        for ($i = 0; $i < $request->quantity; $i++) {
+
+            if ($i == 0) {
+                $start = $request->start_date;
+                $finish = $finish;
+            } else {
+                $diference = $diference + $diferencei;
+                $start = $finish->addDays(1);
+                $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
+            }
+            $assignedManagement = new AssignedManagementPlan;
+            $assignedManagement->start_date = $start;
+            $assignedManagement->finish_date =  $finish;
+            $assignedManagement->user_id = $request->assigned_user_id;
+            $assignedManagement->management_plan_id = $id;
+            $assignedManagement->save();
+        }
 
         return response()->json([
             'status' => true,

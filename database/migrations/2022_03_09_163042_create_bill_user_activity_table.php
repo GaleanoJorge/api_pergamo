@@ -15,7 +15,7 @@ class CreateBillUserActivityTable extends Migration
     {
         Schema::create('bill_user_activity', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('procedure_id');
+            $table->unsignedBigInteger('procedure_id');
             $table->unsignedBigInteger('account_receivable_id');
             $table->double('value');
             $table->string('observation');
@@ -26,6 +26,9 @@ class CreateBillUserActivityTable extends Migration
 
             $table->foreign('account_receivable_id')->references('id')
                 ->on('account_receivable');
+                $table->index('procedure_id');
+                $table->foreign('procedure_id')->references('id')
+                ->on('services_briefcase');
         });
     }
 
