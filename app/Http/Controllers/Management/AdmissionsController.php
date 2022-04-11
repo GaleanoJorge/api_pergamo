@@ -8,6 +8,8 @@ use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
+use App\Models\Authorization;
+use App\Models\Briefcase;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -94,6 +96,7 @@ class AdmissionsController extends Controller
                 'users.email',
                 'users.residence_address',
                 'users.residence_municipality_id',
+                'users.neighborhood_or_residence_id',
                 \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
             )
             ->LeftJoin('location', 'location.admissions_id', 'admissions.id')
@@ -178,7 +181,8 @@ class AdmissionsController extends Controller
         $Admissions->diagnosis_id = $request->diagnosis_id;;
         $Admissions->campus_id = $request->campus_id;
         $Admissions->contract_id = $request->contract_id;
-        $Admissions->briefcase_id = $request->contract_id;
+        $Admissions->briefcase_id = $request->briefcase_id;
+        $Admissions->procedure_id = $request->procedure_id;
         $Admissions->user_id = $request->user_id;
         $Admissions->entry_date = Carbon::now();
         $Admissions->save();
@@ -194,6 +198,21 @@ class AdmissionsController extends Controller
         $Location->user_id = $request->user_id;
         $Location->entry_date = Carbon::now();
         $Location->save();
+
+        if ($Admissions->procedure_id) {
+            $Authorization = new  Authorization;
+            $Authorization->procedure_id =  $Admissions->procedure_id;
+            $Authorization->admissions_id =  $Admissions->id;
+            $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+            if ($validate->auth_type == 1) {
+                $Authorization->auth_status_id =  2;
+            } else {
+                $Authorization->auth_status_id =  1;
+            }
+
+            $Authorization->save();
+        }
+
 
         if ($request->bed_id) {
             $Bed = Bed::find($request->bed_id);
@@ -240,10 +259,10 @@ class AdmissionsController extends Controller
             $Admissions->discharge_date = Carbon::now();
             $Admissions->save();
 
-            if($request->bed_id!=null){
-            $Bed = Bed::find($request->bed_id);
-            $Bed->status_bed_id = 1;
-            $Bed->save();
+            if ($request->bed_id != null) {
+                $Bed = Bed::find($request->bed_id);
+                $Bed->status_bed_id = 1;
+                $Bed->save();
             }
         } else if ($request->reversion == true) {
             $Admissions = Admissions::find($id);
@@ -253,7 +272,8 @@ class AdmissionsController extends Controller
             $Admissions = Admissions::find($id);
             $Admissions->campus_id = $request->campus_id;
             $Admissions->contract_id = $request->contract_id;
-            $Admissions->briefcase = $request->contract_id;
+            $Admissions->briefcase_id = $request->briefcase_id;
+            $Admissions->procedure_id = $request->procedure_id;
             $Admissions->user_id = $request->user_id;
             $Admissions->save();
         }
