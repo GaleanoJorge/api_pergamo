@@ -55,17 +55,17 @@ class AuthorizationController extends Controller
     public function ByStatus(Request $request, int $type, int $statusId): JsonResponse
     {
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
-            ->leftjoin('users', 'admissions.user_id', 'users.id')
+            ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('procedure','authorization.procedure_id', 'procedure.id')
             ->select(
                 'authorization.*',
-                'users.identification_type_id',
-                'users.identification',
-                'users.email',
-                'users.residence_address',
-                'users.residence_municipality_id',
-                'users.neighborhood_or_residence_id',
-                \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                'patients.identification_type_id',
+                'patients.identification',
+                'patients.email',
+                'patients.residence_address',
+                'patients.residence_municipality_id',
+                'patients.neighborhood_or_residence_id',
+                \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             );
         if ($type == 1) {
             if ($statusId == 0) {
