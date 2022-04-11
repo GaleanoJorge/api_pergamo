@@ -20,6 +20,7 @@ class CreateAdmissionsTable extends Migration
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('diagnosis_id');
             $table->unsignedBigInteger('briefcase_id');
+            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->dateTime('entry_date');
             $table->dateTime('discharge_date');
             $table->dateTime('medical_date');
