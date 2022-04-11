@@ -792,15 +792,15 @@ class UserController extends Controller
                         $BaseLocationCapacity = new BaseLocationCapacity();
                         $BaseLocationCapacity->locality_id = $item->locality_id;
                         $BaseLocationCapacity->assistance_id = $id->id;
-                        $BaseLocationCapacity->PAD_base_patient_quantity = $item->amount;
+                        $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
                         $BaseLocationCapacity->save();
 
                         $LocationCapacity = new LocationCapacity();
                         $LocationCapacity->locality_id = $item->locality_id;
-                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
                         $LocationCapacity->PAD_patient_attended = 0;
                         $LocationCapacity->validation_date = Carbon::now();
-                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -900,16 +900,16 @@ class UserController extends Controller
                     $BaseLocationCapacity = new BaseLocationCapacity();
                     $BaseLocationCapacity->locality_id = $item->locality_id;
                     $BaseLocationCapacity->assistance_id = $id->id;
-                    $BaseLocationCapacity->PAD_base_patient_quantity = $item->amount;
+                    $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
                     $BaseLocationCapacity->save();
 
                     $LocationCapacity = new LocationCapacity();
                     $LocationCapacity->locality_id = $item->locality_id;
                     $LocationCapacity->assistance_id = $id->id;
-                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
                     $LocationCapacity->PAD_patient_attended = 0;
                     $LocationCapacity->validation_date = Carbon::now();
-                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
                     $LocationCapacity->save();
                 }
 
@@ -1083,17 +1083,6 @@ class UserController extends Controller
             $assistance->save();
 
             $id = Assistance::latest('id')->first();
-
-            // $array = json_decode($request->localities_id);
-            // foreach ($array as $item) {
-            //     $LocationCapacity = new LocationCapacity();
-            //     $LocationCapacity->locality_id = $item->locality_id;
-            //     $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
-            //     $LocationCapacity->PAD_patient_attended = 0;
-            //     $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->amount, Carbon::now());
-            //     $LocationCapacity->assistance_id = $id->id;
-            //     $LocationCapacity->save();
-            // }
 
 
             if (is_array($request->special_field) == true) {
