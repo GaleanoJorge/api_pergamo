@@ -113,6 +113,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChVitalNeurologicalSeeder::class);
                 $this->call(ChVitalTemperatureSeeder::class);
                 $this->call(ChVitalVentilatedSeeder::class);
+
+                //autorizaciones
+                $this->call(AuthStatusSeeder::class);
+                
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
