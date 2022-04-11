@@ -1042,6 +1042,33 @@
         "route": "/pages/gloss/conciliations",
         "icon": "log-in-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "171",
+        "item_parent_id": "66",
+        "name": "Autorizaciones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "172",
+        "item_parent_id": "171",
+        "name": "Estados de autorización",
+        "code": "auth-status",
+        "route": "/pages/setting/auth-status",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "173",
+        "item_parent_id": null,
+        "name": "Autorizaciones",
+        "code": "authorization",
+        "route": "/pages/authorization/list",
+        "icon": "clipboard-outline",
+        "show_menu": "1"
     }
 
 ]
