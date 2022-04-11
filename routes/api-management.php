@@ -855,6 +855,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
     
     Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
     
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
