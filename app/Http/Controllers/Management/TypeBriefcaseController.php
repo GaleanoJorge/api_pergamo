@@ -55,7 +55,7 @@ class TypeBriefcaseController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo de portafolios de entidades de salud creada exitosamente',
+            'message' => 'Régimen de entidades de salud creado exitosamente',
             'data' => ['type_briefcase' => $TypeBriefcase->toArray()]
         ]);
     }

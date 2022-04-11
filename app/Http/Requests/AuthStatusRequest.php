@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BriefcaseRequest extends FormRequest
+class AuthStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class BriefcaseRequest extends FormRequest
     public function rules()
     {
         return [
-            'contract_id' => '',
-            'name' => '',
-            'type_briefcase_id' => '',
-            'coverage_id' => '',
-            'modality_id' => '',
-            'status_id' => '',
-            'type_auth' => '',
+            'name' => 'required',
+            'code' => '',
         ];
     }
 }

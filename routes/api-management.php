@@ -336,15 +336,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('company_mail', 'Management\CompanyMailController');
 
     //Direcciones de correo por compañia
-    Route::get('company_mail/MailByCompany/{companyId}',
-    'Management\CompanyMailController@getByCompany');
+    Route::get(
+        'company_mail/MailByCompany/{companyId}',
+        'Management\CompanyMailController@getByCompany'
+    );
 
     //Asociacion de las empresas con los documentos solicitantes
     Route::apiResource('company_document', 'Management\CompanyDocumentController');
 
     //Documentos por compañia
-    Route::get('company_document/DocumentByCompany/{companyId}',
-    'Management\CompanyDocumentController@getByCompany');
+    Route::get(
+        'company_document/DocumentByCompany/{companyId}',
+        'Management\CompanyDocumentController@getByCompany'
+    );
 
 
     //Documentos contables
@@ -380,8 +384,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Impuestos
     Route::apiResource('taxes', 'Management\TaxesController');
     // Impuestos para compañia
-    Route::get('company_taxes/TaxesByCompany/{companyId}',
-     'Management\CompanyTaxesController@getByCompany');
+    Route::get(
+        'company_taxes/TaxesByCompany/{companyId}',
+        'Management\CompanyTaxesController@getByCompany'
+    );
 
     //Empresas dentro de las que se indetifican las prestadoras de salud
     Route::apiResource('company', 'Management\CompanyController');
@@ -473,15 +479,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Cambio de usuario
     Route::apiResource('user_change', 'Management\UserChangeController');
-   //Tipo de poliza
-   Route::apiResource('policy_type', 'Management\PolicyTypeController');
-   
-   //Datos de paciente (acompañante y/o responsable)
-   Route::apiResource('patient_data', 'Management\PatientDataController');
+    //Tipo de poliza
+    Route::apiResource('policy_type', 'Management\PolicyTypeController');
 
-   //Tener acompañante y/o responsable por paciente
-   Route::get('PatientData/PatientDatabyAdmission/{admissionId}',
-    'Management\PatientDataController@getByAdmissions');
+    //Datos de paciente (acompañante y/o responsable)
+    Route::apiResource('patient_data', 'Management\PatientDataController');
+
+    //Tener acompañante y/o responsable por paciente
+    Route::get(
+        'PatientData/PatientDatabyAdmission/{admissionId}',
+        'Management\PatientDataController@getByAdmissions'
+    );
 
     //Tipo de poliza
     Route::apiResource('policy_type', 'Management\PolicyTypeController');
@@ -599,7 +607,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
     Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
-    
+
 
     //Tipo de contrato del empleado
     Route::apiResource('contract_type', 'Management\ContractTypeController');
@@ -670,8 +678,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     // Route::get('Policy/FileByContract/{contractId}',
     // 'Management\PolicyController@getByContract');
 
-   //Tipo de portafolios
-   Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
+    //Tipo de portafolios
+    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
 
     //Portafolio de servicios
     Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
@@ -1003,7 +1011,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
 
-    ////AnswerType
+    //Programa de atención complementaria.
     Route::apiResource('PacMonitoring', 'Management\PacMonitoringController');
 
     // Nomina OPS (TERCEROS ASISTENCIALES)
@@ -1021,6 +1029,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('account_type', 'Management\AccountTypeController');
     Route::apiResource('bank', 'Management\BankController');
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
+    //Autorizaciones
+    Route::apiResource('authorization', 'Management\AuthorizationController');
+    Route::get('authorization/byStatus/{type}/{statusId}', 'Management\AuthorizationController@ByStatus');
+    //Estado de autorizaciones.
+    Route::apiResource('auth_status', 'Management\AuthStatusController');
+    //Registro de autorizaciones.
+    Route::apiResource('auth_log', 'Management\AuthLogController');
 
 
 });
