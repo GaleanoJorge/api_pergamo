@@ -20,6 +20,7 @@ class CreateBriefcaseTable extends Migration
             $table->unsignedBigInteger('coverage_id');
             $table->unsignedBigInteger('modality_id');
             $table->unsignedTinyInteger('status_id');
+            $table->integer('type_auth');
             $table->timestamps();
 
             $table->index('contract_id');
