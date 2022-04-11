@@ -6,14 +6,21 @@ use App\Models\ChRecord;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Admissions;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\AssignedManagementPlan;
 use App\Models\Assistance;
 use App\Models\Locality;
 use App\Models\LocationCapacity;
+use App\Models\AccountReceivable;
+use App\Models\Admissions;
 use App\Models\Patient;
+use App\Models\Location;
+use App\Models\ManagementPlan;
+use App\Models\Tariff;
+use App\Models\BillUserActivity;
+
+use App\Models\NeighborhoodOrResidence;
 use Carbon\Carbon;
 
 class ChRecordController extends Controller
@@ -103,21 +110,6 @@ class ChRecordController extends Controller
         $ChRecord->user_id = Auth::user()->id;
         $ChRecord->save();
 
-        $assistance = Assistance::where('user_id', $request->user_id)->first();
-        $admission = Admissions::where('id', $request->admissions_id)->first();
-        $patient = Patient::where('id', $admission->patient_id)->first();
-        $locality = Locality::where('id', $patient->locality_id)->first();
-
-        $LocationCapacity = LocationCapacity::where('locality_id', $locality->id)
-            ->where('assistance_id', $assistance->id)
-            ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-            ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-            ->first();
-        if ($LocationCapacity) {
-            $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-            $LocationCapacity->save();
-        }
-
         return response()->json([
             'status' => true,
             'message' => 'Registro paciente asociado al paciente exitosamente',
@@ -156,14 +148,56 @@ class ChRecordController extends Controller
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
-        $ChRecord = ChRecord::find($id)->get()->toArray();
 
-        $assigned = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id']);
+        $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $assigned->execution_date = Carbon::now();
         $assigned->save();
 
+        $mes = Carbon::now()->month;
 
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->get();
+        $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
+        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+        $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+        $admissions_id = $ChRecord->admissions_id;
+        $admissions = Admissions::find($admissions_id);
+        $user_id = $admissions->patient_id;
+        $ambit = Location::find($admissions_id)->scope_of_attention_id;
+        $locality = Patient::find($user_id)->locality_id;
+        $patient = Patient::find($user_id)->neighborhood_or_residence_id;
+        $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
+        $role = $request->role;
+        $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
 
+        if (!$validate) {
+            //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
+            $AccountReceivable = new AccountReceivable;
+            $AccountReceivable->user_id = $user_id;
+            $AccountReceivable->status_bill_id = 1;
+            $AccountReceivable->save();
+            $billActivity = new BillUserActivity;
+            $billActivity->procedure_id = $ManagementPlan->procedure_id;
+            $billActivity->account_receivable_id = $AccountReceivable->id;
+            $billActivity->value = $valuetariff->amount;
+            $billActivity->save();
+        } else {
+            $AccountReceivable = AccountReceivable::find($validate[0]['id']);
+            $billActivity = new BillUserActivity;
+            $billActivity->procedure_id = $ManagementPlan->procedure_id;
+            $billActivity->account_receivable_id = $validate[0]['id'];
+            $billActivity->value = $valuetariff->amount;
+            $billActivity->save();
+        };
+
+        $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+            ->where('assistance_id', $request->assistance_id)
+            ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+            ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+            ->first();
+        if ($LocationCapacity) {
+            $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+            $LocationCapacity->save();
+        }
 
         return response()->json([
             'status' => true,

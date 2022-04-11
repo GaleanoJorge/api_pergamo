@@ -87,6 +87,7 @@ class ManagementPlanController extends Controller
      */
     public function store(ManagementPlanRequest $request): JsonResponse
     {
+     
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
@@ -98,31 +99,28 @@ class ManagementPlanController extends Controller
         $ManagementPlan->save();
 
         $error = false;
-        // cambiar por calculo de días entre fecha inicial y fehca final
-        // <------------------------------------------------------------------------------------->
-        $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
-        foreach ($frequency as $key => $row) {
-            $diferencei = ceil($row['days'] / $request->quantity);
-        }
-        // <------------------------------------------------------------------------------------->
-        // $now = Carbon::now();
-        // $finish = Carbon::now()->addDays($diferencei);
-        // $diference = 7;
         $firstDateMonth = Carbon::now()->startOfMonth();
-        $lastDateMonth = Carbon::now()->endOfMonth();
-        $startDate = Carbon::now()->startOfDay(); // cambiar la fecha actual por la fecha inicial
-        $diferenceDate = Carbon::now()->addDays($diferencei - 1)->endOfDay();
+        $lastDateMonth = Carbon::now()->endOfMonth();        
+        // $frequency = Frequency::where('id', $request->frequency_id)->get()->toArray();
+        // foreach ($frequency as $key => $row) {
+        //     $diferencei = $row['days'] / $request->quantity;
+        // }
+        if($request->medical==false){
+        $now = Carbon::createFromDate($request->start_date);
+        $finish =Carbon::createFromDate($request->finish_date);
+        $diasDiferencia = $finish->diffInDays($now);
+        $diferencei = $diasDiferencia/$request->quantity;
+        $finish =Carbon::createFromDate($request->start_date)->addDays($diferencei);
+        $diference = $diferencei;
         for ($i = 0; $i < $request->quantity; $i++) {
 
             if ($i == 0) {
-                $start = $startDate->copy();
-                $finish = $diferenceDate->copy();
+                $start = $request->start_date;
+                $finish = $finish;
             } else {
-                // $diference = $diference + $diferencei;
-                // $start = $finish->addDays(1);
-                // $finish = Carbon::now()->addDays($diference);
-                $start = $diferenceDate->addDays(1)->startOfDay()->copy();
-                $finish =  $diferenceDate->addDays($diferencei - 1)->endOfDay()->copy();
+                $diference = $diference + $diferencei;
+                $start = $finish->addDays(1)->copy();
+                $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
             }
 
             $assigned = false;
@@ -165,6 +163,7 @@ class ManagementPlanController extends Controller
             $assignedManagement->management_plan_id = $ManagementPlan->id;
             $assignedManagement->save();
         }
+    }
 
         if (!$error) {
             return response()->json([
@@ -224,6 +223,30 @@ class ManagementPlanController extends Controller
             $assignedManagement->save();
         }
 
+
+        $now = Carbon::createFromDate($request->start_date);
+        $finish =Carbon::createFromDate($request->finish_date);
+        $diasDiferencia = $finish->diffInDays($now);
+        $diferencei = $diasDiferencia/$request->quantity;
+        $finish =Carbon::createFromDate($request->start_date)->addDays($diferencei);
+        $diference = $diferencei;
+        for ($i = 0; $i < $request->quantity; $i++) {
+
+            if ($i == 0) {
+                $start = $request->start_date;
+                $finish = $finish;
+            } else {
+                $diference = $diference + $diferencei;
+                $start = $finish->addDays(1);
+                $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
+            }
+            $assignedManagement = new AssignedManagementPlan;
+            $assignedManagement->start_date = $start;
+            $assignedManagement->finish_date =  $finish;
+            $assignedManagement->user_id = $request->assigned_user_id;
+            $assignedManagement->management_plan_id = $id;
+            $assignedManagement->save();
+        }
 
         return response()->json([
             'status' => true,
