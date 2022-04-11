@@ -125,7 +125,7 @@ class ManagementPlanController extends Controller
 
             $assigned = false;
             while (!$assigned && !$error) {
-                if ($start->between($firstDateMonth, $lastDateMonth)) {
+                if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
                     $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
                         ->where('locality_id', $request->locality_id)
                         ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
