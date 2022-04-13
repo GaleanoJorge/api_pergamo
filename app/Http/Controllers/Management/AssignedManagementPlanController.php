@@ -102,7 +102,7 @@ class AssignedManagementPlanController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Plan creada exitosamente',
+            'message' => 'Plan creado exitosamente',
             'data' => ['assigned_management_plan' => $AssignedManagementPlan->toArray()]
         ]);
     }
