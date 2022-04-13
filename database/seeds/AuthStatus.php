@@ -16,6 +16,7 @@ class AuthStatusSeeder extends Seeder
 
         foreach (json_decode($data) as $row) {
             AuthStatus::create([
+                'id' => $row->id,
                 'name' =>  $row->name,
                 'code' => $row->code,
             ]);
