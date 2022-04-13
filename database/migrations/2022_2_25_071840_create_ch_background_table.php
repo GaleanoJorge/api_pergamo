@@ -22,7 +22,6 @@ class CreateChBackgroundTable extends Migration
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
-
             $table->index('ch_type_background_id');
             $table->foreign('ch_type_background_id')->references('id')
                 ->on('ch_type_background');

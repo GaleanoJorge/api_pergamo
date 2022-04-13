@@ -22,7 +22,6 @@ class CreateChSystemExamTable extends Migration
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
-
             $table->index('type_ch_system_exam_id');
             $table->foreign('type_ch_system_exam_id')->references('id')
                 ->on('type_ch_system_exam');

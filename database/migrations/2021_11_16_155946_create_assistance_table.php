@@ -21,6 +21,7 @@ class CreateAssistanceTable extends Migration
             $table->unsignedBigInteger('cost_center_id')->nullable();
             // $table->unsignedBigInteger('type_professional_id');
             $table->unsignedBigInteger('PAD_service')->nullable();
+            $table->unsignedBigInteger('PAD_patient_quantity')->nullable();
             $table->unsignedBigInteger('attends_external_consultation')->nullable();
             $table->unsignedBigInteger('serve_multiple_patients')->nullable();
             $table->string('file_firm');

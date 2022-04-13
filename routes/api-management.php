@@ -897,6 +897,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
 
     
+    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
+    
+    Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
+    Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
+    Route::apiResource('ch_flow_gynecologists', 'Management\ChFlowGynecologistsController');
+    Route::apiResource('ch_exam_gynecologists', 'Management\ChExamGynecologistsController');
+    
+    Route::apiResource('ch_rst_cytology_gyneco', 'Management\ChRstCytologyGynecoController');
+    Route::apiResource('ch_rst_biopsy_gyneco', 'Management\ChRstBiopsyGynecoController');
+    Route::apiResource('ch_rst_mammography_gyneco', 'Management\ChRstMammographyGynecoController');
+    Route::apiResource('ch_rst_colposcipia_gyneco', 'Management\ChRstColposcipiaGynecoController');
+    Route::apiResource('ch_failure_method_gyneco', 'Management\ChFailureMethodGynecoController');
+    Route::apiResource('ch_method_planning_gyneco', 'Management\ChMethodPlanningGynecoController');
+
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');

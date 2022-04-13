@@ -123,12 +123,24 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChVitalVentilatedSeeder::class);
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
+
                 $this->call(ChTypeBackgroundSeeder::class);
 
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
                 
                 $this->call(TypeBillingEvidenceSeeder::class);
+                $this->call(ChExamGynecologistsSeeder::class);
+                $this->call(ChFlowGynecologistsSeeder::class);
+                $this->call(ChPlanningGynecologistsSeeder::class);
+                $this->call(ChTypeGynecologistsSeeder::class);
+                $this->call(ChRstCytologyGynecoSeeder::class);
+                $this->call(ChRstBiopsyGynecoSeeder::class);
+                $this->call(ChRstMammographyGynecoSeeder::class);
+                $this->call(ChRstColposcipiaGynecoSeeder::class);
+                $this->call(ChFailureMethodGynecoSeeder::class);
+                $this->call(ChMethodPlanningGynecoSeeder::class);
+
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
