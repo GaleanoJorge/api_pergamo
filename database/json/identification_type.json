@@ -20,6 +20,11 @@
         "sga_origin_fk": 7
     },
     {
+        "name": "REGISTRO CIVIL",
+        "code": "RC",
+        "sga_origin_fk": 7
+    },
+    {
         "name": "NUIP",
         "code": "NUIP",
         "sga_origin_fk": 8

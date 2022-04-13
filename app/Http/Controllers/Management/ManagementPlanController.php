@@ -14,6 +14,7 @@ use App\Models\LocationCapacity;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ManagementPlanController extends Controller
 {
@@ -49,8 +50,11 @@ class ManagementPlanController extends Controller
     public function getByAdmission(Request $request, int $id): JsonResponse
     {
 
-        $ManagementPlan = ManagementPlan::with('type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')->where('admissions_id', $id);
-
+        $ManagementPlan = ManagementPlan::select('management_plan.*', DB::raw('SUM(CASE assigned_management_plan.execution_date WHEN "0000-00-00" THEN 1 ELSE 0 END) AS not_executed'))
+            ->with('type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->where('admissions_id', $id)
+            ->groupBy('management_plan.id');
 
         if ($request->_sort) {
             $ManagementPlan->orderBy($request->_sort, $request->_order);
