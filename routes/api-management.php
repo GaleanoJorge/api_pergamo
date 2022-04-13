@@ -841,6 +841,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
+    Route::apiResource('billing', 'Management\BillingController');
+    Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
+    Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
+    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
+    Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
+    Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
 
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
