@@ -24,9 +24,9 @@ class PharmacyStockRequest extends FormRequest
     public function rules()
     {
         return [
-            'pharmacy' => '',
             'name' => '',
             'campus_id' => '',
+            'permission_pharmacy_stock_id' => '',
         ];
     }
 }

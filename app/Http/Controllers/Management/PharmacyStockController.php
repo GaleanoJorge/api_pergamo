@@ -85,9 +85,9 @@ class PharmacyStockController extends Controller
     public function store(Request $request): JsonResponse
     {
         $PharmacyStock = new PharmacyStock;
-        $PharmacyStock->pharmacy = $request->pharmacy;
         $PharmacyStock->name = $request->name;
         $PharmacyStock->campus_id = $request->campus_id;
+        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([
@@ -124,9 +124,9 @@ class PharmacyStockController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $PharmacyStock = PharmacyStock::find($id);
-        $PharmacyStock->pharmacy = $request->pharmacy;
         $PharmacyStock->name = $request->name;
         $PharmacyStock->campus_id = $request->campus_id;
+        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([

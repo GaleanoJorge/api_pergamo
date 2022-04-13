@@ -8,8 +8,8 @@ use App\Models\Base\PharmacyStock as BasePharmacyStock;
 class PharmacyStock extends BasePharmacyStock
 {
   protected $fillable = [
-    'pharmacy', 
     'name',
     'campus_id',
+    'permission_pharmacy_stock_id',
   ];
 }

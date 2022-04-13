@@ -15,14 +15,17 @@ class CreatePharmacyStockTable extends Migration
     {
         Schema::create('pharmacy_stock', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pharmacy');
             $table->string('name');
-            $table->unsignedBigInteger('campus_id');
+            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('permission_pharmacy_stock_id');
             $table->timestamps();
 
             $table->index('campus_id');
-            $table->foreign('campus_id')->references('id')
-                ->on('campus');
+            $table->foreign('campus_id')->references('id')->on('campus');
+
+            $table->index('permission_pharmacy_stock_id');
+            $table->foreign('permission_pharmacy_stock_id')->references('id')
+                ->on('permission_pharmacy_stock');
         });
     }
 
