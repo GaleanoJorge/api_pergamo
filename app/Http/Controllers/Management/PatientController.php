@@ -151,7 +151,7 @@ class PatientController extends Controller
             'patients.*',
             \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'patients.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'patients.id', 'admissions.user_id')
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->with(
                 'status',
                 'gender',
@@ -304,7 +304,7 @@ class PatientController extends Controller
                         \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
                     )->Join('user_role', 'patients.id', 'user_role.user_id')
                         ->Join('assistance', 'patients.id', 'assistance.user_id')
-                        ->leftjoin('admissions', 'patients.id', 'admissions.user_id')
+                        ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
 
                         ->where('user_role.role_id', $roleId)
                         ->where('patients.id', $row['id'])

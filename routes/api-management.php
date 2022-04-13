@@ -268,6 +268,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/{id}', 'Management\PatientController@show');
     Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
+    Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
 
 
 
