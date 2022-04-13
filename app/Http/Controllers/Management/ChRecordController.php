@@ -144,6 +144,10 @@ class ChRecordController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChRecord = ChRecord::find($id);
+        $admissions_id = $ChRecord->admissions_id;
+        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+        ->orderBy('created_at','ASC')->first();
+      
         $ChRecord->status = $request->status;
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
@@ -159,7 +163,6 @@ class ChRecordController extends Controller
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
-        $admissions_id = $ChRecord->admissions_id;
         $admissions = Admissions::find($admissions_id);
         $user_id = $admissions->patient_id;
         $ambit = Location::find($admissions_id)->scope_of_attention_id;
@@ -169,9 +172,8 @@ class ChRecordController extends Controller
         $role = $request->role;
         $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
         
-        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id);
-
-        if (!$ChRecordExist) {
+    
+        if ($ChRecordExist->date_finish=='0000-00-00') {
             if (!$validate) {
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;

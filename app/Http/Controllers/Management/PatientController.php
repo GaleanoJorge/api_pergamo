@@ -867,6 +867,7 @@ class PatientController extends Controller
         $patients->residence_country_id = $request->residence_country_id;
         $patients->locality_id = $request->locality_id;
         $patients->residence_id = $request->residence_id;
+        $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         if ($request->gender_id == 3) {
             $patients->gender_type = $request->gender_type;
         }
