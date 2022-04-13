@@ -10,6 +10,7 @@ use App\Models\TypeOfAttention;
 use App\Models\Frequency;
 use App\Models\SpecialField;
 use App\Models\Admissions;
+use App\Models\Authorization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -53,5 +54,9 @@ class ManagementPlan extends Model
 	public function assigned_user()
 	{
 		return $this->belongsTo(User::class);
+	}
+	public function authorization()
+	{
+		return $this->belongsTo(Authorization::class,'authorization_id');
 	}
 }

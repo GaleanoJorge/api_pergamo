@@ -9,6 +9,7 @@ use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementPlanRequest;
+use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
 use App\Models\LocationCapacity;
 use Illuminate\Database\QueryException;
@@ -51,7 +52,7 @@ class ManagementPlanController extends Controller
     {
 
         $ManagementPlan = ManagementPlan::select('management_plan.*', DB::raw('SUM(CASE assigned_management_plan.execution_date WHEN "0000-00-00" THEN 1 ELSE 0 END) AS not_executed'))
-            ->with('type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
+            ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
             ->groupBy('management_plan.id');
@@ -91,6 +92,15 @@ class ManagementPlanController extends Controller
      */
     public function store(ManagementPlanRequest $request): JsonResponse
     {
+        $Authorization = new Authorization;
+        $Authorization->procedure_id =  $request->procedure_id;
+        $Authorization->admissions_id =  $request->admissions_id;
+        if ($request->auth_type == 1) {
+            $Authorization->auth_status_id =  2;
+        } else {
+            $Authorization->auth_status_id =  1;
+        }
+        $Authorization->save();
 
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
@@ -100,6 +110,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->procedure_id = $request->procedure_id;
+        $ManagementPlan->authorization_id = $Authorization->id;
         $ManagementPlan->save();
 
         $error = 0;
@@ -110,7 +121,7 @@ class ManagementPlanController extends Controller
         // foreach ($frequency as $key => $row) {
         //     $diferencei = $row['days'] / $request->quantity;
         // }
-        if ($request->medical == false) {
+        if ($request->medical == false && $Authorization->auth_status_id == 2) {
             $now = Carbon::createFromDate($request->start_date);
             $finish = Carbon::createFromDate($request->finish_date);
             $diasDiferencia = $finish->diffInDays($now);
@@ -176,11 +187,20 @@ class ManagementPlanController extends Controller
         }
 
         if ($error == 0) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Plan de manejo creado exitosamente',
-                'data' => ['management_plan' => $ManagementPlan->toArray()]
-            ]);
+            if($request->auth_type == 0){
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Plan de manejo creado exitosamente',
+                    'message_error' => 'Pendiente por autorizar',
+                    'data' => ['management_plan' => $ManagementPlan->toArray()]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Plan de manejo creado exitosamente',
+                    'data' => ['management_plan' => $ManagementPlan->toArray()]
+                ]);
+            }
         } else if($error == 1) {
             return response()->json([
                 'status' => true,

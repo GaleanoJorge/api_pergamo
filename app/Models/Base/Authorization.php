@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\AuthStatus;
+use App\Models\ManagementPlan;
 use App\Models\Procedure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -55,5 +56,9 @@ class Authorization extends Model
 	public function admissions()
 	{
 		return $this->belongsTo(Admissions::class);
+	}
+	public function management_plan()
+	{
+		return $this->hasMany(ManagementPlan::class, 'authorization_id');
 	}
 }

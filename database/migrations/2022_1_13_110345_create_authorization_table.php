@@ -18,6 +18,8 @@ class CreateAuthorizationTable extends Migration
             $table->unsignedBigInteger('procedure_id');
             $table->unsignedBigInteger('admissions_id');
             $table->string('auth_number')->nullable();
+            $table->unsignedBigInteger('authorized_amount')->nullable();
+            $table->unsignedBigInteger('observation')->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->timestamps();
 
