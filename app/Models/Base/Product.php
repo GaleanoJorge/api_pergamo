@@ -9,6 +9,8 @@ namespace App\Models\Base;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Factory;
+
 
 /**
  * Class Product
@@ -35,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $minimum_stock
  * @property int $maximum_stock
  * @property int $generate_iva
+ * @property date $date_cum
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -44,6 +47,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
 	protected $table = 'product';
+	public function factory()
+	{
+		return $this->belongsTo(Factory::class);
+	}
 
 	
 }

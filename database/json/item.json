@@ -1132,5 +1132,59 @@
         "route": "/pages/account-receivable/list",
         "icon": "layers-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "169",
+        "item_parent_id": "66",
+        "name": "Farmacia",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "170",
+        "item_parent_id": "169",
+        "name": "Factura Medicamento",
+        "code": "billing",
+        "route": "/pages/setting/billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "174",
+        "item_parent_id": "169",
+        "name": "Ingreso farmacia lote",
+        "code": "pharmacy",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "shopping-bag-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "176",
+        "item_parent_id": "169",
+        "name": "Crear farmacias",
+        "code": "pharmacy-stock",
+        "route": "/pages/setting/pharmacy-stock",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "177",
+        "item_parent_id": "169",
+        "name": "Solicitud medicamentos",
+        "code": "pharmacy-product-request",
+        "route": "/pages/setting/pharmacy-product-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "178",
+        "item_parent_id": "169",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/setting/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

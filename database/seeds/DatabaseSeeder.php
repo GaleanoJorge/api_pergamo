@@ -128,6 +128,7 @@ class DatabaseSeeder extends Seeder
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
                 
+                $this->call(TypeBillingEvidenceSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
