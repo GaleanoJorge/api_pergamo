@@ -124,7 +124,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
 
-                $this->call(ChTypeBackgroundSeeder::class);
+                // $this->call(ChTypeBackgroundSeeder::class);
 
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);

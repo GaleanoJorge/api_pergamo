@@ -20,7 +20,6 @@
                 $table->unsignedBigInteger('admissions_id');
                 $table->unsignedBigInteger('assigned_management_plan_id');
                 $table->unsignedBigInteger('user_id');
-                $table->unsignedBigInteger('assigned_management_plan_id');
                 $table->date('date_finish');
                 $table->timestamps();
 
