@@ -10,6 +10,7 @@ use App\Http\Requests\AuthorizationRequest;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 
@@ -71,7 +72,7 @@ class AuthorizationController extends Controller
                 'patients.residence_address',
                 'patients.residence_municipality_id',
                 'patients.neighborhood_or_residence_id',
-                \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             );
         if ($type == 1) {
             if ($statusId == 0) {
@@ -142,7 +143,7 @@ class AuthorizationController extends Controller
         $Authorization->procedure_id =  $request->procedure_id;
         $Authorization->admissions_id =  $request->id;
         $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-        if ($validate->auth_type == 1) {
+        if ($validate->type_auth == 1) {
             $Authorization->auth_status_id =  2;
         } else {
             $Authorization->auth_status_id =  1;
@@ -186,7 +187,7 @@ class AuthorizationController extends Controller
         $Authorization = Authorization::find($id);
 
         if ($request->auth_number && $request->authorized_amount) {
-
+            
             $Authorization->auth_number = $request->auth_number;
             $Authorization->authorized_amount = $request->authorized_amount;
             $Authorization->auth_status_id = 3;
