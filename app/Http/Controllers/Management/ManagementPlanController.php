@@ -95,7 +95,7 @@ class ManagementPlanController extends Controller
         $Authorization = new Authorization;
         $Authorization->procedure_id =  $request->procedure_id;
         $Authorization->admissions_id =  $request->admissions_id;
-        if ($request->auth_type == 1) {
+        if ($request->type_auth == 1) {
             $Authorization->auth_status_id =  2;
         } else {
             $Authorization->auth_status_id =  1;
@@ -186,35 +186,35 @@ class ManagementPlanController extends Controller
             }
         }
 
-        if ($error == 0) {
-            if($request->auth_type == 0){
+        if($request->type_auth == 0){
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo creado exitosamente',
+                'message_error' => 'Pendiente por autorizar',
+                'data' => ['management_plan' => $ManagementPlan->toArray()]
+            ]);
+        } else {
+            if ($error == 0) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
-                    'message_error' => 'Pendiente por autorizar',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
-            } else {
+            } else if($error == 1) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
+                    'message_error' => 'No ha sido posible asignar asignar '.$error_count.' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
+                    'data' => ['management_plan' => $ManagementPlan->toArray()]
+                ]);
+            } else if ($error == 2) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Plan de manejo creado exitosamente',
+                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
             }
-        } else if($error == 1) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'No ha sido posible asignar asignar '.$error_count.' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
-                'data' => ['management_plan' => $ManagementPlan->toArray()]
-            ]);
-        } else if ($error == 2) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
-                'data' => ['management_plan' => $ManagementPlan->toArray()]
-            ]);
         }
     }
 
