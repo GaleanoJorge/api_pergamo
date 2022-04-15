@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
-use Notifications;
+use App\Http\Helpers\Notifications\Notifications;
 use App\Models\User;
 use App\Models\Inability;
 use App\Models\UserRole;
@@ -83,7 +83,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
@@ -153,7 +153,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             // ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
@@ -218,7 +218,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -329,7 +329,7 @@ class UserController extends Controller
                         $usersfinal = User::select(
                             'users.*',
                             'assistance.id AS assistance_id',
-                            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
                         )->Join('user_role', 'users.id', 'user_role.user_id')
                             ->Join('assistance', 'users.id', 'assistance.user_id');
                         // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
@@ -390,7 +390,7 @@ class UserController extends Controller
         $users = User::select(
             'users.*',
             'admissions.id AS admissions_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
@@ -476,7 +476,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -599,7 +599,7 @@ class UserController extends Controller
     {
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->with(
                 'status',
@@ -655,7 +655,7 @@ class UserController extends Controller
     {
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->with(
             'status',
             'gender',
@@ -710,7 +710,7 @@ class UserController extends Controller
     public function store(UserRequest $request): JsonResponse
     {
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         $validate = User::Where('identification', $request->identification);
         $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
         if ($validate) {
@@ -930,7 +930,7 @@ class UserController extends Controller
             $userRole->save();
         }
 
-        \DB::commit();
+        DB::commit();
 
         // Notificación:
         $shippingConfirmation = Notifications::sendNotification(
@@ -1018,7 +1018,7 @@ class UserController extends Controller
     {
 
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         $user = User::find($id);
         $user->status_id = $request->status_id;
@@ -1098,7 +1098,7 @@ class UserController extends Controller
         }
 
 
-        \DB::commit();
+        DB::commit();
 
         return response()->json([
             'status' => true,
@@ -1221,7 +1221,7 @@ class UserController extends Controller
             'users.*',
             'municipality.region_id',
             'region.country_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )
             ->leftJoin('municipality', 'municipality.id', 'users.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
