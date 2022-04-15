@@ -51,7 +51,17 @@ class ManagementPlanController extends Controller
     public function getByAdmission(Request $request, int $id): JsonResponse
     {
 
-        $ManagementPlan = ManagementPlan::select('management_plan.*', DB::raw('SUM(CASE assigned_management_plan.execution_date WHEN "0000-00-00" THEN 1 ELSE 0 END) AS not_executed'))
+        $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
+                        IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                            SUM(
+                                CASE assigned_management_plan.execution_date 
+                                    WHEN "0000-00-00" THEN 1 
+                                    ELSE 0 
+                                END), 
+                            -1) AS not_executed')
+            )
             ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
@@ -186,7 +196,7 @@ class ManagementPlanController extends Controller
             }
         }
 
-        if($request->type_auth == 0){
+        if ($request->type_auth == 0) {
             return response()->json([
                 'status' => true,
                 'message' => 'Plan de manejo creado exitosamente',
@@ -200,11 +210,11 @@ class ManagementPlanController extends Controller
                     'message' => 'Plan de manejo creado exitosamente',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
-            } else if($error == 1) {
+            } else if ($error == 1) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
-                    'message_error' => 'No ha sido posible asignar asignar '.$error_count.' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
+                    'message_error' => 'No ha sido posible asignar asignar ' . $error_count . ' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
             } else if ($error == 2) {
