@@ -274,14 +274,20 @@ class ManagementPlanController extends Controller
         $error_count = 0;
         $firstDateMonth = Carbon::now()->startOfMonth();
         $lastDateMonth = Carbon::now()->endOfMonth();
+        
+        if ($request->authorized_amount){
+            $quantity = $request->authorized_amount;
+        } else {
+            $quantity = $request->quantity;
+        }
 
         $now = Carbon::createFromDate($request->start_date);
         $finish = Carbon::createFromDate($request->finish_date);
         $diasDiferencia = $finish->diffInDays($now);
-        $diferencei = $diasDiferencia / $request->quantity;
+        $diferencei = $diasDiferencia / $quantity;
         $finish = Carbon::createFromDate($request->start_date)->addDays($diferencei);
         $diference = $diferencei;
-        for ($i = 0; $i < $request->quantity; $i++) {
+        for ($i = 0; $i < $quantity; $i++) {
 
             if ($i == 0) {
                 $start = $request->start_date;
