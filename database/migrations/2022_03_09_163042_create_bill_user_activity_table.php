@@ -16,8 +16,10 @@ class CreateBillUserActivityTable extends Migration
         Schema::create('bill_user_activity', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('procedure_id');
+            $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('account_receivable_id');
             $table->double('value');
+            $table->string('status');
             $table->string('observation');
             $table->timestamps();
 
@@ -29,6 +31,10 @@ class CreateBillUserActivityTable extends Migration
                 $table->index('procedure_id');
                 $table->foreign('procedure_id')->references('id')
                 ->on('services_briefcase');
+
+                $table->index('admission_id');
+                $table->foreign('admission_id')->references('id')
+                ->on('admissiona');
         });
     }
 

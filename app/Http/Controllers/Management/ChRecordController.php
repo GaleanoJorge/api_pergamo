@@ -153,8 +153,8 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
         $mes = Carbon::now()->month;
-
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->get()->toArray();
+        
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->get()->toArray();
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
@@ -177,12 +177,13 @@ class ChRecordController extends Controller
             if (!$validate) {
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
-                $AccountReceivable->user_id = $user_id;
+                $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
+                $billActivity->admissions_id = $admissions_id;
                 $billActivity->value = $valuetariff->amount;
                 $billActivity->save();
             } else {
@@ -190,6 +191,7 @@ class ChRecordController extends Controller
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $validate[0]['id'];
+                $billActivity->admissions_id = $admissions_id;
                 $billActivity->value = $valuetariff->amount;
                 $billActivity->save();
             };
