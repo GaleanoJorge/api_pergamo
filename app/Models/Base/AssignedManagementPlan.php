@@ -31,12 +31,12 @@ class AssignedManagementPlan extends Model
 {
 	protected $table = 'assigned_management_plan';
 
-	public function users()
+	public function user()
 	{
-		return $this->hasMany(User::class);
+		return $this->belongsTo(User::class);
 	}
-	public function mangement_plan()
+	public function management_plan()
 	{
-		return $this->hasMany(ManagementPlan::class);
+		return $this->belongsTo(ManagementPlan::class, 'management_plan_id');
 	}
 }
