@@ -146,19 +146,14 @@ class ChRecordController extends Controller
         $ChRecord = ChRecord::find($id);
         $admissions_id = $ChRecord->admissions_id;
         $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-        ->orderBy('created_at','ASC')->first();
-      
+            ->orderBy('created_at', 'ASC')->first();
+
         $ChRecord->status = $request->status;
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
-        
-        $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-        $assigned->execution_date = Carbon::now();
-        $assigned->save();
-        
         $mes = Carbon::now()->month;
-        
+
         $validate = AccountReceivable::whereMonth('created_at', $mes)->get()->toArray();
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
@@ -171,9 +166,14 @@ class ChRecordController extends Controller
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
         $role = $request->role;
         $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
-        
-    
-        if ($ChRecordExist->date_finish=='0000-00-00') {
+
+
+        if ($ChRecordExist->date_finish == '0000-00-00') {
+
+            $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+            $assigned->execution_date = Carbon::now();
+            $assigned->save();
+
             if (!$validate) {
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
@@ -193,7 +193,7 @@ class ChRecordController extends Controller
                 $billActivity->value = $valuetariff->amount;
                 $billActivity->save();
             };
-    
+
             $assistance = Assistance::where('user_id', $request->user_id)->first();
             $LocationCapacity = LocationCapacity::where('locality_id', $locality)
                 ->where('assistance_id', $assistance->id)
