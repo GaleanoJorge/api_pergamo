@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
+
 
 class AccountReceivableController extends Controller
 {
@@ -55,6 +57,51 @@ class AccountReceivableController extends Controller
             'data' => ['account_receivable' => $AccountReceivable]
         ]);
     }
+
+           /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUser(Request $request,int $user_id): JsonResponse
+
+    {
+        if($user_id!=0){
+            $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus')
+            ->where('user_id',$user_id);
+
+        }else{
+            $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus');
+
+        }
+
+        if($request->_sort){
+            $AccountReceivable->orderBy($request->_sort, $request->_order);
+        }            
+
+        if ($request->search) {
+            $AccountReceivable->where('name','like','%' . $request->search. '%');
+        }
+      
+        
+        if($request->query("pagination", true)=="false"){
+            $AccountReceivable=$AccountReceivable->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $AccountReceivable=$AccountReceivable->paginate($per_page,'*','page',$page); 
+        } 
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro asociada exitosamente',
+            'data' => ['account_receivable' => $AccountReceivable]
+        ]);
+    }
+    
     
 
     public function store(AccountReceivableRequest $request): JsonResponse
@@ -118,6 +165,31 @@ class AccountReceivableController extends Controller
             'data' => ['account_receivable' => $AccountReceivable]
         ]);
     }
+
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function saveFile(Request $request, int $id): JsonResponse
+    {
+        $AccountReceivable = AccountReceivable::find($id);
+
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('account_receivable', $request->file('file'));
+            $AccountReceivable->file_payment = $path;
+        }   
+        $AccountReceivable->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Planilla cargada exitosamente',
+            'data' => ['account_receivable' => $AccountReceivable]
+        ]);
+    }
+
 
     /**
      * Remove the specified resource from storage.

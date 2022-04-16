@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BillUserActivityRequest;
 use Illuminate\Database\QueryException;
+use App\Models\AccountReceivable;
+
 
 class BillUserActivityController extends Controller
 {
@@ -125,19 +127,21 @@ class BillUserActivityController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(BillUserActivityRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $BillUserActivity = BillUserActivity::find($id);
-        $BillUserActivity->file_payment = $request->file_payment;
-        $BillUserActivity->user_id = $request->user_id;
-        $BillUserActivity->gloss_ambit = $request->gloss_ambit;
-        $BillUserActivity->status_bill = $request->status_bill; 
+        $BillUserActivity->status = $request->status; 
         $BillUserActivity->observation = $request->observation;
+        if($request->status=='APROBADO'){
+            $AccountReceivable= AccountReceivable::find($BillUserActivity->account_receivable_id);
+            $AccountReceivable->total_value_activities=$AccountReceivable->total_value_activities+$BillUserActivity->value;
+            $AccountReceivable->save();
+        }
         $BillUserActivity->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Cuenta de cobro con las actividades del usuario actualizado exitosamente',
+            'message' => 'Estado cambiado exitosamente',
             'data' => ['bill_user_activity' => $BillUserActivity]
         ]);
     }
