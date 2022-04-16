@@ -51,7 +51,17 @@ class ManagementPlanController extends Controller
     public function getByAdmission(Request $request, int $id): JsonResponse
     {
 
-        $ManagementPlan = ManagementPlan::select('management_plan.*', DB::raw('SUM(CASE assigned_management_plan.execution_date WHEN "0000-00-00" THEN 1 ELSE 0 END) AS not_executed'))
+        $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
+                        IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                            SUM(
+                                CASE assigned_management_plan.execution_date 
+                                    WHEN "0000-00-00" THEN 1 
+                                    ELSE 0 
+                                END), 
+                            -1) AS not_executed')
+            )
             ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
@@ -95,7 +105,7 @@ class ManagementPlanController extends Controller
         $Authorization = new Authorization;
         $Authorization->procedure_id =  $request->procedure_id;
         $Authorization->admissions_id =  $request->admissions_id;
-        if ($request->auth_type == 1) {
+        if ($request->type_auth == 1) {
             $Authorization->auth_status_id =  2;
         } else {
             $Authorization->auth_status_id =  1;
@@ -186,35 +196,35 @@ class ManagementPlanController extends Controller
             }
         }
 
-        if ($error == 0) {
-            if($request->auth_type == 0){
+        if ($request->type_auth == 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo creado exitosamente',
+                'message_error' => 'Pendiente por autorizar',
+                'data' => ['management_plan' => $ManagementPlan->toArray()]
+            ]);
+        } else {
+            if ($error == 0) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
-                    'message_error' => 'Pendiente por autorizar',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
-            } else {
+            } else if ($error == 1) {
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
+                    'message_error' => 'No ha sido posible asignar asignar ' . $error_count . ' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
+                    'data' => ['management_plan' => $ManagementPlan->toArray()]
+                ]);
+            } else if ($error == 2) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Plan de manejo creado exitosamente',
+                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
             }
-        } else if($error == 1) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'No ha sido posible asignar asignar '.$error_count.' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
-                'data' => ['management_plan' => $ManagementPlan->toArray()]
-            ]);
-        } else if ($error == 2) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
-                'data' => ['management_plan' => $ManagementPlan->toArray()]
-            ]);
         }
     }
 
@@ -260,14 +270,24 @@ class ManagementPlanController extends Controller
             $assignedManagement->save();
         }
 
+        $error = 0;
+        $error_count = 0;
+        $firstDateMonth = Carbon::now()->startOfMonth();
+        $lastDateMonth = Carbon::now()->endOfMonth();
+        
+        if ($request->authorized_amount){
+            $quantity = $request->authorized_amount;
+        } else {
+            $quantity = $request->quantity;
+        }
 
         $now = Carbon::createFromDate($request->start_date);
         $finish = Carbon::createFromDate($request->finish_date);
         $diasDiferencia = $finish->diffInDays($now);
-        $diferencei = $diasDiferencia / $request->quantity;
+        $diferencei = $diasDiferencia / $quantity;
         $finish = Carbon::createFromDate($request->start_date)->addDays($diferencei);
         $diference = $diferencei;
-        for ($i = 0; $i < $request->quantity; $i++) {
+        for ($i = 0; $i < $quantity; $i++) {
 
             if ($i == 0) {
                 $start = $request->start_date;
@@ -277,6 +297,45 @@ class ManagementPlanController extends Controller
                 $start = $finish->addDays(1);
                 $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
             }
+
+            $assigned = false;
+            while (!$assigned && $error == 0) {
+                if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
+                    $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                        ->where('locality_id', $request->locality_id)
+                        ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
+                    if ($locattionCapacity) {
+                        if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
+                            $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
+                            $locattionCapacity->save();
+                            $assigned = true;
+                        } else {
+                            $error = 1;
+                            $error_count = $request->quantity - $i;
+                        }
+                    } else {
+                        $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                            ->where('locality_id', $request->locality_id)->first();
+                        if ($baseLocationCapacity) {
+                            $newLocationCapacity = new LocationCapacity;
+                            $newLocationCapacity->assistance_id = $request->assistance_id;
+                            $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
+                            $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
+                            $newLocationCapacity->PAD_patient_attended = 0;
+                            $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
+                            $newLocationCapacity->validation_date = $start;
+                            $newLocationCapacity->save();
+                            $assigned = true;
+                        } else {
+                            $error = 2;
+                        }
+                    }
+                } else {
+                    $firstDateMonth->addMonth();
+                    $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
+                }
+            }
+
             $assignedManagement = new AssignedManagementPlan;
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
@@ -285,11 +344,27 @@ class ManagementPlanController extends Controller
             $assignedManagement->save();
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Plan de manejo actualizado exitosamente',
-            'data' => ['management_plan' => $ManagementPlan]
-        ]);
+        if ($error == 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo actualizado exitosamente',
+                'data' => ['management_plan' => $ManagementPlan]
+            ]);
+        } else if ($error == 1) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo actualizado exitosamente',
+                'message_error' => 'No ha sido posible asignar asignar ' . $error_count . ' planes de manejo ya que supera la capacidad instalada del profesional seleccionado',
+                'data' => ['management_plan' => $ManagementPlan->toArray()]
+            ]);
+        } else if ($error == 2) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo actualizado exitosamente',
+                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
+                'data' => ['management_plan' => $ManagementPlan->toArray()]
+            ]);
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ use App\Models\Briefcase;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AdmissionsController extends Controller
@@ -110,7 +111,7 @@ class AdmissionsController extends Controller
                 'patients.residence_address',
                 'patients.residence_municipality_id',
                 'patients.neighborhood_or_residence_id',
-                \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
             ->LeftJoin('location', 'location.admissions_id', 'admissions.id')
             // ->Join('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
@@ -217,7 +218,7 @@ class AdmissionsController extends Controller
             $Authorization->procedure_id =  $Admissions->procedure_id;
             $Authorization->admissions_id =  $Admissions->id;
             $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-            if ($validate->auth_type == 1) {
+            if ($validate->type_auth == 1) {
                 $Authorization->auth_status_id =  2;
             } else {
                 $Authorization->auth_status_id =  1;

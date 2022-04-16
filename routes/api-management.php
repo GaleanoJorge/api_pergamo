@@ -1040,6 +1040,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     // Nomina OPS (TERCEROS ASISTENCIALES)
 
     Route::apiResource('account_receivable', 'Management\AccountReceivableController');
+    Route::get('account_receivable/byUser/{id}', 'Management\AccountReceivableController@getByUser');
+    Route::post('account_receivable_file/{id}', 'Management\AccountReceivableController@saveFile');
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
 

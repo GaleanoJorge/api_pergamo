@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use Exception;
-use Notifications;
+use App\Http\Helpers\Notifications\Notifications;
 use App\Models\Patient;
 use App\Models\Inability;
 use App\Models\UserRole;
@@ -63,6 +63,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
+use App\Models\UserUser;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -83,7 +84,7 @@ class PatientController extends Controller
 
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->with(
@@ -149,7 +150,7 @@ class PatientController extends Controller
 
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'patients.id', 'user_role.user_id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->with(
@@ -209,7 +210,7 @@ class PatientController extends Controller
 
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -301,7 +302,7 @@ class PatientController extends Controller
                     $patientsfinal = Patient::select(
                         'patients.*',
                         'assistance.id AS assistance_id',
-                        \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                        DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
                     )->Join('user_role', 'patients.id', 'user_role.user_id')
                         ->Join('assistance', 'patients.id', 'assistance.user_id')
                         ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
@@ -344,7 +345,7 @@ class PatientController extends Controller
         $patients = Patient::select(
             'patients.*',
             'admissions.id AS admissions_id',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
@@ -426,7 +427,7 @@ class PatientController extends Controller
 
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -547,7 +548,7 @@ class PatientController extends Controller
     {
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'patients.id', 'user_role.user_id')
             ->with(
                 'status',
@@ -603,7 +604,7 @@ class PatientController extends Controller
     {
         $patients = Patient::select(
             'patients.*',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )->with(
             'status',
             'gender',
@@ -656,7 +657,7 @@ class PatientController extends Controller
     public function store(PatientRequest $request): JsonResponse
     {
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         $validate = Patient::Where('identification', $request->identification);
         $validate_wrong_user = UserChange::Join('patients', 'patients.id', 'user_change.wrong_user_id')->Where('patients.identification', $request->identification);
         if ($validate) {
@@ -753,7 +754,7 @@ class PatientController extends Controller
             $patients->save();
         }
 
-        \DB::commit();
+        DB::commit();
 
         // Notificación:
         $shippingConfirmation = Notifications::sendNotification(
@@ -840,7 +841,7 @@ class PatientController extends Controller
     {
 
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         $patients = Patient::find($id);
         $patients->status_id = $request->status_id;
@@ -873,7 +874,7 @@ class PatientController extends Controller
         }
         $patients->save();
 
-        \DB::commit();
+        DB::commit();
 
         return response()->json([
             'status' => true,
@@ -979,7 +980,7 @@ class PatientController extends Controller
             'patients.*',
             'municipality.region_id',
             'region.country_id',
-            \DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
         )
             ->leftJoin('municipality', 'municipality.id', 'patients.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')

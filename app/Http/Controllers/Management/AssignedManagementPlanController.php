@@ -17,7 +17,8 @@ class AssignedManagementPlanController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $assigned_management_plan = AssignedManagementPlan::select('*');
+        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with('user', 'management_plan');
 
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
@@ -44,20 +45,21 @@ class AssignedManagementPlanController extends Controller
     }
 
 
-        /**
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexPacientByManagement(Request $request, int $managementId,int $userId): JsonResponse
-    {   
-        if($userId==0){
-            $assigned_management_plan = AssignedManagementPlan::select('*')->where('management_plan_id',$managementId);
-        }else{
-            $assigned_management_plan = AssignedManagementPlan::select('*')->where('user_id',$userId);
+    public function indexPacientByManagement(Request $request, int $managementId, int $userId): JsonResponse
+    {
+        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with('user', 'management_plan');
+        if ($userId == 0) {
+            $assigned_management_plan->where('management_plan_id', $managementId);
+        } else {
+            $assigned_management_plan->where('user_id', $userId);
         }
-        
 
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
