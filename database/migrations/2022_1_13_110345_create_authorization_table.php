@@ -25,7 +25,7 @@ class CreateAuthorizationTable extends Migration
 
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')
-                ->on('procedure');
+                ->on('services_briefcase');
 
             $table->index('admissions_id');
             $table->foreign('admissions_id')->references('id')
