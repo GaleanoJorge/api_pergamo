@@ -62,7 +62,7 @@ class ManagementPlanController extends Controller
                                 END), 
                             -1) AS not_executed')
             )
-            ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
+            ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'admissions.briefcase', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
             ->groupBy('management_plan.id');
