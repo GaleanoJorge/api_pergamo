@@ -32,7 +32,7 @@ class ChRecordController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRecord = ChRecord::with('user', 'admissions');
+        $ChRecord = ChRecord::with('user', 'admissions', 'admissions.patients');
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);

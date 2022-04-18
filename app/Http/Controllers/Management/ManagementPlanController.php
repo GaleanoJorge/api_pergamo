@@ -60,7 +60,8 @@ class ManagementPlanController extends Controller
                                     WHEN "0000-00-00" THEN 1 
                                     ELSE 0 
                                 END), 
-                            -1) AS not_executed')
+                            -1) AS not_executed'),
+                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
             )
             ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')

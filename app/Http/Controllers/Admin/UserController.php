@@ -797,10 +797,10 @@ class UserController extends Controller
 
                         $LocationCapacity = new LocationCapacity();
                         $LocationCapacity->locality_id = $item->locality_id;
-                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                         $LocationCapacity->PAD_patient_attended = 0;
                         $LocationCapacity->validation_date = Carbon::now();
-                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -906,10 +906,10 @@ class UserController extends Controller
                     $LocationCapacity = new LocationCapacity();
                     $LocationCapacity->locality_id = $item->locality_id;
                     $LocationCapacity->assistance_id = $id->id;
-                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                     $LocationCapacity->PAD_patient_attended = 0;
                     $LocationCapacity->validation_date = Carbon::now();
-                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                     $LocationCapacity->save();
                 }
 
@@ -1107,7 +1107,7 @@ class UserController extends Controller
         ]);
     }
 
-    function getLocationCapacitiByDate(int $capacity, Carbon $date)
+    function getLocationCapacitiByDate(int $capacity)
     {
         $currentDateFormat = Carbon::now()->startOfDay();
         $firstDateFormat = Carbon::now()->startOfMonth();
@@ -1116,12 +1116,7 @@ class UserController extends Controller
         $totalDiference = $firstDateFormat->diffInDays($endDateFormat);
         $currentDiference = ($endDateFormat->diffInDays($currentDateFormat)) - 1;
 
-        if ($date->lt($endDateFormat)) {
-            return ceil($currentDiference * ($capacity / $totalDiference));
-        } else {
-            return $capacity;
-        }
-
+        return ceil($currentDiference * ($capacity / $totalDiference));
     }
 
     /**
