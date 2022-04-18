@@ -991,6 +991,7 @@ class PatientController extends Controller
                 'academic_level',
                 'identification_type',
                 'admissions',
+                'admissions.briefcase',
                 'admissions.location',
                 'admissions.contract',
                 'admissions.campus',

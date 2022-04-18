@@ -22,7 +22,11 @@ class AssistanceController extends Controller
 
         if($request->_sort){
             $Assistance->orderBy($request->_sort, $request->_order);
-        }            
+        }
+        
+        if ($request->id) {
+            $Assistance->where('id', $request->id);
+        }
 
         if ($request->search) {
             $Assistance->where('name','like','%' . $request->search. '%');

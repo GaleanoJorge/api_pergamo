@@ -17,6 +17,7 @@ use App\Models\Program;
 use App\Models\Pavilion;
 use App\Models\Flat;
 use App\Models\Bed;
+use App\Models\Briefcase;
 use App\Models\Contract;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
@@ -30,6 +31,7 @@ use App\Models\ScopeOfAttention;
  * @property tinyInteger $campus_id
  * @property BigInteger $contract_id
  * @property BigInteger $user_id
+ * @property BigInteger $briefcase_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -51,6 +53,10 @@ class Admissions extends Model
 	public function patients()
 	{
 		return $this->belongsTo(Patient::class, 'patient_id', 'id');
+	}
+	public function briefcase()
+	{
+		return $this->belongsTo(Briefcase::class, 'briefcase_id');
 	}
 	public function location()
 	{
