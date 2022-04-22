@@ -1186,5 +1186,14 @@
         "route": "/pages/setting/pharmacy-inventory",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "180",
+        "item_parent_id": null,
+        "name": "Facturación PAD",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "pricetags-outline",
+        "show_menu": "1"
     }
 ]

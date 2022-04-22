@@ -1062,5 +1062,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Registro de autorizaciones.
     Route::apiResource('auth_log', 'Management\AuthLogController');
 
-
+    //prefactura PAD
+    Route::apiResource('pre_billing_pad', 'Management\PreBillingPadController');
+    Route::get('pre_billing_pad/GroupByAdmission', 'Management\PreBillingPadController@getGroupByAdmission');
 });
