@@ -50,9 +50,10 @@ class ChVitalSignsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function byrecord(Request $request, int $id): JsonResponse
+    public function byrecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::where('ch_record_id', $id);
+        $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological', 'type_record', 'ch_record')
+        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
 
         if ($request->_sort) {
             $ChVitalSigns->orderBy($request->_sort, $request->_order);
@@ -62,12 +63,12 @@ class ChVitalSignsController extends Controller
             $ChVitalSigns->where('status', 'like', '%' . $request->search . '%');
         }
 
+        
         if ($request->query("pagination", true) == "false") {
             $ChVitalSigns = $ChVitalSigns->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
+            $per_page = $request->query("per_page", 30);
             $ChVitalSigns = $ChVitalSigns->paginate($per_page, '*', 'page', $page);
         }
 
