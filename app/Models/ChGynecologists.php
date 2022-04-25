@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\ChGynecologists as BaseCChGynecologists;
+use App\Models\Base\ChGynecologists as BaseChGynecologists;
 
 class ChGynecologists extends BaseChGynecologists
 {

@@ -55,6 +55,7 @@ class PacMonitoringController extends Controller
         $PacMonitoring = new PacMonitoring;
         
         $PacMonitoring->admissions_id = $request->admissions_id;
+        $PacMonitoring->type_plan = $request->type_plan;
         $PacMonitoring->application_date = $request->application_date;
         $PacMonitoring->authorization_pin = $request->authorization_pin;
         $PacMonitoring->profesional_user_id = $request->profesional_user_id;

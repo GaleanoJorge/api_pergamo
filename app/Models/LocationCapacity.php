@@ -10,6 +10,9 @@ class LocationCapacity extends BaseLocationCapacity
     protected $fillable = [
       'assistance_id',
       'locality_id',
-	
+      'validation_date',
+      'PAD_patient_quantity',
+      'PAD_patient_attended',
+      'PAD_patient_actual_capacity',
 	];
 }

@@ -35,16 +35,17 @@ class CreateProductTable extends Migration
             $table->Integer('minimum_stock');
             $table->Integer('maximum_stock');
             $table->Integer('generate_iva');
-            $table->timestamps();     
+            $table->date('date_cum');
+            $table->timestamps();
 
             $table->index('factory_id');
-	        $table->foreign('factory_id')->references('id')
+            $table->foreign('factory_id')->references('id')
                 ->on('factory');
             $table->index('product_generic_id');
-	        $table->foreign('product_generic_id')->references('id')
+            $table->foreign('product_generic_id')->references('id')
                 ->on('product_generic');
             $table->index('invima_status_id');
-	        $table->foreign('invima_status_id')->references('id')
+            $table->foreign('invima_status_id')->references('id')
                 ->on('invima_status');
             $table->index('storage_conditions_id');
             $table->foreign('storage_conditions_id')->references('id')
@@ -52,7 +53,6 @@ class CreateProductTable extends Migration
             $table->index('risk_id');
             $table->foreign('risk_id')->references('id')
                 ->on('risk');
-
         });
     }
 

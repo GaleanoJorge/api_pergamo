@@ -16,17 +16,17 @@ class CreateNeighborhoodOrResidenceTable extends Migration
         Schema::create('neighborhood_or_residence', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('municipality_id');
             $table->unsignedBigInteger('locality_id')->nullable();
+            $table->unsignedBigInteger('pad_risk_id')->nullable();
             $table->timestamps();
-
-            $table->index('municipality_id');
-            $table->foreign('municipality_id')->references('id')
-                ->on('municipality');
 
             $table->index('locality_id');
             $table->foreign('locality_id')->references('id')
                 ->on('locality');
+
+            $table->index('pad_risk_id');
+            $table->foreign('pad_risk_id')->references('id')
+                ->on('pad_risk');
         });
     }
 

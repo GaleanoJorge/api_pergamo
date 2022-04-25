@@ -40,6 +40,7 @@ class ProductRequest extends FormRequest
             'contraindications' => 'required',
             'applications' => 'required',
             'generate_iva' => 'required',
+            'date_cum' => 'required',
         ];
     }
 }

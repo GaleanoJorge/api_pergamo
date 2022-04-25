@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Bed
  * 
-* @property int $id 
+*@property int $id 
 *@property string  $pregnancy_status
 *@property number  $gestational_age
 *@property date  $date_childbirth
@@ -69,8 +69,6 @@ use Illuminate\Database\Eloquent\Model;
 *@property unsignedBigInteger  $ch_method_planning_gyneco_id 
 *@property unsignedBigInteger type_record_id 
 *@property unsignedBigInteger ch_record_id 
-*@property Carbon $created_at
-*@property Carbon $updated_at 
 *@property Carbon $created_at
 *@property Carbon $updated_at
  * 

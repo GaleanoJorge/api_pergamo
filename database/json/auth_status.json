@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "name": "PENDIENTE",
+        "code": "cod1"
+    },
+    {
+        "id": "2",
+        "name": "EN TRAMITE",
+        "code": "cod2"
+    },
+    {
+        "id": "3",
+        "name": "AUTORIZADO",
+        "code": "cod3"
+    },
+    {   
+        "id": "4",
+        "name": "CANCELADA",
+        "code": "cod4"
+    }
+]

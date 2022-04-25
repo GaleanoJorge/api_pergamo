@@ -4,11 +4,11 @@
         "code": "und"
     },
     {
-        "name": "KILOGRAMOS",
-        "code": "Kg"
+        "name": "GRAMOS",
+        "code": "g"
     },
     {
-        "name": "LITROS",
-        "code": "L"
+        "name": "MILILITROS",
+        "code": "ml"
     }
 ]

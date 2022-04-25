@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(AcademicLevelSeeder::class);
                 $this->call(ActivitiesSeeder::class);
                 $this->call(LocalitySeeder::class);
+                $this->call(PadRiskSeeder::class);
                 $this->call(NeighborhoodOrResidenceSeeder::class);
                 $this->call(SelectRhSeeder::class);
                 $this->call(StudyLevelStatusSeeder::class);
@@ -50,11 +51,12 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
-
+                
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
 
                 // $this->call(EducationalInstitutionSeeder::class);
+                $this->call(RoleTypeSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
                 $this->call(UserRoleSeeder::class);
@@ -87,7 +89,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
                 $this->call(ResidenceSeeder::class);
-
+                $this->call(RoleAttentionSeeder::class);
+                
                 //dietas
                 $this->call(DietComponentSeeder::class);
                 $this->call(DietConsistencySeeder::class);
@@ -101,10 +104,15 @@ class DatabaseSeeder extends Seeder
                 $this->call(DietDishStockSeeder::class);
                 $this->call(DietMenuSeeder::class);
                 $this->call(DietMenuDishSeeder::class);
-
+                
                 $this->call(TypeProfessionalSeeder::class);
                 $this->call(SpecialtySeeder::class);
+                $this->call(TariffSeeder::class);
 
+                //Terceros Asistenciales
+                $this->call(BankSeeder::class);
+                $this->call(AccountTypeSeeder::class);
+                $this->call(StatusBillSeeder::class);
 
                 $this->call(ChDiagnosisClassSeeder::class);
                 $this->call(ChDiagnosisTypeSeeder::class);
@@ -115,13 +123,24 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChVitalVentilatedSeeder::class);
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
-                $this->call(ChTypeBackgroundSeeder::class);
 
+                // $this->call(ChTypeBackgroundSeeder::class);
 
+                //autorizaciones
+                $this->call(AuthStatusSeeder::class);
+                
+                $this->call(TypeBillingEvidenceSeeder::class);
                 $this->call(ChExamGynecologistsSeeder::class);
                 $this->call(ChFlowGynecologistsSeeder::class);
                 $this->call(ChPlanningGynecologistsSeeder::class);
                 $this->call(ChTypeGynecologistsSeeder::class);
+                $this->call(ChRstCytologyGynecoSeeder::class);
+                $this->call(ChRstBiopsyGynecoSeeder::class);
+                $this->call(ChRstMammographyGynecoSeeder::class);
+                $this->call(ChRstColposcipiaGynecoSeeder::class);
+                $this->call(ChFailureMethodGynecoSeeder::class);
+                $this->call(ChMethodPlanningGynecoSeeder::class);
+
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

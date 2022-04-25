@@ -19,7 +19,7 @@ class DietDishStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $DietDishStock = DietDishStock::with('diet_dish', 'diet_supplies')
+        $DietDishStock = DietDishStock::with('diet_dish', 'diet_supplies', 'diet_supplies.measurement_units')
             ->Join('diet_supplies', 'diet_dish_stock.diet_supplies_id', 'diet_supplies.id')
             ->Join('diet_dish', 'diet_dish_stock.diet_dish_id', 'diet_dish.id');
 

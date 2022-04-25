@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class InstalledCapacityRequest extends FormRequest
+class BillingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,15 @@ class InstalledCapacityRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'numeric',
-            'start_date' => 'required',
-            'finish_date' => 'required',
-            'PAD_patient_quantity' => 'required|numeric',
+            'provider_name' => '',
+            'num_evidence' => '',
+            'ordered_quantity' => '',
+            'sub_total' => '',
+            'vat' => '',
+            'setting_value' => '',
+            'invoice_value' => '',
+            'type_billing_evidence_id' => '',
+            'pharmacy_stock_id' => '',
         ];
     }
 }

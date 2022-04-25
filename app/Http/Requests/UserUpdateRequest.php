@@ -39,7 +39,7 @@ class UserUpdateRequest extends FormRequest
             'confirm_password' => 'required_if:' . $this->id . ',==,null|nullable|between:8,20|same:password',
             'firstname' => 'required',
             'lastname' => 'required',
-            'birthday' => 'nullable|date|before:16 years ago',
+            'birthday' => '',
             'phone' => 'nullable|numeric',
             'identification' => 'required',
         ];
@@ -56,7 +56,7 @@ class UserUpdateRequest extends FormRequest
             'password.required_if' => 'La contraseña es obligatoria.',
             'password.regex' => 'La contraseña debe contener como mínimo: un número, un carácter especial, una letra mayúscula y una letra minúscula.',
             'confirm_password.required_if'  => 'La confirmación de la contraseña es obligatoria.',
-            'birthday.before' => 'La fecha de nacimiento no es valida',
+            // 'birthday.before' => 'La fecha de nacimiento no es valida',
             'identification.unique' => 'El número y tipo de documento ya estan registrados',
             'confirm_password.same' => 'Los campos contraseña y confirmar contraseña no coinciden',
         ];

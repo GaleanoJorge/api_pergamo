@@ -1033,7 +1033,159 @@
         "route": "/pages/diets/list",
         "icon": "shopping-cart-outline",
         "show_menu": "1"
-
+    },
+    {
+        "id": "162",
+        "item_parent_id": null,
+        "name": "Conciliaciones",
+        "code": "conciliations",
+        "route": "/pages/gloss/conciliations",
+        "icon": "log-in-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "163",
+        "item_parent_id": "65",
+        "name": "Localidad",
+        "code": "localidad",
+        "route": "/pages/setting/locality",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "164",
+        "item_parent_id": "65",
+        "name": "Barrio",
+        "code": "barrio",
+        "route": "/pages/setting/neighborhood",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "165",
+        "item_parent_id": "67",
+        "name": "Configuración de Tarifas Médicos",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "166",
+        "item_parent_id": "165",
+        "name": "Tarifa de barrios",
+        "code": "risk-neighborhood",
+        "route": "/pages/setting/pad-risk",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "167",
+        "item_parent_id": "165",
+        "name": "Tarifas Médicos",
+        "code": "tariff",
+        "route": "/pages/setting/tariff",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "168",
+        "item_parent_id": "141",
+        "name": "Capacidad instalada",
+        "code": "type-professional",
+        "route": "/pages/setting/location-capacity",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "171",
+        "item_parent_id": "66",
+        "name": "Autorizaciones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "172",
+        "item_parent_id": "171",
+        "name": "Estados de autorización",
+        "code": "auth-status",
+        "route": "/pages/setting/auth-status",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "173",
+        "item_parent_id": null,
+        "name": "Autorizaciones",
+        "code": "authorization",
+        "route": "/pages/authorization/list",
+        "icon": "clipboard-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "175",
+        "item_parent_id": null,
+        "name": "Cuentas de cobro",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/list",
+        "icon": "layers-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "169",
+        "item_parent_id": "66",
+        "name": "Farmacia",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "170",
+        "item_parent_id": "169",
+        "name": "Factura Medicamento",
+        "code": "billing",
+        "route": "/pages/setting/billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "174",
+        "item_parent_id": "169",
+        "name": "Ingreso farmacia lote",
+        "code": "pharmacy",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "shopping-bag-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "176",
+        "item_parent_id": "169",
+        "name": "Crear farmacias",
+        "code": "pharmacy-stock",
+        "route": "/pages/setting/pharmacy-stock",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "177",
+        "item_parent_id": "169",
+        "name": "Solicitud medicamentos",
+        "code": "pharmacy-product-request",
+        "route": "/pages/setting/pharmacy-product-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "178",
+        "item_parent_id": "169",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/setting/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
     },
     {
         "id": "180",
@@ -1043,7 +1195,6 @@
         "route": null,
         "icon": "shopping-cart-outline",
         "show_menu": "1"
-
     },
     {
         "id": "181",
@@ -1053,8 +1204,5 @@
         "route": "/pages/setting/hourly-frequency",
         "icon": "shopping-cart-outline",
         "show_menu": "1"
-
     }
-    
-
 ]

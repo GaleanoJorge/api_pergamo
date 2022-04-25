@@ -54,11 +54,12 @@ class ServicesBriefcaseController extends Controller
     public function getByBriefcase(Request $request, int $briefcaseId): JsonResponse
     {
         $ServicesBriefcase = ServicesBriefcase::select('services_briefcase.*','services_briefcase.value','services_briefcase.factor')
+        
         //->join('manual_price', 'services_briefcase.manual_price_id', '=', 'manual_price.id')
         //->join('procedure', 'manual_price.procedure_id', '=', 'procedure.id')
         //->join('product', 'manual_price.product_id', '=', 'product.id')
         //->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')
-        ->where('briefcase_id', $briefcaseId)->with('briefcase','manual_price.procedure.procedure_category','manual_price.product');
+        ->where('briefcase_id', $briefcaseId)->with('briefcase','manual_price.procedure.procedure_category','manual_price.product', 'manual_price.manual');
         if ($request->search) {
             $ServicesBriefcase->join('manual_price', 'services_briefcase.manual_price_id', '=', 'manual_price.id')
             ->join('procedure', 'manual_price.procedure_id', '=', 'procedure.id')
@@ -66,7 +67,7 @@ class ServicesBriefcaseController extends Controller
             ->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')->where('procedure.name', 'like', '%' . $request->search . '%')
             ->Orwhere('procedure.code', 'like', '%' . $request->search . '%');
         }
-        if ($request->query("pagination", true) === "false") {
+        if ($request->query("pagination", true) == "false") {
             $ServicesBriefcase = $ServicesBriefcase->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);

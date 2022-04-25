@@ -24,8 +24,11 @@ class LocationCapacityRequest extends FormRequest
     public function rules()
     {
         return [
-            'installed_capacity_id' => 'numeric',
-            'residence_id' => 'required|numeric',
+            // 'installed_capacity_id' => 'numeric',
+            // 'residence_id' => 'required|numeric',
+            // 'PAD_patient_quantity' => 'required|numeric',
+            // 'PAD_patient_attended' => 'required|numeric',
+            // 'PAD_patient_actual_capacity' => 'required|numeric',
         ];
     }
 }

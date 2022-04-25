@@ -17,7 +17,7 @@ class CreateAssignedManagementPlanTable extends Migration
             $table->bigIncrements('id');
             $table->date('start_date');
             $table->date('finish_date');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->date('execution_date');
             $table->unsignedBigInteger('management_plan_id');
             $table->timestamps();

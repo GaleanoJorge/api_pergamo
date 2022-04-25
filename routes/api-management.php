@@ -50,6 +50,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('municipality', 'Management\MunicipalityController');
     Route::get('municipalityAutocomplete', 'Management\MunicipalityController@autocomplete');
 
+    //Locality-neighborhood
+    Route::apiResource('locality', 'Management\LocalityController');
+    Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
+    Route::apiResource('pad_risk', 'Management\PadRiskController');
+    Route::apiResource('tariff', 'Management\TariffController');
+
     //Region
     Route::apiResource('region', 'Management\RegionController');
 
@@ -254,6 +260,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('courses', 'Management\CourseMainController');
     Route::get('courses/byvalidity/{validityId}/{originId}/{categoryId}', 'Management\CourseMainController@index2');
 
+    // patients
+    Route::apiResource('patient', 'Management\PatientController');
+    Route::get('all_patients', 'Management\PatientController@indexByRole');
+    Route::post('PacientInscription', 'Management\PatientController@store');
+    Route::post('PacientInscription/{id}', 'Management\PatientController@update');
+    Route::get('patient/{id}', 'Management\PatientController@show');
+    Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
+    Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
+    Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
+
+
+
+
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');
@@ -318,15 +337,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('company_mail', 'Management\CompanyMailController');
 
     //Direcciones de correo por compañia
-    Route::get('company_mail/MailByCompany/{companyId}',
-    'Management\CompanyMailController@getByCompany');
+    Route::get(
+        'company_mail/MailByCompany/{companyId}',
+        'Management\CompanyMailController@getByCompany'
+    );
 
     //Asociacion de las empresas con los documentos solicitantes
     Route::apiResource('company_document', 'Management\CompanyDocumentController');
 
     //Documentos por compañia
-    Route::get('company_document/DocumentByCompany/{companyId}',
-    'Management\CompanyDocumentController@getByCompany');
+    Route::get(
+        'company_document/DocumentByCompany/{companyId}',
+        'Management\CompanyDocumentController@getByCompany'
+    );
 
 
     //Documentos contables
@@ -362,8 +385,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Impuestos
     Route::apiResource('taxes', 'Management\TaxesController');
     // Impuestos para compañia
-    Route::get('company_taxes/TaxesByCompany/{companyId}',
-     'Management\CompanyTaxesController@getByCompany');
+    Route::get(
+        'company_taxes/TaxesByCompany/{companyId}',
+        'Management\CompanyTaxesController@getByCompany'
+    );
 
     //Empresas dentro de las que se indetifican las prestadoras de salud
     Route::apiResource('company', 'Management\CompanyController');
@@ -455,15 +480,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Cambio de usuario
     Route::apiResource('user_change', 'Management\UserChangeController');
-   //Tipo de poliza
-   Route::apiResource('policy_type', 'Management\PolicyTypeController');
-   
-   //Datos de paciente (acompañante y/o responsable)
-   Route::apiResource('patient_data', 'Management\PatientDataController');
+    //Tipo de poliza
+    Route::apiResource('policy_type', 'Management\PolicyTypeController');
 
-   //Tener acompañante y/o responsable por paciente
-   Route::get('PatientData/PatientDatabyAdmission/{admissionId}',
-    'Management\PatientDataController@getByAdmissions');
+    //Datos de paciente (acompañante y/o responsable)
+    Route::apiResource('patient_data', 'Management\PatientDataController');
+
+    //Tener acompañante y/o responsable por paciente
+    Route::get(
+        'PatientData/PatientDatabyAdmission/{admissionId}',
+        'Management\PatientDataController@getByAdmissions'
+    );
 
     //Tipo de poliza
     Route::apiResource('policy_type', 'Management\PolicyTypeController');
@@ -581,7 +608,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
     Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
-    
+
 
     //Tipo de contrato del empleado
     Route::apiResource('contract_type', 'Management\ContractTypeController');
@@ -647,13 +674,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
 
-    Route::get('assigned_management_plan/{managementId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
+    Route::get('assigned_management_plan/{managementId}/{userId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
     // Route::get('Policy/FileByContract/{contractId}',
     // 'Management\PolicyController@getByContract');
 
-   //Tipo de portafolios
-   Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
+    //Tipo de portafolios
+    Route::apiResource('type_briefcase', 'Management\TypeBriefcaseController');
 
     //Portafolio de servicios
     Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
@@ -685,11 +712,18 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\CampusBriefcaseController@getByBriefcase'
     );
 
-        //Portafolio de servicios por contrato
-        Route::get(
-            'location_capacity/AssistanceByLocation/{assistanceId}',
-            'Management\LocationCapacityController@getByLocality'
-        );
+    //Portafolio de servicios por contrato
+    Route::get(
+        'location_capacity/AssistanceByLocation/{assistanceId}',
+        'Management\LocationCapacityController@getByLocality'
+    );
+    Route::get(
+        'base_location_capacity/AssistanceByLocation/{assistanceId}',
+        'Management\BaseLocationCapacityController@getByLocality'
+    );
+    Route::apiResource('location_capacity', 'Management\LocationCapacityController');
+    Route::apiResource('base_location_capacity', 'Management\BaseLocationCapacityController');
+    Route::apiResource('role_attention', 'Management\RoleAttentionController');
 
     //Portafolio de servicios
     Route::apiResource('briefcase', 'Management\BriefcaseController');
@@ -797,6 +831,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('objetion_code_response', 'Management\ObjetionCodeResponseController');
     Route::apiResource('gloss_response', 'Management\GlossResponseController');
     Route::apiResource('gloss_conciliations', 'Management\GlossConciliationsController');
+    Route::apiResource('conciliation_response', 'Management\ConciliationResponseController');
     Route::apiResource('gloss_radication', 'Management\GlossRadicationController');
     Route::post('fileUpload', 'Management\GlossController@import');
 
@@ -853,9 +888,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
+    Route::apiResource('billing', 'Management\BillingController');
+    Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
+    Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
+    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
+    Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
+    Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
 
     
     Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
     
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
@@ -976,6 +1019,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('userRole/{userId}/{roleId}', 'Management\UserRoleController@getByUserRole');
     Route::get('userRoleCoordinator/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleCoordinator');
     Route::get('userRoleFormer/{userId}/{roleId}', 'Management\UserRoleController@getByUserRoleFormer');
+    Route::apiResource('role_type', 'Management\RoleTypeController');
 
 
     Route::get('get_students_by_course/{id}', 'Management\UserCertificateController@get_students');
@@ -1008,6 +1052,33 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('oldsga-reports/participantesMulticriterio', 'OldSGA\ReportsController@jxParticipants');
     Route::get('oldsga-reports/exportExcelMulticriterioParticipantes', 'OldSGA\ReportsController@exportExcelMulticriterioParticipantes');
 
-    ////AnswerType
+    //Programa de atención complementaria.
     Route::apiResource('PacMonitoring', 'Management\PacMonitoringController');
+
+    // Nomina OPS (TERCEROS ASISTENCIALES)
+
+    Route::apiResource('account_receivable', 'Management\AccountReceivableController');
+    Route::get('account_receivable/byUser/{id}', 'Management\AccountReceivableController@getByUser');
+    Route::post('account_receivable_file/{id}', 'Management\AccountReceivableController@saveFile');
+    Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
+    Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
+
+    
+    Route::apiResource('user_activity', 'Management\UserActivityController');
+    Route::apiResource('status_bill', 'Management\StatusBillController');
+    Route::apiResource('financial_data', 'Management\FinancialDataController');
+    Route::apiResource('bank_information', 'Management\BankInformationController');
+    Route::apiResource('retentions', 'Management\RetentionsController');
+    Route::apiResource('account_type', 'Management\AccountTypeController');
+    Route::apiResource('bank', 'Management\BankController');
+    Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
+    //Autorizaciones
+    Route::apiResource('authorization', 'Management\AuthorizationController');
+    Route::get('authorization/byStatus/{type}/{statusId}', 'Management\AuthorizationController@ByStatus');
+    //Estado de autorizaciones.
+    Route::apiResource('auth_status', 'Management\AuthStatusController');
+    //Registro de autorizaciones.
+    Route::apiResource('auth_log', 'Management\AuthLogController');
+
+
 });

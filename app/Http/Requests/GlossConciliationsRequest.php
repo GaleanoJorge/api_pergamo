@@ -26,11 +26,11 @@ class GlossConciliationsRequest extends FormRequest
         return [
             'gloss_id' => 'required',
             'observations' => 'required', 
-            'cociliations_date'=> 'required',
-            'objetion_code_response_id' => 'required',
-            'accepted_value' => 'required',
-            'value_not_accepted' => 'required',
-            'file' => 'required',
+            'cociliations_date'=> '',
+            'objetion_code_response_id' => '',
+            'accepted_value' => '',
+            'value_not_accepted' => '',
+            'file' => '',
             'user_id' => 'required',
         ];
     }

@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\DietMenu;
+use App\Models\DietMenuDish;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DietMenuRequest;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 
 class DietMenuController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -63,21 +66,35 @@ class DietMenuController extends Controller
 
     public function store(DietMenuRequest $request): JsonResponse
     {
-        $DietMenu = new DietMenu;
-        $DietMenu->name = $request->name;
-        $DietMenu->diet_consistency_id = $request->diet_consistency_id;
-        $DietMenu->diet_component_id = $request->diet_component_id;
-        $DietMenu->diet_menu_type_id = $request->diet_menu_type_id;
-        $DietMenu->diet_week_id = $request->diet_week_id;
-        $DietMenu->diet_day_id = $request->diet_day_id;
-       
-        $DietMenu->save();
-     
-        return response()->json([
-            'status' => true,
-            'message' => 'Menús de dietas creadas exitosamente',
-            'data' => ['diet_menu' => $DietMenu->toArray()]
-        ]);
+        $DietMenuTest = DietMenu::where('diet_component_id', $request->diet_component_id)
+            ->where('diet_consistency_id', $request->diet_consistency_id)
+            ->where('diet_menu_type_id', $request->diet_menu_type_id)
+            ->where('diet_week_id', $request->diet_week_id)
+            ->where('diet_day_id', $request->diet_day_id)
+            ->first();
+        if ($DietMenuTest) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya existe un menú para esta semana, día, componente, consistencia y tipo de menú',
+                'data' => []
+            ]);
+        } else {
+            $DietMenu = new DietMenu;
+            $DietMenu->name = $request->name;
+            $DietMenu->diet_consistency_id = $request->diet_consistency_id;
+            $DietMenu->diet_component_id = $request->diet_component_id;
+            $DietMenu->diet_menu_type_id = $request->diet_menu_type_id;
+            $DietMenu->diet_week_id = $request->diet_week_id;
+            $DietMenu->diet_day_id = $request->diet_day_id;
+
+            $DietMenu->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Menús de dietas creadas exitosamente',
+                'data' => ['diet_menu' => $DietMenu->toArray()]
+            ]);
+        }
     }
 
     /**
@@ -132,6 +149,12 @@ class DietMenuController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $DietMenuDishDeleteArray = DietMenuDish::where('diet_menu_id', $id)->get()->toArray();
+            foreach ($DietMenuDishDeleteArray as $element) {
+                $DietMenuDishDelete = DietMenuDish::where('id', $element['id']);
+                $DietMenuDishDelete->delete();
+            }
+
             $DietMenu = DietMenu::find($id);
             $DietMenu->delete();
 

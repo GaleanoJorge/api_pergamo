@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\DietSuppliesOutput;
+use App\Models\DietSuppliesOutputMenu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -111,6 +112,12 @@ class DietSuppliesOutputController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $DietSuppliesOutputMenuDeleteArray = DietSuppliesOutputMenu::where('diet_supplies_output_id', $id)->get()->toArray();
+            foreach ($DietSuppliesOutputMenuDeleteArray as $element) {
+                $DietSuppliesOutputMenuDelete = DietSuppliesOutputMenu::where('id', $element['id']);
+                $DietSuppliesOutputMenuDelete->delete();
+            }
+            
             $DietSuppliesOutput = DietSuppliesOutput::find($id);
             $DietSuppliesOutput->delete();
 

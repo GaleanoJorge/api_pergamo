@@ -18,7 +18,7 @@ class LocalityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Locality = Locality::select();
+        $Locality = Locality::with('municipality');
 
         if($request->_sort){
             $Locality->orderBy($request->_sort, $request->_order);
@@ -26,6 +26,9 @@ class LocalityController extends Controller
 
         if ($request->search) {
             $Locality->where('name','like','%' . $request->search. '%');
+        }
+        if ($request->municipality_id) {
+            $Locality->where('municipality_id', $request->municipality_id);
         }
         
         if($request->query("pagination", true)=="false"){

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
-use Notifications;
+use App\Http\Helpers\Notifications\Notifications;
 use App\Models\User;
 use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
 use App\Models\Assistance;
-use App\Models\UserRoleCourse;
-use App\Models\UserRoleCategoryInscription;
+use App\Models\Role;
+use App\Models\UserUser;
 use App\Models\Curriculum;
 use App\Models\InstalledCapacity;
 use App\Models\StudyLevelStatus;
@@ -49,6 +49,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\BaseLocationCapacity;
 use App\Models\CostCenter;
 use App\Models\Specialty;
 use App\Models\TypeProfessional;
@@ -82,7 +83,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
@@ -106,9 +107,9 @@ class UserController extends Controller
                 'admissions.location.bed'
             )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
-            if ($request->locality_id) {
-                $users->where('', $request->locality_id);
-            }
+        if ($request->locality_id) {
+            $users->where('', $request->locality_id);
+        }
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
@@ -152,9 +153,9 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            // ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
             ->orwhere('user_role.role_id', 3)
             ->orwhere('user_role.role_id', 7)
@@ -165,17 +166,19 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
-                'admissions',
-                'admissions.location',
-                'admissions.contract',
-                'admissions.campus',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program',
-                'admissions.location.flat',
-                'admissions.location.pavilion',
-                'admissions.location.bed'
-            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+                // 'admissions',
+                // 'admissions.location',
+                // 'admissions.contract',
+                // 'admissions.campus',
+                // 'admissions.location.admission_route',
+                // 'admissions.location.scope_of_attention',
+                // 'admissions.location.program',
+                // 'admissions.location.flat',
+                // 'admissions.location.pavilion',
+                // 'admissions.location.bed'
+            )
+            // ->orderBy('admissions.entry_date', 'DESC')->groupBy('id')
+        ;
 
 
 
@@ -215,7 +218,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -248,7 +251,7 @@ class UserController extends Controller
             $users->orderBy($request->_sort, $request->_order);
         }
 
-        if($request->admission_route_id){
+        if ($request->admission_route_id) {
             $users->where('location.admission_route_id', $request->admission_route_id);
         } else {
             $users->where('location.admission_route_id', 2);
@@ -287,55 +290,90 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRoleLocation(int $locality, int $roleId): JsonResponse
+    public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
     {
+        $roles = json_decode($request->roles);
+
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
         $users = User::select(
-            'assistance.id AS assistance_id','users.id'
+            'assistance.id AS assistance_id',
+            'users.id'
         )->Join('user_role', 'users.id', 'user_role.user_id')
-        ->Join('assistance', 'users.id', 'assistance.user_id')
+            ->Join('assistance', 'users.id', 'assistance.user_id');
 
-            ->where('user_role.role_id', $roleId);        
-            $users = $users->get()->toArray();
-            
-
-            if ($locality) {
-            foreach ($users as $key => $row) {
-                  $localityArr=LocationCapacity::select('locality_id')->where('assistance_id',$row['assistance_id'])->get()->toArray();
-                  $pila = array();
-                    foreach ($localityArr as $key => $row2) {
-                        array_push($pila, $row2['locality_id'] );
-                    }
-                  if (in_array($locality, $pila)) {
-                    $usersfinal = User::select(
-                        'users.*','assistance.id AS assistance_id',
-                        \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                    )->Join('user_role', 'users.id', 'user_role.user_id')
-                    ->Join('assistance', 'users.id', 'assistance.user_id')
-                        ->leftjoin('admissions', 'users.id', 'admissions.user_id')
-            
-                        ->where('user_role.role_id', $roleId)
-                        ->where('users.id', $row['id'])
-                        ->with(
-                            'status',
-                            'gender',
-                            'academic_level',
-                            'identification_type',
-                            'user_role',
-                            'user_role.role',
-                            'assistance'
-                        )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
-                    
-                        $usersfinal = $usersfinal->get()->toArray();
-                }else{
-                    $usersfinal=array();
-                }           
+        $first = true;
+        foreach ($roles as $role) {
+            if ($first) {
+                $users->where('user_role.role_id', $role->role_id);
+                $first = false;
+            } else {
+                $users->orWhere('user_role.role_id', $role->role_id);
             }
         }
-     
+
+        $users = $users->get()->toArray();
+
+        $validacion = $locality != null;
+        if ($validacion) {
+            if (count($users) > 0) {
+                foreach ($users as $key => $row) {
+                    $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
+                        ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                    $pila = array();
+                    foreach ($localityArr as $key => $row2) {
+                        array_push($pila, $row2['locality_id']);
+                    }
+                    if (in_array($locality, $pila)) {
+                        $usersfinal = User::select(
+                            'users.*',
+                            'assistance.id AS assistance_id',
+                            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                        )->Join('user_role', 'users.id', 'user_role.user_id')
+                            ->Join('assistance', 'users.id', 'assistance.user_id');
+                        // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                        $first = true;
+                        foreach ($roles as $role) {
+                            if ($first) {
+                                $usersfinal->where('user_role.role_id', $role->role_id);
+                                $first = false;
+                            } else {
+                                $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            }
+                        }
+                        $usersfinal->where('users.id', $row['id'])
+                            ->with(
+                                'status',
+                                'gender',
+                                'academic_level',
+                                'identification_type',
+                                'user_role',
+                                'user_role.role',
+                                'assistance'
+                            )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+
+                        $usersfinal = $usersfinal->get()->toArray();
+                    } else {
+                        $usersfinal = array();
+                    }
+                }
+            } else {
+                $usersfinal = array();
+            }
+        }
+
+        if (count($usersfinal) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se encontraron usuarios',
+                'data' => ['users' => $usersfinal]
+            ]);
+        }
+
         return response()->json([
             'status' => true,
-            'message' => 'Usuarios obtenidos exitosamente',
+            'message' => 'Usuarios por locación obtenidos exitosamente',
             'data' => ['users' => $usersfinal]
         ]);
     }
@@ -346,12 +384,13 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexPacientByPAD(Request $request, int $roleId,int $userId): JsonResponse
+    public function indexPacientByPAD(Request $request, int $roleId, int $userId): JsonResponse
     {
 
         $users = User::select(
-            'users.*','admissions.id AS admissions_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            'users.*',
+            'admissions.id AS admissions_id',
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
@@ -381,18 +420,18 @@ class UserController extends Controller
                 'admissions.location.bed'
             )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
 
-            if ($request->userId!=0) {
-                $management=ManagementPlan::select('id AS management_id')->where('assigned_user_id','=',$userId)->get();
-                $users->where('management_plan.assigned_user_id', $userId);
-             }else{
-                 $management=null;
-             }
+        if ($request->userId != 0) {
+            $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
+            $users->where('management_plan.assigned_user_id', $userId);
+        } else {
+            $management = null;
+        }
 
         if ($request->_sort) {
             $users->orderBy($request->_sort, $request->_order);
         }
 
-        if($request->admission_route_id){
+        if ($request->admission_route_id) {
             $users->where('location.admission_route_id', $request->admission_route_id);
         } else {
             $users->where('location.admission_route_id', 2);
@@ -422,7 +461,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
-            'data' => ['users' => $users,'management' => $management],
+            'data' => ['users' => $users, 'management' => $management],
         ]);
     }
 
@@ -437,7 +476,7 @@ class UserController extends Controller
 
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->leftjoin('admissions', 'users.id', 'admissions.user_id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
@@ -445,7 +484,7 @@ class UserController extends Controller
             ->leftjoin('reason_consultation', 'reason_consultation.admissions_id', 'admissions.id')
 
             ->where('location.program_id', 22)
-            ->where('admissions.discharge_date','=', "0000-00-00 00:00:00")
+            ->where('admissions.discharge_date', '=', "0000-00-00 00:00:00")
             ->with(
                 'status',
                 'gender',
@@ -560,7 +599,7 @@ class UserController extends Controller
     {
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
             ->with(
                 'status',
@@ -616,7 +655,7 @@ class UserController extends Controller
     {
         $users = User::select(
             'users.*',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->with(
             'status',
             'gender',
@@ -671,7 +710,7 @@ class UserController extends Controller
     public function store(UserRequest $request): JsonResponse
     {
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
         $validate = User::Where('identification', $request->identification);
         $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
         if ($validate) {
@@ -721,15 +760,15 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
-                if ($role == 3 || $role == 7) {
+                $RoleType = Role::where('id', $role)->get()->toArray();
+                if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                     $assistance = new Assistance;
                     $assistance->user_id = $user->id;
 
                     $assistance->medical_record = $request->medical_record;
                     $assistance->contract_type_id = $request->contract_type_id;
-                    // $assistance->cost_center_id = $request->cost_center_id;
+                    $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
-                    $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->special_field = $request->special_field;
@@ -745,22 +784,23 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-                    if($request->PAD_service!=0){
-                        $InstalledCapacity = new InstalledCapacity;
-                        $InstalledCapacity->user_id = $user->id;
-                        $InstalledCapacity->start_date = Carbon::now();
-                        $InstalledCapacity->finish_date = Carbon::now()->endOfMonth();
-                        $InstalledCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
-                        $InstalledCapacity->save();
-                        
-                    }
 
 
                     $id = Assistance::latest('id')->first();
-                    $array = explode(',', $request->localities_id);
+                    $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
+                        $BaseLocationCapacity = new BaseLocationCapacity();
+                        $BaseLocationCapacity->locality_id = $item->locality_id;
+                        $BaseLocationCapacity->assistance_id = $id->id;
+                        $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
+                        $BaseLocationCapacity->save();
+
                         $LocationCapacity = new LocationCapacity();
-                        $LocationCapacity->locality_id = $item;
+                        $LocationCapacity->locality_id = $item->locality_id;
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
+                        $LocationCapacity->PAD_patient_attended = 0;
+                        $LocationCapacity->validation_date = Carbon::now();
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -829,15 +869,15 @@ class UserController extends Controller
             }
             $user->save();
 
-            if ($role == 3 || $role == 7) {
+            $RoleType = Role::where('id', $role)->get()->toArray();
+            if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                 $assistance = new Assistance;
                 $assistance->user_id = $user->id;
 
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
-                // $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
-                $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->special_field = $request->special_field;    
@@ -857,9 +897,19 @@ class UserController extends Controller
                 $id = Assistance::latest('id')->first();
 
                 foreach ($request->localities_id as $item) {
+                    $BaseLocationCapacity = new BaseLocationCapacity();
+                    $BaseLocationCapacity->locality_id = $item->locality_id;
+                    $BaseLocationCapacity->assistance_id = $id->id;
+                    $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
+                    $BaseLocationCapacity->save();
+
                     $LocationCapacity = new LocationCapacity();
-                    $LocationCapacity->locality_id = $item;
+                    $LocationCapacity->locality_id = $item->locality_id;
                     $LocationCapacity->assistance_id = $id->id;
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->validation_date = Carbon::now();
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                     $LocationCapacity->save();
                 }
 
@@ -880,7 +930,7 @@ class UserController extends Controller
             $userRole->save();
         }
 
-        \DB::commit();
+        DB::commit();
 
         // Notificación:
         $shippingConfirmation = Notifications::sendNotification(
@@ -904,7 +954,7 @@ class UserController extends Controller
     }
 
 
-    
+
 
     /**
      * Display the specified resource.
@@ -968,7 +1018,7 @@ class UserController extends Controller
     {
 
 
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         $user = User::find($id);
         $user->status_id = $request->status_id;
@@ -988,6 +1038,7 @@ class UserController extends Controller
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
         $user->is_disability = $request->is_disability;
+        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         $user->age = $request->age;
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
@@ -1008,14 +1059,14 @@ class UserController extends Controller
         }
         $user->save();
 
-        if ($role == 3 || $role == 7) {
+        $RoleType = Role::where('id', $role)->get()->toArray();
+        if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
             $assistance = Assistance::find($request->assistance_id);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
-            // $assistance->cost_center_id = $request->cost_center_id;
+            $assistance->cost_center_id = $request->cost_center_id;
             // $assistance->type_professional_id = $request->type_professional_id;
             $assistance->PAD_service = $request->PAD_service;
-            $assistance->PAD_patient_quantity = $request->PAD_service == 0 ? null : $request->PAD_patient_quantity;
             $assistance->attends_external_consultation = $request->attends_external_consultation;
             $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -1033,15 +1084,6 @@ class UserController extends Controller
 
             $id = Assistance::latest('id')->first();
 
-            if(is_array($request->special_field) == true){
-
-            foreach ($request->localities_id as $item) {
-                $LocationCapacity = new LocationCapacity();
-                $LocationCapacity->locality_id = $item;
-                $LocationCapacity->assistance_id = $id->id;
-                $LocationCapacity->save();
-            }
-        }
 
             if (is_array($request->special_field) == true) {
                 //if(sizeof($request->special_field) != 0 ){
@@ -1056,13 +1098,25 @@ class UserController extends Controller
         }
 
 
-        \DB::commit();
+        DB::commit();
 
         return response()->json([
             'status' => true,
             'message' => 'Usuario actualizado exitosamente',
             'data' => ['user' => $user]
         ]);
+    }
+
+    function getLocationCapacitiByDate(int $capacity)
+    {
+        $currentDateFormat = Carbon::now()->startOfDay();
+        $firstDateFormat = Carbon::now()->startOfMonth();
+        $endDateFormat = Carbon::now()->endOfMonth();
+
+        $totalDiference = $firstDateFormat->diffInDays($endDateFormat);
+        $currentDiference = ($endDateFormat->diffInDays($currentDateFormat)) - 1;
+
+        return ceil($currentDiference * ($capacity / $totalDiference));
     }
 
     /**
@@ -1150,7 +1204,7 @@ class UserController extends Controller
     }
 
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param integer $id
@@ -1162,7 +1216,7 @@ class UserController extends Controller
             'users.*',
             'municipality.region_id',
             'region.country_id',
-            \DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )
             ->leftJoin('municipality', 'municipality.id', 'users.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
@@ -1173,16 +1227,16 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
-                'admissions',
-                'admissions.location',
-                'admissions.contract',
-                'admissions.campus',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program',
-                'admissions.location.flat',
-                'admissions.location.pavilion',
-                'admissions.location.bed',
+                // 'admissions',
+                // 'admissions.location',
+                // 'admissions.contract',
+                // 'admissions.campus',
+                // 'admissions.location.admission_route',
+                // 'admissions.location.scope_of_attention',
+                // 'admissions.location.program',
+                // 'admissions.location.flat',
+                // 'admissions.location.pavilion',
+                // 'admissions.location.bed',
                 'assistance'
             )->get()->toArray();
 
@@ -1194,7 +1248,7 @@ class UserController extends Controller
         ]);
     }
 
-    
+
     public function changeStatus(int $id): JsonResponse
     {
         $user = User::find($id);

@@ -40,11 +40,31 @@ class ChGynecologistsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo Ginecoobstetricos obtenidos exitosamente',
+            'message' => 'Antecedentes Ginecoobstetricos obtenidos exitosamente',
             'data' => ['ch_gynecologists' => $ChGynecologists]
         ]);
     }
     
+    
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {       
+       
+        $ChGynecologists = ChGynecologists::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        ->get()->toArray();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antecedentes Ginecoobstetricos obtenidos exitosamente',
+            'data' => ['ch_gynecologists' => $ChGynecologists]
+        ]);
+    }
 
     public function store(Request $request): JsonResponse
     {
@@ -96,7 +116,7 @@ class ChGynecologistsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo Ginecoobstetricos asociado al paciente exitosamente',
+            'message' => 'Antecedentes Ginecoobstetricos asociado al paciente exitosamente',
             'data' => ['ch_gynecologists' => $ChGynecologists->toArray()]
         ]);
     }
@@ -105,6 +125,7 @@ class ChGynecologistsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  int  $type_record_id
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
@@ -114,7 +135,7 @@ class ChGynecologistsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo Ginecoobstetricos obtenido exitosamente',
+            'message' => 'Antecedentes Ginecoobstetricos obtenido exitosamente',
             'data' => ['ch_gynecologists' => $ChGynecologists]
         ]);
     }
@@ -127,8 +148,8 @@ class ChGynecologistsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-       $ChGynecologists = ChGynecologists::find($id);  
-       $ChGynecologists->pregnancy_status = $request->pregnancy_status; 
+        $ChGynecologists = ChGynecologists::find($id);  
+        $ChGynecologists->pregnancy_status = $request->pregnancy_status; 
         $ChGynecologists->gestational_age= $request->gestational_age;
         $ChGynecologists->date_childbirth= $request->date_childbirth;
         $ChGynecologists->menarche_years= $request->menarche_years;
@@ -175,7 +196,7 @@ class ChGynecologistsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Tipo Ginecoobstetricos actualizado exitosamente',
+            'message' => 'Antecedentes Ginecoobstetricos actualizado exitosamente',
             'data' => ['ch_gynecologists' => $ChGynecologists]
         ]);
     }
@@ -195,12 +216,12 @@ class ChGynecologistsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Tipo Ginecoobstetricos eliminado exitosamente'
+                'message' => 'Antecedentes Ginecoobstetricos eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tipo Ginecoobstetricos en uso, no es posible eliminarlo'
+                'message' => 'Antecedentes Ginecoobstetricos en uso, no es posible eliminarlo'
             ], 423);
         }
     }

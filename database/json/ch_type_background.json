@@ -1,9 +1,33 @@
 [
     {
-        "name": "NORMAL"
+        "name": "ALÉRGICOS"
     },
     {
-        "name": "ANORMAL"
+        "name": "FAMILIARES"
+    },
+    {
+        "name": "FARMACOLÓGICOS"
+    },
+    {
+        "name": "GINECOOBSTÉTRICOS"
+    },
+    {
+        "name": "OTROS"
+    },
+    {
+        "name": "PERSONALES"
+    },
+    {
+        "name": "QUIRÚRGICOS"
+    },
+    {
+        "name": "TOXICOLÓGICOS"
+    },
+    {
+        "name": "TRANSFUSIONAL"
+    },
+    {
+        "name": "TRAUMÁTICOS"
     }
-    
+ 
 ]
