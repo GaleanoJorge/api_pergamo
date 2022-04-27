@@ -59,16 +59,14 @@ class LocationCapacityController extends Controller
     {
         $LocationCapacity = LocationCapacity::with('locality', 'assistance');
         $LocationCapacity->select('location_capacity.*')
-            ->Join('locality', 'locality_id', '=', 'locality.id');
+            ->leftJoin('locality', 'locality_id', '=', 'locality.id');
         $LocationCapacity->where('assistance_id', $assistnceId)->orderBy('created_at', 'desc');
 
         if ($request->search) {
-            $LocationCapacity->where('locality.name', 'like', '%' . $request->search . '%');
+            $LocationCapacity->where('locality.name', 'like', '%' . $request->search . '%')
+                ->orWhere('location_capacity.phone_consult', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->search) {
-            $LocationCapacity->where('name', 'like', '%' . $request->search . '%');
-        }
         if ($request->query("pagination", true) === "false") {
             $LocationCapacity = $LocationCapacity->get()->toArray();
         } else {
@@ -95,29 +93,55 @@ class LocationCapacityController extends Controller
 
         $array = json_decode($request->localities_id);
         foreach ($array as $item) {
-            $BaseLocationCapacity = new BaseLocationCapacity();
+            if ($item->locality_id) {
+                $BaseLocationCapacity = new BaseLocationCapacity();
+                $BaseLocationCapacity->assistance_id = $request->assistance_id;
+                $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
+                $BaseLocationCapacity->locality_id = $item->locality_id;
+                $BaseLocationCapacity->save();
+    
+                $CurrentMonthLocationCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                    ->where('locality_id', $item->locality_id)
+                    ->where('validation_date', '>=', $firstDayMonth)
+                    ->where('validation_date', '<=', $lastDayNextMonth)
+                    ->get()->toArray();
+    
+                if (count($CurrentMonthLocationCapacity) == 0) {
+                    $LocationCapacity = new LocationCapacity;
+                    $LocationCapacity->assistance_id = $request->assistance_id;
+                    $LocationCapacity->locality_id = $item->locality_id;
+                    $LocationCapacity->PAD_patient_quantity = $item->PAD_base_patient_quantity;
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->validation_date = Carbon::now();
+                    $LocationCapacity->PAD_patient_actual_capacity = $item->PAD_base_patient_quantity;
+                    $LocationCapacity->save();
+                }
+            }
+        }
+
+        if ($request->phone_consult) {
+            $BaseLocationCapacity = new BaseLocationCapacity;
             $BaseLocationCapacity->assistance_id = $request->assistance_id;
-            $BaseLocationCapacity->PAD_base_patient_quantity = $item->PAD_base_patient_quantity;
-            $BaseLocationCapacity->locality_id = $item->locality_id;
+            $BaseLocationCapacity->phone_consult = "TELECONSULTA";
+            $BaseLocationCapacity->PAD_base_patient_quantity = intval($request->phone_consult);
             $BaseLocationCapacity->save();
 
             $CurrentMonthLocationCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
-                ->where('locality_id', $item->locality_id)
+                ->whereNull('locality_id')
                 ->where('validation_date', '>=', $firstDayMonth)
                 ->where('validation_date', '<=', $lastDayNextMonth)
                 ->get()->toArray();
 
             if (count($CurrentMonthLocationCapacity) == 0) {
-                $LocationCapacity = new LocationCapacity;
-                $LocationCapacity->assistance_id = $request->assistance_id;
-                $LocationCapacity->locality_id = $item->locality_id;
-                $LocationCapacity->PAD_patient_quantity = $item->PAD_base_patient_quantity;
+                $LocationCapacity = new LocationCapacity();
+                $LocationCapacity->phone_consult = "TELECONSULTA";
+                $LocationCapacity->PAD_patient_quantity = $request->phone_consult;
                 $LocationCapacity->PAD_patient_attended = 0;
                 $LocationCapacity->validation_date = Carbon::now();
-                $LocationCapacity->PAD_patient_actual_capacity = $item->PAD_base_patient_quantity;
+                $LocationCapacity->PAD_patient_actual_capacity = $request->phone_consult;
+                $LocationCapacity->assistance_id = $request->assistance_id;
                 $LocationCapacity->save();
             }
-
         }
 
         return response()->json([
@@ -155,8 +179,9 @@ class LocationCapacityController extends Controller
     {
         $LocationCapacity = LocationCapacity::find($id);
         $LocationCapacity->assistance_id = $request->assistance_id;
-        $LocationCapacity->location_id = $request->location_id;
-        $LocationCapacity->validation_date = Carbon::now();
+        $LocationCapacity->phone_consult = $request->phone_consult;
+        $LocationCapacity->locality_id = $request->locality_id;
+        $LocationCapacity->validation_date =  $request->validation_date;
         $LocationCapacity->PAD_patient_quantity = $request->PAD_patient_quantity;
         $LocationCapacity->PAD_patient_attended = $request->PAD_patient_attended;
         $LocationCapacity->PAD_patient_actual_capacity = $request->PAD_patient_actual_capacity;

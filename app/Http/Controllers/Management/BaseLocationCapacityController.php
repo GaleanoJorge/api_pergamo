@@ -26,7 +26,8 @@ class BaseLocationCapacityController extends Controller
         }
 
         if ($request->search) {
-            $BaseLocationCapacity->where('name', 'like', '%' . $request->search . '%');
+            $BaseLocationCapacity->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('phone_consult', 'like', '%' . $request->search . '%');
         }
 
         if ($request->id) {
@@ -62,16 +63,14 @@ class BaseLocationCapacityController extends Controller
     {
         $BaseLocationCapacity = BaseLocationCapacity::with('locality', 'assistance');
         $BaseLocationCapacity->select('base_location_capacity.*')
-            ->Join('locality', 'locality_id', '=', 'locality.id');
+            ->leftJoin('locality', 'locality_id', '=', 'locality.id');
         $BaseLocationCapacity->where('assistance_id', $assistnceId)->orderBy('created_at', 'desc');
 
         if ($request->search) {
-            $BaseLocationCapacity->where('locality.name', 'like', '%' . $request->search . '%');
+            $BaseLocationCapacity->where('locality.name', 'like', '%' . $request->search . '%')
+                ->orWhere('base_location_capacity.phone_consult', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->search) {
-            $BaseLocationCapacity->where('name', 'like', '%' . $request->search . '%');
-        }
         if ($request->query("pagination", true) === "false") {
             $BaseLocationCapacity = $BaseLocationCapacity->get()->toArray();
         } else {
@@ -97,6 +96,14 @@ class BaseLocationCapacityController extends Controller
             $BaseLocationCapacity->assistance_id = $request->assistance_id;
             $BaseLocationCapacity->locality_id = $item->locality_id;
             $BaseLocationCapacity->PAD_base_patient_quantity = $item->amount;
+            $BaseLocationCapacity->save();
+        }
+        
+        if ($request->phone_consult) {
+            $BaseLocationCapacity = new BaseLocationCapacity;
+            $BaseLocationCapacity->assistance_id = $request->assistance_id;
+            $BaseLocationCapacity->phone_consult = "TELECONSULTA";
+            $BaseLocationCapacity->PAD_base_patient_quantity = $request->phone_consult;
             $BaseLocationCapacity->save();
         }
 

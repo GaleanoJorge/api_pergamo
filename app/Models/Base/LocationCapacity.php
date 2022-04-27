@@ -16,6 +16,7 @@ use App\Models\Locality;
  * Class Location capacity
  * 
  * @property int $id
+ * @property string $phone_consult
  * @property BigInteger $PAD_patient_quantity
  * @property BigInteger $PAD_patient_attended
  * @property BigInteger $PAD_patient_actual_capacity

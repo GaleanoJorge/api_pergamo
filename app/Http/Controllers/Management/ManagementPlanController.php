@@ -153,9 +153,15 @@ class ManagementPlanController extends Controller
                 $assigned = false;
                 while (!$assigned && $error == 0) {
                     if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
-                        $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
-                            ->where('locality_id', $request->locality_id)
-                            ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
+                        if (!$request->phone_consult) {
+                            $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                                ->where('locality_id', $request->locality_id)
+                                ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
+                        } else {
+                            $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                                ->whereNull('locality_id')
+                                ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
+                        }
                         if ($locattionCapacity) {
                             if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
                                 $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
@@ -166,12 +172,18 @@ class ManagementPlanController extends Controller
                                 $error_count = $request->quantity - $i;
                             }
                         } else {
-                            $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
-                                ->where('locality_id', $request->locality_id)->first();
+                            if (!$request->phone_consult) {
+                                $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                                    ->where('locality_id', $request->locality_id)->first();
+                            } else {
+                                $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                                    ->whereNull('locality_id')->first();
+                            }
                             if ($baseLocationCapacity) {
                                 $newLocationCapacity = new LocationCapacity;
                                 $newLocationCapacity->assistance_id = $request->assistance_id;
                                 $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
+                                $newLocationCapacity->phone_consult = $baseLocationCapacity->phone_consult;
                                 $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
                                 $newLocationCapacity->PAD_patient_attended = 0;
                                 $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
