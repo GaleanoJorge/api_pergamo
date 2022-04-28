@@ -15,8 +15,9 @@ class CreateBaseLocationCapacityTable extends Migration
     {
         Schema::create('base_location_capacity', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('phone_consult')->nullable();
             $table->unsignedBigInteger('assistance_id');
-            $table->unsignedBigInteger('locality_id');
+            $table->unsignedBigInteger('locality_id')->nullable();
             $table->unsignedBigInteger('PAD_base_patient_quantity')->nullable();
             $table->timestamps();
 

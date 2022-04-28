@@ -18,11 +18,18 @@ class AssistanceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Assistance = Assistance::with('user','special_field');
+        $Assistance = Assistance::with('user','special_field')
+        ->leftJoin('user_role','user_role.user_id','=','assistance.user_id')
+        ->leftJoin('role','role.id','=','user_role.role_id')
+        ->select('assistance.*','role.name as role_name');
 
         if($request->_sort){
             $Assistance->orderBy($request->_sort, $request->_order);
-        }            
+        }
+        
+        if ($request->id) {
+            $Assistance->where('assistance.id', $request->id);
+        }
 
         if ($request->search) {
             $Assistance->where('name','like','%' . $request->search. '%');

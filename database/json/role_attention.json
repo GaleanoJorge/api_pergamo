@@ -66,5 +66,13 @@
     {
         "role_id": "14",
         "type_of_attention_id": "11"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "17"
+    },
+    {
+        "role_id": "9",
+        "type_of_attention_id": "17"
     }
 ]

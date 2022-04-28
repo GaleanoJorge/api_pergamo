@@ -626,9 +626,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medium_signature_file', 'Management\MediumSignatureFileController');
 
 
-
-
-
     Route::get(
         'admissions/ByPacient/{pacientId}',
         'Management\AdmissionsController@getByPacient'
@@ -673,6 +670,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
+    Route::apiResource('assigned_management_plan', 'Management\AssignedManagementPlanController');
+
+
+    Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
 
     Route::get('assigned_management_plan/{managementId}/{userId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
@@ -888,13 +889,23 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
+    
+    
+    Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
+    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
+    Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
+    Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
     Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
-    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
-    Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
-    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
-    Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
     Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
+    Route::post('pharmacy_inventory/updateInventoryByLot/{lot_id}', 'Management\PharmacyInventoryController@updateInventoryByLot');
+    Route::get('pharmacy_inventory/pharmacies/{user_id}', 'Management\PharmacyInventoryController@getPharmacyByUserId');
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
+    Route::apiResource('pharmacy_request', 'Management\PharmacyRequestController');
+    Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
+    Route::apiResource('packing', 'Management\PackingController');
+    Route::apiResource('pharmacy_request_stock', 'Management\PharmacyRequestStockController');
+    Route::apiResource('billing_stock', 'Management\BillingStockController');
 
     
     Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
@@ -911,6 +922,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_rst_colposcipia_gyneco', 'Management\ChRstColposcipiaGynecoController');
     Route::apiResource('ch_failure_method_gyneco', 'Management\ChFailureMethodGynecoController');
     Route::apiResource('ch_method_planning_gyneco', 'Management\ChMethodPlanningGynecoController');
+
+    //Scales
+    Route::apiResource('ch_scales', 'Management\ChScalesController');
 
 
     //Answer

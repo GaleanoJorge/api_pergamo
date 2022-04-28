@@ -18,7 +18,7 @@ class NeighborhoodOrResidenceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $NeighborhoodOrResidence = NeighborhoodOrResidence::with('pad_risk', 'locality');
+        $NeighborhoodOrResidence = NeighborhoodOrResidence::with('pad_risk', 'locality', 'locality.municipality', 'locality.municipality.region', 'locality.municipality.region.country')->select();
 
         if($request->_sort){
             $NeighborhoodOrResidence->orderBy($request->_sort, $request->_order);

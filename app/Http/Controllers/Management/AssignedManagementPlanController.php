@@ -138,11 +138,18 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
+        if($request->type_of_attention_id==17){
         $AssignedManagementPlan->start_date = $request->start_date;
-        $AssignedManagementPlan->finish_date = $request->finish_date;
+        $AssignedManagementPlan->finish_date = $request->start_date;
         $AssignedManagementPlan->user_id = $request->user_id;
-        $AssignedManagementPlan->execution_date = $request->execution_date;
-        $AssignedManagementPlan->management_plan_id = $request->management_plan_id;
+        $AssignedManagementPlan->start_hour = $request->start_hour;
+        $AssignedManagementPlan->finish_hour = $request->finish_hour;
+        }else{
+            $AssignedManagementPlan->start_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->finish_date;
+            $AssignedManagementPlan->user_id = $request->user_id;
+        }
+
         $AssignedManagementPlan->save();
 
         return response()->json([

@@ -19,14 +19,14 @@ class CreatePharmacyLotTable extends Migration
             $table->string('unit_value');
             $table->string('lot');
             $table->date('expiration_date');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('billing_stock_id');
             $table->unsignedBigInteger('billing_id');
             $table->unsignedBigInteger('pharmacy_stock_id');
             $table->timestamps();
 
-            $table->index('product_id');
-            $table->foreign('product_id')->references('id')
-                ->on('product');
+            $table->index('billing_stock_id');
+            $table->foreign('billing_stock_id')->references('id')
+                ->on('billing_stock');
 
             $table->index('billing_id');
             $table->foreign('billing_id')->references('id')

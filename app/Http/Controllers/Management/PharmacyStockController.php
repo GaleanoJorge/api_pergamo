@@ -19,7 +19,7 @@ class PharmacyStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyStock = PharmacyStock::select();
+        $PharmacyStock = PharmacyStock::with('campus','type_pharmacy_stock');
 
         if ($request->_sort) {
             $PharmacyStock->orderBy($request->_sort, $request->_order);
@@ -27,6 +27,10 @@ class PharmacyStockController extends Controller
 
         if ($request->search) {
             $PharmacyStock->where('status', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->not_pharmacy) {
+            $PharmacyStock->where('id', '!=', $request->not_pharmacy);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -41,7 +45,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Registro en farmacia obtenidos exitosamente',
+            'message' => 'Typo de establecimiento obtenidos exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -76,7 +80,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Registro en farmacia obtenidos exitosamente',
+            'message' => 'Typo de establecimiento obtenidos exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -86,13 +90,14 @@ class PharmacyStockController extends Controller
     {
         $PharmacyStock = new PharmacyStock;
         $PharmacyStock->name = $request->name;
+        $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
         $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Registro en farmacia asociado al en farmacia exitosamente',
+            'message' => 'Typo de establecimiento asociado al en farmacia exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock->toArray()]
         ]);
     }
@@ -110,7 +115,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Registro en farmacia obtenido exitosamente',
+            'message' => 'Typo de establecimiento obtenido exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -125,13 +130,14 @@ class PharmacyStockController extends Controller
     {
         $PharmacyStock = PharmacyStock::find($id);
         $PharmacyStock->name = $request->name;
+        $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
         $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Registro en farmacia actualizado exitosamente',
+            'message' => 'Typo de establecimiento actualizado exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -150,12 +156,12 @@ class PharmacyStockController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Registro en farmacia eliminado exitosamente'
+                'message' => 'Typo de establecimiento eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Registro en farmacia en uso, no es posible eliminarlo'
+                'message' => 'Typo de establecimiento en uso, no es posible eliminarlo'
             ], 423);
         }
     }

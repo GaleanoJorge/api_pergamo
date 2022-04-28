@@ -290,7 +290,7 @@ class UserController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexByRoleLocation(int $locality, int $roleId, Request $request): JsonResponse
+    public function indexByRoleLocation(int $locality, int $phone_consult, Request $request): JsonResponse
     {
         $roles = json_decode($request->roles);
 
@@ -319,44 +319,82 @@ class UserController extends Controller
         if ($validacion) {
             if (count($users) > 0) {
                 foreach ($users as $key => $row) {
-                    $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
-                        ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
-                    $pila = array();
-                    foreach ($localityArr as $key => $row2) {
-                        array_push($pila, $row2['locality_id']);
-                    }
-                    if (in_array($locality, $pila)) {
-                        $usersfinal = User::select(
-                            'users.*',
-                            'assistance.id AS assistance_id',
-                            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                        )->Join('user_role', 'users.id', 'user_role.user_id')
-                            ->Join('assistance', 'users.id', 'assistance.user_id');
-                        // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                        $first = true;
-                        foreach ($roles as $role) {
-                            if ($first) {
-                                $usersfinal->where('user_role.role_id', $role->role_id);
-                                $first = false;
-                            } else {
-                                $usersfinal->orWhere('user_role.role_id', $role->role_id);
-                            }
+                    if ($phone_consult == 1) {
+                        $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
+                            ->where('locality_id', '!=', null)
+                            ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                        $pila = array();
+                        foreach ($localityArr as $key => $row2) {
+                            array_push($pila, $row2['locality_id']);
                         }
-                        $usersfinal->where('users.id', $row['id'])
-                            ->with(
-                                'status',
-                                'gender',
-                                'academic_level',
-                                'identification_type',
-                                'user_role',
-                                'user_role.role',
-                                'assistance'
-                            )->orderBy('nombre_completo', 'DESC')->groupBy('id');
-
-                        $usersfinal = $usersfinal->get()->toArray();
+                        if (in_array($locality, $pila)) {
+                            $usersfinal = User::select(
+                                'users.*',
+                                'assistance.id AS assistance_id',
+                                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                            )->Join('user_role', 'users.id', 'user_role.user_id')
+                                ->Join('assistance', 'users.id', 'assistance.user_id');
+                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                            $first = true;
+                            foreach ($roles as $role) {
+                                if ($first) {
+                                    $usersfinal->where('user_role.role_id', $role->role_id);
+                                    $first = false;
+                                } else {
+                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                                }
+                            }
+                            $usersfinal->where('users.id', $row['id'])
+                                ->with(
+                                    'status',
+                                    'gender',
+                                    'academic_level',
+                                    'identification_type',
+                                    'user_role',
+                                    'user_role.role',
+                                    'assistance'
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+    
+                            $usersfinal = $usersfinal->get()->toArray();
+                        } else {
+                            $usersfinal = array();
+                        }
                     } else {
-                        $usersfinal = array();
+                        $localityArr = LocationCapacity::select('phone_consult')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
+                            ->whereNull('locality_id')
+                            ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                        if ($localityArr) {
+                            $usersfinal = User::select(
+                                'users.*',
+                                'assistance.id AS assistance_id',
+                                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                            )->Join('user_role', 'users.id', 'user_role.user_id')
+                                ->Join('assistance', 'users.id', 'assistance.user_id');
+                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
+                            $first = true;
+                            foreach ($roles as $role) {
+                                if ($first) {
+                                    $usersfinal->where('user_role.role_id', $role->role_id);
+                                    $first = false;
+                                } else {
+                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                                }
+                            }
+                            $usersfinal->where('users.id', $row['id'])
+                                ->with(
+                                    'status',
+                                    'gender',
+                                    'academic_level',
+                                    'identification_type',
+                                    'user_role',
+                                    'user_role.role',
+                                    'assistance'
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+    
+                            $usersfinal = $usersfinal->get()->toArray();
+                        }
                     }
+                    
                 }
             } else {
                 $usersfinal = array();
@@ -797,10 +835,27 @@ class UserController extends Controller
 
                         $LocationCapacity = new LocationCapacity();
                         $LocationCapacity->locality_id = $item->locality_id;
-                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                         $LocationCapacity->PAD_patient_attended = 0;
                         $LocationCapacity->validation_date = Carbon::now();
-                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
+                        $LocationCapacity->assistance_id = $id->id;
+                        $LocationCapacity->save();
+                    }
+
+                    if ($request->phone_consult) {
+                        $BaseLocationCapacity = new BaseLocationCapacity;
+                        $BaseLocationCapacity->assistance_id = $id->id;
+                        $BaseLocationCapacity->phone_consult = "TELECONSULTA";
+                        $BaseLocationCapacity->PAD_base_patient_quantity = intval($request->phone_consult);
+                        $BaseLocationCapacity->save();
+
+                        $LocationCapacity = new LocationCapacity();
+                        $LocationCapacity->phone_consult = "TELECONSULTA";
+                        $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate(intval($request->phone_consult));
+                        $LocationCapacity->PAD_patient_attended = 0;
+                        $LocationCapacity->validation_date = Carbon::now();
+                        $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate(intval($request->phone_consult));
                         $LocationCapacity->assistance_id = $id->id;
                         $LocationCapacity->save();
                     }
@@ -906,10 +961,27 @@ class UserController extends Controller
                     $LocationCapacity = new LocationCapacity();
                     $LocationCapacity->locality_id = $item->locality_id;
                     $LocationCapacity->assistance_id = $id->id;
-                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
                     $LocationCapacity->PAD_patient_attended = 0;
                     $LocationCapacity->validation_date = Carbon::now();
-                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity, Carbon::now());
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate($item->PAD_base_patient_quantity);
+                    $LocationCapacity->save();
+                }
+
+                if ($request->phone_consult) {
+                    $BaseLocationCapacity = new BaseLocationCapacity;
+                    $BaseLocationCapacity->assistance_id = $id->id;
+                    $BaseLocationCapacity->phone_consult = "TELECONSULTA";
+                    $BaseLocationCapacity->PAD_base_patient_quantity = intval($request->phone_consult);
+                    $BaseLocationCapacity->save();
+
+                    $LocationCapacity = new LocationCapacity();
+                    $LocationCapacity->phone_consult = "TELECONSULTA";
+                    $LocationCapacity->PAD_patient_quantity = $this->getLocationCapacitiByDate(intval($request->phone_consult));
+                    $LocationCapacity->PAD_patient_attended = 0;
+                    $LocationCapacity->validation_date = Carbon::now();
+                    $LocationCapacity->PAD_patient_actual_capacity = $this->getLocationCapacitiByDate(intval($request->phone_consult));
+                    $LocationCapacity->assistance_id = $id->id;
                     $LocationCapacity->save();
                 }
 
@@ -1107,7 +1179,7 @@ class UserController extends Controller
         ]);
     }
 
-    function getLocationCapacitiByDate(int $capacity, Carbon $date)
+    function getLocationCapacitiByDate(int $capacity)
     {
         $currentDateFormat = Carbon::now()->startOfDay();
         $firstDateFormat = Carbon::now()->startOfMonth();
@@ -1116,12 +1188,7 @@ class UserController extends Controller
         $totalDiference = $firstDateFormat->diffInDays($endDateFormat);
         $currentDiference = ($endDateFormat->diffInDays($currentDateFormat)) - 1;
 
-        if ($date->lt($endDateFormat)) {
-            return ceil($currentDiference * ($capacity / $totalDiference));
-        } else {
-            return $capacity;
-        }
-
+        return ceil($currentDiference * ($capacity / $totalDiference));
     }
 
     /**

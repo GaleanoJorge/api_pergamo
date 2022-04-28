@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ChRecord;
+use Dompdf\Dompdf as PDF;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -19,9 +20,12 @@ use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\Tariff;
 use App\Models\BillUserActivity;
+use Illuminate\Support\Facades\Storage;
+
 
 use App\Models\NeighborhoodOrResidence;
 use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf as WriterPdf;
 
 class ChRecordController extends Controller
 {
@@ -32,7 +36,7 @@ class ChRecordController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRecord = ChRecord::with('user', 'admissions');
+        $ChRecord = ChRecord::with('user', 'admissions', 'admissions.patients');
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -97,6 +101,38 @@ class ChRecordController extends Controller
             'message' => 'Registro paciente obtenidos exitosamente',
             'data' => ['ch_record' => $ChRecord]
         ]);
+    }
+
+
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewHC(int $id)
+    {
+        $html = view('mails.closingEvent', [
+            'name' => 'prueba'
+        ])->render();
+
+        $dompdf = new PDF();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'landscape');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'prueba.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+
+
     }
 
 
@@ -185,6 +221,7 @@ class ChRecordController extends Controller
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->value = $valuetariff->amount;
+                $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
                 $AccountReceivable = AccountReceivable::find($validate[0]['id']);
@@ -193,6 +230,7 @@ class ChRecordController extends Controller
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->value = $valuetariff->amount;
+                $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };
 
@@ -237,6 +275,19 @@ class ChRecordController extends Controller
                 'status' => false,
                 'message' => 'Registro paciente en uso, no es posible eliminarlo'
             ], 423);
+        }
+    }
+
+    private function injectPageCount(PDF $dompdf): void
+    {
+        /** @var CPDF $canvas */
+        $canvas = $dompdf->getCanvas();
+        $pdf = $canvas->get_cpdf();
+
+        foreach ($pdf->objects as &$o) {
+            if ($o['t'] === 'contents') {
+                $o['c'] = str_replace('DOMPDF_PAGE_COUNT_PLACEHOLDER', $canvas->get_page_count(), $o['c']);
+            }
         }
     }
 }
