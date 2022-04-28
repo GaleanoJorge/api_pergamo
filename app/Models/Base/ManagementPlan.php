@@ -5,12 +5,15 @@
  */
 
 namespace App\Models\Base;
+
+use App\Models\AdmissionRoute;
 use Carbon\Carbon;
 use App\Models\TypeOfAttention;
 use App\Models\Frequency;
 use App\Models\SpecialField;
 use App\Models\Admissions;
 use App\Models\Authorization;
+use App\Models\Briefcase;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +41,7 @@ class ManagementPlan extends Model
 	public function type_of_attention()
 	{
 		return $this->belongsTo(TypeOfAttention::class);
-	}	
+	}
 	public function frequency()
 	{
 		return $this->belongsTo(Frequency::class);
@@ -57,6 +60,16 @@ class ManagementPlan extends Model
 	}
 	public function authorization()
 	{
-		return $this->belongsTo(Authorization::class,'authorization_id');
+		return $this->belongsTo(Authorization::class, 'authorization_id');
+	}
+	public function briefcase()
+	{
+		return $this->hasOneThrough(
+			Admissions::class,
+			Briefcase::class,
+		'briefcase_id',
+		'id',
+		'id'
+	);
 	}
 }

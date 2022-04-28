@@ -64,7 +64,7 @@ class ManualPriceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociación de los manuales con los procedimientos y las tarifas exitosamente',
+            'message' => 'Asociación   exitosamente',
             'data' => ['manual_price' => $ManualPrice]
         ]);
     }

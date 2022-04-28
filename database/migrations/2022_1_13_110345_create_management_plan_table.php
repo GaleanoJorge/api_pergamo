@@ -53,8 +53,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('services_briefcase');
                 $table->foreign('procedure_id')->references('id')
                 ->on('services_briefcase');
-            $table->foreign('authorization_id')->references('id')
-                ->on('authorization');
+            // $table->foreign('authorization_id')->references('id')
+            //     ->on('authorization');
         });
     }
 

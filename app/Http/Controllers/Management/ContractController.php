@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class ContractController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,23 +20,22 @@ class ContractController extends Controller
     {
         $Contract = Contract::with('contract_status');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Contract->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Contract->where('name','like','%' . $request->search. '%');
+            $Contract->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Contract=$Contract->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Contract = $Contract->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Contract = $Contract->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Contract=$Contract->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -45,7 +44,7 @@ class ContractController extends Controller
             'data' => ['contract' => $Contract]
         ]);
     }
-    
+
 
     public function store(ContractRequest $request): JsonResponse
     {
@@ -94,6 +93,23 @@ class ContractController extends Controller
             'data' => ['contract' => $Contract]
         ]);
     }
+    /**
+     * Brings contracts by company
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function byCompany(int $id)
+    {
+        $Contract = Contract::where('company_id', $id)->get()->toArray();
+            
+        return response()->json([
+            'status' => true,
+            'message' => 'Contratos de la compañía obtenido exitosamente',
+            'data' => ['contract' => $Contract]
+        ]);
+    }
+
 
     /**
      * Update the specified resource in storage.

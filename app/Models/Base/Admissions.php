@@ -87,4 +87,5 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Gender::class);
 	}
+
 }
