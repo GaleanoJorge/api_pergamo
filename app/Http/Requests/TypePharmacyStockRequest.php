@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PharmacyStockRequest extends FormRequest
+class TypePharmacyStockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,6 @@ class PharmacyStockRequest extends FormRequest
     {
         return [
             'name' => '',
-            'type_pharmacy_stock_id' => '',
-            'campus_id' => '',
-            'permission_pharmacy_stock_id' => '',
         ];
     }
 }

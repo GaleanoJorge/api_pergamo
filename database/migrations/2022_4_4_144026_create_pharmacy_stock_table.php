@@ -16,6 +16,7 @@ class CreatePharmacyStockTable extends Migration
         Schema::create('pharmacy_stock', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->unsignedBigInteger('type_pharmacy_stock_id');
             $table->unsignedtinyInteger('campus_id');
             $table->unsignedBigInteger('permission_pharmacy_stock_id');
             $table->timestamps();
@@ -26,6 +27,10 @@ class CreatePharmacyStockTable extends Migration
             $table->index('permission_pharmacy_stock_id');
             $table->foreign('permission_pharmacy_stock_id')->references('id')
                 ->on('permission_pharmacy_stock');
+
+            $table->index('type_pharmacy_stock_id');
+            $table->foreign('type_pharmacy_stock_id')->references('id')
+                ->on('type_pharmacy_stock');
         });
     }
 
