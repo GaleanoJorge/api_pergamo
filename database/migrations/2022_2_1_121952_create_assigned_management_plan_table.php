@@ -16,7 +16,9 @@ class CreateAssignedManagementPlanTable extends Migration
         Schema::create('assigned_management_plan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('start_date');
+            $table->time('start_hour');
             $table->date('finish_date');
+            $table->time('finish_hour');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->date('execution_date');
             $table->unsignedBigInteger('management_plan_id');

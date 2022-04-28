@@ -197,7 +197,7 @@ class ManualPriceController extends Controller
     }
 
 
-    public function store(ManualPriceRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $Manual = Manual::select('type_manual')->where('id', $request->manual_id)->get();
         if ($Manual[0]->type_manual == 0) {
@@ -263,9 +263,9 @@ class ManualPriceController extends Controller
             $ManualPrice->value = $request->value;
             $ManualPrice->price_type_id = $request->price_type_id;
             $ManualPrice->name = $request->name;
-            $ManualPrice->own_code = null;
+            $ManualPrice->own_code = $request->code_atc;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
-            $ManualPrice->homologous_id = null;
+            $ManualPrice->homologous_id = $request->code_atc;
             $ManualPrice->save();
 
 
