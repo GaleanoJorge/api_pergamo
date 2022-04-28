@@ -599,9 +599,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medium_signature_file', 'Management\MediumSignatureFileController');
 
 
-
-
-
     Route::get(
         'admissions/ByPacient/{pacientId}',
         'Management\AdmissionsController@getByPacient'
@@ -868,6 +865,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_rst_colposcipia_gyneco', 'Management\ChRstColposcipiaGynecoController');
     Route::apiResource('ch_failure_method_gyneco', 'Management\ChFailureMethodGynecoController');
     Route::apiResource('ch_method_planning_gyneco', 'Management\ChMethodPlanningGynecoController');
+
+    //Scales
+    Route::apiResource('ch_scales', 'Management\ChScalesController');
 
 
     //Answer
