@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\Billing;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\BillingStock;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -18,7 +19,7 @@ class BillingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Billing = Billing::select();
+        $Billing = Billing::with('company');
 
         if ($request->_sort) {
             $Billing->orderBy($request->_sort, $request->_order);
@@ -84,16 +85,13 @@ class BillingController extends Controller
     public function store(Request $request): JsonResponse
     {
         $Billing = new Billing;
-        $Billing->provider_name = $request->provider_name;
+        $Billing->company_id = $request->company_id;
         $Billing->num_evidence = $request->num_evidence;
-        $Billing->ordered_quantity = $request->ordered_quantity;
         $Billing->sub_total = $request->sub_total;
         $Billing->vat = $request->vat;
         $Billing->setting_value = $request->setting_value;
         $Billing->invoice_value = $request->invoice_value;
         $Billing->type_billing_evidence_id = $request->type_billing_evidence_id;
-        $Billing->pharmacy_stock_id = $request->pharmacy_stock_id;
-
         $Billing->save();
 
         return response()->json([
@@ -130,15 +128,13 @@ class BillingController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $Billing = Billing::find($id);
-        $Billing->provider_name = $request->provider_name;
+        $Billing->company_id = $request->company_id;
         $Billing->num_evidence = $request->num_evidence;
-        $Billing->ordered_quantity = $request->ordered_quantity;
         $Billing->sub_total = $request->sub_total;
         $Billing->vat = $request->vat;
         $Billing->setting_value = $request->setting_value;
         $Billing->invoice_value = $request->invoice_value;
         $Billing->type_billing_evidence_id = $request->type_billing_evidence_id;
-        $Billing->pharmacy_stock_id = $request->pharmacy_stock_id;
         $Billing->save();
 
         return response()->json([
@@ -157,13 +153,19 @@ class BillingController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            $BillingStockDeleteArray = BillingStock::where('billing_id', $id)->get()->toArray();
+            foreach ($BillingStockDeleteArray as $element) {
+                $BillingStockDelete = BillingStock::where('id', $element['id']);
+                $BillingStockDelete->delete();
+            }
+            
             $Billing = Billing::find($id);
             $Billing->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Registro de factura eliminado exitosamente'
-            ]);
+                'message' => 'Platos de dietas eliminados exitosamente'
+            ]);  
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,

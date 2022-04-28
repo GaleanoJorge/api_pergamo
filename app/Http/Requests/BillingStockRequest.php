@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BillingRequest extends FormRequest
+class BillingStockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,9 @@ class BillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'num_evidence' => '',
-            'sub_total' => '',
-            'vat' => '',
-            'setting_value' => '',
-            'invoice_value' => '',
-            'company_id' => '',
-            'type_billing_evidence_id' => '',
+            'amount' => 'required',
+            'product_id' => 'required',
+            'billing_id' => 'required',
         ];
     }
 }
