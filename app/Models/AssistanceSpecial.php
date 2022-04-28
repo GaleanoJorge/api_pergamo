@@ -8,7 +8,7 @@ use App\Models\Base\AssistanceSpecial as BaseAssistanceSpecial;
 class AssistanceSpecial extends BaseAssistanceSpecial
 {
     protected $fillable = [
-		'special_field_id',
+		'specialty_id',
     'assistance_id',
 	
 	];

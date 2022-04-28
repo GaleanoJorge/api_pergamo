@@ -809,7 +809,7 @@ class UserController extends Controller
                     $assistance->PAD_service = $request->PAD_service;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                    // $assistance->special_field = $request->special_field;
+                    // $assistance->specialty = $request->specialty;
 
                     if ($request->firm) {
                         $image = $request->get('firm');  // your base64 encoded
@@ -860,10 +860,10 @@ class UserController extends Controller
                         $LocationCapacity->save();
                     }
 
-                    if (is_array($request->special_field) == true) {
-                        foreach ($request->special_field as $item) {
+                    if (is_array($request->specialty) == true) {
+                        foreach ($request->specialty as $item) {
                             $assistanceSpecial = new AssistanceSpecial;
-                            $assistanceSpecial->special_field_id = $item;
+                            $assistanceSpecial->specialty_id = (int)$item;
                             $assistanceSpecial->assistance_id = $assistance->id;
                             $assistanceSpecial->save();
                         }
@@ -935,7 +935,7 @@ class UserController extends Controller
                 $assistance->PAD_service = $request->PAD_service;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                // $assistance->special_field = $request->special_field;    
+                // $assistance->specialty = $request->specialty;    
 
                 if ($request->firm_file) {
                     $image = $request->get('firm_file');  // your base64 encoded
@@ -985,10 +985,10 @@ class UserController extends Controller
                     $LocationCapacity->save();
                 }
 
-                if (is_array($request->special_field) == true) {
-                    foreach ($request->special_field as $item) {
+                if (is_array($request->specialty) == true) {
+                    foreach ($request->specialty as $item) {
                         $assistanceSpecial = new AssistanceSpecial;
-                        $assistanceSpecial->special_field_id = $item;
+                        $assistanceSpecial->specialty_id = (int)$item;
                         $assistanceSpecial->assistance_id = $assistance->id;
                         $assistanceSpecial->save();
                     }
@@ -1157,11 +1157,11 @@ class UserController extends Controller
             $id = Assistance::latest('id')->first();
 
 
-            if (is_array($request->special_field) == true) {
-                //if(sizeof($request->special_field) != 0 ){
-                foreach ($request->special_field as $item) {
+            if (is_array($request->specialty) == true) {
+                //if(sizeof($request->specialty) != 0 ){
+                foreach ($request->specialty as $item) {
                     $assistanceSpecial = new AssistanceSpecial;
-                    $assistanceSpecial->special_field_id = $item;
+                    $assistanceSpecial->specialty_id = (int)$item;
                     $assistanceSpecial->assistance_id = $assistance->id;
                     $assistanceSpecial->save();
                 }
@@ -1235,12 +1235,12 @@ class UserController extends Controller
         $type_professional = TypeProfessional::get();
         $residence = Residence::orderBy('name')->get();
         //$observation_novelty = ObservationNovelty::get();
-        $special_field = Specialty::where('type_professional_id', $request->type_professional_id);
+        $specialty = Specialty::where('type_professional_id', $request->type_professional_id);
         // if($request->search){
-        //     $special_field->Orwhere('name', 'like', '%' . $request->search . '%');
+        //     $specialty->Orwhere('name', 'like', '%' . $request->search . '%');
         // }
         if ($request->search != 'undefined') {
-            $special_field->where(function ($query) use ($request) {
+            $specialty->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             });
         }
@@ -1267,7 +1267,7 @@ class UserController extends Controller
                 'cost_center' => $cost_center->toArray(),
                 'type_professional' => $type_professional->toArray(),
                 'inability' => $inabilitys->toArray(),
-                'special_field' => $special_field->get()->toArray(),
+                'specialty' => $specialty->get()->toArray(),
                 'residence' => $residence->toArray(),
                 //'observation_novelty' => $observation_novelty->get()->toArray(),
 
