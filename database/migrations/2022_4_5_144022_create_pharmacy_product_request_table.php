@@ -17,8 +17,8 @@ class CreatePharmacyProductRequestTable extends Migration
         Schema::create('pharmacy_product_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('amount');
-            $table->unsignedBigInteger('pharmacy_stock_id');
             $table->unsignedBigInteger('product_generic_id');
+            $table->unsignedBigInteger('pharmacy_stock_id');
             $table->timestamps();
 
             $table->index('product_generic_id');

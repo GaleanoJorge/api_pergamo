@@ -15,14 +15,15 @@ class CreateProductGenericTable extends Migration
     {
         Schema::create('product_generic', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string ('name');
             $table->unsignedBigInteger ('drug_concentration_id');
             $table->unsignedBigInteger ('measurement_units_id');
             $table->unsignedBigInteger ('product_presentation_id');
             $table->string ('description');
             $table->unsignedBigInteger('pbs_type_id');
+            $table->string('pbs_restriction')->nullable();
             $table->unsignedBigInteger('product_subcategory_id'); 
-            $table->unsignedBigInteger('consumption_unit_id'); 
+            $table->Integer('minimum_stock');
+            $table->Integer('maximum_stock');
             $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->Integer ('special_controller_medicine')->nullable();
             $table->string ('code_atc')->nullable();
