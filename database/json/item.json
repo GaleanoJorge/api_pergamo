@@ -1172,7 +1172,7 @@
     {
         "id": "177",
         "item_parent_id": "169",
-        "name": "Solicitud medicamentos",
+        "name": "Solicitar medicamentos",
         "code": "pharmacy-product-request",
         "route": "/pages/setting/pharmacy-product-request",
         "icon": "",
@@ -1184,6 +1184,26 @@
         "name": "Inventario medicamentos",
         "code": "pharmacy-inventory",
         "route": "/pages/setting/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "179",
+        "item_parent_id": "169",
+        "name": "Solicitudes de medicamentos",
+        "code": "pharmacy-request",
+        "route": "/pages/setting/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    }
+
+    ,
+    {
+        "id": "182",
+        "item_parent_id": "169",
+        "name": "Actualizar Max-Min stock",
+        "code": "pharmacy-update-max-min",
+        "route": "/pages/setting/pharmacy-update-max-min",
         "icon": "",
         "show_menu": "1"
     }

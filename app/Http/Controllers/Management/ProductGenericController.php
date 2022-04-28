@@ -49,20 +49,21 @@ class ProductGenericController extends Controller
     public function store(ProductGenericRequest $request): JsonResponse
     {
         $ProductGeneric = new ProductGeneric;
-        $ProductGeneric->name = $request->name;
         $ProductGeneric->drug_concentration_id = $request->drug_concentration_id;
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
         $ProductGeneric->description = $request->description;       
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
+        $ProductGeneric->pbs_restriction = $request->pbs_restriction;
         $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
-        $ProductGeneric->consumption_unit_id = $request->consumption_unit_id;  
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  
         $ProductGeneric->implantable = $request->implantable; 
         $ProductGeneric->reuse = $request->reuse;
         $ProductGeneric->invasive = $request->invasive;
+        $ProductGeneric->minimum_stock = $request->minimum_stock;
+        $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->consignment = $request->consignment; 
         $ProductGeneric->save();
 
@@ -101,20 +102,21 @@ class ProductGenericController extends Controller
     public function update(ProductGenericRequest $request, int $id): JsonResponse
     {
         $ProductGeneric = ProductGeneric ::find($id);
-        $ProductGeneric->name = $request->name;
         $ProductGeneric->drug_concentration_id = $request->drug_concentration_id;
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
         $ProductGeneric->description = $request->description;       
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
+        $ProductGeneric->pbs_restriction = $request->pbs_restriction;
         $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
-        $ProductGeneric->consumption_unit_id = $request->consumption_unit_id;  
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  
         $ProductGeneric->implantable = $request->implantable; 
         $ProductGeneric->reuse = $request->reuse;
         $ProductGeneric->invasive = $request->invasive;
+        $ProductGeneric->minimum_stock = $request->minimum_stock;
+        $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->consignment = $request->consignment;   
         $ProductGeneric->save();
 

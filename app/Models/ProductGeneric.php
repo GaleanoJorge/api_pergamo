@@ -8,21 +8,21 @@ use App\Models\Base\ProductGeneric as BaseProductGeneric;
 class ProductGeneric extends BaseProductGeneric
 {
 protected $fillable = [
-
-	'name',
 	'drug_concentration_id',
     'measurement_units_id',
 	'product_presentation_id',
 	'description',
 	'pbs_type_id',
+	'pbs_restriction',
 	'product_subcategory_id',
-	'consumption_unit_id',
 	'administration_route_id',
 	'special_controller_medicene',
 	'code_atc',
 	'implantable',
 	'reuse',
 	'invasive',
+	'minimum_stock',  
+	'maximum_stock',  
 	'consignment',     
 	];
 }
