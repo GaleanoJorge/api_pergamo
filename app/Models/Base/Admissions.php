@@ -87,10 +87,5 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Gender::class);
 	}
-	public function briefcase()
-	{
-		return $this->belongsTo(
-			Briefcase::class, 'briefcase_id',
-	);
-	}
+
 }
