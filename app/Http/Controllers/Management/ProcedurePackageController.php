@@ -87,9 +87,14 @@ class ProcedurePackageController extends Controller
         ])->get();
         if ($ProcedurePackageFilter->count() == 0) {
             $ProcedurePackage = new ProcedurePackage;
+            $components = json_decode($request->procedure_id);
+
             $ProcedurePackage->value = $request->value;
             $ProcedurePackage->procedure_package_id = $request->procedure_package_id;
-            $ProcedurePackage->procedure_id = $request->procedure_id;
+            $ProcedurePackage->procedure_id = $components->procedure_id;
+            $ProcedurePackage->max_quantity = $components->max_quantity;
+            $ProcedurePackage->min_quantity = $components->min_quantity;
+            $ProcedurePackage->dynamic_charge = $components->dynamic_charge;
             $ProcedurePackage->save();
         }
 
@@ -97,7 +102,7 @@ class ProcedurePackageController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Paquete de procedimientos creada exitosamente',
-            'data' => ['procedure_package' => $ProcedurePackage->toArray()]
+            'data' => ['procedure_package' => $ProcedurePackage]
         ]);
     }
 
@@ -136,7 +141,10 @@ class ProcedurePackageController extends Controller
             $ProcedurePackage->procedure_package_id = $id;
             // $ProcedurePackage->value = $conponent->value;
             // $ProcedurePackage->manual_price_id = $conponent->manual_price_id;
-            $ProcedurePackage->procedure_id = $conponent;
+            $ProcedurePackage->dynamic_charge = $conponent->dynamic_charge;
+            $ProcedurePackage->max_quantity = $conponent->max_quantity;
+            $ProcedurePackage->min_quantity = $conponent->min_quantity;
+            $ProcedurePackage->procedure_id = $conponent->procedure_id;
             $ProcedurePackage->save();
         }
 
