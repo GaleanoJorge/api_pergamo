@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LocalityRequest;
+use App\Models\NeighborhoodOrResidence;
 use Illuminate\Database\QueryException;
 
 class LocalityController extends Controller
@@ -18,7 +19,7 @@ class LocalityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Locality = Locality::with('municipality');
+        $Locality = Locality::with('municipality', 'municipality.region', 'municipality.region.country')->select();
 
         if($request->_sort){
             $Locality->orderBy($request->_sort, $request->_order);
@@ -88,12 +89,23 @@ class LocalityController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(LocalityRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $Locality = Locality::find($id);
         $Locality->name = $request->name; 
         $Locality->municipality_id = $request->municipality_id;  
         $Locality->save();
+
+        if ($request->pad_risk_id) {
+            $NeighborhoodOrResidence = NeighborhoodOrResidence::select()
+                ->where('locality_id', $id)
+                ->get()->toArray();
+            foreach($NeighborhoodOrResidence as $item){
+                $Barrio = NeighborhoodOrResidence::find($item['id']);
+                $Barrio->pad_risk_id = $request->pad_risk_id;
+                $Barrio->save();
+            }
+        }
 
         return response()->json([
             'status' => true,
