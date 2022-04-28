@@ -2448,5 +2448,50 @@
         "item_id": "178",
         "role_id": "1",
         "permission_id": "4"
+    },
+    {
+        "item_id": "179",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "179",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "179",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "179",
+        "role_id": "1",
+        "permission_id": "4"
+    }
+
+
+
+
+    ,
+    {
+        "item_id": "182",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "182",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "182",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "182",
+        "role_id": "1",
+        "permission_id": "4"
     }
 ]
