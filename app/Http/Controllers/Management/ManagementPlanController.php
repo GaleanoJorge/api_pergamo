@@ -69,7 +69,7 @@ class ManagementPlanController extends Controller
                             -1) AS not_executed'),
                 DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
             )
-            ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'admissions.briefcase', 'assigned_user')
+            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
             ->groupBy('management_plan.id');
@@ -123,7 +123,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
         $ManagementPlan->quantity = $request->quantity;
-        $ManagementPlan->special_field_id = $request->special_field_id;
+        $ManagementPlan->specialty_id = $request->specialty_id;
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->procedure_id = $request->procedure_id;
@@ -222,15 +222,18 @@ class ManagementPlanController extends Controller
                                     $error = 2;
                                 }
                             }
+                        } else {
+                            $firstDateMonth->addMonth();
+                            $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
                         }
-
-                        $assignedManagement = new AssignedManagementPlan;
-                        $assignedManagement->start_date = $start;
-                        $assignedManagement->finish_date =  $finish;
-                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
-                        $assignedManagement->management_plan_id = $ManagementPlan->id;
-                        $assignedManagement->save();
                     }
+                    
+                    $assignedManagement = new AssignedManagementPlan;
+                    $assignedManagement->start_date = $start;
+                    $assignedManagement->finish_date =  $finish;
+                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    $assignedManagement->management_plan_id = $ManagementPlan->id;
+                    $assignedManagement->save();
                 }
             } else {
                 $countam = 0;
@@ -238,6 +241,7 @@ class ManagementPlanController extends Controller
                 $start = Carbon::createFromDate($fechastartnow);
                 $now = Carbon::createFromDate($fechastartnow);
                 $finish = Carbon::createFromDate($request->finish_date)->endOfDay();
+                $i = 0;
                 while ($now < $finish) {
                     if ($countam == 0) {
                         $now = Carbon::createFromDate($fechastartnow);
@@ -290,6 +294,7 @@ class ManagementPlanController extends Controller
                             $firstDateMonth->addMonth();
                             $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
                         }
+                        $i++;
                     }
                 }
             }
@@ -358,7 +363,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
         $ManagementPlan->quantity = $request->quantity;
-        $ManagementPlan->special_field_id = $request->special_field_id;
+        $ManagementPlan->specialty_id = $request->specialty_id;
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->save();
