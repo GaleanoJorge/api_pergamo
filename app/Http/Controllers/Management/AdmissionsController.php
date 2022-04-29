@@ -63,6 +63,7 @@ class AdmissionsController extends Controller
         $Admissions = Admissions::where('patient_id', $pacientId)
         ->with(
             'patients',
+            'briefcase',
             'campus', 
             'contract', 
             'location', 
@@ -215,7 +216,7 @@ class AdmissionsController extends Controller
 
         if ($Admissions->procedure_id) {
             $Authorization = new  Authorization;
-            $Authorization->procedure_id =  $Admissions->procedure_id;
+            $Authorization->services_briefcase_id =  $Admissions->procedure_id;
             $Authorization->admissions_id =  $Admissions->id;
             $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
             if ($validate->type_auth == 1) {

@@ -52,8 +52,8 @@ class ManagementPlanController extends Controller
     {
 
         $ManagementPlan = ManagementPlan::select(
-                'management_plan.*',
-                DB::raw('
+            'management_plan.*',
+            DB::raw('
                         IF(COUNT(assigned_management_plan.execution_date) > 0, 
                             SUM(
                                 CASE assigned_management_plan.execution_date 
@@ -61,8 +61,8 @@ class ManagementPlanController extends Controller
                                     ELSE 0 
                                 END), 
                             -1) AS not_executed'),
-                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
-            )
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+        )
             ->with('authorization', 'type_of_attention', 'frequency', 'special_field', 'admissions', 'admissions.briefcase', 'assigned_user')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
@@ -103,15 +103,15 @@ class ManagementPlanController extends Controller
      */
     public function store(ManagementPlanRequest $request): JsonResponse
     {
-        $Authorization = new Authorization;
-        $Authorization->procedure_id =  $request->procedure_id;
-        $Authorization->admissions_id =  $request->admissions_id;
-        if ($request->type_auth == 1) {
-            $Authorization->auth_status_id =  2;
-        } else {
-            $Authorization->auth_status_id =  1;
-        }
-        $Authorization->save();
+        // $Authorization = new Authorization;
+        // $Authorization->procedure_id =  $request->procedure_id;
+        // $Authorization->admissions_id =  $request->admissions_id;
+        // if ($request->type_auth == 1) {
+        //     $Authorization->auth_status_id =  2;
+        // } else {
+        //     $Authorization->auth_status_id =  1;
+        // }
+        // $Authorization->save();
 
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
@@ -121,7 +121,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->procedure_id = $request->procedure_id;
-        $ManagementPlan->authorization_id = $Authorization->id;
+        // $ManagementPlan->authorization_id = $Authorization->id;
         $ManagementPlan->save();
 
         $error = 0;
@@ -132,68 +132,84 @@ class ManagementPlanController extends Controller
         // foreach ($frequency as $key => $row) {
         //     $diferencei = $row['days'] / $request->quantity;
         // }
-        if ($request->medical == false && $Authorization->auth_status_id == 2) {
-            $now = Carbon::createFromDate($request->start_date);
-            $finish = Carbon::createFromDate($request->finish_date);
-            $diasDiferencia = $finish->diffInDays($now);
-            $diferencei = $diasDiferencia / $request->quantity;
-            $finish = Carbon::createFromDate($request->start_date)->addDays($diferencei);
-            $diference = $diferencei;
-            for ($i = 0; $i < $request->quantity; $i++) {
+        if ($request->medical == false) {
 
-                if ($i == 0) {
-                    $start = $request->start_date;
-                    $finish = $finish;
-                } else {
-                    $diference = $diference + $diferencei;
-                    $start = $finish->addDays(1)->copy();
-                    $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
-                }
 
-                $assigned = false;
-                while (!$assigned && $error == 0) {
-                    if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
-                        $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
-                            ->where('locality_id', $request->locality_id)
-                            ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
-                        if ($locattionCapacity) {
-                            if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
-                                $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
-                                $locattionCapacity->save();
-                                $assigned = true;
+            if ($request->type_auth == 1) {
+                $now = Carbon::createFromDate($request->start_date);
+                $finish = Carbon::createFromDate($request->finish_date);
+                $diasDiferencia = $finish->diffInDays($now);
+                $diferencei = $diasDiferencia / $request->quantity;
+                $finish = Carbon::createFromDate($request->start_date)->addDays($diferencei);
+                $diference = $diferencei;
+                for ($i = 0; $i < $request->quantity; $i++) {
+
+                    if ($i == 0) {
+                        $start = $request->start_date;
+                        $finish = $finish;
+                    } else {
+                        $diference = $diference + $diferencei;
+                        $start = $finish->addDays(1)->copy();
+                        $finish = Carbon::createFromDate($request->start_date)->addDays($diference);
+                    }
+
+                    $assigned = false;
+                    while (!$assigned && $error == 0) {
+                        if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
+                            $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                                ->where('locality_id', $request->locality_id)
+                                ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
+                            if ($locattionCapacity) {
+                                if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
+                                    $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
+                                    $locattionCapacity->save();
+                                    $assigned = true;
+                                } else {
+                                    $error = 1;
+                                    $error_count = $request->quantity - $i;
+                                }
                             } else {
-                                $error = 1;
-                                $error_count = $request->quantity - $i;
+                                $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                                    ->where('locality_id', $request->locality_id)->first();
+                                if ($baseLocationCapacity) {
+                                    $newLocationCapacity = new LocationCapacity;
+                                    $newLocationCapacity->assistance_id = $request->assistance_id;
+                                    $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
+                                    $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
+                                    $newLocationCapacity->PAD_patient_attended = 0;
+                                    $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
+                                    $newLocationCapacity->validation_date = $start;
+                                    $newLocationCapacity->save();
+                                    $assigned = true;
+                                } else {
+                                    $error = 2;
+                                }
                             }
                         } else {
-                            $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
-                                ->where('locality_id', $request->locality_id)->first();
-                            if ($baseLocationCapacity) {
-                                $newLocationCapacity = new LocationCapacity;
-                                $newLocationCapacity->assistance_id = $request->assistance_id;
-                                $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
-                                $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
-                                $newLocationCapacity->PAD_patient_attended = 0;
-                                $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
-                                $newLocationCapacity->validation_date = $start;
-                                $newLocationCapacity->save();
-                                $assigned = true;
-                            } else {
-                                $error = 2;
-                            }
+                            $firstDateMonth->addMonth();
+                            $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
                         }
-                    } else {
-                        $firstDateMonth->addMonth();
-                        $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
                     }
                 }
-
                 $assignedManagement = new AssignedManagementPlan;
                 $assignedManagement->start_date = $start;
                 $assignedManagement->finish_date =  $finish;
                 $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
                 $assignedManagement->save();
+
+                $this->createAuth( $request , $assignedManagement);
+
+            } else {
+                $assignedManagement = new AssignedManagementPlan;
+                $assignedManagement->start_date = null;
+                $assignedManagement->finish_date =  null;
+                $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                $assignedManagement->management_plan_id = $ManagementPlan->id;
+                $assignedManagement->save();
+
+                $this->createAuth( $request , $assignedManagement);
+
             }
         }
 
@@ -227,6 +243,27 @@ class ManagementPlanController extends Controller
                 ]);
             }
         }
+    }
+
+    /**
+     * Create authorizations for assignedManagementPlan pre or post.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createAuth($request, AssignedManagementPlan $assignedManagement): Authorization
+    {
+        $Authorization = new Authorization;
+        $Authorization->services_briefcase_id = $request->procedure_id;
+        $Authorization->assigned_management_plan_id = $assignedManagement->id;
+        $Authorization->admissions_id = $request->admissions_id;
+        if ($request->type_auth == 1) {
+            $Authorization->auth_status_id =  2;
+        } else {
+            $Authorization->auth_status_id =  1;
+        }
+
+        return $Authorization;
     }
 
     /**
@@ -275,8 +312,8 @@ class ManagementPlanController extends Controller
         $error_count = 0;
         $firstDateMonth = Carbon::now()->startOfMonth();
         $lastDateMonth = Carbon::now()->endOfMonth();
-        
-        if ($request->authorized_amount){
+
+        if ($request->authorized_amount) {
             $quantity = $request->authorized_amount;
         } else {
             $quantity = $request->quantity;
