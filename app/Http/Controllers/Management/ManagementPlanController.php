@@ -109,15 +109,15 @@ class ManagementPlanController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $Authorization = new Authorization;
-        $Authorization->procedure_id =  $request->procedure_id;
-        $Authorization->admissions_id =  $request->admissions_id;
-        if ($request->type_auth == 1) {
-            $Authorization->auth_status_id =  2;
-        } else {
-            $Authorization->auth_status_id =  1;
-        }
-        $Authorization->save();
+        // $Authorization = new Authorization;
+        // $Authorization->procedure_id =  $request->procedure_id;
+        // $Authorization->admissions_id =  $request->admissions_id;
+        // if ($request->type_auth == 1) {
+        //     $Authorization->auth_status_id =  2;
+        // } else {
+        //     $Authorization->auth_status_id =  1;
+        // }
+        // $Authorization->save();
 
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
@@ -127,7 +127,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
         $ManagementPlan->procedure_id = $request->procedure_id;
-        $ManagementPlan->authorization_id = $Authorization->id;
+        // $ManagementPlan->authorization_id = $Authorization->id;
         if ($request->type_of_attention_id == 17) {
             $ManagementPlan->preparation = $request->preparation;
             $ManagementPlan->product_id = $request->product_id;
@@ -145,7 +145,7 @@ class ManagementPlanController extends Controller
         // foreach ($frequency as $key => $row) {
         //     $diferencei = $row['days'] / $request->quantity;
         // }
-        if ($request->medical == false && $Authorization->auth_status_id == 2) {
+        if ($request->medical == false) {
             if ($request->type_of_attention_id != 17) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
@@ -331,6 +331,27 @@ class ManagementPlanController extends Controller
                 ]);
             }
         }
+    }
+
+    /**
+     * Create authorizations for assignedManagementPlan pre or post.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function createAuth($request, AssignedManagementPlan $assignedManagement): Authorization
+    {
+        $Authorization = new Authorization;
+        $Authorization->services_briefcase_id = $request->procedure_id;
+        $Authorization->assigned_management_plan_id = $assignedManagement->id;
+        $Authorization->admissions_id = $request->admissions_id;
+        if ($request->type_auth == 1) {
+            $Authorization->auth_status_id =  2;
+        } else {
+            $Authorization->auth_status_id =  1;
+        }
+
+        return $Authorization;
     }
 
     /**
