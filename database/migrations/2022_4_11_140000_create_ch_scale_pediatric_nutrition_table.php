@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pediatric_nutrition', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('score_one');
                 $table->number('score_two');

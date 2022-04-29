@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pfeiffer', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->boolean('study');
                 $table->number('question_one');

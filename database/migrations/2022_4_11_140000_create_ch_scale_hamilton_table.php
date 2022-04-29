@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_hamilton', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('variable_one');
                 $table->number('variable_two');

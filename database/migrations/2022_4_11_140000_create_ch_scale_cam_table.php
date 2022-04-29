@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_cam', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('state_mind');
                 $table->number('attention');

@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_zarit', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('q_one');
                 $table->number('q_two');

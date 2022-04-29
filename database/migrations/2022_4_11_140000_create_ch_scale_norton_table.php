@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_norton', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('physical_state');
                 $table->number('state_mind');

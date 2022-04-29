@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pain', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('range');
                 $table->string('detail');

@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_fragility', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('question_one');
                 $table->number('question_two');

@@ -13,7 +13,7 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_fac', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->number('level');
                 $table->string('definition');
