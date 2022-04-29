@@ -15,15 +15,15 @@
         {
             Schema::create('ch_scale_news', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('parameter_one');
-                $table->number('parameter_two');
-                $table->number('parameter_three');
-                $table->number('parameter_four');
-                $table->number('parameter_five');
-                $table->number('parameter_six');
-                $table->number('parameter_seven');
-                $table->number('parameter_eight');
-                $table->number('qualification');
+                $table->Integer('parameter_one');
+                $table->Integer('parameter_two');
+                $table->Integer('parameter_three');
+                $table->Integer('parameter_four');
+                $table->Integer('parameter_five');
+                $table->Integer('parameter_six');
+                $table->Integer('parameter_seven');
+                $table->Integer('parameter_eight');
+                $table->Integer('qualification');
                 $table->string('risk');
                 $table->string('response');
                 $table->unsignedBigInteger('type_record_id');

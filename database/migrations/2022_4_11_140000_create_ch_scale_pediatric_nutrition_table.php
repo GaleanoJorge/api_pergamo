@@ -15,10 +15,10 @@
         {
             Schema::create('ch_scale_pediatric_nutrition', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('score_one');
-                $table->number('score_two');
-                $table->number('score_three');
-                $table->number('score_four');
+                $table->Integer('score_one');
+                $table->Integer('score_two');
+                $table->Integer('score_three');
+                $table->Integer('score_four');
                 $table->string('total');
                 $table->string('risk');
                 $table->string('classification');

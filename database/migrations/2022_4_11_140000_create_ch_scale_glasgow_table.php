@@ -15,10 +15,10 @@
         {
             Schema::create('ch_scale_glasgow', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('ocular');
-                $table->number('verbal');
-                $table->number('motor');
-                $table->number('total');
+                $table->Integer('ocular');
+                $table->Integer('verbal');
+                $table->Integer('motor');
+                $table->Integer('total');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

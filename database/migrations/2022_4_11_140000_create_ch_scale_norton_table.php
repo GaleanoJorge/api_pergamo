@@ -15,12 +15,12 @@
         {
             Schema::create('ch_scale_norton', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('physical_state');
-                $table->number('state_mind');
-                $table->number('mobility');
-                $table->number('activity');
-                $table->number('incontinence');
-                $table->number('total');
+                $table->Integer('physical_state');
+                $table->Integer('state_mind');
+                $table->Integer('mobility');
+                $table->Integer('activity');
+                $table->Integer('incontinence');
+                $table->Integer('total');
                 $table->string('risk');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

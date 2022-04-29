@@ -15,13 +15,13 @@
         {
             Schema::create('ch_scale_pap', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('variable_one');
-                $table->number('variable_two');
-                $table->number('variable_three');
-                $table->number('variable_four');
-                $table->number('variable_five');
-                $table->number('variable_six');
-                $table->number('total');
+                $table->Integer('variable_one');
+                $table->Integer('variable_two');
+                $table->Integer('variable_three');
+                $table->Integer('variable_four');
+                $table->Integer('variable_five');
+                $table->Integer('variable_six');
+                $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

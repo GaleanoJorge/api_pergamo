@@ -15,7 +15,7 @@
         {
             Schema::create('ch_scale_ecog', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('grade');
+                $table->Integer('grade');
                 $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

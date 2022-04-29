@@ -15,16 +15,16 @@
         {
             Schema::create('ch_scale_esas', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('pain');
-                $table->number('tiredness');
-                $table->number('retching');
-                $table->number('depression');
-                $table->number('anxiety');
-                $table->number('drowsiness');
-                $table->number('appetite');
-                $table->number('breathing');
-                $table->number('welfare');
-                $table->number('sleep');
+                $table->Integer('pain');
+                $table->Integer('tiredness');
+                $table->Integer('retching');
+                $table->Integer('depression');
+                $table->Integer('anxiety');
+                $table->Integer('drowsiness');
+                $table->Integer('appetite');
+                $table->Integer('breathing');
+                $table->Integer('welfare');
+                $table->Integer('sleep');
                 $table->string('observation');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

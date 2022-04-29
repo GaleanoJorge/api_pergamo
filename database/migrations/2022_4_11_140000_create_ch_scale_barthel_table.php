@@ -15,18 +15,18 @@
         {
             Schema::create('ch_scale_barthel', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('eat');
-                $table->number('move');
-                $table->number('cleanliness');
-                $table->number('toilet');
-                $table->number('shower');
-                $table->number('commute');
-                $table->number('stairs');
-                $table->number('dress');
-                $table->number('fecal');
-                $table->number('urine');
+                $table->Integer('eat');
+                $table->Integer('move');
+                $table->Integer('cleanliness');
+                $table->Integer('toilet');
+                $table->Integer('shower');
+                $table->Integer('commute');
+                $table->Integer('stairs');
+                $table->Integer('dress');
+                $table->Integer('fecal');
+                $table->Integer('urine');
                 $table->string('classification');
-                $table->number('score');
+                $table->Integer('score');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

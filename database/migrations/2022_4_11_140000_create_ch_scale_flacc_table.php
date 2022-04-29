@@ -15,12 +15,12 @@
         {
             Schema::create('ch_scale_flacc', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('face');
-                $table->number('legs');
-                $table->number('activity');
-                $table->number('crying');
-                $table->number('comfort');
-                $table->number('total');
+                $table->Integer('face');
+                $table->Integer('legs');
+                $table->Integer('activity');
+                $table->Integer('crying');
+                $table->Integer('comfort');
+                $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

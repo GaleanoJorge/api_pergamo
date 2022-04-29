@@ -15,32 +15,32 @@
         {
             Schema::create('ch_scale_zarit', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('q_one');
-                $table->number('q_two');
-                $table->number('q_three');
-                $table->number('q_four');
-                $table->number('q_five');
-                $table->number('q_six');
-                $table->number('q_seven');
-                $table->number('q_eight');
-                $table->number('q_nine');
-                $table->number('q_ten');
+                $table->Integer('q_one');
+                $table->Integer('q_two');
+                $table->Integer('q_three');
+                $table->Integer('q_four');
+                $table->Integer('q_five');
+                $table->Integer('q_six');
+                $table->Integer('q_seven');
+                $table->Integer('q_eight');
+                $table->Integer('q_nine');
+                $table->Integer('q_ten');
 
-                $table->number('q_eleven');
-                $table->number('q_twelve');
-                $table->number('q_thirteen');
-                $table->number('q_fourteen');
-                $table->number('q_fifteen');
-                $table->number('q_sixteen');
-                $table->number('q_seventeen');
-                $table->number('q_eighteen');
-                $table->number('q_nineteen');
-                $table->number('q_twenty');
+                $table->Integer('q_eleven');
+                $table->Integer('q_twelve');
+                $table->Integer('q_thirteen');
+                $table->Integer('q_fourteen');
+                $table->Integer('q_fifteen');
+                $table->Integer('q_sixteen');
+                $table->Integer('q_seventeen');
+                $table->Integer('q_eighteen');
+                $table->Integer('q_nineteen');
+                $table->Integer('q_twenty');
 
-                $table->number('q_twenty_one');
-                $table->number('q_twenty_two');
+                $table->Integer('q_twenty_one');
+                $table->Integer('q_twenty_two');
                 
-                $table->number('total');
+                $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

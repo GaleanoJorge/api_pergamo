@@ -15,10 +15,10 @@
         {
             Schema::create('ch_scale_cam', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('state_mind');
-                $table->number('attention');
-                $table->number('thought');
-                $table->number('awareness');
+                $table->Integer('state_mind');
+                $table->Integer('attention');
+                $table->Integer('thought');
+                $table->Integer('awareness');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
