@@ -49,8 +49,6 @@ class TypeBillingEvidenceController extends Controller
     {
         $TypeBillingEvidence = new TypeBillingEvidence;
         $TypeBillingEvidence->name = $request->name;
-
-
         $TypeBillingEvidence->save();
 
         return response()->json([

@@ -9,6 +9,7 @@ class PharmacyStock extends BasePharmacyStock
 {
   protected $fillable = [
     'name',
+    'type_pharmacy_stock_id',
     'campus_id',
     'permission_pharmacy_stock_id',
   ];

@@ -14,6 +14,6 @@ protected $fillable = [
 	'lot',
 	'expiration_date',
 	'billing_id',
-	'product_id',
+	'billing_stock_id',
 	];
 }

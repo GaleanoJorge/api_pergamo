@@ -20,9 +20,11 @@ class AdmissionsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-
-        $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc');
-
+        if($request->admissions_id){
+            $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc')->where('id',$request->admissions_id);
+        }else{
+            $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc');
+        }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
         }
@@ -63,6 +65,7 @@ class AdmissionsController extends Controller
         $Admissions = Admissions::where('patient_id', $pacientId)
         ->with(
             'patients',
+            'briefcase',
             'campus', 
             'contract', 
             'location', 
@@ -215,7 +218,7 @@ class AdmissionsController extends Controller
 
         if ($Admissions->procedure_id) {
             $Authorization = new  Authorization;
-            $Authorization->procedure_id =  $Admissions->procedure_id;
+            $Authorization->services_briefcase_id =  $Admissions->procedure_id;
             $Authorization->admissions_id =  $Admissions->id;
             $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
             if ($validate->type_auth == 1) {

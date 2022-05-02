@@ -15,7 +15,6 @@ class CreateProductTable extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
             $table->string('name');
             $table->unsignedBigInteger('factory_id');
             $table->unsignedBigInteger('product_generic_id');
@@ -23,7 +22,7 @@ class CreateProductTable extends Migration
             $table->unsignedBigInteger('invima_status_id');
             $table->unsignedBigInteger('sanitary_registration_id');
             $table->unsignedBigInteger('storage_conditions_id');
-            $table->unsignedBigInteger('risk_id');
+            $table->unsignedBigInteger('packing_id');
             $table->string('code_cum_file');
             $table->Integer('code_cum_consecutive');
             $table->Integer('regulated_drug');
@@ -32,11 +31,17 @@ class CreateProductTable extends Migration
             $table->string('indications');
             $table->string('contraindications');
             $table->string('applications');
-            $table->Integer('minimum_stock');
-            $table->Integer('maximum_stock');
-            $table->Integer('generate_iva');
+            $table->string('value_circular');
+            $table->string('circular');
+            $table->string('unit_packing');
+            $table->string('refrigeration');
+            $table->string('useful_life');
             $table->date('date_cum');
             $table->timestamps();
+
+            $table->index('packing_id');
+            $table->foreign('packing_id')->references('id')
+                ->on('packing');
 
             $table->index('factory_id');
             $table->foreign('factory_id')->references('id')
@@ -50,9 +55,7 @@ class CreateProductTable extends Migration
             $table->index('storage_conditions_id');
             $table->foreign('storage_conditions_id')->references('id')
                 ->on('storage_conditions');
-            $table->index('risk_id');
-            $table->foreign('risk_id')->references('id')
-                ->on('risk');
+           
         });
     }
 

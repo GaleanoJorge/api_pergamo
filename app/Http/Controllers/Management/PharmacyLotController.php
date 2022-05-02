@@ -6,6 +6,7 @@ use App\Models\PharmacyLot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\PharmacyInventory;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ class PharmacyLotController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyLot = PharmacyLot::with('product', 'product.factory');
+        $PharmacyLot = PharmacyLot::with('billing_stock','billing_stock.product','billing_stock.product.factory','billing_stock.product.product_generic');
 
         if ($request->_sort) {
             $PharmacyLot->orderBy($request->_sort, $request->_order);
@@ -47,39 +48,6 @@ class PharmacyLotController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function byadmission(Request $request, int $id): JsonResponse
-    {
-        $PharmacyLot = PharmacyLot::where('admissions_id', $id);
-
-        if ($request->_sort) {
-            $PharmacyLot->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $PharmacyLot->where('status', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $PharmacyLot = $PharmacyLot->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $PharmacyLot = $PharmacyLot->paginate($per_page, '*', 'page', $page);
-        }
-
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Registro en farmacia obtenidos exitosamente',
-            'data' => ['pharmacy_lot' => $PharmacyLot]
-        ]);
-    }
 
 
     public function store(Request $request): JsonResponse
@@ -91,8 +59,14 @@ class PharmacyLotController extends Controller
         $PharmacyLot->lot = $request->lot;
         $PharmacyLot->expiration_date = $request->expiration_date;
         $PharmacyLot->billing_id = $request->billing_id;
-        $PharmacyLot->product_id = $request->product_id;
+        $PharmacyLot->billing_stock_id = $request->billing_stock_id;
         $PharmacyLot->save();
+
+        $PharmacyInventory = new PharmacyInventory();
+        $PharmacyInventory->actual_amount = $request->enter_amount;
+        $PharmacyInventory->pharmacy_stock_id = $request->pharmacy_stock_id;
+        $PharmacyInventory->pharmacy_lot_id = $PharmacyLot->id;
+        $PharmacyInventory->save();
 
         return response()->json([
             'status' => true,
@@ -134,7 +108,7 @@ class PharmacyLotController extends Controller
         $PharmacyLot->lot = $request->lot;
         $PharmacyLot->expiration_date = $request->expiration_date;
         $PharmacyLot->billing_id = $request->billing_id;
-        $PharmacyLot->product_id = $request->product_id;
+        $PharmacyLot->billing_stock_id = $request->billing_stock_id;
         $PharmacyLot->save();
 
         return response()->json([

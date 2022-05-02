@@ -995,6 +995,7 @@ class PatientController extends Controller
                 'admissions.location',
                 'admissions.contract',
                 'admissions.campus',
+                'admissions.briefcase',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
