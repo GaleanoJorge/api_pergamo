@@ -21,6 +21,7 @@ class CreateChFormulationTable extends Migration
             $table->string('medical_formula');
             $table->Integer('treatment_days');
             $table->string('outpatient_formulation')->nullable();
+            $table->string('dose');
             $table->string('observation');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

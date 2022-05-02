@@ -30,6 +30,7 @@ class ChFormulationRequest extends FormRequest
             'hourly_frequency_id' => 'required',
             'medical_formula' => 'required',
             'treatment_days' => 'required',
+            'dose' => 'required',
             'observation' => 'required',
             'type_record_id' => 'required',
             'ch_record_id' => 'required',

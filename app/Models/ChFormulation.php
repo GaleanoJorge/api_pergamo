@@ -14,6 +14,7 @@ class ChFormulation extends BaseChFormulation
     'medical_formula',
     'treatment_days',
     'outpatient_formulation',
+    'dose',
     'observation',
     'type_record_id',
     'ch_record_id',

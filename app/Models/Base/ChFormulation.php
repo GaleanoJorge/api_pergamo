@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $medical_formula
  * @property Integer $treatment_days
  * @property string $outpatient_formulation
+ * @property string $dose
  * @property string $observation
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id

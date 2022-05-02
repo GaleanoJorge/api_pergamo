@@ -110,7 +110,9 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->right_reaction = $request->right_reaction;
         $ChVitalSigns->pupil_size_right = $request->pupil_size_right;
         $ChVitalSigns->left_reaction = $request->left_reaction;
-        $ChVitalSigns->pupil_size_left = $request->pupil_size_left;
+        $ChVitalSigns->pupil_size_left = $request->pupil_size_left; 
+        $ChVitalSigns->observations_glucometry = $request->observations_glucometry; 
+        $ChVitalSigns->pupillary_assessment = $request->pupillary_assessment;
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
@@ -197,7 +199,13 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->right_reaction =  $request->right_reaction;
         $ChVitalSigns->pupil_size_right =  $request->pupil_size_right;
         $ChVitalSigns->left_reaction =  $request->left_reaction;
-        $ChVitalSigns->pupil_size_left =  $request->pupil_size_left;
+        $ChVitalSigns->mydriatic =  $request->mydriatic;
+        $ChVitalSigns->normal =  $request->normal;
+        $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
+        $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
+        $ChVitalSigns->miotic_size =  $request->miotic_size;
+        $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
+        $ChVitalSigns->pupillary_assessment = $request->pupillary_assessment;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;
