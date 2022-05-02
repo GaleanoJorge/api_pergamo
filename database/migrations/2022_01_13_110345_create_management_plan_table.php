@@ -28,6 +28,8 @@ class CreateManagementPlanTable extends Migration
             $table->string('route_of_administration')->nullable();
             $table->string('blend')->nullable();
             $table->string('administration_time')->nullable();
+            $table->string('number_doses')->nullable();
+            $table->string('observation')->nullable();
             $table->timestamps();
 
             $table->index('type_of_attention_id');

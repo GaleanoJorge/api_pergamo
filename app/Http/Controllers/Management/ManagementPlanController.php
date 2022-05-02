@@ -134,6 +134,8 @@ class ManagementPlanController extends Controller
             $ManagementPlan->route_of_administration = $request->route_of_administration;
             $ManagementPlan->blend = $request->blend;
             $ManagementPlan->administration_time = $request->administration_time;
+            $ManagementPlan->observation = $request->observation;
+            $ManagementPlan->number_doses = $request->number_doses;
         }
         $ManagementPlan->save();
 
@@ -229,7 +231,7 @@ class ManagementPlanController extends Controller
                 $now = Carbon::createFromDate($fechastartnow);
                 $finish = Carbon::createFromDate($request->finish_date)->endOfDay();
                 $i = 0;
-                while ($now < $finish) {
+                while ($i < $request->number_doses) {
                     if ($countam == 0) {
                         $now = Carbon::createFromDate($fechastartnow);
                     } else {
