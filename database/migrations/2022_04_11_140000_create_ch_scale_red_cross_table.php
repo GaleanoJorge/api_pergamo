@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleBarthelTable extends Migration
+    class CreateChScaleRedCrossTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,20 +13,10 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_red_cross', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('eat');
-                $table->number('move');
-                $table->number('cleanliness');
-                $table->number('toilet');
-                $table->number('shower');
-                $table->number('commute');
-                $table->number('stairs');
-                $table->number('dress');
-                $table->number('fecal');
-                $table->number('urine');
-                $table->string('classification');
-                $table->number('score');
+                $table->Integer('grade');
+                $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -48,6 +38,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_barthel');
+            Schema::dropIfExists('ch_scale_red_cross');
         }
     }

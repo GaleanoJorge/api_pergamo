@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleCamTable extends Migration
+    class CreateChScaleKarnofskyTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,12 +13,9 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_karnofsky', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('state_mind');
-                $table->number('attention');
-                $table->number('thought');
-                $table->number('awareness');
+                $table->Integer('score');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -40,6 +37,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_cam');
+            Schema::dropIfExists('ch_scale_karnofsky');
         }
     }

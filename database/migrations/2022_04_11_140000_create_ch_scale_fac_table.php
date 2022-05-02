@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScalePayetteTable extends Migration
+    class CreateChScaleFacTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,21 +13,10 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_fac', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('question_one');
-                $table->number('question_two');
-                $table->number('question_three');
-                $table->number('question_four');
-                $table->number('question_five');
-                $table->number('question_six');
-                $table->number('question_seven');
-                $table->number('question_eight');
-                $table->number('question_nine');
-                $table->number('question_ten');
-                $table->number('classification');
-                $table->string('risk');
-                $table->string('recommendations');
+                $table->Integer('level');
+                $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -49,6 +38,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_payette');
+            Schema::dropIfExists('ch_scale_fac');
         }
     }

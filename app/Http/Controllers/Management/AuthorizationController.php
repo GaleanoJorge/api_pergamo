@@ -62,7 +62,7 @@ class AuthorizationController extends Controller
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
-            ->leftjoin('procedure', 'authorization.procedure_id', 'procedure.id')
+            ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->select(
                 'authorization.*',
                 'briefcase.type_auth',
@@ -78,22 +78,22 @@ class AuthorizationController extends Controller
             if ($statusId == 0) {
                 $Authorization->where('auth_status_id', 3)
                     ->orwhere('auth_status_id', 4)
-                    ->with('admissions', 'identification_type', 'procedure', 'auth_status', 'residence_municipality', 'residence',);
+                    ->with('admissions', 'identification_type', 'services_briefcase', 'auth_status', 'residence_municipality', 'residence',);
             } else {
                 $Authorization->where('auth_status_id', $statusId)
-                    ->with('admissions', 'briefcase', 'identification_type', 'procedure', 'auth_status', 'residence_municipality', 'residence',);
+                    ->with('admissions', 'briefcase', 'identification_type', 'services_briefcase', 'auth_status', 'residence_municipality', 'residence',);
             }
         } else {
             if ($statusId == 0) {
                 $Authorization
-                    ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
+                    // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
                     ->where('auth_status_id', '<', 3)
-                    ->with('admissions', 'management_plan', 'identification_type', 'procedure', 'auth_status', 'residence_municipality', 'residence',);
+                    ->with('admissions', 'management_plan', 'identification_type', 'services_briefcase', 'auth_status', 'residence_municipality', 'residence',);
             } else {
                 $Authorization
-                    ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
+                    // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
                     ->where('auth_status_id', $statusId)
-                    ->with('admissions', 'identification_type', 'procedure', 'auth_status', 'residence_municipality', 'residence',);
+                    ->with('admissions', 'identification_type', 'services_briefcase', 'auth_status', 'residence_municipality', 'residence',);
             }
         }
 
@@ -140,7 +140,7 @@ class AuthorizationController extends Controller
     public function store(AuthorizationRequest $request): JsonResponse
     {
         $Authorization = new Authorization;
-        $Authorization->procedure_id =  $request->procedure_id;
+        $Authorization->services_briefcase_id =  $request->services_briefcase_id;
         $Authorization->admissions_id =  $request->id;
         $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
         if ($validate->type_auth == 1) {

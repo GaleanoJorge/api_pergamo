@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScalePfeifferTable extends Migration
+    class CreateChScalePediatricNutritionTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,20 +13,14 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pediatric_nutrition', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->boolean('study');
-                $table->number('question_one');
-                $table->number('question_two');
-                $table->number('question_three');
-                $table->number('question_four');
-                $table->number('question_five');
-                $table->number('question_six');
-                $table->number('question_seven');
-                $table->number('question_eight');
-                $table->number('question_nine');
-                $table->number('question_ten');
-                $table->number('total');
+                $table->Integer('score_one');
+                $table->Integer('score_two');
+                $table->Integer('score_three');
+                $table->Integer('score_four');
+                $table->string('total');
+                $table->string('risk');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
@@ -49,6 +43,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_pfeiffer');
+            Schema::dropIfExists('ch_scale_pediatric_nutrition');
         }
     }

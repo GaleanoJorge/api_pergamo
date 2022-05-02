@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleEsasTable extends Migration
+    class CreateChScalePapTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,19 +13,16 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pap', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('pain');
-                $table->number('tiredness');
-                $table->number('retching');
-                $table->number('depression');
-                $table->number('anxiety');
-                $table->number('drowsiness');
-                $table->number('appetite');
-                $table->number('breathing');
-                $table->number('welfare');
-                $table->number('sleep');
-                $table->string('observation');
+                $table->Integer('variable_one');
+                $table->Integer('variable_two');
+                $table->Integer('variable_three');
+                $table->Integer('variable_four');
+                $table->Integer('variable_five');
+                $table->Integer('variable_six');
+                $table->Integer('total');
+                $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -47,6 +44,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_esas');
+            Schema::dropIfExists('ch_scale_pap');
         }
     }

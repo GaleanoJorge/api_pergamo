@@ -510,6 +510,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Contratos
     Route::apiResource('contract', 'Management\ContractController');
+    Route::get('contractByCompany/{id}', 'Management\ContractController@byCompany');
 
     //Tipos de Contratos
     Route::apiResource('type_contract', 'Management\TypeContractController');

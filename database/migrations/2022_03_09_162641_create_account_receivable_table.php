@@ -15,10 +15,10 @@ class CreateAccountReceivableTable extends Migration
     {
         Schema::create('account_receivable', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('file_payment');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('status_bill_id');
-            $table->double('total_value_activities');
+            $table->string('file_payment')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('status_bill_id')->nullable();
+            $table->double('total_value_activities')->nullable();
             $table->timestamps();
 
             $table->index('user_id');

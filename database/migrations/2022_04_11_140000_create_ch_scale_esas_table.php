@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleGlasgowTable extends Migration
+    class CreateChScaleEsasTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,12 +13,19 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_esas', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('ocular');
-                $table->number('verbal');
-                $table->number('motor');
-                $table->number('total');
+                $table->Integer('pain');
+                $table->Integer('tiredness');
+                $table->Integer('retching');
+                $table->Integer('depression');
+                $table->Integer('anxiety');
+                $table->Integer('drowsiness');
+                $table->Integer('appetite');
+                $table->Integer('breathing');
+                $table->Integer('welfare');
+                $table->Integer('sleep');
+                $table->string('observation');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -40,6 +47,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_glasgow');
+            Schema::dropIfExists('ch_scale_esas');
         }
     }

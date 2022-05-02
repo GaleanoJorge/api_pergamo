@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleFlaccTable extends Migration
+    class CreateChScalePainTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,15 +13,10 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_pain', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('face');
-                $table->number('legs');
-                $table->number('activity');
-                $table->number('crying');
-                $table->number('comfort');
-                $table->number('total');
-                $table->string('classification');
+                $table->Integer('range');
+                $table->string('detail');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -29,7 +24,7 @@
                 $table->index('type_record_id');
                 $table->foreign('type_record_id')->references('id')
                     ->on('type_record');
-    
+
                 $table->index('ch_record_id');
                 $table->foreign('ch_record_id')->references('id')
                     ->on('ch_record');
@@ -43,6 +38,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_flacc');
+            Schema::dropIfExists('ch_scale_pain');
         }
     }

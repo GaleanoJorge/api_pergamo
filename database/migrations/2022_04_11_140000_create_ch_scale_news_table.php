@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleFacTable extends Migration
+    class CreateChScaleNewsTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,10 +13,19 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_news', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('level');
-                $table->string('definition');
+                $table->Integer('parameter_one');
+                $table->Integer('parameter_two');
+                $table->Integer('parameter_three');
+                $table->Integer('parameter_four');
+                $table->Integer('parameter_five');
+                $table->Integer('parameter_six');
+                $table->Integer('parameter_seven');
+                $table->Integer('parameter_eight');
+                $table->Integer('qualification');
+                $table->string('risk');
+                $table->string('response');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -38,6 +47,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_fac');
+            Schema::dropIfExists('ch_scale_news');
         }
     }

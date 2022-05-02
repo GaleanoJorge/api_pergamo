@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleKarnofskyTable extends Migration
+    class CreateChScaleFlaccTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,9 +13,15 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_flacc', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('score');
+                $table->Integer('face');
+                $table->Integer('legs');
+                $table->Integer('activity');
+                $table->Integer('crying');
+                $table->Integer('comfort');
+                $table->Integer('total');
+                $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -37,6 +43,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_karnofsky');
+            Schema::dropIfExists('ch_scale_flacc');
         }
     }

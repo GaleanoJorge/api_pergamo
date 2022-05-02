@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleRedCrossTable extends Migration
+    class CreateChScaleGlasgowTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,10 +13,12 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_glasgow', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('grade');
-                $table->string('definition');
+                $table->Integer('ocular');
+                $table->Integer('verbal');
+                $table->Integer('motor');
+                $table->Integer('total');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -38,6 +40,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_red_cross');
+            Schema::dropIfExists('ch_scale_glasgow');
         }
     }

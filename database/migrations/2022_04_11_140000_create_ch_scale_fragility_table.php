@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleNortonTable extends Migration
+    class CreateChScaleFragilityTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,15 +13,16 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_fragility', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('physical_state');
-                $table->number('state_mind');
-                $table->number('mobility');
-                $table->number('activity');
-                $table->number('incontinence');
-                $table->number('total');
-                $table->string('risk');
+                $table->Integer('question_one');
+                $table->Integer('question_two');
+                $table->Integer('question_three');
+                $table->Integer('question_four');
+                $table->Integer('question_five');
+                $table->Integer('question_six');
+                $table->Integer('total');
+                $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -43,6 +44,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_norton');
+            Schema::dropIfExists('ch_scale_fragility');
         }
     }

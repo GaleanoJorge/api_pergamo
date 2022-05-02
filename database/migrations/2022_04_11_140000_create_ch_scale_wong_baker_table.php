@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScalePainTable extends Migration
+    class CreateChScaleWongBakerTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,10 +13,10 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_wong_baker', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('range');
-                $table->string('detail');
+                $table->Integer('pain');
+                $table->string('range');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -38,6 +38,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_pain');
+            Schema::dropIfExists('ch_scale_wong_baker');
         }
     }

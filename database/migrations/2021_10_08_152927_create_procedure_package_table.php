@@ -19,6 +19,9 @@ class CreateProcedurePackageTable extends Migration
             $table->unsignedBigInteger('procedure_package_id');
             $table->unsignedBigInteger('procedure_id');
             $table->unsignedBigInteger('price_type_id')->nullable();
+            $table->unsignedBigInteger('max_quantity')->nullable();
+            $table->unsignedBigInteger('min_quantity')->nullable();
+            $table->boolean('dynamic_charge')->nullable();
             $table->timestamps();
 
             $table->index('procedure_package_id');

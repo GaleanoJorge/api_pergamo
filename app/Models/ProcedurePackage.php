@@ -12,5 +12,8 @@ class ProcedurePackage extends BaseProcedurePackage
 		'manual_price_id',
 		'procedure_package_id',
 		'procedure_id',
+		'max_quantity',
+		'min_quantity',
+		'dynamic_charge',
 	];
 }

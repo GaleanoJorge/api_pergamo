@@ -18,7 +18,7 @@ class CreateManagementPlanTable extends Migration
             $table->unsignedTinyInteger('type_of_attention_id');
             $table->unsignedTinyInteger('frequency_id')->nullable();
             $table->Integer('quantity');
-            $table->unsignedBigInteger('special_field_id')->nullable();
+            $table->unsignedBigInteger('specialty_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('procedure_id');
             $table->unsignedBigInteger('product_id')->nullable();
@@ -32,7 +32,7 @@ class CreateManagementPlanTable extends Migration
 
             $table->index('type_of_attention_id');
             $table->index('frequency_id');
-            $table->index('special_field_id');
+            $table->index('specialty_id');
             $table->index('admissions_id');
             $table->index('assigned_user_id');
             $table->index('procedure_id');
@@ -43,8 +43,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('type_of_attention');
             $table->foreign('frequency_id')->references('id')
                 ->on('frequency');
-            $table->foreign('special_field_id')->references('id')
-                ->on('special_field');
+            $table->foreign('specialty_id')->references('id')
+                ->on('specialty');
             $table->foreign('admissions_id')->references('id')
                 ->on('admissions');
             $table->foreign('assigned_user_id')->references('id')
@@ -53,8 +53,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('services_briefcase');
                 $table->foreign('procedure_id')->references('id')
                 ->on('services_briefcase');
-            $table->foreign('authorization_id')->references('id')
-                ->on('authorization');
+            // $table->foreign('authorization_id')->references('id')
+            //     ->on('authorization');
         });
     }
 

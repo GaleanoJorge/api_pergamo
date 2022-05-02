@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleWongBakerTable extends Migration
+    class CreateChScaleBarthelTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,10 +13,20 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_barthel', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('pain');
-                $table->string('range');
+                $table->Integer('eat');
+                $table->Integer('move');
+                $table->Integer('cleanliness');
+                $table->Integer('toilet');
+                $table->Integer('shower');
+                $table->Integer('commute');
+                $table->Integer('stairs');
+                $table->Integer('dress');
+                $table->Integer('fecal');
+                $table->Integer('urine');
+                $table->string('classification');
+                $table->Integer('score');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -24,7 +34,7 @@
                 $table->index('type_record_id');
                 $table->foreign('type_record_id')->references('id')
                     ->on('type_record');
-
+    
                 $table->index('ch_record_id');
                 $table->foreign('ch_record_id')->references('id')
                     ->on('ch_record');
@@ -38,6 +48,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_wong_baker');
+            Schema::dropIfExists('ch_scale_barthel');
         }
     }

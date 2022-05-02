@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScalePpiTable extends Migration
+    class CreateChScaleCamTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,15 +13,12 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_cam', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('pps');
-                $table->number('oral');
-                $table->number('edema');
-                $table->number('dyspnoea');
-                $table->number('delirium');
-                $table->number('total');
-                $table->string('classification');
+                $table->Integer('state_mind');
+                $table->Integer('attention');
+                $table->Integer('thought');
+                $table->Integer('awareness');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -43,6 +40,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_ppi');
+            Schema::dropIfExists('ch_scale_cam');
         }
     }

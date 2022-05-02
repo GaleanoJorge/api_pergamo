@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleFragilityTable extends Migration
+    class CreateChScaleEcogTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,16 +13,10 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_ecog', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('question_one');
-                $table->number('question_two');
-                $table->number('question_three');
-                $table->number('question_four');
-                $table->number('question_five');
-                $table->number('question_six');
-                $table->number('total');
-                $table->string('classification');
+                $table->Integer('grade');
+                $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -44,6 +38,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_fragility');
+            Schema::dropIfExists('ch_scale_ecog');
         }
     }

@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScalePediatricNutritionTable extends Migration
+    class CreateChScalePayetteTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,15 +13,21 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_payette', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('score_one');
-                $table->number('score_two');
-                $table->number('score_three');
-                $table->number('score_four');
-                $table->string('total');
+                $table->Integer('question_one');
+                $table->Integer('question_two');
+                $table->Integer('question_three');
+                $table->Integer('question_four');
+                $table->Integer('question_five');
+                $table->Integer('question_six');
+                $table->Integer('question_seven');
+                $table->Integer('question_eight');
+                $table->Integer('question_nine');
+                $table->Integer('question_ten');
+                $table->Integer('classification');
                 $table->string('risk');
-                $table->string('classification');
+                $table->string('recommendations');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -43,6 +49,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_pediatric_nutrition');
+            Schema::dropIfExists('ch_scale_payette');
         }
     }

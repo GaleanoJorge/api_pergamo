@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleNewsTable extends Migration
+    class CreateChScalePpiTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,19 +13,15 @@
          */
         public function up()
         {
-            Schema::create('', function (Blueprint $table) {
+            Schema::create('ch_scale_ppi', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->number('parameter_one');
-                $table->number('parameter_two');
-                $table->number('parameter_three');
-                $table->number('parameter_four');
-                $table->number('parameter_five');
-                $table->number('parameter_six');
-                $table->number('parameter_seven');
-                $table->number('parameter_eight');
-                $table->number('qualification');
-                $table->string('risk');
-                $table->string('response');
+                $table->Integer('pps');
+                $table->Integer('oral');
+                $table->Integer('edema');
+                $table->Integer('dyspnoea');
+                $table->Integer('delirium');
+                $table->Integer('total');
+                $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
@@ -47,6 +43,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_news');
+            Schema::dropIfExists('ch_scale_ppi');
         }
     }
