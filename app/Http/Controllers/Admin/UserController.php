@@ -392,6 +392,8 @@ class UserController extends Controller
                                 )->orderBy('nombre_completo', 'DESC')->groupBy('id');
     
                             $usersfinal = $usersfinal->get()->toArray();
+                        } else {
+                            $usersfinal = array();
                         }
                     }
                     
