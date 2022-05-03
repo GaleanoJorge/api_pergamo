@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $commute
  * @property int $stairs
  * @property int $dress
- * @property int $stool
+ * @property int $fecal
  * @property int $urine
  * @property string $classification 	
  * @property int $score 	

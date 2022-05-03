@@ -32,7 +32,7 @@ class ChScaleBarthelRequest extends FormRequest
             'commute' => '',
             'stairs' => '',
             'dress' => '',
-            'stool' => '',
+            'fecal' => '',
             'urine' => '',
             'classification' => '',
             'score' => '',

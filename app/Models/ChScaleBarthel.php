@@ -16,7 +16,7 @@ class ChScaleBarthel extends BaseChScaleBarthel
     'commute',
     'stairs',
     'dress',
-    'stool',
+    'fecal',
     'urine',
     'classification',
     'score',
