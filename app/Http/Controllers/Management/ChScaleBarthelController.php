@@ -40,7 +40,7 @@ class ChScaleBarthelController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Barthel obtenida exitosamente',
             'data' => ['ch_scale_barthel' => $ChScaleBarthel]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleBarthelController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Barthel obtenida exitosamente',
             'data' => ['ch_scale_barthel' => $ChScaleBarthel]
         ]);
     }
@@ -78,7 +78,7 @@ class ChScaleBarthelController extends Controller
         $ChScaleBarthel->shower= $request->cleanliness;
         $ChScaleBarthel->stairs= $request->stairs;
         $ChScaleBarthel->dress= $request->dress;
-        $ChScaleBarthel->stool= $request->stool;
+        $ChScaleBarthel->fecal= $request->fecal;
         $ChScaleBarthel->urine= $request->urine;
         $ChScaleBarthel->classification= $request->classification;
         $ChScaleBarthel->score= $request->score;
@@ -88,7 +88,7 @@ class ChScaleBarthelController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Berthel asociada al paciente exitosamente',
             'data' => ['ch_scale_barthel' => $ChScaleBarthel->toArray()]
         ]);
     }
@@ -107,7 +107,7 @@ class ChScaleBarthelController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escalas Barthel obtenida exitosamente',
             'data' => ['ch_scale_barthel' => $ChScaleBarthel]
         ]);
     }
@@ -130,7 +130,7 @@ class ChScaleBarthelController extends Controller
         $ChScaleBarthel->shower= $request->cleanliness;
         $ChScaleBarthel->stairs= $request->stairs;
         $ChScaleBarthel->dress= $request->dress;
-        $ChScaleBarthel->stool= $request->stool;
+        $ChScaleBarthel->fecal= $request->fecal;
         $ChScaleBarthel->urine= $request->urine;
         $ChScaleBarthel->classification= $request->classification;
         $ChScaleBarthel->score= $request->score;
@@ -140,7 +140,7 @@ class ChScaleBarthelController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escalas Barhel actualizada exitosamente',
             'data' => ['ch_scale_barthel' => $ChScaleBarthel]
         ]);
     }
@@ -160,12 +160,12 @@ class ChScaleBarthelController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Barthel eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Berthel en uso, no es posible eliminarla'
             ], 423);
         }
     }

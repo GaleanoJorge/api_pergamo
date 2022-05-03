@@ -34,6 +34,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Group
     Route::apiResource('group', 'Management\GroupController');
 
+    //scales
+    Route::apiResource('chScaleNorton', 'Management\ChScaleNortonController');
+    Route::apiResource('chScaleGlasgow', 'Management\ChScaleGlasgowController');
+    Route::apiResource('chScaleBarthel', 'Management\ChScaleBarthelController');
+    Route::apiResource('chScalePayette', 'Management\ChScalePayetteController');
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 

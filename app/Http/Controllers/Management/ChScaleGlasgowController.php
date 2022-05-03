@@ -40,7 +40,7 @@ class ChScaleGlasgowController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Glasgow obtenida exitosamente',
             'data' => ['ch_scale_glasgow' => $ChScaleGlasgow]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleGlasgowController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Glasgow obtenida exitosamente',
             'data' => ['ch_scale_glasgow' => $ChScaleGlasgow]
         ]);
     }
@@ -79,7 +79,7 @@ class ChScaleGlasgowController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Glasgow asociada al paciente exitosamente',
             'data' => ['ch_scale_glasgow' => $ChScaleGlasgow->toArray()]
         ]);
     }
@@ -98,7 +98,7 @@ class ChScaleGlasgowController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Glasgow obtenida exitosamente',
             'data' => ['ch_scale_glasgow' => $ChScaleGlasgow]
         ]);
     }
@@ -122,7 +122,7 @@ class ChScaleGlasgowController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escalas actualizada exitosamente',
             'data' => ['ch_scale_glasgow' => $ChScaleGlasgow]
         ]);
     }
@@ -142,12 +142,12 @@ class ChScaleGlasgowController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escalas eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escalas en uso, no es posible eliminarla'
             ], 423);
         }
     }

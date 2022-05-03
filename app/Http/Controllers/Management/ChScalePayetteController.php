@@ -40,7 +40,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala payette obtenida exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala payette obtenida exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -88,7 +88,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Payette asociada al paciente exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette->toArray()]
         ]);
     }
@@ -107,7 +107,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Payette obtenido exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -140,7 +140,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Payette actualizada exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -160,12 +160,12 @@ class ChScalePayetteController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Payette eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Payette en uso, no es posible eliminarlo'
             ], 423);
         }
     }
