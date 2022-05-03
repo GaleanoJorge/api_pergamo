@@ -166,5 +166,17 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(AssistanceSessionSeeder::class);
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
+
+                //Semillas De Pruebas
+                $this->call(ContractStatusSeeder::class);
+                $this->call(CoverageSeeder::class);
+                $this->call(FirmsSeeder::class);
+                $this->call(InsuranceCarrierSeeder::class);
+                $this->call(ModalitySeeder::class);
+                $this->call(TypeBriefcaseSeeder::class);
+                $this->call(PolicyTypeSeeder::class);
+                
+
+
         }
 }

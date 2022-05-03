@@ -924,6 +924,23 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_failure_method_gyneco', 'Management\ChFailureMethodGynecoController');
     Route::apiResource('ch_method_planning_gyneco', 'Management\ChMethodPlanningGynecoController');
 
+    //Evolución 
+    Route::apiResource('ch_evo_soap', 'Management\ChEvoSoapController');
+    Route::get('ch_evo_soap/by_record/{id}/{type_record_id}', 'Management\ChEvoSoapController@getByRecord');
+    Route::get('ch_vital_signs/by_record/{id}/{type_record_id}', 'Management\ChVitalSignsController@byrecord');
+    Route::get('ch_diagnosis/by_record/{id}/{type_record_id}', 'Management\ChDiagnosisController@getByRecord');
+
+    Route::apiResource('ch_diets_evo', 'Management\ChDietsEvoController');
+    Route::get('ch_diets_evo/by_record/{id}/{type_record_id}', 'Management\ChDietsEvoController@getByRecord');
+
+    Route::apiResource('ch_recommendations_evo', 'Management\ChRecommendationsEvoController');
+    Route::apiResource('recommendations_evo', 'Management\RecommendationsEvoController');
+    Route::get('ch_recommendations_evo/by_record/{id}/{type_record_id}', 'Management\ChRecommendationsEvoController@getByRecord');
+    
+    Route::apiResource('ch_formulation', 'Management\ChFormulationController');
+    Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
+    Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
+
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');
 

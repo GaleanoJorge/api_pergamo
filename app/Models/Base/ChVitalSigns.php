@@ -45,6 +45,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $pupil_size_right
  * @property string $left_reaction
  * @property string $pupil_size_left
+ * @property string $mydriatic
+ * @property string $normal
+ * @property string $lazy_reaction_light
+ * @property string $fixed_lazy_reaction
+ * @property string $miotic_size
+ * @property string $observations_glucometry
  * @property BigInteger $ch_vital_hydration_id
  * @property BigInteger $ch_vital_ventilated_id
  * @property BigInteger $ch_vital_temperature_id

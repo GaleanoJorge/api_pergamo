@@ -27,15 +27,15 @@ class UserRoleSeeder extends Seeder
             $userId = null;
             //Obtener ID generado apartir del ID del sistema anterior "sga_origin_fk"
             print_r($row);
-            if ($row->user_id != null) {
-                $user = User::where([
-                    ['sga_origin_fk', $row->user_id]
-                ])->get();
+//          if ($row->user_id != null) {
+//                $user = User::where([
+//                    ['sga_origin_fk', $row->user_id]
+//                ])->get();
 
-                if ($user->count()) {
-                    $userId = $user->first()->id;
-                }
-            }
+ //               if ($user->count()) {
+   //                 $userId = $user->first()->id;
+  //              }
+  //          }
             //Verifica que el existe el user Id
             if (isset($userId)) {
                 $arrData[] = [
