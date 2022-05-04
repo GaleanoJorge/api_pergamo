@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleRedCrossTable extends Migration
+    class CreateChScaleJhDowtonTable extends Migration
     {
         /**
          * Run the migrations.
