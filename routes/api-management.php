@@ -1100,5 +1100,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Registro de autorizaciones.
     Route::apiResource('auth_log', 'Management\AuthLogController');
 
+    //Retenciones
+    Route::apiResource('source_retention', 'Management\SourceRetentionController');
+    Route::apiResource('source_retention_type', 'Management\SourceRetentionTypeController');
+    Route::apiResource('tax_value_unit', 'Management/TaxValueUnitController');
+    Route::get('tax_value_unit/get_latest_tax_value_unit', 'Management\TaxValueUnitController@getLatestTaxValueUnit');
+    Route::apiResource('minimum_salary', 'Management/MinimumSalaryController');
 
 });
