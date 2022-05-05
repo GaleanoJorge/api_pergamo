@@ -39,7 +39,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Hamilton obtenido exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Hamilton obtenido exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -94,7 +94,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Hamilton asociada al paciente exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton->toArray()]
         ]);
     }
@@ -113,7 +113,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Hamilton obtenida exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -153,7 +153,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Hamilton actualizada exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -173,12 +173,12 @@ class ChScaleHamiltonController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Hamilton eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Hamilton en uso, no es posible eliminarla'
             ], 423);
         }
     }

@@ -40,7 +40,7 @@ class ChScaleKarnofskyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Karnofsky obtenida exitosamente',
             'data' => ['ch_scale_karnofsky' => $ChScaleKarnofsky]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleKarnofskyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Karnofsky obtenida exitosamente',
             'data' => ['ch_scale_karnofsky' => $ChScaleKarnofsky]
         ]);
     }
@@ -76,7 +76,7 @@ class ChScaleKarnofskyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Karnofsky asociada al paciente exitosamente',
             'data' => ['ch_scale_karnofsky' => $ChScaleKarnofsky->toArray()]
         ]);
     }
@@ -95,7 +95,7 @@ class ChScaleKarnofskyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Karnofsky obtenida exitosamente',
             'data' => ['ch_scale_karnofsky' => $ChScaleKarnofsky]
         ]);
     }
@@ -116,7 +116,7 @@ class ChScaleKarnofskyController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Karnofsky actualizada exitosamente',
             'data' => ['ch_scale_karnofsky' => $ChScaleKarnofsky]
         ]);
     }
@@ -136,12 +136,12 @@ class ChScaleKarnofskyController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Karnofsky eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Karnofsky en uso, no es posible eliminarla'
             ], 423);
         }
     }

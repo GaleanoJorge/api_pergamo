@@ -40,7 +40,7 @@ class ChScaleFacController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala FAC obtenida exitosamente',
             'data' => ['ch_scale_fac' => $ChScaleFac]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleFacController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala FAC obtenida exitosamente',
             'data' => ['ch_scale_fac' => $ChScaleFac]
         ]);
     }
@@ -77,7 +77,7 @@ class ChScaleFacController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala FAC asociada al paciente exitosamente',
             'data' => ['ch_scale_fac' => $ChScaleFac->toArray()]
         ]);
     }
@@ -96,7 +96,7 @@ class ChScaleFacController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala FAC obtenida exitosamente',
             'data' => ['ch_scale_fac' => $ChScaleFac]
         ]);
     }
@@ -118,7 +118,7 @@ class ChScaleFacController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala FAC actualizada exitosamente',
             'data' => ['ch_scale_fac' => $ChScaleFac]
         ]);
     }
@@ -138,12 +138,12 @@ class ChScaleFacController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala FAC eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala FAC en uso, no es posible eliminarla'
             ], 423);
         }
     }

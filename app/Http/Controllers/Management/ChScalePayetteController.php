@@ -61,7 +61,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escala payette obtenida exitosamente',
+            'message' => 'Escala Payette obtenida exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -107,7 +107,7 @@ class ChScalePayetteController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escala Payette obtenido exitosamente',
+            'message' => 'Escala Payette obtenida exitosamente',
             'data' => ['ch_scale_payette' => $ChScalePayette]
         ]);
     }
@@ -165,7 +165,7 @@ class ChScalePayetteController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escala Payette en uso, no es posible eliminarlo'
+                'message' => 'Escala Payette en uso, no es posible eliminarla'
             ], 423);
         }
     }

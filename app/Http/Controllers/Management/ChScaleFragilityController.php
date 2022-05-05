@@ -40,7 +40,7 @@ class ChScaleFragilityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Fragilidad obtenida exitosamente',
             'data' => ['ch_scale_fragility' => $ChScaleFragility]
         ]);
     }
@@ -83,7 +83,7 @@ class ChScaleFragilityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Fragilidad asociada al paciente exitosamente',
             'data' => ['ch_scale_fragility' => $ChScaleFragility->toArray()]
         ]);
     }
@@ -102,7 +102,7 @@ class ChScaleFragilityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Fragilidad obtenida exitosamente',
             'data' => ['ch_scale_fragility' => $ChScaleFragility]
         ]);
     }
@@ -130,7 +130,7 @@ class ChScaleFragilityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Fragilidad actualizada exitosamente',
             'data' => ['ch_scale_fragility' => $ChScaleFragility]
         ]);
     }
@@ -150,12 +150,12 @@ class ChScaleFragilityController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Fragilidad eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escalas Fragilidad en uso, no es posible eliminarla'
             ], 423);
         }
     }
