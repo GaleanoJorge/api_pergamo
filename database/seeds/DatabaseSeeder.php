@@ -143,6 +143,12 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(TypePharmacyStockSeeder::class);
                 $this->call(PackingSeeder::class);
+                
+                
+                // retenciones en la fuente
+                $this->call(TaxValueUnitSeeder::class);
+                $this->call(MinimumSalarySeeder::class);
+                $this->call(SourceRetentionTypeSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
