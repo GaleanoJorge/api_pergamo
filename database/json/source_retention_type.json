@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Pago intereses de vivienda o Costo Financiero Leasing Habitacional.",
+        "value": 100,
+        "tax_value_unit_id": 1
+    },
+    {
+        "name": "Pagos por dependientes.",
+        "value": 32,
+        "tax_value_unit_id": 1
+    },
+    {
+        "name": "Pagos Por Salud medicina prepagada.",
+        "value": 16,
+        "tax_value_unit_id": 1
+    },
+    {
+        "name": "Aportes a Fondo de pensiones voluntarias.",
+        "value": 3800,
+        "tax_value_unit_id": 1
+    },
+    {
+        "name": "Aportes a cuentas AFC.",
+        "value": 3800,
+        "tax_value_unit_id": 1
+    }
+]
