@@ -41,17 +41,9 @@ class AccountReceivable extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function gloss_ambit()
-    {
-        return $this->belongsTo(GlossAmbit::class);
-    }
 	public function status_bill()
     {
         return $this->belongsTo(StatusBill::class);
-    }
-	public function campus()
-    {
-        return $this->belongsTo(Campus::class);
     }
 	public function minimum_salary()
     {

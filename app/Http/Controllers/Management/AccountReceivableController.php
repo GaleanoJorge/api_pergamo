@@ -23,7 +23,7 @@ class AccountReceivableController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user', 'status_bill', 'campus', 'minimum_salary');
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary');
 
         if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
@@ -67,11 +67,10 @@ class AccountReceivableController extends Controller
     public function getByUser(Request $request, int $user_id): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user', 'status_bill', 'campus', 'minimum_salary')
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
             ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'))
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', '=', 'account_receivable.id')
-            ->groupBy('account_receivable.id')
-        ;
+            ->groupBy('account_receivable.id');
 
         if ($user_id != 0) {
             $AccountReceivable->where('user_id', $user_id);
@@ -112,10 +111,7 @@ class AccountReceivableController extends Controller
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
-        $AccountReceivable->campus_id = $request->campus_id;
-        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->minimum_salary_id = MinimumSalary::select()->orderBy('year', 'desc')->first();
         $AccountReceivable->save();
 
@@ -157,10 +153,8 @@ class AccountReceivableController extends Controller
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
-        $AccountReceivable->campus_id = $request->campus_id;
-        $AccountReceivable->observation = $request->observation;
+        $AccountReceivable->minimum_salary_id = $request->minimum_salary_id;
         $AccountReceivable->save();
 
         return response()->json([

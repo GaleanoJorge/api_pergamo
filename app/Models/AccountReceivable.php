@@ -9,9 +9,10 @@ class AccountReceivable extends BaseAccountReceivable
 {
     protected $fillable = [
       'file_payment',
-      'user_id',
-      'status_bill_id',
       'gross_value_activities',
       'net_value_activities',
+      'user_id',
+      'status_bill_id',
+      'minimum_salary_id',
 	];
 }

@@ -25,10 +25,11 @@ class AccountReceivableRequest extends FormRequest
     {
         return [
             'file_payment' => '',
-            'user_id' => 'required',
-            'gloss_ambit_id' => 'required',
+            'gross_value_activities' => '',
+            'net_value_activities' => '',
+            'user_id' => '',
             'status_bill_id' => '',
-            'observation' => '',
+            'minimum_salary_id' => '',
             
  
            
