@@ -16,6 +16,7 @@ class CreateSourceRetentionTypeTable extends Migration
         Schema::create('source_retention_type', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('type');
             $table->double('value');
             $table->unsignedBigInteger('tax_value_unit_id');
             $table->timestamps();

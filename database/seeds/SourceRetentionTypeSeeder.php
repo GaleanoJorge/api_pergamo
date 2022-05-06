@@ -18,6 +18,7 @@ class SourceRetentionTypeSeeder extends Seeder
             SourceRetentionType::create([
                 'value' => $row->value,
                 'name' => $row->name,
+                'type' => $row->type,
                 'tax_value_unit_id' => $row->tax_value_unit_id,
             ]);
         }

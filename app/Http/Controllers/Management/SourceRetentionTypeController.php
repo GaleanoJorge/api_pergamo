@@ -51,6 +51,7 @@ class SourceRetentionTypeController extends Controller
         $SourceRetentionType = new SourceRetentionType;
         $SourceRetentionType->name = $request->name;   
         $SourceRetentionType->value = $request->value;
+        $SourceRetentionType->type = $request->type;
         $SourceRetentionType->tax_value_unit_id = TaxValueUnit::select()->where('year', Carbon::now()->year)->first()->id;
 
         $SourceRetentionType->save();
@@ -92,6 +93,7 @@ class SourceRetentionTypeController extends Controller
         $SourceRetentionType = SourceRetentionType ::find($id);
         $SourceRetentionType->name = $request->name;   
         $SourceRetentionType->value = $request->value;
+        $SourceRetentionType->type = $request->type;
         
         $SourceRetentionType->save();
 

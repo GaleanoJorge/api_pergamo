@@ -2,26 +2,37 @@
     {
         "name": "Pago intereses de vivienda o Costo Financiero Leasing Habitacional.",
         "value": 100,
+        "type": "Deducción",
         "tax_value_unit_id": 1
     },
     {
         "name": "Pagos por dependientes.",
         "value": 32,
+        "type": "Deducción",
         "tax_value_unit_id": 1
     },
     {
         "name": "Pagos Por Salud medicina prepagada.",
         "value": 16,
+        "type": "Deducción",
         "tax_value_unit_id": 1
     },
     {
         "name": "Aportes a Fondo de pensiones voluntarias.",
         "value": 3800,
+        "type": "Renta",
         "tax_value_unit_id": 1
     },
     {
         "name": "Aportes a cuentas AFC.",
         "value": 3800,
+        "type": "Renta",
+        "tax_value_unit_id": 1
+    },
+    {
+        "name": "Otras rentas exentas.",
+        "value": -1,
+        "type": "Renta",
         "tax_value_unit_id": 1
     }
 ]

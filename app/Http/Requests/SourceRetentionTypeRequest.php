@@ -27,6 +27,7 @@ class SourceRetentionTypeRequest extends FormRequest
             //
             'name' => 'required',
             'value' => 'required',
+            'type' => 'required',
             
             
 

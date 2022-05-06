@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
+ * @property string $type
  * @property double $value
  * @property unsignedBigInteger $tax_value_unit_id
  * @property Carbon $created_at
