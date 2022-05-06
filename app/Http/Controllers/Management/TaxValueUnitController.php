@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaxValueUnitRequest;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class TaxValueUnitController extends Controller
 {
@@ -45,9 +46,10 @@ class TaxValueUnitController extends Controller
         ]);
     }
 
-    public function getLatestTaxValueUnit(): JsonResponse
+    public function getLatestTaxValueUnit(Request $request, int $id): JsonResponse
     {
-        $TaxValueUnit = TaxValueUnit::select()->orderBy('year', 'desc')->first();
+        $year = Carbon::now()->year;
+        $TaxValueUnit = TaxValueUnit::select()->where('year', $year)->first();
 
         return response()->json([
             'status' => true,
