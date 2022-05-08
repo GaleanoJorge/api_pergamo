@@ -1102,6 +1102,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Retenciones
     Route::apiResource('source_retention', 'Management\SourceRetentionController');
+    Route::get('source_retention/get_by_account_receivable_id/{account_receivable_id}', 'Management\SourceRetentionController@getByAccountReceivableId');
     Route::apiResource('source_retention_type', 'Management\SourceRetentionTypeController');
     Route::apiResource('tax_value_unit', 'Management\TaxValueUnitController');
     Route::get('tax_value_unit/get_latest_tax_value_unit/{prueba_id}', 'Management\TaxValueUnitController@getLatestTaxValueUnit');
