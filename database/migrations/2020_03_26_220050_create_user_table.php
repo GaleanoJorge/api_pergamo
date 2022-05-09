@@ -41,9 +41,9 @@ class CreateUserTable extends Migration
             $table->boolean('force_reset_password')->unsigned()->default('0');
             $table->integer('sga_origin_fk')->nullable();
             $table->unsignedBigInteger('birthplace_country_id')->nullable();
-            $table->unsignedsmallInteger('birthplace_region_id')->nullable();
+            $table->unsignedBigInteger('birthplace_region_id')->nullable();
             $table->string('residence_address')->nullable();
-            $table->unsignedsmallInteger('residence_region_id')->nullable();
+            $table->unsignedBigInteger('residence_region_id')->nullable();
             $table->unsignedBigInteger('residence_municipality_id')->nullable();
             $table->unsignedBigInteger('residence_country_id')->nullable();
             $table->unsignedBigInteger('study_level_status_id')->nullable();

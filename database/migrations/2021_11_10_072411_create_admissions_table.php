@@ -16,7 +16,7 @@ class CreateAdmissionsTable extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->Integer('consecutive');
-            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('diagnosis_id');
             $table->unsignedBigInteger('briefcase_id');
