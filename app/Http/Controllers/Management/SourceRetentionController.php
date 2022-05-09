@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\SourceRetentionRequest;
 use App\Models\AccountReceivable;
+use App\Models\MunicipalityIca;
 use App\Models\TaxValueUnit;
+use App\Models\UserCampus;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -70,6 +72,15 @@ class SourceRetentionController extends Controller
             ->groupBy('account_receivable.id')
             ->first()
             ->toArray();
+        $UserCampus = UserCampus::select()
+            ->with('campus', 'campus.region', 'campus.municipality')
+            ->where('user_id', $AccountReceivable['user_id'])->first()->toArray();
+        $ReteicaValue = 0;
+        $MuniciipalityIca = MunicipalityIca::select()
+            ->where('municipality_id', $UserCampus['campus']['municipality_id'])->first();
+        if ($MuniciipalityIca) {
+            $ReteicaValue = $MuniciipalityIca->value;
+        }
         $SourceRetention = SourceRetention::select()
             ->with('account_receivable', 'source_retention_type', 'source_retention_type.tax_value_unit')
             ->where('account_receivable_id', $account_receivable_id)->get()->toArray();
@@ -98,6 +109,7 @@ class SourceRetentionController extends Controller
         $Ingreso_Base = 0;
         $Ingreso_laboral_gravado_en_UVT = 0;
         $Retencion_por_aplicar = 0;
+        $Rete_ica = 0;
 
 
         if ($AccountReceivable['gross_value_activities'] >= $AccountReceivable['minimum_salary']['value']) {
@@ -181,6 +193,8 @@ class SourceRetentionController extends Controller
         }
         $Retencion_por_aplicar = round(($sub_response) / 1000) * 1000;
 
+        $Rete_ica = $AccountReceivable['gross_value_activities'] > 142000 ? round((($AccountReceivable['gross_value_activities'] - $Retencion_por_aplicar) / 1000) * $ReteicaValue) : 0;
+
         $response = array(
             'gross_value_activities' => $AccountReceivable['gross_value_activities'],
             'salud' => $salud,
@@ -206,6 +220,7 @@ class SourceRetentionController extends Controller
             'Ingreso_Base' => $Ingreso_Base,
             'Ingreso_laboral_gravado_en_UVT' => $Ingreso_laboral_gravado_en_UVT,
             'Retencion_por_aplicar' => $Retencion_por_aplicar,
+            'Rete_ica' => $Rete_ica,
         );
 
         return response()->json([
