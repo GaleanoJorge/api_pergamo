@@ -20,6 +20,7 @@ use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\Tariff;
 use App\Models\BillUserActivity;
+use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -211,10 +212,12 @@ class ChRecordController extends Controller
             $assigned->save();
 
             if (!$validate) {
+                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
