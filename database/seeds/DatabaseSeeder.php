@@ -149,7 +149,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(TaxValueUnitSeeder::class);
                 $this->call(MinimumSalarySeeder::class);
                 $this->call(SourceRetentionTypeSeeder::class);
-                //$this->call(TypeOfAttention::class);
+                $this->call(MunicipalityIcaSeeder::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);
