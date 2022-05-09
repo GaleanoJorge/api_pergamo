@@ -121,7 +121,7 @@ class SourceRetentionController extends Controller
         $sub_total_1 = round(($AccountReceivable['gross_value_activities'] - $salud - $arl - $pension) / 1000) * 1000;
 
         foreach ($SourceRetention as $element) {
-            $limit = round(($element['source_retention_type']['tax_value_unit']['value'] * ($element['source_retention_type']['value'] == -1 ? 1000 ^ 1000 : $element['source_retention_type']['value'])) / 1000) * 1000;
+            $limit = round(($element['source_retention_type']['tax_value_unit']['value'] * $element['source_retention_type']['value']) / 1000) * 1000;
             if ($element['source_retention_type_id'] == 1) {
                 if ($element['value'] <= $limit) {
                     $deduc1 = $element['value'];
@@ -153,11 +153,7 @@ class SourceRetentionController extends Controller
                     $rent2 = $limit;
                 }
             } else if ($element['source_retention_type_id'] == 6) {
-                if ($element['value'] <= $limit) {
-                    $rent3 = $element['value'];
-                } else {
-                    $rent3 = $limit;
-                }
+                $rent3 = $element['value'];
             }
         }
         $total_deduc = $deduc1 + $deduc2 + $deduc3;
