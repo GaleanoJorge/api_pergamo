@@ -14,13 +14,17 @@ class CreateCampusTable extends Migration
     public function up()
     {
         Schema::create('campus', function (Blueprint $table) {
-            $table->tinyIncrements('id');
+            $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedsmallInteger('region_id');
+            $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('municipality_id')->nullable();
             $table->timestamps();
+
             $table->index('region_id');
-            $table->foreign('region_id')->references('id')
-            ->on('region');
+            $table->foreign('region_id')->references('id')->on('region');
+
+            $table->index('municipality_id');
+            $table->foreign('municipality_id')->references('id')->on('municipality');
         });
     }
 
