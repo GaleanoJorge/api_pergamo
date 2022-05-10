@@ -39,7 +39,7 @@ class ChScaleWongBakerController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Wong Baker obtenida exitosamente',
             'data' => ['ch_scale_wong_baker' => $ChScaleWongBaker]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScaleWongBakerController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Wong Baker obtenida exitosamente',
             'data' => ['ch_scale_wong_baker' => $ChScaleWongBaker]
         ]);
     }
@@ -69,14 +69,13 @@ class ChScaleWongBakerController extends Controller
     {
         $ChScaleWongBaker = new ChScaleWongBaker;
         $ChScaleWongBaker->pain = $request->pain;
-        $ChScaleWongBaker->range = $request->range;
         $ChScaleWongBaker->type_record_id = $request->type_record_id;
         $ChScaleWongBaker->ch_record_id = $request->ch_record_id;
         $ChScaleWongBaker->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Wong Baker asociada al paciente exitosamente',
             'data' => ['ch_scale_wong_baker' => $ChScaleWongBaker->toArray()]
         ]);
     }
@@ -95,7 +94,7 @@ class ChScaleWongBakerController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Wong Baker obtenida exitosamente',
             'data' => ['ch_scale_wong_baker' => $ChScaleWongBaker]
         ]);
     }
@@ -110,14 +109,13 @@ class ChScaleWongBakerController extends Controller
     {
         $ChScaleWongBaker = ChScaleWongBaker::find($id);
         $ChScaleWongBaker->pain = $request->pain;
-        $ChScaleWongBaker->range = $request->range;
         $ChScaleWongBaker->type_record_id = $request->type_record_id;
         $ChScaleWongBaker->ch_record_id = $request->ch_record_id;
         $ChScaleWongBaker->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Wong Baker actualizada exitosamente',
             'data' => ['ch_scale_wong_baker' => $ChScaleWongBaker]
         ]);
     }
@@ -137,12 +135,12 @@ class ChScaleWongBakerController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Wong Baker eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Wong Baker en uso, no es posible eliminarla'
             ], 423);
         }
     }
