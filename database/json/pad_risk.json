@@ -1,14 +1,11 @@
 [
     {
-        "name": "T1",
-        "status_id": 1
+        "name": "T1"
     },
     {
-        "name": "T2",
-        "status_id": 1
+        "name": "T2"
     },
     {
-        "name": "T3",
-        "status_id": 1
+        "name": "T3"
     }
 ]

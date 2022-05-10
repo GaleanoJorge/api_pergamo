@@ -26,9 +26,13 @@ class TariffRequest extends FormRequest
         return [
             'name' => 'required',
             'amount' => 'required',
+            'quantity' => 'required',
+            'extra_dose' => 'required',
+            'phone_consult' => 'required',
+            'status_id' => 'required',
             'pad_risk_id' => 'required',
-            'role_id' => 'required',
-            'scope_of_attention_id' => 'required',
+            'program_id' => 'required',
+            'type_of_attention_id' => 'required',
         ];
     }
 }
