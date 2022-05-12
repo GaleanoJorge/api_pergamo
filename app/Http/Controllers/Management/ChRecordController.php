@@ -204,6 +204,12 @@ class ChRecordController extends Controller
         $role = $request->role;
         $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
 
+        // $valuetariff2 = Tariff::where('pad_risk_id', $tariff)
+        //     ->where('phone_consult', $request->phone_consult)
+        //     ->where('type_of_attention_id', $request->type_of_attention_id)
+        //     ->where('program_id', $request->program_id)
+        //     ->where('quantity', $request->quantity)
+        //     ->first();
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 

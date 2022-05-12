@@ -6,9 +6,12 @@
 
 namespace App\Models\Base;
 
+use App\Models\AdmissionRoute;
+use App\Models\Program;
 use App\Models\PadRisk;
-use App\Models\Role;
 use App\Models\ScopeOfAttention;
+use App\Models\Status;
+use App\Models\TypeOfAttention;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,10 +20,14 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property double $name
+ * @property integer $quantity
  * @property double $amount
+ * @property boolean $extra_dose
+ * @property boolean $phone_consult
+ * @property TinyInteger $status_id
+ * @property BigInteger $program_id
  * @property BigInteger $pad_risk_id
- * @property BigInteger $role_id
- * @property BigInteger $scope_of_attention_id
+ * @property BigInteger $type_of_attention_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -36,9 +43,21 @@ class Tariff extends Model
 	{
 		return $this->belongsTo(PadRisk::class);
 	}
-	public function role()
+	public function program()
 	{
-		return $this->belongsTo(Role::class);
+		return $this->belongsTo(Program::class);
+	}
+	public function admission_route()
+	{
+		return $this->belongsTo(AdmissionRoute::class);
+	}
+	public function type_of_attention()
+	{
+		return $this->belongsTo(TypeOfAttention::class);
+	}
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
 	}
 	public function scope_of_attention()
 	{

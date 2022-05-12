@@ -9,8 +9,12 @@ class Tariff extends BaseTariff
 	protected $fillable = [
 		'name',
 		'amount',
+		'quantity',
+		'extra_dose',
+		'phone_consult',
+		'status_id',
 		'pad_risk_id',
-		'role_id',
-		'scope_of_attention_id',
+		'program_id',
+		'type_of_attention_id',
 	];
 }

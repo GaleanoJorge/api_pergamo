@@ -17,21 +17,30 @@ class CreateTariffTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->double('amount');
-            $table->unsignedBigInteger('pad_risk_id');
-            $table->unsignedSmallInteger('role_id');
-            $table->unsignedBigInteger('scope_of_attention_id');
+            $table->integer('quantity')->nullable();
+            $table->boolean('extra_dose')->nullable();
+            $table->boolean('phone_consult')->nullable();
+            $table->unsignedTinyInteger('status_id')->nullable();
+            $table->unsignedBigInteger('pad_risk_id')->nullable();
+            $table->unsignedBigInteger('program_id')->nullable();
+            $table->unsignedTinyInteger('type_of_attention_id')->nullable();
             $table->timestamps();
 
-            $table->index('pad_risk_id');
-            $table->index('role_id');
-            $table->index('scope_of_attention_id');
+            $table->index('status_id');
+            $table->foreign('status_id')->references('id')
+                ->on('status');
 
+            $table->index('program_id');
+            $table->foreign('program_id')->references('id')
+                ->on('program');
+
+            $table->index('pad_risk_id');
             $table->foreign('pad_risk_id')->references('id')
                 ->on('pad_risk');
-            $table->foreign('role_id')->references('id')
-                ->on('role');
-            $table->foreign('scope_of_attention_id')->references('id')
-                ->on('scope_of_attention');
+
+            $table->index('type_of_attention_id');
+            $table->foreign('type_of_attention_id')->references('id')
+                ->on('type_of_attention');
         });
     }
 
