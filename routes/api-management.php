@@ -50,6 +50,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_ecog', 'Management\ChScaleEcogController');
     Route::apiResource('ch_scale_pediatric_nutrition', 'Management\ChScalePediatricNutritionController');
     Route::apiResource('ch_scale_esas', 'Management\ChScaleEsasController');
+    Route::apiResource('ch_scale_flacc', 'Management\ChScaleFlaccController');
+    Route::apiResource('ch_scale_ppi', 'Management\ChScalePpiController');
+    Route::apiResource('ch_scale_zarit', 'Management\ChScaleZaritController');
+    Route::apiResource('ch_scale_pain', 'Management\ChScalePainController');
+    Route::apiResource('ch_scale_wong_baker', 'Management\ChScaleWongBakerController');
+    Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
+    Route::apiResource('ch_scale_jh_dowton', 'Management\ChScaleJhDowtonController');
                         
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
