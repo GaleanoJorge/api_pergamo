@@ -11,7 +11,7 @@ use App\Models\MinimumSalary;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 
 class AccountReceivableController extends Controller
 {
@@ -67,13 +67,16 @@ class AccountReceivableController extends Controller
     public function getByUser(Request $request, int $user_id): JsonResponse
 
     {
+        $LastWeekOfMonth = Carbon::now()->endOfMonth()->subDays(7)->format('Ymd');
+        $ancualDate = Carbon::now()->format('Ymd');
         $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
-            ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'))
-            ->LeftJoin('source_retention', 'source_retention.account_receivable_id', '=', 'account_receivable.id')
+            ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'), 'assistance.id AS assistance_id', DB::raw("IF(".$LastWeekOfMonth."<=".$ancualDate.",1,0) AS edit_date"))
+            ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
+            ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
             ->groupBy('account_receivable.id');
 
         if ($user_id != 0) {
-            $AccountReceivable->where('user_id', $user_id);
+            $AccountReceivable->where('account_receivable.user_id', $user_id);
         }
 
         if ($request->_sort) {
