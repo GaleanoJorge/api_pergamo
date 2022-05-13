@@ -39,7 +39,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Hamilton obtenido exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Hamilton obtenido exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -68,25 +68,24 @@ class ChScaleHamiltonController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleHamilton = new ChScaleHamilton;
-        $ChScaleHamilton->variable_one  = $request-> variable_one ;
-        $ChScaleHamilton->variable_two  = $request-> variable_two;
-        $ChScaleHamilton->variable_three  = $request-> variable_three;
-        $ChScaleHamilton->variable_four  = $request-> variable_four;
-        $ChScaleHamilton->variable_five  = $request-> variable_five;
-        $ChScaleHamilton->variable_six  = $request-> variable_six;
-        $ChScaleHamilton->variable_seven  = $request-> variable_seven;
+        $ChScaleHamilton->variable_one  = $request->variable_one;
+        $ChScaleHamilton->variable_two  = $request->variable_two;
+        $ChScaleHamilton->variable_three  = $request->variable_three;
+        $ChScaleHamilton->variable_four  = $request->variable_four;
+        $ChScaleHamilton->variable_five  = $request->variable_five;
+        $ChScaleHamilton->variable_six  = $request->variable_six;
+        $ChScaleHamilton->variable_seven  = $request->variable_seven;
         $ChScaleHamilton->variable_eigth  = $request->variable_seven;
         $ChScaleHamilton->variable_nine   = $request->variable_nine;
-        $ChScaleHamilton->variable_ten  = $request-> variable_ten;
-        $ChScaleHamilton->variable_eleven  = $request-> variable_eleven;
-        $ChScaleHamilton->variable_twelve  = $request-> variable_twelve;
-        $ChScaleHamilton->variable_thirteen  = $request-> variable_thirteen;
+        $ChScaleHamilton->variable_ten  = $request->variable_ten;
+        $ChScaleHamilton->variable_eleven  = $request->variable_eleven;
+        $ChScaleHamilton->variable_twelve  = $request->variable_twelve;
+        $ChScaleHamilton->variable_thirteen  = $request->variable_thirteen;
         $ChScaleHamilton->variable_fourteen  = $request->variable_fourteen;
-        $ChScaleHamilton->variable_fifteen  = $request-> variable_fifteen;
-        $ChScaleHamilton->variable_sixteen  = $request-> variable_sixteen;
-        $ChScaleHamilton->variable_seventeen  = $request-> variable_seventeen;
-        $ChScaleHamilton->variable_eighteen  = $request-> variable_eighteen;
-        $ChScaleHamilton->total  = $request-> total;
+        $ChScaleHamilton->variable_fifteen  = $request->variable_fifteen;
+        $ChScaleHamilton->variable_sixteen  = $request->variable_sixteen;
+        $ChScaleHamilton->variable_seventeen  = $request->variable_seventeen;
+        $ChScaleHamilton->total  = $request->total;
         $ChScaleHamilton->qualification  = $request->qualification;
         $ChScaleHamilton->type_record_id = $request->type_record_id;
         $ChScaleHamilton->ch_record_id = $request->ch_record_id;
@@ -94,7 +93,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Hamilton asociada al paciente exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton->toArray()]
         ]);
     }
@@ -113,7 +112,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Hamilton obtenida exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -127,25 +126,24 @@ class ChScaleHamiltonController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleHamilton = ChScaleHamilton::find($id);
-        $ChScaleHamilton->variable_one  = $request-> variable_one ;
-        $ChScaleHamilton->variable_two  = $request-> variable_two;
-        $ChScaleHamilton->variable_three  = $request-> variable_three;
-        $ChScaleHamilton->variable_four  = $request-> variable_four;
-        $ChScaleHamilton->variable_five  = $request-> variable_five;
-        $ChScaleHamilton->variable_six  = $request-> variable_six;
-        $ChScaleHamilton->variable_seven  = $request-> variable_seven;
+        $ChScaleHamilton->variable_one  = $request->variable_one;
+        $ChScaleHamilton->variable_two  = $request->variable_two;
+        $ChScaleHamilton->variable_three  = $request->variable_three;
+        $ChScaleHamilton->variable_four  = $request->variable_four;
+        $ChScaleHamilton->variable_five  = $request->variable_five;
+        $ChScaleHamilton->variable_six  = $request->variable_six;
+        $ChScaleHamilton->variable_seven  = $request->variable_seven;
         $ChScaleHamilton->variable_eigth  = $request->variable_seven;
         $ChScaleHamilton->variable_nine   = $request->variable_nine;
-        $ChScaleHamilton->variable_ten  = $request-> variable_ten;
-        $ChScaleHamilton->variable_eleven  = $request-> variable_eleven;
-        $ChScaleHamilton->variable_twelve  = $request-> variable_twelve;
-        $ChScaleHamilton->variable_thirteen  = $request-> variable_thirteen;
+        $ChScaleHamilton->variable_ten  = $request->variable_ten;
+        $ChScaleHamilton->variable_eleven  = $request->variable_eleven;
+        $ChScaleHamilton->variable_twelve  = $request->variable_twelve;
+        $ChScaleHamilton->variable_thirteen  = $request->variable_thirteen;
         $ChScaleHamilton->variable_fourteen  = $request->variable_fourteen;
-        $ChScaleHamilton->variable_fifteen  = $request-> variable_fifteen;
-        $ChScaleHamilton->variable_sixteen  = $request-> variable_sixteen;
-        $ChScaleHamilton->variable_seventeen  = $request-> variable_seventeen;
-        $ChScaleHamilton->variable_eighteen  = $request-> variable_eighteen;
-        $ChScaleHamilton->total  = $request-> total;
+        $ChScaleHamilton->variable_fifteen  = $request->variable_fifteen;
+        $ChScaleHamilton->variable_sixteen  = $request->variable_sixteen;
+        $ChScaleHamilton->variable_seventeen  = $request->variable_seventeen;
+        $ChScaleHamilton->total  = $request->total;
         $ChScaleHamilton->qualification  = $request->qualification;
         $ChScaleHamilton->type_record_id = $request->type_record_id;
         $ChScaleHamilton->ch_record_id = $request->ch_record_id;
@@ -153,7 +151,7 @@ class ChScaleHamiltonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Hamilton actualizada exitosamente',
             'data' => ['ch_scale_hamilton' => $ChScaleHamilton]
         ]);
     }
@@ -173,12 +171,12 @@ class ChScaleHamiltonController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Hamilton eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Hamilton en uso, no es posible eliminarla'
             ], 423);
         }
     }

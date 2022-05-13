@@ -142,12 +142,12 @@ class ChScaleGlasgowController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminada exitosamente'
+                'message' => 'Escala Glasgow eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarla'
+                'message' => 'Escalas Glasgow en uso, no es posible eliminarla'
             ], 423);
         }
     }

@@ -32,7 +32,6 @@
                 $table->Integer('variable_fifteen');
                 $table->Integer('variable_sixteen');
                 $table->Integer('variable_seventeen');
-                $table->Integer('variable_eighteen');
                 $table->Integer('total');
                 $table->string('qualification');
                 $table->unsignedBigInteger('type_record_id');

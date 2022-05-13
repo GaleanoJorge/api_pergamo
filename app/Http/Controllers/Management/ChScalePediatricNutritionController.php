@@ -40,7 +40,7 @@ class ChScalePediatricNutritionController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Tamizaje Nutricional Pediátrico obtenida exitosamente',
             'data' => ['ch_scale_pediatric_nutrition' => $ChScalePediatricNutrition]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScalePediatricNutritionController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Tamizaje Nutricional Pediátrico obtenida exitosamente',
             'data' => ['ch_scale_pediatric_nutrition' => $ChScalePediatricNutrition]
         ]);
     }
@@ -82,7 +82,7 @@ class ChScalePediatricNutritionController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Tamizaje Nutricional Pediátrico asociada al paciente exitosamente',
             'data' => ['ch_scale_pediatric_nutrition' => $ChScalePediatricNutrition->toArray()]
         ]);
     }
@@ -101,7 +101,7 @@ class ChScalePediatricNutritionController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Tamizaje Nutricional Pediátrico obtenida exitosamente',
             'data' => ['ch_scale_pediatric_nutrition' => $ChScalePediatricNutrition]
         ]);
     }
@@ -128,7 +128,7 @@ class ChScalePediatricNutritionController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Tamizaje Nutricional Pediátrico actualizada exitosamente',
             'data' => ['ch_scale_pediatric_nutrition' => $ChScalePediatricNutrition]
         ]);
     }
@@ -148,12 +148,12 @@ class ChScalePediatricNutritionController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Tamizaje Nutricional Pediátrico eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Tamizaje Nutricional Pediátrico en uso, no es posible eliminarla'
             ], 423);
         }
     }

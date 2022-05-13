@@ -40,7 +40,7 @@ class ChScaleFlaccController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Flacc obtenida exitosamente',
             'data' => ['ch_scale_flacc' => $ChScaleFlacc]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleFlaccController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Flacc obtenida exitosamente',
             'data' => ['ch_scale_flacc' => $ChScaleFlacc]
         ]);
     }
@@ -82,7 +82,7 @@ class ChScaleFlaccController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Flacc obtenida paciente exitosamente',
             'data' => ['ch_scale_flacc' => $ChScaleFlacc->toArray()]
         ]);
     }
@@ -101,7 +101,7 @@ class ChScaleFlaccController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Esscala Flacc obtenida exitosamente',
             'data' => ['ch_scale_flacc' => $ChScaleFlacc]
         ]);
     }
@@ -128,7 +128,7 @@ class ChScaleFlaccController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Flacc actualizada exitosamente',
             'data' => ['ch_scale_flacc' => $ChScaleFlacc]
         ]);
     }
@@ -148,12 +148,12 @@ class ChScaleFlaccController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Flacc  eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Flacc  en uso, no es posible eliminarla'
             ], 423);
         }
     }
