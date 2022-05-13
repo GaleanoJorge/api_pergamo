@@ -17,8 +17,6 @@
                 $table->bigIncrements('id');
                 $table->string('subjective');
                 $table->string('objective');
-                $table->string('analisys');
-                $table->string('plan');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
 
