@@ -15,7 +15,7 @@ class CreateChDietsEvoTable extends Migration
     {
         Schema::create('ch_diets_evo', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('diet_component_id');
+            $table->unsignedBigInteger('enterally_diet_id');
             $table->unsignedBigInteger('diet_consistency_id');
             $table->string('observation');
             $table->unsignedBigInteger('type_record_id');
@@ -23,9 +23,9 @@ class CreateChDietsEvoTable extends Migration
     
             $table->timestamps();
 
-            $table->index('diet_component_id');
-            $table->foreign('diet_component_id')->references('id')
-            ->on('diet_component');
+            $table->index('enterally_diet_id');
+            $table->foreign('enterally_diet_id')->references('id')
+            ->on('enterally_diet');
 
                 
             $table->index('diet_consistency_id');

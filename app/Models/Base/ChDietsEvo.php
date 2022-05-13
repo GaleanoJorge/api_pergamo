@@ -6,7 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\DietComponent;
+use App\Models\EnterallyDiet;
 use App\Models\DietConsistency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChDietsEvo
  * 
  * @property int $id
- * @property unsignedBigInteger $diet_component_id
+ * @property unsignedBigInteger $enterally_diet_id
  * @property unsignedBigInteger $diet_consistency_id
  * @property string $observation
  * @property unsignedBigInteger $type_record_id
@@ -35,9 +35,9 @@ class ChDietsEvo extends Model
 {
 	protected $table = 'ch_diets_evo';
 
-	public function diet_component()
+	public function enterally_diet()
 	{
-		return $this->belongsTo(DietComponent::class);
+		return $this->belongsTo(EnterallyDiet::class);
 	}
 	public function diet_consistency()
 	{
