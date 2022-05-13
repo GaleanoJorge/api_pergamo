@@ -8,6 +8,5 @@ class PadRisk extends BasePadRisk
 {
 	protected $fillable = [
 		'name',
-		'status_id',
 	];
 }

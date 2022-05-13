@@ -20,6 +20,7 @@ use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\Tariff;
 use App\Models\BillUserActivity;
+use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -190,7 +191,7 @@ class ChRecordController extends Controller
 
         $mes = Carbon::now()->month;
         
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->get()->toArray();
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->where('status_bill_id', 1)->orWhere('status_bill_id', 2)->get()->toArray();
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
@@ -203,6 +204,12 @@ class ChRecordController extends Controller
         $role = $request->role;
         $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
 
+        // $valuetariff2 = Tariff::where('pad_risk_id', $tariff)
+        //     ->where('phone_consult', $request->phone_consult)
+        //     ->where('type_of_attention_id', $request->type_of_attention_id)
+        //     ->where('program_id', $request->program_id)
+        //     ->where('quantity', $request->quantity)
+        //     ->first();
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -211,10 +218,12 @@ class ChRecordController extends Controller
             $assigned->save();
 
             if (!$validate) {
+                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;

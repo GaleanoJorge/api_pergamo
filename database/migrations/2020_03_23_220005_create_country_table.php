@@ -17,6 +17,7 @@ class CreateCountryTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('sga_origin_fk')->nullable();
+            $table->integer('code')->nullable();
             $table->timestamps();
         });
     }

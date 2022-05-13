@@ -23,7 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property bigInteger $gloss_ambit_id
  * @property bigInteger $status_bill_id
  * @property bigInteger $campus_id
- * @property double $total_value_activities
+ * @property bigInteger $minimum_salary_id
+ * @property double $gross_value_activities
+ * @property double $net_value_activities
  * @property string $observation
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -39,17 +41,13 @@ class AccountReceivable extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function gloss_ambit()
-    {
-        return $this->belongsTo(GlossAmbit::class);
-    }
 	public function status_bill()
     {
         return $this->belongsTo(StatusBill::class);
     }
-	public function campus()
+	public function minimum_salary()
     {
-        return $this->belongsTo(Campus::class);
+        return $this->belongsTo(MinimumSalary::class);
     }
 }
 

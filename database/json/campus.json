@@ -1,38 +1,47 @@
 [
     {
         "name": "SEDE BRAIN TRAIN",
+        "municipality_id": 11001,
         "region_id": 3
     },
     {
         "name": "SEDE CHAPINERO",
+        "municipality_id": 11001,
         "region_id": 3
     },
     {
         "name": "SEDE J.J VARGAS",
+        "municipality_id": 11001,
         "region_id": 3
     },
     {
         "name": "SEDE MONTEVIDEO",
+        "municipality_id": 11001,
         "region_id": 3
     },
     {
         "name": "SUBACHOQUE",
+        "municipality_id": 25769,
         "region_id": 11
     },
     {
         "name": "HUILA",
+        "municipality_id": 41001,
         "region_id": 13
     },
     {
         "name": "CABECERA-SANTANDER",
+        "municipality_id": 68001,
         "region_id": 21
     },
     {
         "name": "CADIZ",
+        "municipality_id": 73001,
         "region_id": 23
     },
     {
         "name": "CASTELLANA",
+        "municipality_id": 11001,
         "region_id": 3
     }
 ]

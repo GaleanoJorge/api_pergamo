@@ -23,7 +23,7 @@ class CreateGlossTable extends Migration
             $table->date('emission_date');
             $table->date('radication_date');
             $table->unsignedBigInteger('company_id');
-            $table->unsignedTinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('gloss_modality_id');
             $table->unsignedBigInteger('gloss_ambit_id');
             $table->unsignedBigInteger('gloss_service_id');

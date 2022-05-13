@@ -1,1 +1,1252 @@
-[{"name":"COLOMBIA\r","sga_origin_fk":1},{"name":"ALBANIA\r","sga_origin_fk":101},{"name":"AUSTRIA\r","sga_origin_fk":102},{"name":"BELGICA\r","sga_origin_fk":103},{"name":"BULGARIA\r","sga_origin_fk":104},{"name":"CHIPRE\r","sga_origin_fk":106},{"name":"DINAMARCA\r","sga_origin_fk":107},{"name":"ESPAÑA\r","sga_origin_fk":108},{"name":"FINLANDIA\r","sga_origin_fk":109},{"name":"FRANCIA\r","sga_origin_fk":110},{"name":"GRECIA\r","sga_origin_fk":111},{"name":"HUNGRIA\r","sga_origin_fk":112},{"name":"IRLANDA\r","sga_origin_fk":113},{"name":"ISLANDIA\r","sga_origin_fk":114},{"name":"ITALIA\r","sga_origin_fk":115},{"name":"LIECHTENSTEIN\r","sga_origin_fk":116},{"name":"LUXEMBURGO\r","sga_origin_fk":117},{"name":"MALTA\r","sga_origin_fk":118},{"name":"MONACO\r","sga_origin_fk":119},{"name":"NORUEGA\r","sga_origin_fk":120},{"name":"PAISES BAJOS\r","sga_origin_fk":121},{"name":"POLONIA\r","sga_origin_fk":122},{"name":"PORTUGAL\r","sga_origin_fk":123},{"name":"ANDORRA\r","sga_origin_fk":124},{"name":"REINO UNIDO\r","sga_origin_fk":125},{"name":"ALEMANIA\r","sga_origin_fk":126},{"name":"RUMANIA\r","sga_origin_fk":128},{"name":"SAN MARINO\r","sga_origin_fk":129},{"name":"SANTA SEDE\r","sga_origin_fk":130},{"name":"SUECIA\r","sga_origin_fk":131},{"name":"SUIZA\r","sga_origin_fk":132},{"name":"UCRANIA\r","sga_origin_fk":135},{"name":"LETONIA\r","sga_origin_fk":136},{"name":"MOLDAVIA\r","sga_origin_fk":137},{"name":"BELARUS\r","sga_origin_fk":138},{"name":"GEORGIA\r","sga_origin_fk":139},{"name":"ESTONIA\r","sga_origin_fk":141},{"name":"LITUANIA\r","sga_origin_fk":142},{"name":"REPUBLICA CHECA\r","sga_origin_fk":143},{"name":"REPUBLICA ESLOVACA\r","sga_origin_fk":144},{"name":"BOSNIA Y HERZEGOVINA\r","sga_origin_fk":145},{"name":"CROACIA\r","sga_origin_fk":146},{"name":"ESLOVENIA\r","sga_origin_fk":147},{"name":"ARMENIA\r","sga_origin_fk":148},{"name":"RUSIA\r","sga_origin_fk":154},{"name":"MACEDONIA \r","sga_origin_fk":156},{"name":"SERBIA\r","sga_origin_fk":157},{"name":"MONTENEGRO\r","sga_origin_fk":158},{"name":"GUERNESEY\r","sga_origin_fk":170},{"name":"SVALBARD Y JAN MAYEN\r","sga_origin_fk":171},{"name":"ISLAS FEROE\r","sga_origin_fk":172},{"name":"ISLA DE MAN\r","sga_origin_fk":173},{"name":"GIBRALTAR\r","sga_origin_fk":174},{"name":"ISLAS DEL CANAL\r","sga_origin_fk":175},{"name":"JERSEY\r","sga_origin_fk":176},{"name":"ISLAS ALAND\r","sga_origin_fk":177},{"name":"BURKINA FASO\r","sga_origin_fk":201},{"name":"ANGOLA\r","sga_origin_fk":202},{"name":"ARGELIA\r","sga_origin_fk":203},{"name":"BENIN\r","sga_origin_fk":204},{"name":"BOTSWANA\r","sga_origin_fk":205},{"name":"BURUNDI\r","sga_origin_fk":206},{"name":"CABO VERDE\r","sga_origin_fk":207},{"name":"CAMERUN\r","sga_origin_fk":208},{"name":"COMORES\r","sga_origin_fk":209},{"name":"CONGO\r","sga_origin_fk":210},{"name":"COSTA DE MARFIL\r","sga_origin_fk":211},{"name":"DJIBOUTI\r","sga_origin_fk":212},{"name":"EGIPTO\r","sga_origin_fk":213},{"name":"ETIOPIA\r","sga_origin_fk":214},{"name":"GABON\r","sga_origin_fk":215},{"name":"GAMBIA\r","sga_origin_fk":216},{"name":"GHANA\r","sga_origin_fk":217},{"name":"GUINEA\r","sga_origin_fk":218},{"name":"GUINEA-BISSAU\r","sga_origin_fk":219},{"name":"GUINEA ECUATORIAL\r","sga_origin_fk":220},{"name":"KENIA\r","sga_origin_fk":221},{"name":"LESOTHO\r","sga_origin_fk":222},{"name":"LIBERIA\r","sga_origin_fk":223},{"name":"LIBIA\r","sga_origin_fk":224},{"name":"MADAGASCAR\r","sga_origin_fk":225},{"name":"MALAWI\r","sga_origin_fk":226},{"name":"MALI\r","sga_origin_fk":227},{"name":"MARRUECOS\r","sga_origin_fk":228},{"name":"MAURICIO\r","sga_origin_fk":229},{"name":"MAURITANIA\r","sga_origin_fk":230},{"name":"MOZAMBIQUE\r","sga_origin_fk":231},{"name":"NAMIBIA\r","sga_origin_fk":232},{"name":"NIGER\r","sga_origin_fk":233},{"name":"NIGERIA\r","sga_origin_fk":234},{"name":"REPUBLICA CENTROAFRICANA\r","sga_origin_fk":235},{"name":"SUDAFRICA\r","sga_origin_fk":236},{"name":"RUANDA\r","sga_origin_fk":237},{"name":"SANTO TOME Y PRINCIPE\r","sga_origin_fk":238},{"name":"SENEGAL\r","sga_origin_fk":239},{"name":"SEYCHELLES\r","sga_origin_fk":240},{"name":"SIERRA LEONA\r","sga_origin_fk":241},{"name":"SOMALIA\r","sga_origin_fk":242},{"name":"SUDAN\r","sga_origin_fk":243},{"name":"SWAZILANDIA\r","sga_origin_fk":244},{"name":"TANZANIA\r","sga_origin_fk":245},{"name":"CHAD\r","sga_origin_fk":246},{"name":"TOGO\r","sga_origin_fk":247},{"name":"TUNEZ\r","sga_origin_fk":248},{"name":"UGANDA\r","sga_origin_fk":249},{"name":"REP.DEMOCRATICA DEL CONGO\r","sga_origin_fk":250},{"name":"ZAMBIA\r","sga_origin_fk":251},{"name":"ZIMBABWE\r","sga_origin_fk":252},{"name":"ERITREA\r","sga_origin_fk":253},{"name":"SANTA HELENA\r","sga_origin_fk":260},{"name":"REUNION\r","sga_origin_fk":261},{"name":"MAYOTTE\r","sga_origin_fk":262},{"name":"SAHARA OCCIDENTAL\r","sga_origin_fk":263},{"name":"CANADA\r","sga_origin_fk":301},{"name":"ESTADOS UNIDOS DE AMERICA\r","sga_origin_fk":302},{"name":"MEXICO\r","sga_origin_fk":303},{"name":"ANTIGUA Y BARBUDA\r","sga_origin_fk":310},{"name":"BAHAMAS\r","sga_origin_fk":311},{"name":"BARBADOS\r","sga_origin_fk":312},{"name":"BELICE\r","sga_origin_fk":313},{"name":"COSTA RICA\r","sga_origin_fk":314},{"name":"CUBA\r","sga_origin_fk":315},{"name":"DOMINICA\r","sga_origin_fk":316},{"name":"EL SALVADOR\r","sga_origin_fk":317},{"name":"GRANADA\r","sga_origin_fk":318},{"name":"GUATEMALA\r","sga_origin_fk":319},{"name":"HAITI\r","sga_origin_fk":320},{"name":"HONDURAS\r","sga_origin_fk":321},{"name":"JAMAICA\r","sga_origin_fk":322},{"name":"NICARAGUA\r","sga_origin_fk":323},{"name":"PANAMA\r","sga_origin_fk":324},{"name":"SAN VICENTE Y LAS GRANADINAS\r","sga_origin_fk":325},{"name":"REPUBLICA DOMINICANA\r","sga_origin_fk":326},{"name":"TRINIDAD Y TOBAGO\r","sga_origin_fk":327},{"name":"SANTA LUCIA\r","sga_origin_fk":328},{"name":"SAN CRISTOBAL Y NIEVES\r","sga_origin_fk":329},{"name":"ARGENTINA\r","sga_origin_fk":340},{"name":"BOLIVIA\r","sga_origin_fk":341},{"name":"BRASIL\r","sga_origin_fk":342},{"name":"CHILE\r","sga_origin_fk":344},{"name":"ECUADOR\r","sga_origin_fk":345},{"name":"GUYANA\r","sga_origin_fk":346},{"name":"PARAGUAY\r","sga_origin_fk":347},{"name":"PERU\r","sga_origin_fk":348},{"name":"SURINAM\r","sga_origin_fk":349},{"name":"URUGUAY\r","sga_origin_fk":350},{"name":"VENEZUELA\r","sga_origin_fk":351},{"name":"SAN PEDRO Y MIQUELON \r","sga_origin_fk":370},{"name":"GROENLANDIA\r","sga_origin_fk":371},{"name":"ISLAS CAIMÁN\r","sga_origin_fk":380},{"name":"ISLAS TURCAS Y CAICOS\r","sga_origin_fk":381},{"name":"ISLAS VÍRGENES DE LOS ESTADOS UNIDOS\r","sga_origin_fk":382},{"name":"GUADALUPE\r","sga_origin_fk":383},{"name":"ANTILLAS HOLANDESAS\r","sga_origin_fk":384},{"name":"SAN MARTIN (PARTE FRANCESA)\r","sga_origin_fk":385},{"name":"ARUBA\r","sga_origin_fk":386},{"name":"MONTSERRAT\r","sga_origin_fk":387},{"name":"ANGUILLA\r","sga_origin_fk":388},{"name":"SAN BARTOLOME\r","sga_origin_fk":389},{"name":"MARTINICA\r","sga_origin_fk":390},{"name":"PUERTO RICO\r","sga_origin_fk":391},{"name":"BERMUDAS\r","sga_origin_fk":392},{"name":"ISLAS VIRGENES BRITANICAS\r","sga_origin_fk":393},{"name":"GUAYANA FRANCESA\r","sga_origin_fk":394},{"name":"ISLAS MALVINAS\r","sga_origin_fk":395},{"name":"AFGANISTAN\r","sga_origin_fk":401},{"name":"ARABIA SAUDI\r","sga_origin_fk":402},{"name":"BAHREIN\r","sga_origin_fk":403},{"name":"BANGLADESH\r","sga_origin_fk":404},{"name":"MYANMAR\r","sga_origin_fk":405},{"name":"CHINA\r","sga_origin_fk":407},{"name":"EMIRATOS ARABES UNIDOS\r","sga_origin_fk":408},{"name":"FILIPINAS\r","sga_origin_fk":409},{"name":"INDIA\r","sga_origin_fk":410},{"name":"INDONESIA\r","sga_origin_fk":411},{"name":"IRAQ\r","sga_origin_fk":412},{"name":"IRAN\r","sga_origin_fk":413},{"name":"ISRAEL\r","sga_origin_fk":414},{"name":"JAPON\r","sga_origin_fk":415},{"name":"JORDANIA\r","sga_origin_fk":416},{"name":"CAMBOYA\r","sga_origin_fk":417},{"name":"KUWAIT\r","sga_origin_fk":418},{"name":"LAOS\r","sga_origin_fk":419},{"name":"LIBANO\r","sga_origin_fk":420},{"name":"MALASIA\r","sga_origin_fk":421},{"name":"MALDIVAS\r","sga_origin_fk":422},{"name":"MONGOLIA\r","sga_origin_fk":423},{"name":"NEPAL\r","sga_origin_fk":424},{"name":"OMAN\r","sga_origin_fk":425},{"name":"PAKISTAN\r","sga_origin_fk":426},{"name":"QATAR\r","sga_origin_fk":427},{"name":"COREA\r","sga_origin_fk":430},{"name":"COREA DEL NORTE \r","sga_origin_fk":431},{"name":"SINGAPUR\r","sga_origin_fk":432},{"name":"SIRIA\r","sga_origin_fk":433},{"name":"SRI LANKA\r","sga_origin_fk":434},{"name":"TAILANDIA\r","sga_origin_fk":435},{"name":"TURQUIA\r","sga_origin_fk":436},{"name":"VIETNAM\r","sga_origin_fk":437},{"name":"BRUNEI\r","sga_origin_fk":439},{"name":"ISLAS MARSHALL\r","sga_origin_fk":440},{"name":"YEMEN\r","sga_origin_fk":441},{"name":"AZERBAIYAN\r","sga_origin_fk":442},{"name":"KAZAJSTAN\r","sga_origin_fk":443},{"name":"KIRGUISTAN\r","sga_origin_fk":444},{"name":"TADYIKISTAN\r","sga_origin_fk":445},{"name":"TURKMENISTAN\r","sga_origin_fk":446},{"name":"UZBEKISTAN\r","sga_origin_fk":447},{"name":"ISLAS MARIANAS DEL NORTE\r","sga_origin_fk":448},{"name":"PALESTINA\r","sga_origin_fk":449},{"name":"HONG KONG\r","sga_origin_fk":450},{"name":"BHUTÁN\r","sga_origin_fk":453},{"name":"GUAM\r","sga_origin_fk":454},{"name":"MACAO\r","sga_origin_fk":455},{"name":"AUSTRALIA\r","sga_origin_fk":501},{"name":"FIJI\r","sga_origin_fk":502},{"name":"NUEVA ZELANDA\r","sga_origin_fk":504},{"name":"PAPUA NUEVA GUINEA\r","sga_origin_fk":505},{"name":"ISLAS SALOMON\r","sga_origin_fk":506},{"name":"SAMOA\r","sga_origin_fk":507},{"name":"TONGA\r","sga_origin_fk":508},{"name":"VANUATU\r","sga_origin_fk":509},{"name":"MICRONESIA\r","sga_origin_fk":511},{"name":"TUVALU\r","sga_origin_fk":512},{"name":"ISLAS COOK\r","sga_origin_fk":513},{"name":"NAURU\r","sga_origin_fk":515},{"name":"PALAOS\r","sga_origin_fk":516},{"name":"TIMOR ORIENTAL\r","sga_origin_fk":517},{"name":"POLINESIA FRANCESA\r","sga_origin_fk":520},{"name":"ISLA NORFOLK\r","sga_origin_fk":521},{"name":"KIRIBATI\r","sga_origin_fk":522},{"name":"NIUE\r","sga_origin_fk":523},{"name":"ISLAS PITCAIRN\r","sga_origin_fk":524},{"name":"TOKELAU\r","sga_origin_fk":525},{"name":"NUEVA CALEDONIA\r","sga_origin_fk":526},{"name":"WALLIS Y FORTUNA\r","sga_origin_fk":527},{"name":"SAMOA AMERICANA\r","sga_origin_fk":528}]
+[
+    {
+        "name": "AFGANISTAN",
+        "sga_origin_fk": 401,
+        "code": 4
+    },
+    {
+        "name": "ALBANIA",
+        "sga_origin_fk": 101,
+        "code": 8
+    },
+    {
+        "name": "ALEMANIA",
+        "sga_origin_fk": 126,
+        "code": 276
+    },
+    {
+        "name": "ANDORRA",
+        "sga_origin_fk": 124,
+        "code": 20
+    },
+    {
+        "name": "ANGOLA",
+        "sga_origin_fk": 202,
+        "code": 24
+    },
+    {
+        "name": "ANGUILLA",
+        "sga_origin_fk": 388,
+        "code": 660
+    },
+    {
+        "name": "ANTIGUA Y BARBUDA",
+        "sga_origin_fk": 310,
+        "code": 28
+    },
+    {
+        "name": "ANTILLAS HOLANDESAS",
+        "sga_origin_fk": 384,
+        "code": null
+    },
+    {
+        "name": "ARABIA SAUDI",
+        "sga_origin_fk": 402,
+        "code": 682
+    },
+    {
+        "name": "ARGELIA",
+        "sga_origin_fk": 203,
+        "code": 12
+    },
+    {
+        "name": "ARGENTINA",
+        "sga_origin_fk": 340,
+        "code": 32
+    },
+    {
+        "name": "ARMENIA",
+        "sga_origin_fk": 148,
+        "code": 51
+    },
+    {
+        "name": "ARUBA",
+        "sga_origin_fk": 386,
+        "code": 533
+    },
+    {
+        "name": "AUSTRALIA",
+        "sga_origin_fk": 501,
+        "code": 36
+    },
+    {
+        "name": "AUSTRIA",
+        "sga_origin_fk": 102,
+        "code": 40
+    },
+    {
+        "name": "AZERBAIYAN",
+        "sga_origin_fk": 442,
+        "code": 31
+    },
+    {
+        "name": "BAHAMAS",
+        "sga_origin_fk": 311,
+        "code": 44
+    },
+    {
+        "name": "BAHREIN",
+        "sga_origin_fk": 403,
+        "code": 48
+    },
+    {
+        "name": "BANGLADESH",
+        "sga_origin_fk": 404,
+        "code": 50
+    },
+    {
+        "name": "BARBADOS",
+        "sga_origin_fk": 312,
+        "code": 52
+    },
+    {
+        "name": "BELARUS",
+        "sga_origin_fk": 138,
+        "code": 112
+    },
+    {
+        "name": "BELGICA",
+        "sga_origin_fk": 103,
+        "code": 56
+    },
+    {
+        "name": "BELICE",
+        "sga_origin_fk": 313,
+        "code": 84
+    },
+    {
+        "name": "BENIN",
+        "sga_origin_fk": 204,
+        "code": 204
+    },
+    {
+        "name": "BERMUDAS",
+        "sga_origin_fk": 392,
+        "code": 60
+    },
+    {
+        "name": "BHUTAN",
+        "sga_origin_fk": 453,
+        "code": 64
+    },
+    {
+        "name": "BOLIVIA",
+        "sga_origin_fk": 341,
+        "code": 68
+    },
+    {
+        "name": "BONAIRE, SAN EUSTAQUIO Y SABA",
+        "sga_origin_fk": null,
+        "code": 535
+    },
+    {
+        "name": "BOSNIA Y HERZEGOVINA",
+        "sga_origin_fk": 145,
+        "code": 70
+    },
+    {
+        "name": "BOTSWANA",
+        "sga_origin_fk": 205,
+        "code": 72
+    },
+    {
+        "name": "BRASIL",
+        "sga_origin_fk": 342,
+        "code": 76
+    },
+    {
+        "name": "BRUNEI",
+        "sga_origin_fk": 439,
+        "code": 96
+    },
+    {
+        "name": "BULGARIA",
+        "sga_origin_fk": 104,
+        "code": 100
+    },
+    {
+        "name": "BURKINA FASO",
+        "sga_origin_fk": 201,
+        "code": 854
+    },
+    {
+        "name": "BURUNDI",
+        "sga_origin_fk": 206,
+        "code": 108
+    },
+    {
+        "name": "CABO VERDE",
+        "sga_origin_fk": 207,
+        "code": 132
+    },
+    {
+        "name": "CAMBOYA",
+        "sga_origin_fk": 417,
+        "code": 116
+    },
+    {
+        "name": "CAMERUN",
+        "sga_origin_fk": 208,
+        "code": 120
+    },
+    {
+        "name": "CANADA",
+        "sga_origin_fk": 301,
+        "code": 124
+    },
+    {
+        "name": "CHAD",
+        "sga_origin_fk": 246,
+        "code": 148
+    },
+    {
+        "name": "CHILE",
+        "sga_origin_fk": 344,
+        "code": 152
+    },
+    {
+        "name": "CHINA",
+        "sga_origin_fk": 407,
+        "code": 156
+    },
+    {
+        "name": "CHIPRE",
+        "sga_origin_fk": 106,
+        "code": 196
+    },
+    {
+        "name": "COLOMBIA",
+        "sga_origin_fk": 1,
+        "code": 170
+    },
+    {
+        "name": "COMORES",
+        "sga_origin_fk": 209,
+        "code": 174
+    },
+    {
+        "name": "CONGO",
+        "sga_origin_fk": 210,
+        "code": 178
+    },
+    {
+        "name": "REP.DEMOCRATICA DEL CONGO",
+        "sga_origin_fk": 250,
+        "code": 180
+    },
+    {
+        "name": "COREA DEL NORTE ",
+        "sga_origin_fk": 431,
+        "code": 410
+    },
+    {
+        "name": "COREA",
+        "sga_origin_fk": 430,
+        "code": 408
+    },
+    {
+        "name": "COSTA DE MARFIL",
+        "sga_origin_fk": 211,
+        "code": 384
+    },
+    {
+        "name": "COSTA RICA",
+        "sga_origin_fk": 314,
+        "code": 188
+    },
+    {
+        "name": "CROACIA",
+        "sga_origin_fk": 146,
+        "code": 191
+    },
+    {
+        "name": "CUBA",
+        "sga_origin_fk": 315,
+        "code": 192
+    },
+    {
+        "name": "CURAÇAO",
+        "sga_origin_fk": null,
+        "code": 531
+    },
+    {
+        "name": "DINAMARCA",
+        "sga_origin_fk": 107,
+        "code": 208
+    },
+    {
+        "name": "DJIBOUTI",
+        "sga_origin_fk": 212,
+        "code": 262
+    },
+    {
+        "name": "DOMINICA",
+        "sga_origin_fk": 316,
+        "code": 212
+    },
+    {
+        "name": "ECUADOR",
+        "sga_origin_fk": 345,
+        "code": 218
+    },
+    {
+        "name": "EGIPTO",
+        "sga_origin_fk": 213,
+        "code": 818
+    },
+    {
+        "name": "EL SALVADOR",
+        "sga_origin_fk": 317,
+        "code": 222
+    },
+    {
+        "name": "EMIRATOS ARABES UNIDOS",
+        "sga_origin_fk": 408,
+        "code": 784
+    },
+    {
+        "name": "ERITREA",
+        "sga_origin_fk": 253,
+        "code": 232
+    },
+    {
+        "name": "REPUBLICA ESLOVACA",
+        "sga_origin_fk": 144,
+        "code": 703
+    },
+    {
+        "name": "ESLOVENIA",
+        "sga_origin_fk": 147,
+        "code": 705
+    },
+    {
+        "name": "ESPAÑA",
+        "sga_origin_fk": 108,
+        "code": 724
+    },
+    {
+        "name": "ESTADOS UNIDOS DE AMERICA",
+        "sga_origin_fk": 302,
+        "code": 840
+    },
+    {
+        "name": "ESTONIA",
+        "sga_origin_fk": 141,
+        "code": 233
+    },
+    {
+        "name": "ETIOPIA",
+        "sga_origin_fk": 214,
+        "code": 231
+    },
+    {
+        "name": "FIJI",
+        "sga_origin_fk": 502,
+        "code": 242
+    },
+    {
+        "name": "FILIPINAS",
+        "sga_origin_fk": 409,
+        "code": 608
+    },
+    {
+        "name": "FINLANDIA",
+        "sga_origin_fk": 109,
+        "code": 246
+    },
+    {
+        "name": "FRANCIA",
+        "sga_origin_fk": 110,
+        "code": 250
+    },
+    {
+        "name": "GABON",
+        "sga_origin_fk": 215,
+        "code": 266
+    },
+    {
+        "name": "GAMBIA",
+        "sga_origin_fk": 216,
+        "code": 270
+    },
+    {
+        "name": "GEORGIA",
+        "sga_origin_fk": 139,
+        "code": 268
+    },
+    {
+        "name": "GEORGIA DEL SUR Y LAS ISLAS SANDWICH DEL SUR",
+        "sga_origin_fk": null,
+        "code": 239
+    },
+    {
+        "name": "GHANA",
+        "sga_origin_fk": 217,
+        "code": 288
+    },
+    {
+        "name": "GIBRALTAR",
+        "sga_origin_fk": 174,
+        "code": 292
+    },
+    {
+        "name": "GRANADA",
+        "sga_origin_fk": 318,
+        "code": 308
+    },
+    {
+        "name": "GRECIA",
+        "sga_origin_fk": 111,
+        "code": 300
+    },
+    {
+        "name": "GROENLANDIA",
+        "sga_origin_fk": 371,
+        "code": 304
+    },
+    {
+        "name": "GUADALUPE",
+        "sga_origin_fk": 383,
+        "code": 312
+    },
+    {
+        "name": "GUAM",
+        "sga_origin_fk": 454,
+        "code": 316
+    },
+    {
+        "name": "GUATEMALA",
+        "sga_origin_fk": 319,
+        "code": 320
+    },
+    {
+        "name": "GUAYANA FRANCESA",
+        "sga_origin_fk": 394,
+        "code": 254
+    },
+    {
+        "name": "GUERNESEY",
+        "sga_origin_fk": 170,
+        "code": 831
+    },
+    {
+        "name": "GUINEA ECUATORIAL",
+        "sga_origin_fk": 220,
+        "code": 226
+    },
+    {
+        "name": "GUINEA",
+        "sga_origin_fk": 218,
+        "code": 324
+    },
+    {
+        "name": "GUINEA-BISSAU",
+        "sga_origin_fk": 219,
+        "code": 624
+    },
+    {
+        "name": "GUYANA",
+        "sga_origin_fk": 346,
+        "code": 328
+    },
+    {
+        "name": "HAITI",
+        "sga_origin_fk": 320,
+        "code": 332
+    },
+    {
+        "name": "HONDURAS",
+        "sga_origin_fk": 321,
+        "code": 340
+    },
+    {
+        "name": "HONG KONG",
+        "sga_origin_fk": 450,
+        "code": 344
+    },
+    {
+        "name": "HUNGRIA",
+        "sga_origin_fk": 112,
+        "code": 348
+    },
+    {
+        "name": "INDIA",
+        "sga_origin_fk": 410,
+        "code": 356
+    },
+    {
+        "name": "INDONESIA",
+        "sga_origin_fk": 411,
+        "code": 360
+    },
+    {
+        "name": "IRAN",
+        "sga_origin_fk": 413,
+        "code": 364
+    },
+    {
+        "name": "IRAQ",
+        "sga_origin_fk": 412,
+        "code": 368
+    },
+    {
+        "name": "IRLANDA",
+        "sga_origin_fk": 113,
+        "code": 372
+    },
+    {
+        "name": "ISLA BOUVET",
+        "sga_origin_fk": null,
+        "code": 74
+    },
+    {
+        "name": "ISLA DE MAN",
+        "sga_origin_fk": 173,
+        "code": 833
+    },
+    {
+        "name": "ISLA DE NAVIDAD",
+        "sga_origin_fk": null,
+        "code": 162
+    },
+    {
+        "name": "ISLA HEARD E ISLAS MCDONALD",
+        "sga_origin_fk": null,
+        "code": 334
+    },
+    {
+        "name": "ISLA NORFOLK",
+        "sga_origin_fk": 521,
+        "code": 574
+    },
+    {
+        "name": "ISLANDIA",
+        "sga_origin_fk": 114,
+        "code": 352
+    },
+    {
+        "name": "ISLAS ALAND",
+        "sga_origin_fk": 177,
+        "code": 248
+    },
+    {
+        "name": "ISLAS CAIMAN",
+        "sga_origin_fk": 380,
+        "code": 136
+    },
+    {
+        "name": "ISLAS COCOS (KEELING)",
+        "sga_origin_fk": null,
+        "code": 166
+    },
+    {
+        "name": "ISLAS COOK",
+        "sga_origin_fk": 513,
+        "code": 184
+    },
+    {
+        "name": "ISLAS DEL CANAL",
+        "sga_origin_fk": 175,
+        "code": null
+    },
+    {
+        "name": "ISLAS FEROE",
+        "sga_origin_fk": 172,
+        "code": 234
+    },
+    {
+        "name": "ISLAS MALVINAS",
+        "sga_origin_fk": 395,
+        "code": 238
+    },
+    {
+        "name": "ISLAS MARIANAS DEL NORTE",
+        "sga_origin_fk": 448,
+        "code": 580
+    },
+    {
+        "name": "ISLAS MARSHALL",
+        "sga_origin_fk": 440,
+        "code": 584
+    },
+    {
+        "name": "ISLAS PITCAIRN",
+        "sga_origin_fk": 524,
+        "code": 612
+    },
+    {
+        "name": "ISLAS SALOMON",
+        "sga_origin_fk": 506,
+        "code": 90
+    },
+    {
+        "name": "ISLAS TURCAS Y CAICOS",
+        "sga_origin_fk": 381,
+        "code": 796
+    },
+    {
+        "name": "ISLAS ULTRAMARINAS MENORES DE ESTADOS UNIDOS",
+        "sga_origin_fk": null,
+        "code": 581
+    },
+    {
+        "name": "ISLAS VIRGENES BRITANICAS",
+        "sga_origin_fk": 393,
+        "code": 92
+    },
+    {
+        "name": "ISLAS VIRGENES DE LOS ESTADOS UNIDOS",
+        "sga_origin_fk": 382,
+        "code": 850
+    },
+    {
+        "name": "ISRAEL",
+        "sga_origin_fk": 414,
+        "code": 376
+    },
+    {
+        "name": "ITALIA",
+        "sga_origin_fk": 115,
+        "code": 380
+    },
+    {
+        "name": "JAMAICA",
+        "sga_origin_fk": 322,
+        "code": 388
+    },
+    {
+        "name": "JAPON",
+        "sga_origin_fk": 415,
+        "code": 392
+    },
+    {
+        "name": "JERSEY",
+        "sga_origin_fk": 176,
+        "code": 832
+    },
+    {
+        "name": "JORDANIA",
+        "sga_origin_fk": 416,
+        "code": 400
+    },
+    {
+        "name": "KAZAJSTAN",
+        "sga_origin_fk": 443,
+        "code": 398
+    },
+    {
+        "name": "KENIA",
+        "sga_origin_fk": 221,
+        "code": 404
+    },
+    {
+        "name": "KIRGUISTAN",
+        "sga_origin_fk": 444,
+        "code": 417
+    },
+    {
+        "name": "KIRIBATI",
+        "sga_origin_fk": 522,
+        "code": 296
+    },
+    {
+        "name": "KUWAIT",
+        "sga_origin_fk": 418,
+        "code": 414
+    },
+    {
+        "name": "LAOS",
+        "sga_origin_fk": 419,
+        "code": 418
+    },
+    {
+        "name": "LESOTHO",
+        "sga_origin_fk": 222,
+        "code": 426
+    },
+    {
+        "name": "LETONIA",
+        "sga_origin_fk": 136,
+        "code": 428
+    },
+    {
+        "name": "LIBANO",
+        "sga_origin_fk": 420,
+        "code": 422
+    },
+    {
+        "name": "LIBERIA",
+        "sga_origin_fk": 223,
+        "code": 430
+    },
+    {
+        "name": "LIBIA",
+        "sga_origin_fk": 224,
+        "code": 434
+    },
+    {
+        "name": "LIECHTENSTEIN",
+        "sga_origin_fk": 116,
+        "code": 438
+    },
+    {
+        "name": "LITUANIA",
+        "sga_origin_fk": 142,
+        "code": 440
+    },
+    {
+        "name": "LUXEMBURGO",
+        "sga_origin_fk": 117,
+        "code": 442
+    },
+    {
+        "name": "MACAO",
+        "sga_origin_fk": 455,
+        "code": 446
+    },
+    {
+        "name": "MACEDONIA ",
+        "sga_origin_fk": 156,
+        "code": 807
+    },
+    {
+        "name": "MADAGASCAR",
+        "sga_origin_fk": 225,
+        "code": 450
+    },
+    {
+        "name": "MALASIA",
+        "sga_origin_fk": 421,
+        "code": 458
+    },
+    {
+        "name": "MALAWI",
+        "sga_origin_fk": 226,
+        "code": 454
+    },
+    {
+        "name": "MALDIVAS",
+        "sga_origin_fk": 422,
+        "code": 462
+    },
+    {
+        "name": "MALI",
+        "sga_origin_fk": 227,
+        "code": 466
+    },
+    {
+        "name": "MALTA",
+        "sga_origin_fk": 118,
+        "code": 470
+    },
+    {
+        "name": "MARRUECOS",
+        "sga_origin_fk": 228,
+        "code": 504
+    },
+    {
+        "name": "MARTINICA",
+        "sga_origin_fk": 390,
+        "code": 474
+    },
+    {
+        "name": "MAURICIO",
+        "sga_origin_fk": 229,
+        "code": 480
+    },
+    {
+        "name": "MAURITANIA",
+        "sga_origin_fk": 230,
+        "code": 478
+    },
+    {
+        "name": "MAYOTTE",
+        "sga_origin_fk": 262,
+        "code": 175
+    },
+    {
+        "name": "MEXICO",
+        "sga_origin_fk": 303,
+        "code": 484
+    },
+    {
+        "name": "MICRONESIA",
+        "sga_origin_fk": 511,
+        "code": 583
+    },
+    {
+        "name": "MOLDAVIA",
+        "sga_origin_fk": 137,
+        "code": 498
+    },
+    {
+        "name": "MONACO",
+        "sga_origin_fk": 119,
+        "code": 492
+    },
+    {
+        "name": "MONGOLIA",
+        "sga_origin_fk": 423,
+        "code": 496
+    },
+    {
+        "name": "MONTENEGRO",
+        "sga_origin_fk": 158,
+        "code": 499
+    },
+    {
+        "name": "MONTSERRAT",
+        "sga_origin_fk": 387,
+        "code": 500
+    },
+    {
+        "name": "MOZAMBIQUE",
+        "sga_origin_fk": 231,
+        "code": 508
+    },
+    {
+        "name": "MYANMAR",
+        "sga_origin_fk": 405,
+        "code": 104
+    },
+    {
+        "name": "NAMIBIA",
+        "sga_origin_fk": 232,
+        "code": 516
+    },
+    {
+        "name": "NAURU",
+        "sga_origin_fk": 515,
+        "code": 520
+    },
+    {
+        "name": "NEPAL",
+        "sga_origin_fk": 424,
+        "code": 524
+    },
+    {
+        "name": "NICARAGUA",
+        "sga_origin_fk": 323,
+        "code": 558
+    },
+    {
+        "name": "NIGER",
+        "sga_origin_fk": 233,
+        "code": 562
+    },
+    {
+        "name": "NIGERIA",
+        "sga_origin_fk": 234,
+        "code": 566
+    },
+    {
+        "name": "NIUE",
+        "sga_origin_fk": 523,
+        "code": 570
+    },
+    {
+        "name": "NORUEGA",
+        "sga_origin_fk": 120,
+        "code": 578
+    },
+    {
+        "name": "NUEVA CALEDONIA",
+        "sga_origin_fk": 526,
+        "code": 540
+    },
+    {
+        "name": "NUEVA ZELANDA",
+        "sga_origin_fk": 504,
+        "code": 554
+    },
+    {
+        "name": "OMAN",
+        "sga_origin_fk": 425,
+        "code": 512
+    },
+    {
+        "name": "PAISES BAJOS",
+        "sga_origin_fk": 121,
+        "code": 528
+    },
+    {
+        "name": "PAKISTAN",
+        "sga_origin_fk": 426,
+        "code": 586
+    },
+    {
+        "name": "PALAOS",
+        "sga_origin_fk": 516,
+        "code": 585
+    },
+    {
+        "name": "PALESTINA",
+        "sga_origin_fk": 449,
+        "code": 275
+    },
+    {
+        "name": "PANAMA",
+        "sga_origin_fk": 324,
+        "code": 591
+    },
+    {
+        "name": "PAPUA NUEVA GUINEA",
+        "sga_origin_fk": 505,
+        "code": 598
+    },
+    {
+        "name": "PARAGUAY",
+        "sga_origin_fk": 347,
+        "code": 600
+    },
+    {
+        "name": "PERU",
+        "sga_origin_fk": 348,
+        "code": 604
+    },
+    {
+        "name": "POLINESIA FRANCESA",
+        "sga_origin_fk": 520,
+        "code": 258
+    },
+    {
+        "name": "POLONIA",
+        "sga_origin_fk": 122,
+        "code": 616
+    },
+    {
+        "name": "PORTUGAL",
+        "sga_origin_fk": 123,
+        "code": 620
+    },
+    {
+        "name": "PUERTO RICO",
+        "sga_origin_fk": 391,
+        "code": 630
+    },
+    {
+        "name": "QATAR",
+        "sga_origin_fk": 427,
+        "code": 634
+    },
+    {
+        "name": "REINO UNIDO",
+        "sga_origin_fk": 125,
+        "code": 826
+    },
+    {
+        "name": "REPUBLICA CENTROAFRICANA",
+        "sga_origin_fk": 235,
+        "code": 140
+    },
+    {
+        "name": "REPUBLICA CHECA",
+        "sga_origin_fk": 143,
+        "code": 203
+    },
+    {
+        "name": "REPUBLICA DOMINICANA",
+        "sga_origin_fk": 326,
+        "code": 214
+    },
+    {
+        "name": "REUNION",
+        "sga_origin_fk": 261,
+        "code": 638
+    },
+    {
+        "name": "RUANDA",
+        "sga_origin_fk": 237,
+        "code": 646
+    },
+    {
+        "name": "RUMANIA",
+        "sga_origin_fk": 128,
+        "code": 642
+    },
+    {
+        "name": "RUSIA",
+        "sga_origin_fk": 154,
+        "code": 643
+    },
+    {
+        "name": "SAHARA OCCIDENTAL",
+        "sga_origin_fk": 263,
+        "code": 732
+    },
+    {
+        "name": "SAMOA AMERICANA",
+        "sga_origin_fk": 528,
+        "code": 16
+    },
+    {
+        "name": "SAMOA",
+        "sga_origin_fk": 507,
+        "code": 882
+    },
+    {
+        "name": "SAN BARTOLOME",
+        "sga_origin_fk": 389,
+        "code": 652
+    },
+    {
+        "name": "SAN CRISTOBAL Y NIEVES",
+        "sga_origin_fk": 329,
+        "code": 659
+    },
+    {
+        "name": "SAN MARINO",
+        "sga_origin_fk": 129,
+        "code": 674
+    },
+    {
+        "name": "SAN MARTIN (PARTE FRANCESA)",
+        "sga_origin_fk": 385,
+        "code": 663
+    },
+    {
+        "name": "SAN PEDRO Y MIQUELON ",
+        "sga_origin_fk": 370,
+        "code": 666
+    },
+    {
+        "name": "SAN VICENTE Y LAS GRANADINAS",
+        "sga_origin_fk": 325,
+        "code": 670
+    },
+    {
+        "name": "SANTA HELENA",
+        "sga_origin_fk": 260,
+        "code": 654
+    },
+    {
+        "name": "SANTA LUCIA",
+        "sga_origin_fk": 328,
+        "code": 662
+    },
+    {
+        "name": "SANTA SEDE",
+        "sga_origin_fk": 130,
+        "code": 336
+    },
+    {
+        "name": "SANTO TOME Y PRINCIPE",
+        "sga_origin_fk": 238,
+        "code": 678
+    },
+    {
+        "name": "SENEGAL",
+        "sga_origin_fk": 239,
+        "code": 686
+    },
+    {
+        "name": "SERBIA",
+        "sga_origin_fk": 157,
+        "code": 688
+    },
+    {
+        "name": "SEYCHELLES",
+        "sga_origin_fk": 240,
+        "code": 690
+    },
+    {
+        "name": "SIERRA LEONA",
+        "sga_origin_fk": 241,
+        "code": 694
+    },
+    {
+        "name": "SINGAPUR",
+        "sga_origin_fk": 432,
+        "code": 702
+    },
+    {
+        "name": "SINT MAARTEN (PARTE NEERLANDESA)",
+        "sga_origin_fk": null,
+        "code": 534
+    },
+    {
+        "name": "SIRIA",
+        "sga_origin_fk": 433,
+        "code": 760
+    },
+    {
+        "name": "SOMALIA",
+        "sga_origin_fk": 242,
+        "code": 706
+    },
+    {
+        "name": "SRI LANKA",
+        "sga_origin_fk": 434,
+        "code": 144
+    },
+    {
+        "name": "SWAZILANDIA",
+        "sga_origin_fk": 244,
+        "code": 748
+    },
+    {
+        "name": "SUDAFRICA",
+        "sga_origin_fk": 236,
+        "code": 710
+    },
+    {
+        "name": "SUDAN",
+        "sga_origin_fk": 243,
+        "code": 729
+    },
+    {
+        "name": "SUDAN DEL SUR",
+        "sga_origin_fk": null,
+        "code": 728
+    },
+    {
+        "name": "SUECIA",
+        "sga_origin_fk": 131,
+        "code": 752
+    },
+    {
+        "name": "SUIZA",
+        "sga_origin_fk": 132,
+        "code": 756
+    },
+    {
+        "name": "SURINAM",
+        "sga_origin_fk": 349,
+        "code": 740
+    },
+    {
+        "name": "SVALBARD Y JAN MAYEN",
+        "sga_origin_fk": 171,
+        "code": 744
+    },
+    {
+        "name": "TAILANDIA",
+        "sga_origin_fk": 435,
+        "code": 764
+    },
+    {
+        "name": "TAIWAN, PROVINCIA DE CHINA",
+        "sga_origin_fk": null,
+        "code": 158
+    },
+    {
+        "name": "TANZANIA",
+        "sga_origin_fk": 245,
+        "code": 834
+    },
+    {
+        "name": "TADYIKISTAN",
+        "sga_origin_fk": 445,
+        "code": 762
+    },
+    {
+        "name": "TIMOR ORIENTAL",
+        "sga_origin_fk": 517,
+        "code": 86
+    },
+    {
+        "name": "TERRITORIOS AUSTRALES FRANCESES",
+        "sga_origin_fk": null,
+        "code": 260
+    },
+    {
+        "name": "TIMOR-LESTE",
+        "sga_origin_fk": null,
+        "code": 626
+    },
+    {
+        "name": "TOGO",
+        "sga_origin_fk": 247,
+        "code": 768
+    },
+    {
+        "name": "TOKELAU",
+        "sga_origin_fk": 525,
+        "code": 772
+    },
+    {
+        "name": "TONGA",
+        "sga_origin_fk": 508,
+        "code": 776
+    },
+    {
+        "name": "TRINIDAD Y TOBAGO",
+        "sga_origin_fk": 327,
+        "code": 780
+    },
+    {
+        "name": "TUNEZ",
+        "sga_origin_fk": 248,
+        "code": 788
+    },
+    {
+        "name": "TURKMENISTAN",
+        "sga_origin_fk": 446,
+        "code": 795
+    },
+    {
+        "name": "TURQUIA",
+        "sga_origin_fk": 436,
+        "code": 792
+    },
+    {
+        "name": "TUVALU",
+        "sga_origin_fk": 512,
+        "code": 798
+    },
+    {
+        "name": "UCRANIA",
+        "sga_origin_fk": 135,
+        "code": 804
+    },
+    {
+        "name": "UGANDA",
+        "sga_origin_fk": 249,
+        "code": 800
+    },
+    {
+        "name": "URUGUAY",
+        "sga_origin_fk": 350,
+        "code": 858
+    },
+    {
+        "name": "UZBEKISTAN",
+        "sga_origin_fk": 447,
+        "code": 860
+    },
+    {
+        "name": "VANUATU",
+        "sga_origin_fk": 509,
+        "code": 548
+    },
+    {
+        "name": "VENEZUELA",
+        "sga_origin_fk": 351,
+        "code": 862
+    },
+    {
+        "name": "VIETNAM",
+        "sga_origin_fk": 437,
+        "code": 704
+    },
+    {
+        "name": "WALLIS Y FORTUNA",
+        "sga_origin_fk": 527,
+        "code": 876
+    },
+    {
+        "name": "YEMEN",
+        "sga_origin_fk": 441,
+        "code": 887
+    },
+    {
+        "name": "ZAMBIA",
+        "sga_origin_fk": 251,
+        "code": 894
+    },
+    {
+        "name": "ZIMBABWE",
+        "sga_origin_fk": 252,
+        "code": 716
+    }
+]

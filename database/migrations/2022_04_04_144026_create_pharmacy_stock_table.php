@@ -17,7 +17,7 @@ class CreatePharmacyStockTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('type_pharmacy_stock_id');
-            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('permission_pharmacy_stock_id');
             $table->timestamps();
 

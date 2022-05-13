@@ -15,7 +15,7 @@ class CreateMunicipalityTable extends Migration
     {
         Schema::create('municipality', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedSmallInteger('region_id');
+            $table->unsignedBigInteger('region_id');
             $table->string('name');
             $table->integer('sga_origin_fk')->nullable();
             $table->timestamps();

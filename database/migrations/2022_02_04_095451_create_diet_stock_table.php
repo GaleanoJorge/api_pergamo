@@ -17,7 +17,7 @@ class CreateDietStockTable extends Migration
             $table->bigIncrements('id');
             $table->double('amount');
             $table->unsignedBigInteger('diet_supplies_id');
-            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->timestamps();
 
             $table->index('diet_supplies_id');

@@ -47,6 +47,7 @@ class CampusController extends Controller
         $Campus = new Campus;
         $Campus->name = $request->name;
         $Campus->region_id = $request->region_id;
+        $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
 
         return response()->json([
@@ -86,6 +87,7 @@ class CampusController extends Controller
         $Campus = Campus::find($id);
         $Campus->name = $request->name;
         $Campus->region_id = $request->region_id;
+        $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
 
         return response()->json([

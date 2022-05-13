@@ -18,7 +18,7 @@ class PadRiskController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PadRisk = PadRisk::with('status');
+        $PadRisk = PadRisk::select();
 
         if($request->_sort){
             $PadRisk->orderBy($request->_sort, $request->_order);
@@ -26,10 +26,6 @@ class PadRiskController extends Controller
 
         if ($request->search) {
             $PadRisk->where('name','like','%' . $request->search. '%');
-        }
-
-        if ($request->status_id) {
-            $PadRisk->where('status_id', $request->status_id);
         }
         
         if($request->query("pagination", true)=="false"){
@@ -53,7 +49,6 @@ class PadRiskController extends Controller
     {
         $PadRisk = new PadRisk;
         $PadRisk->name = $request->name;
-        $PadRisk->status_id = 1;
         
         $PadRisk->save();
 
@@ -92,7 +87,6 @@ class PadRiskController extends Controller
     {
         $PadRisk = PadRisk::find($id);
         $PadRisk->name = $request->name;
-        $PadRisk->status_id = $request->status_id;
         
         $PadRisk->save();
 
