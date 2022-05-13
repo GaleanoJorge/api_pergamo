@@ -38,6 +38,7 @@ class Patient extends BasePatient
         'ethnicity',
         'landline',
         'file',
+        'locality_id',
     ];
 
     /**
@@ -131,6 +132,11 @@ class Patient extends BasePatient
     public function residence()
     {
         return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+    }
+
+    public function locality()
+    {
+        return $this->belongsTo(Locality::class, 'locality_id');
     }
 
 

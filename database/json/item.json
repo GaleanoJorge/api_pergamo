@@ -1222,5 +1222,14 @@
         "route": "/pages/setting/pharmacy-update-max-min",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "187",
+        "item_parent_id": null,
+        "name": "Solicitud de personal Talento Humano",
+        "code": "human-talent-request",
+        "route": "/pages/human-talent-request/list",
+        "icon": "people-outline",
+        "show_menu": "1"
     }
 ]
