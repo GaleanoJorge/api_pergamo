@@ -180,6 +180,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeBriefcaseSeeder::class);
                 $this->call(PolicyTypeSeeder::class);
                 
+                //Semillas Tipo de registro
+                $this->call(ChTypeRecordSeeder::class);
+
 
 
         }
