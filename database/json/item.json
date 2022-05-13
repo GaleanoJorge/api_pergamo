@@ -1186,5 +1186,41 @@
         "route": "/pages/setting/pharmacy-inventory",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "182",
+        "item_parent_id": "67",
+        "name": "Cargue masivo FRT",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "183",
+        "item_parent_id": "182",
+        "name": "Facturación",
+        "code": "billing",
+        "route": "/pages/setting/tc-billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "184",
+        "item_parent_id": "182",
+        "name": "Radicación",
+        "code": "radication",
+        "route": "/pages/setting/tc-radication",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "185",
+        "item_parent_id": "182",
+        "name": "Nómina",
+        "code": "billing",
+        "route": "/pages/setting/tc-human-talent",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
