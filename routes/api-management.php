@@ -1110,5 +1110,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('tax_value_unit', 'Management\TaxValueUnitController');
     Route::get('tax_value_unit/get_latest_tax_value_unit/{prueba_id}', 'Management\TaxValueUnitController@getLatestTaxValueUnit');
     Route::apiResource('minimum_salary', 'Management/MinimumSalaryController');
+    
+    //Tablero Doc Mariana.
+    Route::apiResource('billing_tc', 'Management\BillingTcController');
+    Route::apiResource('radication_tc', 'Management\RadicationTcController');
+    Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
+    Route::post('billing_tc/file', 'Management\BillingTcController@import');
+    Route::post('radication_tc/file', 'Management\RadicationTcController@import');
+    Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
+    
 
 });
