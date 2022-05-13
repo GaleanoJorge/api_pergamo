@@ -1062,5 +1062,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Registro de autorizaciones.
     Route::apiResource('auth_log', 'Management\AuthLogController');
 
+    
+    //Tablero Doc Mariana.
+    Route::apiResource('billing_tc', 'Management\BillingTcController');
+    Route::apiResource('radication_tc', 'Management\RadicationTcController');
+    Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
+    Route::post('billing_tc/file', 'Management\BillingTcController@import');
+    Route::post('radication_tc/file', 'Management\RadicationTcController@import');
+    Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
+    
 
 });
