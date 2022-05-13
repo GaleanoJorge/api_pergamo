@@ -8,7 +8,7 @@ use App\Models\Base\ChDietsEvo as BaseChDietsEvo;
 class ChDietsEvo extends BaseChDietsEvo
 {
   protected $fillable = [
-    'diet_component_id',
+    'enterally_diet_id',
     'diet_consistency_id',
     'observation',
     'type_record_id',

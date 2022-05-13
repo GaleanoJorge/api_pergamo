@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChDietsEvoRequest extends FormRequest
+class EnterallyDietRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class ChDietsEvoRequest extends FormRequest
     public function rules()
     {
         return [
-            'enterally_diet_id' => '',
-            'diet_consistency_id' => '',
-            'observation' =>'',
-            'type_record_id' => '',
-            'ch_record_id' => '',
+            'name' => 'required',
         ];
     }
 }

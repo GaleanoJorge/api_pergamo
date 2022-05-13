@@ -26,8 +26,6 @@ class ChEvoSoapRequest extends FormRequest
         return [
             'subjective' => '',
             'objective' => '',
-            'analisys' => '',
-            'plan' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];
