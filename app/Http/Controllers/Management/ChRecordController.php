@@ -191,7 +191,7 @@ class ChRecordController extends Controller
 
         $mes = Carbon::now()->month;
         
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->get()->toArray();
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->where('status_bill_id', 1)->orWhere('status_bill_id', 2)->get()->toArray();
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
