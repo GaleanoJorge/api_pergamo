@@ -29,6 +29,8 @@ class CreateManagementPlanTable extends Migration
             $table->string('blend')->nullable();
             $table->string('administration_time')->nullable();
             $table->string('number_doses')->nullable();
+            $table->Integer('dosage_administer')->nullable();
+            $table->boolean('phone_consult');
             $table->string('observation')->nullable();
             $table->timestamps();
 

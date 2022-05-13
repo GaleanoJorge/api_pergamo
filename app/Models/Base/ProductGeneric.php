@@ -9,6 +9,9 @@ namespace App\Models\Base;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MeasurementUnits;
+use App\Models\ProductConcentration;
+
 
 /**
  * Class ProductGeneric
@@ -40,4 +43,19 @@ use Illuminate\Database\Eloquent\Model;
 class ProductGeneric extends Model
 {
 	protected $table = 'product_generic';
+
+	protected $casts = [
+		'measurement_units_id' => 'int',
+	];
+
+	public function measurement_units()
+	{
+		return $this->belongsTo(MeasurementUnits::class);
+	}
+
+	public function drug_concentration()
+	{
+		return $this->belongsTo(ProductConcentration::class);
+	}
+
 }
