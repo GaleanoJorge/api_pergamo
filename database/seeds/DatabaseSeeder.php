@@ -166,6 +166,10 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(AssistanceSessionSeeder::class);
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
+                //Semillas Campos Adicionales Signos Vitales
+                $this->call(LitersPerMinuteSeeder::class);
+                $this->call(OxygenTypeSeeder::class); 
+                $this->call(ParametersSignsSeeder::class);
 
                 //Semillas De Pruebas
                 $this->call(ContractStatusSeeder::class);
