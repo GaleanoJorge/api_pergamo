@@ -59,8 +59,4 @@ class Tariff extends Model
 	{
 		return $this->belongsTo(Status::class);
 	}
-	public function scope_of_attention()
-	{
-		return $this->belongsTo(ScopeOfAttention::class);
-	}
 }
