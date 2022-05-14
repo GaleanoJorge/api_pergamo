@@ -16,7 +16,6 @@ class ChTypeRecordSeeder extends Seeder
 
         foreach (json_decode($data) as $row) {
             ChTypeRecord::create([
-        
                 'name' =>  $row->name,
             ]);
         }
