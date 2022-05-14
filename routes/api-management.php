@@ -1137,5 +1137,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
     
+    //Campos nuevos de Signos Vitales
+    Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
+    Route::apiResource('liters_per_minute', 'Management\LitersPerMinuteController');
+    Route::apiResource('parameters_signs', 'Management\ParametersSignsController');
+
+    // Campo de evolución Fallida
+    Route::apiResource('ch_failed', 'Management\ChFailedController');
+    Route::apiResource('ch_reason', 'Management\ChReasonController');
+    Route::get('ch_failed/by_record/{id}/{type_record_id}', 'Management\ChFailedController@getByRecord');
+
+    //Campo nuevo de dietas
+    Route::apiResource('enterally_diet', 'Management\EnterallyDietController');
 
 });

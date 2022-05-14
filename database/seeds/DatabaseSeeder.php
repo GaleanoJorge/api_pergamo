@@ -172,6 +172,10 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(AssistanceSessionSeeder::class);
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
+                //Semillas Campos Adicionales Signos Vitales
+                $this->call(LitersPerMinuteSeeder::class);
+                $this->call(OxygenTypeSeeder::class); 
+                $this->call(ParametersSignsSeeder::class);
 
                 //Semillas De Pruebas
                 $this->call(ContractStatusSeeder::class);
@@ -182,6 +186,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeBriefcaseSeeder::class);
                 $this->call(PolicyTypeSeeder::class);
                 
+                //Semillas Tipo de registro
+                $this->call(ChTypeRecordSeeder::class);
+
 
 
         }
