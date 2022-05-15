@@ -24,5 +24,7 @@ protected $fillable = [
 	'minimum_stock',  
 	'maximum_stock',  
 	'consignment',     
+	'dose',     
+	'product_dose_id',     
 	];
 }

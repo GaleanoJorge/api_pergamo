@@ -31,6 +31,8 @@ class CreateProductGenericTable extends Migration
             $table->Integer ('reuse')->nullable();
             $table->Integer ('invasive')->nullable();
             $table->Integer ('consignment')->nullable();
+            $table->unsignedBigInteger('product_dose_id');
+            $table->string('dose')->nullable();
             $table->timestamps();
 
 
@@ -47,6 +49,9 @@ class CreateProductGenericTable extends Migration
             $table->foreign('product_subcategory_id')->references('id')
                     ->on('product_subcategory');
 
+            $table->index('product_dose_id');
+            $table->foreign('product_dose_id')->references('id')
+                ->on('product_dose');
         });
     }
 
