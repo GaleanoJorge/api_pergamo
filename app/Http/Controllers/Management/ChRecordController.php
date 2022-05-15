@@ -194,6 +194,7 @@ class ChRecordController extends Controller
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
         $admissions = Admissions::find($admissions_id);
+        $Location = Location::where('admissions_id', $admissions->id)->first();
         $user_id = $admissions->patient_id;
         // $ambit = Location::find($admissions_id)->scope_of_attention_id;
         $locality = Patient::find($user_id)->locality_id;
@@ -205,7 +206,7 @@ class ChRecordController extends Controller
         $valuetariff = Tariff::where('pad_risk_id', $tariff)
             ->where('phone_consult', $ManagementPlan->phone_consult)
             ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('program_id', $admissions->program_id);
+            ->where('program_id', $Location->program_id);
         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
             if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
                 $valuetariff->where('quantity', $ManagementPlan->quantity);
@@ -213,7 +214,12 @@ class ChRecordController extends Controller
         } else {
             $valuetariff->whereNull('quantity');
         }
-        $valuetariff = $valuetariff->first();
+        if ($request->extra_dose) {
+            $valuetariff->where('extra_dose', $request->extra_dose);
+        } else {
+            $valuetariff->where('extra_dose', 0);
+        }
+        $valuetariff = $valuetariff->get()->toArray();
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -233,7 +239,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff->amount;
+                $billActivity->value = $valuetariff[0]['amount'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -242,7 +248,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff->amount;
+                $billActivity->value = $valuetariff[0]['amount'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };
