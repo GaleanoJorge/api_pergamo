@@ -143,6 +143,7 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(TypePharmacyStockSeeder::class);
                 $this->call(PackingSeeder::class);
+                $this->call(ProductDoseSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

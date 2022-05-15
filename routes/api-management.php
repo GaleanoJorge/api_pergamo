@@ -891,26 +891,45 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
     
+    Route::apiResource('packing', 'Management\PackingController');
+    Route::apiResource('product_dose', 'Management\ProductDoseController');
     
     Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
+    Route::apiResource('billing', 'Management\BillingController');
+    Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
-    Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
-    Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
-    Route::post('pharmacy_inventory/updateInventoryByLot/{lot_id}', 'Management\PharmacyInventoryController@updateInventoryByLot');
-    Route::get('pharmacy_inventory/pharmacies/{user_id}', 'Management\PharmacyInventoryController@getPharmacyByUserId');
+    Route::apiResource('pharmacy_lot_stock', 'Management\PharmacyLotStockController');
+    Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
-    Route::apiResource('pharmacy_request', 'Management\PharmacyRequestController');
+    Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
-    Route::apiResource('packing', 'Management\PackingController');
-    Route::apiResource('pharmacy_request_stock', 'Management\PharmacyRequestStockController');
-    Route::apiResource('billing_stock', 'Management\BillingStockController');
 
-    
-    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
-    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
+    Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
+    Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
+
+
+
+
+
+
+
+
+
+
+
+    Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+
+
+
+
+
     
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
