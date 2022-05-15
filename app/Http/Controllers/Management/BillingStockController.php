@@ -19,7 +19,7 @@ class BillingStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingStock = BillingStock::with('billing', 'product', 'product.factory', 'product.product_generic')
+        $BillingStock = BillingStock::with('billing','billing.company', 'product', 'product.factory', 'product.product_generic')
             //->Join('product', 'billing_stock.product_id', 'product.id')
             //->Join('billing', 'billing_stock.billing_id', 'billing.id')
             ;
@@ -61,6 +61,7 @@ class BillingStockController extends Controller
 
             $BillingStock = new BillingStock;
             $BillingStock->amount = $element->amount;
+            $BillingStock->amount_unit = $element->amount_unit;
             $BillingStock->billing_id = $request->billing_id;
             $BillingStock->product_id = $element->product_id;
             $BillingStock->save();
@@ -105,6 +106,7 @@ class BillingStockController extends Controller
         foreach ($supplies as $element) {
             $BillingStock = new BillingStock;
             $BillingStock->amount = $element->amount;
+            $BillingStock->amount_unit = $element->amount_unit;
             $BillingStock->billing_id = $id;
             $BillingStock->product_id = $element->product_id;
             $BillingStock->save();

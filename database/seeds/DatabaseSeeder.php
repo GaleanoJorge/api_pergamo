@@ -150,6 +150,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(MinimumSalarySeeder::class);
                 $this->call(SourceRetentionTypeSeeder::class);
                 $this->call(MunicipalityIcaSeeder::class);
+                
+                $this->call(ProductDoseSeeder::class);
+                //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
                 //$this->call(CriterionActivityGoalSeeder::class);

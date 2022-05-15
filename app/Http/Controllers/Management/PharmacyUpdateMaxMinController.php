@@ -19,10 +19,13 @@ class PharmacyUpdateMaxMinController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyUpdateMaxMin = PharmacyUpdateMaxMin::with('pharmacy_stock','pharmacy_inventory');
+        $PharmacyUpdateMaxMin = PharmacyUpdateMaxMin::with('pharmacy_stock', 'PharmacyLotStock');
 
         if ($request->_sort) {
             $PharmacyUpdateMaxMin->orderBy($request->_sort, $request->_order);
+        }
+        if ($request->pharmacy_stock_id) {
+            $PharmacyUpdateMaxMin->where('pharmacy_stock_id', $request->pharmacy_stock_id);
         }
 
         if ($request->search) {
@@ -49,8 +52,9 @@ class PharmacyUpdateMaxMinController extends Controller
     public function store(Request $request): JsonResponse
     {
         $PharmacyUpdateMaxMin = new PharmacyUpdateMaxMin;
-        $PharmacyUpdateMaxMin->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PharmacyUpdateMaxMin->pharmacy_inventory_id = $request->pharmacy_inventory_id;
+        $PharmacyUpdateMaxMin->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
+        $PharmacyUpdateMaxMin->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
+        $PharmacyUpdateMaxMin->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyUpdateMaxMin->save();
 
         return response()->json([
@@ -87,8 +91,9 @@ class PharmacyUpdateMaxMinController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $PharmacyUpdateMaxMin = PharmacyUpdateMaxMin::find($id);
-        $PharmacyUpdateMaxMin->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PharmacyUpdateMaxMin->pharmacy_inventory_id = $request->pharmacy_inventory_id;
+        $PharmacyUpdateMaxMin->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
+        $PharmacyUpdateMaxMin->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
+        $PharmacyUpdateMaxMin->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyUpdateMaxMin->save();
 
         return response()->json([

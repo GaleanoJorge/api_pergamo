@@ -65,6 +65,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->consignment = $request->consignment; 
+        $ProductGeneric->dose = $request->dose;
+        $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->save();
 
         return response()->json([
@@ -118,6 +120,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->consignment = $request->consignment;   
+        $ProductGeneric->dose = $request->dose;
+        $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->save();
 
         return response()->json([

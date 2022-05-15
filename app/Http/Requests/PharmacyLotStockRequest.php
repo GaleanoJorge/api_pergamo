@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PharmacyInventoryRequest extends FormRequest
+class PharmacyLotStockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,13 @@ class PharmacyInventoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'lot' => '',
+            'amount_total' => '',
+            'sample' => '',
             'actual_amount' => '',
-            'pharmacy_stock_id' => '',
+            'expiration_date' => '',
             'pharmacy_lot_id' => '',
+            'billing_stock_id' => '',
         ];
     }
 }

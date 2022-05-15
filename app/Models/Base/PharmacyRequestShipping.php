@@ -6,43 +6,38 @@
 
 namespace App\Models\Base;
 
-use App\Models\PharmacyInventory;
+use App\Models\PharmacyLotStock;
 use App\Models\PharmacyProductRequest;
-use App\Models\PharmacyStock;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class PharmacyRequest
+ * Class PharmacyRequestShipping
  * 
  * @property int $id 
- * @property BigInteger $pharmacy_stock_id
- * @property BigInteger $pharmacy_inventory_id
+ * @property number $amount
+ * @property number $amount_damaged
+ * @property number $amount_provition
  * @property BigInteger $pharmacy_product_request_id
+ * @property BigInteger $pharmacy_lot_stock_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class PharmacyRequest extends Model
+class PharmacyRequestShipping extends Model
 {
-	protected $table = 'pharmacy_request';
+	protected $table = 'pharmacy_request_shipping';
 
-	public function pharmacy_stock()
-	{
-		return $this->belongsTo(PharmacyStock::class);
-	}
 
-	public function pharmacy_inventory()
+	public function pharmacy_lot_stock()
 	{
-		return $this->belongsTo(PharmacyInventory::class);
+		return $this->belongsTo(PharmacyLotStock::class);
 	}
 
 	public function pharmacy_product_request()
 	{
 		return $this->belongsTo(PharmacyProductRequest::class);
 	}
-
-
 }

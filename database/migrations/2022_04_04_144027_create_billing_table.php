@@ -15,13 +15,8 @@ class CreateBillingTable extends Migration
     {
         Schema::create('billing', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('provider_name');
-            $table->string('num_evidence');
-            $table->string('sub_total');
-            $table->string('vat');
-            $table->string('setting_value');
-            $table->string('invoice_value');
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('pharmacy_stock_id');
             $table->unsignedBigInteger('type_billing_evidence_id');
             $table->timestamps();
 
@@ -32,6 +27,10 @@ class CreateBillingTable extends Migration
             $table->index('type_billing_evidence_id');
             $table->foreign('type_billing_evidence_id')->references('id')
                 ->on('type_billing_evidence');
+
+            $table->index('pharmacy_stock_id');
+            $table->foreign('pharmacy_stock_id')->references('id')
+                ->on('pharmacy_stock');
         });
     }
 

@@ -19,7 +19,7 @@ class BillingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Billing = Billing::with('company');
+        $Billing = Billing::with('company', 'pharmacy_stock');
 
         if ($request->_sort) {
             $Billing->orderBy($request->_sort, $request->_order);
@@ -85,12 +85,9 @@ class BillingController extends Controller
     public function store(Request $request): JsonResponse
     {
         $Billing = new Billing;
+
         $Billing->company_id = $request->company_id;
-        $Billing->num_evidence = $request->num_evidence;
-        $Billing->sub_total = $request->sub_total;
-        $Billing->vat = $request->vat;
-        $Billing->setting_value = $request->setting_value;
-        $Billing->invoice_value = $request->invoice_value;
+        $Billing->pharmacy_stock_id = $request->pharmacy_stock_id;
         $Billing->type_billing_evidence_id = $request->type_billing_evidence_id;
         $Billing->save();
 
@@ -128,12 +125,10 @@ class BillingController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $Billing = Billing::find($id);
+
+
         $Billing->company_id = $request->company_id;
-        $Billing->num_evidence = $request->num_evidence;
-        $Billing->sub_total = $request->sub_total;
-        $Billing->vat = $request->vat;
-        $Billing->setting_value = $request->setting_value;
-        $Billing->invoice_value = $request->invoice_value;
+        $Billing->pharmacy_stock_id = $request->pharmacy_stock_id;
         $Billing->type_billing_evidence_id = $request->type_billing_evidence_id;
         $Billing->save();
 

@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePharmacyRequestTable extends Migration
+class CreatePharmacyRequestShippingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,20 +14,18 @@ class CreatePharmacyRequestTable extends Migration
      */
     public function up()
     {
-        Schema::create('pharmacy_request', function (Blueprint $table) {
+        Schema::create('pharmacy_request_shipping', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('pharmacy_stock_id');
-            $table->unsignedBigInteger('pharmacy_inventory_id');
+            $table->integer('amount')->nullable();
+            $table->integer('amount_damaged')->nullable();
+            $table->integer('amount_provition')->nullable();
             $table->unsignedBigInteger('pharmacy_product_request_id');
+            $table->unsignedBigInteger('pharmacy_lot_stock_id');
             $table->timestamps();
 
-            $table->index('pharmacy_stock_id');
-            $table->foreign('pharmacy_stock_id')->references('id')
-                ->on('pharmacy_stock');
-
-            $table->index('pharmacy_inventory_id');
-            $table->foreign('pharmacy_inventory_id')->references('id')
-                ->on('pharmacy_inventory');
+            $table->index('pharmacy_lot_stock_id');
+            $table->foreign('pharmacy_lot_stock_id')->references('id')
+                ->on('pharmacy_lot_stock');
 
             $table->index('pharmacy_product_request_id');
             $table->foreign('pharmacy_product_request_id')->references('id')
@@ -42,6 +40,6 @@ class CreatePharmacyRequestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pharmacy_request');
+        Schema::dropIfExists('pharmacy_request_shipping');
     }
 }

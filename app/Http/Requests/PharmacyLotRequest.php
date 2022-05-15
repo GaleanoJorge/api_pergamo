@@ -24,13 +24,11 @@ class PharmacyLotRequest extends FormRequest
     public function rules()
     {
         return [
+            'subtotal' => '',
+            'vat' => '',
+            'total' => '',
+            'receipt_date' => '',
             'pharmacy_stock_id' => '',
-            'enter_amount' => '',
-            'unit_value' => '',
-            'lot' => '',
-            'expiration_date' => '',
-            'billing_id' => '',
-            'product_id' => '',
         ];
     }
 }

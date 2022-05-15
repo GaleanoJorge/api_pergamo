@@ -6,7 +6,6 @@ use App\Models\PharmacyLot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\PharmacyInventory;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -20,7 +19,7 @@ class PharmacyLotController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyLot = PharmacyLot::with('billing_stock','billing_stock.product','billing_stock.product.factory','billing_stock.product.product_generic');
+        $PharmacyLot = PharmacyLot::select();
 
         if ($request->_sort) {
             $PharmacyLot->orderBy($request->_sort, $request->_order);
@@ -29,7 +28,7 @@ class PharmacyLotController extends Controller
         if ($request->search) {
             $PharmacyLot->where('status', 'like', '%' . $request->search . '%');
         }
-       
+
         if ($request->query("pagination", true) == "false") {
             $PharmacyLot = $PharmacyLot->get()->toArray();
         } else {
@@ -47,26 +46,15 @@ class PharmacyLotController extends Controller
         ]);
     }
 
-
-
-
     public function store(Request $request): JsonResponse
     {
         $PharmacyLot = new PharmacyLot;
+        $PharmacyLot->subtotal = $request->subtotal;
+        $PharmacyLot->vat = $request->vat;
+        $PharmacyLot->total = $request->total;
+        $PharmacyLot->receipt_date = $request->receipt_date;
         $PharmacyLot->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PharmacyLot->enter_amount = $request->enter_amount;
-        $PharmacyLot->unit_value = $request->unit_value;
-        $PharmacyLot->lot = $request->lot;
-        $PharmacyLot->expiration_date = $request->expiration_date;
-        $PharmacyLot->billing_id = $request->billing_id;
-        $PharmacyLot->billing_stock_id = $request->billing_stock_id;
         $PharmacyLot->save();
-
-        $PharmacyInventory = new PharmacyInventory();
-        $PharmacyInventory->actual_amount = $request->enter_amount;
-        $PharmacyInventory->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PharmacyInventory->pharmacy_lot_id = $PharmacyLot->id;
-        $PharmacyInventory->save();
 
         return response()->json([
             'status' => true,
@@ -102,13 +90,12 @@ class PharmacyLotController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $PharmacyLot = PharmacyLot::find($id);
+        $PharmacyLot->subtotal = $request->subtotal;
+        $PharmacyLot->vat = $request->vat;
+        $PharmacyLot->total = $request->total;
+        $PharmacyLot->receipt_date = $request->receipt_date;
         $PharmacyLot->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PharmacyLot->enter_amount = $request->enter_amount;
-        $PharmacyLot->unit_value = $request->unit_value;
-        $PharmacyLot->lot = $request->lot;
-        $PharmacyLot->expiration_date = $request->expiration_date;
-        $PharmacyLot->billing_id = $request->billing_id;
-        $PharmacyLot->billing_stock_id = $request->billing_stock_id;
+
         $PharmacyLot->save();
 
         return response()->json([
