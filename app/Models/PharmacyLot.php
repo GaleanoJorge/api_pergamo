@@ -8,12 +8,10 @@ use App\Models\Base\PharmacyLot as BasePharmacyLot;
 class PharmacyLot extends BasePharmacyLot
 {
 protected $fillable = [
+	'subtotal',
+	'vat',
+	'total',
+	'receipt_date',
 	'pharmacy_stock_id',
-	'enter_amount',
-	'unit_value',
-	'lot',
-	'expiration_date',
-	'billing_id',
-	'billing_stock_id',
 	];
 }
