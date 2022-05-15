@@ -158,7 +158,7 @@ class ManagementPlanController extends Controller
 
             $ServicesBriefcase=ServicesBriefcase::where('id',$request->product_id)->with('manual_price.product.measurement_units','manual_price.product.drug_concentration')->get()->toArray();
             $quantity= ($request->dosage_administer*$request->number_doses)/$ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
-            $PharmacyProductRequest->amount = round($quantity, PHP_ROUND_HALF_UP);;
+            $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);;
             $PharmacyProductRequest->save();
           
 
