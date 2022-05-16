@@ -632,6 +632,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\AdmissionsController@getByPacient'
     );
 
+    Route::get(
+        'admissions/Briefcase/{briefcase_id}',
+        'Management\AdmissionsController@getByBriefcase'
+    );
+
+    Route::apiResource('auth_package', 'Management\AuthorizationPackageController');
+
     //location
     Route::apiResource('location', 'Management\LocationController');
 
@@ -704,6 +711,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
         'Management\ServicesBriefcaseController@getByBriefcase'
     );
+
+    //Portafolio de servicios por contrato
+    Route::get(
+        'ServiceBriefcase/PackageByBriefcase/{briefcaseId}',
+        'Management\ServicesBriefcaseController@getPackageByBriefcase');
 
     //Sedes del Portafolio de servicios
     Route::apiResource('campus_briefcase', 'Management\CampusBriefcaseController');
@@ -1071,7 +1083,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
     //Autorizaciones
     Route::apiResource('authorization', 'Management\AuthorizationController');
-    Route::get('authorization/byStatus/{type}/{statusId}', 'Management\AuthorizationController@ByStatus');
+    Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
+    Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
+    Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.
