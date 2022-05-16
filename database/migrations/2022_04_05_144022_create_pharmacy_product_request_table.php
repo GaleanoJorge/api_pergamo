@@ -17,13 +17,13 @@ class CreatePharmacyProductRequestTable extends Migration
         Schema::create('pharmacy_product_request', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('request_amount')->nullable();
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->string('observation')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
-            $table->unsignedBigInteger('product_generic_id');
-            $table->unsignedBigInteger('own_pharmacy_stock_id');
-            $table->unsignedBigInteger('request_pharmacy_stock_id');
+            $table->unsignedBigInteger('product_generic_id')->nullable();
+            $table->unsignedBigInteger('own_pharmacy_stock_id')->nullable();
+            $table->unsignedBigInteger('request_pharmacy_stock_id')->nullable();
             $table->timestamps();
 
             $table->index('product_generic_id');

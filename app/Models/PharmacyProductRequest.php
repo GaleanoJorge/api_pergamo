@@ -11,6 +11,8 @@ class PharmacyProductRequest extends BasePharmacyProductRequest
     'request_amount',
     'status',
     'observation',
+    'services_briefcase_id',
+    'admissions_id',
     'product_generic_id',
     'own_pharmacy_stock_id',
     'request_pharmacy_stock_id',
