@@ -9,7 +9,6 @@ class ChScalePain extends BaseChScalePain
 {
   protected $fillable = [
     'range',
-    'detail',
     'type_record_id',
     'ch_record_id',
   ];

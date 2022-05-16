@@ -72,8 +72,6 @@ class ChEvoSoapController extends Controller
         $ChEvoSoap = new ChEvoSoap;
         $ChEvoSoap->subjective = $request->subjective;
         $ChEvoSoap->objective = $request->objective;
-        $ChEvoSoap->analisys = $request->analisys;
-        $ChEvoSoap->plan = $request->plan;
         $ChEvoSoap->type_record_id = $request->type_record_id;
         $ChEvoSoap->ch_record_id = $request->ch_record_id;
         $ChEvoSoap->save();
@@ -114,8 +112,6 @@ class ChEvoSoapController extends Controller
         $ChEvoSoap = ChEvoSoap::find($id);
         $ChEvoSoap->subjective = $request->subjective;
         $ChEvoSoap->objective = $request->objective;
-        $ChEvoSoap->analisys = $request->analisys;
-        $ChEvoSoap->plan = $request->plan;
         $ChEvoSoap->type_record_id = $request->type_record_id;
         $ChEvoSoap->ch_record_id = $request->ch_record_id;
         $ChEvoSoap->save();

@@ -134,7 +134,7 @@ class BillUserActivityController extends Controller
         $BillUserActivity->observation = $request->observation;
         if($request->status=='APROBADO'){
             $AccountReceivable= AccountReceivable::find($BillUserActivity->account_receivable_id);
-            $AccountReceivable->total_value_activities=$AccountReceivable->total_value_activities+$BillUserActivity->value;
+            $AccountReceivable->gross_value_activities=$AccountReceivable->gross_value_activities+$BillUserActivity->value;
             $AccountReceivable->save();
         }
         $BillUserActivity->save();

@@ -40,7 +40,7 @@ class ChScaleEcogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala ECOG obtenida exitosamente',
             'data' => ['ch_scale_ecog' => $ChScaleEcog]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleEcogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala ECOG obtenida exitosamente',
             'data' => ['ch_scale_ecog' => $ChScaleEcog]
         ]);
     }
@@ -77,7 +77,7 @@ class ChScaleEcogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala ECOG asociada al paciente exitosamente',
             'data' => ['ch_scale_ecog' => $ChScaleEcog->toArray()]
         ]);
     }
@@ -96,7 +96,7 @@ class ChScaleEcogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala ECOG obtenida exitosamente',
             'data' => ['ch_scale_ecog' => $ChScaleEcog]
         ]);
     }
@@ -118,7 +118,7 @@ class ChScaleEcogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala ECOG actualizada exitosamente',
             'data' => ['ch_scale_ecog' => $ChScaleEcog]
         ]);
     }
@@ -138,12 +138,12 @@ class ChScaleEcogController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala ECOG eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala ECOG en uso, no es posible eliminarla'
             ], 423);
         }
     }

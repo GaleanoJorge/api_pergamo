@@ -8,12 +8,8 @@ use App\Models\Base\Billing as BaseBilling;
 class Billing extends BaseBilling
 {
   protected $fillable = [
-    'num_evidence',
-    'sub_total',
-    'vat',
-    'setting_value',
-    'invoice_value',
     'company_id',
+    'pharmacy_stock_id',
     'type_billing_evidence_id',
   ];
 }

@@ -34,7 +34,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $variable_fifteen
  * @property int $variable_sixteen
  * @property int $variable_seventeen
- * @property int $variable_eighteen
  * @property int $total
  * @property int $qualification
  * @property Carbon $created_at

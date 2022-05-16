@@ -17,7 +17,7 @@ class CreateCompanyMailTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
             $table->string('mail');
-            $table->unsignedSmallInteger('city_id');
+            $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('document_id');
             $table->timestamps();
             

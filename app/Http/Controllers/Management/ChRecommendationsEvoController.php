@@ -93,7 +93,9 @@ class ChRecommendationsEvoController extends Controller
     {
         $ChRecommendationsEvo = new ChRecommendationsEvo();
         $ChRecommendationsEvo->recommendations_evo_id =
-            $request->recommendations_evo_id;
+        $request->recommendations_evo_id;
+        $ChRecommendationsEvo->analisys = $request->analisys;
+        $ChRecommendationsEvo->plan = $request->plan;
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();
@@ -137,6 +139,8 @@ class ChRecommendationsEvoController extends Controller
         $ChRecommendationsEvo = ChRecommendationsEvo::find($id);
         $ChRecommendationsEvo->recommendations_evo_id =
             $request->recommendations_evo_id;
+        $ChRecommendationsEvo->analisys = $request->analisys;
+        $ChRecommendationsEvo->plan = $request->plan;
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();
@@ -169,7 +173,7 @@ class ChRecommendationsEvoController extends Controller
                 [
                     'status' => false,
                     'message' =>
-                        'Recomendación  en uso, no es posible eliminarlo',
+                    'Recomendación  en uso, no es posible eliminarlo',
                 ],
                 423
             );

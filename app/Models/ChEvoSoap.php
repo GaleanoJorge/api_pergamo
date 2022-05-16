@@ -10,8 +10,6 @@ class ChEvoSoap extends BaseChEvoSoap
   protected $fillable = [
     'subjective',
     'objective',
-    'analisys',
-    'plan',
     'type_record_id',
     'ch_record_id',
   ];

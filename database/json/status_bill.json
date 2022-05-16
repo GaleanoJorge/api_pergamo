@@ -1,35 +1,14 @@
 [
     {
-        "name": "Creada"
+        "name": "CREADA"
     },
     {
-        "name": "Enviada"
-
+        "name": "APROBADA"
     },
     {
-        "name": "Devuelta por gestor PAD"
-
+        "name": "PAGADA"
     },
     {
-        "name": "Aprobada por gestor PAD"
-
-    },
-    {
-        "name": "Devuelta por Admin "
-
-    },
-    {
-        "name": "Aprobada por Admin "
-
-    },
-    {
-        "name": "Pagada"
-
-    },
-    {
-        "name": "Anulada"
-
+        "name": "ANULADA"
     }
-   
-  
 ]

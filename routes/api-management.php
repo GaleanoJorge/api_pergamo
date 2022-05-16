@@ -34,6 +34,30 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Group
     Route::apiResource('group', 'Management\GroupController');
 
+    //scales
+    Route::apiResource('chScaleNorton', 'Management\ChScaleNortonController');
+    Route::apiResource('chScaleGlasgow', 'Management\ChScaleGlasgowController');
+    Route::apiResource('chScaleBarthel', 'Management\ChScaleBarthelController');
+    Route::apiResource('chScalePayette', 'Management\ChScalePayetteController');
+    Route::apiResource('ch_scale_fragility', 'Management\ChScaleFragilityController');
+    Route::apiResource('ch_scale_news', 'Management\ChScaleNewsController');
+    Route::apiResource('ch_scale_pap', 'Management\ChScalePapController');
+    Route::apiResource('ch_scale_hamilton', 'Management\ChScaleHamiltonController');
+    Route::apiResource('ch_scale_cam', 'Management\ChScaleCamController');
+    Route::apiResource('ch_scale_fac', 'Management\ChScaleFacController');
+    Route::apiResource('ch_scale_red_cross', 'Management\ChScaleRedCrossController');
+    Route::apiResource('ch_scale_karnofsky', 'Management\ChScaleKarnofskyController');
+    Route::apiResource('ch_scale_ecog', 'Management\ChScaleEcogController');
+    Route::apiResource('ch_scale_pediatric_nutrition', 'Management\ChScalePediatricNutritionController');
+    Route::apiResource('ch_scale_esas', 'Management\ChScaleEsasController');
+    Route::apiResource('ch_scale_flacc', 'Management\ChScaleFlaccController');
+    Route::apiResource('ch_scale_ppi', 'Management\ChScalePpiController');
+    Route::apiResource('ch_scale_zarit', 'Management\ChScaleZaritController');
+    Route::apiResource('ch_scale_pain', 'Management\ChScalePainController');
+    Route::apiResource('ch_scale_wong_baker', 'Management\ChScaleWongBakerController');
+    Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
+    Route::apiResource('ch_scale_jh_dowton', 'Management\ChScaleJhDowtonController');
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -632,6 +656,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\AdmissionsController@getByPacient'
     );
 
+    Route::get(
+        'admissions/Briefcase/{briefcase_id}',
+        'Management\AdmissionsController@getByBriefcase'
+    );
+
+    Route::apiResource('auth_package', 'Management\AuthorizationPackageController');
+
     //location
     Route::apiResource('location', 'Management\LocationController');
 
@@ -703,6 +734,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
         'Management\ServicesBriefcaseController@getByBriefcase'
+    );
+
+    //Portafolio de servicios
+    Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
+    //Portafolio de servicios por contrato
+    Route::get(
+        'ServiceBriefcase/PackageByBriefcase/{briefcaseId}',
+        'Management\ServicesBriefcaseController@getPackageByBriefcase'
     );
 
     //Sedes del Portafolio de servicios
@@ -864,7 +903,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_diagnosis_class', 'Management\ChDiagnosisClassController');
     Route::apiResource('ch_diagnosis_type', 'Management\ChDiagnosisTypeController');
     Route::apiResource('ch_external_cause', 'Management\ChExternalCauseController');
-    
+
     Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
     Route::apiResource('ch_system_exam', 'Management\ChSystemExamController');
     Route::apiResource('ch_background', 'Management\ChBackgroundController');
@@ -890,33 +929,52 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
-    
-    
+
+    Route::apiResource('packing', 'Management\PackingController');
+    Route::apiResource('product_dose', 'Management\ProductDoseController');
+
     Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
+    Route::apiResource('billing', 'Management\BillingController');
+    Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
-    Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
-    Route::apiResource('pharmacy_inventory', 'Management\PharmacyInventoryController');
-    Route::post('pharmacy_inventory/updateInventoryByLot/{lot_id}', 'Management\PharmacyInventoryController@updateInventoryByLot');
-    Route::get('pharmacy_inventory/pharmacies/{user_id}', 'Management\PharmacyInventoryController@getPharmacyByUserId');
+    Route::apiResource('pharmacy_lot_stock', 'Management\PharmacyLotStockController');
+    Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
-    Route::apiResource('pharmacy_request', 'Management\PharmacyRequestController');
+    Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
-    Route::apiResource('packing', 'Management\PackingController');
-    Route::apiResource('pharmacy_request_stock', 'Management\PharmacyRequestStockController');
-    Route::apiResource('billing_stock', 'Management\BillingStockController');
 
-    
-    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
-    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
-    
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
+    Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
+    Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
+
+
+
+
+
+
+
+
+
+
+
+    Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+
+
+
+
+
+
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
     Route::apiResource('ch_flow_gynecologists', 'Management\ChFlowGynecologistsController');
     Route::apiResource('ch_exam_gynecologists', 'Management\ChExamGynecologistsController');
-    
+
     Route::apiResource('ch_rst_cytology_gyneco', 'Management\ChRstCytologyGynecoController');
     Route::apiResource('ch_rst_biopsy_gyneco', 'Management\ChRstBiopsyGynecoController');
     Route::apiResource('ch_rst_mammography_gyneco', 'Management\ChRstMammographyGynecoController');
@@ -936,7 +994,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_recommendations_evo', 'Management\ChRecommendationsEvoController');
     Route::apiResource('recommendations_evo', 'Management\RecommendationsEvoController');
     Route::get('ch_recommendations_evo/by_record/{id}/{type_record_id}', 'Management\ChRecommendationsEvoController@getByRecord');
-    
+
     Route::apiResource('ch_formulation', 'Management\ChFormulationController');
     Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
     Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
@@ -1077,7 +1135,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
 
-    
+
     Route::apiResource('user_activity', 'Management\UserActivityController');
     Route::apiResource('status_bill', 'Management\StatusBillController');
     Route::apiResource('financial_data', 'Management\FinancialDataController');
@@ -1088,11 +1146,40 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
     //Autorizaciones
     Route::apiResource('authorization', 'Management\AuthorizationController');
-    Route::get('authorization/byStatus/{type}/{statusId}', 'Management\AuthorizationController@ByStatus');
+    Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
+    Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
+    Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.
     Route::apiResource('auth_log', 'Management\AuthLogController');
 
+    //Retenciones
+    Route::apiResource('source_retention', 'Management\SourceRetentionController');
+    Route::get('source_retention/get_by_account_receivable_id/{account_receivable_id}', 'Management\SourceRetentionController@getByAccountReceivableId');
+    Route::apiResource('source_retention_type', 'Management\SourceRetentionTypeController');
+    Route::apiResource('tax_value_unit', 'Management\TaxValueUnitController');
+    Route::get('tax_value_unit/get_latest_tax_value_unit/{prueba_id}', 'Management\TaxValueUnitController@getLatestTaxValueUnit');
+    Route::apiResource('minimum_salary', 'Management/MinimumSalaryController');
 
+    //Tablero Doc Mariana.
+    Route::apiResource('billing_tc', 'Management\BillingTcController');
+    Route::apiResource('radication_tc', 'Management\RadicationTcController');
+    Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
+    Route::post('billing_tc/file', 'Management\BillingTcController@import');
+    Route::post('radication_tc/file', 'Management\RadicationTcController@import');
+    Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
+
+    //Campos nuevos de Signos Vitales
+    Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
+    Route::apiResource('liters_per_minute', 'Management\LitersPerMinuteController');
+    Route::apiResource('parameters_signs', 'Management\ParametersSignsController');
+
+    // Campo de evolución Fallida
+    Route::apiResource('ch_failed', 'Management\ChFailedController');
+    Route::apiResource('ch_reason', 'Management\ChReasonController');
+    Route::get('ch_failed/by_record/{id}/{type_record_id}', 'Management\ChFailedController@getByRecord');
+
+    //Campo nuevo de dietas
+    Route::apiResource('enterally_diet', 'Management\EnterallyDietController');
 });

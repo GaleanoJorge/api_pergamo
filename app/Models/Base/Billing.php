@@ -16,12 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Billing
  * 
  * @property int $id 
- * @property string $num_evidence
- * @property string $sub_total
- * @property string $vat
- * @property string $setting_value
- * @property string $invoice_value
  * @property BigInteger $company_id
+ * @property BigInteger $pharmacy_stock_id
  * @property BigInteger $type_billing_evidence_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -40,5 +36,9 @@ class Billing extends Model
 	public function company()
 	{
 		return $this->belongsTo(Company::class);
+	}
+	public function pharmacy_stock()
+	{
+		return $this->belongsTo(PharmacyStock::class);
 	}
 }

@@ -103,5 +103,12 @@
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
+    },
+    {
+        "id": 16,
+        "name": "DEPORTÓLOGO",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
     }
 ]

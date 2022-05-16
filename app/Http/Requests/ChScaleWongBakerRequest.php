@@ -25,7 +25,6 @@ class ChScaleWongBakerRequest extends FormRequest
     {
         return [
             'pain' => '',
-            'range' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

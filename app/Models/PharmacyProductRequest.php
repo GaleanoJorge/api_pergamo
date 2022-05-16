@@ -8,8 +8,13 @@ use App\Models\Base\PharmacyProductRequest as BasePharmacyProductRequest;
 class PharmacyProductRequest extends BasePharmacyProductRequest
 {
   protected $fillable = [
-    'amount',
+    'request_amount',
+    'status',
+    'observation',
+    'services_briefcase_id',
+    'admissions_id',
     'product_generic_id',
-    'pharmacy_stock_id',
+    'own_pharmacy_stock_id',
+    'request_pharmacy_stock_id',
   ];
 }

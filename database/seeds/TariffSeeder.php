@@ -18,9 +18,13 @@ class TariffSeeder extends Seeder
             Tariff::create([
                 'name' => $row->name,
                 'amount' => $row->amount,
+                'quantity' => $row->quantity,
+                'extra_dose' => $row->extra_dose,
+                'phone_consult' => $row->phone_consult,
+                'status_id' => $row->status_id,
                 'pad_risk_id' => $row->pad_risk_id,
-                'role_id' => $row->role_id,
-                'scope_of_attention_id' => $row->scope_of_attention_id,
+                'program_id' => $row->program_id,
+                'type_of_attention_id' => $row->type_of_attention_id,
             ]);
         }
     }

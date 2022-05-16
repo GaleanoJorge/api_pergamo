@@ -17,7 +17,7 @@ class ChDietsEvoController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChDietsEvo = ChDietsEvo::with('diet_component','diet_consistency'); /// Cargar 
+        $ChDietsEvo = ChDietsEvo::with('enterally_diet','diet_consistency'); /// Cargar 
 
         if ($request->_sort) {
             $ChDietsEvo->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class ChDietsEvoController extends Controller
     {
         
        
-        $ChDietsEvo = ChDietsEvo::with('diet_component', 'diet_consistency', 'type_record', 'ch_record')
+        $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
@@ -78,7 +78,7 @@ class ChDietsEvoController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChDietsEvo = new ChDietsEvo;
-        $ChDietsEvo->diet_component_id = $request->diet_component_id;
+        $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
         $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
         $ChDietsEvo->observation = $request->observation;
         $ChDietsEvo->type_record_id = $request->type_record_id;
@@ -119,7 +119,7 @@ class ChDietsEvoController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChDietsEvo = ChDietsEvo::find($id);
-        $ChDietsEvo->diet_component_id = $request->diet_component_id;
+        $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
         $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
         $ChDietsEvo->observation = $request->observation;
         $ChDietsEvo->type_record_id = $request->type_record_id;

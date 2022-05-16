@@ -8,11 +8,11 @@ use App\Models\Base\AccountReceivable as BaseAccountReceivable;
 class AccountReceivable extends BaseAccountReceivable
 {
     protected $fillable = [
-		'file_payment',
-    'user_id',
-    'gloss_ambit_id',
-    'status_bill_id',
-    'campus_id',
-    'observation',	
+      'file_payment',
+      'gross_value_activities',
+      'net_value_activities',
+      'user_id',
+      'status_bill_id',
+      'minimum_salary_id',
 	];
 }

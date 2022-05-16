@@ -17,7 +17,7 @@ class CreateFlatTable extends Migration
             $table->bigIncrements('id');
             $table->string('code');
             $table->string('name');
-            $table->unsignedTinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->timestamps();
 
             $table->index('campus_id');

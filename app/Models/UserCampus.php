@@ -10,13 +10,4 @@ class UserCampus extends BaseUserCampus
 		'user_id',
 		'campus_id'
 	];
-
-	public function users()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-	public function campus()
-    {
-        return $this->belongsTo(Campus::class, 'campus_id');
-    }
 }

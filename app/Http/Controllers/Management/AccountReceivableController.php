@@ -7,13 +7,15 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\MinimumSalary;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AccountReceivableController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -21,14 +23,14 @@ class AccountReceivableController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus');
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $AccountReceivable->where('name','like','%' . $request->search. '%');
+            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->gloss_ambit_id) {
             $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
@@ -39,16 +41,15 @@ class AccountReceivableController extends Controller
         if ($request->campus_id) {
             $AccountReceivable->where('campus_id', $request->campus_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $AccountReceivable=$AccountReceivable->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $AccountReceivable = $AccountReceivable->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $AccountReceivable = $AccountReceivable->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $AccountReceivable=$AccountReceivable->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -58,41 +59,43 @@ class AccountReceivableController extends Controller
         ]);
     }
 
-           /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function getByUser(Request $request,int $user_id): JsonResponse
+    public function getByUser(Request $request, int $user_id): JsonResponse
 
     {
-        if($user_id!=0){
-            $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus')
-            ->where('user_id',$user_id);
+        $LastWeekOfMonth = Carbon::now()->endOfMonth()->subDays(7)->format('Ymd');
+        $ancualDate = Carbon::now()->format('Ymd');
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
+            ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'), 'assistance.id AS assistance_id', DB::raw("IF(".$LastWeekOfMonth."<=".$ancualDate.",1,0) AS edit_date"))
+            ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
+            ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
+            ->groupBy('account_receivable.id');
 
-        }else{
-            $AccountReceivable = AccountReceivable::with('gloss_ambit', 'user','status_bill', 'campus');
-
+        if ($user_id != 0) {
+            $AccountReceivable->where('account_receivable.user_id', $user_id);
         }
 
-        if($request->_sort){
+        if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $AccountReceivable->where('name','like','%' . $request->search. '%');
+            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
         }
-      
-        
-        if($request->query("pagination", true)=="false"){
-            $AccountReceivable=$AccountReceivable->get()->toArray();    
+
+
+        if ($request->query("pagination", true) == "false") {
+            $AccountReceivable = $AccountReceivable->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $AccountReceivable = $AccountReceivable->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $AccountReceivable=$AccountReceivable->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -101,19 +104,18 @@ class AccountReceivableController extends Controller
             'data' => ['account_receivable' => $AccountReceivable]
         ]);
     }
-    
-    
+
+
 
     public function store(AccountReceivableRequest $request): JsonResponse
     {
         $AccountReceivable = new AccountReceivable;
         $AccountReceivable->file_payment = $request->file_payment;
-        $AccountReceivable->total_value_activities = $request->total_value_activities;
+        $AccountReceivable->gross_value_activities = $request->gross_value_activities;
+        $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
-        $AccountReceivable->campus_id = $request->campus_id;
-        $AccountReceivable->observation = $request->observation; 
+        $AccountReceivable->minimum_salary_id = MinimumSalary::select()->orderBy('year', 'desc')->first();
         $AccountReceivable->save();
 
         return response()->json([
@@ -151,12 +153,11 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = AccountReceivable::find($id);
         $AccountReceivable->file_payment = $request->file_payment;
-        $AccountReceivable->total_value_activities = $request->total_value_activities;
+        $AccountReceivable->gross_value_activities = $request->gross_value_activities;
+        $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
-        $AccountReceivable->gloss_ambit_id = $request->gloss_ambit_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
-        $AccountReceivable->campus_id = $request->campus_id;
-        $AccountReceivable->observation = $request->observation;
+        $AccountReceivable->minimum_salary_id = $request->minimum_salary_id;
         $AccountReceivable->save();
 
         return response()->json([
@@ -167,7 +168,7 @@ class AccountReceivableController extends Controller
     }
 
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
@@ -180,7 +181,7 @@ class AccountReceivableController extends Controller
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('account_receivable', $request->file('file'));
             $AccountReceivable->file_payment = $path;
-        }   
+        }
         $AccountReceivable->save();
 
         return response()->json([

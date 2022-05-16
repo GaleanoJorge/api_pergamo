@@ -41,7 +41,6 @@ class ChScaleHamiltonRequest extends FormRequest
             'variable_fifteen' => '',
             'variable_sixteen' => '',
             'variable_seventeen' => '',
-            'variable_eighteen' => '',
             'total' => '',
             'qualification' => '',
             'type_record_id' => '',
