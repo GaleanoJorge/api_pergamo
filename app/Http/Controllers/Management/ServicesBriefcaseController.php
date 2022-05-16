@@ -45,7 +45,7 @@ class ServicesBriefcaseController extends Controller
         ]);
     }
 
-                   /**
+    /**
      * Get procedure by manual.
      *
      * @param  int  $briefcaseId
@@ -88,6 +88,24 @@ class ServicesBriefcaseController extends Controller
             $ServicesBriefcase = $ServicesBriefcase->paginate($per_page, '*', 'page', $page);
         }
 
+        return response()->json([
+            'status' => true,
+            'message' => 'Portafolio por contrato obtenido exitosamente',
+            'data' => ['services_briefcase' => $ServicesBriefcase]
+        ]);
+    }
+
+    /**
+     * Get procedure by manual.
+     *
+     * @param  int  $briefcaseId
+     * @return JsonResponse
+     */
+    public function getPackageByBriefcase(Request $request, int $briefcaseId): JsonResponse
+    {
+        $ServicesBriefcase = ServicesBriefcase::where('briefcase_id', $briefcaseId)
+        ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+        ->where('manual_procedure_type_id', 3)->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Portafolio por contrato obtenido exitosamente',

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id 
  * @property string $amount 
+ * @property string $amount_unit 
  * @property BigInteger $product_id
  * @property BigInteger $billing_id
  * @property Carbon $created_at

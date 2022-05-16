@@ -9,6 +9,7 @@ class BillingStock extends BaseBillingStock
 {
   protected $fillable = [
     'amount',
+    'amount_unit',
     'product_id',
     'billing_id',
   ];

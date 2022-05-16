@@ -105,7 +105,7 @@ class ChRecordController extends Controller
     }
 
 
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -132,8 +132,6 @@ class ChRecordController extends Controller
             'message' => 'Reporte generado exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
-
-
     }
 
 
@@ -190,26 +188,38 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
         $mes = Carbon::now()->month;
-        
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id',$request->user_id)->where('status_bill_id', 1)->orWhere('status_bill_id', 2)->get()->toArray();
+
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->where('status_bill_id', 1)->orWhere('status_bill_id', 2)->get()->toArray();
         $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
         $admissions = Admissions::find($admissions_id);
+        $Location = Location::where('admissions_id', $admissions->id)->first();
         $user_id = $admissions->patient_id;
-        $ambit = Location::find($admissions_id)->scope_of_attention_id;
+        // $ambit = Location::find($admissions_id)->scope_of_attention_id;
         $locality = Patient::find($user_id)->locality_id;
         $patient = Patient::find($user_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-        $role = $request->role;
-        $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
+        // $role = $request->role;
+        // $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
 
-        // $valuetariff2 = Tariff::where('pad_risk_id', $tariff)
-        //     ->where('phone_consult', $request->phone_consult)
-        //     ->where('type_of_attention_id', $request->type_of_attention_id)
-        //     ->where('program_id', $request->program_id)
-        //     ->where('quantity', $request->quantity)
-        //     ->first();
+        $valuetariff = Tariff::where('pad_risk_id', $tariff)
+            ->where('phone_consult', $ManagementPlan->phone_consult)
+            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+            ->where('program_id', $Location->program_id);
+        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+            if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
+                $valuetariff->where('quantity', $ManagementPlan->quantity);
+            }
+        } else {
+            $valuetariff->whereNull('quantity');
+        }
+        if ($request->extra_dose) {
+            $valuetariff->where('extra_dose', $request->extra_dose);
+        } else {
+            $valuetariff->where('extra_dose', 0);
+        }
+        $valuetariff = $valuetariff->get()->toArray();
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -229,7 +239,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff->amount;
+                $billActivity->value = $valuetariff[0]['amount'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -238,7 +248,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff->amount;
+                $billActivity->value = $valuetariff[0]['amount'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };

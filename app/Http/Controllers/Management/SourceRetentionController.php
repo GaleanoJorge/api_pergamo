@@ -118,7 +118,7 @@ class SourceRetentionController extends Controller
             $pension = $AccountReceivable['gross_value_activities'] * 0.04;
         }
         $ingresos_no_constitutivos = $salud + $arl + $pension;
-        $sub_total_1 = round(($AccountReceivable['gross_value_activities'] - $salud - $arl - $pension) / 1000) * 1000;
+        $sub_total_1 = $AccountReceivable['gross_value_activities'] - (round(( $salud + $arl + $pension) / 1000) * 1000);
 
         foreach ($SourceRetention as $element) {
             $limit = round(($element['source_retention_type']['tax_value_unit']['value'] * $element['source_retention_type']['value']) / 1000) * 1000;

@@ -38,6 +38,7 @@ class ProductGenericRequest extends FormRequest
             'reuse',
             'invasive',
             'consignment',
+            'product_dose_id',
         ];
     }
 }

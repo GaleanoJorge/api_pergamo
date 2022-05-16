@@ -8,7 +8,8 @@ use App\Models\Base\PharmacyUpdateMaxMin as BasePharmacyUpdateMaxMin;
 class PharmacyUpdateMaxMin extends BasePharmacyUpdateMaxMin
 {
   protected $fillable = [
-    'pharmacy_stock_id',
-    'pharmacy_inventory_id',
+    'pharmacy_lot_stock_id',
+    'own_pharmacy_stock_id',
+    'request_pharmacy_stock_id',
   ];
 }

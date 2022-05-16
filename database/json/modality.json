@@ -1,43 +1,19 @@
 [
     {
         "code": "CT",
-        "name": "Archivo de control"
+        "name": "EVENTO"
     },
     {
         "code": "AF",
-        "name": "Archivo de transacciones"
+        "name": "PLAN DE ATENCION COMPLEMENTARIA"
     },
     {
         "code": "US",
-        "name": "Archivo de usuarios de los servicios de salud"
+        "name": "PLAN DE BENEFICIOS DE SALUD"
     },
     {
         "code": "AC",
-        "name": "Archivo de consulta"
-    },
-    {
-        "code": "AP",
-        "name": "Archivo de procedimientos"
-    },
-    {
-        "code": "AU",
-        "name": "Archivo de urgencias con observación"
-    },
-    {
-        "code": "AH",
-        "name": "Archivo de hospitalización"
-    },
-    {
-        "code": "AN",
-        "name": "Archivo de recién nacidos"
-    },
-    {
-        "code": "AM",
-        "name": "Archivo de medicamentos"
-    },
-    {
-        "code": "AT",
-        "name": "Archivo de otros servicios"
+        "name": "SEGUROS"
     }
    
   

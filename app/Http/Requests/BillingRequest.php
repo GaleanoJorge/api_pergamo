@@ -24,12 +24,8 @@ class BillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'num_evidence' => '',
-            'sub_total' => '',
-            'vat' => '',
-            'setting_value' => '',
-            'invoice_value' => '',
             'company_id' => '',
+            'pharmacy_stock_id' => '',
             'type_billing_evidence_id' => '',
         ];
     }

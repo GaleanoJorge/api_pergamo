@@ -6,8 +6,8 @@
 
 namespace App\Models\Base;
 
+use App\Models\ProductDose;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MeasurementUnits;
 use App\Models\ProductConcentration;
@@ -22,6 +22,7 @@ use App\Models\ProductConcentration;
  * @property int $measurement_units_id
  * @property int $product_presentation_id
  * @property string $description
+ * @property string $dose
  * @property int $pbs_type_id
  * @property string $pbs_restriction
  * @property int $product_subcategory_id
@@ -34,6 +35,7 @@ use App\Models\ProductConcentration;
  * @property int $minimum_stock
  * @property int $maximum_stock
  * @property int $consignment
+ * @property BigInteger $product_dose_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -58,4 +60,8 @@ class ProductGeneric extends Model
 		return $this->belongsTo(ProductConcentration::class);
 	}
 
+	public function product_dose()
+	{
+		return $this->belongsTo(ProductDose::class);
+	}
 }

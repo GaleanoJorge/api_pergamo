@@ -16,6 +16,7 @@ class CreateBillingStockTable extends Migration
         Schema::create('billing_stock', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('amount'); 
+            $table->string('amount_unit'); 
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('billing_id');
             $table->timestamps();
