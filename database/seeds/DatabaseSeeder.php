@@ -141,8 +141,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChFailureMethodGynecoSeeder::class);
                 $this->call(ChMethodPlanningGynecoSeeder::class);
 
-                $this->call(TypePharmacyStockSeeder::class);
-                $this->call(PackingSeeder::class);
+                // $this->call(TypePharmacyStockSeeder::class);
+                // $this->call(PackingSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

@@ -9,8 +9,10 @@ use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementPlanRequest;
+use App\Models\Admissions;
 use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
+use App\Models\Briefcase;
 use App\Models\LocationCapacity;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -145,6 +147,15 @@ class ManagementPlanController extends Controller
         // foreach ($frequency as $key => $row) {
         //     $diferencei = $row['days'] / $request->quantity;
         // }
+
+        // $admission_present = Admissions::find($request->admissions_id)->get()->first();
+        // $act_briefcase = Briefcase::find($admission_present->briefcase_id)->get()->first();
+        if ($request->type_auth == 0) {
+            $auth_status = 1;
+        } else {
+            $auth_status = 2;
+        }
+
         if ($request->medical == false) {
             if ($request->type_of_attention_id != 17) {
                 $now = Carbon::createFromDate($request->start_date);
@@ -221,6 +232,13 @@ class ManagementPlanController extends Controller
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
+
+                    $Authorization = new Authorization;
+                    $Authorization->services_briefcase_id =  $request->procedure_id;
+                    $Authorization->admissions_id = $request->admissions_id;
+                    $Authorization->assigned_management_plan_id = $assignedManagement->id;
+                    $Authorization->auth_status_id = $auth_status;
+                    $Authorization->save();
                 }
             } else {
                 $countam = 0;
@@ -244,6 +262,13 @@ class ManagementPlanController extends Controller
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
+
+                    $Authorization = new Authorization;
+                    $Authorization->services_briefcase_id =  $request->procedure_id;
+                    $Authorization->admissions_id = $request->admissions_id;
+                    $Authorization->assigned_management_plan_id = $assignedManagement->id;
+                    $Authorization->auth_status_id = $auth_status;
+                    $Authorization->save();
 
                     $assigned = false;
                     while (!$assigned && $error == 0) {
