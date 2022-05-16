@@ -58,7 +58,12 @@ class AssignedManagementPlanController extends Controller
         if ($userId == 0) {
             $assigned_management_plan->where('management_plan_id', $managementId);
         } else {
+            if($request->patient){
+                $assigned_management_plan->leftJoin('management_plan','management_plan.id','assigned_management_plan.management_plan_id')->where('user_id', $userId)
+                ->where('management_plan.admissions_id',$request->patient);
+            }else{
             $assigned_management_plan->where('user_id', $userId);
+            }
         }
 
         if ($request->_sort) {
