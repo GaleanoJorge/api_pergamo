@@ -14,20 +14,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Authorization
+ * Class AuthorizationPackage
  * 
  * @property int $id
- * @property int $procedure_id
- * @property int $admissions_id
- * @property int $auth_number
- * @property int $state_auth_id
+ * @property int $authorization_id
+ * @property int $assigned_management_plan_id
+ * @property int $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @package App\Models\Base
  */
-class Authorization extends Model
+class AuthorizationPackage extends Model
 {
-	protected $table = 'authorization';
+	protected $table = 'authorization_package';
 
 	public function users()
 	{

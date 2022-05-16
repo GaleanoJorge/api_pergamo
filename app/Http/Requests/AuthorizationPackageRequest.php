@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ManagementPlanRequest extends FormRequest
+class AuthorizationPackageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class ManagementPlanRequest extends FormRequest
     public function rules()
     {
         return [
-            'type_of_attention_id' => 'required',
-            'frequency_id' => 'required',
-            'quantity' => 'required',
-            'specialty_id',
-            'admissions_id' => 'required',
-            'assigned_user_id' => '',
-            'procedure_id' => 'required',
+            'authorization_id' => '',
+            'assigned_management_plan_id' => '',
         ];
     }
 }

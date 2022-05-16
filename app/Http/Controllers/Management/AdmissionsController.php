@@ -97,6 +97,50 @@ class AdmissionsController extends Controller
         ]);
     }
 
+
+    /**
+     * @param  int  $briefcase
+     * Get open admissions by briefcase.
+     *
+     * @return JsonResponse
+     */
+    public function getByBriefcase(Request $request, int $briefcase_id): JsonResponse
+    {
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
+        ->select(
+            'admissions.*',
+            'patients.identification_type_id',
+            'patients.identification',
+            'patients.email',
+            'patients.residence_address',
+            'patients.residence_municipality_id',
+            'patients.neighborhood_or_residence_id',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+        ->where('briefcase_id', $briefcase_id)
+        ->where('discharge_date','0000-00-00 00:00:00')
+        ->orderBy('created_at', 'desc')->get()->toArray();
+            
+        // if ($request->search) {
+        //     $Admissions->where('name', 'like', '%' . $request->search . '%')
+        //         ->Orwhere('id', 'like', '%' . $request->search . '%');
+        // }
+        // if ($request->query("pagination", true) === "false") {
+        //     $Admissions = $Admissions->get()->toArray();
+        // } else {
+        //     $page = $request->query("current_page", 1);
+        //     $per_page = $request->query("per_page", 10);
+
+        //     $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
+        // }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admisiones por paciente obtenidos exitosamente',
+            'data' => ['admissions' => $Admissions]
+        ]);
+    }
+
     /**
      * @param  int  $pacientId
      * Get procedure by briefcase.
