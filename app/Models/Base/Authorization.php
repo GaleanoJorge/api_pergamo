@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\AssignedManagementPlan;
 use App\Models\AuthStatus;
 use App\Models\ManagementPlan;
 use App\Models\Procedure;
@@ -60,5 +61,13 @@ class Authorization extends Model
 	public function management_plan()
 	{
 		return $this->hasMany(ManagementPlan::class, 'authorization_id');
+	}
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class, 'services_briefcase_id', 'id');
+	}
+	public function assigned_management_plan()
+	{
+		return $this->belongsTo(AssignedManagementPlan::class, 'assigned_management_plan_id', 'id');
 	}
 }
