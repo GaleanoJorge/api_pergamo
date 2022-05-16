@@ -1234,7 +1234,7 @@
     },
     {
         "id": "184",
-        "item_parent_id": "182",
+        "item_parent_id": "183",
         "name": "Facturación",
         "code": "billing",
         "route": "/pages/setting/tc-billing",
@@ -1243,10 +1243,19 @@
     },
     {
         "id": "185",
-        "item_parent_id": "182",
+        "item_parent_id": "183",
         "name": "Radicación",
         "code": "radication",
         "route": "/pages/setting/tc-radication",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "186",
+        "item_parent_id": "183",
+        "name": "Nómina",
+        "code": "billing",
+        "route": "/pages/setting/tc-human-talent",
         "icon": "",
         "show_menu": "1"
     },
@@ -1257,15 +1266,6 @@
         "code": "human-talent-request",
         "route": "/pages/human-talent-request/list",
         "icon": "people-outline",
-        "show_menu": "1"
-    },
-    {
-        "id": "186",
-        "item_parent_id": "182",
-        "name": "Nómina",
-        "code": "billing",
-        "route": "/pages/setting/tc-human-talent",
-        "icon": "",
         "show_menu": "1"
     }
 ]
