@@ -8,6 +8,7 @@ use App\Models\Base\ChTypePhysicalExam as BaseChTypePhysicalExam;
 class ChTypePhysicalExam extends BaseChTypePhysicalExam
 {
   protected $fillable = [
-    'name'
+    'name',
+    'description',
   ];
 }

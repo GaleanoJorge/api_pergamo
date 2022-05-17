@@ -15,7 +15,8 @@
         {
             Schema::create('type_ch_physical_exam', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('name');
+                $table->string('name'); 
+                $table->string('description'); 
                 $table->timestamps();
 
             });

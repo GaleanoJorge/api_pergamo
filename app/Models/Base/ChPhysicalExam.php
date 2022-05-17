@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $revision
- * @property string observation 
  * @property unsignedBigInteger type_ch_physical_exam_id 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 

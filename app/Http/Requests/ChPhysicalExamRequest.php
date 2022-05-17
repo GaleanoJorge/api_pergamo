@@ -25,7 +25,6 @@ class ChPhysicalExamRequest extends FormRequest
     {
         return [
             'revision' => '',
-            'observation' => '',
             'type_ch_physical_exam_id' => '',
             'type_record_id' => '',
             'ch_record_id' => ''
