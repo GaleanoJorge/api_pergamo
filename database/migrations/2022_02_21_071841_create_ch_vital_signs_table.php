@@ -41,7 +41,13 @@ class CreateChVitalSignsTable extends Migration
             $table->string('right_reaction');
             $table->string('pupil_size_right');
             $table->string('left_reaction');
-            $table->string('pupil_size_left');
+            $table->string('pupil_size_left'); 
+            $table->string('mydriatic')->nullable;
+            $table->string('normal')->nullable;
+            $table->string('lazy_reaction_light')->nullable;
+            $table->string('fixed_lazy_reaction')->nullable;
+            $table->string('miotic_size')->nullable;
+            $table->string('observations_glucometry');
             $table->unsignedBigInteger('ch_vital_hydration_id');
             $table->unsignedBigInteger('ch_vital_ventilated_id');
             $table->unsignedBigInteger('ch_vital_temperature_id');

@@ -1,0 +1,18 @@
+[
+    {
+        "name": "NORMAL",
+        "description": "NORMAL"
+    },
+    {
+        "name": "HIPOGLÚCIDA",
+        "description": "DIETA BAJA EN AZÚCAR"
+    },
+    {
+        "name": "HIPOSÓDICA",
+        "description": "DIETA BAJA EN SAL"
+    },
+    {
+        "name": "HIPERPROTEICA",
+        "description": "DIETA ALTA EN PROTEÍNA"
+    }
+]

@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(RoleTypeSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
-                $this->call(UserRoleSeeder::class);
+                $this->call(UserRole2Seeder::class);
                 //$this->call(UserOriginSeeder::class);
                 $this->call(CampusSeeder::class);
                 $this->call(UserCampusSeeder::class);
@@ -165,6 +165,18 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(UserRoleGroupSeeder::class);             
                 //MIGRATION-$this->call(AssistanceSessionSeeder::class);
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
+
+
+                //Semillas De Pruebas
+                $this->call(ContractStatusSeeder::class);
+                $this->call(CoverageSeeder::class);
+                $this->call(FirmsSeeder::class);
+                $this->call(InsuranceCarrierSeeder::class);
+                $this->call(ModalitySeeder::class);
+                $this->call(TypeBriefcaseSeeder::class);
+                $this->call(PolicyTypeSeeder::class);
+                
+
 
         }
 }

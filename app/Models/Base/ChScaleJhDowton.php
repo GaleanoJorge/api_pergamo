@@ -17,27 +17,22 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $eat
- * @property int $move
- * @property int $cleanliness
- * @property int $toilet
- * @property int $shower
- * @property int $commute
- * @property int $stairs
- * @property int $dress
- * @property int $fecal
- * @property int $urine
- * @property string $classification 	
- * @property int $score 	
+ * @property int $falls
+ * @property int $medication
+ * @property int $deficiency
+ * @property int $mental
+ * @property int $wandering
+ * @property int $total
+ * @property string $risk
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class ChScaleBarthel extends Model
+class ChScaleJhDowton extends Model
 {
-	protected $table = 'ch_scale_barthel';
+	protected $table = 'ch_scale_jh_dowton';
 
 	public function type_record()
 	{

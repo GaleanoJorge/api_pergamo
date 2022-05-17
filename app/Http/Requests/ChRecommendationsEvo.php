@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChScaleBarthelRequest extends FormRequest
+class ChRecommendationsEvoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,20 +24,9 @@ class ChScaleBarthelRequest extends FormRequest
     public function rules()
     {
         return [
-            'eat' => '',
-            'move' => '',
-            'cleanliness' => '',
-            'toilet' => '',
-            'shower' => '',
-            'commute' => '',
-            'stairs' => '',
-            'dress' => '',
-            'fecal' => '',
-            'urine' => '',
-            'classification' => '',
-            'score' => '',
+            'recommendations_evo_id' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];
     }
-}
+}   
