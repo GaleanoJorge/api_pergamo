@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(RoleTypeSeeder::class);
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
-                $this->call(UserRoleSeeder::class);
+                $this->call(UserRole2Seeder::class);
                 //$this->call(UserOriginSeeder::class);
                 $this->call(CampusSeeder::class);
                 $this->call(UserCampusSeeder::class);
@@ -143,6 +143,15 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(TypePharmacyStockSeeder::class);
                 $this->call(PackingSeeder::class);
+                
+                
+                // retenciones en la fuente
+                $this->call(TaxValueUnitSeeder::class);
+                $this->call(MinimumSalarySeeder::class);
+                $this->call(SourceRetentionTypeSeeder::class);
+                $this->call(MunicipalityIcaSeeder::class);
+                
+                $this->call(ProductDoseSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
@@ -167,9 +176,9 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
                 //Semillas Campos Adicionales Signos Vitales
-                $this->call(LitersPerMinuteSeeder::class);
-                $this->call(OxygenTypeSeeder::class); 
-                $this->call(ParametersSignsSeeder::class);
+                // $this->call(LitersPerMinuteSeeder::class);
+                // $this->call(OxygenTypeSeeder::class); 
+                // $this->call(ParametersSignsSeeder::class);
 
                 //Semillas De Pruebas
                 $this->call(ContractStatusSeeder::class);

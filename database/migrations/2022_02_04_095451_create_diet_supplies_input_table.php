@@ -20,7 +20,7 @@ class CreateDietSuppliesInputTable extends Migration
             $table->string('invoice_number');
             $table->unsignedBigInteger('diet_supplies_id');
             $table->unsignedBigInteger('company_id');
-            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->timestamps();
 
             $table->index('diet_supplies_id');

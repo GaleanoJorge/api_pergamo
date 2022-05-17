@@ -9,7 +9,6 @@ class ChScaleWongBaker extends BaseChScaleWongBaker
 {
   protected $fillable = [
     'pain',
-    'range',
     'type_record_id',
     'ch_record_id',
   ];

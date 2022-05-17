@@ -19,25 +19,28 @@ class TariffController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Tariff = Tariff::select('tariff.*')->with('pad_risk', 'pad_risk.status', 'role', 'scope_of_attention')
+        $Tariff = Tariff::select('tariff.*')->with('pad_risk', 'status', 'type_of_attention', 'program')
             ->Join('pad_risk', 'pad_risk.id', '=', 'tariff.pad_risk_id')
-            ->Join('status', 'pad_risk.status_id', '=', 'status.id');
+            ->Join('type_of_attention', 'type_of_attention.id', 'tariff.type_of_attention_id')
+            ->Join('status', 'status.id', 'tariff.status_id')
+            ->Join('program', 'program.id', '=', 'tariff.program_id');
 
         if ($request->_sort) {
             $Tariff->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $Tariff->where('name', 'like', '%' . $request->search . '%');
+            $Tariff->where('tariff.name', 'like', '%' . $request->search . '%')
+                ->orWhere('program.name', 'like', '%' . $request->search . '%');
         }
         if ($request->pad_risk_id) {
             $Tariff->where('pad_risk_id', $request->pad_risk_id);
         }
-        if ($request->role_id) {
-            $Tariff->where('role_id', $request->role_id);
+        if ($request->program_id) {
+            $Tariff->where('program_id', $request->program_id);
         }
-        if ($request->scope_of_attention_id) {
-            $Tariff->where('scope_of_attention_id', $request->scope_of_attention_id);
+        if ($request->type_of_attention_id) {
+            $Tariff->where('type_of_attention_id', $request->type_of_attention_id);
         }
 
         if ($request->status_id) {
@@ -63,23 +66,50 @@ class TariffController extends Controller
 
     public function store(TariffRequest $request): JsonResponse
     {
-        $TariffTest = Tariff::where('pad_risk_id', $request->pad_risk_id)
-            ->where('role_id', $request->role_id)
-            ->where('scope_of_attention_id', $request->scope_of_attention_id)
+        $TariffTest = Tariff::select()
+            ->where('quantity', $request->quantity);
+            if ($request->extra_dose) {
+                $TariffTest->where('extra_dose', 1);
+            } else {
+                $TariffTest->where('extra_dose', 0);
+            }
+            if ($request->phone_consult) {
+                $TariffTest->where('phone_consult', 1);
+            } else {
+                $TariffTest->where('phone_consult', 0);
+            }
+            $TariffTest->where('status_id', $request->status_id)
+            ->where('pad_risk_id', $request->pad_risk_id)
+            ->where('program_id', $request->program_id)
+            ->where('type_of_attention_id', $request->type_of_attention_id)
             ->first();
         if ($TariffTest) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tarifa ya existe',
+                'message' => 'Tarifa ya existe, o se encuentra en estado actiiva',
+                'data' => ['tariff' => []]
+            ]);
+        }
+        $TariffTest2 = Tariff::select()
+            ->where('name', $request->name)
+            ->first();
+        if ($TariffTest2) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Nombre de tarifa ya existe',
                 'data' => ['tariff' => []]
             ]);
         }
         $Tariff = new Tariff;
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
-        $Tariff->role_id = $request->role_id;
+        $Tariff->quantity = $request->quantity;
+        $Tariff->extra_dose = $request->extra_dose;
+        $Tariff->phone_consult = $request->phone_consult;
+        $Tariff->status_id = $request->status_id;
         $Tariff->pad_risk_id = $request->pad_risk_id;
-        $Tariff->scope_of_attention_id = $request->scope_of_attention_id;
+        $Tariff->program_id = $request->program_id;
+        $Tariff->type_of_attention_id = $request->type_of_attention_id;
 
         $Tariff->save();
 
@@ -119,9 +149,13 @@ class TariffController extends Controller
         $Tariff = Tariff::find($id);
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
-        $Tariff->role_id = $request->role_id;
+        $Tariff->quantity = $request->quantity;
+        $Tariff->extra_dose = $request->extra_dose;
+        $Tariff->phone_consult = $request->phone_consult;
+        $Tariff->status_id = $request->status_id;
         $Tariff->pad_risk_id = $request->pad_risk_id;
-        $Tariff->scope_of_attention_id = $request->scope_of_attention_id;
+        $Tariff->program_id = $request->program_id;
+        $Tariff->type_of_attention_id = $request->type_of_attention_id;
 
         $Tariff->save();
 

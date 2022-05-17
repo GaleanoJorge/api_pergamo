@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
+use App\Models\HumanTalentRequest;
 use App\Models\Assistance;
 use App\Models\Role;
 use App\Models\UserUser;
@@ -316,6 +317,7 @@ class UserController extends Controller
         $users = $users->get()->toArray();
 
         $validacion = $locality != null;
+        $respose = array();
         if ($validacion) {
             if (count($users) > 0) {
                 foreach ($users as $key => $row) {
@@ -396,14 +398,17 @@ class UserController extends Controller
                             $usersfinal = array();
                         }
                     }
-                    
+                    if (count($usersfinal) > 0) {
+                        array_push($respose, $usersfinal[0]);
+                    }
                 }
             } else {
                 $usersfinal = array();
             }
         }
 
-        if (count($usersfinal) == 0) {
+
+        if (count($respose) == 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'No se encontraron usuarios',
@@ -414,7 +419,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuarios por locación obtenidos exitosamente',
-            'data' => ['users' => $usersfinal]
+            'data' => ['users' => $respose]
         ]);
     }
 
@@ -799,6 +804,13 @@ class UserController extends Controller
                 $user->ethnicity_id = $request->ethnicity_id;
                 $user->force_reset_password = 1;
                 $user->save();
+
+                if($request->isTH){
+                    $HumanTalentRequest= HumanTalentRequest::find($request->isTH);
+                    $HumanTalentRequest->status='Aprobado';
+                    $HumanTalentRequest->save();
+
+                }
 
                 $RoleType = Role::where('id', $role)->get()->toArray();
                 if ($RoleType && $RoleType[0]['role_type_id'] == 2) {

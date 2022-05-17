@@ -39,7 +39,7 @@ class ChScalePapController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala PAP obtenida exitosamente',
             'data' => ['ch_scale_pap' => $ChScalePap]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScalePapController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala PAP obtenida exitosamente',
             'data' => ['ch_scale_pap' => $ChScalePap]
         ]);
     }
@@ -82,7 +82,7 @@ class ChScalePapController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala PAP asociado al paciente exitosamente',
             'data' => ['ch_scale_pap' => $ChScalePap->toArray()]
         ]);
     }
@@ -101,7 +101,7 @@ class ChScalePapController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala PAP obtenida exitosamente',
             'data' => ['ch_scale_pap' => $ChScalePap]
         ]);
     }
@@ -129,7 +129,7 @@ class ChScalePapController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala PAP actualizada exitosamente',
             'data' => ['ch_scale_pap' => $ChScalePap]
         ]);
     }
@@ -149,12 +149,12 @@ class ChScalePapController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala PAP eliminadoa exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escalas PAP en uso, no es posible eliminarla'
             ], 423);
         }
     }

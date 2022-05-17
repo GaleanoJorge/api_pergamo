@@ -24,6 +24,7 @@ class ChScaleHamilton extends BaseChScaleHamilton
     'variable_fourteen',
     'variable_fifteen',
     'variable_sixteen',
+    'variable_seventeen',
     'total',
     'qualification',
     'type_record_id',

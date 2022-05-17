@@ -470,7 +470,7 @@
     {
         "id": "97",
         "item_parent_id": "91",
-        "name": "Presentación del producto",
+        "name": "Forma farmaceutica",
         "code": "product-presentation",
         "route": "/pages/setting/product-presentation",
         "icon": "",
@@ -1145,7 +1145,7 @@
     {
         "id": "170",
         "item_parent_id": "169",
-        "name": "Factura Medicamento",
+        "name": "Orden de compra",
         "code": "billing",
         "route": "/pages/setting/billing",
         "icon": "",
@@ -1154,10 +1154,10 @@
     {
         "id": "174",
         "item_parent_id": "169",
-        "name": "Ingreso farmacia lote",
-        "code": "pharmacy",
-        "route": "/pages/pharmacy/pharmacy-lot",
-        "icon": "shopping-bag-outline",
+        "name": "Ing farmacia lote",
+        "code": "pharmacy-lot",
+        "route": "/pages/setting/pharmacy-lot",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1199,7 +1199,7 @@
     {
         "id": "180",
         "item_parent_id": "66",
-        "name": "Histori Clinica",
+        "name": "Historia Clinica",
         "code": null,
         "route": null,
         "icon": "",
@@ -1221,6 +1221,51 @@
         "code": "pharmacy-update-max-min",
         "route": "/pages/setting/pharmacy-update-max-min",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "183",
+        "item_parent_id": "67",
+        "name": "Cargue masivo FRT",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "184",
+        "item_parent_id": "183",
+        "name": "Facturación",
+        "code": "billing",
+        "route": "/pages/setting/tc-billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "185",
+        "item_parent_id": "183",
+        "name": "Radicación",
+        "code": "radication",
+        "route": "/pages/setting/tc-radication",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "186",
+        "item_parent_id": "183",
+        "name": "Nómina",
+        "code": "billing",
+        "route": "/pages/setting/tc-human-talent",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "187",
+        "item_parent_id": null,
+        "name": "Solicitud de personal Talento Humano",
+        "code": "human-talent-request",
+        "route": "/pages/human-talent-request/list",
+        "icon": "people-outline",
         "show_menu": "1"
     }
 ]

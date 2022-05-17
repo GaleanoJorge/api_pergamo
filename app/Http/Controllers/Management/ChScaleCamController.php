@@ -39,7 +39,7 @@ class ChScaleCamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala CAM obtenida exitosamente',
             'data' => ['ch_scale_cam' => $ChScaleCam]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScaleCamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala CAM obtenida exitosamente',
             'data' => ['ch_scale_cam' => $ChScaleCam]
         ]);
     }
@@ -78,7 +78,7 @@ class ChScaleCamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala CAM asociada al paciente exitosamente',
             'data' => ['ch_scale_cam' => $ChScaleCam->toArray()]
         ]);
     }
@@ -97,7 +97,7 @@ class ChScaleCamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala CAM obtenida exitosamente',
             'data' => ['ch_scale_cam' => $ChScaleCam]
         ]);
     }
@@ -121,7 +121,7 @@ class ChScaleCamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala CAM actualizada exitosamente',
             'data' => ['ch_scale_cam' => $ChScaleCam]
         ]);
     }
@@ -141,12 +141,12 @@ class ChScaleCamController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala CAM eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala CAM en uso, no es posible eliminarla'
             ], 423);
         }
     }

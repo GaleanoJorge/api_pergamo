@@ -15,6 +15,7 @@ use App\Models\Authorization;
 use App\Models\Briefcase;
 use App\Models\Specialty;
 use App\Models\User;
+use App\Models\ServicesBriefcase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,6 +58,10 @@ class ManagementPlan extends Model
 	public function assigned_user()
 	{
 		return $this->belongsTo(User::class);
+	}
+	public function service_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class,'product_id');
 	}
 	public function authorization()
 	{

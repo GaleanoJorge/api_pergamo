@@ -40,7 +40,7 @@ class ChScaleNewsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala News obtenida exitosamente',
             'data' => ['ch_scale_news' => $ChScaleNews]
         ]);
     }
@@ -86,7 +86,7 @@ class ChScaleNewsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala News asociada al paciente exitosamente',
             'data' => ['ch_scale_news' => $ChScaleNews->toArray()]
         ]);
     }
@@ -105,7 +105,7 @@ class ChScaleNewsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala News obtenida exitosamente',
             'data' => ['ch_scale_news' => $ChScaleNews]
         ]);
     }
@@ -136,7 +136,7 @@ class ChScaleNewsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala News actualizada exitosamente',
             'data' => ['ch_scale_news' => $ChScaleNews]
         ]);
     }
@@ -156,12 +156,12 @@ class ChScaleNewsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala News eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala News en uso, no es posible eliminarla'
             ], 423);
         }
     }

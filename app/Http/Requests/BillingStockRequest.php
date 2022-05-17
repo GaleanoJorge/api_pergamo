@@ -25,6 +25,7 @@ class BillingStockRequest extends FormRequest
     {
         return [
             'amount' => 'required',
+            'amount_unit' => 'required',
             'product_id' => 'required',
             'billing_id' => 'required',
         ];

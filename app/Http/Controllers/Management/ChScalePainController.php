@@ -39,7 +39,7 @@ class ChScalePainController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala dolor adulto obtenida exitosamente',
             'data' => ['ch_scale_pain' => $ChScalePain]
         ]);
     }
@@ -60,7 +60,7 @@ class ChScalePainController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala dolor adulto obtenida exitosamente',
             'data' => ['ch_scale_pain' => $ChScalePain]
         ]);
     }
@@ -69,14 +69,13 @@ class ChScalePainController extends Controller
     {
         $ChScalePain = new ChScalePain;
         $ChScalePain->range = $request->range;
-        $ChScalePain->detail = $request->detail;
         $ChScalePain->type_record_id = $request->type_record_id;
         $ChScalePain->ch_record_id = $request->ch_record_id;
         $ChScalePain->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala dolor adulto asociada al paciente exitosamente',
             'data' => ['ch_scale_pain' => $ChScalePain->toArray()]
         ]);
     }
@@ -95,7 +94,7 @@ class ChScalePainController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala dolor adulto obtenida exitosamente',
             'data' => ['ch_scale_pain' => $ChScalePain]
         ]);
     }
@@ -110,14 +109,13 @@ class ChScalePainController extends Controller
     {
         $ChScalePain = ChScalePain::find($id);
         $ChScalePain->range = $request->range;
-        $ChScalePain->detail = $request->detail;
         $ChScalePain->type_record_id = $request->type_record_id;
         $ChScalePain->ch_record_id = $request->ch_record_id;
         $ChScalePain->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala dolor adulto actualizada exitosamente',
             'data' => ['ch_scale_pain' => $ChScalePain]
         ]);
     }
@@ -137,12 +135,12 @@ class ChScalePainController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala dolor adulto eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala dolor adulto en uso, no es posible eliminarla'
             ], 423);
         }
     }

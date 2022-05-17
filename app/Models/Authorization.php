@@ -8,7 +8,7 @@ class Authorization extends BaseAuthorization
 {
 	protected $fillable = [
 		'id',
-		'procedure_id',
+		'services_briefcase_id',
 		'admissions_id',
 		'auth_number',
 		'state_auth_id',

@@ -16,17 +16,22 @@ class CreatePharmacyUpdateMaxMinTable extends Migration
     {
         Schema::create('pharmacy_update_max_min', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('pharmacy_stock_id');
-            $table->unsignedBigInteger('pharmacy_inventory_id');
+            $table->unsignedBigInteger('pharmacy_lot_stock_id');
+            $table->unsignedBigInteger('own_pharmacy_stock_id');
+            $table->unsignedBigInteger('request_pharmacy_stock_id');
             $table->timestamps();
 
-            $table->index('pharmacy_stock_id');
-            $table->foreign('pharmacy_stock_id')->references('id')
+            $table->index('own_pharmacy_stock_id');
+            $table->foreign('own_pharmacy_stock_id')->references('id')
                 ->on('pharmacy_stock');
 
-            $table->index('pharmacy_inventory_id');
-            $table->foreign('pharmacy_inventory_id')->references('id')
-                ->on('pharmacy_inventory');
+            $table->index('request_pharmacy_stock_id');
+            $table->foreign('request_pharmacy_stock_id')->references('id')
+                ->on('pharmacy_stock');
+
+            $table->index('pharmacy_lot_stock_id');
+            $table->foreign('pharmacy_lot_stock_id')->references('id')
+                ->on('pharmacy_lot_stock');
         });
     }
     /**

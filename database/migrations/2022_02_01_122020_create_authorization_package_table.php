@@ -16,7 +16,7 @@ class CreateAuthorizationPackageTable extends Migration
         Schema::create('authorization_package', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('authorization_id');
-            $table->unsignedBigInteger('assigned_management_plan_id');
+            $table->unsignedBigInteger('assigned_management_plan_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 

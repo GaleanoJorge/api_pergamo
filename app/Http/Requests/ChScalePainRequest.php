@@ -25,7 +25,6 @@ class ChScalePainRequest extends FormRequest
     {
         return [
             'range' => '',
-            'detail' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

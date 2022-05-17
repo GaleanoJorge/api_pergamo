@@ -40,7 +40,7 @@ class ChScaleNortonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Norton obtenida exitosamente',
             'data' => ['ch_scale_norton' => $ChScaleNorton]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleNortonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Norton obtenida exitosamente',
             'data' => ['ch_scale_norton' => $ChScaleNorton]
         ]);
     }
@@ -82,7 +82,7 @@ class ChScaleNortonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Norton asociada al paciente exitosamente',
             'data' => ['ch_scale_norton' => $ChScaleNorton->toArray()]
         ]);
     }
@@ -101,7 +101,7 @@ class ChScaleNortonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Norton obtenida exitosamente',
             'data' => ['ch_scale_norton' => $ChScaleNorton]
         ]);
     }
@@ -128,7 +128,7 @@ class ChScaleNortonController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Norton actualizada exitosamente',
             'data' => ['ch_scale_norton' => $ChScaleNorton]
         ]);
     }
@@ -148,12 +148,12 @@ class ChScaleNortonController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Norton eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Norton en uso, no es posible eliminarla'
             ], 423);
         }
     }

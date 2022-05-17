@@ -24,9 +24,10 @@ class PharmacyProductRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => '',
+            'status' => '',
             'product_generic_id' => '',
-            'pharmacy_stock_id' => '',
+            'own_pharmacy_stock_id' => '',
+            'request_pharmacy_stock_id' => '',
             
         ];
     }

@@ -40,7 +40,7 @@ class ChScaleRedCrossController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Cruz roja obtenida exitosamente',
             'data' => ['ch_scale_red_cross' => $ChScaleRedCross]
         ]);
     }
@@ -61,7 +61,7 @@ class ChScaleRedCrossController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenidos exitosamente',
+            'message' => 'Escala Cruz roja obtenida exitosamente',
             'data' => ['ch_scale_red_cross' => $ChScaleRedCross]
         ]);
     }
@@ -77,7 +77,7 @@ class ChScaleRedCrossController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas asociado al paciente exitosamente',
+            'message' => 'Escala Cruz roja asociada al paciente exitosamente',
             'data' => ['ch_scale_red_cross' => $ChScaleRedCross->toArray()]
         ]);
     }
@@ -96,7 +96,7 @@ class ChScaleRedCrossController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas obtenido exitosamente',
+            'message' => 'Escala Cruz roja obtenida exitosamente',
             'data' => ['ch_scale_red_cross' => $ChScaleRedCross]
         ]);
     }
@@ -118,7 +118,7 @@ class ChScaleRedCrossController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Escalas actualizado exitosamente',
+            'message' => 'Escala Cruz roja actualizada exitosamente',
             'data' => ['ch_scale_red_cross' => $ChScaleRedCross]
         ]);
     }
@@ -138,12 +138,12 @@ class ChScaleRedCrossController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Escalas eliminado exitosamente'
+                'message' => 'Escala Cruz roja eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Escalas en uso, no es posible eliminarlo'
+                'message' => 'Escala Cruz roja en uso, no es posible eliminarla'
             ], 423);
         }
     }
