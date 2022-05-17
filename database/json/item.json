@@ -1202,7 +1202,7 @@
         "name": "Histori Clinica",
         "code": null,
         "route": null,
-        "icon": "shopping-cart-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1211,7 +1211,7 @@
         "name": "Frecuencia Horaria",
         "code": "hourly-frequency",
         "route": "/pages/setting/hourly-frequency",
-        "icon": "shopping-cart-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {

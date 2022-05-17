@@ -53,7 +53,7 @@ class ChFormulationController extends Controller
      */
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
-        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('product_generic','administration_route','hourly_frequency')
+        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('management_plan','management_plan.product','administration_route','hourly_frequency')
             ->get()->toArray();
         
 
@@ -67,7 +67,7 @@ class ChFormulationController extends Controller
     public function store(ChFormulationRequest $request): JsonResponse
     {
         $ChFormulation = new ChFormulation;
-        $ChFormulation->product_generic_id = $request->product_generic_id;   
+        $ChFormulation->management_plan_id = $request->management_plan_id;   
         $ChFormulation->administration_route_id = $request->administration_route_id; 
         $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
        
@@ -116,7 +116,7 @@ class ChFormulationController extends Controller
     public function update(ChFormulationRequest $request, int $id): JsonResponse
     {
         $ChFormulation = ChFormulation ::find($id);
-        $ChFormulation->product_generic_id = $request->product_generic_id;   
+        $ChFormulation->management_plan_id = $request->management_plan_id;   
         $ChFormulation->administration_route_id = $request->administration_route_id; 
         $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
         $ChFormulation->medical_formula = $request->medical_formula; 
