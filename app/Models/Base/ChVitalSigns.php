@@ -12,6 +12,9 @@ use App\Models\ChVitalHydration;
 use App\Models\ChVitalNeurological;
 use App\Models\ChVitalTemperature;
 use App\Models\ChVitalVentilated;
+use App\Models\OxygenType;
+use App\Models\LitersPerMinute;
+use App\Models\ParametersSigns;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -55,6 +58,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $ch_vital_ventilated_id
  * @property BigInteger $ch_vital_temperature_id
  * @property BigInteger $ch_vital_neurological_id
+ * @property BigInteger $oxygen_type_id
+ * @property BigInteger $liters_per_minute_id
+ * @property BigInteger $parameters_signs_id
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -82,6 +88,18 @@ class ChVitalSigns extends Model
 	{
 		return $this->belongsTo(ChVitalNeurological::class);
 	}
+	public function oxygen_type()
+	{
+		return $this->belongsTo(OxygenType::class);
+	}
+	public function liters_per_minute()
+	{
+		return $this->belongsTo(LitersPerMinute::class);
+	}
+	public function parameters_signs()
+	{
+		return $this->belongsTo(ParametersSigns::class);
+	}
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);
@@ -90,4 +108,5 @@ class ChVitalSigns extends Model
 	{
 		return $this->belongsTo(ChRecord::class);
 	}
+	
 }

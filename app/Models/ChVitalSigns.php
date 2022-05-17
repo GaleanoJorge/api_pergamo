@@ -45,6 +45,9 @@ class ChVitalSigns extends BaseChVitalSigns
     'ch_vital_ventilated_id',
     'ch_vital_temperature_id',
     'ch_vital_neurological_id',
+    'oxygen_type_id',
+    'liters_per_minute_id',
+    'parameters_signs_id',
     'type_record_id',
     'ch_record_id'
   ];
