@@ -7,11 +7,17 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\FinancialData;
+use App\Models\IdentificationType;
 use App\Models\MinimumSalary;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Dompdf\Dompdf as PDF;
 
 class AccountReceivableController extends Controller
 {
@@ -68,9 +74,17 @@ class AccountReceivableController extends Controller
 
     {
         $LastWeekOfMonth = Carbon::now()->endOfMonth()->subDays(7)->format('Ymd');
-        $ancualDate = Carbon::now()->format('Ymd');
+        $LastDayMonth = Carbon::now()->endOfMonth()->format('Ymd');
+        $ancualDate = Carbon::parse('2022-06-01 14:44:40')->format('Ymd');
+        // $ancualDate = Carbon::now()->format('Ymd');
         $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
-            ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'), 'assistance.id AS assistance_id', DB::raw("IF(".$LastWeekOfMonth."<=".$ancualDate.",1,0) AS edit_date"))
+            ->select(
+                'account_receivable.*',
+                DB::raw('IF(source_retention.id,1,0) as has_retention'),
+                'assistance.id AS assistance_id',
+                DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
+                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . ",1,0) AS show_file"),
+            )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
             ->groupBy('account_receivable.id');
@@ -189,6 +203,129 @@ class AccountReceivableController extends Controller
             'message' => 'Planilla cargada exitosamente',
             'data' => ['account_receivable' => $AccountReceivable]
         ]);
+    }
+
+    /**
+     * Generate PDF file with all information of the account receivable
+     * 
+     * @param  int  $id
+     */
+    public function generatePdf(int $id): JsonResponse
+    {
+        $AccountReceivable = AccountReceivable::find($id)->first();
+        $User = User::where('id', $AccountReceivable->user_id)->first();
+        $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
+        $UserRole = UserRole::where('user_id', $User->id)->first();
+        $Role = Role::where('id', $UserRole->role_id)->first();
+        $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first()->toArray();
+
+        if (!$FinancialData) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se encontraron datos financieros para el usuario',
+                'data' => []
+            ]);
+        }
+
+        $formatterES = 'valor';
+        $LastDayOfMonthFromAccount = Carbon::parse($AccountReceivable->created_at)->endOfMonth()->day;
+        $AccountYear = Carbon::parse($AccountReceivable->created_at)->year;
+        $AccountMonth = $this->getMonthString(Carbon::parse($AccountReceivable->created_at)->month);
+
+        $full_name = strtoupper($User->firstname . ' ' . $User->middlefirstname . ' ' . $User->lastname . ' ' . $User->middlelastname);
+        $rut_number = $FinancialData['rut'];
+        $doc_type = strtoupper($IdentificationType->name);
+        $doc_number = $User->identification;
+        $net_value = $AccountReceivable->net_value_activities < 1000000 ? floor($AccountReceivable->net_value_activities / 1000) . '.' . ($AccountReceivable->net_value_activities - (floor($AccountReceivable->net_value_activities / 1000) * 1000)) :
+            floor($AccountReceivable->net_value_activities / 1000000) . '.' . floor(($AccountReceivable->net_value_activities / 1000) - (floor($AccountReceivable->net_value_activities / 1000000) * 1000)) . '.' . ($AccountReceivable->net_value_activities - (floor($AccountReceivable->net_value_activities / 1000) * 1000));
+        $account_type = strtoupper($FinancialData['account_type']['name']);
+        $bank = strtoupper($FinancialData['bank']['name']);
+        $account_number = $FinancialData['account_number'];
+        $role = strtoupper($Role->name);
+        $address = strtoupper($User->residence_address);
+        $phone = $User->phone;
+        $email = $User->email;
+
+        $html = view('layouts.receivable', [
+            'AccountYear' => $AccountYear,
+            'AccountMonth' => $AccountMonth,
+            'day' => $LastDayOfMonthFromAccount,
+            'month' => $AccountMonth,
+            'year' => $AccountYear,
+            'full_name' => $full_name,
+            'rut_number' => $rut_number,
+            'doc_type' => $doc_type,
+            'doc_number' => $doc_number,
+            'net_value' => $net_value,
+            'formatterES' => $formatterES,
+            'account_type' => $account_type,
+            'bank' => $bank,
+            'account_number' => $account_number,
+            'role' => $role,
+            'address' => $address,
+            'phone' => $phone,
+            'email' => $email,
+        ])->render();
+
+        $dompdf = new PDF();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'vertical');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'cuenta_cobro/' . $User->identification . '.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro generada exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+    }
+
+    private function injectPageCount(PDF $dompdf): void
+    {
+        /** @var CPDF $canvas */
+        $canvas = $dompdf->getCanvas();
+        $pdf = $canvas->get_cpdf();
+
+        foreach ($pdf->objects as &$o) {
+            if ($o['t'] === 'contents') {
+                $o['c'] = str_replace('DOMPDF_PAGE_COUNT_PLACEHOLDER', $canvas->get_page_count(), $o['c']);
+            }
+        }
+    }
+
+    private function getMonthString(int $month)
+    {
+        if ($month == 1) {
+            $month = 'ENERO';
+        } elseif ($month == 2) {
+            $month = 'FEBRERO';
+        } elseif ($month == 3) {
+            $month = 'MARZO';
+        } elseif ($month == 4) {
+            $month = 'ABRIL';
+        } elseif ($month == 5) {
+            $month = 'MAYO';
+        } elseif ($month == 6) {
+            $month = 'JUNIO';
+        } elseif ($month == 7) {
+            $month = 'JULIO';
+        } elseif ($month == 8) {
+            $month = 'AGOSTO';
+        } elseif ($month == 9) {
+            $month = 'SEPTIEMBRE';
+        } elseif ($month == 10) {
+            $month = 'OCTUBRE';
+        } elseif ($month == 11) {
+            $month = 'NOVIEMBRE';
+        } elseif ($month == 12) {
+            $month = 'DICIEMBRE';
+        }
+        return $month;
     }
 
 
