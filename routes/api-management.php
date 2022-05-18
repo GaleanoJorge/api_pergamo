@@ -1169,7 +1169,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
-
+    
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
     Route::apiResource('liters_per_minute', 'Management\LitersPerMinuteController');
