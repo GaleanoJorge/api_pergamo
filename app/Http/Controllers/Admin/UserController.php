@@ -700,7 +700,12 @@ class UserController extends Controller
     {
         $users = User::select(
             'users.*',
-            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+            'financial_data.id AS financial_data_id',
+            'financial_data.bank_id AS financial_data_bank_id',
+            'financial_data.account_type_id AS financial_data_account_type_id',
+            'financial_data.account_number AS financial_data_account_number',
+            'financial_data.rut AS financial_data_rut',
         )->with(
             'status',
             'gender',
@@ -708,7 +713,10 @@ class UserController extends Controller
             'identification_type',
             'user_role',
             'user_role.role'
-        );
+        )
+        ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
+        ->orderBy('users.id', 'asc');
+        ;
 
         if ($roleId > 0) {
             $users->Join('user_role', 'users.id', 'user_role.user_id');
@@ -721,12 +729,12 @@ class UserController extends Controller
 
         if ($request->search) {
             $users->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+                $query->where('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
             });
         }
 
