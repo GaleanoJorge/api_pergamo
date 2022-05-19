@@ -212,12 +212,12 @@ class AccountReceivableController extends Controller
      */
     public function generatePdf(int $id): JsonResponse
     {
-        $AccountReceivable = AccountReceivable::find($id)->first();
+        $AccountReceivable = AccountReceivable::where('id', $id)->first();
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
-        $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first()->toArray();
+        $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
 
         if (!$FinancialData) {
             return response()->json([
@@ -225,6 +225,8 @@ class AccountReceivableController extends Controller
                 'message' => 'No se encontraron datos financieros para el usuario',
                 'data' => []
             ]);
+        } else {
+            $FinancialData = $FinancialData->toArray();
         }
 
         $formatterES = 'valor';
