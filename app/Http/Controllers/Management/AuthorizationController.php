@@ -11,6 +11,7 @@ use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,7 @@ class AuthorizationController extends Controller
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
                 'briefcase.type_auth',
@@ -124,8 +126,9 @@ class AuthorizationController extends Controller
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
+            $finish_date = new DateTime($request->final_date);
             $Authorization
-                ->where('authorization.created_at', '<=', Carbon::parse($request->final_date));
+                ->where('authorization.created_at', '<=', $finish_date);
         }
 
         if ($request->_sort) {
@@ -140,7 +143,8 @@ class AuthorizationController extends Controller
                     ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%');
+                    ->orWhere('auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -332,12 +336,11 @@ class AuthorizationController extends Controller
 
         if ($request->edit) {
             $Authorization
-                ->where(function($query) use ($request) {
+                ->where(function ($query) use ($request) {
                     $query->where('auth_package_id', $request->id)
-                    ->orWhere('auth_package_id', null)
-                    ->whereNotNull('authorization.assigned_management_plan_id');
-                })
-            ;
+                        ->orWhere('auth_package_id', null)
+                        ->whereNotNull('authorization.assigned_management_plan_id');
+                });
         };
 
         if ($request->view) {
@@ -366,7 +369,7 @@ class AuthorizationController extends Controller
             $Authorization = $Authorization->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $per_page = $request->query("per_page", 30);
 
             $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
         }
