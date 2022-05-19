@@ -1267,5 +1267,14 @@
         "route": "/pages/human-talent-request/list",
         "icon": "people-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "188",
+        "item_parent_id": null,
+        "name": "Facturación PAD",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "pricetags-outline",
+        "show_menu": "1"
     }
 ]

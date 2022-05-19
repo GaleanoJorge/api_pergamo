@@ -409,12 +409,12 @@ class AuthorizationController extends Controller
         $Authorization = Authorization::find($id);
 
         if ($request->auth_number && $request->authorized_amount) {
-
+            // autorizado por pre
             $Authorization->auth_number = $request->auth_number;
             $Authorization->authorized_amount = $request->authorized_amount;
             $Authorization->auth_status_id = 3;
         } else if ($request->auth_number) {
-
+            // autorizado por post
             $Authorization->auth_number = $request->auth_number;
             $Authorization->auth_status_id = 3;
         } else if ($request->observation) {

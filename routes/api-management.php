@@ -1182,4 +1182,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Campo nuevo de dietas
     Route::apiResource('enterally_diet', 'Management\EnterallyDietController');
+    //prefactura PAD
+    Route::apiResource('pre_billing_pad', 'Management\PreBillingPadController');
+    Route::get('pre_billing_pad/GroupByAdmission', 'Management\PreBillingPadController@getGroupByAdmission');
 });
