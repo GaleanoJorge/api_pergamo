@@ -15,7 +15,7 @@ class CreateProductConcentrationTable extends Migration
     {
         Schema::create('product_concentration', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('value');
+            $table->string('value');
             $table->timestamps();
         });
     }

@@ -144,6 +144,15 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypePharmacyStockSeeder::class);
                 $this->call(PackingSeeder::class);
                 $this->call(ProductDoseSeeder::class);
+
+                $this->call(ProductGroupSeeder::class);
+                $this->call(ProductConcentrationSeeder::class);
+                $this->call(ProductPresentationSeeder::class);
+                $this->call(ProductCategorySeeder::class);
+                $this->call(ProductSubCategorySeeder::class);
+                $this->call(NomProductSeeder::class);
+
+
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

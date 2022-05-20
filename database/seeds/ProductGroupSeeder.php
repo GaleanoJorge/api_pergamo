@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\ProductDose;
+use App\Models\ProductGroup;
 use Illuminate\Database\Seeder;
 
-class ProductDoseSeeder extends Seeder
+class ProductGroupSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,10 @@ class ProductDoseSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/product-dose.json'));
+        $data = file_get_contents(database_path('json/product-group.json'));
 
         foreach (json_decode($data) as $row) {
-            ProductDose::create([
+            ProductGroup::create([
                 'name' =>  $row->name,
             ]);
         }
