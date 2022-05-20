@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\ProductDose;
+use App\Models\AdministrationRoute;
+use App\Models\ProductPresentation;
 use Illuminate\Database\Seeder;
 
-class ProductDoseSeeder extends Seeder
+class ProductPresentationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +13,10 @@ class ProductDoseSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/product-dose.json'));
+        $data = file_get_contents(database_path('json/product-presentation.json'));
 
         foreach (json_decode($data) as $row) {
-            ProductDose::create([
+            ProductPresentation::create([
                 'name' =>  $row->name,
             ]);
         }

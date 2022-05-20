@@ -1267,5 +1267,14 @@
         "route": "/pages/human-talent-request/list",
         "icon": "people-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "188",
+        "item_parent_id": "91",
+        "name": "Nombre del producto",
+        "code": "nom-product",
+        "route": "/pages/setting/nom-product",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
