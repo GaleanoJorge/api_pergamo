@@ -1195,15 +1195,22 @@
         "route": "/pages/setting/pharmacy-request",
         "icon": "",
         "show_menu": "1"
-    }
-
-    ,
+    },
     {
         "id": "182",
         "item_parent_id": "169",
         "name": "Actualizar Max-Min stock",
         "code": "pharmacy-update-max-min",
         "route": "/pages/setting/pharmacy-update-max-min",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "188",
+        "item_parent_id": "91",
+        "name": "Nombre del producto",
+        "code": "nom-product",
+        "route": "/pages/setting/nom-product",
         "icon": "",
         "show_menu": "1"
     }

@@ -912,25 +912,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
-
-
-
-
-
-
-
-
-
-
+    
+    Route::apiResource('nom_product', 'Management\NomProductController');
+    Route::get('NomProduct/byCategory/{product_subcategory_id}',
+        'Management\NomProductController@getSubcategoryByCategory'
+    );
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
 
-
-
-
-
-    
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
     Route::apiResource('ch_flow_gynecologists', 'Management\ChFlowGynecologistsController');
