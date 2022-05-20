@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $dose
  * @property int $pbs_type_id
  * @property string $pbs_restriction
- * @property int $product_subcategory_id
+ * @property int $nom_product_id
  * @property string $administration_route_id
  * @property int $special_controller_medicene
  * @property string $code_atc
