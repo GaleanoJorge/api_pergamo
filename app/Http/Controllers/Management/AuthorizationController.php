@@ -10,9 +10,12 @@ use App\Http\Requests\AuthorizationRequest;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 
 require('ManagementPlanController.php');
 
@@ -63,6 +66,7 @@ class AuthorizationController extends Controller
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
                 'briefcase.type_auth',
@@ -72,7 +76,8 @@ class AuthorizationController extends Controller
                 'patients.residence_address',
                 'patients.residence_municipality_id',
                 'patients.neighborhood_or_residence_id',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('DATE(authorization.created_at) as date'),
             )
             ->wherenull('auth_package_id');
 
@@ -114,13 +119,16 @@ class AuthorizationController extends Controller
         }
 
         if ($request->initial_date != 'null' && isset($request->initial_date)) {
+            $init_date = Carbon::parse($request->initial_date);
+
             $Authorization
-                ->where('created_at', '>=', $request->initial_date);
+                ->where('authorization.created_at', '>', $init_date);
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
+            $finish_date = new DateTime($request->final_date);
             $Authorization
-                ->where('created_at', '<=', $request->final_date);
+                ->where('authorization.created_at', '<=', $finish_date);
         }
 
         if ($request->_sort) {
@@ -135,7 +143,8 @@ class AuthorizationController extends Controller
                     ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%');
+                    ->orWhere('auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -297,7 +306,6 @@ class AuthorizationController extends Controller
     public function GetByAdmissions(Request $request, int $admissionsId): JsonResponse
     {
         $Authorization = Authorization::where('admissions_id', $admissionsId)
-            ->where('auth_package_id')
             ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
@@ -322,9 +330,22 @@ class AuthorizationController extends Controller
                 'auth_status',
                 'residence_municipality',
                 'residence'
-            )->get()->toArray();
+            )
+            ->where('auth_status_id', '<', 3);
 
 
+        if ($request->edit) {
+            $Authorization
+                ->where(function ($query) use ($request) {
+                    $query->where('auth_package_id', $request->id)
+                        ->orWhere('auth_package_id', null)
+                        ->whereNotNull('authorization.assigned_management_plan_id');
+                });
+        };
+
+        if ($request->view) {
+            $Authorization->where('auth_package_id', $request->id);
+        };
 
         if ($request->_sort) {
             $Authorization->orderBy($request->_sort, $request->_order);
@@ -342,14 +363,16 @@ class AuthorizationController extends Controller
             });
         }
 
-        // if ($request->query("pagination", true) == "false") {
-        //     $Authorization = $Authorization->get()->toArray();
-        // } else {
-        //     $page = $request->query("current_page", 1);
-        //     $per_page = $request->query("per_page", 10);
 
-        //     $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
-        // }
+
+        if ($request->query("pagination", true) == "false") {
+            $Authorization = $Authorization->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 30);
+
+            $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
