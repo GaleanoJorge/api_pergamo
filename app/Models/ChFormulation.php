@@ -8,7 +8,7 @@ use App\Models\Base\ChFormulation as BaseChFormulation;
 class ChFormulation extends BaseChFormulation
 {
     protected $fillable = [
-    'product_generic_id',
+    'management_plan_id',
     'administration_route_id',
     'hourly_frequency_id',
     'medical_formula',

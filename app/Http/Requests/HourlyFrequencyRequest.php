@@ -26,6 +26,7 @@ class HourlyFrequencyRequest extends FormRequest
         return [
             //
             'name' => 'required',
+            'value' => 'required',
         
 
         ];

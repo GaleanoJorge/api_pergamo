@@ -10,7 +10,6 @@ class ChPhysicalExam extends BaseChPhysicalExam
   protected $fillable = [
     'type_ch_physical_exam_id',
     'revision',
-    'observation',
     'type_record_id',
     'ch_record_id',
   ];

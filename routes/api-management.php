@@ -1182,4 +1182,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Campo nuevo de dietas
     Route::apiResource('enterally_diet', 'Management\EnterallyDietController');
+
+
+    //Tabla de salida de paciente.
+    Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
+    Route::apiResource('reason_exit', 'Management\ReasonExitController');
+
 });

@@ -52,7 +52,7 @@ class ChVitalSignsController extends Controller
      */
     public function byrecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological', 'type_record', 'ch_record')
+        $ChVitalSigns = ChVitalSigns::with('vital_hydration', 'vital_ventilated', 'vital_temperature', 'vital_neurological', 'oxygen_type', 'liters_per_minute','parameters_signs', 'type_record','ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
 
         if ($request->_sort) {
@@ -111,16 +111,23 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->pupil_size_right = $request->pupil_size_right;
         $ChVitalSigns->left_reaction = $request->left_reaction;
         $ChVitalSigns->pupil_size_left = $request->pupil_size_left; 
+        $ChVitalSigns->mydriatic =  $request->mydriatic;
+        $ChVitalSigns->normal =  $request->normal;
+        $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
+        $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
+        $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry; 
-        $ChVitalSigns->pupillary_assessment = $request->pupillary_assessment;
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
         $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
+        $ChVitalSigns->oxygen_type_id = $request->oxygen_type_id;
+        $ChVitalSigns->liters_per_minute_id =  $request->liters_per_minute_id;
+        $ChVitalSigns->parameters_signs_id =  $request->parameters_signs_id;
         $ChVitalSigns->type_record_id = $request->type_record_id;
         $ChVitalSigns->ch_record_id = $request->ch_record_id;
         $ChVitalSigns->save();
-        $ChVitalSigns->save();
+        
 
         return response()->json([
             'status' => true,
@@ -205,11 +212,13 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
         $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
-        $ChVitalSigns->pupillary_assessment = $request->pupillary_assessment;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;
         $ChVitalSigns->ch_vital_neurological_id =  $request->ch_vital_neurological_id;
+        $ChVitalSigns->oxygen_type_id = $request->oxygen_type_id;
+        $ChVitalSigns->liters_per_minute_id =  $request->liters_per_minute_id;
+        $ChVitalSigns->parameters_signs_id =  $request->parameters_signs_id;
         $ChVitalSigns->type_record_id = $request->type_record_id;
         $ChVitalSigns->ch_record_id = $request->ch_record_id;
         $ChVitalSigns->save();

@@ -15,7 +15,7 @@ class CreateChFormulationTable extends Migration
     {
         Schema::create('ch_formulation', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('product_generic_id');
+            $table->unsignedBigInteger('management_plan_id');
             $table->unsignedBigInteger('administration_route_id');
             $table->unsignedBigInteger('hourly_frequency_id');
             $table->string('medical_formula');
@@ -27,9 +27,9 @@ class CreateChFormulationTable extends Migration
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
-            $table->index('product_generic_id');
-            $table->foreign('product_generic_id') ->references('id')
-                ->on('product_generic');
+            $table->index('management_plan_id');
+            $table->foreign('management_plan_id') ->references('id')
+                ->on('management_plan');
 
             $table->index('administration_route_id');
             $table->foreign('administration_route_id')->references('id')

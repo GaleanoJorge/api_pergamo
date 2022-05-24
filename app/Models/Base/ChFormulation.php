@@ -6,12 +6,11 @@
 
 namespace App\Models\Base;
 
-use App\Models\ProductGeneric;
 use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
-
+use App\Models\ManagementPlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  
  * 
  * @property int $id
- * @property unsignedBigInteger $product_generic_id
+ * @property unsignedBigInteger $management_plan_id
  * @property unsignedBigInteger $administration_route_id
  * @property unsignedBigInteger $hourly_frequency_id
  * @property string $medical_formula
@@ -40,9 +39,9 @@ class ChFormulation extends Model
 {
 	protected $table = 'ch_formulation';
 
-	public function product_generic()
+	public function management_plan()
 	{
-		return $this->belongsTo(ProductGeneric::class);
+		return $this->belongsTo(ManagementPlan::class);
 	}
 	public function administration_route()
 	{
