@@ -17,6 +17,10 @@ class ChScaleFlaccController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScaleFlacc = ChScaleFlacc::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
+
         $ChScaleFlacc = ChScaleFlacc::select();
 
         if($request->_sort){
@@ -26,7 +30,11 @@ class ChScaleFlaccController extends Controller
         if ($request->search) {
             $ChScaleFlacc->where('name','like','%' . $request->search. '%');
         }
-        
+        if ($request->ch_record_id) {
+            $ChScaleFlacc->where('ch_record_id', $request->ch_record_id);
+        }
+        if ($request->latest  && isset($request->latest)) {
+        }
         if($request->query("pagination", true)=="false"){
             $ChScaleFlacc=$ChScaleFlacc->get()->toArray();    
         }
@@ -37,7 +45,7 @@ class ChScaleFlaccController extends Controller
             $ChScaleFlacc=$ChScaleFlacc->paginate($per_page,'*','page',$page); 
         } 
 
-
+}
         return response()->json([
             'status' => true,
             'message' => 'Escala Flacc obtenida exitosamente',
@@ -69,11 +77,21 @@ class ChScaleFlaccController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleFlacc = new ChScaleFlacc; 
-        $ChScaleFlacc->face = $request->face; 
-        $ChScaleFlacc->legs= $request->legs;
-        $ChScaleFlacc->activity= $request->activity;
-        $ChScaleFlacc->crying= $request->crying;
-        $ChScaleFlacc->comfort= $request->comfort;
+        $ChScaleFlacc->face_title = $request->face_title; 
+        $ChScaleFlacc->face_value= $request->face_value;
+        $ChScaleFlacc->face_detail= $request->face_detail;
+        $ChScaleFlacc->leg_titles= $request->leg_titles;
+        $ChScaleFlacc->legs_value= $request->legs_value;
+        $ChScaleFlacc->legs_detail = $request->legs_detail; 
+        $ChScaleFlacc->activity_title= $request->activity_title;
+        $ChScaleFlacc->activity_value= $request->activity_value;
+        $ChScaleFlacc->activity_detail= $request->activity_detail;
+        $ChScaleFlacc->crying_title= $request->crying_title;
+        $ChScaleFlacc->crying_value = $request->crying_value; 
+        $ChScaleFlacc->crying_detail= $request->crying_detail;
+        $ChScaleFlacc->comfor_titlet= $request->comfor_titlet;
+        $ChScaleFlacc->comfort_value= $request->comfort_value;
+        $ChScaleFlacc->comfort_detail= $request->comfort_detail;
         $ChScaleFlacc->total= $request->total;
         $ChScaleFlacc->classification= $request->classification;
         $ChScaleFlacc->type_record_id = $request->type_record_id; 
@@ -115,11 +133,21 @@ class ChScaleFlaccController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleFlacc = ChScaleFlacc::find($id);  
-        $ChScaleFlacc->face = $request->face; 
-        $ChScaleFlacc->legs= $request->legs;
-        $ChScaleFlacc->activity= $request->activity;
-        $ChScaleFlacc->crying= $request->crying;
-        $ChScaleFlacc->comfort= $request->comfort;
+        $ChScaleFlacc->face_title = $request->face_title; 
+        $ChScaleFlacc->face_value= $request->face_value;
+        $ChScaleFlacc->face_detail= $request->face_detail;
+        $ChScaleFlacc->leg_titles= $request->leg_titles;
+        $ChScaleFlacc->legs_value= $request->legs_value;
+        $ChScaleFlacc->legs_detail = $request->legs_detail; 
+        $ChScaleFlacc->activity_title= $request->activity_title;
+        $ChScaleFlacc->activity_value= $request->activity_value;
+        $ChScaleFlacc->activity_detail= $request->activity_detail;
+        $ChScaleFlacc->crying_title= $request->crying_title;
+        $ChScaleFlacc->crying_value = $request->crying_value; 
+        $ChScaleFlacc->crying_detail= $request->crying_detail;
+        $ChScaleFlacc->comfor_titlet= $request->comfor_titlet;
+        $ChScaleFlacc->comfort_value= $request->comfort_value;
+        $ChScaleFlacc->comfort_detail= $request->comfort_detail;
         $ChScaleFlacc->total= $request->total;
         $ChScaleFlacc->classification= $request->classification;
         $ChScaleFlacc->type_record_id = $request->type_record_id; 
