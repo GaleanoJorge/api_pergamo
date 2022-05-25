@@ -17,25 +17,38 @@ class ChScaleNortonController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleNorton = ChScaleNorton::select();
-
-        if($request->_sort){
-            $ChScaleNorton->orderBy($request->_sort, $request->_order);
-        }            
-
-        if ($request->search) {
-            $ChScaleNorton->where('name','like','%' . $request->search. '%');
+        if ($request->latest) {
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+       
+        } else {
+            $ChScaleNorton = ChScaleNorton::select();
+    
+            if($request->_sort){
+                $ChScaleNorton->orderBy($request->_sort, $request->_order);
+            }            
+    
+            if ($request->search) {
+                $ChScaleNorton->where('name','like','%' . $request->search. '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScaleNorton->where('ch_record_id', $request->ch_record_id);
+            }
+    
+            if ($request->latest  && isset($request->latest)) {
+              
+            }
+            
+            if($request->query("pagination", true)=="false"){
+                $ChScaleNorton=$ChScaleNorton->get()->toArray();    
+            }
+            else{
+                $page= $request->query("current_page", 1);
+                $per_page=$request->query("per_page", 10);
+                
+                $ChScaleNorton=$ChScaleNorton->paginate($per_page,'*','page',$page); 
+            } 
         }
         
-        if($request->query("pagination", true)=="false"){
-            $ChScaleNorton=$ChScaleNorton->get()->toArray();    
-        }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChScaleNorton=$ChScaleNorton->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -69,11 +82,21 @@ class ChScaleNortonController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleNorton = new ChScaleNorton; 
-        $ChScaleNorton->physical_state = $request->physical_state; 
-        $ChScaleNorton->state_mind= $request->state_mind;
-        $ChScaleNorton->mobility= $request->mobility;
-        $ChScaleNorton->activity= $request->activity;
-        $ChScaleNorton->incontinence= $request->incontinence;
+        $ChScaleNorton->physical_title = $request->physical_title; 
+        $ChScaleNorton->physical_value= $request->physical_value;
+        $ChScaleNorton->physical_detail= $request->physical_detail;
+        $ChScaleNorton->mind_title= $request->mind_title;
+        $ChScaleNorton->mind_value= $request->mind_value;
+        $ChScaleNorton->mind_detail = $request->mind_detail; 
+        $ChScaleNorton->mobility_title= $request->mobility_title;
+        $ChScaleNorton->mobility_value= $request->mobility_value;
+        $ChScaleNorton->mobility_detail= $request->mobility_detail;
+        $ChScaleNorton->activity_title= $request->activity_title;
+        $ChScaleNorton->activity_value = $request->activity_value; 
+        $ChScaleNorton->activity_detail= $request->activity_detail;
+        $ChScaleNorton->incontinence_title= $request->incontinence_title;
+        $ChScaleNorton->incontinence_value= $request->incontinence_value;
+        $ChScaleNorton->incontinence_detail= $request->incontinence_detail;
         $ChScaleNorton->total= $request->total;
         $ChScaleNorton->risk= $request->risk;
         $ChScaleNorton->type_record_id = $request->type_record_id; 
@@ -115,11 +138,21 @@ class ChScaleNortonController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleNorton = ChScaleNorton::find($id);  
-        $ChScaleNorton->physical_state = $request->physical_state; 
-        $ChScaleNorton->state_mind= $request->state_mind;
-        $ChScaleNorton->mobility= $request->mobility;
-        $ChScaleNorton->activity= $request->activity;
-        $ChScaleNorton->incontinence= $request->incontinence;
+        $ChScaleNorton->physical_title = $request->physical_title; 
+        $ChScaleNorton->physical_value= $request->physical_value;
+        $ChScaleNorton->physical_detail= $request->physical_detail;
+        $ChScaleNorton->mind_title= $request->mind_title;
+        $ChScaleNorton->mind_value= $request->mind_value;
+        $ChScaleNorton->mind_detail = $request->mind_detail; 
+        $ChScaleNorton->mobility_title= $request->mobility_title;
+        $ChScaleNorton->mobility_value= $request->mobility_value;
+        $ChScaleNorton->mobility_detail= $request->mobility_detail;
+        $ChScaleNorton->activity_title= $request->activity_title;
+        $ChScaleNorton->activity_value = $request->activity_value; 
+        $ChScaleNorton->activity_detail= $request->activity_detail;
+        $ChScaleNorton->incontinence_title= $request->incontinence_title;
+        $ChScaleNorton->incontinence_value= $request->incontinence_value;
+        $ChScaleNorton->incontinence_detail= $request->incontinence_detail;
         $ChScaleNorton->total= $request->total;
         $ChScaleNorton->risk= $request->risk;
         $ChScaleNorton->type_record_id = $request->type_record_id; 
