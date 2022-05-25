@@ -25,7 +25,8 @@ class ChFormulationRequest extends FormRequest
     {
         return [
             //
-            'management_plan_id' => 'required',
+            'product_id' => 'required',
+            'services_briefcase_id' => 'required',
             'administration_route_id' => 'required',
             'hourly_frequency_id' => 'required',
             'medical_formula' => 'required',
