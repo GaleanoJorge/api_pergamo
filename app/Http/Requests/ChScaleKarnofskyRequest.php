@@ -24,7 +24,8 @@ class ChScaleKarnofskyRequest extends FormRequest
     public function rules()
     {
         return [
-            'score' => '',
+            'score_title' => '',
+            'score_value' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

@@ -8,7 +8,8 @@ use App\Models\Base\ChScaleKarnofsky as BaseChScaleKarnofsky;
 class ChScaleKarnofsky extends BaseChScaleKarnofsky
 {
   protected $fillable = [
-    'score',
+    'score_title',
+    'score_value',
     'type_record_id',
     'ch_record_id',
   ];
