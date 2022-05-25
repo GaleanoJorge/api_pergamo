@@ -17,9 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $ocular
- * @property int $verbal
- * @property int $motor
+ * @property string $ocular_title
+ * @property int $ocular_value
+ * @property string $ocular_detail
+ * @property string $verbal_title
+ * @property int $verbal_value
+ * @property string $verbal_detail
+ * @property string $motor_title
+ * @property int $motor_value
+ * @property string $motor_detail
  * @property int $total 	
  * @property Carbon $created_at
  * @property Carbon $updated_at
