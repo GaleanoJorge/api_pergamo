@@ -17,10 +17,18 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $score_one
- * @property int $score_two
- * @property int $score_three
- * @property int $score_four
+ * @property string $score_one_title
+ * @property int $score_one_value
+ * @property string $score_one_detail
+ * @property string $score_two_title
+ * @property int $score_two_value
+ * @property string $score_two_detail
+ * @property string $score_three_title
+ * @property int $score_three_value
+ * @property string $score_three_detail
+ * @property string $score_four_title
+ * @property int $score_four_value
+ * @property string $score_four_detail
  * @property int $total
  * @property int $risk
  * @property int $classification
