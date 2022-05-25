@@ -17,7 +17,7 @@ class ChVitalSignsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        //$ChVitalSigns = ChVitalSigns::with('vital_hydration', 'vital_ventilated', 'vital_temperature', 'vital_neurological');
+        $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological');
         $ChVitalSigns = ChVitalSigns::select();
 
         if ($request->_sort) {
@@ -52,7 +52,7 @@ class ChVitalSignsController extends Controller
      */
     public function byrecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::with('vital_hydration', 'vital_ventilated', 'vital_temperature', 'vital_neurological', 'oxygen_type', 'liters_per_minute','parameters_signs', 'type_record','ch_record')
+        $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological', 'oxygen_type', 'liters_per_minute','parameters_signs', 'type_record','ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
 
         if ($request->_sort) {

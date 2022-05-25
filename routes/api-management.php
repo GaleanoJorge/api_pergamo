@@ -1187,5 +1187,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
     Route::apiResource('reason_exit', 'Management\ReasonExitController');
+    Route::get('ch_patient_exit/by_record/{id}/{type_record_id}', 'Management\ChPatientExitController@getByRecord');
+
+    //Tablas de Ordenes medicas
+    Route::apiResource('ch_medical_orders', 'Management\ChMedicalOrdersController');
+    Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
+    Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
+    Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
 
 });

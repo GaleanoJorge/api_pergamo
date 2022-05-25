@@ -72,19 +72,19 @@ class ChVitalSigns extends Model
 {
 	protected $table = 'ch_vital_signs';
 
-	public function vital_hydration()
+	public function ch_vital_hydration()
 	{
 		return $this->belongsTo(ChVitalHydration::class);
 	}
-	public function vital_ventilated()
+	public function ch_vital_ventilated()
 	{
 		return $this->belongsTo(ChVitalVentilated::class);
 	}
-	public function vital_temperature()
+	public function ch_vital_temperature()
 	{
 		return $this->belongsTo(ChVitalTemperature::class);
 	}
-	public function vital_neurological()
+	public function ch_vital_neurological()
 	{
 		return $this->belongsTo(ChVitalNeurological::class);
 	}

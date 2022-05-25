@@ -158,8 +158,6 @@ class PatientController extends Controller
                 'gender',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role',
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
@@ -555,8 +553,7 @@ class PatientController extends Controller
                 'gender',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role'
+           
             );
 
         if ($roleId > 0) {
