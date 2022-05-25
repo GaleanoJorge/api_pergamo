@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePreBillingPadTable extends Migration
+class CreateBillingPadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +14,17 @@ class CreatePreBillingPadTable extends Migration
      */
     public function up()
     {
-        Schema::create('pre_billing_pad', function (Blueprint $table) {
+        Schema::create('billing_pad', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('procedure_id');
-            $table->unsignedBigInteger('admissions_id');
+            $table->integer('total_value')->nullable();
+            $table->date('validation_date')->nullable();
+            $table->unsignedBigInteger('billing_pad_status_id')->nullable();
+            $table->unsignedBigInteger('admissions_id')->nullable();
             $table->timestamps();
 
-            $table->index('procedure_id');
-            $table->foreign('procedure_id')->references('id')
-                ->on('procedure');
+            $table->index('billing_pad_status_id');
+            $table->foreign('billing_pad_status_id')->references('id')
+                ->on('billing_pad_status');
 
             $table->index('admissions_id');
             $table->foreign('admissions_id')->references('id')
@@ -37,6 +39,6 @@ class CreatePreBillingPadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pre_billing_pad');
+        Schema::dropIfExists('billing_pad');
     }
 }

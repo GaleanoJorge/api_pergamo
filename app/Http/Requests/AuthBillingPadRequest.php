@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PreBillingPadRequest extends FormRequest
+class AuthBillingPadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class PreBillingPadRequest extends FormRequest
     public function rules()
     {
         return [
-            'procedure_id' => 'required',
-            'admissions_id' => 'required',
+            // 'procedure_id' => 'required',
+            // 'admissions_id' => 'required',
         ];
     }
 }

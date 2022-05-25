@@ -7,15 +7,17 @@
 namespace App\Models\Base;
 
 use App\Models\Admissions;
-use App\Models\Procedure;
+use App\Models\BillingPadStatus;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class PreBillingPad
+ * Class BillingPad
  * 
  * @property int $id
- * @property BigInteger $procedure_id
+ * @property int $total_value
+ * @property Date $validation_date
+ * @property BigInteger $billing_pad_status_id
  * @property BigInteger $admissions_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -23,14 +25,14 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class PreBillingPad extends Model
+class BillingPad extends Model
 {
-	protected $table = 'pre_billing_pad';
+	protected $table = 'billing_pad';
 
 	
-	public function procedure()
+	public function billing_pad_status()
 	{
-		return $this->belongsTo(Procedure::class);
+		return $this->belongsTo(BillingPadStatus::class);
 	}
 	public function admissions()
 	{
