@@ -17,17 +17,39 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property boolean $study
- * @property int $question_one
- * @property int $question_two
- * @property int $question_three
- * @property int $question_four
- * @property int $question_five
- * @property int $question_six
- * @property int $question_seven
- * @property int $question_eight
- * @property int $question_nine
- * @property int $question_ten
+ * @property string $study_title
+ * @property boolean $study_value
+ * @property string $study_detail
+ * @property string $q_one_title
+ * @property int $q_one_value
+ * @property string $q_one_detail
+ * @property string $q_two_title
+ * @property int $q_two_value
+ * @property string $q_two_detail
+ * @property string $q_three_title
+ * @property int $q_three_value
+ * @property string $q_three_detail
+ * @property string $q_four_title
+ * @property int $q_four_value
+ * @property string $q_four_detail
+ * @property string $q_five_title
+ * @property int $q_five_value
+ * @property string $q_five_detail
+ * @property string $q_six_title
+ * @property int $q_six_value
+ * @property string $q_six_detail
+ * @property string $q_seven_title
+ * @property int $q_seven_value
+ * @property string $q_seven_detail
+ * @property string $q_eight_title
+ * @property int $q_eight_value
+ * @property string $q_eight_detail
+ * @property string $q_nine_title
+ * @property int $q_nine_value
+ * @property string $q_nine_detail
+ * @property string $q_ten_title
+ * @property int $q_ten_value
+ * @property string $q_ten_detail
  * @property int $total
  * @property string $classification
  * @property Carbon $created_at
