@@ -17,25 +17,34 @@ class ChScaleWongBakerController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleWongBaker = ChScaleWongBaker::select();
-
-        if ($request->_sort) {
-            $ChScaleWongBaker->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $ChScaleWongBaker->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $ChScaleWongBaker = $ChScaleWongBaker->get()->toArray();
+        if ($request->latest) {
+            $ChScaleWongBaker = ChScaleWongBaker::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
         } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
 
-            $ChScaleWongBaker = $ChScaleWongBaker->paginate($per_page, '*', 'page', $page);
+            $ChScaleWongBaker = ChScaleWongBaker::select();
+
+            if ($request->_sort) {
+                $ChScaleWongBaker->orderBy($request->_sort, $request->_order);
+            }
+
+            if ($request->search) {
+                $ChScaleWongBaker->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScaleWongBaker->where('ch_record_id', $request->ch_record_id);
+            }
+
+            if ($request->latest  && isset($request->latest)) {
+            }
+            if ($request->query("pagination", true) == "false") {
+                $ChScaleWongBaker = $ChScaleWongBaker->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $ChScaleWongBaker = $ChScaleWongBaker->paginate($per_page, '*', 'page', $page);
+            }
         }
-
 
         return response()->json([
             'status' => true,
@@ -68,7 +77,8 @@ class ChScaleWongBakerController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleWongBaker = new ChScaleWongBaker;
-        $ChScaleWongBaker->pain = $request->pain;
+        $ChScaleWongBaker->pain_title = $request->pain_title;
+        $ChScaleWongBaker->pain_value = $request->pain_value;
         $ChScaleWongBaker->type_record_id = $request->type_record_id;
         $ChScaleWongBaker->ch_record_id = $request->ch_record_id;
         $ChScaleWongBaker->save();
@@ -108,7 +118,8 @@ class ChScaleWongBakerController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleWongBaker = ChScaleWongBaker::find($id);
-        $ChScaleWongBaker->pain = $request->pain;
+        $ChScaleWongBaker->pain_title = $request->pain_title;
+        $ChScaleWongBaker->pain_value = $request->pain_value;
         $ChScaleWongBaker->type_record_id = $request->type_record_id;
         $ChScaleWongBaker->ch_record_id = $request->ch_record_id;
         $ChScaleWongBaker->save();
