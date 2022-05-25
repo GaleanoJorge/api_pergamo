@@ -42,16 +42,19 @@ class CreateChVitalSignsTable extends Migration
             $table->string('pupil_size_right');
             $table->string('left_reaction');
             $table->string('pupil_size_left'); 
-            $table->string('mydriatic')->nullable;
-            $table->string('normal')->nullable;
-            $table->string('lazy_reaction_light')->nullable;
-            $table->string('fixed_lazy_reaction')->nullable;
-            $table->string('miotic_size')->nullable;
+            $table->string('mydriatic')->nullable();
+            $table->string('normal')->nullable();
+            $table->string('lazy_reaction_light')->nullable();
+            $table->string('fixed_lazy_reaction')->nullable();
+            $table->string('miotic_size')->nullable();
             $table->string('observations_glucometry');
             $table->unsignedBigInteger('ch_vital_hydration_id');
             $table->unsignedBigInteger('ch_vital_ventilated_id');
             $table->unsignedBigInteger('ch_vital_temperature_id');
             $table->unsignedBigInteger('ch_vital_neurological_id');
+            $table->unsignedBigInteger('oxygen_type_id');
+            $table->unsignedBigInteger('liters_per_minute_id');
+            $table->unsignedBigInteger('parameters_signs_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -83,6 +86,18 @@ class CreateChVitalSignsTable extends Migration
             $table->index('ch_vital_neurological_id');
             $table->foreign('ch_vital_neurological_id')->references('id')
                 ->on('ch_vital_neurological');
+                
+            $table->index('oxygen_type_id');
+            $table->foreign('oxygen_type_id')->references('id')
+                ->on('oxygen_type');
+
+            $table->index('liters_per_minute_id');
+            $table->foreign('liters_per_minute_id')->references('id')
+                ->on('liters_per_minute');
+            
+            $table->index('parameters_signs_id');
+            $table->foreign('parameters_signs_id')->references('id')
+                ->on('parameters_signs');
         });
     }
 

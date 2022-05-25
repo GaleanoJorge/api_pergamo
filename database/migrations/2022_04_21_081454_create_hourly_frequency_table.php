@@ -16,6 +16,7 @@ class CreateHourlyFrequencyTable extends Migration
         Schema::create('hourly_frequency', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->integer('value');
             $table->timestamps();
         });
     }
