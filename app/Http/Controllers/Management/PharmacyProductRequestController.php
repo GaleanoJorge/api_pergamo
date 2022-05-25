@@ -22,10 +22,18 @@ class PharmacyProductRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if($request->is=="true"){
         $PharmacyProductRequest = PharmacyProductRequest::with('product_generic', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus')
             ->select('pharmacy_product_request.*', DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'))
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
+            ->groupBy('pharmacy_product_request.id')->whereNull('pharmacy_product_request.services_briefcase_id');
+        }else{
+            $PharmacyProductRequest = PharmacyProductRequest::with('services_briefcase.manual_price','admissions.patients','users','product_generic', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus')
+            ->select('pharmacy_product_request.*', DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'))
+            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
+            ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->groupBy('pharmacy_product_request.id');
+        }
 
         if ($request->_sort) {
             $PharmacyProductRequest->orderBy($request->_sort, $request->_order);

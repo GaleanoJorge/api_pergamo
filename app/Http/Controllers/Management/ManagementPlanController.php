@@ -21,6 +21,7 @@ use App\Models\LocationCapacity;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use DateInterval;
 use DatePeriod;
 use Illuminate\Support\Facades\DB;
@@ -161,7 +162,8 @@ class ManagementPlanController extends Controller
 
             $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
             $quantity = ($request->dosage_administer * $request->number_doses) / $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
-            $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);;
+            $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);
+            $PharmacyProductRequest->user_request_id = Auth::user()->id;
             $PharmacyProductRequest->save();
         }
         $ManagementPlan->save();
@@ -381,7 +383,6 @@ class ManagementPlanController extends Controller
                     $Authorization->assigned_management_plan_id = $assignedManagement->id;
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
-                    $i++;
                     // $assigned = false;
                     if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
                         if (!$request->phone_consult) {
