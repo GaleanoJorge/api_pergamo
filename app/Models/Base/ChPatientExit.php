@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\Diagnosis;
+use App\Models\ReasonExit;
 use App\Models\ChDiagnosis;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;

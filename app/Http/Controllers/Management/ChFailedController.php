@@ -53,8 +53,8 @@ class ChFailedController extends Controller
      */
     public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChFailed = ChFailed::with('ch_reason',) ->where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id);
+        $ChFailed = ChFailed::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)->with('ch_reason',);
         
         if ($request->query("pagination", true) == "false") {
             $ChFailed = $ChFailed->get()->toArray();

@@ -42,7 +42,7 @@ class ReasonExitController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Motivo de la Salida del Paciente asociados exitosamente',
-            'data' => ['ch_reason' => $ReasonExit]
+            'data' => ['reason_exit' => $ReasonExit]
         ]);
     }
     
@@ -74,7 +74,7 @@ class ReasonExitController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Motivo de la Salida del Paciente obtenido exitosamente',
-            'data' => ['ch_reason' => $ReasonExit]
+            'data' => ['reason_exit' => $ReasonExit]
         ]);
     }
 
@@ -93,7 +93,7 @@ class ReasonExitController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Motivo de la Salida del Paciente actualizado exitosamente',
-            'data' => ['ch_reason' => $ReasonExit]
+            'data' => ['reason_exit' => $ReasonExit]
         ]);
     }
 

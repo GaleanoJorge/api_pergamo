@@ -51,15 +51,22 @@ class ChPatientExitController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChPatientExit = ChPatientExit::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('death_diagnosis','ch_diagnosis','exit_diagnosis','relations_diagnosis','reason_exit')
-            ->get()->toArray();
-        
+        $ChPatientExit = ChPatientExit::with('death_diagnosis','ch_diagnosis','exit_diagnosis','relations_diagnosis','reason_exit') ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+           
+        if ($request->query("pagination", true) == "false") {
+            $ChPatientExit = $ChPatientExit->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChPatientExit = $ChPatientExit->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Formula del paciente exitosamente',
+            'message' => 'Salida del paciente del paciente exitosamente',
             'data' => ['ch_patient_exit' => $ChPatientExit]
         ]);
     }
