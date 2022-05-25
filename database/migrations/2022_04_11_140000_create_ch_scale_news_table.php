@@ -15,14 +15,30 @@
         {
             Schema::create('ch_scale_news', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('parameter_one');
-                $table->Integer('parameter_two');
-                $table->Integer('parameter_three');
-                $table->Integer('parameter_four');
-                $table->Integer('parameter_five');
-                $table->Integer('parameter_six');
-                $table->Integer('parameter_seven');
-                $table->Integer('parameter_eight');
+                $table->string('p_one_title');
+                $table->Integer('p_one_value');
+                $table->string('p_one_detail');
+                $table->string('p_two_title');
+                $table->Integer('p_two_value');
+                $table->string('p_two_detail');
+                $table->string('p_three_title');
+                $table->Integer('p_three_value');
+                $table->string('p_three_detail');
+                $table->string('p_four_title');
+                $table->Integer('p_four_value');
+                $table->string('p_four_detail');
+                $table->string('p_five_title');
+                $table->Integer('p_five_value');
+                $table->string('p_five_detail');
+                $table->string('p_six_title');
+                $table->Integer('p_six_value');
+                $table->string('p_six_detail');
+                $table->string('p_seven_title');
+                $table->Integer('p_seven_value');
+                $table->string('p_seven_detail');
+                $table->string('p_eight_title');
+                $table->Integer('p_eight_value');
+                $table->string('p_eight_detail');
                 $table->Integer('qualification');
                 $table->string('risk');
                 $table->string('response');
