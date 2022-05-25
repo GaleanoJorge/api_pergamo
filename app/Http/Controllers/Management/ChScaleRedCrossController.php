@@ -17,6 +17,10 @@ class ChScaleRedCrossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScaleRedCross = ChScaleRedCross::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
+
         $ChScaleRedCross = ChScaleRedCross::select();
 
         if($request->_sort){
@@ -26,7 +30,12 @@ class ChScaleRedCrossController extends Controller
         if ($request->search) {
             $ChScaleRedCross->where('name','like','%' . $request->search. '%');
         }
-        
+        if ($request->ch_record_id) {
+            $ChScaleRedCross->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->latest  && isset($request->latest)) {
+        }
         if($request->query("pagination", true)=="false"){
             $ChScaleRedCross=$ChScaleRedCross->get()->toArray();    
         }
@@ -37,7 +46,7 @@ class ChScaleRedCrossController extends Controller
             $ChScaleRedCross=$ChScaleRedCross->paginate($per_page,'*','page',$page); 
         } 
 
-
+    }
         return response()->json([
             'status' => true,
             'message' => 'Escala Cruz roja obtenida exitosamente',
@@ -69,7 +78,8 @@ class ChScaleRedCrossController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleRedCross = new ChScaleRedCross; 
-        $ChScaleRedCross->grade = $request->grade; 
+        $ChScaleRedCross->grade_title = $request->grade_title; 
+        $ChScaleRedCross->grade_value = $request->grade_value; 
         $ChScaleRedCross->definition = $request->definition; 
         $ChScaleRedCross->type_record_id = $request->type_record_id; 
         $ChScaleRedCross->ch_record_id = $request->ch_record_id; 
@@ -110,7 +120,8 @@ class ChScaleRedCrossController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleRedCross = ChScaleRedCross::find($id);  
-        $ChScaleRedCross->grade = $request->grade; 
+        $ChScaleRedCross->grade_title = $request->grade_title; 
+        $ChScaleRedCross->grade_value = $request->grade_value; 
         $ChScaleRedCross->definition = $request->definition; 
         $ChScaleRedCross->type_record_id = $request->type_record_id; 
         $ChScaleRedCross->ch_record_id = $request->ch_record_id; 

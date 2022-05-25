@@ -8,7 +8,8 @@ use App\Models\Base\ChScaleWongBaker as BaseChScaleWongBaker;
 class ChScaleWongBaker extends BaseChScaleWongBaker
 {
   protected $fillable = [
-    'pain',
+    'pain_title',
+    'pain_value',
     'type_record_id',
     'ch_record_id',
   ];

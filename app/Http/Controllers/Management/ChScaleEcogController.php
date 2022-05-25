@@ -5,38 +5,45 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChScaleEcog;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class ChScaleEcogController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleEcog = ChScaleEcog::select();
+        if ($request->latest) {
+            $ChScaleEcog = ChScaleEcog::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
 
-        if($request->_sort){
-            $ChScaleEcog->orderBy($request->_sort, $request->_order);
-        }            
+            $ChScaleEcog = ChScaleEcog::select();
 
-        if ($request->search) {
-            $ChScaleEcog->where('name','like','%' . $request->search. '%');
+            if ($request->_sort) {
+                $ChScaleEcog->orderBy($request->_sort, $request->_order);
+            }
+
+            if ($request->search) {
+                $ChScaleEcog->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScaleEcog->where('ch_record_id', $request->ch_record_id);
+            }
+            if ($request->latest  && isset($request->latest)) {
+            }
+            if ($request->query("pagination", true) == "false") {
+                $ChScaleEcog = $ChScaleEcog->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $ChScaleEcog = $ChScaleEcog->paginate($per_page, '*', 'page', $page);
+            }
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ChScaleEcog=$ChScaleEcog->get()->toArray();    
-        }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChScaleEcog=$ChScaleEcog->paginate($per_page,'*','page',$page); 
-        } 
-
 
         return response()->json([
             'status' => true,
@@ -44,20 +51,20 @@ class ChScaleEcogController extends Controller
             'data' => ['ch_scale_ecog' => $ChScaleEcog]
         ]);
     }
-    
-    
-        /**
+
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
-    {       
-       
-        $ChScaleEcog = ChScaleEcog::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->get()->toArray();
-        
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    {
+
+        $ChScaleEcog = ChScaleEcog::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
 
         return response()->json([
             'status' => true,
@@ -68,11 +75,12 @@ class ChScaleEcogController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $ChScaleEcog = new ChScaleEcog; 
-        $ChScaleEcog->grade = $request->grade; 
-        $ChScaleEcog->definition = $request->definition; 
-        $ChScaleEcog->type_record_id = $request->type_record_id; 
-        $ChScaleEcog->ch_record_id = $request->ch_record_id; 
+        $ChScaleEcog = new ChScaleEcog;
+        $ChScaleEcog->grade_title = $request->grade_title;
+        $ChScaleEcog->grade_value= $request->grade_value;
+        $ChScaleEcog->definition = $request->definition;
+        $ChScaleEcog->type_record_id = $request->type_record_id;
+        $ChScaleEcog->ch_record_id = $request->ch_record_id;
         $ChScaleEcog->save();
 
         return response()->json([
@@ -109,11 +117,12 @@ class ChScaleEcogController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChScaleEcog = ChScaleEcog::find($id);  
-        $ChScaleEcog->grade = $request->grade; 
-        $ChScaleEcog->definition = $request->definition; 
-        $ChScaleEcog->type_record_id = $request->type_record_id; 
-        $ChScaleEcog->ch_record_id = $request->ch_record_id; 
+        $ChScaleEcog = ChScaleEcog::find($id);
+        $ChScaleEcog->grade_title = $request->grade_title;
+        $ChScaleEcog->grade_value= $request->grade_value;
+        $ChScaleEcog->definition = $request->definition;
+        $ChScaleEcog->type_record_id = $request->type_record_id;
+        $ChScaleEcog->ch_record_id = $request->ch_record_id;
         $ChScaleEcog->save();
 
         return response()->json([
@@ -133,7 +142,7 @@ class ChScaleEcogController extends Controller
     {
         try {
             $ChScaleEcog = ChScaleEcog::find($id);
-            
+
             $ChScaleEcog->delete();
 
             return response()->json([

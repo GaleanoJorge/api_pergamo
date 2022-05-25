@@ -24,7 +24,8 @@ class ChScaleFacRequest extends FormRequest
     public function rules()
     {
         return [
-            'level' => '',
+            'level_title' => '',
+            'level_value' => '',
             'definition' => '',
             'type_record_id' => '',
             'ch_record_id' => '',

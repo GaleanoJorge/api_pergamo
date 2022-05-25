@@ -24,7 +24,8 @@ class ChScaleWongBakerRequest extends FormRequest
     public function rules()
     {
         return [
-            'pain' => '',
+            'pain_title' => '',
+            'pain_value' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

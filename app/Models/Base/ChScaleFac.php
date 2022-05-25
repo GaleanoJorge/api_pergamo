@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $level
+ * @property string $level_title
+ * @property int $level_value
  * @property string $definition
  * @property Carbon $created_at
  * @property Carbon $updated_at

@@ -68,7 +68,8 @@ class ChScalePainController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScalePain = new ChScalePain;
-        $ChScalePain->range = $request->range;
+        $ChScalePain->range_title = $request->range_title;
+        $ChScalePain->range_value = $request->range_value;
         $ChScalePain->type_record_id = $request->type_record_id;
         $ChScalePain->ch_record_id = $request->ch_record_id;
         $ChScalePain->save();
@@ -108,7 +109,8 @@ class ChScalePainController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScalePain = ChScalePain::find($id);
-        $ChScalePain->range = $request->range;
+        $ChScalePain->range_title = $request->range_title;
+        $ChScalePain->range_value = $request->range_value;
         $ChScalePain->type_record_id = $request->type_record_id;
         $ChScalePain->ch_record_id = $request->ch_record_id;
         $ChScalePain->save();

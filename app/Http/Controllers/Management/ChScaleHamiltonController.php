@@ -17,25 +17,34 @@ class ChScaleHamiltonController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleHamilton = ChScaleHamilton::select();
-
-        if ($request->_sort) {
-            $ChScaleHamilton->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $ChScaleHamilton->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $ChScaleHamilton = $ChScaleHamilton->get()->toArray();
+        if ($request->latest) {
+            $ChScaleHamilton = ChScaleHamilton::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
         } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $ChScaleHamilton = ChScaleHamilton::select();
 
-            $ChScaleHamilton = $ChScaleHamilton->paginate($per_page, '*', 'page', $page);
+            if ($request->_sort) {
+                $ChScaleHamilton->orderBy($request->_sort, $request->_order);
+            }
+
+            if ($request->search) {
+                $ChScaleHamilton->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScaleHamilton->where('ch_record_id', $request->ch_record_id);
+            }
+
+            if ($request->latest  && isset($request->latest)) {
+            }
+
+            if ($request->query("pagination", true) == "false") {
+                $ChScaleHamilton = $ChScaleHamilton->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $ChScaleHamilton = $ChScaleHamilton->paginate($per_page, '*', 'page', $page);
+            }
         }
-
 
         return response()->json([
             'status' => true,
@@ -68,23 +77,57 @@ class ChScaleHamiltonController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleHamilton = new ChScaleHamilton;
-        $ChScaleHamilton->variable_one  = $request->variable_one;
-        $ChScaleHamilton->variable_two  = $request->variable_two;
-        $ChScaleHamilton->variable_three  = $request->variable_three;
-        $ChScaleHamilton->variable_four  = $request->variable_four;
-        $ChScaleHamilton->variable_five  = $request->variable_five;
-        $ChScaleHamilton->variable_six  = $request->variable_six;
-        $ChScaleHamilton->variable_seven  = $request->variable_seven;
-        $ChScaleHamilton->variable_eigth  = $request->variable_seven;
-        $ChScaleHamilton->variable_nine   = $request->variable_nine;
-        $ChScaleHamilton->variable_ten  = $request->variable_ten;
-        $ChScaleHamilton->variable_eleven  = $request->variable_eleven;
-        $ChScaleHamilton->variable_twelve  = $request->variable_twelve;
-        $ChScaleHamilton->variable_thirteen  = $request->variable_thirteen;
-        $ChScaleHamilton->variable_fourteen  = $request->variable_fourteen;
-        $ChScaleHamilton->variable_fifteen  = $request->variable_fifteen;
-        $ChScaleHamilton->variable_sixteen  = $request->variable_sixteen;
-        $ChScaleHamilton->variable_seventeen  = $request->variable_seventeen;
+        $ChScaleHamilton->v_one_title  = $request->v_one_title;
+        $ChScaleHamilton->v_one_value  = $request->v_one_value;
+        $ChScaleHamilton->v_one_detail  = $request->v_one_detail;
+        $ChScaleHamilton->v_two_title  = $request->v_two_title;
+        $ChScaleHamilton->v_two_value  = $request->v_two_value;
+        $ChScaleHamilton->v_two_detail  = $request->v_two_detail;
+        $ChScaleHamilton->v_three_title  = $request->v_three_title;
+        $ChScaleHamilton->v_three_value  = $request->v_three_value;
+        $ChScaleHamilton->v_three_detail   = $request->v_three_detail;
+        $ChScaleHamilton->v_four_title  = $request->v_four_title;
+        $ChScaleHamilton->v_four_value  = $request->v_four_value;
+        $ChScaleHamilton->v_four_detail  = $request->v_four_detail;
+        $ChScaleHamilton->v_five_title  = $request->v_five_title;
+        $ChScaleHamilton->v_five_value  = $request->v_five_value;
+        $ChScaleHamilton->v_five_detail  = $request->v_five_detail;
+        $ChScaleHamilton->v_six_title  = $request->v_six_title;
+        $ChScaleHamilton->v_six_value  = $request->v_six_value;
+        $ChScaleHamilton->v_six_detail  = $request->v_six_detail;
+        $ChScaleHamilton->v_seven_title  = $request->v_seven_title;
+        $ChScaleHamilton->v_seven_value  = $request->v_seven_value;
+        $ChScaleHamilton->v_seven_detail  = $request->v_seven_detail;
+        $ChScaleHamilton->v_eight_title  = $request->v_eight_title;
+        $ChScaleHamilton->v_eight_value  = $request->v_eight_value;
+        $ChScaleHamilton->v_eight_detail  = $request->v_eight_detail;
+        $ChScaleHamilton->v_nine_title  = $request->v_nine_title;
+        $ChScaleHamilton->v_nine_value   = $request->v_nine_value;
+        $ChScaleHamilton->v_nine_detail  = $request->v_nine_detail;
+        $ChScaleHamilton->v_ten_title  = $request->v_ten_title;
+        $ChScaleHamilton->v_ten_value  = $request->v_ten_value;
+        $ChScaleHamilton->v_ten_detail  = $request->v_ten_detail;
+        $ChScaleHamilton->v_eleven_title  = $request->v_eleven_title;
+        $ChScaleHamilton->v_eleven_value  = $request->v_eleven_value;
+        $ChScaleHamilton->v_eleven_value  = $request->v_eleven_value;
+        $ChScaleHamilton->v_twelve_title  = $request->v_twelve_title;
+        $ChScaleHamilton->v_twelve_value  = $request->v_twelve_value;
+        $ChScaleHamilton->v_twelve_detail  = $request->v_twelve_detail;
+        $ChScaleHamilton->v_thirteen_title  = $request->v_thirteen_title;
+        $ChScaleHamilton->v_thirteen_value  = $request->v_thirteen_value;
+        $ChScaleHamilton->v_thirteen_detail  = $request->v_thirteen_detail;
+        $ChScaleHamilton->v_fourteen_title  = $request->v_fourteen_title;
+        $ChScaleHamilton->v_fourteen_value  = $request->v_fourteen_value;
+        $ChScaleHamilton->v_fourteen_detail  = $request->v_fourteen_detail;
+        $ChScaleHamilton->v_fifteen_title   = $request->v_fifteen_title;
+        $ChScaleHamilton->v_fifteen_value  = $request->v_fifteen_value;
+        $ChScaleHamilton->v_fifteen_detail  = $request->v_fifteen_detail;
+        $ChScaleHamilton->v_sixteen_title  = $request->v_sixteen_title;
+        $ChScaleHamilton->v_sixteen_value  = $request->v_sixteen_value;
+        $ChScaleHamilton->v_sixteen_detail  = $request->v_sixteen_detail;
+        $ChScaleHamilton->v_seventeen_value  = $request->v_seventeen_value;
+        $ChScaleHamilton->v_seventeen_title  = $request->v_seventeen_title;
+        $ChScaleHamilton->v_seventeen_detail  = $request->v_seventeen_detail;
         $ChScaleHamilton->total  = $request->total;
         $ChScaleHamilton->qualification  = $request->qualification;
         $ChScaleHamilton->type_record_id = $request->type_record_id;
@@ -126,23 +169,57 @@ class ChScaleHamiltonController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleHamilton = ChScaleHamilton::find($id);
-        $ChScaleHamilton->variable_one  = $request->variable_one;
-        $ChScaleHamilton->variable_two  = $request->variable_two;
-        $ChScaleHamilton->variable_three  = $request->variable_three;
-        $ChScaleHamilton->variable_four  = $request->variable_four;
-        $ChScaleHamilton->variable_five  = $request->variable_five;
-        $ChScaleHamilton->variable_six  = $request->variable_six;
-        $ChScaleHamilton->variable_seven  = $request->variable_seven;
-        $ChScaleHamilton->variable_eigth  = $request->variable_seven;
-        $ChScaleHamilton->variable_nine   = $request->variable_nine;
-        $ChScaleHamilton->variable_ten  = $request->variable_ten;
-        $ChScaleHamilton->variable_eleven  = $request->variable_eleven;
-        $ChScaleHamilton->variable_twelve  = $request->variable_twelve;
-        $ChScaleHamilton->variable_thirteen  = $request->variable_thirteen;
-        $ChScaleHamilton->variable_fourteen  = $request->variable_fourteen;
-        $ChScaleHamilton->variable_fifteen  = $request->variable_fifteen;
-        $ChScaleHamilton->variable_sixteen  = $request->variable_sixteen;
-        $ChScaleHamilton->variable_seventeen  = $request->variable_seventeen;
+        $ChScaleHamilton->v_one_title  = $request->v_one_title;
+        $ChScaleHamilton->v_one_value  = $request->v_one_value;
+        $ChScaleHamilton->v_one_detail  = $request->v_one_detail;
+        $ChScaleHamilton->v_two_title  = $request->v_two_title;
+        $ChScaleHamilton->v_two_value  = $request->v_two_value;
+        $ChScaleHamilton->v_two_detail  = $request->v_two_detail;
+        $ChScaleHamilton->v_three_title  = $request->v_three_title;
+        $ChScaleHamilton->v_three_value  = $request->v_three_value;
+        $ChScaleHamilton->v_three_detail   = $request->v_three_detail;
+        $ChScaleHamilton->v_four_title  = $request->v_four_title;
+        $ChScaleHamilton->v_four_value  = $request->v_four_value;
+        $ChScaleHamilton->v_four_detail  = $request->v_four_detail;
+        $ChScaleHamilton->v_five_title  = $request->v_five_title;
+        $ChScaleHamilton->v_five_value  = $request->v_five_value;
+        $ChScaleHamilton->v_five_detail  = $request->v_five_detail;
+        $ChScaleHamilton->v_six_title  = $request->v_six_title;
+        $ChScaleHamilton->v_six_value  = $request->v_six_value;
+        $ChScaleHamilton->v_six_detail  = $request->v_six_detail;
+        $ChScaleHamilton->v_seven_title  = $request->v_seven_title;
+        $ChScaleHamilton->v_seven_value  = $request->v_seven_value;
+        $ChScaleHamilton->v_seven_detail  = $request->v_seven_detail;
+        $ChScaleHamilton->v_eight_title  = $request->v_eight_title;
+        $ChScaleHamilton->v_eight_value  = $request->v_eight_value;
+        $ChScaleHamilton->v_eight_detail  = $request->v_eight_detail;
+        $ChScaleHamilton->v_nine_title  = $request->v_nine_title;
+        $ChScaleHamilton->v_nine_value   = $request->v_nine_value;
+        $ChScaleHamilton->v_nine_detail  = $request->v_nine_detail;
+        $ChScaleHamilton->v_ten_title  = $request->v_ten_title;
+        $ChScaleHamilton->v_ten_value  = $request->v_ten_value;
+        $ChScaleHamilton->v_ten_detail  = $request->v_ten_detail;
+        $ChScaleHamilton->v_eleven_title  = $request->v_eleven_title;
+        $ChScaleHamilton->v_eleven_value  = $request->v_eleven_value;
+        $ChScaleHamilton->v_eleven_value  = $request->v_eleven_value;
+        $ChScaleHamilton->v_twelve_title  = $request->v_twelve_title;
+        $ChScaleHamilton->v_twelve_value  = $request->v_twelve_value;
+        $ChScaleHamilton->v_twelve_detail  = $request->v_twelve_detail;
+        $ChScaleHamilton->v_thirteen_title  = $request->v_thirteen_title;
+        $ChScaleHamilton->v_thirteen_value  = $request->v_thirteen_value;
+        $ChScaleHamilton->v_thirteen_detail  = $request->v_thirteen_detail;
+        $ChScaleHamilton->v_fourteen_title  = $request->v_fourteen_title;
+        $ChScaleHamilton->v_fourteen_value  = $request->v_fourteen_value;
+        $ChScaleHamilton->v_fourteen_detail  = $request->v_fourteen_detail;
+        $ChScaleHamilton->v_fifteen_title   = $request->v_fifteen_title;
+        $ChScaleHamilton->v_fifteen_value  = $request->v_fifteen_value;
+        $ChScaleHamilton->v_fifteen_detail  = $request->v_fifteen_detail;
+        $ChScaleHamilton->v_sixteen_title  = $request->v_sixteen_title;
+        $ChScaleHamilton->v_sixteen_value  = $request->v_sixteen_value;
+        $ChScaleHamilton->v_sixteen_detail  = $request->v_sixteen_detail;
+        $ChScaleHamilton->v_seventeen_value  = $request->v_seventeen_value;
+        $ChScaleHamilton->v_seventeen_title  = $request->v_seventeen_title;
+        $ChScaleHamilton->v_seventeen_detail  = $request->v_seventeen_detail;
         $ChScaleHamilton->total  = $request->total;
         $ChScaleHamilton->qualification  = $request->qualification;
         $ChScaleHamilton->type_record_id = $request->type_record_id;

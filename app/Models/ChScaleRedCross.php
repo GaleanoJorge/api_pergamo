@@ -8,7 +8,8 @@ use App\Models\Base\ChScaleRedCross as BaseChScaleRedCross;
 class ChScaleRedCross extends BaseChScaleRedCross
 {
   protected $fillable = [
-    'grade',
+    'grade_title',
+    'grade_value',
     'definition',
     'type_record_id',
     'ch_record_id',

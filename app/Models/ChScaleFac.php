@@ -8,7 +8,8 @@ use App\Models\Base\ChScaleFac as BaseChScaleFac;
 class ChScaleFac extends BaseChScaleFac
 {
   protected $fillable = [
-    'level',
+    'level_title',
+    'level_value',
     'definition',
     'type_record_id',
     'ch_record_id',

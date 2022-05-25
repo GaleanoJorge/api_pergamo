@@ -15,9 +15,15 @@
         {
             Schema::create('ch_scale_glasgow', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('ocular');
-                $table->Integer('verbal');
-                $table->Integer('motor');
+                $table->String('ocular_title');
+                $table->Integer('ocular_value');
+                $table->String('ocular_detail');
+                $table->String('verbal_title');
+                $table->Integer('verbal_value');
+                $table->String('verbal_detail');
+                $table->String('motor_title');
+                $table->Integer('motor_value');
+                $table->String('motor_detail');
                 $table->Integer('total');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
