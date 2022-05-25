@@ -17,6 +17,11 @@ class ChScaleZaritController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScaleZarit = ChScaleZarit::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        
+        } else {
+
         $ChScaleZarit = ChScaleZarit::select();
 
         if ($request->_sort) {
@@ -27,6 +32,12 @@ class ChScaleZaritController extends Controller
             $ChScaleZarit->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->ch_record_id) {
+            $ChScaleZarit->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->latest  && isset($request->latest)) {
+        }
         if ($request->query("pagination", true) == "false") {
             $ChScaleZarit = $ChScaleZarit->get()->toArray();
         } else {
@@ -36,7 +47,7 @@ class ChScaleZaritController extends Controller
             $ChScaleZarit = $ChScaleZarit->paginate($per_page, '*', 'page', $page);
         }
 
-
+    }
         return response()->json([
             'status' => true,
             'message' => 'Escala Zarit obtenida exitosamente',
@@ -68,28 +79,72 @@ class ChScaleZaritController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleZarit = new ChScaleZarit;
-        $ChScaleZarit->q_one = $request ->q_one;              
-        $ChScaleZarit->q_two = $request ->q_two;
-        $ChScaleZarit->q_three = $request ->q_three;
-        $ChScaleZarit->q_four = $request ->q_four;
-        $ChScaleZarit->q_five = $request ->q_five;
-        $ChScaleZarit->q_six = $request ->q_six;
-        $ChScaleZarit->q_seven = $request ->q_seven;
-        $ChScaleZarit->q_eight = $request ->q_eight;
-        $ChScaleZarit->q_nine = $request ->q_nine;
-        $ChScaleZarit->q_ten = $request ->q_ten;
-        $ChScaleZarit->q_eleven = $request ->q_eleven;
-        $ChScaleZarit->q_twelve = $request ->q_twelve;
-        $ChScaleZarit->q_thirteen = $request ->q_thirteen;
-        $ChScaleZarit->q_fourteen = $request ->q_fourteen;
-        $ChScaleZarit->q_fifteen = $request ->q_fifteen;
-        $ChScaleZarit->q_sixteen = $request ->q_sixteen;
-        $ChScaleZarit->q_seventeen = $request ->q_seventeen;
-        $ChScaleZarit->q_eighteen = $request ->q_eighteen;
-        $ChScaleZarit->q_nineteen = $request ->q_nineteen;
-        $ChScaleZarit->q_twenty = $request ->q_twenty;
-        $ChScaleZarit->q_twenty_one = $request ->q_twenty_one;
-        $ChScaleZarit->q_twenty_two = $request ->q_twenty_two;
+        $ChScaleZarit->q_one_title = $request ->q_one_title;              
+        $ChScaleZarit->q_one_value = $request ->q_one_value;
+        $ChScaleZarit->q_one_detail = $request ->q_one_detail;
+        $ChScaleZarit->q_two_title = $request ->q_two_title;
+        $ChScaleZarit->q_two_value = $request ->q_two_value;
+        $ChScaleZarit->q_two_detail = $request ->q_two_detail;
+        $ChScaleZarit->q_three_title = $request ->q_three_title;
+        $ChScaleZarit->q_three_value = $request ->q_three_value;
+        $ChScaleZarit->q_three_detail = $request ->q_three_detail;
+        $ChScaleZarit->q_four_title = $request ->q_four_title;
+        $ChScaleZarit->q_four_value = $request ->q_four_value;
+        $ChScaleZarit->q_four_detail = $request ->q_four_detail;
+        $ChScaleZarit->q_five_title = $request ->q_five_title;
+        $ChScaleZarit->q_five_value = $request ->q_five_value;
+        $ChScaleZarit->q_five_detail = $request ->q_five_detail;
+        $ChScaleZarit->q_six_title = $request ->q_six_title;
+        $ChScaleZarit->q_six_value = $request ->q_six_value;
+        $ChScaleZarit->q_six_detail = $request ->q_six_detail;
+        $ChScaleZarit->q_seven_title = $request ->q_seven_title;
+        $ChScaleZarit->q_seven_value = $request ->q_seven_value;
+        $ChScaleZarit->q_seven_detail = $request ->q_seven_detail;
+        $ChScaleZarit->q_eight_title = $request ->q_eight_title;
+        $ChScaleZarit->q_eight_value = $request ->q_eight_value;              
+        $ChScaleZarit->q_eight_detail = $request ->q_eight_detail;
+        $ChScaleZarit->q_nine_title = $request ->q_nine_title;
+        $ChScaleZarit->q_nine_value = $request ->q_nine_value;
+        $ChScaleZarit->q_nine_detail = $request ->q_nine_detail;
+        $ChScaleZarit->q_ten_title = $request ->q_ten_title;
+        $ChScaleZarit->q_ten_value = $request ->q_ten_value;
+        $ChScaleZarit->q_ten_detail = $request ->q_ten_detail;
+        $ChScaleZarit->q_eleven_title = $request ->q_eleven_title;
+        $ChScaleZarit->q_eleven_value = $request ->q_eleven_value;
+        $ChScaleZarit->q_eleven_detail = $request ->q_eleven_detail;
+        $ChScaleZarit->q_twelve_title = $request ->q_twelve_title;
+        $ChScaleZarit->q_twelve_value = $request ->q_twelve_value;
+        $ChScaleZarit->q_twelve_detail = $request ->q_twelve_detail;
+        $ChScaleZarit->q_thirteen_title = $request ->q_thirteen_title;
+        $ChScaleZarit->q_thirteen_value = $request ->q_thirteen_value;
+        $ChScaleZarit->q_thirteen_detail = $request ->q_thirteen_detail;
+        $ChScaleZarit->q_fourteen_title = $request ->q_fourteen_title;
+        $ChScaleZarit->q_fourteen_value = $request ->q_fourteen_value;
+        $ChScaleZarit->q_fourteen_detail = $request ->q_fourteen_detail;
+        $ChScaleZarit->q_fifteen_title = $request ->q_fifteen_title;
+        $ChScaleZarit->q_fifteen_value = $request ->q_fifteen_value;
+        $ChScaleZarit->q_fifteen_detail = $request ->q_fifteen_detail;              
+        $ChScaleZarit->q_sixteen_title = $request ->q_sixteen_title;
+        $ChScaleZarit->q_sixteen_value = $request ->q_sixteen_value;
+        $ChScaleZarit->q_sixteen_detail = $request ->q_sixteen_detail;
+        $ChScaleZarit->q_seventeen_title = $request ->q_seventeen_title;
+        $ChScaleZarit->q_seventeen_value = $request ->q_seventeen_value;
+        $ChScaleZarit->q_seventeen_detail = $request ->q_seventeen_detail;
+        $ChScaleZarit->q_eighteen_title = $request ->q_eighteen_title;
+        $ChScaleZarit->q_eighteen_value = $request ->q_eighteen_value;
+        $ChScaleZarit->q_eighteen_detail = $request ->q_eighteen_detail;
+        $ChScaleZarit->q_nineteen_title = $request ->q_nineteen_title;
+        $ChScaleZarit->q_nineteen_value = $request ->q_nineteen_value;
+        $ChScaleZarit->q_nineteen_detail = $request ->q_nineteen_detail;
+        $ChScaleZarit->q_twenty_title = $request ->q_twenty_title;
+        $ChScaleZarit->q_twenty_value = $request ->q_twenty_value;
+        $ChScaleZarit->q_twenty_detail = $request ->q_twenty_detail;
+        $ChScaleZarit->q_twenty_one_title = $request ->q_twenty_one_title;
+        $ChScaleZarit->q_twenty_one_value = $request ->q_twenty_one_value;
+        $ChScaleZarit->q_twenty_one_detail = $request ->q_twenty_one_detail;
+        $ChScaleZarit->q_twenty_two_title = $request ->q_twenty_two_title;
+        $ChScaleZarit->q_twenty_two_value = $request ->q_twenty_two_value;
+        $ChScaleZarit->q_twenty_two_detail = $request ->q_twenty_two_detail;
         $ChScaleZarit->total = $request ->total;
         $ChScaleZarit->classification = $request ->classification;
         $ChScaleZarit->type_record_id = $request->type_record_id;
@@ -131,28 +186,72 @@ class ChScaleZaritController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleZarit = ChScaleZarit::find($id);
-        $ChScaleZarit->q_one = $request ->q_one;              
-        $ChScaleZarit->q_two = $request ->q_two;
-        $ChScaleZarit->q_three = $request ->q_three;
-        $ChScaleZarit->q_four = $request ->q_four;
-        $ChScaleZarit->q_five = $request ->q_five;
-        $ChScaleZarit->q_six = $request ->q_six;
-        $ChScaleZarit->q_seven = $request ->q_seven;
-        $ChScaleZarit->q_eight = $request ->q_eight;
-        $ChScaleZarit->q_nine = $request ->q_nine;
-        $ChScaleZarit->q_ten = $request ->q_ten;
-        $ChScaleZarit->q_eleven = $request ->q_eleven;
-        $ChScaleZarit->q_twelve = $request ->q_twelve;
-        $ChScaleZarit->q_thirteen = $request ->q_thirteen;
-        $ChScaleZarit->q_fourteen = $request ->q_fourteen;
-        $ChScaleZarit->q_fifteen = $request ->q_fifteen;
-        $ChScaleZarit->q_sixteen = $request ->q_sixteen;
-        $ChScaleZarit->q_seventeen = $request ->q_seventeen;
-        $ChScaleZarit->q_eighteen = $request ->q_eighteen;
-        $ChScaleZarit->q_nineteen = $request ->q_nineteen;
-        $ChScaleZarit->q_twenty = $request ->q_twenty;
-        $ChScaleZarit->q_twenty_one = $request ->q_twenty_one;
-        $ChScaleZarit->q_twenty_two = $request ->q_twenty_two;
+        $ChScaleZarit->q_one_title = $request ->q_one_title;              
+        $ChScaleZarit->q_one_value = $request ->q_one_value;
+        $ChScaleZarit->q_one_detail = $request ->q_one_detail;
+        $ChScaleZarit->q_two_title = $request ->q_two_title;
+        $ChScaleZarit->q_two_value = $request ->q_two_value;
+        $ChScaleZarit->q_two_detail = $request ->q_two_detail;
+        $ChScaleZarit->q_three_title = $request ->q_three_title;
+        $ChScaleZarit->q_three_value = $request ->q_three_value;
+        $ChScaleZarit->q_three_detail = $request ->q_three_detail;
+        $ChScaleZarit->q_four_title = $request ->q_four_title;
+        $ChScaleZarit->q_four_value = $request ->q_four_value;
+        $ChScaleZarit->q_four_detail = $request ->q_four_detail;
+        $ChScaleZarit->q_five_title = $request ->q_five_title;
+        $ChScaleZarit->q_five_value = $request ->q_five_value;
+        $ChScaleZarit->q_five_detail = $request ->q_five_detail;
+        $ChScaleZarit->q_six_title = $request ->q_six_title;
+        $ChScaleZarit->q_six_value = $request ->q_six_value;
+        $ChScaleZarit->q_six_detail = $request ->q_six_detail;
+        $ChScaleZarit->q_seven_title = $request ->q_seven_title;
+        $ChScaleZarit->q_seven_value = $request ->q_seven_value;
+        $ChScaleZarit->q_seven_detail = $request ->q_seven_detail;
+        $ChScaleZarit->q_eight_title = $request ->q_eight_title;
+        $ChScaleZarit->q_eight_value = $request ->q_eight_value;              
+        $ChScaleZarit->q_eight_detail = $request ->q_eight_detail;
+        $ChScaleZarit->q_nine_title = $request ->q_nine_title;
+        $ChScaleZarit->q_nine_value = $request ->q_nine_value;
+        $ChScaleZarit->q_nine_detail = $request ->q_nine_detail;
+        $ChScaleZarit->q_ten_title = $request ->q_ten_title;
+        $ChScaleZarit->q_ten_value = $request ->q_ten_value;
+        $ChScaleZarit->q_ten_detail = $request ->q_ten_detail;
+        $ChScaleZarit->q_eleven_title = $request ->q_eleven_title;
+        $ChScaleZarit->q_eleven_value = $request ->q_eleven_value;
+        $ChScaleZarit->q_eleven_detail = $request ->q_eleven_detail;
+        $ChScaleZarit->q_twelve_title = $request ->q_twelve_title;
+        $ChScaleZarit->q_twelve_value = $request ->q_twelve_value;
+        $ChScaleZarit->q_twelve_detail = $request ->q_twelve_detail;
+        $ChScaleZarit->q_thirteen_title = $request ->q_thirteen_title;
+        $ChScaleZarit->q_thirteen_value = $request ->q_thirteen_value;
+        $ChScaleZarit->q_thirteen_detail = $request ->q_thirteen_detail;
+        $ChScaleZarit->q_fourteen_title = $request ->q_fourteen_title;
+        $ChScaleZarit->q_fourteen_value = $request ->q_fourteen_value;
+        $ChScaleZarit->q_fourteen_detail = $request ->q_fourteen_detail;
+        $ChScaleZarit->q_fifteen_title = $request ->q_fifteen_title;
+        $ChScaleZarit->q_fifteen_value = $request ->q_fifteen_value;
+        $ChScaleZarit->q_fifteen_detail = $request ->q_fifteen_detail;              
+        $ChScaleZarit->q_sixteen_title = $request ->q_sixteen_title;
+        $ChScaleZarit->q_sixteen_value = $request ->q_sixteen_value;
+        $ChScaleZarit->q_sixteen_detail = $request ->q_sixteen_detail;
+        $ChScaleZarit->q_seventeen_title = $request ->q_seventeen_title;
+        $ChScaleZarit->q_seventeen_value = $request ->q_seventeen_value;
+        $ChScaleZarit->q_seventeen_detail = $request ->q_seventeen_detail;
+        $ChScaleZarit->q_eighteen_title = $request ->q_eighteen_title;
+        $ChScaleZarit->q_eighteen_value = $request ->q_eighteen_value;
+        $ChScaleZarit->q_eighteen_detail = $request ->q_eighteen_detail;
+        $ChScaleZarit->q_nineteen_title = $request ->q_nineteen_title;
+        $ChScaleZarit->q_nineteen_value = $request ->q_nineteen_value;
+        $ChScaleZarit->q_nineteen_detail = $request ->q_nineteen_detail;
+        $ChScaleZarit->q_twenty_title = $request ->q_twenty_title;
+        $ChScaleZarit->q_twenty_value = $request ->q_twenty_value;
+        $ChScaleZarit->q_twenty_detail = $request ->q_twenty_detail;
+        $ChScaleZarit->q_twenty_one_title = $request ->q_twenty_one_title;
+        $ChScaleZarit->q_twenty_one_value = $request ->q_twenty_one_value;
+        $ChScaleZarit->q_twenty_one_detail = $request ->q_twenty_one_detail;
+        $ChScaleZarit->q_twenty_two_title = $request ->q_twenty_two_title;
+        $ChScaleZarit->q_twenty_two_value = $request ->q_twenty_two_value;
+        $ChScaleZarit->q_twenty_two_detail = $request ->q_twenty_two_detail;
         $ChScaleZarit->total = $request ->total;
         $ChScaleZarit->classification = $request ->classification;
         $ChScaleZarit->type_record_id = $request->type_record_id;
