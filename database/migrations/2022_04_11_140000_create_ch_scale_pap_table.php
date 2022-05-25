@@ -15,12 +15,24 @@
         {
             Schema::create('ch_scale_pap', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('variable_one');
-                $table->Integer('variable_two');
-                $table->Integer('variable_three');
-                $table->Integer('variable_four');
-                $table->Integer('variable_five');
-                $table->Integer('variable_six');
+                $table->string('v_one_title');
+                $table->Integer('v_one_value');
+                $table->string('v_one_detail');
+                $table->string('v_two_title');
+                $table->Integer('v_two_value');
+                $table->string('v_two_detail');
+                $table->string('v_three_title');
+                $table->Integer('v_three_value');
+                $table->string('v_three_detail');
+                $table->string('v_four_title');
+                $table->Integer('v_four_value');
+                $table->string('v_four_detail');
+                $table->string('v_five_title');
+                $table->Integer('v_five_value');
+                $table->string('v_five_detail');
+                $table->string('v_six_title');
+                $table->Integer('v_six_value');
+                $table->string('v_six_detail');
                 $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');
