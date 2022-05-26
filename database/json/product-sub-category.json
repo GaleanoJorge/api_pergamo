@@ -1,0 +1,238 @@
+[
+    {
+        "name": "A02 - Agentes para el tratamiento de alteraciones causadas por ácidos",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A03 - Agentes contra padecimientos funcionales del estómago e intestino",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A04 - Antieméticos y antinauseosos",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A05 - Terapia biliar y hepática",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A06 - Laxantes",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A07 - Antidiarreicos, agentes antiinflamatorios/antiinfecciosos intestinales",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A10 - Fármacos usados en diabetes",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A11 - Vitaminas",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A12 - Suplementos minerales",
+        "product_category_id": "13"
+    },
+    {
+        "name": "B01 - Antitrombóticos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B02 - Antihemorrágicos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B03 - Antianémicos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B05 - Sustitutos de plasma y soluciones para infusión",
+        "product_category_id": "7"
+    },
+    {
+        "name": "C01 - Terapia cardíaca",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C02 - Antihipertensivos ",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C03 - Diuréticos",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C07 - Agentes beta-bloqueantes",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C08 - Bloqueantes de canales de calcio",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C09 - Agentes que actúan sobre el sistema renina-angiotensina",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C10 - Agentes modificadores de los lípidos",
+        "product_category_id": "8"
+    },
+    {
+        "name": "D06 - Antibióticos y quimioterápicos para uso dermatológico",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D07 - Preparados dermatológicos con corticosteroides",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D08 - Antisépticos y desinfectantes",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D11 - Otros preparados dermatológicos",
+        "product_category_id": "4"
+    },
+    {
+        "name": "G01 - Antiinfecciosos y antisépticos ginecológicos",
+        "product_category_id": "9"
+    },
+    {
+        "name": "G03 - Hormonas sexuales y moduladores genitales",
+        "product_category_id": "9"
+    },
+    {
+        "name": "G04 - Preparados urológicos",
+        "product_category_id": "9"
+    },
+    {
+        "name": "H01 - Hormonas hipotalámicas e hipofisarias y sus análogos",
+        "product_category_id": "6"
+    },
+    {
+        "name": "H02 - Corticoides sistémicos",
+        "product_category_id": "6"
+    },
+    {
+        "name": "H03 - Terapia tiroidea",
+        "product_category_id": "6"
+    },
+    {
+        "name": "J01 - Antibacterianos para uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J02 - Antimicóticos para uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J04 - Antimicobacterias",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J05 - Antivirales de uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J06 - Sueros inmunes e inmunoglobulinas",
+        "product_category_id": "1"
+    },
+    {
+        "name": "L01 - Agentes antineoplásicos",
+        "product_category_id": "2"
+    },
+    {
+        "name": "L04 - Inmunosupresores",
+        "product_category_id": "2"
+    },
+    {
+        "name": "M01 - Productos antiinflamatorios y antirreumáticos",
+        "product_category_id": "10"
+    },
+    {
+        "name": "M03 - Relajantes musculares",
+        "product_category_id": "10"
+    },
+    {
+        "name": "M04 - Preparados antigotosos",
+        "product_category_id": "10"
+    },
+    {
+        "name": "N01 - Anestésicos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N02 - Analgésicos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N03 - Antiepilépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N04 - Antiparkinsonianos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N05 - Psicolépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N06 - Psicoanalépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N07 - Otros fármacos que actúan sobre el sistema nervioso",
+        "product_category_id": "11"
+    },
+    {
+        "name": "P01 - Antiprotozoarios",
+        "product_category_id": "3"
+    },
+    {
+        "name": "P02 - Antihelmínticos",
+        "product_category_id": "3"
+    },
+    {
+        "name": "P03 - Ectoparasiticidas, incluyendo escabicidas, insecticidas y repelentes",
+        "product_category_id": "3"
+    },
+    {
+        "name": "R01 - Preparados de uso nasal",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R03 - Agentes contra padecimientos obstructivos de las vías respiratorias",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R05 - Preparados para la tos y el resfriado",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R06 - Antihistamínicos para uso sistémico",
+        "product_category_id": "12"
+    },
+    {
+        "name": "S01 - Oftalmológicos",
+        "product_category_id": "5"
+    },
+    {
+        "name": "S02 - Otológicos",
+        "product_category_id": "5"
+    },
+    {
+        "name": "V03 - Todo el resto de los grupos terapéuticos",
+        "product_category_id": "14"
+    },
+    {
+        "name": "V03 - Todo el resto de los Gupos terapéuticos",
+        "product_category_id": "14"
+    },
+    {
+        "name": "V07 - producto no terapeutico",
+        "product_category_id": "14"
+    }
+]

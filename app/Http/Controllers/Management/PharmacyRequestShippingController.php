@@ -21,6 +21,9 @@ class PharmacyRequestShippingController extends Controller
     {
         $PharmacyRequestShipping = PharmacyRequestShipping::with(
             'pharmacy_product_request',
+            'pharmacy_product_request.own_pharmacy_stock',
+            'pharmacy_product_request.request_pharmacy_stock',
+            'pharmacy_product_request.request_pharmacy_stock.campus',
             'pharmacy_product_request.product_generic',
             'pharmacy_lot_stock',
             'pharmacy_lot_stock.billing_stock',
