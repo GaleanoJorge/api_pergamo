@@ -20,10 +20,10 @@ class TariffController extends Controller
     public function index(Request $request): JsonResponse
     {
         $Tariff = Tariff::select('tariff.*')->with('pad_risk', 'status', 'type_of_attention', 'program')
-            ->Join('pad_risk', 'pad_risk.id', '=', 'tariff.pad_risk_id')
-            ->Join('type_of_attention', 'type_of_attention.id', 'tariff.type_of_attention_id')
-            ->Join('status', 'status.id', 'tariff.status_id')
-            ->Join('program', 'program.id', '=', 'tariff.program_id');
+            ->leftJoin('pad_risk', 'pad_risk.id', '=', 'tariff.pad_risk_id')
+            ->leftJoin('type_of_attention', 'type_of_attention.id', 'tariff.type_of_attention_id')
+            ->leftJoin('status', 'status.id', 'tariff.status_id')
+            ->leftJoin('program', 'program.id', '=', 'tariff.program_id');
 
         if ($request->_sort) {
             $Tariff->orderBy($request->_sort, $request->_order);
@@ -31,7 +31,9 @@ class TariffController extends Controller
 
         if ($request->search) {
             $Tariff->where('tariff.name', 'like', '%' . $request->search . '%')
-                ->orWhere('program.name', 'like', '%' . $request->search . '%');
+                ->orWhere('program.name', 'like', '%' . $request->search . '%')
+                ->orWhere('pad_risk.name', 'like', '%' . $request->search . '%')
+                ;
         }
         if ($request->pad_risk_id) {
             $Tariff->where('pad_risk_id', $request->pad_risk_id);
