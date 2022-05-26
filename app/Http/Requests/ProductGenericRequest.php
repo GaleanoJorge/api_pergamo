@@ -30,7 +30,7 @@ class ProductGenericRequest extends FormRequest
             'product_presentation_id' => 'required',
             'description' => 'required',
             'pbs_type_id'=> 'required',
-            'product_subcategory_id'=> 'required',
+            'nom_product_id'=> 'required',
             'administration_route_id',
             'special_controller_medicine',
             'code_atc',

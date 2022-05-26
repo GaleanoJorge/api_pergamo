@@ -8,15 +8,20 @@ use App\Models\Base\FixedAssets as BaseFixedAssets;
 class FixedAssets extends BaseFixedAssets
 {
 protected $fillable = [
-
+	'fixed_clasification_id',
+	'fixed_type_role_id',
+    'fixed_property_id',
+	'company_id',
+	'obs_property',
+	'plaque',
+	'amount',
 	'name',
-	'product_subcategory_id',
-    'product_presentation_id',
-	'consumption_unit_id',
-	'factory_id',
-	'type_assets_id',
-	'plate_number',
-
-       
+	'model',
+	'mark',
+	'serial',
+	'description',
+	'detail_description',
+	'color',
+	'fixed_condition_id',
 	];
 }

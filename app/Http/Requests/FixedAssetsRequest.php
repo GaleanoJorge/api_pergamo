@@ -24,15 +24,15 @@ class FixedAssetsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'fixed_clasification_id' => 'required',
+            'fixed_type_role_id' => 'required',
+            'fixed_property_id' => 'required',
             'name' => 'required',
-            'product_subcategory_id'=> 'required',
-            'product_presentation_id' => 'required',
-            'consumption_unit_id'=> 'required',
-            'factory_id'=> 'required',
-            'type_assets_id'=> 'required',
-            'plate_number' => 'required'
-            
+            'amount' => 'required',
+            'description' => 'required',
+            'detail_description' => 'required',
+            'color' => 'required',
+            'fixed_condition_id' => 'required',
         ];
     }
 }
