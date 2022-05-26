@@ -56,8 +56,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pain', 'Management\ChScalePainController');
     Route::apiResource('ch_scale_wong_baker', 'Management\ChScaleWongBakerController');
     Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
-    Route::apiResource('ch_scale_jh_dowton', 'Management\ChScaleJhDowtonController');
-
+    Route::apiResource('ch_scale_jh_downton', 'Management\ChScaleJhDowntonController');
     Route::apiResource('ch_scale_screening', 'Management\ChScaleScreeningController');
                         
     //SectionalCouncil
