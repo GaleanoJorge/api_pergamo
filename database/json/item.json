@@ -1064,7 +1064,7 @@
     {
         "id": "165",
         "item_parent_id": "67",
-        "name": "Configuración de Tarifas Médicos",
+        "name": "Configuración Tarifas",
         "code": null,
         "route": null,
         "icon": "",
@@ -1082,7 +1082,7 @@
     {
         "id": "167",
         "item_parent_id": "165",
-        "name": "Tarifas Médicos",
+        "name": "Tarifas",
         "code": "tariff",
         "route": "/pages/setting/tariff",
         "icon": "navigation-outline",
@@ -1271,7 +1271,7 @@
     {
         "id": "189",
         "item_parent_id": null,
-        "name": "Facturación PAD",
+        "name": "Facturación",
         "code": "billing-pad",
         "route": "/pages/billing-pad/list",
         "icon": "pricetags-outline",
