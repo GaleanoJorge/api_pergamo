@@ -15,15 +15,10 @@ class CreateFixedLocationCampusTable extends Migration
     {
         Schema::create('fixed_location_campus', function (Blueprint $table) {
             $table->BigIncrements('id');
-            $table->string('name');
-            $table->unsignedBigInteger('fixed_area_campus_id');
             $table->unsignedBigInteger('flat_id');
             $table->unsignedBigInteger('campus_id');
+            $table->unsignedBigInteger('fixed_area_campus_id');
             $table->timestamps();
-
-            $table->index('fixed_area_campus_id');
-            $table->foreign('fixed_area_campus_id')->references('id')
-                ->on('fixed_area_campus');
 
             $table->index('flat_id');
             $table->foreign('flat_id')->references('id')
@@ -32,6 +27,10 @@ class CreateFixedLocationCampusTable extends Migration
             $table->index('campus_id');
             $table->foreign('campus_id')->references('id')
                 ->on('campus');
+
+            $table->index('fixed_area_campus_id');
+            $table->foreign('fixed_area_campus_id')->references('id')
+                ->on('fixed_area_campus');
         });
     }
 
