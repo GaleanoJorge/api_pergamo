@@ -990,7 +990,8 @@ class PatientController extends Controller
             'patients.*',
             'municipality.region_id',
             'region.country_id',
-            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('DATE(patients.birthday) as birthday_parse'),
         )
             ->leftJoin('municipality', 'municipality.id', 'patients.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
