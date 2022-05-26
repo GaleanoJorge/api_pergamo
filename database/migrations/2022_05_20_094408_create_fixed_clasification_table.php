@@ -16,7 +16,12 @@ class CreateFixedClasificationTable extends Migration
         Schema::create('fixed_clasification', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->string('name');
+            $table->unsignedBigInteger('fixed_code_id');
             $table->timestamps();
+
+            $table->index('fixed_code_id');
+            $table->foreign('fixed_code_id')->references('id')
+                ->on('fixed_code');
         });
     }
 
