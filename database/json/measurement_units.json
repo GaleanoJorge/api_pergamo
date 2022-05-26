@@ -1,14 +1,14 @@
 [
     {
         "name": "UNIDADES",
-        "code": "und"
+        "code": "UND"
     },
     {
         "name": "GRAMOS",
-        "code": "g"
+        "code": "G"
     },
     {
         "name": "MILILITROS",
-        "code": "ml"
+        "code": "ML"
     }
 ]
