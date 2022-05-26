@@ -15,7 +15,8 @@
         {
             Schema::create('ch_scale_pain', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->String('range');
+                $table->string('range_title');
+                $table->Integer('range_value');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

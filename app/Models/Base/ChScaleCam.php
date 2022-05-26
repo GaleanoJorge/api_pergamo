@@ -17,10 +17,19 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $state_mind
- * @property int $attention
- * @property int $thought
- * @property int $awareness
+ * @property string $mind_title
+ * @property int $mind_value
+ * @property string $mind_detail
+ * @property string $attention_title
+ * @property int $attention_value
+ * @property string $attention_detail
+ * @property string $thought_title
+ * @property int $thought_value
+ * @property string $thought_detail
+ * @property string $awareness_title
+ * @property int $awareness_value
+ * @property string $awareness_detail
+ * @property int $result
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

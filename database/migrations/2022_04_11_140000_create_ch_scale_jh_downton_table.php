@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChScaleJhDowtonTable extends Migration
+    class CreateChScaleJhDowntonTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,13 +13,23 @@
          */
         public function up()
         {
-            Schema::create('ch_scale_jh_dowton', function (Blueprint $table) {
+            Schema::create('ch_scale_jh_downton', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('falls');
-                $table->Integer('medication');
-                $table->Integer('deficiency');
-                $table->Integer('mental');
-                $table->Integer('wandering');
+                $table->string('falls_title');
+                $table->Integer('falls_value');
+                $table->string('falls_detail');
+                $table->string('medication_title');
+                $table->Integer('medication_value');
+                $table->string('medication_detail');
+                $table->string('deficiency_title');
+                $table->Integer('deficiency_value');
+                $table->string('deficiency_detail');
+                $table->string('mental_title');
+                $table->Integer('mental_value');
+                $table->string('mental_detail');
+                $table->string('wandering_title');
+                $table->Integer('wandering_value');
+                $table->string('wandering_detail');
                 $table->Integer('total');
                 $table->string('risk');
                 $table->unsignedBigInteger('type_record_id');
@@ -43,6 +53,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_scale_jh_dowton');
+            Schema::dropIfExists('ch_scale_jh_downton');
         }
     }

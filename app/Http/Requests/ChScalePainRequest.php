@@ -24,7 +24,8 @@ class ChScalePainRequest extends FormRequest
     public function rules()
     {
         return [
-            'range' => '',
+            'range_title' => '',
+            'range_value' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

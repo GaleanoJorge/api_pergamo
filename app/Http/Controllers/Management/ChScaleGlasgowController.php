@@ -17,27 +17,35 @@ class ChScaleGlasgowController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleGlasgow = ChScaleGlasgow::select();
+    
+        if ($request->latest) {
 
-        if($request->_sort){
-            $ChScaleGlasgow->orderBy($request->_sort, $request->_order);
-        }            
+    $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else{
 
-        if ($request->search) {
-            $ChScaleGlasgow->where('name','like','%' . $request->search. '%');
-        }
-        
-        if($request->query("pagination", true)=="false"){
-            $ChScaleGlasgow=$ChScaleGlasgow->get()->toArray();    
-        }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
+            $ChScaleGlasgow = ChScaleGlasgow::select();
+
+            if($request->_sort){
+                $ChScaleGlasgow->orderBy($request->_sort, $request->_order);
+            }            
+    
+            if ($request->search) {
+                $ChScaleGlasgow->where('name','like','%' . $request->search. '%');
+            }
             
-            $ChScaleGlasgow=$ChScaleGlasgow->paginate($per_page,'*','page',$page); 
-        } 
-
-
+            if($request->query("pagination", true)=="false"){
+                $ChScaleGlasgow=$ChScaleGlasgow->get()->toArray();    
+            }
+            else{
+                $page= $request->query("current_page", 1);
+                $per_page=$request->query("per_page", 10);
+                
+                $ChScaleGlasgow=$ChScaleGlasgow->paginate($per_page,'*','page',$page); 
+        
+    
+        }
+   
+    }
         return response()->json([
             'status' => true,
             'message' => 'Escala Glasgow obtenida exitosamente',
@@ -69,9 +77,15 @@ class ChScaleGlasgowController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleGlasgow = new ChScaleGlasgow; 
-        $ChScaleGlasgow->ocular = $request->ocular; 
-        $ChScaleGlasgow->verbal= $request->verbal;
-        $ChScaleGlasgow->motor= $request->motor;
+        $ChScaleGlasgow->ocular_title = $request->ocular_title; 
+        $ChScaleGlasgow->ocular_value= $request->ocular_value;
+        $ChScaleGlasgow->ocular_detail= $request->ocular_detail;
+        $ChScaleGlasgow->verbal_title = $request->verbal_title; 
+        $ChScaleGlasgow->verbal_value= $request->verbal_value;
+        $ChScaleGlasgow->verbal_detail= $request->verbal_detail;
+        $ChScaleGlasgow->motor_title = $request->motor_title; 
+        $ChScaleGlasgow->motor_value= $request->motor_value;
+        $ChScaleGlasgow->motor_detail= $request->motor_detail;
         $ChScaleGlasgow->total= $request->total;
         $ChScaleGlasgow->type_record_id = $request->type_record_id; 
         $ChScaleGlasgow->ch_record_id = $request->ch_record_id; 
@@ -112,9 +126,15 @@ class ChScaleGlasgowController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleGlasgow = ChScaleGlasgow::find($id);  
-        $ChScaleGlasgow->ocular = $request->ocular; 
-        $ChScaleGlasgow->verbal= $request->verbal;
-        $ChScaleGlasgow->motor= $request->motor;
+        $ChScaleGlasgow->ocular_title = $request->ocular_title; 
+        $ChScaleGlasgow->ocular_value= $request->vocular_value;
+        $ChScaleGlasgow->ocular_detail= $request->ocular_detail;
+        $ChScaleGlasgow->verbal_title = $request->verbal_title; 
+        $ChScaleGlasgow->verbal_value= $request->verbal_value;
+        $ChScaleGlasgow->verbal_detail= $request->verbal_detail;
+        $ChScaleGlasgow->motor_title = $request->motor_title; 
+        $ChScaleGlasgow->motor_value= $request->motor_value;
+        $ChScaleGlasgow->motor_detail= $request->motor_detail;
         $ChScaleGlasgow->total= $request->total;
         $ChScaleGlasgow->type_record_id = $request->type_record_id; 
         $ChScaleGlasgow->ch_record_id = $request->ch_record_id; 

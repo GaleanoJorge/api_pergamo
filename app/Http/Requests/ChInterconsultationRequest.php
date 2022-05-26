@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChScaleJhDowtonRequest extends FormRequest
+class ChInterconsultationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,9 @@ class ChScaleJhDowtonRequest extends FormRequest
     public function rules()
     {
         return [
-            'falls' => '',
-            'medication' => '',
-            'deficiency' => '',
-            'mental' => '',
-            'wandering' => '',
-            'total' => '',
-            'risk' => '',
+            // 'specialty_id' => '',
+            // 'amount' => '',
+            // 'observations' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

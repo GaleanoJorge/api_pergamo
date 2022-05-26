@@ -90,11 +90,13 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
@@ -156,13 +158,13 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role',
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
@@ -217,6 +219,7 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
                 'residence_municipality',
@@ -224,6 +227,7 @@ class PatientController extends Controller
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
@@ -312,6 +316,7 @@ class PatientController extends Controller
                         ->with(
                             'status',
                             'gender',
+                            'inability',
                             'academic_level',
                             'identification_type',
                             'user_role',
@@ -355,6 +360,7 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
                 'residence_municipality',
@@ -362,6 +368,7 @@ class PatientController extends Controller
                 'admissions',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
@@ -439,6 +446,7 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
                 'residence_municipality',
@@ -448,6 +456,7 @@ class PatientController extends Controller
                 'admissions.reason_consultation',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
@@ -553,10 +562,10 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
-                'user_role',
-                'user_role.role'
+           
             );
 
         if ($roleId > 0) {
@@ -608,6 +617,7 @@ class PatientController extends Controller
         )->with(
             'status',
             'gender',
+            'inability',
             'academic_level',
             'identification_type',
         );
@@ -980,7 +990,8 @@ class PatientController extends Controller
             'patients.*',
             'municipality.region_id',
             'region.country_id',
-            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('DATE(patients.birthday) as birthday_parse'),
         )
             ->leftJoin('municipality', 'municipality.id', 'patients.birthplace_municipality_id')
             ->leftJoin('region', 'region.id', 'municipality.region_id')
@@ -988,12 +999,14 @@ class PatientController extends Controller
             ->with(
                 'status',
                 'gender',
+                'inability',
                 'academic_level',
                 'identification_type',
                 'admissions',
                 'admissions.briefcase',
                 'admissions.location',
                 'admissions.contract',
+                'admissions.contract.company',
                 'admissions.campus',
                 'admissions.briefcase',
                 'admissions.location.admission_route',
@@ -1184,6 +1197,7 @@ class PatientController extends Controller
         $identification = $request->identification;
         $patients = patient::select('*')
             ->with(
+                'inability',
                 'user_role',
                 'user_role.role',
                 'user_role.user_role_course',

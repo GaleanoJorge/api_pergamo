@@ -1,8 +1,29 @@
 [
     {
-        "name": "Controlado"
+        "name": "ASISTIDO/CONTROLADO"
     },
     {
-        "name": "Asistido"
+        "name": "B-LEVEL"
+    },
+    {
+        "name": "CONTROLADO POR PRESIÓN"
+    },
+    {
+        "name": "CONTROLADO POR VOLUMEN"
+    },
+    {
+        "name": "CPAP"
+    },
+    {
+        "name": "PS"
+    },
+    {
+        "name": "SIMV"
+    },
+    {
+        "name": "ST"
+    },
+    {
+        "name": "NO APLICA"
     }
 ]

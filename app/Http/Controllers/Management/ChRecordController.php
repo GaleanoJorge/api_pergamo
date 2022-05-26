@@ -22,6 +22,8 @@ use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+
 
 
 use App\Models\NeighborhoodOrResidence;
@@ -37,7 +39,11 @@ class ChRecordController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRecord = ChRecord::with('user', 'admissions', 'admissions.patients');
+        $ChRecord = ChRecord::with(
+            'user',
+            'admissions',
+            'admissions.patients',
+        );
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -77,7 +83,8 @@ class ChRecordController extends Controller
      */
     public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
-        $ChRecord = ChRecord::where('admissions_id', $id)->where('assigned_management_plan_id', $id2);
+        $ChRecord = ChRecord::with('user', 'admissions', 'admissions.patients')
+            ->where('admissions_id', $id)->where('assigned_management_plan_id', $id2);
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);

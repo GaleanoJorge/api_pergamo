@@ -1,5 +1,9 @@
 [
     {
+        "name": "UNIDADES",
+        "code": "UND"
+    },
+    {
         "name": "GRAMO",
         "code": "gr"
     },

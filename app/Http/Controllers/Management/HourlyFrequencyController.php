@@ -48,7 +48,8 @@ class HourlyFrequencyController extends Controller
     public function store(HourlyFrequencyRequest $request): JsonResponse
     {
         $HourlyFrequency = new HourlyFrequency;
-        $HourlyFrequency->name = $request->name;      
+        $HourlyFrequency->name = $request->name;     
+        $HourlyFrequency->value = $request->value;    
         $HourlyFrequency->save();
 
         return response()->json([
@@ -86,7 +87,8 @@ class HourlyFrequencyController extends Controller
     public function update(HourlyFrequencyRequest $request, int $id): JsonResponse
     {
         $HourlyFrequency = HourlyFrequency ::find($id);
-        $HourlyFrequency->name = $request->name;   
+        $HourlyFrequency->name = $request->name; 
+        $HourlyFrequency->value = $request->value;    
         $HourlyFrequency->save();
 
         return response()->json([

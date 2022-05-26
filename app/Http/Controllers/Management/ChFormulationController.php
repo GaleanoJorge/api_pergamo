@@ -53,7 +53,7 @@ class ChFormulationController extends Controller
      */
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
-        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('product_generic','administration_route','hourly_frequency')
+        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('service_briefcase','service_briefcase.product','service_briefcase.product.product_generic','administration_route','hourly_frequency','services_briefcase','product_dose')
             ->get()->toArray();
         
 
@@ -70,12 +70,14 @@ class ChFormulationController extends Controller
         $ChFormulation->product_generic_id = $request->product_generic_id;   
         $ChFormulation->administration_route_id = $request->administration_route_id; 
         $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
-       
+        $ChFormulation->services_briefcase_id = $request->services_briefcase_id;  
         $ChFormulation->medical_formula = $request->medical_formula; 
         $ChFormulation->treatment_days = $request->treatment_days; 
         $ChFormulation->outpatient_formulation = $request->outpatient_formulation; 
         $ChFormulation->dose = $request->dose; 
         $ChFormulation->observation = $request->observation; 
+        $ChFormulation->number_mipres = $request->number_mipres; 
+        $ChFormulation->product_dose_id = $request->product_dose_id;
         $ChFormulation->type_record_id = $request->type_record_id; 
         $ChFormulation->ch_record_id = $request->ch_record_id; 
 
@@ -120,10 +122,13 @@ class ChFormulationController extends Controller
         $ChFormulation->administration_route_id = $request->administration_route_id; 
         $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
         $ChFormulation->medical_formula = $request->medical_formula; 
+        $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
         $ChFormulation->treatment_days = $request->treatment_days; 
         $ChFormulation->outpatient_formulation = $request->outpatient_formulation; 
         $ChFormulation->dose = $request->dose; 
         $ChFormulation->observation = $request->observation; 
+        $ChFormulation->number_mipres = $request->number_mipres;
+        $ChFormulation->product_dose_id = $request->product_dose_id;
         $ChFormulation->type_record_id = $request->type_record_id; 
         $ChFormulation->ch_record_id = $request->ch_record_id;    
         $ChFormulation->save();

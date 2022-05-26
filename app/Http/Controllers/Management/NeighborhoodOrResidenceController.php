@@ -11,21 +11,24 @@ use Illuminate\Database\QueryException;
 
 class NeighborhoodOrResidenceController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $NeighborhoodOrResidence = NeighborhoodOrResidence::with('pad_risk', 'locality', 'locality.municipality', 'locality.municipality.region', 'locality.municipality.region.country')->select();
+        $NeighborhoodOrResidence = NeighborhoodOrResidence::with('pad_risk', 'locality', 'locality.municipality', 'locality.municipality.region', 'locality.municipality.region.country')
+            ->select('neighborhood_or_residence.*')
+            ->leftJoin('locality', 'neighborhood_or_residence.locality_id', 'locality.id');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $NeighborhoodOrResidence->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $NeighborhoodOrResidence->where('name','like','%' . $request->search. '%');
+            $NeighborhoodOrResidence->where('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                ->orWhere('locality.name', 'like', '%' . $request->search . '%');
         }
         if ($request->pad_risk_id) {
             $NeighborhoodOrResidence->where('pad_risk_id', $request->pad_risk_id);
@@ -33,16 +36,15 @@ class NeighborhoodOrResidenceController extends Controller
         if ($request->locality_id) {
             $NeighborhoodOrResidence->where('locality_id', $request->locality_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $NeighborhoodOrResidence=$NeighborhoodOrResidence->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $NeighborhoodOrResidence = $NeighborhoodOrResidence->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $NeighborhoodOrResidence = $NeighborhoodOrResidence->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $NeighborhoodOrResidence=$NeighborhoodOrResidence->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -51,7 +53,7 @@ class NeighborhoodOrResidenceController extends Controller
             'data' => ['neighborhood_or_residence' => $NeighborhoodOrResidence]
         ]);
     }
-    
+
 
     public function store(NeighborhoodOrResidenceRequest $request): JsonResponse
     {

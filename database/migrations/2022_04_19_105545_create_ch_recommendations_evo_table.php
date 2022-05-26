@@ -17,7 +17,8 @@ class CreateChRecommendationsEvoTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('recommendations_evo_id');
             $table->string('analisys');
-            $table->string('plan');
+            $table->string('plan'); 
+            $table->string('patient_family_education')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

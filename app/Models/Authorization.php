@@ -7,11 +7,16 @@ use App\Models\Base\Authorization as BaseAuthorization;
 class Authorization extends BaseAuthorization
 {
 	protected $fillable = [
-		'id',
-		'services_briefcase_id',
-		'admissions_id',
 		'auth_number',
-		'state_auth_id',
+		'observation',
+		'file_auth',
+		'services_briefcase_id',
+		'assigned_management_plan_id',
+		'admissions_id',
+		'authorized_amount',
+		'auth_status_id',
+		'auth_package_id',
+		'manual_price_id',
 	];
 
 	public function residence_municipality()

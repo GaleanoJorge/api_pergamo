@@ -17,12 +17,24 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $variable_one
- * @property int $variable_two
- * @property int $variable_three
- * @property int $variable_four
- * @property int $variable_five
- * @property int $variable_six
+ * @property string $v_one_title
+ * @property int $v_one_value
+ * @property string $v_one_detail
+ * @property string $v_two_title
+ * @property int $v_two_value
+ * @property string $v_two_detail
+ * @property string $v_three_title
+ * @property int $v_three_value
+ * @property string $v_three_detail
+ * @property string $v_four_title
+ * @property int $v_four_value
+ * @property string $v_four_detail
+ * @property string $v_five_title
+ * @property int $v_five_value
+ * @property string $v_five_detail
+ * @property string $v_six_title
+ * @property int $v_six_value
+ * @property string $v_six_detail
  * @property int $total
  * @property string $classification
  * @property Carbon $created_at

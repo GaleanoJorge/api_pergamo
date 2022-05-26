@@ -238,8 +238,10 @@ class AccountReceivableController extends Controller
         $rut_number = $FinancialData['rut'];
         $doc_type = strtoupper($IdentificationType->name);
         $doc_number = $User->identification;
-        $net_value = $AccountReceivable->net_value_activities < 1000000 ? floor($AccountReceivable->net_value_activities / 1000) . '.' . ($AccountReceivable->net_value_activities - (floor($AccountReceivable->net_value_activities / 1000) * 1000)) :
-            floor($AccountReceivable->net_value_activities / 1000000) . '.' . floor(($AccountReceivable->net_value_activities / 1000) - (floor($AccountReceivable->net_value_activities / 1000000) * 1000)) . '.' . ($AccountReceivable->net_value_activities - (floor($AccountReceivable->net_value_activities / 1000) * 1000));
+        if (!$AccountReceivable->net_value_activities) {
+            $AccountReceivable->net_value_activities = 0;
+        }
+        $net_value = $this->getNetValue($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
         $bank = strtoupper($FinancialData['bank']['name']);
         $account_number = $FinancialData['account_number'];
@@ -285,6 +287,38 @@ class AccountReceivableController extends Controller
             'message' => 'Cuenta de cobro generada exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
+    }
+
+    private function getNetValue(int $value): string
+    {
+        $millions = '';
+        $thousands = '';
+        $hundreds = '';
+        if ($value >= 1000000) {
+            $millions = floor($value / 1000000) . '.';
+            $thousands = floor(($value / 1000) - (floor($value / 1000000) * 1000)) . '.';
+        } else {
+            $thousands = floor($value / 1000) . '.';
+        }
+        $hundreds = ($value - (floor($value / 1000) * 1000));
+
+        if ($millions != '') {
+            if ($thousands<100 && $thousands>=10) {
+                $thousands = '0' . $thousands;
+            } elseif ($thousands<10 && $thousands>=0) {
+                $thousands = '00' . $thousands;
+            }
+        }
+
+        if ($hundreds<100 && $hundreds>=10) {
+            $hundreds = '0' . $hundreds;
+        } elseif ($hundreds<10 && $hundreds>=0) {
+            $hundreds = '00' . $hundreds;
+        }
+
+        $Response = $millions . $thousands . $hundreds;
+
+        return $Response;
     }
 
     private function injectPageCount(PDF $dompdf): void

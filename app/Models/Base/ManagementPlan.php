@@ -13,6 +13,7 @@ use App\Models\Frequency;
 use App\Models\Admissions;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\Procedure;
 use App\Models\Specialty;
 use App\Models\User;
 use App\Models\ServicesBriefcase;
@@ -66,6 +67,10 @@ class ManagementPlan extends Model
 	public function authorization()
 	{
 		return $this->belongsTo(Authorization::class, 'authorization_id');
+	}
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class, 'procedure_id');
 	}
 	public function briefcase()
 	{

@@ -17,25 +17,32 @@ class ChScaleCamController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScaleCam = ChScaleCam::select();
-
-        if ($request->_sort) {
-            $ChScaleCam->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $ChScaleCam->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $ChScaleCam = $ChScaleCam->get()->toArray();
+        if ($request->latest) {
+            $ChScaleCam = ChScaleCam::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
         } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $ChScaleCam = ChScaleCam::select();
 
-            $ChScaleCam = $ChScaleCam->paginate($per_page, '*', 'page', $page);
+            if ($request->_sort) {
+                $ChScaleCam->orderBy($request->_sort, $request->_order);
+            }
+
+            if ($request->search) {
+                $ChScaleCam->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScaleCam->where('ch_record_id', $request->ch_record_id);
+            }
+            if ($request->latest  && isset($request->latest)) {
+            }
+            if ($request->query("pagination", true) == "false") {
+                $ChScaleCam = $ChScaleCam->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $ChScaleCam = $ChScaleCam->paginate($per_page, '*', 'page', $page);
+            }
         }
-
 
         return response()->json([
             'status' => true,
@@ -68,10 +75,19 @@ class ChScaleCamController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleCam = new ChScaleCam;
-        $ChScaleCam->state_mind = $request->state_mind;
-        $ChScaleCam->attention = $request->attention;
-        $ChScaleCam->thought = $request->thought;
-        $ChScaleCam->awareness = $request->awareness;
+        $ChScaleCam->mind_title = $request->mind_title;
+        $ChScaleCam->mind_value = $request->mind_value;
+        $ChScaleCam->mind_detail = $request->mind_detail;
+        $ChScaleCam->attention_title = $request->attention_title;
+        $ChScaleCam->attention_value = $request->attention_value;
+        $ChScaleCam->attention_detail = $request->attention_detail;
+        $ChScaleCam->thought_title = $request->thought_title;
+        $ChScaleCam->thought_value = $request->thought_value;
+        $ChScaleCam->thought_detail = $request->thought_detail;
+        $ChScaleCam->awareness_title = $request->awareness_title;
+        $ChScaleCam->awareness_value = $request->awareness_value;
+        $ChScaleCam->awareness_detail = $request->awareness_detail;
+        $ChScaleCam->result = $request->result;
         $ChScaleCam->type_record_id = $request->type_record_id;
         $ChScaleCam->ch_record_id = $request->ch_record_id;
         $ChScaleCam->save();
@@ -111,10 +127,19 @@ class ChScaleCamController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleCam = ChScaleCam::find($id);
-        $ChScaleCam->state_mind = $request->state_mind;
-        $ChScaleCam->attention = $request->attention;
-        $ChScaleCam->thought = $request->thought;
-        $ChScaleCam->awareness = $request->awareness;
+        $ChScaleCam->mind_title = $request->mind_title;
+        $ChScaleCam->mind_value = $request->mind_value;
+        $ChScaleCam->mind_detail = $request->mind_detail;
+        $ChScaleCam->attention_title = $request->attention_title;
+        $ChScaleCam->attention_value = $request->attention_value;
+        $ChScaleCam->attention_detail = $request->attention_detail;
+        $ChScaleCam->thought_title = $request->thought_title;
+        $ChScaleCam->thought_value = $request->thought_value;
+        $ChScaleCam->thought_detail = $request->thought_detail;
+        $ChScaleCam->awareness_title = $request->awareness_title;
+        $ChScaleCam->awareness_value = $request->awareness_value;
+        $ChScaleCam->awareness_detail = $request->awareness_detail;
+        $ChScaleCam->result = $request->result;
         $ChScaleCam->type_record_id = $request->type_record_id;
         $ChScaleCam->ch_record_id = $request->ch_record_id;
         $ChScaleCam->save();

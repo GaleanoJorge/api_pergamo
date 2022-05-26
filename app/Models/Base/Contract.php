@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\Company;
 use Carbon\Carbon;
 use App\Models\ContractStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,6 +51,10 @@ class Contract extends Model
 	public function contract_status()
 	{
 		return $this->belongsTo(ContractStatus::class);
+	}
+	public function company()
+	{
+		return $this->belongsTo(Company::class);
 	}
 
 

@@ -15,11 +15,21 @@
         {
             Schema::create('ch_scale_ppi', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('pps');
-                $table->Integer('oral');
-                $table->Integer('edema');
-                $table->Integer('dyspnoea');
-                $table->Integer('delirium');
+                $table->string('pps_title');
+                $table->Integer('pps_value');
+                $table->string('pps_detail');
+                $table->string('oral_title');
+                $table->Integer('oral_value');
+                $table->string('oral_detail');
+                $table->string('edema_title');
+                $table->Integer('edema_value');
+                $table->string('edema_detail');
+                $table->string('dyspnoea_title');
+                $table->Integer('dyspnoea_value');
+                $table->string('dyspnoea_detail');
+                $table->string('delirium_title');
+                $table->Integer('delirium_value');
+                $table->string('delirium_detail');
                 $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');

@@ -15,7 +15,8 @@
         {
             Schema::create('ch_scale_wong_baker', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->String('pain');
+                $table->string('pain_title');
+                $table->Integer('pain_value');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

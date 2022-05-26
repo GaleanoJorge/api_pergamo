@@ -15,7 +15,8 @@
         {
             Schema::create('ch_scale_red_cross', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('grade');
+                $table->string('grade_title');
+                $table->Integer('grade_value');
                 $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

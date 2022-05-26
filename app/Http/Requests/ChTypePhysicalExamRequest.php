@@ -24,7 +24,8 @@ class ChTypePhysicalExamRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ''
+            'name' => '',
+            'description' => '',
         ];
     }
 }

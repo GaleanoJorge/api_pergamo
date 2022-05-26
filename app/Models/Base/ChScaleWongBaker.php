@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property string $pain
+ * @property string $pain_title
+ * @property int $pain_value
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
