@@ -17,11 +17,11 @@ class CreateFixedAccessoriesTable extends Migration
             $table->BigIncrements('id');
             $table->string('name');
             $table->integer('amount');
-            $table->unsignedBigInteger('fixed_type_id');
+            $table->unsignedBigInteger('fixed_type_role_id');
             $table->timestamps();
-            $table->index('fixed_type_id');
-            $table->foreign('fixed_type_id')->references('id')
-                    ->on('fixed_type');
+            $table->index('fixed_type_role_id');
+            $table->foreign('fixed_type_role_id')->references('id')
+                    ->on('fixed_type_role');
 
         });
     }
