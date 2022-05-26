@@ -19,6 +19,7 @@ use App\Models\EventTicket;
 use App\Models\Gender;
 use App\Models\HistoryEventApproved;
 use App\Models\IdentificationType;
+use App\Models\Inability;
 use App\Models\Log;
 use App\Models\LogLogin;
 use App\Models\Municipality;
@@ -135,6 +136,12 @@ class Patient extends Model
 	public function gender()
 	{
 		return $this->belongsTo(Gender::class);
+	}
+
+
+	public function inability()
+	{
+		return $this->belongsTo(Inability::class);
 	}
 
 	public function identification_type()
