@@ -36,8 +36,8 @@ class BillingPadController extends Controller
             $BillingPad->where('name', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->admissions_id) {
-            $BillingPad->where('admissions_id', $request->admissions_id);
+        if ($request->admission_id) {
+            $BillingPad->where('admissions_id', $request->admission_id);
         }
 
         if ($request->billing_pad_status_id) {
