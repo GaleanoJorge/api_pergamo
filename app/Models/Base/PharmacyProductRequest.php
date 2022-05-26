@@ -8,6 +8,9 @@ namespace App\Models\Base;
 
 use App\Models\PharmacyStock;
 use App\Models\ProductGeneric;
+use App\Models\ServicesBriefcase;
+use App\Models\User;
+use App\Models\Admissions;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $observation
  * @property intenger $request_amount
  * @property BigInteger $product_generic_id
+ * @property BigInteger $admissions_id
  * @property BigInteger $own_pharmacy_stock_id
+ * @property BigInteger $request_pharmacy_stock_id
  * @property BigInteger $request_pharmacy_stock_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -42,5 +47,18 @@ class PharmacyProductRequest extends Model
 	public function product_generic()
 	{
 		return $this->belongsTo(ProductGeneric::class);
+	}
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
+	}
+	public function admissions()
+	{
+		return $this->belongsTo(Admissions::class);
+	}
+
+	public function users()
+	{
+		return $this->belongsTo(User::class,'user_request_id');
 	}
 }
