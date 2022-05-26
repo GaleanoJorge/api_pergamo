@@ -142,12 +142,14 @@ class BillingPadController extends Controller
         $eventos = Authorization::select('authorization.*')
             ->with(
                 'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
