@@ -152,6 +152,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(MunicipalityIcaSeeder::class);
                 
                 $this->call(ProductDoseSeeder::class);
+
+                // BillingPad
+                $this->call(BillingPadStatusSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

@@ -1,15 +1,15 @@
 [
     {
         "term": "30",
-        "name": "Días"
+        "name": "30 Días"
     },
     {
         "term": "60",
-        "name": "Días"
+        "name": "60 Días"
     },
     {
         "term": "90",
-        "name": "Días"
+        "name": "90 Días"
     }
   
 ]
