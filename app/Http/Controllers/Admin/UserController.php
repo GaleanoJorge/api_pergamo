@@ -411,7 +411,7 @@ class UserController extends Controller
         if (count($respose) == 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'No se encontraron usuarios',
+                'message' => 'No se encontró personal asistencial',
                 'data' => ['users' => $usersfinal]
             ]);
         }
