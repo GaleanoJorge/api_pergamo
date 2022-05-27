@@ -21,7 +21,7 @@ class CreateProductGenericTable extends Migration
             $table->string ('description');
             $table->unsignedBigInteger('pbs_type_id');
             $table->string('pbs_restriction')->nullable();
-            $table->unsignedBigInteger('product_subcategory_id'); 
+            $table->unsignedBigInteger('nom_product_id'); 
             $table->Integer('minimum_stock');
             $table->Integer('maximum_stock');
             $table->unsignedBigInteger('administration_route_id')->nullable();
@@ -45,9 +45,9 @@ class CreateProductGenericTable extends Migration
             $table->index('product_presentation_id');
             $table->foreign('product_presentation_id')->references('id')
                     ->on('product_presentation');
-            $table->index('product_subcategory_id');
-            $table->foreign('product_subcategory_id')->references('id')
-                    ->on('product_subcategory');
+            $table->index('nom_product_id');
+            $table->foreign('nom_product_id')->references('id')
+                    ->on('nom_product');
 
             $table->index('product_dose_id');
             $table->foreign('product_dose_id')->references('id')

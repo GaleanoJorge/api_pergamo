@@ -14,7 +14,7 @@ protected $fillable = [
 	'description',
 	'pbs_type_id',
 	'pbs_restriction',
-	'product_subcategory_id',
+	'nom_product_id',
 	'administration_route_id',
 	'special_controller_medicene',
 	'code_atc',

@@ -55,7 +55,7 @@ class ProductGenericController extends Controller
         $ProductGeneric->description = $request->description;       
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
         $ProductGeneric->pbs_restriction = $request->pbs_restriction;
-        $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
+        $ProductGeneric->nom_product_id = $request->nom_product_id;  
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  
@@ -110,7 +110,7 @@ class ProductGenericController extends Controller
         $ProductGeneric->description = $request->description;       
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
         $ProductGeneric->pbs_restriction = $request->pbs_restriction;
-        $ProductGeneric->product_subcategory_id = $request->product_subcategory_id;  
+        $ProductGeneric->nom_product_id = $request->nom_product_id;  
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  

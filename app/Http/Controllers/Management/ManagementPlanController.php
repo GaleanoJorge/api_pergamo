@@ -440,7 +440,7 @@ class ManagementPlanController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'Pendiente por autorizar',
+                // 'message_error' => 'Pendiente por autorizar',
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         } else {

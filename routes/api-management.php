@@ -952,24 +952,33 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
+    
+    Route::apiResource('nom_product', 'Management\NomProductController');
+    Route::get('NomProduct/byCategory/{product_subcategory_id}',
+        'Management\NomProductController@getSubcategoryByCategory'
+    );
 
 
-
-
-
-
-
+    //Activos fijos
+    Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
+    Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
+    Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
+    Route::apiResource('fixed_code', 'Management\FixedCodeController');
+    Route::apiResource('fixed_condition', 'Management\FixedConditionController');
+    Route::apiResource('fixed_loan', 'Management\FixedLoanController');
+    Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
+    Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
+    Route::apiResource('fixed_property', 'Management\FixedPropertyController');
+    Route::apiResource('fixed_stock_accessories', 'Management\FixedStockAccessoriesController');
+    Route::apiResource('fixed_type', 'Management\FixedTypeController');
+    Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
 
 
 
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
-
-
-
-
-
 
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
@@ -1170,7 +1179,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
-    
+
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
     Route::apiResource('liters_per_minute', 'Management\LitersPerMinuteController');

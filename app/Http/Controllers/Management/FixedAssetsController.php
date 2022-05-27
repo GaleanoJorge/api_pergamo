@@ -11,32 +11,30 @@ use Illuminate\Database\QueryException;
 
 class FixedAssetsController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAssets = FixedAssets::select();
+        $FixedAssets = FixedAssets::with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_property');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);
-        }            
-
-        if ($request->search) {
-            $FixedAssets->where('name','like','%' . $request->search. '%')
-            >orWhere('code', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $FixedAssets=$FixedAssets->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $FixedAssets=$FixedAssets->paginate($per_page,'*','page',$page); 
-        }     
+        if ($request->search) {
+            $FixedAssets->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $FixedAssets = $FixedAssets->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $FixedAssets = $FixedAssets->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -44,18 +42,26 @@ class FixedAssetsController extends Controller
             'data' => ['fixed_assets' => $FixedAssets]
         ]);
     }
-    
+
 
     public function store(FixedAssetsRequest $request): JsonResponse
     {
         $FixedAssets = new FixedAssets;
+        $FixedAssets->fixed_clasification_id = $request->fixed_clasification_id;
+        $FixedAssets->fixed_type_role_id = $request->fixed_type_role_id;
+        $FixedAssets->fixed_property_id = $request->fixed_property_id;
+        $FixedAssets->obs_property = $request->obs_property;
+        $FixedAssets->plaque = $request->plaque;
+        $FixedAssets->company_id = $request->company_id;
         $FixedAssets->name = $request->name;
-        $FixedAssets->product_subcategory_id = $request->product_subcategory_id;
-        $FixedAssets->product_presentation_id = $request->product_presentation_id;
-        $FixedAssets->consumption_unit_id = $request->consumption_unit_id; 
-        $FixedAssets->factory_id = $request->factory_id; 
-        $FixedAssets->type_assets_id = $request->type_assets_id;
-        $FixedAssets->plate_number = $request->plate_number; 
+        $FixedAssets->amount = $request->amount;
+        $FixedAssets->model = $request->model;
+        $FixedAssets->mark = $request->mark;
+        $FixedAssets->serial = $request->serial;
+        $FixedAssets->description = $request->description;
+        $FixedAssets->detail_description = $request->detail_description;
+        $FixedAssets->color = $request->color;
+        $FixedAssets->fixed_condition_id = $request->fixed_condition_id;
         $FixedAssets->save();
 
         return response()->json([
@@ -92,14 +98,22 @@ class FixedAssetsController extends Controller
      */
     public function update(FixedAssetsRequest $request, int $id): JsonResponse
     {
-        $FixedAssets = FixedAssets ::find($id);
+        $FixedAssets = FixedAssets::find($id);
+        $FixedAssets->fixed_clasification_id = $request->fixed_clasification_id;
+        $FixedAssets->fixed_type_role_id = $request->fixed_type_role_id;
+        $FixedAssets->fixed_property_id = $request->fixed_property_id;
+        $FixedAssets->obs_property = $request->obs_property;
+        $FixedAssets->plaque = $request->plaque;
         $FixedAssets->name = $request->name;
-        $FixedAssets->product_subcategory_id = $request->product_subcategory_id;
-        $FixedAssets->product_presentation_id = $request->product_presentation_id;
-        $FixedAssets->consumption_unit_id = $request->consumption_unit_id; 
-        $FixedAssets->factory_id = $request->factory_id;
-        $FixedAssets->type_assets_id = $request->type_assets_id;
-        $FixedAssets->plate_number = $request->plate_number;       
+        $FixedAssets->amount = $request->amount;
+        $FixedAssets->company_id = $request->company_id;
+        $FixedAssets->model = $request->model;
+        $FixedAssets->mark = $request->mark;
+        $FixedAssets->serial = $request->serial;
+        $FixedAssets->description = $request->description;
+        $FixedAssets->detail_description = $request->detail_description;
+        $FixedAssets->color = $request->color;
+        $FixedAssets->fixed_condition_id = $request->fixed_condition_id;
         $FixedAssets->save();
 
         return response()->json([

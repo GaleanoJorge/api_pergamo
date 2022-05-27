@@ -36,8 +36,8 @@ class BillingPadController extends Controller
             $BillingPad->where('name', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->admissions_id) {
-            $BillingPad->where('admissions_id', $request->admissions_id);
+        if ($request->admission_id) {
+            $BillingPad->where('admissions_id', $request->admission_id);
         }
 
         if ($request->billing_pad_status_id) {
@@ -142,12 +142,14 @@ class BillingPadController extends Controller
         $eventos = Authorization::select('authorization.*')
             ->with(
                 'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
