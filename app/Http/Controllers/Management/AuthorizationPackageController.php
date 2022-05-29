@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorizationPackageRequest;
+use App\Models\AuthLog as ModelsAuthLog;
 use App\Models\Authorization;
 use App\Models\Base\AuthLog;
 use App\Models\Base\Briefcase;
@@ -50,7 +51,7 @@ class AuthorizationPackageController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Paquete de procedimientos obtenidos exitosamente',
+            'message' => 'Paquete de autorizaciones obtenidos exitosamente',
             'data' => ['authorization_package' => $AuthorizationPackage]
         ]);
     }
@@ -80,7 +81,7 @@ class AuthorizationPackageController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Paquete de procedimientos obtenido exitosamente',
+            'message' => 'Paquete de autorizaciones obtenido exitosamente',
             'data' => ['authorization_package' => $AuthorizationPackage]
         ]);
     }
@@ -90,17 +91,17 @@ class AuthorizationPackageController extends Controller
         $Authorization =  new Authorization;
         $Authorization->services_briefcase_id = $request->services_briefcase_id;
         $Authorization->admissions_id = $request->admissions_id;
-        $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+        $serviceBriefcase = ServicesBriefcase::select('services_briefcase.*')->where('id',  $request->services_briefcase_id)->first();
+        $Authorization->manual_price_id = $serviceBriefcase->manual_price_id;
+        $validate = Briefcase::select('briefcase.*')->where('id',  $serviceBriefcase->briefcase_id)->first();
         if ($validate->type_auth == 1) {
             $Authorization->auth_status_id =  2;
         } else {
             $Authorization->auth_status_id =  1;
         }
-        $serviceBriefcase = ServicesBriefcase::select('services_briefcase.*')->where('id',  $request->services_briefcase_id)->first();
-        $Authorization->manual_price_id = $serviceBriefcase->manual_price_id;
-        
         $Authorization->save();
-        
+
+
         $auth_log = new AuthLog;
 
         $auth_log->current_status_id = $Authorization->auth_status_id;
@@ -108,18 +109,18 @@ class AuthorizationPackageController extends Controller
         $auth_log->user_id = Auth::user()->id;
 
         $auth_log->save();
-        
+
         $AuthorizationPackage = new AuthorizationPackage;
         $AuthorizationPackage->authorization_id = $Authorization->id;
         $AuthorizationPackage->user_id = Auth::user()->id;
 
         $AuthorizationPackage->save();
 
-        $Authorization_array= json_decode($request->auth_array);
+        $Authorization_array = json_decode($request->auth_array);
         $count = 0;
-        foreach($Authorization_array as $item){
-            $auth_up = Authorization::find($item->auth);
-            if($auth_up){
+        foreach ($Authorization_array as $item) {
+            $auth_up = Authorization::find($item->id);
+            if ($auth_up) {
                 $auth_up->auth_package_id = $Authorization->id;
                 $auth_up->save();
             } else {
@@ -128,19 +129,19 @@ class AuthorizationPackageController extends Controller
         }
 
 
-if($count > 0){
-    return response()->json([
-        'status' => true,
-        'message' => 'Paquete de authorizaciones creado. Se presentaron' . $count . ' errores',
-        'data' => ['authorization_package' => $AuthorizationPackage]
-    ]);
-}else{
-    return response()->json([
-        'status' => true,
-        'message' => 'Paquete de procedimientos creada exitosamente',
-        'data' => ['authorization_package' => $AuthorizationPackage]
-    ]);
-}
+        if ($count > 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Paquete de authorizaciones creado. Se presentaron' . $count . ' errores',
+                'data' => ['authorization_package' => $AuthorizationPackage]
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'Paquete de autorizaciones creada exitosamente',
+                'data' => ['authorization_package' => $AuthorizationPackage]
+            ]);
+        }
     }
 
     /**
@@ -156,7 +157,7 @@ if($count > 0){
 
         return response()->json([
             'status' => true,
-            'message' => 'Paquete de procedimientos obtenido exitosamente',
+            'message' => 'Paquete de autorizaciones obtenido exitosamente',
             'data' => ['authorization_package' => $AuthorizationPackage]
         ]);
     }
@@ -169,26 +170,29 @@ if($count > 0){
      */
     public function update(AuthorizationPackageRequest $request, int $id): JsonResponse
     {
-        $AuthorizationPackageDelete = AuthorizationPackage::where('authorization_package_id', $id);
-        $AuthorizationPackageDelete->delete();
-        $components = json_decode($request->procedure_id);
+        $AuthorizationPackageDelete = AuthorizationPackage::find($id);
 
-        foreach ($components as $conponent) {
-            $AuthorizationPackage = new AuthorizationPackage;
-            $AuthorizationPackage->authorization_package_id = $id;
-            // $AuthorizationPackage->value = $conponent->value;
-            // $AuthorizationPackage->manual_price_id = $conponent->manual_price_id;
-            $AuthorizationPackage->dynamic_charge = $conponent->dynamic_charge;
-            $AuthorizationPackage->max_quantity = $conponent->max_quantity;
-            $AuthorizationPackage->min_quantity = $conponent->min_quantity;
-            $AuthorizationPackage->procedure_id = $conponent->procedure_id;
-            $AuthorizationPackage->save();
+        $Authorization_buffer = Authorization::where('auth_package_id', $id)->get()->toArray();
+
+        $array_auth = json_decode($request->auth_array);
+
+        foreach ($Authorization_buffer as $item) {
+            $auth_update = Authorization::find($item['id']);
+            $auth_update->auth_package_id = null;
+            $auth_update->save();
+        }
+
+        foreach ($array_auth as $item) {
+            // $item->auth_package_id = null;
+            $Auth_add_package = Authorization::find($item);
+            $Auth_add_package->auth_package_id = $id;
+            $Auth_add_package->save();
         }
 
         return response()->json([
             'status' => true,
-            'message' => 'Paquete de procedimientos actualizado exitosamente',
-            'data' => ['authorization_package' => $AuthorizationPackage]
+            'message' => 'Paquete de autorizaciones actualizado exitosamente',
+            'data' => ['authorization_package' => $AuthorizationPackageDelete]
         ]);
     }
 
@@ -201,17 +205,39 @@ if($count > 0){
     public function destroy(int $id): JsonResponse
     {
         try {
-            $AuthorizationPackage = AuthorizationPackage::find($id);
-            $AuthorizationPackage->delete();
+            
+            
+            $Authorization_buffer = Authorization::where('auth_package_id', $id)->get()->toArray();
+            
+            foreach ($Authorization_buffer as $item) {
+                $auth_update = Authorization::find($item['id']);
+                $auth_update->auth_package_id = null;
+                $auth_update->save();
+            }
+
+            $AuthorizationPackage = AuthorizationPackage::where('authorization_id', $id)->get()->toArray();
+            if(count($AuthorizationPackage) ==1){
+                $AuthorizationPackageDelete = AuthorizationPackage::find($AuthorizationPackage[0]['id']);
+                $AuthorizationPackageDelete->delete();
+            }
+            
+            $AuthorizationLog = AuthLog::where('authorization_id', $id)->get()->toArray();
+            if(count($AuthorizationLog) ==1){
+                $AuthorizationLog = AuthLog::find($AuthorizationLog[0]['id']);
+                $AuthorizationLog->delete();
+            }
+
+            $Authorization = Authorization::find($id);
+            $Authorization->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Paquete de procedimientos eliminado exitosamente'
+                'message' => 'Paquete de autorizaciones eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Paquete de procedimientos esta en uso, no es posible eliminarlo'
+                'message' => 'Paquete de autorizaciones esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }
