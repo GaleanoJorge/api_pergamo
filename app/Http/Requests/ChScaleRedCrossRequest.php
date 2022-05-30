@@ -24,7 +24,8 @@ class ChScaleRedCrossRequest extends FormRequest
     public function rules()
     {
         return [
-            'grade' => '',
+            'grade_title' => '',
+            'grade_value' => '',
             'definition' =>'',
             'type_record_id' => '',
             'ch_record_id' => '',

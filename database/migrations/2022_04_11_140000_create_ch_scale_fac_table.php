@@ -15,7 +15,8 @@
         {
             Schema::create('ch_scale_fac', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('level');
+                $table->string('level_title');
+                $table->Integer('level_value');
                 $table->string('definition');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

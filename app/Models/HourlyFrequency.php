@@ -10,6 +10,7 @@ class HourlyFrequency extends BaseHourlyFrequency
 protected $fillable = [
 
 	'name',
+	'value',
 	
 	];
 }

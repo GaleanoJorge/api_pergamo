@@ -15,7 +15,8 @@
         {
             Schema::create('ch_scale_karnofsky', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->Integer('score');
+                $table->string('score_title');
+                $table->Integer('score_value');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

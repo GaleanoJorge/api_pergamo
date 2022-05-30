@@ -16,7 +16,11 @@ class ChScalePediatricNutritionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
-    {
+    { 
+        if ($request->latest) {
+        $ChScalePediatricNutrition = ChScalePediatricNutrition::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+    
+    } else {
         $ChScalePediatricNutrition = ChScalePediatricNutrition::select();
 
         if($request->_sort){
@@ -26,7 +30,12 @@ class ChScalePediatricNutritionController extends Controller
         if ($request->search) {
             $ChScalePediatricNutrition->where('name','like','%' . $request->search. '%');
         }
-        
+        if ($request->ch_record_id) {
+            $ChScalePediatricNutrition->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->latest  && isset($request->latest)) {
+        }
         if($request->query("pagination", true)=="false"){
             $ChScalePediatricNutrition=$ChScalePediatricNutrition->get()->toArray();    
         }
@@ -36,7 +45,7 @@ class ChScalePediatricNutritionController extends Controller
             
             $ChScalePediatricNutrition=$ChScalePediatricNutrition->paginate($per_page,'*','page',$page); 
         } 
-
+    }
 
         return response()->json([
             'status' => true,
@@ -69,10 +78,18 @@ class ChScalePediatricNutritionController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScalePediatricNutrition = new ChScalePediatricNutrition; 
-        $ChScalePediatricNutrition-> score_one = $request->score_one; 
-        $ChScalePediatricNutrition-> score_two = $request->score_two; 
-        $ChScalePediatricNutrition-> score_three = $request->score_three; 
-        $ChScalePediatricNutrition-> score_four = $request->score_four; 
+        $ChScalePediatricNutrition-> score_one_title = $request->score_one_title; 
+        $ChScalePediatricNutrition-> score_one_value = $request->score_one_value; 
+        $ChScalePediatricNutrition-> score_one_detail = $request->score_one_detail; 
+        $ChScalePediatricNutrition-> score_two_title = $request->score_two_title; 
+        $ChScalePediatricNutrition-> score_two_value = $request->score_two_value; 
+        $ChScalePediatricNutrition-> score_two_detail = $request->score_two_detail; 
+        $ChScalePediatricNutrition-> score_three_title = $request->score_three_title; 
+        $ChScalePediatricNutrition-> score_three_value = $request->score_three_value; 
+        $ChScalePediatricNutrition-> score_three_detail = $request->score_three_detail; 
+        $ChScalePediatricNutrition-> score_four_title = $request->score_four_title; 
+        $ChScalePediatricNutrition-> score_four_value = $request->score_four_value; 
+        $ChScalePediatricNutrition-> score_four_detail = $request->score_four_detail; 
         $ChScalePediatricNutrition-> total = $request->total; 
         $ChScalePediatricNutrition->risk = $request->risk; 
         $ChScalePediatricNutrition->classification = $request->classification; 
@@ -115,10 +132,18 @@ class ChScalePediatricNutritionController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScalePediatricNutrition = ChScalePediatricNutrition::find($id);  
-        $ChScalePediatricNutrition-> score_one = $request->score_one; 
-        $ChScalePediatricNutrition-> score_two = $request->score_two; 
-        $ChScalePediatricNutrition-> score_three = $request->score_three; 
-        $ChScalePediatricNutrition-> score_four = $request->score_four;  
+        $ChScalePediatricNutrition-> score_one_title = $request->score_one_title; 
+        $ChScalePediatricNutrition-> score_one_value = $request->score_one_value; 
+        $ChScalePediatricNutrition-> score_one_detail = $request->score_one_detail; 
+        $ChScalePediatricNutrition-> score_two_title = $request->score_two_title; 
+        $ChScalePediatricNutrition-> score_two_value = $request->score_two_value; 
+        $ChScalePediatricNutrition-> score_two_detail = $request->score_two_detail; 
+        $ChScalePediatricNutrition-> score_three_title = $request->score_three_title; 
+        $ChScalePediatricNutrition-> score_three_value = $request->score_three_value; 
+        $ChScalePediatricNutrition-> score_three_detail = $request->score_three_detail; 
+        $ChScalePediatricNutrition-> score_four_title = $request->score_four_title; 
+        $ChScalePediatricNutrition-> score_four_value = $request->score_four_value; 
+        $ChScalePediatricNutrition-> score_four_detail = $request->score_four_detail; 
         $ChScalePediatricNutrition-> total = $request->total; 
         $ChScalePediatricNutrition->risk = $request->risk; 
         $ChScalePediatricNutrition->classification = $request->classification; 
@@ -141,6 +166,7 @@ class ChScalePediatricNutritionController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+        
         try {
             $ChScalePediatricNutrition = ChScalePediatricNutrition::find($id);
             

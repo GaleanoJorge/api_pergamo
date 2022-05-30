@@ -17,6 +17,10 @@ class ChScaleNewsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScaleNews = ChScaleNews::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
+
         $ChScaleNews = ChScaleNews::select();
 
         if($request->_sort){
@@ -25,6 +29,12 @@ class ChScaleNewsController extends Controller
 
         if ($request->search) {
             $ChScaleNews->where('name','like','%' . $request->search. '%');
+        }
+        if ($request->ch_record_id) {
+            $ChScaleNews->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->latest  && isset($request->latest)) {
         }
         
         if($request->query("pagination", true)=="false"){
@@ -37,7 +47,7 @@ class ChScaleNewsController extends Controller
             $ChScaleNews=$ChScaleNews->paginate($per_page,'*','page',$page); 
         } 
 
-
+    }
         return response()->json([
             'status' => true,
             'message' => 'Escala News obtenida exitosamente',
@@ -69,14 +79,30 @@ class ChScaleNewsController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScaleNews = new ChScaleNews; 
-        $ChScaleNews->parameter_one= $request->parameter_one;
-        $ChScaleNews->parameter_two= $request->parameter_two;
-        $ChScaleNews->parameter_three= $request->parameter_three;
-        $ChScaleNews->parameter_four= $request->parameter_four;
-        $ChScaleNews->parameter_five= $request->parameter_five;
-        $ChScaleNews->parameter_six= $request->parameter_six;
-        $ChScaleNews->parameter_seven= $request->parameter_seven;
-        $ChScaleNews->parameter_eight= $request->parameter_eight;
+        $ChScaleNews->p_one_title= $request->p_one_title;
+        $ChScaleNews->p_one_value= $request->p_one_value;
+        $ChScaleNews->p_one_detail= $request->p_one_detail;
+        $ChScaleNews->p_two_title= $request->p_two_title;
+        $ChScaleNews->p_two_value= $request->p_two_value;
+        $ChScaleNews->p_two_detail= $request->p_two_detail;
+        $ChScaleNews->p_three_title= $request->p_three_title;
+        $ChScaleNews->p_three_value= $request->p_three_value;
+        $ChScaleNews->p_three_detail= $request->p_three_detail;
+        $ChScaleNews->p_four_title= $request->p_four_title;
+        $ChScaleNews->p_four_value= $request->p_four_value;
+        $ChScaleNews->p_four_detail= $request->p_four_detail;
+        $ChScaleNews->p_five_title= $request->p_five_title;
+        $ChScaleNews->p_five_value= $request->p_five_value;
+        $ChScaleNews->p_five_detail= $request->p_five_detail;
+        $ChScaleNews->p_six_title= $request->p_six_title;
+        $ChScaleNews->p_six_value= $request->p_six_value;
+        $ChScaleNews->p_six_detail= $request->p_six_detail;
+        $ChScaleNews->p_seven_title= $request->p_seven_title;
+        $ChScaleNews->p_seven_value= $request->p_seven_value;
+        $ChScaleNews->p_seven_detail= $request->p_seven_detail;
+        $ChScaleNews->p_eight_title= $request->p_eight_title;
+        $ChScaleNews->p_eight_value= $request->p_eight_value;
+        $ChScaleNews->p_eight_detail= $request->p_eight_detail;
         $ChScaleNews->qualification= $request->qualification;
         $ChScaleNews->risk= $request->risk;
         $ChScaleNews->response= $request->response;
@@ -119,14 +145,30 @@ class ChScaleNewsController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScaleNews = ChScaleNews::find($id);  
-        $ChScaleNews->parameter_one= $request->parameter_one;
-        $ChScaleNews->parameter_two= $request->parameter_two;
-        $ChScaleNews->parameter_three= $request->parameter_three;
-        $ChScaleNews->parameter_four= $request->parameter_four;
-        $ChScaleNews->parameter_five= $request->parameter_five;
-        $ChScaleNews->parameter_six= $request->parameter_six;
-        $ChScaleNews->parameter_seven= $request->parameter_seven;
-        $ChScaleNews->parameter_eight= $request->parameter_eight;
+        $ChScaleNews->p_one_title= $request->p_one_title;
+        $ChScaleNews->p_one_value= $request->p_one_value;
+        $ChScaleNews->p_one_detail= $request->p_one_detail;
+        $ChScaleNews->p_two_title= $request->p_two_title;
+        $ChScaleNews->p_two_value= $request->p_two_value;
+        $ChScaleNews->p_two_detail= $request->p_two_detail;
+        $ChScaleNews->p_three_title= $request->p_three_title;
+        $ChScaleNews->p_three_value= $request->p_three_value;
+        $ChScaleNews->p_three_detail= $request->p_three_detail;
+        $ChScaleNews->p_four_title= $request->p_four_title;
+        $ChScaleNews->p_four_value= $request->p_four_value;
+        $ChScaleNews->p_four_detail= $request->p_four_detail;
+        $ChScaleNews->p_five_title= $request->p_five_title;
+        $ChScaleNews->p_five_value= $request->p_five_value;
+        $ChScaleNews->p_five_detail= $request->p_five_detail;
+        $ChScaleNews->p_six_title= $request->p_six_title;
+        $ChScaleNews->p_six_value= $request->p_six_value;
+        $ChScaleNews->p_six_detail= $request->p_six_detail;
+        $ChScaleNews->p_seven_title= $request->p_seven_title;
+        $ChScaleNews->p_seven_value= $request->p_seven_value;
+        $ChScaleNews->p_seven_detail= $request->p_seven_detail;
+        $ChScaleNews->p_eight_title= $request->p_eight_title;
+        $ChScaleNews->p_eight_value= $request->p_eight_value;
+        $ChScaleNews->p_eight_detail= $request->p_eight_detail;
         $ChScaleNews->qualification= $request->qualification;
         $ChScaleNews->risk= $request->risk;
         $ChScaleNews->response= $request->response;

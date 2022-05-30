@@ -17,26 +17,34 @@ class ChScalePapController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChScalePap = ChScalePap::select();
-
-        if ($request->_sort) {
-            $ChScalePap->orderBy($request->_sort, $request->_order);
-        }
-
-        if ($request->search) {
-            $ChScalePap->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->query("pagination", true) == "false") {
-            $ChScalePap = $ChScalePap->get()->toArray();
+        if ($request->latest) {
+            $ChScalePap = ChScalePap::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
         } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $ChScalePap = ChScalePap::select();
 
-            $ChScalePap = $ChScalePap->paginate($per_page, '*', 'page', $page);
+            if ($request->_sort) {
+                $ChScalePap->orderBy($request->_sort, $request->_order);
+            }
+
+            if ($request->search) {
+                $ChScalePap->where('name', 'like', '%' . $request->search . '%');
+            }
+            if ($request->ch_record_id) {
+                $ChScalePap->where('ch_record_id', $request->ch_record_id);
+            }
+
+            if ($request->latest  && isset($request->latest)) {
+            }
+
+            if ($request->query("pagination", true) == "false") {
+                $ChScalePap = $ChScalePap->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $ChScalePap = $ChScalePap->paginate($per_page, '*', 'page', $page);
+            }
         }
-
-
         return response()->json([
             'status' => true,
             'message' => 'Escala PAP obtenida exitosamente',
@@ -68,12 +76,24 @@ class ChScalePapController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScalePap = new ChScalePap;
-        $ChScalePap->variable_one = $request->variable_one;
-        $ChScalePap->variable_two = $request->variable_two;
-        $ChScalePap->variable_three = $request->variable_three;
-        $ChScalePap->variable_four = $request->variable_four;
-        $ChScalePap->variable_five = $request->variable_five;
-        $ChScalePap->variable_six = $request->variable_six;
+        $ChScalePap->v_one_title = $request->v_one_title;
+        $ChScalePap->v_one_value = $request->v_one_value;
+        $ChScalePap->v_one_detail = $request->v_one_detail;
+        $ChScalePap->v_two_title = $request->v_two_title;
+        $ChScalePap->v_two_value = $request->v_two_value;
+        $ChScalePap->v_two_detail = $request->v_two_detail;
+        $ChScalePap->v_three_title = $request->v_three_title;
+        $ChScalePap->v_three_value = $request->v_three_value;
+        $ChScalePap->v_three_detail = $request->v_three_detail;
+        $ChScalePap->v_four_title = $request->v_four_title;
+        $ChScalePap->v_four_value = $request->v_four_value;
+        $ChScalePap->v_four_detail = $request->v_four_detail;
+        $ChScalePap->v_five_title = $request->v_five_title;
+        $ChScalePap->v_five_value = $request->v_five_value;
+        $ChScalePap->v_five_detail = $request->v_five_detail;
+        $ChScalePap->v_six_title = $request->v_six_title;
+        $ChScalePap->v_six_value = $request->v_six_value;
+        $ChScalePap->v_six_detail = $request->v_six_detail;
         $ChScalePap->total = $request->total;
         $ChScalePap->classification = $request->classification;
         $ChScalePap->type_record_id = $request->type_record_id;
@@ -115,12 +135,23 @@ class ChScalePapController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScalePap = ChScalePap::find($id);
-        $ChScalePap->variable_one = $request->variable_one;
-        $ChScalePap->variable_two = $request->variable_two;
-        $ChScalePap->variable_three = $request->variable_three;
-        $ChScalePap->variable_four = $request->variable_four;
-        $ChScalePap->variable_five = $request->variable_five;
-        $ChScalePap->variable_six = $request->variable_six;
+        $ChScalePap->v_one_title = $request->v_one_title;
+        $ChScalePap->v_one_value = $request->v_one_value;
+        $ChScalePap->v_one_detail = $request->v_one_detail;
+        $ChScalePap->v_two_title = $request->v_two_title;
+        $ChScalePap->v_two_value = $request->v_two_value;
+        $ChScalePap->v_two_detail = $request->v_two_detail;
+        $ChScalePap->v_three_title = $request->v_three_title;
+        $ChScalePap->v_three_value = $request->v_three_value;
+        $ChScalePap->v_three_detail = $request->v_three_detail;
+        $ChScalePap->v_four_title = $request->v_four_title;
+        $ChScalePap->v_four_value = $request->v_four_value;
+        $ChScalePap->v_four_detail = $request->v_four_detail;
+        $ChScalePap->v_five_title = $request->v_five_title;
+        $ChScalePap->v_five_value = $request->v_five_value;
+        $ChScalePap->v_five_detail = $request->v_five_detail;
+        $ChScalePap->v_six_title = $request->v_six_title;
+        $ChScalePap->v_six_value = $request->v_six_value;
         $ChScalePap->total = $request->total;
         $ChScalePap->classification = $request->classification;
         $ChScalePap->type_record_id = $request->type_record_id;

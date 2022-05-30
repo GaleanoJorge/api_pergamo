@@ -9,6 +9,7 @@ namespace App\Models\Base;
 use App\Models\AssignedManagementPlan;
 use App\Models\AuthStatus;
 use App\Models\ManagementPlan;
+use App\Models\ManualPrice;
 use App\Models\Procedure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -69,5 +70,9 @@ class Authorization extends Model
 	public function assigned_management_plan()
 	{
 		return $this->belongsTo(AssignedManagementPlan::class, 'assigned_management_plan_id', 'id');
+	}
+	public function manual_price()
+	{
+		return $this->belongsTo(ManualPrice::class, 'manual_price_id', 'id');
 	}
 }

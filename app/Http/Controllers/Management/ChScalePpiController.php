@@ -17,6 +17,10 @@ class ChScalePpiController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScalePpi = ChScalePpi::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
+
         $ChScalePpi = ChScalePpi::select();
 
         if($request->_sort){
@@ -26,7 +30,12 @@ class ChScalePpiController extends Controller
         if ($request->search) {
             $ChScalePpi->where('name','like','%' . $request->search. '%');
         }
-        
+        if ($request->ch_record_id) {
+                $ChScalePpi->where('ch_record_id', $request->ch_record_id);
+            }
+
+            if ($request->latest  && isset($request->latest)) {
+            }
         if($request->query("pagination", true)=="false"){
             $ChScalePpi=$ChScalePpi->get()->toArray();    
         }
@@ -36,7 +45,7 @@ class ChScalePpiController extends Controller
             
             $ChScalePpi=$ChScalePpi->paginate($per_page,'*','page',$page); 
         } 
-
+    }
 
         return response()->json([
             'status' => true,
@@ -69,11 +78,21 @@ class ChScalePpiController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChScalePpi = new ChScalePpi; 
-        $ChScalePpi->pps = $request->pps; 
-        $ChScalePpi->oral= $request->oral;
-        $ChScalePpi->edema= $request->edema;
-        $ChScalePpi->dyspnoea= $request->dyspnoea;
-        $ChScalePpi->delirium= $request->delirium;
+        $ChScalePpi->pps_title = $request->pps_title; 
+        $ChScalePpi->pps_value= $request->pps_value;
+        $ChScalePpi->pps_detail= $request->pps_detail;
+        $ChScalePpi->oral_title= $request->oral_title;
+        $ChScalePpi->oral_value= $request->oral_value;
+        $ChScalePpi->oral_detail = $request->oral_detail; 
+        $ChScalePpi->edema_title= $request->edema_title;
+        $ChScalePpi->edema_value= $request->edema_value;
+        $ChScalePpi->edema_detail= $request->edema_detail;
+        $ChScalePpi->dyspnoea_title= $request->dyspnoea_title;
+        $ChScalePpi->dyspnoea_value = $request->dyspnoea_value; 
+        $ChScalePpi->dyspnoea_detail= $request->dyspnoea_detail;
+        $ChScalePpi->delirium_title= $request->delirium_title;
+        $ChScalePpi->delirium_value= $request->delirium_value;
+        $ChScalePpi->delirium_detail= $request->delirium_detail;
         $ChScalePpi->total= $request->total;
         $ChScalePpi->classification= $request->classification;
         $ChScalePpi->type_record_id = $request->type_record_id; 
@@ -115,11 +134,21 @@ class ChScalePpiController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChScalePpi = ChScalePpi::find($id);  
-        $ChScalePpi->pps = $request->pps; 
-        $ChScalePpi->oral= $request->oral;
-        $ChScalePpi->edema= $request->edema;
-        $ChScalePpi->dyspnoea= $request->dyspnoea;
-        $ChScalePpi->delirium= $request->delirium;
+        $ChScalePpi->pps_title = $request->pps_title; 
+        $ChScalePpi->pps_value= $request->pps_value;
+        $ChScalePpi->pps_detail= $request->pps_detail;
+        $ChScalePpi->oral_title= $request->oral_title;
+        $ChScalePpi->oral_value= $request->oral_value;
+        $ChScalePpi->oral_detail = $request->oral_detail; 
+        $ChScalePpi->edema_title= $request->edema_title;
+        $ChScalePpi->edema_value= $request->edema_value;
+        $ChScalePpi->edema_detail= $request->edema_detail;
+        $ChScalePpi->dyspnoea_title= $request->dyspnoea_title;
+        $ChScalePpi->dyspnoea_value = $request->dyspnoea_value; 
+        $ChScalePpi->dyspnoea_detail= $request->dyspnoea_detail;
+        $ChScalePpi->delirium_title= $request->delirium_title;
+        $ChScalePpi->delirium_value= $request->delirium_value;
+        $ChScalePpi->delirium_detail= $request->delirium_detail;
         $ChScalePpi->total= $request->total;
         $ChScalePpi->classification= $request->classification;
         $ChScalePpi->type_record_id = $request->type_record_id; 

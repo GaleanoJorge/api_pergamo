@@ -58,6 +58,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
     Route::apiResource('ch_scale_jh_dowton', 'Management\ChScaleJhDowtonController');
 
+    Route::apiResource('ch_scale_screening', 'Management\ChScaleScreeningController');
+                        
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -1182,4 +1184,22 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Campo nuevo de dietas
     Route::apiResource('enterally_diet', 'Management\EnterallyDietController');
+    //prefactura PAD
+    Route::apiResource('billing_pad', 'Management\BillingPadController');
+    Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
+    Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
+    Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
+
+
+    //Tabla de salida de paciente.
+    Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
+    Route::apiResource('reason_exit', 'Management\ReasonExitController');
+    Route::get('ch_patient_exit/by_record/{id}/{type_record_id}', 'Management\ChPatientExitController@getByRecord');
+
+    //Tablas de Ordenes medicas
+    Route::apiResource('ch_medical_orders', 'Management\ChMedicalOrdersController');
+    Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
+    Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
+    Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
+
 });

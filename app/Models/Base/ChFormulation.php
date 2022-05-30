@@ -6,12 +6,14 @@
 
 namespace App\Models\Base;
 
-use App\Models\ProductGeneric;
 use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
-
+use App\Models\Product;
+use App\Models\ProductDose;
+use App\Models\ProductGeneric;
+use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -21,13 +23,16 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property unsignedBigInteger $product_generic_id
+ * @property unsignedBigInteger $services_briefcase_id
  * @property unsignedBigInteger $administration_route_id
  * @property unsignedBigInteger $hourly_frequency_id
  * @property string $medical_formula
- * @property Integer $treatment_days
+ * @property Integer $treatment_days 
  * @property string $outpatient_formulation
  * @property string $dose
  * @property string $observation
+ * @property Integer $number_mipres
+ * @property unsignedBigInteger $product_dose_id
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
  * @property Carbon $created_at
@@ -40,9 +45,13 @@ class ChFormulation extends Model
 {
 	protected $table = 'ch_formulation';
 
-	public function product_generic()
+	public function product_id()
 	{
-		return $this->belongsTo(ProductGeneric::class);
+		return $this->belongsTo(Product::class,'product_generic_id');
+	}
+	public function service_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
 	}
 	public function administration_route()
 	{
@@ -51,6 +60,10 @@ class ChFormulation extends Model
 	public function hourly_frequency()
 	{
 		return $this->belongsTo(HourlyFrequency::class);
+	}
+	public function product_dose()
+	{
+		return $this->belongsTo(ProductDose::class);
 	}
 	public function type_record()
 	{

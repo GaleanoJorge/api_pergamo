@@ -1211,7 +1211,7 @@
         "name": "Frecuencia Horaria",
         "code": "hourly-frequency",
         "route": "/pages/setting/hourly-frequency",
-        "icon": "shopping-cart-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1266,6 +1266,15 @@
         "code": "human-talent-request",
         "route": "/pages/human-talent-request/list",
         "icon": "people-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "189",
+        "item_parent_id": null,
+        "name": "Facturación PAD",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "pricetags-outline",
         "show_menu": "1"
     }
 ]

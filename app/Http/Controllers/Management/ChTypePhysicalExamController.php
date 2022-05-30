@@ -50,6 +50,7 @@ class ChTypePhysicalExamController extends Controller
     {
         $ChTypePhysicalExam = new ChTypePhysicalExam; 
         $ChTypePhysicalExam->name = $request->name; 
+        $ChTypePhysicalExam->description = $request->description; 
         $ChTypePhysicalExam->save();
 
         return response()->json([
@@ -87,6 +88,7 @@ class ChTypePhysicalExamController extends Controller
     {
         $ChTypePhysicalExam = ChTypePhysicalExam::find($id);  
         $ChTypePhysicalExam->name = $request->name; 
+        $ChTypePhysicalExam->description = $request->description;
           
         
         

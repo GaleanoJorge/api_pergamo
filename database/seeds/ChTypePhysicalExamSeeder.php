@@ -17,6 +17,7 @@ class ChTypePhysicalExamSeeder extends Seeder
         foreach (json_decode($data) as $row) {
             ChTypePhysicalExam::create([
                 'name' =>  $row->name,
+                'description' => $row->description,
             ]);
         }
     }

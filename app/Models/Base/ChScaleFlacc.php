@@ -16,11 +16,21 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property int $face
- * @property int $legs
- * @property int $activity
- * @property int $crying 	
- * @property int $comfort 	
+ * @property string $face_title
+ * @property int $face_value
+ * @property string $face_detail
+ * @property string $leg_titles 	
+ * @property int $legs_value 	
+ * @property string $legs_detail
+ * @property string $activity_title
+ * @property int $activity_value
+ * @property string $activity_detail 	
+ * @property string $crying_title 	
+ * @property int $crying_value
+ * @property string $crying_detail
+ * @property string $comfor_titlet
+ * @property int $comfort_value 	
+ * @property string $comfort_detail 	
  * @property int $total 	
  * @property string $classification 	
  * @property Carbon $created_at
