@@ -1199,10 +1199,10 @@
     {
         "id": "180",
         "item_parent_id": "66",
-        "name": "Histori Clinica",
+        "name": "Historia Clinica",
         "code": null,
         "route": null,
-        "icon": "shopping-cart-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
