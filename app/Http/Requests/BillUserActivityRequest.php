@@ -26,7 +26,6 @@ class BillUserActivityRequest extends FormRequest
         return [
             'num_activity' => 'required',
             'user_id' => 'required',
-            'full_value' => 'required',
             'account_receivable_id' => 'required',
             'observation' => 'required',
            

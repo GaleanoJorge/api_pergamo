@@ -246,7 +246,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff[0]['amount'];
+                $billActivity->tariff_id = $valuetariff[0]['id'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -255,7 +255,7 @@ class ChRecordController extends Controller
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->value = $valuetariff[0]['amount'];
+                $billActivity->tariff_id = $valuetariff[0]['id'];
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };
