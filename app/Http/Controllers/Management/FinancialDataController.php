@@ -55,13 +55,22 @@ class FinancialDataController extends Controller
 
     public function store(FinancialDataRequest $request): JsonResponse
     {
+        $ValidateFinancialData = FinancialData::where('account_number', $request->account_number)->first();
+
+        if ($ValidateFinancialData) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El número de cuenta ya existe',
+                'data' => ['financial_data' => $ValidateFinancialData]
+            ]);
+        }
+
         $FinancialData = new FinancialData;
         $FinancialData->user_id = $request->user_id;
         $FinancialData->bank_id = $request->bank_id;
         $FinancialData->rut = $request->rut;
         $FinancialData->account_type_id = $request->account_type_id;
         $FinancialData->account_number = $request->account_number;
-
 
         $FinancialData->save();
 
