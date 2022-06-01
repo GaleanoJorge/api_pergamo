@@ -86,7 +86,7 @@ class UserController extends Controller
             'users.*',
             DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            // ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
             ->where('user_role.role_id', $roleId)
             ->with(
@@ -96,17 +96,17 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
-                'admissions',
-                'admissions.location',
-                'admissions.contract',
-                'admissions.campus',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program',
-                'admissions.location.flat',
-                'admissions.location.pavilion',
-                'admissions.location.bed'
-            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+                // 'admissions',
+                // 'admissions.location',
+                // 'admissions.contract',
+                // 'admissions.campus',
+                // 'admissions.location.admission_route',
+                // 'admissions.location.scope_of_attention',
+                // 'admissions.location.program',
+                // 'admissions.location.flat',
+                // 'admissions.location.pavilion',
+                // 'admissions.location.bed'
+            )->orderBy('nombre_completo', 'DESC')->groupBy('id');
 
         if ($request->locality_id) {
             $users->where('', $request->locality_id);

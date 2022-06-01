@@ -243,7 +243,7 @@ class AccountReceivableController extends Controller
         }
         $net_value = $this->getNetValue($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
-        $bank = strtoupper($FinancialData['bank']['name']);
+        $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
         $account_number = $FinancialData['account_number'];
         $role = strtoupper($Role->name);
         $address = strtoupper($User->residence_address);

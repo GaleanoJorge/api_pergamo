@@ -1064,7 +1064,7 @@
     {
         "id": "167",
         "item_parent_id": "165",
-        "name": "Tarifas",
+        "name": "Tarifas contratistas",
         "code": "tariff",
         "route": "/pages/setting/tariff",
         "icon": "navigation-outline",
@@ -1339,10 +1339,7 @@
         "route": "/pages/setting/fixed-location-campus",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
-
-
+    },
     {
         "id": "199",
         "item_parent_id": "102",
@@ -1376,6 +1373,42 @@
         "name": "Prestamos",
         "code": "fixed-loan",
         "route": "/pages/setting/fixed-loan",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "204",
+        "item_parent_id": "67",
+        "name": "Variables Macroeconómicas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "205",
+        "item_parent_id": "204",
+        "name": "Salario mínimo",
+        "code": "minimum-salary",
+        "route": "/pages/setting/minimum-salary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "206",
+        "item_parent_id": "204",
+        "name": "UVT",
+        "code": "tax-value-unit",
+        "route": "/pages/setting/tax-value-unit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "207",
+        "item_parent_id": "204",
+        "name": "Rete ICA",
+        "code": "municipality-ica",
+        "route": "/pages/setting/municipality-ica",
         "icon": "",
         "show_menu": "1"
     }

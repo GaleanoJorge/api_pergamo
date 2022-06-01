@@ -41,7 +41,11 @@ class GlossConciliationsController extends Controller
         }
 
         if ($request->search) {
-            $GlossConciliations->where('name', 'like', '%' . $request->search . '%');
+            $GlossConciliations->where(function ($query) use ($request){
+                $query->where('gloss.invoice_prefix', 'like', '%' . $request->search . '%')
+                ->orWhere('gloss.invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('gloss.received_date', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
