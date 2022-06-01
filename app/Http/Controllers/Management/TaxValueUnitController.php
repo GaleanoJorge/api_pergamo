@@ -60,6 +60,24 @@ class TaxValueUnitController extends Controller
 
     public function store(TaxValueUnitRequest $request): JsonResponse
     {
+        $ChackTaxValueUnit = TaxValueUnit::where('year', $request->year)->first();
+
+        if ($ChackTaxValueUnit) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya existe una unidad de valor tributario para el año ' . $request->year,
+                'data' => ['minimum_salary' => $ChackTaxValueUnit]
+            ]);
+        }
+
+        if ($request->year < Carbon::now()->year) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El año de la unidad de valor tributario no puede ser menor al año actual',
+                'data' => ['minimum_salary' => $ChackTaxValueUnit]
+            ]);
+        }
+
         $TaxValueUnit = new TaxValueUnit;
         $TaxValueUnit->value = $request->value;
         $TaxValueUnit->year = $request->year;

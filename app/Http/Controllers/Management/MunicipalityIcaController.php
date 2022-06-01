@@ -24,14 +24,15 @@ class MunicipalityIcaController extends Controller
     public function index(Request $request): JsonResponse
     {
         $MunicipalityIca = MunicipalityIca::select()
-            ->with('municipality');
+            ->with('municipality')
+            ->leftJoin('municipality', 'municipality.id', 'municipality_ica.municipality_id');
 
         if ($request->_sort) {
             $MunicipalityIca->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $MunicipalityIca->where('name', 'like', '%' . $request->search . '%');
+            $MunicipalityIca->where('municipality.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->municipality_id) {
@@ -56,6 +57,16 @@ class MunicipalityIcaController extends Controller
 
     public function store(MunicipalityIcaRequest $request): JsonResponse
     {
+
+        $CheckMunicipalityIca = MunicipalityIca::where('municipality_id', $request->municipality_id)->first();
+        if ($CheckMunicipalityIca) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya existe una retención en la fuente para este municipio',
+                'data' => []
+            ]);
+        }
+
         $MunicipalityIca = new MunicipalityIca;
         $MunicipalityIca->value = $request->value;
         $MunicipalityIca->municipality_id = $request->municipality_id;
