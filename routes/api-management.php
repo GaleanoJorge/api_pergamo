@@ -1132,6 +1132,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('account_receivable', 'Management\AccountReceivableController');
     Route::get('account_receivable/byUser/{id}', 'Management\AccountReceivableController@getByUser');
     Route::post('account_receivable_file/{id}', 'Management\AccountReceivableController@saveFile');
+    Route::get('account_receivable/generate_file/{id}', 'Management\AccountReceivableController@generatePdf');
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
 
@@ -1139,7 +1140,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('user_activity', 'Management\UserActivityController');
     Route::apiResource('status_bill', 'Management\StatusBillController');
     Route::apiResource('financial_data', 'Management\FinancialDataController');
-    Route::apiResource('bank_information', 'Management\BankInformationController');
     Route::apiResource('retentions', 'Management\RetentionsController');
     Route::apiResource('account_type', 'Management\AccountTypeController');
     Route::apiResource('bank', 'Management\BankController');

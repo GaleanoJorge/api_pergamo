@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class FinancialDataController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -19,28 +19,30 @@ class FinancialDataController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $FinancialData = FinancialData::with('bank_information_id');
-        
+        $FinancialData = FinancialData::with('bank', 'account_type');
 
-        if($request->_sort){
+
+        if ($request->_sort) {
             $FinancialData->orderBy($request->_sort, $request->_order);
-        }            
-
-        if ($request->search) { 
-            $FinancialData->where('name','like','%' . $request->search. '%');
-
         }
 
-        
-        if($request->query("pagination", true)=="false"){
-            $FinancialData=$FinancialData->get()->toArray();    
+        if ($request->user_id) {
+            $FinancialData->where('user_id', $request->user_id);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $FinancialData=$FinancialData->paginate($per_page,'*','page',$page); 
-        } 
+
+        if ($request->search) {
+            $FinancialData->where('name', 'like', '%' . $request->search . '%');
+        }
+
+
+        if ($request->query("pagination", true) == "false") {
+            $FinancialData = $FinancialData->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $FinancialData = $FinancialData->paginate($per_page, '*', 'page', $page);
+        }
 
 
         return response()->json([
@@ -49,7 +51,7 @@ class FinancialDataController extends Controller
             'data' => ['financial_data' => $FinancialData]
         ]);
     }
-    
+
 
     public function store(FinancialDataRequest $request): JsonResponse
     {
@@ -59,8 +61,8 @@ class FinancialDataController extends Controller
         $FinancialData->rut = $request->rut;
         $FinancialData->account_type_id = $request->account_type_id;
         $FinancialData->account_number = $request->account_number;
-       
-        
+
+
         $FinancialData->save();
 
         return response()->json([

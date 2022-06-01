@@ -9,7 +9,8 @@ class FinancialData extends BaseFinancialData
 {
     protected $fillable = [
     'user_id',
-		'bank_information_id',
+		'bank_id',
+		'account_type_id',
     'rut',
     
          
