@@ -467,7 +467,7 @@ class ManagementPlanController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
-                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
+                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
             }
@@ -623,7 +623,7 @@ class ManagementPlanController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Plan de manejo actualizado exitosamente',
-                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
+                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         }

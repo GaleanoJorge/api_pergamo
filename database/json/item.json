@@ -1028,8 +1028,8 @@
     {
         "id": "163",
         "item_parent_id": "65",
-        "name": "Localidad",
-        "code": "localidad",
+        "name": "Comuna, Localidad o Vereda",
+        "code": "Comuna, Localidad o Vereda",
         "route": "/pages/setting/locality",
         "icon": "navigation-outline",
         "show_menu": "1"

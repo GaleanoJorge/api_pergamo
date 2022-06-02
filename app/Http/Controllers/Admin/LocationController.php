@@ -91,7 +91,7 @@ class LocationController extends Controller
         }
         return response()->json([
             'status' => true,
-            'message' => 'localidades por municipio obtenidos exitosamente',
+            'message' => 'Comunas, Localidades o Veredas por municipio obtenidos exitosamente',
             'data' => ['locality' => $locality]
         ]);
     }
@@ -109,7 +109,7 @@ class LocationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Barrios por Localidad obtenidos exitosamente',
+            'message' => 'Barrios por Comunas, Localidades o Veredas obtenidos exitosamente',
             'data' => ['neighborhood_or_residence' => $neighborhoodorresidence]
         ]);
     }
