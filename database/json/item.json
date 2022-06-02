@@ -1055,7 +1055,7 @@
     {
         "id": "166",
         "item_parent_id": "165",
-        "name": "Tarifa localización",
+        "name": "Zona",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
         "icon": "navigation-outline",
