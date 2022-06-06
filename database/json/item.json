@@ -1373,9 +1373,19 @@
     {
         "id": "202",
         "item_parent_id": "102",
-        "name": "Prestamos",
-        "code": "fixed-loan",
-        "route": "/pages/setting/fixed-loan",
+        "name": "Solicitar activos fijos",
+        "code": "fixed-request",
+        "route": "/pages/setting/fixed-request",
+        "icon": "",
+        "show_menu": "1"
+    }
+    ,
+    {
+        "id": "203",
+        "item_parent_id": "102",
+        "name": "Solicitudes de activos",
+        "code": "fixed-access-requests",
+        "route": "/pages/setting/fixed-access-requests",
         "icon": "",
         "show_menu": "1"
     }
