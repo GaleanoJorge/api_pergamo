@@ -661,6 +661,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     );
 
     Route::get(
+        'admissions/active/{id}',
+        'Management\AdmissionsController@getActive'
+    );
+
+    Route::get(
         'admissions/Briefcase/{briefcase_id}',
         'Management\AdmissionsController@getByBriefcase'
     );

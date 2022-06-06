@@ -1058,7 +1058,7 @@
         "name": "Zona",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
-        "icon": "navigation-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
