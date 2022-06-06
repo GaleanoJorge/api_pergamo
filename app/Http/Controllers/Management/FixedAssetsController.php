@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\FixedAssetsRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class FixedAssetsController extends Controller
 {
@@ -18,7 +19,11 @@ class FixedAssetsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAssets = FixedAssets::with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_property');
+        $FixedAssets = FixedAssets::select('fixed_assets.*')
+            ->with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_property', 'campus')
+            ->LeftJoin('fixed_add', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
+            ->whereNull('fixed_add.id')
+            ->groupBy('fixed_assets.id');
 
         if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);
@@ -53,7 +58,8 @@ class FixedAssetsController extends Controller
         $FixedAssets->obs_property = $request->obs_property;
         $FixedAssets->plaque = $request->plaque;
         $FixedAssets->company_id = $request->company_id;
-        $FixedAssets->name = $request->name;
+        $FixedAssets->campus_id = $request->campus_id;
+        $FixedAssets->status = $request->status;
         $FixedAssets->amount = $request->amount;
         $FixedAssets->model = $request->model;
         $FixedAssets->mark = $request->mark;
@@ -104,7 +110,8 @@ class FixedAssetsController extends Controller
         $FixedAssets->fixed_property_id = $request->fixed_property_id;
         $FixedAssets->obs_property = $request->obs_property;
         $FixedAssets->plaque = $request->plaque;
-        $FixedAssets->name = $request->name;
+        $FixedAssets->campus_id = $request->campus_id;
+        $FixedAssets->status = $request->status;
         $FixedAssets->amount = $request->amount;
         $FixedAssets->company_id = $request->company_id;
         $FixedAssets->model = $request->model;

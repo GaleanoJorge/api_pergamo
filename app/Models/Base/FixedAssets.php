@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\Campus;
 use App\Models\Company;
 use App\Models\FixedClasification;
 use App\Models\FixedCondition;
@@ -24,10 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $fixed_type_role_id
  * @property BigInteger $fixed_property_id
  * @property BigInteger $company_id
+ * @property BigInteger $campus_id
  * @property string $obs_property
  * @property string $plaque
+ * @property string $status
  * @property integer $amount
- * @property string $name
  * @property string $model
  * @property string $mark
  * @property string $serial
@@ -68,5 +70,9 @@ class FixedAssets extends Model
 	public function company()
 	{
 		return $this->belongsTo(Company::class);
+	}
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class);
 	}
 }
