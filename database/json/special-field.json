@@ -1,0 +1,554 @@
+ [
+        {
+            "name": "ACUPUNTURA"
+        },
+        {
+            "name": "ANESTESIOLOGIA"
+        },
+        {
+            "name": "ANESTESIOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "ALERGOLOGIA"
+        },
+        {
+            "name": "AYUDA PSICOSOMATICA"
+        },
+        {
+            "name": "CARDIOLOGIA"
+        },
+        {
+            "name": "CARDIOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA BARIATRICA"
+        },
+        {
+            "name": "CIRUGIA CABEZA Y CUELLO"
+        },
+        {
+            "name": "CIRUGIA CARDIOVASCULAR"
+        },
+        {
+            "name": "CIRUGIA CARDIOVASCULAR PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA DE COLUMNA"
+        },
+        {
+            "name": "CIRUGIA DE CUELLO"
+        },
+        {
+            "name": "CIRUGIA DE LA MANO"
+        },
+        {
+            "name": "CIRUGIA DE PIE"
+        },
+        {
+            "name": "CIRUGIA DE SENO"
+        },
+        {
+            "name": "CIRUGIA DE TORAX"
+        },
+        {
+            "name": "CIRUGIA GENERAL"
+        },
+        {
+            "name": "CIRUGIA MAXILOFACIAL"
+        },
+        {
+            "name": "CIRUGIA MAXILOFACIAL PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA ONCOLOGICA"
+        },
+        {
+            "name": "CIRUGIA ORAL"
+        },
+        {
+            "name": "CIRUGIA PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA PLASTICA ONCOLOGICA"
+        },
+        {
+            "name": "CIRUGIA PLASTICA PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA PLASTICA Y RECONSTRUCTIVA"
+        },
+        {
+            "name": "CIRUGIA VASCULAR"
+        },
+        {
+            "name": "CIRUGIA VASCULAR Y ANGIOLOGIA"
+        },
+        {
+            "name": "CUIDADO PALIATIVO"
+        },
+        {
+            "name": "DERMATOLOGIA"
+        },
+        {
+            "name": "DERMATOLOGIA ONCOLOGICA"
+        },
+        {
+            "name": "DERMATOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "DIABETOLOGIA"
+        },
+        {
+            "name": "DOLOR"
+        },
+        {
+            "name": "ELECTROFISIOLOGIA Y/O ARRITMIA CARDIACA"
+        },
+        {
+            "name": "ENFERMERIA"
+        },
+        {
+            "name": "ENDOCRINOLOGIA"
+        },
+        {
+            "name": "ENDOCRINOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "ENDODONCIA"
+        },
+        {
+            "name": "EPIDEMIOLOGIA"
+        },
+        {
+            "name": "EQUIPO INTERDISCIPLINARIO"
+        },
+        {
+            "name": "ESTOMATOLOGIA"
+        },
+        {
+            "name": "FARMACIAS"
+        },
+        {
+            "name": "FISIATRIA"
+        },
+        {
+            "name": "FISIATRIA PEDIATRICA"
+        },
+        {
+            "name": "FONIATRIA"
+        },
+        {
+            "name": "GASTROENTEROLOGIA"
+        },
+        {
+            "name": "GASTROENTEROLOGIA PEDIATRICA"
+        },
+        {
+            "name": "GENETICA MEDICA"
+        },
+        {
+            "name": "GERIATRIA"
+        },
+        {
+            "name": "GINECOLOGIA DE ADOLESCENTES"
+        },
+        {
+            "name": "GINECOLOGIA ENDOCRINOLOGICA"
+        },
+        {
+            "name": "GINECOBSTETRICIA"
+        },
+        {
+            "name": "GINECOBSTETRICIA ALTO RIESGO"
+        },
+        {
+            "name": "HEMATOLOGIA"
+        },
+        {
+            "name": "HEMATOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "HEMODINAMIA"
+        },
+        {
+            "name": "HEPATOLOGIA"
+        },
+        {
+            "name": "HOMEOPATIA"
+        },
+        {
+            "name": "HOMEOPATIA PEDIATRICA"
+        },
+        {
+            "name": "IMAGENOLOGIA"
+        },
+        {
+            "name": "IMAGENOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "IMPLANTOLOGIA ORAL Y RECONSTRUCTIVA"
+        },
+        {
+            "name": "INFECTOLOGIA"
+        },
+        {
+            "name": "INTENSIVISTA"
+        },
+        {
+            "name": "LABORATORIO DE PATOLOGIA"
+        },
+        {
+            "name": "MEDICINA AEROESPACIAL"
+        },
+        {
+            "name": "MEDICINA DE ADOLESCENTES"
+        },
+        {
+            "name": "RADIOLOGIA ORAL Y MAXILOFACIAL"
+        },
+        {
+            "name": "MEDICINA FISICA Y REHABILITACION"
+        },
+        {
+            "name": "MEDICINA GENERAL"
+        },
+        {
+            "name": "MEDICINA INTERNA"
+        },
+        {
+            "name": "MEDICINA NUCLEAR"
+        },
+        {
+            "name": "NEFROLOGIA PEDIATRICA"
+        },
+        {
+            "name": "NEONATOLOGIA"
+        },
+        {
+            "name": "NEUMOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "NEUROCIRUGIA PEDIATRICA"
+        },
+        {
+            "name": "NEUROLOGIA OFTALMOLOGICA"
+        },
+        {
+            "name": "NEUROLOGIA PEDIATRICA"
+        },
+        {
+            "name": "NEURO-PSIQUIATRIA"
+        },
+        {
+            "name": "NEURO-SICOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "NUTRIOLOGIA"
+        },
+        {
+            "name": "ODONTOLOGIA"
+        },
+        {
+            "name": "ODONTOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "OFTALMOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "ONCOLOGIA"
+        },
+        {
+            "name": "ONCOLOGIA OFTALMOLOGICA"
+        },
+        {
+            "name": "OPERATORIA DENTAL"
+        },
+        {
+            "name": "OPTOMETRIA"
+        },
+        {
+            "name": "ORTOPEDIA ONCOLOGICA"
+        },
+        {
+            "name": "ORTOPEDIA Y TRAUMATOLOGIA"
+        },
+        {
+            "name": "OSTEOPATIA"
+        },
+        {
+            "name": "OTOLOGIA"
+        },
+        {
+            "name": "OTORRINOLARINGOLOGIA"
+        },
+        {
+            "name": "PATOLOGIA ORAL"
+        },
+        {
+            "name": "PEDIATRIA GENERAL"
+        },
+        {
+            "name": "PROCTOLOGIA"
+        },
+        {
+            "name": "PSICOLOGIA"
+        },
+        {
+            "name": "PSICOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "PSIQUIATRIA PEDIATRICA"
+        },
+        {
+            "name": "RADIOLOGIA"
+        },
+        {
+            "name": "RADIOTERAPIA"
+        },
+        {
+            "name": "REUMATOLOGIA"
+        },
+        {
+            "name": "SALUD OCUPACIONAL"
+        },
+        {
+            "name": "SUMINISTROS"
+        },
+        {
+            "name": "TERAPIA FISICA (FISIOTERAPIA)"
+        },
+        {
+            "name": "TERAPIA OCUPACIONAL"
+        },
+        {
+            "name": "TOXICOLOGIA CLINICA"
+        },
+        {
+            "name": "TRABAJO SOCIAL"
+        },
+        {
+            "name": "UROLOGIA PEDIATRICA"
+        },
+        {
+            "name": "COLOPROCTOLOGIA"
+        },
+        {
+            "name": "OTORRINOLARINGOLOGIA ONCOLOGICA"
+        },
+        {
+            "name": "NUTRICION Y DIETETICA PEDIATRICA"
+        },
+        {
+            "name": "NUTRIOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "OBSTETRICIA"
+        },
+        {
+            "name": "ALERGOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "CIRUGIA GENERAL (TERCER NIVEL)"
+        },
+        {
+            "name": "GINECOLOGIA (TERCER NIVEL)"
+        },
+        {
+            "name": "ORTOPEDIA DE HOMBRO"
+        },
+        {
+            "name": "ORTOPEDIA REEMPLAZO RODILLA"
+        },
+        {
+            "name": "ORTOPEDIA REEMPLAZO CADERA"
+        },
+        {
+            "name": "PEDIATRIA (TERCER NIVEL)"
+        },
+        {
+            "name": "UROLOGIA (TERCER NIVEL)"
+        },
+        {
+            "name": "CLINICA DE DOLOR"
+        },
+        {
+            "name": "INFECTOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "INMUNOLOGIA"
+        },
+        {
+            "name": "OTONEUROLOGIA"
+        },
+        {
+            "name": "CIRUGIA VIA BILIAR"
+        },
+        {
+            "name": "INMUNOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "LABORATORIO CLINICO"
+        },
+        {
+            "name": "MEDICINA ALTERNATIVA"
+        },
+        {
+            "name": "MEDICINA DEL DEPORTE"
+        },
+        {
+            "name": "MEDICINA FAMILIAR"
+        },
+        {
+            "name": "MEDICINA DEL TRABAJO"
+        },
+        {
+            "name": "NEFROLOGIA"
+        },
+        {
+            "name": "NEUMOLOGIA"
+        },
+        {
+            "name": "NEUROCIRUGIA"
+        },
+        {
+            "name": "NEUROLOGIA"
+        },
+        {
+            "name": "NEUROLOGIA ONCOLOGICA"
+        },
+        {
+            "name": "NEURO-SICOLOGIA"
+        },
+        {
+            "name": "NUTRICION Y DIETETICA"
+        },
+        {
+            "name": "ODONTOLOGIA COSMETICA"
+        },
+        {
+            "name": "OFTALMOLOGIA"
+        },
+        {
+            "name": "ONCOLOGIA GINECOLOGICA"
+        },
+        {
+            "name": "ONCOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "ORTODONCIA Y ORTOPEDIA MAXILAR"
+        },
+        {
+            "name": "ORTOPEDIA Y TRAUMATOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "OTORRINOLARINGOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "PERIODONCIA"
+        },
+        {
+            "name": "PROMOCION Y PREVENCION"
+        },
+        {
+            "name": "PSIQUIATRIA"
+        },
+        {
+            "name": "RADIOCIRUGIA"
+        },
+        {
+            "name": "REHABILITACION ORAL"
+        },
+        {
+            "name": "REUMATOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "TERAPIA DEL LENGUAJE Y FONIATRIA"
+        },
+        {
+            "name": "TERAPIA RESPIRATORIA"
+        },
+        {
+            "name": "UROLOGIA"
+        },
+        {
+            "name": "ADMINISTRACION DE SERVICIOS DE SALUD"
+        },
+        {
+            "name": "HOMEOPATIA DERMATOLOGICA"
+        },
+        {
+            "name": "GINECOLOGIA"
+        },
+        {
+            "name": "CARDIOLOGIA (TERCER NIVEL)"
+        },
+        {
+            "name": "ORTOPEDIA DE RODILLA"
+        },
+        {
+            "name": "ORTOPEDIA DE CADERA"
+        },
+        {
+            "name": "OTORRINOLARINGOLOGIA (TERCER NIVEL)"
+        },
+        {
+            "name": "CIRUGIA PEDIATRICA DE COLUMNA"
+        },
+        {
+            "name": "ONCOHEMATOLOGIA"
+        },
+        {
+            "name": "ONCOHEMATOLOGIA PEDIATRICA"
+        },
+        {
+            "name": "UROLOGIA ONCOLOGICA"
+        },
+        {
+            "name": "FERTILIDAD"
+        },
+        {
+            "name": "CIRUGIA GASTROINTESTINAL"
+        },
+        {
+            "name": "TRASPLANTE"
+        },
+        {
+            "name": "MASTOLOGIA"
+        },
+        {
+            "name": "MEDICINA FORENSE"
+        },
+        {
+            "name": "PSICOLOGIA CLINICA"
+        },
+        {
+            "name": "OFTALMOLOGIA - CORNEA"
+        },
+        {
+            "name": "OFTALMOLOGIA - ESTRABOLOGIA"
+        },
+        {
+            "name": "OFTALMOLOGIA - GLAUCOMA"
+        },
+        {
+            "name": "OFTALMOLOGIA - OCULOPLASTIA"
+        },
+        {
+            "name": "OFTALMOLOGIA - RETINOLOGIA"
+        },
+        {
+            "name": "SEXOLOGIA CLINICA"
+        },
+        {
+            "name": "LARINGOLOGIA"
+        },
+        {
+            "name": "ANESTESIOLOGIA CARDIOVASCULAR"
+        },
+        {
+            "name": "URGENCIOLOGIA"
+        },
+        {
+            "name": "OTRA"
+        }
+    ]

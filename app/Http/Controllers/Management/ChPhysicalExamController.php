@@ -40,7 +40,30 @@ class ChPhysicalExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico obtenidos exitosamente',
+            'message' => 'Examen físico obtenidos exitosamente',
+            'data' => ['ch_physical_exam' => $ChPhysicalExam]
+        ]);
+    }
+
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {
+        
+       
+        $ChPhysicalExam = ChPhysicalExam::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('type_ch_physical_exam')
+            ->get()->toArray();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Examen físico obtenido exitosamente',
             'data' => ['ch_physical_exam' => $ChPhysicalExam]
         ]);
     }
@@ -48,9 +71,10 @@ class ChPhysicalExamController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $validate=ChPhysicalExam::where('ch_record_id', $request->ch_record_id)->where('type_ch_physical_exam_id',$request->type_ch_physical_exam_id)->first();
+        if(!$validate){
         $ChPhysicalExam = new ChPhysicalExam; 
-        $ChPhysicalExam->revision = $request->revision; 
-        $ChPhysicalExam->observation = $request->observation; 
+        $ChPhysicalExam->revision = $request->revision;  
         $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id; 
         $ChPhysicalExam->type_record_id = $request->type_record_id; 
         $ChPhysicalExam->ch_record_id = $request->ch_record_id; 
@@ -58,9 +82,15 @@ class ChPhysicalExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico asociado al paciente exitosamente',
+            'message' => 'Examen físico asociado al paciente exitosamente',
             'data' => ['ch_physical_exam' => $ChPhysicalExam->toArray()]
         ]);
+    }else{
+        return response()->json([
+            'status' => false,
+            'message' => 'Ya tiene observación'
+        ], 423);
+    }
     }
 
     /**
@@ -76,7 +106,7 @@ class ChPhysicalExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico obtenido exitosamente',
+            'message' => 'Examen físico obtenido exitosamente',
             'data' => ['ch_physical_exam' => $ChPhysicalExam]
         ]);
     }
@@ -91,7 +121,6 @@ class ChPhysicalExamController extends Controller
     {
         $ChPhysicalExam = ChPhysicalExam::find($id);  
         $ChPhysicalExam->revision = $request->revision; 
-        $ChPhysicalExam->observation = $request->observation; 
         $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id; 
         $ChPhysicalExam->type_record_id = $request->type_record_id; 
         $ChPhysicalExam->ch_record_id = $request->ch_record_id; 
@@ -99,7 +128,7 @@ class ChPhysicalExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico actualizado exitosamente',
+            'message' => 'Examen físico actualizado exitosamente',
             'data' => ['ch_physical_exam' => $ChPhysicalExam]
         ]);
     }
@@ -118,12 +147,12 @@ class ChPhysicalExamController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Clase de diagnostico eliminado exitosamente'
+                'message' => 'Examen físico eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Clase de diagnostico en uso, no es posible eliminarlo'
+                'message' => 'Examen físico en uso, no es posible eliminarlo'
             ], 423);
         }
     }

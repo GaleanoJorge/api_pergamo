@@ -113,6 +113,7 @@ class BriefcaseController extends Controller
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;
+        $Briefcase->type_auth = $request->type_auth;
         $Briefcase->save();
 
         $id = Briefcase::latest('id')->first();
@@ -168,6 +169,7 @@ class BriefcaseController extends Controller
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;
+        $Briefcase->type_auth = $request->type_auth;
         $Briefcase->save();
 
         foreach($request->campus_id as $item ){

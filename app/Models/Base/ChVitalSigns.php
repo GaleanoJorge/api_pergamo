@@ -12,6 +12,9 @@ use App\Models\ChVitalHydration;
 use App\Models\ChVitalNeurological;
 use App\Models\ChVitalTemperature;
 use App\Models\ChVitalVentilated;
+use App\Models\OxygenType;
+use App\Models\LitersPerMinute;
+use App\Models\ParametersSigns;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,10 +48,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $pupil_size_right
  * @property string $left_reaction
  * @property string $pupil_size_left
+ * @property string $mydriatic
+ * @property string $normal
+ * @property string $lazy_reaction_light
+ * @property string $fixed_lazy_reaction
+ * @property string $miotic_size
+ * @property string $observations_glucometry
  * @property BigInteger $ch_vital_hydration_id
  * @property BigInteger $ch_vital_ventilated_id
  * @property BigInteger $ch_vital_temperature_id
  * @property BigInteger $ch_vital_neurological_id
+ * @property BigInteger $oxygen_type_id
+ * @property BigInteger $liters_per_minute_id
+ * @property BigInteger $parameters_signs_id
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -60,21 +72,33 @@ class ChVitalSigns extends Model
 {
 	protected $table = 'ch_vital_signs';
 
-	public function vital_hydration()
+	public function ch_vital_hydration()
 	{
 		return $this->belongsTo(ChVitalHydration::class);
 	}
-	public function vital_ventilated()
+	public function ch_vital_ventilated()
 	{
 		return $this->belongsTo(ChVitalVentilated::class);
 	}
-	public function vital_temperature()
+	public function ch_vital_temperature()
 	{
 		return $this->belongsTo(ChVitalTemperature::class);
 	}
-	public function vital_neurological()
+	public function ch_vital_neurological()
 	{
 		return $this->belongsTo(ChVitalNeurological::class);
+	}
+	public function oxygen_type()
+	{
+		return $this->belongsTo(OxygenType::class);
+	}
+	public function liters_per_minute()
+	{
+		return $this->belongsTo(LitersPerMinute::class);
+	}
+	public function parameters_signs()
+	{
+		return $this->belongsTo(ParametersSigns::class);
 	}
 	public function type_record()
 	{
@@ -84,4 +108,5 @@ class ChVitalSigns extends Model
 	{
 		return $this->belongsTo(ChRecord::class);
 	}
+	
 }

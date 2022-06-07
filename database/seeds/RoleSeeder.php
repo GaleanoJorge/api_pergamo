@@ -18,6 +18,7 @@ class RoleSeeder extends Seeder
             Role::create([
                 'id' => $row->id,
                 'status_id' => $row->status_id,
+                'role_type_id' => $row->role_type_id,
                 'name' => $row->name,
                 'sga_origin_fk' => $row->sga_origin_fk
             ]);

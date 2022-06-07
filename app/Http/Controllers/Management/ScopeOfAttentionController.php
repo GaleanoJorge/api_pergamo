@@ -27,6 +27,10 @@ class ScopeOfAttentionController extends Controller
         if ($request->search) {
             $ScopeOfAttention->where('name','like','%' . $request->search. '%');
         }
+
+        if ($request->admission_route_id) {
+            $ScopeOfAttention->where('admission_route_id', $request->admission_route_id);
+        }
         
         if($request->query("pagination", true)=="false"){
             $ScopeOfAttention=$ScopeOfAttention->get()->toArray();    

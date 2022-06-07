@@ -25,14 +25,12 @@ class ProductGenericRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required',
             'drug_concentration_id' => 'required',
             'measurement_units_id' => 'required',
             'product_presentation_id' => 'required',
             'description' => 'required',
             'pbs_type_id'=> 'required',
-            'product_subcategory_id'=> 'required',
-            'consumption_unit_id'=> 'required',
+            'nom_product_id'=> 'required',
             'administration_route_id',
             'special_controller_medicine',
             'code_atc',
@@ -40,6 +38,7 @@ class ProductGenericRequest extends FormRequest
             'reuse',
             'invasive',
             'consignment',
+            'product_dose_id',
         ];
     }
 }

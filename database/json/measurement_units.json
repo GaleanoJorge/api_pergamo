@@ -1,14 +1,66 @@
 [
     {
         "name": "UNIDADES",
-        "code": "und"
+        "code": "UND"
     },
     {
-        "name": "GRAMOS",
-        "code": "g"
+        "name": "GRAMO",
+        "code": "gr"
     },
     {
-        "name": "MILILITROS",
+        "name": "MILIGRAMO",
+        "code": "mg"
+    },
+    {
+        "name": "MILIGRAMO/MILILITRO",
+        "code": "mg/ml"
+    },
+    {
+        "name": "UNIDADES INTERNACIONALES",
+        "code": "u.i."
+    },
+    {
+        "name": "PORCENTAJE",
+        "code": "%"
+    },
+    {
+        "name": "MILILITRO",
         "code": "ml"
+    },
+    {
+        "name": "MICROGRAMO",
+        "code": "mcg"
+    },
+    {
+        "name": "UNIDADES INTERNACIONALES/MILILITRO",
+        "code": "u.i./ml"
+    },
+    {
+        "name": "MILIEQUIVALENTES/MILILITRO",
+        "code": "meq/ml"
+    },
+    {
+        "name": "MICROGRAMO/MILILITRO",
+        "code": "mcg/ml"
+    },
+    {
+        "name": "MILIGRAMO/HORA",
+        "code": "mg/h"
+    },
+    {
+        "name": "GRAMO/MILILITRO",
+        "code": "gr/ml"
+    },
+    {
+        "name": "MILIGRAMO/MEDIDAS INTERNACIONALES",
+        "code": "mg/u.i."
+    },
+    {
+        "name": "MILIGRAMO/MILIGRAMO/MEDIDAS INTERNACIONALES",
+        "code": "mg+mg+u.i."
+    },
+    {
+        "name": "MILIGRAMO/GRAMO",
+        "code": "mg/gr"
     }
 ]

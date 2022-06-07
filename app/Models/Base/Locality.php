@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\Municipality;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,5 +27,8 @@ class Locality extends Model
 {
 	protected $table = 'locality';
 
-	
+	public function municipality()
+	{
+		return $this->belongsTo(Municipality::class);
+	}
 }

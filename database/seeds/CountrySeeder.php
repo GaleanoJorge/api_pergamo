@@ -18,7 +18,8 @@ class CountrySeeder extends Seeder
             //print_r($row);
             Country::create([
                 'name' => $row->name,
-                'sga_origin_fk' => $row->sga_origin_fk
+                'sga_origin_fk' => $row->sga_origin_fk,
+                'code' => $row->code,
             ]);
         }
     }

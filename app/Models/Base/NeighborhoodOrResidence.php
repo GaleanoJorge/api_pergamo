@@ -7,6 +7,8 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\PadRisk;
+use App\Models\Locality;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
- * @property BigInteger $municipality_id
+ * @property BigInteger $locality_id
+ * @property BigInteger $pad_risk_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -26,5 +29,12 @@ class NeighborhoodOrResidence extends Model
 {
 	protected $table = 'neighborhood_or_residence';
 
-	
+	public function locality()
+	{
+		return $this->belongsTo(Locality::class);
+	}
+	public function pad_risk()
+	{
+		return $this->belongsTo(PadRisk::class);
+	}
 }

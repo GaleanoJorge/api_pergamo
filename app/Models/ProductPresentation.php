@@ -8,9 +8,6 @@ use App\Models\Base\ProductPresentation as BaseProductPresentation;
 class ProductPresentation extends BaseProductPresentation
 {
 protected $fillable = [
-
 	'name',
-	
-       
 	];
 }

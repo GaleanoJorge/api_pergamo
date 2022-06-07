@@ -16,7 +16,7 @@ class CreateUserCampusTable extends Migration
         Schema::create('user_campus', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedtinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->index('user_id');
             $table->index('campus_id');
             $table->timestamps();

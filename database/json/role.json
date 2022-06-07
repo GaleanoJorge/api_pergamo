@@ -3,47 +3,55 @@
         "id": 1,
         "name": "ADMINISTRADOR",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 4
     },
     {
         "id": 2,
         "name": "PACIENTE",
         "status_id": 1,
+        "role_type_id": null,
         "sga_origin_fk": 3
     },
     {
         "id": 3,
         "name": "MEDICO GENERAL",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 4,
         "name": "COORDINACIÓN DE GLOSAS",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 5,
         "name": "ANALISTA DE GLOSAS",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 6,
         "name": "CARTERA",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 7,
         "name": "MEDICO ESPECIALISTA",
+        "role_type_id": 2,
         "status_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 8,
         "name": "ENFERMERO (A)",
+        "role_type_id": 2,
         "status_id": 1,
         "sga_origin_fk": 5
     },
@@ -51,42 +59,56 @@
         "id": 9,
         "name": "AUXILIAR DE ENFERMERÍA",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 10,
         "name": "NUTRICIÓN",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 11,
         "name": "PSICOLOGO (A)",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 12,
         "name": "TRABAJO SOCIAL",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 13,
         "name": "CUIDADOR",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 14,
         "name": "APOYO TERAPEUTICO",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 15,
         "name": "GESTOR PAD COMPLEMENTARIO",
         "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 16,
+        "name": "DEPORTÓLOGO",
+        "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     }
 ]

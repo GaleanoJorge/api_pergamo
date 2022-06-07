@@ -1,0 +1,34 @@
+[
+    {
+        "name": "CABEZA CUELLO (ORL)",
+        "description": "Normocéfalo, conjuntivas normocrómicas, escleras anictéricas, pupilas isocóricas normorreactivas a la luz, mucosa oral húmeda, orofaringe sin eritema, cuello móvil, no doloroso a la movilización, no masas ni adenopatías, sin ingurgitación yugular."
+    },
+    {
+        "name": "TÓRAX",
+        "description":"Simétrico, normoexpansible, ruidos cardíacos rítmicos, sin soplos, ruidos respiratorios claros, sin sobreagregados pulmonares, no se evidencian tirajes sub o intercostales."
+    },
+    {
+        "name": "ABDOMEN",
+        "description":"Peristalsis presente, blando, sin timpanismo ni distensión, no doloroso a la palpación, no se palpan masas ni visceromegalias, sin signos de irritación peritoneal."
+    },
+    {
+        "name": "GENITOURINARIO",
+        "description":"Genitales externos normoconfigurados"
+    },
+    {
+        "name": "EXTREMIDADES",
+        "description":"Simétricas, no edema, llenado capilar menor a 2 segundos, pulsos distales presentes"
+    },
+    {
+        "name": "NEUROLÓGICO",
+        "description":"Alerta, orientado en las 3 esferas, fuerza muscular 4/5 en las 4 extremidades, sensibilidad conservada, pares craneales conservados, marcha sin alteraciones, sin signos de irritación meníngea."
+    },
+    {
+        "name": "PIEL Y FANERAS",   
+        "description":"Piel íntegra, sin zonas por presión, no se evidencian lesiones ulceradas"
+    },
+    {
+        "name": "OTROS",
+        "description":""
+    }
+]

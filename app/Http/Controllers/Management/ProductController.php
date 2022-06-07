@@ -11,32 +11,32 @@ use Illuminate\Database\QueryException;
 
 class ProductController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Products = Product::select();
+        $Products = Product::with('product_generic');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Products->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Products->where('name','like','%' . $request->search. '%')
-            ->orWhere('code', 'like', '%' . $request->search . '%');
+            $Products->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('code', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Products=$Products->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Products=$Products->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $Products = $Products->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Products = $Products->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -44,12 +44,11 @@ class ProductController extends Controller
             'data' => ['product' => $Products]
         ]);
     }
-    
+
 
     public function store(ProductRequest $request): JsonResponse
     {
         $Product = new Product;
-        $Product->code = $request->code;
         $Product->name = $request->name;
         $Product->factory_id = $request->factory_id;
         $Product->product_generic_id = $request->product_generic_id;
@@ -57,7 +56,6 @@ class ProductController extends Controller
         $Product->invima_status_id = $request->invima_status_id;
         $Product->sanitary_registration_id = $request->sanitary_registration_id;
         $Product->storage_conditions_id = $request->storage_conditions_id;
-        $Product->risk_id = $request->risk_id;
         $Product->code_cum_file = $request->code_cum_file;
         $Product->code_cum_consecutive = $request->code_cum_consecutive;
         $Product->regulated_drug = $request->regulated_drug;
@@ -66,10 +64,13 @@ class ProductController extends Controller
         $Product->indications = $request->indications;
         $Product->contraindications = $request->contraindications;
         $Product->applications = $request->applications;
-        $Product->minimum_stock = $request->minimum_stock;
-        $Product->maximum_stock = $request->maximum_stock;
-        $Product->generate_iva = $request->generate_iva;
-        
+        $Product->value_circular = $request->value_circular;
+        $Product->circular = $request->circular;
+        $Product->date_cum = $request->date_cum;
+        $Product->unit_packing = $request->unit_packing;
+        $Product->packing_id = $request->packing_id;
+        $Product->refrigeration = $request->refrigeration;
+        $Product->useful_life = $request->useful_life;
         $Product->save();
 
         return response()->json([
@@ -107,7 +108,6 @@ class ProductController extends Controller
     public function update(ProductRequest $request, int $id): JsonResponse
     {
         $Product = Product::find($id);
-        $Product->code = $request->code;
         $Product->name = $request->name;
         $Product->factory_id = $request->factory_id;
         $Product->product_generic_id = $request->product_generic_id;
@@ -115,7 +115,6 @@ class ProductController extends Controller
         $Product->invima_status_id = $request->invima_status_id;
         $Product->sanitary_registration_id = $request->sanitary_registration_id;
         $Product->storage_conditions_id = $request->storage_conditions_id;
-        $Product->risk_id = $request->risk_id;
         $Product->code_cum_file = $request->code_cum_file;
         $Product->code_cum_consecutive = $request->code_cum_consecutive;
         $Product->regulated_drug = $request->regulated_drug;
@@ -124,10 +123,13 @@ class ProductController extends Controller
         $Product->indications = $request->indications;
         $Product->contraindications = $request->contraindications;
         $Product->applications = $request->applications;
-        $Product->minimum_stock = $request->minimum_stock;
-        $Product->maximum_stock = $request->maximum_stock;
-        $Product->generate_iva = $request->generate_iva;
-        
+        $Product->value_circular = $request->value_circular;
+        $Product->circular = $request->circular;
+        $Product->date_cum = $request->date_cum;
+        $Product->unit_packing = $request->unit_packing;
+        $Product->packing_id = $request->packing_id;
+        $Product->refrigeration = $request->refrigeration;
+        $Product->useful_life = $request->useful_life;
         $Product->save();
 
         return response()->json([

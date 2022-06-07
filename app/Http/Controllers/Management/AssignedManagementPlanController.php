@@ -17,7 +17,8 @@ class AssignedManagementPlanController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $assigned_management_plan = AssignedManagementPlan::select('*');
+        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with('user', 'management_plan');
 
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
@@ -44,15 +45,26 @@ class AssignedManagementPlanController extends Controller
     }
 
 
-        /**
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function indexPacientByManagement(Request $request, int $managementId): JsonResponse
+    public function indexPacientByManagement(Request $request, int $managementId, int $userId): JsonResponse
     {
-        $assigned_management_plan = AssignedManagementPlan::select('*')->where('management_plan_id',$managementId);
+        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with('user', 'management_plan');
+        if ($userId == 0) {
+            $assigned_management_plan->where('management_plan_id', $managementId);
+        } else {
+            if($request->patient){
+                $assigned_management_plan->leftJoin('management_plan','management_plan.id','assigned_management_plan.management_plan_id')->where('user_id', $userId)
+                ->where('management_plan.admissions_id',$request->patient);
+            }else{
+            $assigned_management_plan->where('user_id', $userId);
+            }
+        }
 
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
@@ -97,7 +109,7 @@ class AssignedManagementPlanController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Plan creada exitosamente',
+            'message' => 'Plan creado exitosamente',
             'data' => ['assigned_management_plan' => $AssignedManagementPlan->toArray()]
         ]);
     }
@@ -131,11 +143,18 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
+        if($request->type_of_attention_id==17){
         $AssignedManagementPlan->start_date = $request->start_date;
-        $AssignedManagementPlan->finish_date = $request->finish_date;
+        $AssignedManagementPlan->finish_date = $request->start_date;
         $AssignedManagementPlan->user_id = $request->user_id;
-        $AssignedManagementPlan->execution_date = $request->execution_date;
-        $AssignedManagementPlan->management_plan_id = $request->management_plan_id;
+        $AssignedManagementPlan->start_hour = $request->start_hour;
+        $AssignedManagementPlan->finish_hour = $request->finish_hour;
+        }else{
+            $AssignedManagementPlan->start_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->finish_date;
+            $AssignedManagementPlan->user_id = $request->user_id;
+        }
+
         $AssignedManagementPlan->save();
 
         return response()->json([

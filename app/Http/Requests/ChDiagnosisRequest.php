@@ -27,7 +27,6 @@ class ChDiagnosisRequest extends FormRequest
             'ch_diagnosis_type_id' => '',
             'ch_diagnosis_class_id' => '',
             'diagnosis_id' => '',
-            'diagnosis_observation' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

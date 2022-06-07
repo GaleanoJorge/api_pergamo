@@ -23,7 +23,7 @@ class CreateCompanyTable extends Migration
             $table->unsignedBigInteger('company_type_id');
             $table->string('administrator');
             $table->unsignedBigInteger('country_id');
-            $table->unsignedsmallInteger('city_id');
+            $table->unsignedBigInteger('city_id');
             $table->string('address');
             $table->string('phone');
             $table->string('web');

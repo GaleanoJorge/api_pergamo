@@ -1,97 +1,97 @@
 [
     {   
         "id": "1",
-        "name": "Usaquén",
+        "name": "USAQUÉN",
         "municipality_id": "11001"
     },
     {
         "id": "2",
-        "name": "Chapinero",
+        "name": "CHAPINERO",
         "municipality_id": "11001"
     },
     {
         "id": "3",
-        "name": "Santa Fe",
+        "name": "SANTA FE",
         "municipality_id": "11001"
     },
     {
         "id": "4",
-        "name": "San Cristóbal",
+        "name": "SAN CRISTÓBAL",
         "municipality_id": "11001"
     },
     {
         "id": "5",
-        "name": "Usme",
+        "name": "USME",
         "municipality_id": "11001"
     },
     {
         "id": "6",
-        "name": "Tunjuelito",
+        "name": "TUNJUELITO",
         "municipality_id": "11001"
     },
     {
         "id": "7",
-        "name": "Bosa",
+        "name": "BOSA",
         "municipality_id": "11001"
     },
     {
         "id": "8",
-        "name": "Kennedy",
+        "name": "KENNEDY",
         "municipality_id": "11001"
     },
     {
         "id": "9",
-        "name": "Fontibón",
+        "name": "FONTIBÓN",
         "municipality_id": "11001"
     },
     {
         "id": "10",
-        "name": "Engativá",
+        "name": "ENGATIVÁ",
         "municipality_id": "11001"
     },
     {
         "id": "11",
-        "name": "Suba",
+        "name": "SUBA",
         "municipality_id": "11001"
     },
     {
         "id": "12",
-        "name": "Barrios unidos",
+        "name": "BARRIOS UNIDOS",
         "municipality_id": "11001"
     },
     {
         "id": "13",
-        "name": "Teusaquillo",
+        "name": "TEUSAQUILLO",
         "municipality_id": "11001"
     },
     {
         "id": "14",
-        "name": "Mártires",
+        "name": "MÁRTIRES",
         "municipality_id": "11001"
     },
     {
         "id": "15",
-        "name": "Antonio Nariño",
+        "name": "ANTONIO NARIÑO",
         "municipality_id": "11001"
     },
     {
         "id": "16",
-        "name": "Puente Aranda",
+        "name": "PUENTE ARANDA",
         "municipality_id": "11001"
     },
     {
         "id": "17",
-        "name": "La Candelaria",
+        "name": "LA CANDELARIA",
         "municipality_id": "11001"
     },
     {
         "id": "18",
-        "name": "Rafael Uribe",
+        "name": "RAFAEL URIBE",
         "municipality_id": "11001"
     },
     {
         "id": "19",
-        "name": "Ciudad Bolivar",
+        "name": "CIUDAD BOLÍVAR",
         "municipality_id": "11001"
     }
 ]

@@ -15,7 +15,7 @@ use App\Models\Assistance;
  * Class AssistanceSpecial
  * 
  * @property int $id
- * @property BigInteger $special_field_id
+ * @property BigInteger $specialty_id
  * @property BigInteger $assistance_id
  * @property Carbon $created_at
  * @property Carbon $updated_at

@@ -1,26 +1,26 @@
 [
     {
-        "name": "Indígena",
+        "name": "INDÍGENA",
         "code":  1
     },
     {
-        "name": "ROM (gitano)",
+        "name": "ROM (GITANO)",
         "code":  2
     },
     {
-        "name": "Raizal del archipiélago de San Andrés y Providencia",
+        "name": "RAIZAL DEL ARCHIPIÉLAGO DE SAN ANDRÉS Y PROVIDENCIA",
         "code":  3
     },
     {
-        "name": "Palenquero de San Basilio ", 
+        "name": "PALENQUERO DE SAN BASILIO ", 
         "code": 4
     },
     {
-        "name": "Negro(a), mulato(a), afro colombiano(a) o afro descendiente",
+        "name": "NEGRO(A), MULATO(A), AFRO COLOMBIANO(A) O AFRO DESCENDIENTE",
         "code":  5
     },
     {
-        "name": "Ninguna de las anteriores",
+        "name": "NINGUNA DE LAS ANTERIORES",
         "code":  6
     }
 ]

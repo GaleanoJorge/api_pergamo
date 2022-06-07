@@ -57,13 +57,13 @@ class LoginController extends Controller
             ], 401);
         }
 
-        if ($user->email_verified_at == NULL) {
+        // if ($user->email_verified_at == NULL) {
 
-            return response()->json([
-                'error' => 'Usuario no verificado',
-                'msg' => 'Debe verificar su correo',
-            ], 401);
-        }
+        //     return response()->json([
+        //         'error' => 'Usuario no verificado',
+        //         'msg' => 'Debe verificar su correo',
+        //     ], 401);
+        // }
 
         $rolesCount = $user->roles->count();
 

@@ -15,14 +15,14 @@ class CreateAssistanceSpecialTable extends Migration
     {
         Schema::create('assistance_special', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('special_field_id');
+            $table->unsignedBigInteger('specialty_id');
             $table->unsignedBigInteger('assistance_id');
             
             $table->timestamps();
 
-            $table->index('special_field_id');
-            $table->foreign('special_field_id')->references('id')
-                ->on('special_field');
+            $table->index('specialty_id');
+            $table->foreign('specialty_id')->references('id')
+                ->on('specialty');
             $table->index('assistance_id');
             $table->foreign('assistance_id')->references('id')
                 ->on('assistance');

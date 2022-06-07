@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AssistanceSpecial;
+use App\Models\User;
 
 /**
  * Class Assistance
@@ -18,9 +19,7 @@ use App\Models\AssistanceSpecial;
  * @property BigInteger $user_id
  * @property string $medical_record
  * @property BigInteger $contract_type_id
- * @property BigInteger $cost_center_id
  * @property BigInteger $PAD_service
- * @property BigInteger $PAD_patient_quantity
  * @property string $attends_external_consultation
  * @property string $serve_multiple_patients
  * @property string $file_firm
@@ -38,6 +37,10 @@ class Assistance extends Model
 	public function special_field()
 	{
 		return $this->hasMany(AssistanceSpecial::class);
+	}
+	public function user()
+	{
+		return $this->belongsTo(User::class);
 	}
 	
 }

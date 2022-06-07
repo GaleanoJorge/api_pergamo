@@ -27,9 +27,10 @@ class ManagementPlanRequest extends FormRequest
             'type_of_attention_id' => 'required',
             'frequency_id' => 'required',
             'quantity' => 'required',
-            'special_field_id',
+            'specialty_id',
             'admissions_id' => 'required',
-            'assigned_user_id' => 'required',    
+            'assigned_user_id' => '',
+            'procedure_id' => 'required',
         ];
     }
 }

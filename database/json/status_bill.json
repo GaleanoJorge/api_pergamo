@@ -1,0 +1,14 @@
+[
+    {
+        "name": "CREADA"
+    },
+    {
+        "name": "APROBADA"
+    },
+    {
+        "name": "PAGADA"
+    },
+    {
+        "name": "ANULADA"
+    }
+]

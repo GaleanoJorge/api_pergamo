@@ -18,42 +18,52 @@ class AssistanceController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Assistance = Assistance::select();
+        $Assistance = Assistance::with('user', 'special_field')
+            ->leftJoin('users', 'users.id', '=', 'assistance.user_id')
+            ->leftJoin('user_role', 'user_role.user_id', '=', 'assistance.user_id')
+            ->leftJoin('role', 'role.id', '=', 'user_role.role_id')
+            ->select('assistance.*', 'role.name as role_name');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Assistance->orderBy($request->_sort, $request->_order);
-        }            
+        }
+
+        if ($request->status_id) {
+            $Assistance->where('users.status_id', $request->status_id);
+        }
+
+        if ($request->id) {
+            $Assistance->where('assistance.id', $request->id);
+        }
 
         if ($request->search) {
-            $Assistance->where('name','like','%' . $request->search. '%');
+            $Assistance->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Assistance=$Assistance->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Assistance = $Assistance->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Assistance = $Assistance->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Assistance=$Assistance->paginate($per_page,'*','page',$page); 
-        } 
         return response()->json([
             'status' => true,
             'message' => 'Personal Asistencial obtenido exitosamente',
             'data' => ['assistance' => $Assistance]
         ]);
-    }    
-    
+    }
+
 
     public function store(AssistanceRequest $request): JsonResponse
     {
-        $Assistance =new Assistance;
+        $Assistance = new Assistance;
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
-        $Assistance->contract_type_id= $request->contract_type_id;
-        $Assistance->cost_center_id = $request->cost_center_id;
+        $Assistance->contract_type_id = $request->contract_type_id;
+        // $Assistance->cost_center_id = $request->cost_center_id;
         $Assistance->PAD_service = $request->PAD_service;
-        $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->medium_signature_file_id = $request->medium_signature_file_id;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;
@@ -96,10 +106,9 @@ class AssistanceController extends Controller
         $Assistance = Assistance::find($id);
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
-        $Assistance->contract_type_id= $request->contract_type_id;
-        $Assistance->cost_center_id = $request->cost_center_id;
+        $Assistance->contract_type_id = $request->contract_type_id;
+        // $Assistance->cost_center_id = $request->cost_center_id;
         $Assistance->PAD_service = $request->PAD_service;
-        $Assistance->PAD_patient_quantity = $request->PAD_patient_quantity;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;
         $Assistance->special_field = $request->special_field;

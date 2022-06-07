@@ -1,0 +1,20 @@
+[
+    {
+        "code": "CT",
+        "name": "EVENTO"
+    },
+    {
+        "code": "AF",
+        "name": "PLAN DE ATENCION COMPLEMENTARIA"
+    },
+    {
+        "code": "US",
+        "name": "PLAN DE BENEFICIOS DE SALUD"
+    },
+    {
+        "code": "AC",
+        "name": "SEGUROS"
+    }
+   
+  
+]

@@ -24,8 +24,8 @@ class LocationController extends Controller
         }
 
         if ($request->search) {
-            $Location->where('Location.code','like','%' . $request->search. '%')
-                    ->orWhere('Location.code_technical_concept', 'like', '%' . $request->search . '%');
+            $Location->where('Location.code', 'like', '%' . $request->search . '%')
+                ->orWhere('Location.code_technical_concept', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) === "false") {
@@ -61,12 +61,12 @@ class LocationController extends Controller
         $Location->pavilion_id = $request->pavilion_id;
         $Location->flat_id = $request->flat_id;
         $Location->bed_id = $request->bed_id;
-        $Location->user_id = $request->user_id;
+        $Location->user_id = Auth::user()->id;
         $Location->entry_date = Carbon::now();
 
-        
+
         $Location->save();
-        
+
 
         return response()->json([
             'status' => true,
@@ -92,7 +92,7 @@ class LocationController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Update the specified resource in storage.
      *
      * @param integer $id
@@ -100,13 +100,15 @@ class LocationController extends Controller
      */
     public function changeService(Request $request, int $id): JsonResponse
     {
-        $Location = Location::where('admissions_id',$id)->orderBy('created_at', 'desc')->first();
+        $Location = Location::where('admissions_id', $id)->orderBy('created_at', 'desc')->first();
         $Location->discharge_date = Carbon::now();
         $Location->save();
 
-        $Bed= Bed::find($Location->bed_id);
-        $Bed->status_bed_id=1;
-        $Bed->save();
+        if ($Location->bed_id) {
+            $Bed = Bed::find($Location->bed_id);
+            $Bed->status_bed_id = 1;
+            $Bed->save();
+        }
 
         $Location2 = new Location;
         $Location2->admissions_id = $request->admissions_id;
@@ -120,9 +122,12 @@ class LocationController extends Controller
         $Location2->entry_date = Carbon::now();
         $Location2->save();
 
-        $Bed= Bed::find($request->bed_id);
-        $Bed->status_bed_id=2;
-        $Bed->save();
+        if ($request->bed_id) {
+
+            $Bed = Bed::find($request->bed_id);
+            $Bed->status_bed_id = 2;
+            $Bed->save();
+        }
 
         return response()->json([
             'status' => true,

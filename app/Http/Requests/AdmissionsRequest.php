@@ -29,7 +29,7 @@ class AdmissionsRequest extends FormRequest
             'scope_of_attention_id' => 'required',
             'program_id' => 'required',
             'contract_id' => 'required',
-            'user_id' => 'required',
+            'patient_id' => 'required',
             
             
             

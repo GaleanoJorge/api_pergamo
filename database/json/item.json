@@ -470,7 +470,7 @@
     {
         "id": "97",
         "item_parent_id": "91",
-        "name": "Presentación del producto",
+        "name": "Forma farmaceutica",
         "code": "product-presentation",
         "route": "/pages/setting/product-presentation",
         "icon": "",
@@ -509,24 +509,6 @@
         "name": "Activos Fijos",
         "code": "",
         "route": "",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "103",
-        "item_parent_id": "102",
-        "name": "Tipo de activo fijo",
-        "code": "type-assets",
-        "route": "/pages/setting/type-assets",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "104",
-        "item_parent_id": "102",
-        "name": "Activos fijos",
-        "code": "fixed-assets",
-        "route": "/pages/setting/fixed-assets",
         "icon": "",
         "show_menu": "1"
     },
@@ -1042,6 +1024,392 @@
         "route": "/pages/gloss/conciliations",
         "icon": "log-in-outline",
         "show_menu": "1"
+    },
+    {
+        "id": "163",
+        "item_parent_id": "65",
+        "name": "Comuna, Localidad o Vereda",
+        "code": "Comuna, Localidad o Vereda",
+        "route": "/pages/setting/locality",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "164",
+        "item_parent_id": "65",
+        "name": "Barrio",
+        "code": "barrio",
+        "route": "/pages/setting/neighborhood",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "165",
+        "item_parent_id": "67",
+        "name": "Configuración Tarifas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "166",
+        "item_parent_id": "165",
+        "name": "Zona",
+        "code": "risk-neighborhood",
+        "route": "/pages/setting/pad-risk",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "167",
+        "item_parent_id": "165",
+        "name": "Tarifas contratistas",
+        "code": "tariff",
+        "route": "/pages/setting/tariff",
+        "icon": "navigation-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "168",
+        "item_parent_id": "141",
+        "name": "Capacidad instalada",
+        "code": "type-professional",
+        "route": "/pages/setting/location-capacity",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "171",
+        "item_parent_id": "66",
+        "name": "Autorizaciones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "172",
+        "item_parent_id": "171",
+        "name": "Estados de autorización",
+        "code": "auth-status",
+        "route": "/pages/setting/auth-status",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "173",
+        "item_parent_id": null,
+        "name": "Autorizaciones",
+        "code": "authorization",
+        "route": "/pages/authorization/list",
+        "icon": "clipboard-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "175",
+        "item_parent_id": null,
+        "name": "Cuentas de cobro",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/list",
+        "icon": "layers-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "169",
+        "item_parent_id": "66",
+        "name": "Farmacia",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "170",
+        "item_parent_id": "169",
+        "name": "Orden de compra",
+        "code": "billing",
+        "route": "/pages/setting/billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "174",
+        "item_parent_id": "169",
+        "name": "Ing farmacia lote",
+        "code": "pharmacy-lot",
+        "route": "/pages/setting/pharmacy-lot",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "176",
+        "item_parent_id": "169",
+        "name": "Crear farmacias",
+        "code": "pharmacy-stock",
+        "route": "/pages/setting/pharmacy-stock",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "177",
+        "item_parent_id": "169",
+        "name": "Solicitar medicamentos",
+        "code": "pharmacy-product-request",
+        "route": "/pages/setting/pharmacy-product-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "178",
+        "item_parent_id": "169",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/setting/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "179",
+        "item_parent_id": "169",
+        "name": "Solicitudes de medicamentos",
+        "code": "pharmacy-request",
+        "route": "/pages/setting/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "180",
+        "item_parent_id": "66",
+        "name": "Historia Clinica",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "181",
+        "item_parent_id": "180",
+        "name": "Frecuencia Horaria",
+        "code": "hourly-frequency",
+        "route": "/pages/setting/hourly-frequency",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "182",
+        "item_parent_id": "169",
+        "name": "Actualizar Max-Min stock",
+        "code": "pharmacy-update-max-min",
+        "route": "/pages/setting/pharmacy-update-max-min",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "183",
+        "item_parent_id": "67",
+        "name": "Cargue masivo FRT",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "184",
+        "item_parent_id": "183",
+        "name": "Facturación",
+        "code": "billing",
+        "route": "/pages/setting/tc-billing",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "185",
+        "item_parent_id": "183",
+        "name": "Radicación",
+        "code": "radication",
+        "route": "/pages/setting/tc-radication",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "186",
+        "item_parent_id": "183",
+        "name": "Nómina",
+        "code": "billing",
+        "route": "/pages/setting/tc-human-talent",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "187",
+        "item_parent_id": null,
+        "name": "Solicitud de personal Talento Humano",
+        "code": "human-talent-request",
+        "route": "/pages/human-talent-request/list",
+        "icon": "people-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "188",
+        "item_parent_id": "91",
+        "name": "Nombre del producto",
+        "code": "nom-product",
+        "route": "/pages/setting/nom-product",
+        "icon": "people-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "189",
+        "item_parent_id": null,
+        "name": "Facturación",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "pricetags-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "191",
+        "item_parent_id": "102",
+        "name": "Permisos Act fijos",
+        "code": "fixed-permission",
+        "route": "/pages/setting/fixed-permission",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "192",
+        "item_parent_id": "102",
+        "name": "Tipo de Activo",
+        "code": "fixed-type",
+        "route": "/pages/setting/fixed-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "193",
+        "item_parent_id": "102",
+        "name": "Cod. Clasificación",
+        "code": "fixed-code",
+        "route": "/pages/setting/fixed-code",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "194",
+        "item_parent_id": "102",
+        "name": "Clasificación",
+        "code": "fixed-clasification",
+        "route": "/pages/setting/fixed-clasification",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "195",
+        "item_parent_id": "102",
+        "name": "Condición del Activo",
+        "code": "fixed-condition",
+        "route": "/pages/setting/fixed-condition",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "196",
+        "item_parent_id": "102",
+        "name": "Tipos de propiedad",
+        "code": "fixed-property",
+        "route": "/pages/setting/fixed-property",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "197",
+        "item_parent_id": "102",
+        "name": "Area/Servicio",
+        "code": "fixed-area-campus",
+        "route": "/pages/setting/fixed-area-campus",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "198",
+        "item_parent_id": "102",
+        "name": "Ubicacion",
+        "code": "fixed-location-campus",
+        "route": "/pages/setting/fixed-location-campus",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "199",
+        "item_parent_id": "102",
+        "name": "Accesorios",
+        "code": "fixed-accessories",
+        "route": "/pages/setting/fixed-accessories",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "200",
+        "item_parent_id": "102",
+        "name": "Crear Activos",
+        "code": "fixed-assets",
+        "route": "/pages/setting/fixed-assets",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "201",
+        "item_parent_id": "102",
+        "name": "Inventario general",
+        "code": "fixed-inventary",
+        "route": "/pages/setting/fixed-inventary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "202",
+        "item_parent_id": "102",
+        "name": "Prestamos",
+        "code": "fixed-loan",
+        "route": "/pages/setting/fixed-loan",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "204",
+        "item_parent_id": "67",
+        "name": "Variables Macroeconómicas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "205",
+        "item_parent_id": "204",
+        "name": "Salario mínimo",
+        "code": "minimum-salary",
+        "route": "/pages/setting/minimum-salary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "206",
+        "item_parent_id": "204",
+        "name": "UVT",
+        "code": "tax-value-unit",
+        "route": "/pages/setting/tax-value-unit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "207",
+        "item_parent_id": "204",
+        "name": "Rete ICA",
+        "code": "municipality-ica",
+        "route": "/pages/setting/municipality-ica",
+        "icon": "",
+        "show_menu": "1"
     }
-
 ]

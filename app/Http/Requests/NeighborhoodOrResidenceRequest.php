@@ -25,8 +25,9 @@ class NeighborhoodOrResidenceRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'municipality_id' => 'required', 
-            
+            'locality_id' => 'required',
+            'pad_risk_id' => 'required',
+
         ];
     }
 }

@@ -1,0 +1,27 @@
+[
+    {
+        "code": "CT",
+        "name": "CONTRIBUTIVO"
+    },
+    {
+        "code": "AF",
+        "name": "SUBSIDIADO"
+    },
+    {
+        "code": "US",
+        "name": "EVENTO PAC"
+    },
+    {
+        "code": "AC",
+        "name": "SEGUROS"
+    },
+    {
+        "code": "AP",
+        "name": "CONTRIBUTIVO - SUBSIDIADO"
+    },
+    {
+        "code": "AU",
+        "name": "EVENTO MEDICINA PREPAGADA"
+    }
+  
+]

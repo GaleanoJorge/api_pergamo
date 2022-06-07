@@ -1,0 +1,94 @@
+[
+    {
+        "role_id": "3",
+        "type_of_attention_id": "1"
+    },
+    {
+        "role_id": "7",
+        "type_of_attention_id": "2"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "3"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "14"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "15"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "16"
+    },
+    {
+        "role_id": "9",
+        "type_of_attention_id": "14"
+    },
+    {
+        "role_id": "9",
+        "type_of_attention_id": "15"
+    },
+    {
+        "role_id": "9",
+        "type_of_attention_id": "16"
+    },
+    {
+        "role_id": "10",
+        "type_of_attention_id": "4"
+    },
+    {
+        "role_id": "11",
+        "type_of_attention_id": "5"
+    },
+    {
+        "role_id": "12",
+        "type_of_attention_id": "6"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "7"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "8"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "9"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "10"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "11"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "17"
+    },
+    {
+        "role_id": "9",
+        "type_of_attention_id": "17"
+    },
+    {
+        "role_id": "13",
+        "type_of_attention_id": "13"
+    },
+    {
+        "role_id": "16",
+        "type_of_attention_id": "18"
+    },
+    {
+        "role_id": "14",
+        "type_of_attention_id": "19"
+    },
+    {
+        "role_id": "8",
+        "type_of_attention_id": "12"
+    }
+]
