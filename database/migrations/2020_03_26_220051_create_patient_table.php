@@ -20,6 +20,7 @@ class CreatePatientTable extends Migration
             $table->unsignedTinyInteger('gender_id')->nullable();
             $table->string('gender_type')->nullable();
             $table->boolean('is_disability');
+            $table->boolean('is_street_dweller')->nullable();
             $table->string('disability')->nullable();
             $table->unsignedTinyInteger('ethnicity_id')->nullable();
             $table->unsignedTinyInteger('academic_level_id')->nullable();

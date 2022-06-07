@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Http\Helpers\Notifications\Notifications;
 use App\Models\User;
+use App\Models\UserCampus;
 use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
@@ -50,6 +51,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\Base\Campus;
 use App\Models\BaseLocationCapacity;
 use App\Models\CostCenter;
 use App\Models\Specialty;
@@ -813,6 +815,20 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
+
+                if($request->campus_id){
+                    $arraycampus = json_decode($request->campus_id);
+              
+                    foreach ($arraycampus as $item) {                
+                        $userCampus = new UserCampus;
+                        $userCampus->user_id = $user->id;
+                        $userCampus->campus_id = $item->campus_id;
+                        $userCampus->save();
+                
+                    }
+                }
+
+
                 if($request->isTH){
                     $HumanTalentRequest= HumanTalentRequest::find($request->isTH);
                     $HumanTalentRequest->status='Aprobado';
@@ -844,8 +860,7 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-
-
+                 
                     $id = Assistance::latest('id')->first();
                     $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
@@ -1134,6 +1149,21 @@ class UserController extends Controller
         $user->is_disability = $request->is_disability;
         $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         $user->age = $request->age;
+
+        if($request->campus_id){
+            $deleteusers=UserCampus::where('user_id', $id);
+            $deleteusers->delete();
+            $arraycampus = json_decode($request->campus_id);
+      
+            foreach ($arraycampus as $item) {
+        
+                $userCampus = new UserCampus;
+                $userCampus->user_id = $id;
+                $userCampus->campus_id = $item->campus_id;
+                $userCampus->save();
+        
+            }
+        }
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
             $user->file = $path;
@@ -1316,6 +1346,7 @@ class UserController extends Controller
             ->leftJoin('region', 'region.id', 'municipality.region_id')
             ->where('users.id', $id)->with(
                 'status',
+                'users_campus',
                 'gender',
                 'academic_level',
                 'identification_type',
