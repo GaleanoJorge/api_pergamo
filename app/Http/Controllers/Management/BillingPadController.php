@@ -87,23 +87,29 @@ class BillingPadController extends Controller
     public function getEnabledAdmissions(Request $request, int $id): JsonResponse
     {
         $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
-            ->select(
-                'admissions.*',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
-            )
-            ->with(
-                'patients',
-                'briefcase',
-                'campus',
-                'contract',
-                'contract.company',
-                'location',
-                'location.admission_route',
-                'location.scope_of_attention',
-                'location.program',
-            )
-            ->where('discharge_date', '0000-00-00 00:00:00')
-            ->orderBy('created_at', 'desc');
+        ->select(
+            'admissions.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+        ->with(
+            'patients',
+            'briefcase',
+            'campus',
+            'contract',
+            'contract.company',
+            'location',
+            'location.admission_route',
+            'location.scope_of_attention',
+            'location.program',
+        )
+        ->where('admissions.discharge_date', '0000-00-00 00:00:00')
+        ->leftJoin('contract', 'contract.id', 'admissions.contract_id');
+    if ($request->pgp == "true") {
+        $EnabledAdmissions->where('contract.type_contract_id', '=', 5);
+    } else {
+        $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
+    }
+    $EnabledAdmissions->orderBy('admissions.created_at', 'desc');
 
         if ($request->_sort) {
             $EnabledAdmissions->orderBy($request->_sort, $request->_order);

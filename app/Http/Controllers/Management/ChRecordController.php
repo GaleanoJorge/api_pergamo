@@ -11,10 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\AssignedManagementPlan;
 use App\Models\Assistance;
-use App\Models\Locality;
 use App\Models\LocationCapacity;
 use App\Models\AccountReceivable;
 use App\Models\Admissions;
+use App\Models\AuthBillingPad;
+use App\Models\Authorization;
+use App\Models\Base\ServicesBriefcase;
+use App\Models\BillingPad;
 use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ManagementPlan;
@@ -289,6 +292,20 @@ class ChRecordController extends Controller
                 $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
                 $LocationCapacity->save();
             }
+
+            $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
+            $BillingPad = BillingPad::where('admissions_id', $admissions_id)
+                ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->first();
+            $Authorization = Authorization::where('admissions_id', $admissions_id)
+                ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
+                ->first();
+
+            $AuthBillingPad = new AuthBillingPad;
+            $AuthBillingPad->billing_pad_id = $BillingPad->id;
+            $AuthBillingPad->authorization_id = $Authorization->id;
+            $AuthBillingPad->value = $ServicesBriefcase->value;
+            $AuthBillingPad->save();
         }
 
 
