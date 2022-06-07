@@ -119,8 +119,8 @@
     {
         "id": "23",
         "item_parent_id": "65",
-        "name": "Ciudad",
-        "code": "ciudad",
+        "name": "Providencia, Vereda o Municipio",
+        "code": "Providencia, Vereda o Municipio",
         "route": "/pages/setting/municipality",
         "icon": "navigation-outline",
         "show_menu": "1"
