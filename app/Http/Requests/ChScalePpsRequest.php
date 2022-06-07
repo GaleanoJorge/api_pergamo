@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssistanceSpecialRequest extends FormRequest
+class ChScalePpsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class AssistanceSpecialRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialty_id' => 'required',
-            'assistance_id' => 'required',
-
+            'score_title' => '',
+            'score_value' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '',
         ];
     }
 }

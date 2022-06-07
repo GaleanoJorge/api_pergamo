@@ -209,24 +209,43 @@ class ChRecordController extends Controller
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
         // $role = $request->role;
         // $valuetariff = Tariff::where('pad_risk_id', $tariff)->where('role_id', $role)->where('scope_of_attention_id', $ambit)->first();
-
-        $valuetariff = Tariff::where('pad_risk_id', $tariff)
-            ->where('phone_consult', $ManagementPlan->phone_consult)
+        $valuetariff = Tariff::where('admissions_id', $admissions->id)
             ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('program_id', $Location->program_id);
-        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-            if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
-                $valuetariff->where('quantity', $ManagementPlan->quantity);
-            }
+            ->where('phone_consult', $ManagementPlan->phone_consult)
+            ->where('status_id', 1);
+        // definir cuando la atención es fallida
+        if ($request->failed) {
+            $valuetariff->where('failed', 1);
         } else {
-            $valuetariff->whereNull('quantity');
-        }
-        if ($request->extra_dose) {
-            $valuetariff->where('extra_dose', $request->extra_dose);
-        } else {
-            $valuetariff->where('extra_dose', 0);
+            $valuetariff->where('failed', 0);
         }
         $valuetariff = $valuetariff->get()->toArray();
+        if (count($valuetariff) == 0) {
+            $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                ->where('phone_consult', $ManagementPlan->phone_consult)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('status_id', 1)
+                ->where('program_id', $Location->program_id);
+            // definir cuando la atención es fallida
+            if ($request->failed) {
+                $valuetariff->where('failed', 1);
+            } else {
+                $valuetariff->where('failed', 0);
+            }
+            if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
+                    $valuetariff->where('quantity', $ManagementPlan->quantity);
+                }
+            } else {
+                $valuetariff->whereNull('quantity');
+            }
+            if ($request->extra_dose) {
+                $valuetariff->where('extra_dose', $request->extra_dose);
+            } else {
+                $valuetariff->where('extra_dose', 0);
+            }
+            $valuetariff = $valuetariff->get()->toArray();
+        }
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 

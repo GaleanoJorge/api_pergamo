@@ -45,7 +45,7 @@ class LocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidades obtenidas exitosamente',
+            'message' => 'Comunas, Localidades o Veredas obtenidas exitosamente',
             'data' => ['location_capacity' => $LocationCapacity]
         ]);
     }
@@ -84,7 +84,7 @@ class LocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidades obtenidas exitosamente',
+            'message' => 'Comunas, Localidades o Veredas obtenidas exitosamente',
             'data' => ['location_capacity' => $LocationCapacity],
         ]);
     }
@@ -189,7 +189,7 @@ class LocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidades obtenido exitosamente',
+            'message' => 'Comunas, Localidades o Veredas obtenido exitosamente',
             'data' => ['location_capacity' => $LocationCapacity]
         ]);
     }
@@ -214,7 +214,7 @@ class LocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidades actualizado exitosamente',
+            'message' => 'Comunas, Localidades o Veredas actualizado exitosamente',
             'data' => ['location_capacity' => $LocationCapacity]
         ]);
     }
@@ -233,12 +233,12 @@ class LocationCapacityController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Localidades eliminado exitosamente'
+                'message' => 'Comunas, Localidades o Veredas eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Localidades esta en uso, no es posible eliminarlo'
+                'message' => 'Comunas, Localidades o Veredas esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

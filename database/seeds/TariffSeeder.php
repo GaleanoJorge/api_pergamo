@@ -25,6 +25,8 @@ class TariffSeeder extends Seeder
                 'pad_risk_id' => $row->pad_risk_id,
                 'program_id' => $row->program_id,
                 'type_of_attention_id' => $row->type_of_attention_id,
+                'admissions_id' => $row->admissions_id,
+                'failed' => $row->failed,
             ]);
         }
     }

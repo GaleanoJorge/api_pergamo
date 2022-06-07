@@ -58,6 +58,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
     Route::apiResource('ch_scale_jh_downton', 'Management\ChScaleJhDowntonController');
     Route::apiResource('ch_scale_screening', 'Management\ChScaleScreeningController');
+    Route::apiResource('ch_scale_pps', 'Management\ChScalePpsController');
+    Route::apiResource('ch_scale_braden', 'Management\ChScaleBradenController');
+    Route::apiResource('ch_scale_lawton', 'Management\ChScaleLawtonController');
                         
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
@@ -655,6 +658,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'admissions/ByPacient/{pacientId}',
         'Management\AdmissionsController@getByPacient'
+    );
+
+    Route::get(
+        'admissions/active/{id}',
+        'Management\AdmissionsController@getActive'
     );
 
     Route::get(

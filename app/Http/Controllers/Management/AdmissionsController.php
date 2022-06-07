@@ -55,6 +55,43 @@ class AdmissionsController extends Controller
     }
 
     /**
+     * Get Active admission
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getActive(Request $request, int $id): JsonResponse
+    {
+        $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
+            ->select(
+                'admissions.*',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            )
+            ->with(
+                'patients',
+                'briefcase',
+                'campus',
+                'contract',
+                'contract.company',
+                'location',
+                'location.admission_route',
+                'location.scope_of_attention',
+                'location.program',
+            )
+            ->where('discharge_date', '0000-00-00 00:00:00')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->toArray()
+            ;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admisiones obtenidas exitosamente',
+            'data' => ['admissions' => $EnabledAdmissions]
+        ]);
+    }
+
+    /**
      * @param  int  $pacientId
      * Get procedure by briefcase.
      *

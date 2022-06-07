@@ -20,7 +20,9 @@ class CreateTariffTable extends Migration
             $table->integer('quantity')->nullable();
             $table->boolean('extra_dose')->nullable();
             $table->boolean('phone_consult')->nullable();
+            $table->boolean('failed')->nullable();
             $table->unsignedTinyInteger('status_id')->nullable();
+            $table->unsignedBigInteger('admissions_id')->nullable();
             $table->unsignedBigInteger('pad_risk_id')->nullable();
             $table->unsignedBigInteger('program_id')->nullable();
             $table->unsignedTinyInteger('type_of_attention_id')->nullable();
@@ -29,6 +31,10 @@ class CreateTariffTable extends Migration
             $table->index('status_id');
             $table->foreign('status_id')->references('id')
                 ->on('status');
+
+            $table->index('admissions_id');
+            $table->foreign('admissions_id')->references('id')
+                ->on('admissions');
 
             $table->index('program_id');
             $table->foreign('program_id')->references('id')
