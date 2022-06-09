@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Date $validation_date
  * @property BigInteger $billing_pad_status_id
  * @property BigInteger $admissions_id
+ * @property BigInteger $billing_pad_pgp_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -37,5 +38,9 @@ class BillingPad extends Model
 	public function admissions()
 	{
 		return $this->belongsTo(Admissions::class);
+	}
+	public function billing_pad_pgp()
+	{
+		return $this->belongsTo(ModelsBillingPadPgp::class);
 	}
 }

@@ -20,6 +20,7 @@ class CreateBillingPadTable extends Migration
             $table->date('validation_date')->nullable();
             $table->unsignedBigInteger('billing_pad_status_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
+            $table->unsignedBigInteger('billing_pad_pgp_id')->nullable();
             $table->timestamps();
 
             $table->index('billing_pad_status_id');
@@ -29,6 +30,10 @@ class CreateBillingPadTable extends Migration
             $table->index('admissions_id');
             $table->foreign('admissions_id')->references('id')
                 ->on('admissions');
+
+            $table->index('billing_pad_pgp_id');
+            $table->foreign('billing_pad_pgp_id')->references('id')
+                ->on('billing_pad_pgp');
         });
     }
 
