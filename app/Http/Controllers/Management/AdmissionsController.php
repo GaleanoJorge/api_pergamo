@@ -20,10 +20,15 @@ class AdmissionsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        if($request->admissions_id){
-            $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc')->where('id',$request->admissions_id);
-        }else{
-            $Admissions = Admissions::with('patients')->orderBy('created_at', 'desc');
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
+            ->select(
+                'admissions.*',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            );
+        if ($request->admissions_id) {
+            $Admissions->with('patients')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+        } else {
+            $Admissions->with('patients')->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -81,8 +86,7 @@ class AdmissionsController extends Controller
             ->where('discharge_date', '0000-00-00 00:00:00')
             ->orderBy('created_at', 'desc')
             ->get()
-            ->toArray()
-            ;
+            ->toArray();
 
         return response()->json([
             'status' => true,
@@ -100,19 +104,20 @@ class AdmissionsController extends Controller
     public function getByPacient(Request $request, int $pacientId): JsonResponse
     {
         $Admissions = Admissions::where('patient_id', $pacientId)
-        ->with(
-            'patients',
-            'briefcase',
-            'campus', 
-            'contract', 
-            'location', 
-            'location.admission_route', 
-            'location.scope_of_attention', 
-            'location.program', 
-            'location.flat', 
-            'location.pavilion', 
-            'location.bed',)->orderBy('created_at', 'desc');
-            
+            ->with(
+                'patients',
+                'briefcase',
+                'campus',
+                'contract',
+                'location',
+                'location.admission_route',
+                'location.scope_of_attention',
+                'location.program',
+                'location.flat',
+                'location.pavilion',
+                'location.bed',
+            )->orderBy('created_at', 'desc');
+
         if ($request->search) {
             $Admissions->where('name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -144,20 +149,20 @@ class AdmissionsController extends Controller
     public function getByBriefcase(Request $request, int $briefcase_id): JsonResponse
     {
         $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
-        ->select(
-            'admissions.*',
-            'patients.identification_type_id',
-            'patients.identification',
-            'patients.email',
-            'patients.residence_address',
-            'patients.residence_municipality_id',
-            'patients.neighborhood_or_residence_id',
-            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
-        )
-        ->where('briefcase_id', $briefcase_id)
-        ->where('discharge_date','0000-00-00 00:00:00')
-        ->orderBy('created_at', 'desc')->get()->toArray();
-            
+            ->select(
+                'admissions.*',
+                'patients.identification_type_id',
+                'patients.identification',
+                'patients.email',
+                'patients.residence_address',
+                'patients.residence_municipality_id',
+                'patients.neighborhood_or_residence_id',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            )
+            ->where('briefcase_id', $briefcase_id)
+            ->where('discharge_date', '0000-00-00 00:00:00')
+            ->orderBy('created_at', 'desc')->get()->toArray();
+
         // if ($request->search) {
         //     $Admissions->where('name', 'like', '%' . $request->search . '%')
         //         ->Orwhere('id', 'like', '%' . $request->search . '%');
