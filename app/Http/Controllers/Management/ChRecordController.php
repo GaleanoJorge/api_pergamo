@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\DB;
 
 
 use App\Models\NeighborhoodOrResidence;
+use App\Models\TypeContract;
 use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Writer\Pdf as WriterPdf;
 
@@ -293,19 +294,28 @@ class ChRecordController extends Controller
                 $LocationCapacity->save();
             }
 
-            $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
-            $BillingPad = BillingPad::where('admissions_id', $admissions_id)
-                ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                ->first();
-            $Authorization = Authorization::where('admissions_id', $admissions_id)
-                ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
-                ->first();
+            $TypeContract = TypeContract::select('type_contract.*')
+            ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+            ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+            ->where('admissions.id', $admissions_id)
+            ->first();
 
-            $AuthBillingPad = new AuthBillingPad;
-            $AuthBillingPad->billing_pad_id = $BillingPad->id;
-            $AuthBillingPad->authorization_id = $Authorization->id;
-            $AuthBillingPad->value = $ServicesBriefcase->value;
-            $AuthBillingPad->save();
+            if ($TypeContract->id == 5) {
+                $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
+                $BillingPad = BillingPad::where('admissions_id', $admissions_id)
+                    ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->first();
+                $Authorization = Authorization::where('admissions_id', $admissions_id)
+                    ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
+                    ->first();
+    
+                $AuthBillingPad = new AuthBillingPad;
+                $AuthBillingPad->billing_pad_id = $BillingPad->id;
+                $AuthBillingPad->authorization_id = $Authorization->id;
+                $AuthBillingPad->value = $ServicesBriefcase->value;
+                $AuthBillingPad->save();
+            }
+
         }
 
 
