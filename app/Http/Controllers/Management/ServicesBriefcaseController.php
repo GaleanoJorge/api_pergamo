@@ -103,9 +103,11 @@ class ServicesBriefcaseController extends Controller
      */
     public function getPackageByBriefcase(Request $request, int $briefcaseId): JsonResponse
     {
-        $ServicesBriefcase = ServicesBriefcase::where('briefcase_id', $briefcaseId)
-        ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-        ->where('manual_procedure_type_id', 3)->get()->toArray();
+        $ServicesBriefcase = ServicesBriefcase::select('services_briefcase.*', 'manual_price.name AS name')
+            ->with('manual_price')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+            ->where('services_briefcase.briefcase_id', $briefcaseId)
+            ->where('manual_price.manual_procedure_type_id', 3)->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Portafolio por contrato obtenido exitosamente',
