@@ -19,16 +19,20 @@ class PharmacyRequestShippingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyRequestShipping = PharmacyRequestShipping::with(
-            'pharmacy_product_request',
-            'pharmacy_product_request.own_pharmacy_stock',
-            'pharmacy_product_request.request_pharmacy_stock',
-            'pharmacy_product_request.request_pharmacy_stock.campus',
-            'pharmacy_product_request.product_generic',
-            'pharmacy_lot_stock',
-            'pharmacy_lot_stock.billing_stock',
-            'pharmacy_lot_stock.billing_stock.product',
-        );
+        $PharmacyRequestShipping = PharmacyRequestShipping::select('pharmacy_request_shipping.*')
+            ->with(
+                'pharmacy_product_request',
+                'pharmacy_product_request.own_pharmacy_stock',
+                'pharmacy_product_request.request_pharmacy_stock',
+                'pharmacy_product_request.request_pharmacy_stock.campus',
+                'pharmacy_product_request.product_generic',
+                'pharmacy_product_request.product_supplies',
+                'pharmacy_lot_stock',
+                'pharmacy_lot_stock.billing_stock',
+                'pharmacy_lot_stock.billing_stock.product',
+                'pharmacy_lot_stock.billing_stock.product_supplies_com',
+            )
+            ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'pharmacy_request_shipping.pharmacy_product_request_id');
 
         if ($request->_sort) {
             $PharmacyRequestShipping->orderBy($request->_sort, $request->_order);
@@ -41,6 +45,17 @@ class PharmacyRequestShippingController extends Controller
         if ($request->pharmacy_product_request_id) {
             $PharmacyRequestShipping->where('pharmacy_product_request_id', $request->pharmacy_product_request_id);
         }
+
+        if ($request->product1 == "true") {
+            //medicamento  product_generic_id
+            $PharmacyRequestShipping->whereNotNull('pharmacy_product_request.product_generic_id')->whereNull('pharmacy_product_request.product_supplies_id');
+        } else if ($request->product1 == "false") {
+            // insumo product_supplies_id
+            $PharmacyRequestShipping->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
+        }
+
+
+
 
         if ($request->query("pagination", true) == "false") {
             $PharmacyRequestShipping = $PharmacyRequestShipping->get()->toArray();
