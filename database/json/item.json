@@ -1256,7 +1256,7 @@
         "name": "Nombre del producto",
         "code": "nom-product",
         "route": "/pages/setting/nom-product",
-        "icon": "people-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1339,10 +1339,7 @@
         "route": "/pages/setting/fixed-location-campus",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
-
-
+    },
     {
         "id": "199",
         "item_parent_id": "102",
@@ -1378,14 +1375,31 @@
         "route": "/pages/setting/fixed-request",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
+    },
     {
         "id": "203",
         "item_parent_id": "102",
         "name": "Solicitudes de activos",
         "code": "fixed-access-requests",
         "route": "/pages/setting/fixed-access-requests",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "208",
+        "item_parent_id": "91",
+        "name": "Insumo generico",
+        "code": "product-supplies",
+        "route": "/pages/setting/product-supplies",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "209",
+        "item_parent_id": "89",
+        "name": "Insumo comercial",
+        "code": "supplies-comm",
+        "route": "/pages/setting/supplies-comm",
         "icon": "",
         "show_menu": "1"
     }

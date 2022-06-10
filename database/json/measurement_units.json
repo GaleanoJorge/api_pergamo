@@ -8,11 +8,11 @@
         "code": "gr"
     },
     {
-        "name": "MILIGRAMO",
+        "name": "MILIGRAMOS",
         "code": "mg"
     },
     {
-        "name": "MILIGRAMO/MILILITRO",
+        "name": "MILIGRAMOS/MILILITRO",
         "code": "mg/ml"
     },
     {
@@ -44,7 +44,7 @@
         "code": "mcg/ml"
     },
     {
-        "name": "MILIGRAMO/HORA",
+        "name": "MILIGRAMOS/HORA",
         "code": "mg/h"
     },
     {
@@ -52,15 +52,15 @@
         "code": "gr/ml"
     },
     {
-        "name": "MILIGRAMO/MEDIDAS INTERNACIONALES",
+        "name": "MILIGRAMOS/MEDIDAS INTERNACIONALES",
         "code": "mg/u.i."
     },
     {
-        "name": "MILIGRAMO/MILIGRAMO/MEDIDAS INTERNACIONALES",
+        "name": "MILIGRAMOS/MILIGRAMOS/MEDIDAS INTERNACIONALES",
         "code": "mg+mg+u.i."
     },
     {
-        "name": "MILIGRAMO/GRAMO",
+        "name": "MILIGRAMOS/GRAMO",
         "code": "mg/gr"
     }
 ]
