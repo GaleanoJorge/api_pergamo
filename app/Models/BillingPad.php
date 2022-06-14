@@ -11,5 +11,6 @@ class BillingPad extends BaseBillingPad
 		'validation_date',
 		'billing_pad_status_id',
 		'admissions_id',
+		'billing_pad_pgp_id',
 	];
 }

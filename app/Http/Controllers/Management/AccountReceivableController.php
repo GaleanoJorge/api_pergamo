@@ -75,8 +75,8 @@ class AccountReceivableController extends Controller
     {
         $LastWeekOfMonth = Carbon::now()->endOfMonth()->subDays(7)->format('Ymd');
         $LastDayMonth = Carbon::now()->endOfMonth()->format('Ymd');
-        $ancualDate = Carbon::parse('2022-06-01 14:44:40')->format('Ymd');
-        // $ancualDate = Carbon::now()->format('Ymd');
+        // $ancualDate = Carbon::parse('2022-06-01 14:44:40')->format('Ymd');
+        $ancualDate = Carbon::now()->format('Ymd');
         $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
             ->select(
                 'account_receivable.*',
@@ -243,7 +243,7 @@ class AccountReceivableController extends Controller
         }
         $net_value = $this->getNetValue($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
-        $bank = strtoupper($FinancialData['bank']['name']);
+        $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
         $account_number = $FinancialData['account_number'];
         $role = strtoupper($Role->name);
         $address = strtoupper($User->residence_address);

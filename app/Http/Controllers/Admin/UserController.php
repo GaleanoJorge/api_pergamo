@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Http\Helpers\Notifications\Notifications;
 use App\Models\User;
+use App\Models\UserCampus;
 use App\Models\Inability;
 use App\Models\UserRole;
 use App\Models\ContractType;
@@ -50,6 +51,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\Base\Campus;
 use App\Models\BaseLocationCapacity;
 use App\Models\CostCenter;
 use App\Models\Specialty;
@@ -86,7 +88,7 @@ class UserController extends Controller
             'users.*',
             DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->leftjoin('admissions', 'users.id', 'admissions.user_id')
+            // ->leftjoin('admissions', 'users.id', 'admissions.user_id')
 
             ->where('user_role.role_id', $roleId)
             ->with(
@@ -96,17 +98,17 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
-                'admissions',
-                'admissions.location',
-                'admissions.contract',
-                'admissions.campus',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program',
-                'admissions.location.flat',
-                'admissions.location.pavilion',
-                'admissions.location.bed'
-            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+                // 'admissions',
+                // 'admissions.location',
+                // 'admissions.contract',
+                // 'admissions.campus',
+                // 'admissions.location.admission_route',
+                // 'admissions.location.scope_of_attention',
+                // 'admissions.location.program',
+                // 'admissions.location.flat',
+                // 'admissions.location.pavilion',
+                // 'admissions.location.bed'
+            )->orderBy('nombre_completo', 'DESC')->groupBy('id');
 
         if ($request->locality_id) {
             $users->where('', $request->locality_id);
@@ -411,7 +413,7 @@ class UserController extends Controller
         if (count($respose) == 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'No se encontraron usuarios',
+                'message' => 'No se encontró personal asistencial',
                 'data' => ['users' => $usersfinal]
             ]);
         }
@@ -813,6 +815,20 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
+
+                if($request->campus_id){
+                    $arraycampus = json_decode($request->campus_id);
+              
+                    foreach ($arraycampus as $item) {                
+                        $userCampus = new UserCampus;
+                        $userCampus->user_id = $user->id;
+                        $userCampus->campus_id = $item->campus_id;
+                        $userCampus->save();
+                
+                    }
+                }
+
+
                 if($request->isTH){
                     $HumanTalentRequest= HumanTalentRequest::find($request->isTH);
                     $HumanTalentRequest->status='Aprobado';
@@ -831,7 +847,7 @@ class UserController extends Controller
                     $assistance->PAD_service = $request->PAD_service;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                    // $assistance->special_field = $request->special_field;
+                    // $assistance->specialty = $request->specialty;
 
                     if ($request->firm) {
                         $image = $request->get('firm');  // your base64 encoded
@@ -844,8 +860,7 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-
-
+                 
                     $id = Assistance::latest('id')->first();
                     $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
@@ -882,10 +897,10 @@ class UserController extends Controller
                         $LocationCapacity->save();
                     }
 
-                    if (is_array($request->special_field) == true) {
-                        foreach ($request->special_field as $item) {
+                    if (is_array($request->specialty) == true) {
+                        foreach ($request->specialty as $item) {
                             $assistanceSpecial = new AssistanceSpecial;
-                            $assistanceSpecial->special_field_id = $item;
+                            $assistanceSpecial->specialty_id = (int)$item;
                             $assistanceSpecial->assistance_id = $assistance->id;
                             $assistanceSpecial->save();
                         }
@@ -957,7 +972,7 @@ class UserController extends Controller
                 $assistance->PAD_service = $request->PAD_service;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
-                // $assistance->special_field = $request->special_field;    
+                // $assistance->specialty = $request->specialty;    
 
                 if ($request->firm_file) {
                     $image = $request->get('firm_file');  // your base64 encoded
@@ -1007,10 +1022,10 @@ class UserController extends Controller
                     $LocationCapacity->save();
                 }
 
-                if (is_array($request->special_field) == true) {
-                    foreach ($request->special_field as $item) {
+                if (is_array($request->specialty) == true) {
+                    foreach ($request->specialty as $item) {
                         $assistanceSpecial = new AssistanceSpecial;
-                        $assistanceSpecial->special_field_id = $item;
+                        $assistanceSpecial->specialty_id = (int)$item;
                         $assistanceSpecial->assistance_id = $assistance->id;
                         $assistanceSpecial->save();
                     }
@@ -1134,6 +1149,21 @@ class UserController extends Controller
         $user->is_disability = $request->is_disability;
         $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         $user->age = $request->age;
+
+        if($request->campus_id){
+            $deleteusers=UserCampus::where('user_id', $id);
+            $deleteusers->delete();
+            $arraycampus = json_decode($request->campus_id);
+      
+            foreach ($arraycampus as $item) {
+        
+                $userCampus = new UserCampus;
+                $userCampus->user_id = $id;
+                $userCampus->campus_id = $item->campus_id;
+                $userCampus->save();
+        
+            }
+        }
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
             $user->file = $path;
@@ -1179,11 +1209,11 @@ class UserController extends Controller
             $id = Assistance::latest('id')->first();
 
 
-            if (is_array($request->special_field) == true) {
-                //if(sizeof($request->special_field) != 0 ){
-                foreach ($request->special_field as $item) {
+            if (is_array($request->specialty) == true) {
+                //if(sizeof($request->specialty) != 0 ){
+                foreach ($request->specialty as $item) {
                     $assistanceSpecial = new AssistanceSpecial;
-                    $assistanceSpecial->special_field_id = $item;
+                    $assistanceSpecial->specialty_id = (int)$item;
                     $assistanceSpecial->assistance_id = $assistance->id;
                     $assistanceSpecial->save();
                 }
@@ -1257,12 +1287,12 @@ class UserController extends Controller
         $type_professional = TypeProfessional::get();
         $residence = Residence::orderBy('name')->get();
         //$observation_novelty = ObservationNovelty::get();
-        $special_field = Specialty::where('type_professional_id', $request->type_professional_id);
+        $specialty = Specialty::where('type_professional_id', $request->type_professional_id);
         // if($request->search){
-        //     $special_field->Orwhere('name', 'like', '%' . $request->search . '%');
+        //     $specialty->Orwhere('name', 'like', '%' . $request->search . '%');
         // }
         if ($request->search != 'undefined') {
-            $special_field->where(function ($query) use ($request) {
+            $specialty->where(function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             });
         }
@@ -1289,7 +1319,7 @@ class UserController extends Controller
                 'cost_center' => $cost_center->toArray(),
                 'type_professional' => $type_professional->toArray(),
                 'inability' => $inabilitys->toArray(),
-                'special_field' => $special_field->get()->toArray(),
+                'specialty' => $specialty->get()->toArray(),
                 'residence' => $residence->toArray(),
                 //'observation_novelty' => $observation_novelty->get()->toArray(),
 
@@ -1316,6 +1346,7 @@ class UserController extends Controller
             ->leftJoin('region', 'region.id', 'municipality.region_id')
             ->where('users.id', $id)->with(
                 'status',
+                'users_campus',
                 'gender',
                 'academic_level',
                 'identification_type',

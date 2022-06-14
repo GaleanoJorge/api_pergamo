@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(UserRole2Seeder::class);
                 //$this->call(UserOriginSeeder::class);
                 $this->call(CampusSeeder::class);
-                $this->call(UserCampusSeeder::class);
+                //$this->call(UserCampusSeeder::class);
                 //$this->call(CourseEducationalInstitutionSeeder::class);
                 //$this->call(CourseInstitutionCohortSeeder::class);
                 //$this->call(UserRoleCourseSeeder::class);
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
 
-                // $this->call(ChTypeBackgroundSeeder::class);
+                $this->call(ChTypeBackgroundSeeder::class);
 
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
@@ -170,6 +170,18 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypeFluidSeeder::class);
                 $this->call(ChTypeSeeder::class);
         
+                $this->call(ProductGroupSeeder::class);
+                $this->call(ProductConcentrationSeeder::class);
+                $this->call(ProductPresentationSeeder::class);
+                $this->call(ProductCategorySeeder::class);
+                $this->call(ProductSubCategorySeeder::class);
+                $this->call(NomProductSeeder::class);
+
+
+                $this->call(FixedAreaCampusSeeder::class);
+                $this->call(FixedCodeSeeder::class);
+                $this->call(FixedPropertySeeder::class);
+                $this->call(FixedConditionSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

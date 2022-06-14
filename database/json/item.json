@@ -119,8 +119,8 @@
     {
         "id": "23",
         "item_parent_id": "65",
-        "name": "Ciudad",
-        "code": "ciudad",
+        "name": "Providencia, Vereda o Municipio",
+        "code": "Providencia, Vereda o Municipio",
         "route": "/pages/setting/municipality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -509,24 +509,6 @@
         "name": "Activos Fijos",
         "code": "",
         "route": "",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "103",
-        "item_parent_id": "102",
-        "name": "Tipo de activo fijo",
-        "code": "type-assets",
-        "route": "/pages/setting/type-assets",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "104",
-        "item_parent_id": "102",
-        "name": "Activos fijos",
-        "code": "fixed-assets",
-        "route": "/pages/setting/fixed-assets",
         "icon": "",
         "show_menu": "1"
     },
@@ -1046,8 +1028,8 @@
     {
         "id": "163",
         "item_parent_id": "65",
-        "name": "Localidad",
-        "code": "localidad",
+        "name": "Comuna, Localidad o Vereda",
+        "code": "Comuna, Localidad o Vereda",
         "route": "/pages/setting/locality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -1064,7 +1046,7 @@
     {
         "id": "165",
         "item_parent_id": "67",
-        "name": "Configuración de Tarifas Médicos",
+        "name": "Configuración Tarifas",
         "code": null,
         "route": null,
         "icon": "",
@@ -1073,16 +1055,16 @@
     {
         "id": "166",
         "item_parent_id": "165",
-        "name": "Tarifa de barrios",
+        "name": "Zona",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
-        "icon": "navigation-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
         "id": "167",
         "item_parent_id": "165",
-        "name": "Tarifas Médicos",
+        "name": "Tarifas contratistas",
         "code": "tariff",
         "route": "/pages/setting/tariff",
         "icon": "navigation-outline",
@@ -1269,12 +1251,165 @@
         "show_menu": "1"
     },
     {
+        "id": "188",
+        "item_parent_id": "91",
+        "name": "Nombre del producto",
+        "code": "nom-product",
+        "route": "/pages/setting/nom-product",
+        "icon": "people-outline",
+        "show_menu": "1"
+    },
+    {
         "id": "189",
         "item_parent_id": null,
-        "name": "Facturación PAD",
+        "name": "Facturación",
         "code": "billing-pad",
         "route": "/pages/billing-pad/list",
         "icon": "pricetags-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "191",
+        "item_parent_id": "102",
+        "name": "Permisos Act fijos",
+        "code": "fixed-permission",
+        "route": "/pages/setting/fixed-permission",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "192",
+        "item_parent_id": "102",
+        "name": "Tipo de Activo",
+        "code": "fixed-type",
+        "route": "/pages/setting/fixed-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "193",
+        "item_parent_id": "102",
+        "name": "Cod. Clasificación",
+        "code": "fixed-code",
+        "route": "/pages/setting/fixed-code",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "194",
+        "item_parent_id": "102",
+        "name": "Clasificación",
+        "code": "fixed-clasification",
+        "route": "/pages/setting/fixed-clasification",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "195",
+        "item_parent_id": "102",
+        "name": "Condición del Activo",
+        "code": "fixed-condition",
+        "route": "/pages/setting/fixed-condition",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "196",
+        "item_parent_id": "102",
+        "name": "Tipos de propiedad",
+        "code": "fixed-property",
+        "route": "/pages/setting/fixed-property",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "197",
+        "item_parent_id": "102",
+        "name": "Area/Servicio",
+        "code": "fixed-area-campus",
+        "route": "/pages/setting/fixed-area-campus",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "198",
+        "item_parent_id": "102",
+        "name": "Ubicacion",
+        "code": "fixed-location-campus",
+        "route": "/pages/setting/fixed-location-campus",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "199",
+        "item_parent_id": "102",
+        "name": "Accesorios",
+        "code": "fixed-accessories",
+        "route": "/pages/setting/fixed-accessories",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "200",
+        "item_parent_id": "102",
+        "name": "Crear Activos",
+        "code": "fixed-assets",
+        "route": "/pages/setting/fixed-assets",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "201",
+        "item_parent_id": "102",
+        "name": "Inventario general",
+        "code": "fixed-inventary",
+        "route": "/pages/setting/fixed-inventary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "202",
+        "item_parent_id": "102",
+        "name": "Prestamos",
+        "code": "fixed-loan",
+        "route": "/pages/setting/fixed-loan",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "204",
+        "item_parent_id": "67",
+        "name": "Variables Macroeconómicas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "205",
+        "item_parent_id": "204",
+        "name": "Salario mínimo",
+        "code": "minimum-salary",
+        "route": "/pages/setting/minimum-salary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "206",
+        "item_parent_id": "204",
+        "name": "UVT",
+        "code": "tax-value-unit",
+        "route": "/pages/setting/tax-value-unit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "207",
+        "item_parent_id": "204",
+        "name": "Rete ICA",
+        "code": "municipality-ica",
+        "route": "/pages/setting/municipality-ica",
+        "icon": "",
         "show_menu": "1"
     }
 ]

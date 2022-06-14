@@ -59,6 +59,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_jh_downton', 'Management\ChScaleJhDowntonController');
     Route::apiResource('ch_scale_screening', 'Management\ChScaleScreeningController');
 
+    Route::apiResource('ch_scale_pps', 'Management\ChScalePpsController');
+    Route::apiResource('ch_scale_braden', 'Management\ChScaleBradenController');
+    Route::apiResource('ch_scale_lawton', 'Management\ChScaleLawtonController');
+                        
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -658,6 +662,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     );
 
     Route::get(
+        'admissions/active/{id}',
+        'Management\AdmissionsController@getActive'
+    );
+
+    Route::get(
         'admissions/Briefcase/{briefcase_id}',
         'Management\AdmissionsController@getByBriefcase'
     );
@@ -952,24 +961,33 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
+    
+    Route::apiResource('nom_product', 'Management\NomProductController');
+    Route::get('NomProduct/byCategory/{product_subcategory_id}',
+        'Management\NomProductController@getSubcategoryByCategory'
+    );
 
 
-
-
-
-
-
+    //Activos fijos
+    Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
+    Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
+    Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
+    Route::apiResource('fixed_code', 'Management\FixedCodeController');
+    Route::apiResource('fixed_condition', 'Management\FixedConditionController');
+    Route::apiResource('fixed_loan', 'Management\FixedLoanController');
+    Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
+    Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
+    Route::apiResource('fixed_property', 'Management\FixedPropertyController');
+    Route::apiResource('fixed_stock_accessories', 'Management\FixedStockAccessoriesController');
+    Route::apiResource('fixed_type', 'Management\FixedTypeController');
+    Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
 
 
 
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
-
-
-
-
-
 
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
@@ -1160,8 +1178,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('source_retention/get_by_account_receivable_id/{account_receivable_id}', 'Management\SourceRetentionController@getByAccountReceivableId');
     Route::apiResource('source_retention_type', 'Management\SourceRetentionTypeController');
     Route::apiResource('tax_value_unit', 'Management\TaxValueUnitController');
+    Route::apiResource('municipality_ica', 'Management\MunicipalityIcaController');
     Route::get('tax_value_unit/get_latest_tax_value_unit/{prueba_id}', 'Management\TaxValueUnitController@getLatestTaxValueUnit');
-    Route::apiResource('minimum_salary', 'Management/MinimumSalaryController');
+    Route::apiResource('minimum_salary', 'Management\MinimumSalaryController');
 
     //Tablero Doc Mariana.
     Route::apiResource('billing_tc', 'Management\BillingTcController');
@@ -1188,7 +1207,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
-
+    Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
+    Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
+    Route::put('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
 
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');

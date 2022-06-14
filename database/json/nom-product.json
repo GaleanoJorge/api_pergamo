@@ -1,0 +1,1154 @@
+[
+    {
+        "name": "INMUNOGLOBULINA HUMANA",
+        "product_subcategory_id": "35"
+    },
+    {
+        "name": "ACICLOVIR",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "EFAVIRENZ",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "GANCICLOVIR",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "LAMIVUDINA",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "RIFAMPICINA",
+        "product_subcategory_id": "33"
+    },
+    {
+        "name": "CASPOFUNGINA",
+        "product_subcategory_id": "32"
+    },
+    {
+        "name": "FLUCONAZOL",
+        "product_subcategory_id": "32"
+    },
+    {
+        "name": "ITRACONAZOL",
+        "product_subcategory_id": "32"
+    },
+    {
+        "name": "AMIKACINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "AMOXICILINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "AMPICILINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "AZITROMICINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "AZTREONAM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFALEXINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFALOTINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFAZOLINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFEPIME",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFRADINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFTRIAXONA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CIPROFLOXACINO",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CLARITROMICINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "DAPTOMICINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "DICLOXACILINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "ERTAPENEM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "LINEZOLID",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "MEROPENEM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "NITROFURANTOINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "PENICILINA BENZATINICA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "PENICILINA G PROCAINICA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "PENICILINA G SODICA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "SULTAMICILINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "TIGECICLINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "TINIDAZOL",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "VANCOMICINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFOTAXIMA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFTAZIDIMA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFUROXIMA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "COLISTINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "DOLUTEGAVIR",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "DOXICICLINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "FOSFOMICINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "OXACILINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "RIFAMICINA",
+        "product_subcategory_id": "33"
+    },
+    {
+        "name": "AZATIOPRINA",
+        "product_subcategory_id": "37"
+    },
+    {
+        "name": "TACROLIMUS",
+        "product_subcategory_id": "37"
+    },
+    {
+        "name": "METOTREXATO",
+        "product_subcategory_id": "36"
+    },
+    {
+        "name": "BENZOATO DE BENCILO",
+        "product_subcategory_id": "50"
+    },
+    {
+        "name": "ALBENDAZOL",
+        "product_subcategory_id": "49"
+    },
+    {
+        "name": "IVERMECTINA",
+        "product_subcategory_id": "49"
+    },
+    {
+        "name": "MEBENDAZOL",
+        "product_subcategory_id": "49"
+    },
+    {
+        "name": "PIRANTEL",
+        "product_subcategory_id": "49"
+    },
+    {
+        "name": "METRONIDAZOL",
+        "product_subcategory_id": "48"
+    },
+    {
+        "name": "CLOROQUINA",
+        "product_subcategory_id": "48"
+    },
+    {
+        "name": "MINOXIDIL",
+        "product_subcategory_id": "24"
+    },
+    {
+        "name": "NITROFURAZONA",
+        "product_subcategory_id": "23"
+    },
+    {
+        "name": "PROPANOLOL",
+        "product_subcategory_id": "23"
+    },
+    {
+        "name": "BETAMETASONA",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "CLOTRIMAZOL",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "DEXAMETASONA",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "HIDROCORTISONA",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "KETOCONAZOL",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "ACETAZOLAMIDA",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "ACIDO FUSIDICO",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "GENTAMICINA",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "SULFACETAMIDA SODICA",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "TIMOLOL MALEATO",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "GLICERINA CARBONATADA",
+        "product_subcategory_id": "56"
+    },
+    {
+        "name": "LEVOTIROXINA SODICA",
+        "product_subcategory_id": "30"
+    },
+    {
+        "name": "METIMAZOL",
+        "product_subcategory_id": "30"
+    },
+    {
+        "name": "METILPREDNISOLONA",
+        "product_subcategory_id": "29"
+    },
+    {
+        "name": "PREDNISOLONA",
+        "product_subcategory_id": "29"
+    },
+    {
+        "name": "PREDNISONA",
+        "product_subcategory_id": "29"
+    },
+    {
+        "name": "VASOPRESINA",
+        "product_subcategory_id": "28"
+    },
+    {
+        "name": "ALBUMINA HUMANA",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "CLORURO DE POTASIO",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "CLORURO DE SODIO",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "GLICINA",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "SULFATO DE ZINC",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "ACIDO TRANEXAMICO",
+        "product_subcategory_id": "11"
+    },
+    {
+        "name": "ACIDO ACETIL SALICILICO",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "APIXABAN",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "CLOPIDOGEL",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "HEPARINA SODICA",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "CARBOXIMALTOSA DE HIERRO",
+        "product_subcategory_id": "12"
+    },
+    {
+        "name": "ENOXAPARINA",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "WARFARINA",
+        "product_subcategory_id": "10"
+    },
+    {
+        "name": "ATORVASTATINA",
+        "product_subcategory_id": "20"
+    },
+    {
+        "name": "CIPROFIBRATO",
+        "product_subcategory_id": "20"
+    },
+    {
+        "name": "COLESTIRAMINA",
+        "product_subcategory_id": "20"
+    },
+    {
+        "name": "GEMFIBROZIL",
+        "product_subcategory_id": "20"
+    },
+    {
+        "name": "AMLODIPINO",
+        "product_subcategory_id": "19"
+    },
+    {
+        "name": "CAPTOPRIL",
+        "product_subcategory_id": "19"
+    },
+    {
+        "name": "HIDROCLOROTIAZIDA",
+        "product_subcategory_id": "19"
+    },
+    {
+        "name": "LOSARTAN",
+        "product_subcategory_id": "19"
+    },
+    {
+        "name": "NIFEDIPINO",
+        "product_subcategory_id": "18"
+    },
+    {
+        "name": "NIMODIPINO",
+        "product_subcategory_id": "18"
+    },
+    {
+        "name": "VERAPAMILO",
+        "product_subcategory_id": "18"
+    },
+    {
+        "name": "VERAPAMILO CLORHIDRATO",
+        "product_subcategory_id": "18"
+    },
+    {
+        "name": "CARVEDILOL",
+        "product_subcategory_id": "17"
+    },
+    {
+        "name": "LABETALOL",
+        "product_subcategory_id": "17"
+    },
+    {
+        "name": "ESPIRONOLACTONA",
+        "product_subcategory_id": "16"
+    },
+    {
+        "name": "FUROSEMIDA",
+        "product_subcategory_id": "16"
+    },
+    {
+        "name": "NITROPRUSIATO DE SODIO",
+        "product_subcategory_id": "15"
+    },
+    {
+        "name": "ADENOSINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "ADRENALINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "AMIODARONA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "AMIODARONA CLORHIDRATO",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "BETAMETILDIGOXINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "DOPAMINA CLORHIDRATO",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "ISOSORBIDE DINITRATO",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "LIDOCAINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "METOPROLOL",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "MILRINONA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "NITROGLICERINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "CLONIDINA",
+        "product_subcategory_id": "15"
+    },
+    {
+        "name": "DILTIAZEM",
+        "product_subcategory_id": "18"
+    },
+    {
+        "name": "DOBUTAMINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "ENALAPRIL",
+        "product_subcategory_id": "19"
+    },
+    {
+        "name": "NOREPINEFRINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "TRIMETAZIDINA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "ALPROSTADIL",
+        "product_subcategory_id": "27"
+    },
+    {
+        "name": "OXIBUTININO CLORURO",
+        "product_subcategory_id": "27"
+    },
+    {
+        "name": "CLINDAMICINA",
+        "product_subcategory_id": "25"
+    },
+    {
+        "name": "NISTATINA",
+        "product_subcategory_id": "25"
+    },
+    {
+        "name": "MEDROXIPROGESTERONA",
+        "product_subcategory_id": "26"
+    },
+    {
+        "name": "SILDENAFIL",
+        "product_subcategory_id": "27"
+    },
+    {
+        "name": "TAMSULOSINA",
+        "product_subcategory_id": "27"
+    },
+    {
+        "name": "ALOPURINOL",
+        "product_subcategory_id": "40"
+    },
+    {
+        "name": "COLCHICINA",
+        "product_subcategory_id": "40"
+    },
+    {
+        "name": "BACLOFENO",
+        "product_subcategory_id": "39"
+    },
+    {
+        "name": "BROMURO DE VECURONIO",
+        "product_subcategory_id": "39"
+    },
+    {
+        "name": "TIZANIDINA",
+        "product_subcategory_id": "39"
+    },
+    {
+        "name": "DICLOFENACO",
+        "product_subcategory_id": "38"
+    },
+    {
+        "name": "IBUPROFENO",
+        "product_subcategory_id": "38"
+    },
+    {
+        "name": "METOCARBAMOL",
+        "product_subcategory_id": "38"
+    },
+    {
+        "name": "NAPROXENO",
+        "product_subcategory_id": "38"
+    },
+    {
+        "name": "AMITRIPTILINA CLORHIDRATO",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "ESCITALOPRAM",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "FLUVOXAMINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "IMIPRAMINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "RIVASTIGMINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "SERTRALINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "TRAZODONA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "ALPRAZOLAM",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "ARIPIPRAZOL",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "CARBONATO DE LITIO",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "CLOBAZAM",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "CLOZAPINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "DEXMEDETOMIDINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "DIAZEPAM",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "HALOPERIDOL",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "LEVOMEPROMAZINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "LORAZEPAM",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "MIDAZOLAM",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "OLANZAPINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "QUETIAPINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "RISPERIDONA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "BIPERIDENO",
+        "product_subcategory_id": "44"
+    },
+    {
+        "name": "ACIDO VALPROICO",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "CARBAMAZEPINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "CLONAZEPAM",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "FENITOINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "FENITOINA SODICA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "FENOBARBITAL",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "FENOBARBITAL SODICO",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "GABAPENTIN",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "LACOSAMIDA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "LAMOTRIGINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "LEVETIRACETAM",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "PREGABALINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "TOPIRAMATO",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "VIGABATRINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "ACETAMINOFEN",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "DIFENHIDRAMINA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "DIPIRONA MAGNESICA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "FENTANILO",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "HIDROMORFONA CLORHIDRATO",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "LORATADINA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "TRAMADOL",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "TRAMADOL CLORHIDRATO",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "LIDOCAINA CLORHIDRATO",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "AMANTADINA",
+        "product_subcategory_id": "44"
+    },
+    {
+        "name": "DULOXETINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "FLUOXETINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "KETAMINA",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "MEMANTINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "METADONA",
+        "product_subcategory_id": "47"
+    },
+    {
+        "name": "MORFINA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "OXICODONA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "PIPOTIAZINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "PIRIDOSTIGMINA",
+        "product_subcategory_id": "47"
+    },
+    {
+        "name": "VENLAFAXINA",
+        "product_subcategory_id": "46"
+    },
+    {
+        "name": "DIMENHIDRINATO",
+        "product_subcategory_id": "54"
+    },
+    {
+        "name": "ACETILCISTEÍNA",
+        "product_subcategory_id": "53"
+    },
+    {
+        "name": "N-ACETILCISTEINA",
+        "product_subcategory_id": "53"
+    },
+    {
+        "name": "BECLOMETASONA DIPROPIONATO",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "BROMURO DE IPRATROPIO",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "BUDESONIDA",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "MONTELUKAST",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "MONTELUKAST MONOSODICO",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "SALBUTAMOL",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "TEOFILINA",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "OXIMETAZOLINA",
+        "product_subcategory_id": "51"
+    },
+    {
+        "name": "GLUCONATO DE CALCIO",
+        "product_subcategory_id": "9"
+    },
+    {
+        "name": "ACIDO ASCORBICO",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "ACIDO FOLICO",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "CALCITRIOL",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "GLUCONATO DE POTASIO",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "PIRIDOXINA",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "SULFATO FERROSO",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "TIAMINA",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "VITAMINA A",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "VITAMINA B12",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "VITAMINA C",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "VITAMINA K",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "GLIBENCLAMIDA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "INSULINA ASPARTA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "INSULINA DEGLUDEC",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "INSULINA GLARGINA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "INSULINA LISPRO",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "METFORMINA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "VILDAGLIPTINA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "LOPERAMIDA",
+        "product_subcategory_id": "6"
+    },
+    {
+        "name": "BISACODILO",
+        "product_subcategory_id": "5"
+    },
+    {
+        "name": "LACTULOSA",
+        "product_subcategory_id": "5"
+    },
+    {
+        "name": "SULFATO DE MAGNESIO",
+        "product_subcategory_id": "5"
+    },
+    {
+        "name": "ACIDO URSODESOXICOLICO",
+        "product_subcategory_id": "4"
+    },
+    {
+        "name": "ATROPINA SULFATO",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "DIPIRONA",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "DOMPERIDONA",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "HIOSCINA N-BUTIL BROMURO",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "METOCLOPRAMIDA",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "METOCLOPRAMIDA CLORHIDRATO",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "TRIMEBUTINA",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "BICARBONATO DE SODIO",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "CARBONATO DE CALCIO",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "ESOMEPRAZOL",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "HIDROXIDO DE ALUMINIO",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "LANSOPRAZOL",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "OMEPRAZOL",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "SUCRALFATO",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "POLIMIXINA B",
+        "product_subcategory_id": "6"
+    },
+    {
+        "name": "AGUA ESTERIL",
+        "product_subcategory_id": "59"
+    },
+    {
+        "name": "FLUMAZENIL",
+        "product_subcategory_id": "57"
+    },
+    {
+        "name": "NALOXONA CLORHIDRATO",
+        "product_subcategory_id": "57"
+    },
+    {
+        "name": "AMOXICILINA + ACIDO CLAVULANICO",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "AMPICILINA+SULBACTAM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "BETAMETASONA+CLOTRIMAZOL+NEOMICINA",
+        "product_subcategory_id": "22"
+    },
+    {
+        "name": "BROMURO DE PRATROPIO +FENOTEROL",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "BROMURO DE TIOTROPIO",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "CALCIO + VIT D",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "CARBIDOPA + LEVODOPA",
+        "product_subcategory_id": "44"
+    },
+    {
+        "name": "CEFTAROLINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CEFTAZIDIMA/AVIBACTAM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "CLORFERINAMINA",
+        "product_subcategory_id": "54"
+    },
+    {
+        "name": "DEXAMETASONA+NEOMICINA+POLIMIXINA",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "DEXTROSA EN AGUA",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "ERITROPOYECTINA HUMANA RECOMBINANTE",
+        "product_subcategory_id": "12"
+    },
+    {
+        "name": "HIDROXICINA",
+        "product_subcategory_id": "45"
+    },
+    {
+        "name": "HIDROXIDO DE ALUMINIO+MAGNESIO+SIMETICONA",
+        "product_subcategory_id": "1"
+    },
+    {
+        "name": "HIERRO SACAROSA",
+        "product_subcategory_id": "12"
+    },
+    {
+        "name": "HIOSCINA N-BUTIL BROMURO + DIPIRONA SODICA",
+        "product_subcategory_id": "2"
+    },
+    {
+        "name": "IMIPENEM+CILASTATINA",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "INSULINA NPH",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "INSULINA ZINC CRISTALINA",
+        "product_subcategory_id": "7"
+    },
+    {
+        "name": "LACTATO DE RINGER",
+        "product_subcategory_id": "13"
+    },
+    {
+        "name": "LAMIVUDINA + ZIDOVUDINA",
+        "product_subcategory_id": "34"
+    },
+    {
+        "name": "LEVOTIROXINA",
+        "product_subcategory_id": "30"
+    },
+    {
+        "name": "LIDOCAINA CON EPINEFRINA",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "LIDOCAINA S/E",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "LIDOCAINA SIN EPINEFRINA",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "MEPERIDINA",
+        "product_subcategory_id": "42"
+    },
+    {
+        "name": "MICOFENOLATO MOFETILO",
+        "product_subcategory_id": "37"
+    },
+    {
+        "name": "NEOMICINA SULFATO + HIDROCORTISONA + COLISTINA",
+        "product_subcategory_id": "55"
+    },
+    {
+        "name": "NITROGLICERINA EN DEXTROSA",
+        "product_subcategory_id": "14"
+    },
+    {
+        "name": "ONDASETRON",
+        "product_subcategory_id": "3"
+    },
+    {
+        "name": "OXCARBAMAZEPINA",
+        "product_subcategory_id": "43"
+    },
+    {
+        "name": "PIPERACILINA + TAZOBACTAM",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "PLATA SULFADIAZINA",
+        "product_subcategory_id": "21"
+    },
+    {
+        "name": "PRAZOSINA",
+        "product_subcategory_id": "15"
+    },
+    {
+        "name": "PROPOFOL LIPURO",
+        "product_subcategory_id": "41"
+    },
+    {
+        "name": "PROTAMINA SULFATO",
+        "product_subcategory_id": "58"
+    },
+    {
+        "name": "SALMETEROL+FLUTICASONA",
+        "product_subcategory_id": "52"
+    },
+    {
+        "name": "SALES DE REHIDRATACION",
+        "product_subcategory_id": "6"
+    },
+    {
+        "name": "SUPLEMENTO MULTIVITAMINICO CON MINERALES.",
+        "product_subcategory_id": "8"
+    },
+    {
+        "name": "TRIMETOPRIM+SULFAMETOXAZOL",
+        "product_subcategory_id": "31"
+    },
+    {
+        "name": "TRIMETROPIN+SULFAMETAZOL",
+        "product_subcategory_id": "31"
+    }
+]

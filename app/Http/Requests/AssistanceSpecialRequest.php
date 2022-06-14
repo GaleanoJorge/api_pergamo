@@ -24,7 +24,7 @@ class AssistanceSpecialRequest extends FormRequest
     public function rules()
     {
         return [
-            'special_field_id' => 'required',
+            'specialty_id' => 'required',
             'assistance_id' => 'required',
 
         ];

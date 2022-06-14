@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Base\ProductDose;
+use App\Models\ProductDose;
 use Illuminate\Database\Seeder;
 
 class ProductDoseSeeder extends Seeder

@@ -15,6 +15,7 @@ class Tariff extends BaseTariff
 		'status_id',
 		'pad_risk_id',
 		'program_id',
+		'admissions_id',
 		'type_of_attention_id',
 	];
 }

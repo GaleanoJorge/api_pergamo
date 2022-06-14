@@ -8,8 +8,6 @@ use App\Models\Base\ProductConcentration as BaseProductConcentration;
 class ProductConcentration extends BaseProductConcentration
 {
 protected $fillable = [
-
 	'value',
-	
 	];
 }

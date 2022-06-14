@@ -84,7 +84,7 @@ class SourceRetentionController extends Controller
         $SourceRetention = SourceRetention::select()
             ->with('account_receivable', 'source_retention_type', 'source_retention_type.tax_value_unit')
             ->where('account_receivable_id', $account_receivable_id)->get()->toArray();
-        $TaxValueUnit = TaxValueUnit::select()->where('year', Carbon::now()->year)->first();
+        $TaxValueUnit = TaxValueUnit::select()->where('year', Carbon::parse($AccountReceivable['created_at'])->year)->first();
         $tax_value_unit = $TaxValueUnit->value;
         $salud = 0;
         $arl = 0;
