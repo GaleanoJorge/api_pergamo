@@ -58,7 +58,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pfeiffer', 'Management\ChScalePfeifferController');
     Route::apiResource('ch_scale_jh_downton', 'Management\ChScaleJhDowntonController');
     Route::apiResource('ch_scale_screening', 'Management\ChScaleScreeningController');
-                        
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -1170,7 +1170,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
-    
+
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
     Route::apiResource('liters_per_minute', 'Management\LitersPerMinuteController');
@@ -1201,4 +1201,46 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
     Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
 
+    //Ostomias 
+    Route::apiResource('ostomy', 'Management\OstomyController');
+
+    //posiciones del paciente 
+    Route::apiResource('patient_position', 'Management\PatientPositionController');
+
+    //Planes de cuidado del paciente 
+    Route::apiResource('nursing_care_plan', 'Management\NursingCarePlanController');
+
+    //Rutas de fluidos
+    Route::apiResource('ch_route_fluid', 'Management\ChRouteFluidController');
+
+    //Tipos de fluidos
+    Route::apiResource('ch_type_fluid', 'Management\ChTypeFluidController');
+
+    //Estados de la piel
+    Route::apiResource('skin_status', 'Management\SkinStatusController');
+
+    //Regiones del cuerpo
+    Route::apiResource('body_region', 'Management\BodyRegionController');
+
+    //Rutas de procedimientos de enfermeria
+    Route::apiResource('nursing_procedure', 'Management\NursingProcedureController');
+
+    //Historia clinica de enfermeria
+    //ruta entrada clinica
+    Route::apiResource('ch_nursing_entry', 'Management\ChNursingEntryController');
+    //ruta nota de enfermeria
+    Route::apiResource('ch_notes_description', 'Management\ChNotesDescriptionController');
+    Route::get('ch_notes_description/by_record/{record_id}', 'Management\ChNotesDescriptionController@getByRecord');
+    //ruta plan de cuidado
+    Route::apiResource('ch_care_plan', 'Management\ChCarePlanController');
+    Route::get('ch_care_plan/by_record/{record_id}', 'Management\ChCarePlanController@getByRecord');
+    //ruta de liquidos de control
+    Route::apiResource('ch_liquid_control', 'Management\ChLiquidControlController');
+    Route::get('ch_liquid_control/by_record/{record_id}', 'Management\ChLiquidControlController@getByRecord');
+    //ruta de valoracion de piel
+    Route::apiResource('ch_skin_valoration', 'Management\ChSkinValorationController');
+    Route::get('ch_skin_valoration/by_record/{record_id}', 'Management\ChSkinValorationController@getByRecord');
+    //ruta de valoracion de piel
+    Route::apiResource('ch_nursing_procedure', 'Management\ChNursingProcedureController');
+    Route::get('ch_nursing_procedure/by_record/{record_id}', 'Management\ChNursingProcedureController@getByRecord');
 });
