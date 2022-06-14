@@ -1,0 +1,27 @@
+[
+    {
+        "id": 1,
+        "name": "CITOSTOMÍA"
+    },
+    {
+        "id": 2,
+        "name": "COLONOSTOMÍA"
+    },
+    {
+        "id": 3,
+        "name": "GASTROSTOMÍA"
+    },
+    {
+        "id": 4,
+        "name": "ILEOSTOMÍA"
+    },
+    {
+        "id": 5,
+        "name": "YEYUNOSTROMÍA"
+    },
+    {
+        "id": 6,
+        "name": "OTRO"
+    }
+  
+]

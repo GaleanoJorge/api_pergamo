@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "NUTRICIÓN ENTERAL",
+        "type": 0
+    },
+    {
+        "id": 2,
+        "name": "NUTRICIÓN VIA ORAL",
+        "type": 0
+    },
+    {
+        "id": 3,
+        "name": "TRANSFUSIÓN",
+        "type": 0
+    },
+    {
+        "id": 4,
+        "name": "DIURESIS",
+        "type": 1
+    },
+    {
+        "id": 5,
+        "name": "DEPOSICIÓN",
+        "type": 1
+    },
+    {
+        "id": 6,
+        "name": "OTROS",
+        "type": 1
+    }
+]
