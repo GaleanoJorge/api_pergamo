@@ -25,6 +25,7 @@ use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
+use App\Models\RoleAttention;
 use Illuminate\Support\Facades\DB;
 
 
@@ -87,8 +88,16 @@ class ChRecordController extends Controller
      */
     public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
-        $ChRecord = ChRecord::with('user', 'admissions', 'admissions.patients')
-            ->where('admissions_id', $id)->where('assigned_management_plan_id', $id2);
+        $ChRecord = ChRecord::with(
+            'user',
+            'admissions',
+            'admissions.patients',
+            'assigned_management_plan',
+            'assigned_management_plan.management_plan',
+            'assigned_management_plan.management_plan.role_attention',
+        )
+            ->where('admissions_id', $id)
+            ->where('assigned_management_plan_id', $id2);
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -153,7 +162,22 @@ class ChRecordController extends Controller
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
         $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
+
         $ChRecord->user_id = Auth::user()->id;
+        $validate = RoleAttention::where('type_of_attention_id', $request->type_of_attention_id)->get()->toArray();
+
+        if ($validate) {
+            $roles = [];
+            foreach ($validate as $item) {
+                array_push($roles, $item['role_id']);
+            }
+            if (false !== array_search(7, $roles) || false !== array_search(3, $roles)) {
+                $ChRecord->ch_type_id = 1;
+            } else if (false !== (array_search(8, $roles)) || false !== array_search(9, $roles)) {
+                $ChRecord->ch_type_id = 2;
+            }
+        }
+
         $ChRecord->save();
 
         return response()->json([

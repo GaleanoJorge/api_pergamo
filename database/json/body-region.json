@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "CABEZA"
+    },
+    {
+        "id": 2,
+        "name": "MALEOLOS"
+    },
+    {
+        "id": 3,
+        "name": "MIEMBROS INFERIORES"
+    },
+    {
+        "id": 4,
+        "name": "PIES"
+    },
+    {
+        "id": 5,
+        "name": "REGIÓN DORSAL"
+    },
+    {
+        "id": 6,
+        "name": "REGIÓN GLUTEA"
+    },
+    {
+        "id": 7,
+        "name": "REGIÓN LUMBAR"
+    },
+    {
+        "id": 8,
+        "name": "REGIÓN SACRA"
+    },
+    {
+        "id": 9,
+        "name": "REGIÓN TRONCATERICA"
+    }
+  
+]

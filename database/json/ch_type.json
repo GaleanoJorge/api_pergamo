@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "Medicina general"
+    },
+    {
+        "id": 2,
+        "name": "Enfermeria"
+    },
+    {
+        "id": 3,
+        "name": "Nutrición"
+    }
+]
