@@ -167,6 +167,19 @@ class DatabaseSeeder extends Seeder
 
                 // BillingPad
                 $this->call(BillingPadStatusSeeder::class);
+
+                // clinic history of nursing
+
+                $this->call(NursingCarePlansSeeder::class);
+                $this->call(PatientPositionSeeder::class);
+                $this->call(OstomySeeder::class);
+                $this->call(NursingProcedureSeeder::class);
+                $this->call(BodyRegionSeeder::class);
+                $this->call(SkinStatusSeeder::class);
+                $this->call(ChRouteFluidSeeder::class);
+                $this->call(ChTypeFluidSeeder::class);
+                $this->call(ChTypeSeeder::class);
+        
                 $this->call(ProductGroupSeeder::class);
                 $this->call(ProductConcentrationSeeder::class);
                 $this->call(ProductPresentationSeeder::class);

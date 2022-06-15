@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "SONDA VESICAL",
+        "description": "Con previo lavado de manos y postura de guantes limpios se realiza lavado de área genital de paciente con gasa estéril, clorhexidina y agua limpia. procediendo a tener área genital limpia se procede a realizar cambio de guantes con técnica estéril, con sonda número ………  se procede a pasar sonda con técnica estéril se fija inflando balón con ………… cc, se deja a drenaje en cistoflo, se verifica retorno. se deja marcación de bolsa con nombre de paciente, número de identificación, fecha de inicio y fecha de cambio."
+
+    },
+    {
+        "id": 2,
+        "name": "SONDA NASOGÁSTRICA",
+        "description": "Con previo lavado de manos y postura de guantes limpios se realiza lavado de área genital de paciente con gasa estéril, clorhexidina y agua limpia. procediendo a tener área genital limpia se procede a realizar cambio de guantes con técnica estéril, con sonda número ………  se procede a pasar sonda con técnica estéril se fija inflando balón con ………… cc, se deja a drenaje en cistoflo, se verifica retorno. se deja marcación de bolsa con nombre de paciente, número de identificación, fecha de inicio y fecha de cambio."
+
+    },
+    {
+        "id": 3,
+        "name": "CANALIZACIÓN",
+        "description": "Con previo lavado de manos y postura de guantes limpios, se realiza limpieza de miembro. Con gasa estéril y alcohol del centro a la periferia. se procede a realizar punción con jelco numero #### se verifica retorno de sangre y se ajusta extensión de anestesia, se lava para verificar permeabilidad, se fija describiendo fecha de inicio y fecha de cambio."
+    },
+    {
+        "id": 4,
+        "name": "ADMINISTRACIÓN DE NUTRICIÓN",
+        "description": "Con previo lavado de manos y postura de guantes limpios, se procede a realizar lavado de sonda nasogástrica o sonda de gastrostomía con 20 cc de agua antes de administración de nutrición, se coloca paciente en posición fowler o elevación a 45 grados, se procede a conectar nutrición por bomba de infusión a ……………cc /h de acuerdo a orden médica."
+    },
+    {
+        "id": 5,
+        "name": "CURACIÓN DE ÚLCERA GRADO I Y II",
+        "description": "Con previo lavado de manos y postura de guantes, se procede a realizar limpieza de piel con gasas y solución salina, se deja con gasas estériles vaselinadas para mantener el lecho de la herida húmedo, se deja fijo con fixomull, se garantiza cambios de posición cada dos horas, evitar humedad, realiza lubricación de piel en cada cambio y medidas de barrera."
+    }
+    
+]
