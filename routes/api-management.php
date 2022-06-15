@@ -980,7 +980,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
     Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
-    Route::apiResource('fixed_stock_accessories', 'Management\FixedStockAccessoriesController');
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
     Route::apiResource('fixed_add', 'Management\FixedAddController');
