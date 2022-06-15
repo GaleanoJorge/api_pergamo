@@ -49,7 +49,7 @@ class BaseLocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Base de localidades obtenidas exitosamente',
+            'message' => 'Base de Comunas, Localidades o Veredas obtenidas exitosamente',
             'data' => ['base_location_capacity' => $BaseLocationCapacity]
         ]);
     }
@@ -82,7 +82,7 @@ class BaseLocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Base de localidades obtenidas exitosamente',
+            'message' => 'Base de Comunas, Localidades o Veredas obtenidas exitosamente',
             'data' => ['base_location_capacity' => $BaseLocationCapacity],
         ]);
     }
@@ -109,7 +109,7 @@ class BaseLocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Base de localidades creada exitosamente',
+            'message' => 'Base de Comunas, Localidades o Veredas creada exitosamente',
             'data' => ['base_location_capacity' => $BaseLocationCapacity->toArray()]
         ]);
     }
@@ -127,7 +127,7 @@ class BaseLocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Base de localidades obtenido exitosamente',
+            'message' => 'Base de Comunas, Localidades o Veredas obtenido exitosamente',
             'data' => ['base_location_capacity' => $BaseLocationCapacity]
         ]);
     }
@@ -148,7 +148,7 @@ class BaseLocationCapacityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Base de localidades actualizado exitosamente',
+            'message' => 'Base de Comunas, Localidades o Veredas actualizado exitosamente',
             'data' => ['base_location_capacity' => $BaseLocationCapacity]
         ]);
     }
@@ -167,12 +167,12 @@ class BaseLocationCapacityController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Base de localidades eliminado exitosamente'
+                'message' => 'Base de Comunas, Localidades o Veredas eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Base de localidades esta en uso, no es posible eliminarlo'
+                'message' => 'Base de Comunas, Localidades o Veredas esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

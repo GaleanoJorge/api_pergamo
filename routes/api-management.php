@@ -661,6 +661,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     );
 
     Route::get(
+        'admissions/active/{id}',
+        'Management\AdmissionsController@getActive'
+    );
+
+    Route::get(
         'admissions/Briefcase/{briefcase_id}',
         'Management\AdmissionsController@getByBriefcase'
     );
@@ -1201,7 +1206,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
-
+    Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
+    Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
+    Route::put('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
 
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');

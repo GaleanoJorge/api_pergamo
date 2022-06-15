@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AssistanceSpecialRequest extends FormRequest
+class BillingPadPgpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class AssistanceSpecialRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialty_id' => 'required',
-            'assistance_id' => 'required',
-
+            // 'procedure_id' => 'required',
+            // 'admissions_id' => 'required',
         ];
     }
 }

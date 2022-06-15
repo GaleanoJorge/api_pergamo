@@ -47,7 +47,7 @@ class AssistanceSpecialController extends Controller
     public function store(AssistanceSpecialRequest $request): JsonResponse
    {
        $A_special =new AssistanceSpecial;
-       $A_special->special_field_id = $request->special_field_id;
+       $A_special->specialty_id = $request->specialty_id;
        $A_special->assistance_id = $request->assistance_id;
        $A_special->save();
 
@@ -85,7 +85,7 @@ class AssistanceSpecialController extends Controller
    public function update(AssistanceSpecialRequest $request, int $id): JsonResponse
    {
         $A_special = AssistanceSpecial::find($id);
-        $A_special->special_field_id = $request->special_field_id;
+        $A_special->specialty_id = $request->specialty_id;
         $A_special->assistance_id = $request->assistance_id;
         $A_special->save();
 

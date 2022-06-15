@@ -23,7 +23,7 @@ class CreateBillingPadLogTable extends Migration
 
             $table->index('billing_pad_id');
             $table->foreign('billing_pad_id')->references('id')
-                ->on('billing_pad_log');
+                ->on('billing_pad');
 
             $table->index('billing_pad_status_id');
             $table->foreign('billing_pad_status_id')->references('id')

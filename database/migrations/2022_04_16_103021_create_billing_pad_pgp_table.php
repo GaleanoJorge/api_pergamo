@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBillingPadTable extends Migration
+class CreateBillingPadPgpTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,26 +14,21 @@ class CreateBillingPadTable extends Migration
      */
     public function up()
     {
-        Schema::create('billing_pad', function (Blueprint $table) {
+        Schema::create('billing_pad_pgp', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('total_value')->nullable();
             $table->date('validation_date')->nullable();
             $table->unsignedBigInteger('billing_pad_status_id')->nullable();
-            $table->unsignedBigInteger('admissions_id')->nullable();
-            $table->unsignedBigInteger('billing_pad_pgp_id')->nullable();
+            $table->unsignedBigInteger('contract_id');
             $table->timestamps();
 
             $table->index('billing_pad_status_id');
             $table->foreign('billing_pad_status_id')->references('id')
                 ->on('billing_pad_status');
 
-            $table->index('admissions_id');
-            $table->foreign('admissions_id')->references('id')
-                ->on('admissions');
-
-            $table->index('billing_pad_pgp_id');
-            $table->foreign('billing_pad_pgp_id')->references('id')
-                ->on('billing_pad_pgp');
+            $table->index('contract_id');
+            $table->foreign('contract_id')->references('id')
+                ->on('contract');
         });
     }
 
@@ -44,6 +39,6 @@ class CreateBillingPadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('billing_pad');
+        Schema::dropIfExists('billing_pad_pgp');
     }
 }

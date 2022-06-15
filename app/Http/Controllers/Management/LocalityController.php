@@ -45,7 +45,7 @@ class LocalityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidades de residencia asociadas exitosamente',
+            'message' => 'Comunas, Localidades o Veredas de residencia asociadas exitosamente',
             'data' => ['locality' => $Locality]
         ]);
     }
@@ -60,7 +60,7 @@ class LocalityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidad de residencia creada exitosamente',
+            'message' => 'Comunas, Localidades o Veredas de residencia creada exitosamente',
             'data' => ['locality' => $Locality->toArray()]
         ]);
     }
@@ -78,7 +78,7 @@ class LocalityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidad de residencia obtenida exitosamente',
+            'message' => 'Comunas, Localidades o Veredas de residencia obtenida exitosamente',
             'data' => ['locality' => $Locality]
         ]);
     }
@@ -109,7 +109,7 @@ class LocalityController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Localidad de residencia actualizada exitosamente',
+            'message' => 'Comunas, Localidades o Veredas de residencia actualizada exitosamente',
             'data' => ['locality' => $Locality]
         ]);
     }
@@ -128,12 +128,12 @@ class LocalityController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Localidad de residencia eliminada exitosamente'
+                'message' => 'Comunas, Localidades o Veredas de residencia eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Localidad de residencia esta en uso, no es posible eliminarla'
+                'message' => 'Comunas, Localidades o Veredas de residencia esta en uso, no es posible eliminarla'
             ], 423);
         }
     }

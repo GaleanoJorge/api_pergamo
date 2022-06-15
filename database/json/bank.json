@@ -1,127 +1,126 @@
 [
     {
-        "code": "1",
-        "name": "BANCO DE BOGOTÁ"
+        "name": "AV VILLAS",
+        "code": "052"
     },
     {
-        "code": "2",
-        "name": "BANCO POPULAR"
+        "name": "BANCO AGRARIO",
+        "code": "040"
     },
     {
-        "code": "6",
-        "name": "BANCO CORPBANCA COLOMBIA"
+        "name": "BANCO BBVA",
+        "code": "013"
     },
     {
-        "code": "7",
-        "name": "BANCOLOMBIA"
+        "name": "BANCO CAJA SOCIAL",
+        "code": "032"
     },
     {
-        "code": "19",
-        "name": "CITIBANK"
+        "name": "BANCO COLPATRIA",
+        "code": "019"
     },
     {
-        "code": "12",
-        "name": "BANCO GNB SUDAMERIS"
+        "name": "BANCO COMPARTIR S.A",
+        "code": "067"
     },
     {
-        "code": "13",
-        "name": "BANCO BBVA"
+        "name": "BANCO COOMEVA",
+        "code": "061"
     },
     {
-        "code": "14",
-        "name": "HELM BANK"
+        "name": "BANCO COOPERATIVO COOPCENTRAL",
+        "code": "066"
     },
     {
-        "code": "19",
-        "name": "BANCO COLPATRIA"
+        "name": "BANCO CORPBANCA COLOMBIA S.A.",
+        "code": "006"
     },
     {
-        "code": "23",
-        "name": "BANCO OCCIDENTE"
+        "name": "BANCO DAVIVIENDA",
+        "code": "051"
     },
     {
-        "code": "32",
-        "name": "BANCO CAJASOCIAL"
+        "name": "BANCO DE BOGOTA",
+        "code": "001"
     },
     {
-        "code": "40",
-        "name": "BANCO AGRARIO"
+        "name": "BANCO DE OCCIDENTE",
+        "code": "023"
     },
     {
-        "code": "42",
-        "name": "BNP PARIBAS COLOMBIA CORP.FINAN.S.A"
+        "name": "BANCO FALABELLA S.A.",
+        "code": "062"
     },
     {
-        "code": "51",
-        "name": "BANCO DAVIVIENDA"
+        "name": "BANCO FIN/ANDIN/A S.A.",
+        "code": "063"
     },
     {
-        "code": "52",
-        "name": "BANCO AVVILLAS"
+        "name": "BANCO GNB COLOMBIA S.A.",
+        "code": "010"
     },
     {
-        "code": "58",
-        "name": "BANCO PROCREDIT COL.S.A."
+        "name": "BANCO GNB SUDAMERIS",
+        "code": "012"
     },
     {
-        "code": "60",
-        "name": "BANCO PICHINCHA"
+        "name": "BANCO MULTIBANK S.A.",
+        "code": "064"
     },
     {
-        "code": "61",
-        "name": "BANCO COOMEVA"
+        "name": "BANCO PICHINCHA",
+        "code": "060"
     },
     {
-        "code": "62",
-        "name": "BANCO FALABELLA S.A."
+        "name": "BANCO POPULAR",
+        "code": "002"
     },
     {
-        "code": "63",
-        "name": "BANCO FINANDINA S.A."
+        "name": "BANCO PROCREDIT COLOMBIA S.A.",
+        "code": "058"
     },
     {
-        "code": "65",
-        "name": "BANCO SANTANDER DE NEGOCIOS"
+        "name": "BANCO SANTANDER DE NEGOCIOS COL",
+        "code": "065"
     },
     {
-        "code": "66",
-        "name": "BANCO COOPERATIVO COOPCENTRAL"
+        "name": "BANCOLOMBIA",
+        "code": "007"
     },
     {
-        "code": "121",
-        "name": "FINANCIERA JURISCOOP S.A. COMPAÑÍA DE FINANCIAMIENTO"
+        "name": "BNP PARIBAS COLOMBIA",
+        "code": "042"
     },
     {
-        "code": "283",
-        "name": "COOP. FINANCIERA DE ANTIOQUIA"
+        "name": "CITIBANK",
+        "code": "009"
     },
     {
-        "code": "289",
-        "name": "COTRAFA COOPERATIVA FINANCIERA"
+        "name": "COLTEFIN/ANCIERA S.A.",
+        "code": "370"
     },
     {
-        "code": "292",
-        "name": "CONFIAR"
+        "name": "CONFIAR S.A.",
+        "code": "292"
     },
     {
-        "code": "370",
-        "name": "COLTEFINANCIERA S.A."
+        "name": "COOPERATIVA FIN/ANCIERA DE ANTIOQUIA",
+        "code": "283"
     },
     {
-        "code": "99",
-        "name": "PAGO EN CHEQUE"
+        "name": "COTRAFA COOPERATIVA FIN/ANCIERA",
+        "code": "289"
     },
     {
-        "code": "98",
-        "name": "PAGO EN EFECTIVO"
+        "name": "FIN/ANCIERA JURISCOOP S.A. CF",
+        "code": "121"
     },
     {
-        "code": "97",
-        "name": "POR DEFINIR"
+        "name": "HELM BANK S.A.",
+        "code": "014"
     },
     {
-        "code": "47",
-        "name": "BANCO MUNDO MUJER "
+        "name": "BANCO MUNDO MUJER",
+        "code": "047"
     }
 ]
-

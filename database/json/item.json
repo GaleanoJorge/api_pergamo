@@ -119,8 +119,8 @@
     {
         "id": "23",
         "item_parent_id": "65",
-        "name": "Ciudad",
-        "code": "ciudad",
+        "name": "Providencia, Vereda o Municipio",
+        "code": "Providencia, Vereda o Municipio",
         "route": "/pages/setting/municipality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -1028,8 +1028,8 @@
     {
         "id": "163",
         "item_parent_id": "65",
-        "name": "Localidad",
-        "code": "localidad",
+        "name": "Comuna, Localidad o Vereda",
+        "code": "Comuna, Localidad o Vereda",
         "route": "/pages/setting/locality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -1055,10 +1055,10 @@
     {
         "id": "166",
         "item_parent_id": "165",
-        "name": "Tarifa localización",
+        "name": "Zona",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
-        "icon": "navigation-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {

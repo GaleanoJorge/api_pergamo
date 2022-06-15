@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\AdmissionRoute;
+use App\Models\Admissions;
 use App\Models\Program;
 use App\Models\PadRisk;
 use App\Models\ScopeOfAttention;
@@ -28,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $program_id
  * @property BigInteger $pad_risk_id
  * @property BigInteger $type_of_attention_id
+ * @property BigInteger $admissions_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -58,5 +60,9 @@ class Tariff extends Model
 	public function status()
 	{
 		return $this->belongsTo(Status::class);
+	}
+	public function admissions()
+	{
+		return $this->belongsTo(Admissions::class);
 	}
 }

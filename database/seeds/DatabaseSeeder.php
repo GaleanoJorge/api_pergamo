@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(UserRole2Seeder::class);
                 //$this->call(UserOriginSeeder::class);
                 $this->call(CampusSeeder::class);
-                $this->call(UserCampusSeeder::class);
+                //$this->call(UserCampusSeeder::class);
                 //$this->call(CourseEducationalInstitutionSeeder::class);
                 //$this->call(CourseInstitutionCohortSeeder::class);
                 //$this->call(UserRoleCourseSeeder::class);
@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
 
-                // $this->call(ChTypeBackgroundSeeder::class);
+                $this->call(ChTypeBackgroundSeeder::class);
 
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
