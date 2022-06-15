@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Management;
 use App\Models\FixedAdd;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\FixedAccessories;
 use Illuminate\Http\Request;
-use App\Http\Requests\BedRequest;
+use App\Models\FixedAssets;
+use App\Models\FixedLoan;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class FixedAddController extends Controller
 {
@@ -18,7 +21,18 @@ class FixedAddController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAdd = FixedAdd::with('fixed_assets', 'fixed_assets.fixed_clasification', 'fixed_location_campus','fixed_location_campus.campus', 'fixed_location_campus.flat', 'responsible_user', 'responsible_user.user', 'fixed_accessories');
+        $FixedAdd = FixedAdd::with(
+            'fixed_assets',
+            'fixed_assets.fixed_clasification',
+            'fixed_location_campus',
+            'fixed_location_campus.campus',
+            'fixed_location_campus.flat',
+            'responsible_user',
+            'responsible_user.user',
+            'fixed_accessories'
+        )->select('fixed_add.*', DB::raw('SUM(fixed_loan.amount_provition) AS cantidad_enviada'))
+            ->leftJoin('fixed_loan', 'fixed_loan.fixed_add_id', 'fixed_add.id')
+            ->groupBy('fixed_add.id');
 
         if ($request->_sort) {
             $FixedAdd->orderBy($request->_sort, $request->_order);
@@ -27,6 +41,22 @@ class FixedAddController extends Controller
         if ($request->search) {
             $FixedAdd->where('name', 'like', '%' . $request->search . '%');
         }
+
+
+        if ($request->fixed_assets_id) {
+            $FixedAdd->where('fixed_add.fixed_assets_id', $request->fixed_assets_id);
+        }
+        if ($request->fixed_accessories_id) {
+            $FixedAdd->where('fixed_add.fixed_accessories_id', $request->fixed_accessories_id);
+        }
+
+        if ($request->insum == "true") {
+            $FixedAdd->whereNotNull('fixed_assets_id')->whereNull('fixed_accessories_id');
+        } else if ($request->insum == "false") {
+            $FixedAdd->whereNull('fixed_assets_id')->whereNotNull('fixed_accessories_id');
+        }
+
+
 
         if ($request->query("pagination", true) == "false") {
             $FixedAdd = $FixedAdd->get()->toArray();
@@ -45,6 +75,24 @@ class FixedAddController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPharmacyLotId(Request $request, int $id): JsonResponse
+    {
+        $FixedAdd = FixedAdd::select('fixed_add.*')
+            ->leftJoin('fixed_add', 'fixed_add.id', '=', 'fixed_type.id')
+            ->where('fixed_type.id', $id)
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Producto solicitado obtenidas exitosamente',
+            'data' => ['fixed_add' => $FixedAdd]
+        ]);
+    }
 
     public function store(Request $request): JsonResponse
     {
@@ -54,7 +102,7 @@ class FixedAddController extends Controller
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
         $FixedAdd->responsible_user_id = $request->responsible_user_id;
         $FixedAdd->observation = $request->observation;
-        $FixedAdd->amount_ship = $request->amount_ship;
+        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->status = $request->status;
 
         $FixedAdd->save();
@@ -98,7 +146,7 @@ class FixedAddController extends Controller
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
         $FixedAdd->responsible_user_id = $request->responsible_user_id;
         $FixedAdd->observation = $request->observation;
-        $FixedAdd->amount_ship = $request->amount_ship;
+        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->status = $request->status;
         $FixedAdd->save();
 
@@ -108,6 +156,140 @@ class FixedAddController extends Controller
             'data' => ['fixed_add' => $FixedAdd]
         ]);
     }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $i
+     * @return JsonResponse
+     */
+    public function updateInventoryByLot(Request $request, int $id): JsonResponse
+    {
+        $FixedAdd = FixedAdd::find($id);
+        if ($FixedAdd) {
+            if ($request->status == "ENVIADO") {
+                $FixedAdd->request_amount = $FixedAdd->request_amount - $request->amount;
+                $FixedAdd->status = $request->status;
+                $FixedAdd->save();
+
+                if ($request->fixed_assets_id != null) {
+
+                    $elements = json_decode($request->fixed_loan_id);
+                    foreach ($elements as $element) {
+                        $FixedAssets = FixedAssets::find($element->fixed_assets_id);
+                        $FixedAssets->request_amount = $FixedAssets->request_amount - $element->amount;
+                        $FixedAssets->save();
+
+                        $FixedLoan = new FixedLoan();
+                        $FixedLoan->fixed_add =  $FixedAdd->id;
+                        // $FixedLoan->fixed_assets_id =  $FixedAssets->id;
+                        $FixedLoan->amount_damaged =  0;
+                        $FixedLoan->request_amount =  0;
+                        $FixedLoan->amount_provition =  $element->request_amount;
+                        $FixedLoan->save();
+                    }
+                } else {
+                    $elements = json_decode($request->fixed_loan_id);
+                    foreach ($elements as $element) {
+                        $FixedLoan = FixedLoan::find($element->fixed_loan_id);
+                        $FixedLoan->amount = $FixedLoan->amount - $element->amount;
+                        $FixedLoan->save();
+
+                        $FixedLoan = new FixedLoan();
+                        $FixedLoan->fixed_add =  $FixedAdd->id;
+                        $FixedLoan->amount_damaged =  0;
+                        $FixedLoan->amount =  0;
+                        $FixedLoan->amount_provition =  $element->amount;
+                        $FixedLoan->save();
+                    }
+                }
+            }
+            if ($request->status == "ACEPTADO") {
+                $FixedAdd->request_amount = $FixedAdd->request_amount - $request->amount;
+                $FixedAdd->status = $request->status;
+                $FixedAdd->observation = $request->observation;
+                $FixedAdd->save();
+
+                $elements = json_decode($request->fixed_assets_id);
+                foreach ($elements as $element) {
+                    $FixedAssets = FixedAssets::find($element->fixed_assets_id);
+
+                    $FixedLoan = FixedLoan::find($element->fixed_loan_id);
+                    $FixedLoan->amount_damaged =  $element->amount_damaged;
+                    $FixedLoan->amount =  $element->amount;
+                    $FixedLoan->save();
+
+                    $NewFixedAssets = new FixedAssets;
+                    $NewFixedAssets->amount_total = $FixedAssets->amount_total;
+                    $NewFixedAssets->sample = $FixedAssets->sample;
+                    $NewFixedAssets->amount = $element->amount;
+                    $NewFixedAssets->save();
+                }
+            }
+        } else {
+            $FixedAdd = new FixedAdd;
+            $FixedAdd->request_amount = $request->amount_provition;
+            $FixedAdd->status = $request->status;
+            $FixedAdd->observation = '';
+            $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+            $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
+            $FixedAdd->responsible_user_id = $request->responsible_user_id;
+            $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
+            $FixedAdd->save();
+
+
+            $FixedLoan = new FixedLoan;
+            $FixedLoan->fixed_add_id =  $FixedAdd->id;
+            $FixedLoan->amount_damaged =  0;
+            $FixedLoan->amount =  0;
+            $FixedLoan->amount_provition =  $request->amount_provition;
+            $FixedLoan->responsible_user_id =  $request->responsible_user_id;
+            $FixedLoan->save();
+        }
+
+        // fixed_type
+
+
+        $FixedAdd->amount = $FixedAdd->amount - $request->amount;
+        $FixedAdd->save();
+        $PharmacyReceptorInventory = FixedAdd::select('pharmacy_lot_stock.*')
+            ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id)->where('pharmacy_lot_stock_id', $request->pharmacy_lot_stock_id)->first();
+        if ($PharmacyReceptorInventory) {
+            $PharmacyReceptorInventory->amount = $PharmacyReceptorInventory->amount + $request->amount;
+            $PharmacyReceptorInventory->save();
+        } else {
+            $PharmacyReceptorInventory = new FixedAdd;
+            $FixedAdd->amount = $request->amount;
+            $FixedAdd->fixed_add_id = $request->fixed_add_id;
+            $FixedAdd->fixed_loan_id = $request->fixed_loan_id;
+            $PharmacyReceptorInventory->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Inventario activos actualizado exitosamente',
+            'data' => ['fixed_loan' => $PharmacyReceptorInventory]
+        ]);
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Inventario lote actualizado exitosamente',
+        //     'data' => ['billing_stock_id' => $PharmacyReceptorInventory]
+        // ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.
