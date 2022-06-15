@@ -13,36 +13,38 @@ class MunicipalityController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $municipalitys = Municipality::with('region','circuit');
+        $municipalitys = Municipality::with('region', 'circuit')
+            ->leftJoin('region', 'municipality.region_id', '=', 'region.id');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $municipalitys->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $municipalitys->where('name','like','%' . $request->search. '%');
+            $municipalitys->where('municipality.name', 'like', '%' . $request->search . '%')
+                ->orWhere('region.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->status_id) {
-            $municipalitys->where('status_id', $request->status_id);
+            $municipalitys->where('municipality.status_id', $request->status_id);
         }
 
         if ($request->circuit_id) {
-            $municipalitys->where('circuit_id', $request->circuit_id);
+            $municipalitys->where('municipality.circuit_id', $request->circuit_id);
         }
 
         if ($request->region_id) {
-            $municipalitys->where('region_id', $request->region_id);
+            $municipalitys->where('municipality.region_id', $request->region_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $municipalitys=$municipalitys->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $municipalitys=$municipalitys->paginate($per_page,'*','page',$page); 
-        }   
+
+        if ($request->query("pagination", true) == "false") {
+            $municipalitys = $municipalitys->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $municipalitys = $municipalitys->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -54,14 +56,14 @@ class MunicipalityController extends Controller
     public function autocomplete(Request $request): JsonResponse
     {
         $municipalitys = Municipality::select('municipality.id AS value', 'municipality.name AS label')
-        ->with('region','circuit');
+            ->with('region', 'circuit');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $municipalitys->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $municipalitys->where('name','like','%' . $request->search. '%');
+            $municipalitys->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->status_id) {
@@ -75,15 +77,15 @@ class MunicipalityController extends Controller
         if ($request->region_id) {
             $municipalitys->where('region_id', $request->region_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $municipalitys=$municipalitys->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $municipalitys=$municipalitys->paginate($per_page,'*','page',$page); 
-        }   
+
+        if ($request->query("pagination", true) == "false") {
+            $municipalitys = $municipalitys->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $municipalitys = $municipalitys->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -121,7 +123,7 @@ class MunicipalityController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $Municipality = Municipality::where('id', $id)->with('region','circuit')
+        $Municipality = Municipality::where('id', $id)->with('region', 'circuit')
             ->get()->toArray();
 
         return response()->json([
@@ -177,4 +179,3 @@ class MunicipalityController extends Controller
         }
     }
 }
-

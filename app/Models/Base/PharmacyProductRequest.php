@@ -11,6 +11,7 @@ use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use App\Models\User;
 use App\Models\Admissions;
+use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $product_generic_id
  * @property BigInteger $admissions_id
  * @property BigInteger $own_pharmacy_stock_id
+ * @property BigInteger $product_supplies_id
  * @property BigInteger $request_pharmacy_stock_id
  * @property BigInteger $request_pharmacy_stock_id
  * @property Carbon $created_at
@@ -47,6 +49,10 @@ class PharmacyProductRequest extends Model
 	public function product_generic()
 	{
 		return $this->belongsTo(ProductGeneric::class);
+	}
+	public function product_supplies()
+	{
+		return $this->belongsTo(ProductSupplies::class);
 	}
 	public function services_briefcase()
 	{

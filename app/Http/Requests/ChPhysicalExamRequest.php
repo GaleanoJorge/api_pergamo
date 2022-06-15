@@ -26,8 +26,9 @@ class ChPhysicalExamRequest extends FormRequest
         return [
             'revision' => '',
             'type_ch_physical_exam_id' => '',
-            'type_record_id' => '',
-            'ch_record_id' => ''
+            'description' => '',
+            'type_record_id' => 'required',
+            'ch_record_id' => 'required'
         ];
     }
 }

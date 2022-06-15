@@ -28,6 +28,10 @@ class ContractController extends Controller
             $Contract->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->id) {
+            $Contract->where('id', $request->id);
+        }
+
         if ($request->query("pagination", true) == "false") {
             $Contract = $Contract->get()->toArray();
         } else {

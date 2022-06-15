@@ -694,6 +694,7 @@ class PatientController extends Controller
                 $patients->population_group_id = $request->population_group_id;
                 $patients->username = $request->username;
                 $patients->is_disability = $request->is_disability;
+                $patients->is_street_dweller = $request->is_street_dweller;
                 $patients->disability = $request->disability;
                 $patients->gender_type = $request->gender_type;
                 $patients->email = $request->email;
@@ -743,6 +744,7 @@ class PatientController extends Controller
             $patients->population_group_id = $request->population_group_id;
             $patients->username = $request->username;
             $patients->is_disability = $request->is_disability;
+            $patients->is_street_dweller = $request->is_street_dweller;
             $patients->disability = $request->disability;
             $patients->gender_type = $request->gender_type;
             $patients->email = $request->email;
@@ -873,6 +875,8 @@ class PatientController extends Controller
         $patients->is_disability = $request->is_disability;
         $patients->age = $request->age;
         $patients->activities_id = $request->activities_id;
+        $patients->is_street_dweller = $request->is_street_dweller;
+        $patients->is_disability = $request->is_disability;
         $patients->disability = $request->disability;
         $patients->residence_address = $request->residence_address;
         $patients->residence_country_id = $request->residence_country_id;

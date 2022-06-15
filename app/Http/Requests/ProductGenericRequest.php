@@ -34,10 +34,6 @@ class ProductGenericRequest extends FormRequest
             'administration_route_id',
             'special_controller_medicine',
             'code_atc',
-            'implantable',
-            'reuse',
-            'invasive',
-            'consignment',
             'product_dose_id',
         ];
     }

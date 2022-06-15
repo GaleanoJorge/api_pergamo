@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BillUserActivityRequest;
 use Illuminate\Database\QueryException;
 use App\Models\AccountReceivable;
-
+use App\Models\Tariff;
 
 class BillUserActivityController extends Controller
 {
@@ -127,14 +127,14 @@ class BillUserActivityController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $BillUserActivity = BillUserActivity::find($id)->with('procedure', 'procedure.manual_price', 'tariff');
+        $BillUserActivity = BillUserActivity::where('id', $id)->with('procedure', 'procedure.manual_price', 'tariff')->get()->first();
         $BillUserActivity->status = $request->status;
         $BillUserActivity->observation = $request->observation;
         $BillUserActivity->save();
-        $BillUserActivity = $BillUserActivity->toArray();
         if ($request->status == 'APROBADO') {
+            $tariff = Tariff::where('id', $BillUserActivity->tariff_id)->get()->first();
             $AccountReceivable = AccountReceivable::find($BillUserActivity->account_receivable_id);
-            $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $BillUserActivity['tariff']['amount'];
+            $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
             $AccountReceivable->save();
         }
 

@@ -27,10 +27,6 @@ class CreateProductGenericTable extends Migration
             $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->Integer ('special_controller_medicine')->nullable();
             $table->string ('code_atc')->nullable();
-            $table->Integer ('implantable')->nullable();
-            $table->Integer ('reuse')->nullable();
-            $table->Integer ('invasive')->nullable();
-            $table->Integer ('consignment')->nullable();
             $table->unsignedBigInteger('product_dose_id');
             $table->string('dose')->nullable();
             $table->timestamps();

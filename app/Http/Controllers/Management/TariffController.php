@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\TariffRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class TariffController extends Controller
 {
@@ -19,10 +20,16 @@ class TariffController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Tariff = Tariff::select('tariff.*')->with('pad_risk', 'status', 'type_of_attention', 'program')
+        $Tariff = Tariff::select(
+            'tariff.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->with('pad_risk', 'status', 'type_of_attention', 'program', 'admissions')
             ->leftJoin('pad_risk', 'pad_risk.id', '=', 'tariff.pad_risk_id')
             ->leftJoin('type_of_attention', 'type_of_attention.id', 'tariff.type_of_attention_id')
             ->leftJoin('status', 'status.id', 'tariff.status_id')
+            ->leftJoin('admissions', 'admissions.id', 'tariff.admissions_id')
+            ->Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftJoin('program', 'program.id', '=', 'tariff.program_id');
 
         if ($request->_sort) {
@@ -32,8 +39,7 @@ class TariffController extends Controller
         if ($request->search) {
             $Tariff->where('tariff.name', 'like', '%' . $request->search . '%')
                 ->orWhere('program.name', 'like', '%' . $request->search . '%')
-                ->orWhere('pad_risk.name', 'like', '%' . $request->search . '%')
-                ;
+                ->orWhere('pad_risk.name', 'like', '%' . $request->search . '%');
         }
         if ($request->pad_risk_id) {
             $Tariff->where('pad_risk_id', $request->pad_risk_id);
@@ -68,24 +74,46 @@ class TariffController extends Controller
 
     public function store(TariffRequest $request): JsonResponse
     {
-        $TariffTest = Tariff::select()
-            ->where('quantity', $request->quantity);
-            if ($request->extra_dose) {
-                $TariffTest->where('extra_dose', 1);
-            } else {
-                $TariffTest->where('extra_dose', 0);
-            }
-            if ($request->phone_consult) {
-                $TariffTest->where('phone_consult', 1);
-            } else {
-                $TariffTest->where('phone_consult', 0);
-            }
-            $TariffTest->where('status_id', $request->status_id)
-            ->where('pad_risk_id', $request->pad_risk_id)
-            ->where('program_id', $request->program_id)
-            ->where('type_of_attention_id', $request->type_of_attention_id)
-            ->first();
-        if ($TariffTest) {
+        $TariffTest = Tariff::select();
+        if ($request->quantity) {
+            $TariffTest->where('quantity', $request->quantity);
+        } else {
+            $TariffTest->whereNull('quantity');
+        }
+        if ($request->extra_dose) {
+            $TariffTest->where('extra_dose', 1);
+        } else {
+            $TariffTest->where('extra_dose', 0);
+        }
+        if ($request->failed) {
+            $TariffTest->where('failed', 1);
+        } else {
+            $TariffTest->where('failed', 0);
+        }
+        if ($request->phone_consult) {
+            $TariffTest->where('phone_consult', 1);
+        } else {
+            $TariffTest->where('phone_consult', 0);
+        }
+        if ($request->pad_risk_id) {
+            $TariffTest->where('pad_risk_id', $request->pad_risk_id);
+        } else {
+            $TariffTest->whereNull('pad_risk_id');
+        }
+        if ($request->program_id) {
+            $TariffTest->where('program_id', $request->program_id);
+        } else {
+            $TariffTest->whereNull('program_id');
+        }
+        if ($request->type_of_attention_id) {
+            $TariffTest->where('admissions_id', $request->admissions_id);
+        } else {
+            $TariffTest->whereNull('admissions_id');
+        }
+        $TariffTest->where('status_id', $request->status_id)
+            ->where('type_of_attention_id', $request->type_of_attention_id);
+        $TariffTest = $TariffTest->get()->toArray();
+        if (count($TariffTest) > 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'Tarifa ya existe, o se encuentra en estado actiiva',
@@ -112,6 +140,8 @@ class TariffController extends Controller
         $Tariff->pad_risk_id = $request->pad_risk_id;
         $Tariff->program_id = $request->program_id;
         $Tariff->type_of_attention_id = $request->type_of_attention_id;
+        $Tariff->admissions_id = $request->admissions_id;
+        $Tariff->failed = $request->failed;
 
         $Tariff->save();
 
@@ -158,6 +188,8 @@ class TariffController extends Controller
         $Tariff->pad_risk_id = $request->pad_risk_id;
         $Tariff->program_id = $request->program_id;
         $Tariff->type_of_attention_id = $request->type_of_attention_id;
+        $Tariff->admissions_id = $request->admissions_id;
+        $Tariff->failed = $request->failed;
 
         $Tariff->save();
 
