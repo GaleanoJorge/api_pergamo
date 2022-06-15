@@ -21,7 +21,6 @@ class CreateFixedAssetsTable extends Migration
             $table->string('obs_property')->nullable();
             $table->string('plaque')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
-            $table->string('name');
             $table->integer('amount');
             $table->string('model')->nullable();
             $table->string('mark');
@@ -29,7 +28,9 @@ class CreateFixedAssetsTable extends Migration
             $table->string('description');
             $table->string('detail_description');
             $table->string('color');
+            $table->string('status');
             $table->unsignedBigInteger('fixed_condition_id');
+            $table->unsignedBigInteger('campus_id');
             $table->timestamps();
 
             $table->index('fixed_clasification_id');
@@ -51,6 +52,10 @@ class CreateFixedAssetsTable extends Migration
             $table->index('fixed_condition_id');
             $table->foreign('fixed_condition_id')->references('id')
                 ->on('fixed_condition');
+
+            $table->index('campus_id');
+            $table->foreign('campus_id')->references('id')
+                ->on('campus');
         });
     }
 

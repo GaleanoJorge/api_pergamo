@@ -108,7 +108,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Product
     Route::apiResource('product', 'Management\ProductController');
-
+    // insumo comercial
+    Route::apiResource('product_supplies_com', 'Management\ProductSuppliesComController');
     //Risk
     Route::apiResource('risk', 'Management\RiskController');
 
@@ -482,6 +483,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Producto Generico
     Route::apiResource('product_generic', 'Management\ProductGenericController');
+    //Producto insumos
+    Route::apiResource('product_supplies', 'Management\ProductSuppliesController');
 
     //Presentacion del producto
     Route::apiResource('product_presentation', 'Management\ProductPresentationController');
@@ -958,15 +961,22 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
-    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
-    
+
     Route::apiResource('nom_product', 'Management\NomProductController');
-    Route::get('NomProduct/byCategory/{product_subcategory_id}',
+    Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
+    Route::get(
+        'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
 
+
+    Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
+    Route::get(
+        'NomSupplies/byCategory/{product_subcategory_id}',
+        'Management\NomSuppliesController@getSubcategoryByCategory'
+    );
 
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
@@ -982,6 +992,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_stock_accessories', 'Management\FixedStockAccessoriesController');
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
+    Route::apiResource('fixed_add', 'Management\FixedAddController');
+    Route::apiResource('fixed_request', 'Management\FixedRequestController');
 
 
 

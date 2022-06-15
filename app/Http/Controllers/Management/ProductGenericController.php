@@ -59,12 +59,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  
-        $ProductGeneric->implantable = $request->implantable; 
-        $ProductGeneric->reuse = $request->reuse;
-        $ProductGeneric->invasive = $request->invasive;
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
-        $ProductGeneric->consignment = $request->consignment; 
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->save();
@@ -114,12 +110,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->administration_route_id = $request->administration_route_id;  
         $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
         $ProductGeneric->code_atc = $request->code_atc;  
-        $ProductGeneric->implantable = $request->implantable; 
-        $ProductGeneric->reuse = $request->reuse;
-        $ProductGeneric->invasive = $request->invasive;
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
-        $ProductGeneric->consignment = $request->consignment;   
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->save();

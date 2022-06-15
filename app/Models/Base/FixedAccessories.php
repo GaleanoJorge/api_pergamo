@@ -5,6 +5,8 @@
  */
 
 namespace App\Models\Base;
+
+use App\Models\Campus;
 use App\Models\FixedTypeRole;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property integer $amount
  * @property BigInteger $fixed_type_role_id
+ * @property BigInteger $campus_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -30,5 +33,9 @@ class FixedAccessories extends Model
 	public function fixed_type_role()
 	{
 		return $this->belongsTo(FixedTypeRole::class);
+	}
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class);
 	}
 }

@@ -11,5 +11,6 @@ protected $fillable = [
 	'name',
 	'amount',
     'fixed_type_role_id',
+    'campus_id',
 	];
 }

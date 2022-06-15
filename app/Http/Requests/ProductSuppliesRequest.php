@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FixedAccessoriesRequest extends FormRequest
+class ProductSuppliesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,6 @@ class FixedAccessoriesRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required',
-            'amount' => 'required',
-            'fixed_type_role_id' => 'required',
-            'campus_id' => 'required',
         ];
     }
 }
