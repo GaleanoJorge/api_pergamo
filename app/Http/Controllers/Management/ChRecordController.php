@@ -94,7 +94,7 @@ class ChRecordController extends Controller
             'admissions.patients',
             'assigned_management_plan',
             'assigned_management_plan.management_plan',
-            'assigned_management_plan.management_plan.role_attention',
+            'assigned_management_plan.management_plan.type_of_attention',
         )
             ->where('admissions_id', $id)
             ->where('assigned_management_plan_id', $id2);
@@ -175,6 +175,8 @@ class ChRecordController extends Controller
                 $ChRecord->ch_type_id = 1;
             } else if (false !== (array_search(8, $roles)) || false !== array_search(9, $roles)) {
                 $ChRecord->ch_type_id = 2;
+            }else if (false !== (array_search(10, $roles))) {
+                $ChRecord->ch_type_id = 3;
             }
         }
 

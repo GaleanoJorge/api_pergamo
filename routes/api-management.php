@@ -1320,4 +1320,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //ruta de valoracion de piel
     Route::apiResource('ch_nursing_procedure', 'Management\ChNursingProcedureController');
     Route::get('ch_nursing_procedure/by_record/{record_id}', 'Management\ChNursingProcedureController@getByRecord');
+    
+    //ch nutrición
+    Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
+    Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
+    Route::apiResource('ch_nutrition_gastrointestinal', 'Management\ChNutritionGastrointestinalController');
+    Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
+    Route::apiResource('ch_nutrition_interpretation', 'Management\ChNutritionInterpretationController');
+    Route::apiResource('ch_nutrition_diet_type', 'Management\ChNutritionDietTypeController');
+
 });
