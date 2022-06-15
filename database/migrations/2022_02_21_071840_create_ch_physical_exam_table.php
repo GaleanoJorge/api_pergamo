@@ -17,6 +17,7 @@ class CreateChPhysicalExamTable extends Migration
             $table->bigIncrements('id');
             $table->string('revision');
             $table->unsignedBigInteger('type_ch_physical_exam_id');
+            $table->longText('description');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
