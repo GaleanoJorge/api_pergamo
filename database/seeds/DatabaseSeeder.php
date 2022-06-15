@@ -126,6 +126,17 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(ChTypeBackgroundSeeder::class);
 
+                //valoracion terapia respiratoria 
+                $this->call(ChAssChestSymmetrySeeder::class);
+                $this->call(ChAssChestTypeSeeder::class);
+                $this->call(ChAssCoughSeeder::class);
+                $this->call(ChAssFrequencySeeder::class);
+                $this->call(ChAssModeSeeder::class);
+                $this->call(ChAssPatternSeeder::class);
+                $this->call(ChAssSignsSeeder::class);
+                $this->call(ChAssSwingSeeder::class);
+
+
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
                 

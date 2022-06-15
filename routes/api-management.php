@@ -61,6 +61,28 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pps', 'Management\ChScalePpsController');
     Route::apiResource('ch_scale_braden', 'Management\ChScaleBradenController');
     Route::apiResource('ch_scale_lawton', 'Management\ChScaleLawtonController');
+    
+    //Ch RespiratoryTherapy
+    Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
+    Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
+    Route::apiResource('ch_ass_signs', 'Management\ChAssSignsController');
+    Route::apiResource('ch_ass_pattern', 'Management\ChAssPatternController');
+    Route::apiResource('ch_ass_swing', 'Management\ChAssSwingController');
+    Route::apiResource('ch_ass_frequency', 'Management\ChAssFrequencyController');
+    Route::apiResource('ch_ass_mode', 'Management\ChAssModeController');
+    Route::apiResource('ch_ass_cough', 'Management\ChAssCoughController');
+    Route::apiResource('ch_ass_chest_type', 'Management\ChAssChestTypeController');
+    Route::apiResource('ch_ass_chest_symmetry', 'Management\ChAssChestSymmetryController');
+    
+    Route::apiResource('ch_rt_inspection', 'Management\ChRtInspectionController');
+    Route::apiResource('ch_oxygen_therapy', 'Management\ChOxygenTherapyController');
+    Route::get('ch_oxygen_therapy/by_record/{id}/{type_record_id}', 'Management\ChOxygenTherapyController@getByRecord');
+
+    Route::apiResource('ch_auscultation', 'Management\ChAuscultationController');
+    Route::apiResource('ch_diagnostic_aids', 'Management\ChDiagnosticAidsController');
+    Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
+    Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
+    Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
                         
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
