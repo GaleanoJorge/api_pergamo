@@ -14,6 +14,7 @@ use App\Models\Admissions;
 use App\Models\Authorization;
 use App\Models\Briefcase;
 use App\Models\Procedure;
+use App\Models\RoleAttention;
 use App\Models\Specialty;
 use App\Models\User;
 use App\Models\ServicesBriefcase;
@@ -81,5 +82,12 @@ class ManagementPlan extends Model
 		'id',
 		'id'
 	);
+	}
+	public function role_attention()
+	{
+		return $this->belongsTo(
+			RoleAttention::class,
+			'type_of_attention_id',
+		);
 	}
 }
