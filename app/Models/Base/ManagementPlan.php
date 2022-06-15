@@ -43,7 +43,7 @@ class ManagementPlan extends Model
 
 	public function type_of_attention()
 	{
-		return $this->belongsTo(TypeOfAttention::class);
+		return $this->belongsTo(TypeOfAttention::class,'type_of_attention_id');
 	}
 	public function frequency()
 	{
@@ -83,11 +83,12 @@ class ManagementPlan extends Model
 		'id'
 	);
 	}
-	public function role_attention()
-	{
-		return $this->belongsTo(
-			RoleAttention::class,
-			'type_of_attention_id',
-		);
-	}
+	// public function role_attention()
+	// {
+	// 	return $this->hasOneThrough(
+	// 		RoleAttention::class,
+	// 		TypeOfAttention::class,
+	// 		'type_of_attention_id',
+	// 	);
+	// }
 }
