@@ -954,21 +954,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
-
+    
     Route::apiResource('nom_product', 'Management\NomProductController');
     Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
     Route::get(
         'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
-
-
+    
+    
     Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
     Route::get(
         'NomSupplies/byCategory/{product_subcategory_id}',
         'Management\NomSuppliesController@getSubcategoryByCategory'
     );
-
+    
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
@@ -983,11 +983,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
     Route::apiResource('fixed_add', 'Management\FixedAddController');
-    Route::apiResource('fixed_request', 'Management\FixedRequestController');
-
-
-
-
+    Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
+    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
+    
+    
+    
+    
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
 

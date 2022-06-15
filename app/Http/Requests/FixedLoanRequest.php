@@ -26,8 +26,7 @@ class FixedLoanRequest extends FormRequest
         return [
             'fixed_assets_id' => 'required',
             'fixed_location_campus_id' => 'required',
-            'own_user_id' => 'required',
-            'request_user_id' => 'required',
+            'fixed_add_id' => 'required',
             'status' => 'required',
             'observation' => 'required',
         ];
