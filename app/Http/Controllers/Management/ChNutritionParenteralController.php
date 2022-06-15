@@ -56,8 +56,8 @@ class ChNutritionParenteralController extends Controller
 
     public function store(ChNutritionParenteralRequest $request)
     {
-        $validate = ChNutritionParenteral::select('ch_nutrition_parenteral.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNutritionParenteral::select('ch_nutrition_parenteral.*')->where('ch_record_id', $request->ch_record_id)->first();
+        if (!$validate) {
             $ChNutritionParenteral = new ChNutritionParenteral;
             $ChNutritionParenteral->protein_contributions = $request->protein_contributions;
             $ChNutritionParenteral->carbohydrate_contribution = $request->carbohydrate_contribution;
@@ -86,8 +86,9 @@ class ChNutritionParenteralController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
+                'message' => 'Ya tiene observación',
+                'data' => []
+            ]);
         }
     }
 

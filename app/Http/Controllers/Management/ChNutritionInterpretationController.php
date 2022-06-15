@@ -56,8 +56,8 @@ class ChNutritionInterpretationController extends Controller
 
     public function store(ChNutritionInterpretationRequest $request)
     {
-        $validate = ChNutritionInterpretation::select('ch_nutrition_interpretation.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNutritionInterpretation::select('ch_nutrition_interpretation.*')->where('ch_record_id', $request->ch_record_id)->first();
+        if (!$validate) {
             $ChNutritionInterpretation = new ChNutritionInterpretation;
             $ChNutritionInterpretation->observation = $request->observation;
             $ChNutritionInterpretation->type_record_id = $request->type_record_id;
@@ -72,8 +72,9 @@ class ChNutritionInterpretationController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
+                'message' => 'Ya tiene observación',
+                'data' => []
+            ]);
         }
     }
 

@@ -56,8 +56,8 @@ class ChNutritionGastrointestinalController extends Controller
 
     public function store(ChNutritionGastrointestinalRequest $request)
     {
-        $validate = ChNutritionGastrointestinal::select('ch_nutrition_gastrointestinal.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNutritionGastrointestinal::select('ch_nutrition_gastrointestinal.*')->where('ch_record_id', $request->ch_record_id)->first();
+        if (!$validate) {
             $ChNutritionGastrointestinal = new ChNutritionGastrointestinal;
             $ChNutritionGastrointestinal->bowel_habit = $request->bowel_habit;
             $ChNutritionGastrointestinal->vomit = $request->vomit;
@@ -76,8 +76,9 @@ class ChNutritionGastrointestinalController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
+                'message' => 'Ya tiene observación',
+                'data' => []
+            ]);
         }
     }
 

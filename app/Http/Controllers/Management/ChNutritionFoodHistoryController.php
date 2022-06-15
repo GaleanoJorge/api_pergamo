@@ -58,8 +58,8 @@ class ChNutritionFoodHistoryController extends Controller
 
     public function store(ChNutritionFoodHistoryRequest $request)
     {
-        $validate = ChNutritionFoodHistory::select('ch_nutrition_food_history.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNutritionFoodHistory::select('ch_nutrition_food_history.*')->where('ch_record_id', $request->ch_record_id)->first();
+        if (!$validate) {
             $ChNutritionFoodHistory = new ChNutritionFoodHistory;
             $ChNutritionFoodHistory->description = $request->description;
             $ChNutritionFoodHistory->is_allergic = $request->is_allergic;
@@ -90,8 +90,9 @@ class ChNutritionFoodHistoryController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
+                'message' => 'Ya tiene observación',
+                'data' => []
+            ]);
         }
     }
 
