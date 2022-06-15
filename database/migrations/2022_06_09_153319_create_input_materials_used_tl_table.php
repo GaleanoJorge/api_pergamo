@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChPhysicalExamTable extends Migration
+class CreateInputMaterialsUsedTlTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,27 +13,23 @@ class CreateChPhysicalExamTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_physical_exam', function (Blueprint $table) {
+        Schema::create('input_materials_used_tl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('revision');
-            $table->unsignedBigInteger('type_ch_physical_exam_id');
-            $table->longText('description');
+            $table->string('biosecurity_elements');
+            $table->string('didactic_materials');
+            $table->string('liquid_food');
+            $table->string('stationery');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
-
-            $table->index('type_ch_physical_exam_id');
-            $table->foreign('type_ch_physical_exam_id')->references('id')
-                ->on('type_ch_physical_exam');
-
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
-                ->on('type_record');
-
+                    ->on('type_record');
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
-                ->on('ch_record');
+                    ->on('ch_record');
+        
         });
     }
 
@@ -44,6 +40,6 @@ class CreateChPhysicalExamTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_physical_exam');
+        Schema::dropIfExists('input_materials_used_tl');
     }
 }

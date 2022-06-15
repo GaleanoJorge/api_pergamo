@@ -20,10 +20,7 @@ class TypeContractSeeder extends Seeder
         
                 'name' =>  $row->name,
             ]);
-            ContractType::create([
-                
-                'name' =>  $row->name,
-            ]);
+            
         }
     }
 }

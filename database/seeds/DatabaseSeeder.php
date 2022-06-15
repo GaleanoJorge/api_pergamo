@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
+                $this->call(ContractTypeSeeder::class);
                 
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
@@ -205,9 +206,9 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
                 //Semillas Campos Adicionales Signos Vitales
-                // $this->call(LitersPerMinuteSeeder::class);
-                // $this->call(OxygenTypeSeeder::class); 
-                // $this->call(ParametersSignsSeeder::class);
+                $this->call(LitersPerMinuteSeeder::class);
+                $this->call(OxygenTypeSeeder::class); 
+                $this->call(ParametersSignsSeeder::class);
 
                 //Semillas De Pruebas
                 $this->call(ContractStatusSeeder::class);
@@ -220,6 +221,13 @@ class DatabaseSeeder extends Seeder
                 
                 //Semillas Tipo de registro
                 $this->call(ChTypeRecordSeeder::class);
+
+                 //Semillas HC Medica
+                $this->call(ReasonExitSeeder::class);
+                $this->call(RecommendationsEvoSeeder::class);
+                $this->call(EnterallyDietSeeder::class);
+         
+
 
 
 
