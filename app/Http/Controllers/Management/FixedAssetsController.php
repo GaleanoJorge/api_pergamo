@@ -19,11 +19,12 @@ class FixedAssetsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAssets = FixedAssets::select('fixed_assets.*')
-            ->with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_property', 'campus')
-            ->LeftJoin('fixed_add', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
-            ->whereNull('fixed_add.id')
-            ->groupBy('fixed_assets.id');
+        $FixedAssets = FixedAssets::with('fixed_clasification', 'campus');
+        // $FixedAssets = FixedAssets::select('fixed_assets.*')
+        //     ->with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_property', 'campus')
+        //     ->LeftJoin('fixed_add', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
+        //     ->whereNull('fixed_add.id')
+        //     ->groupBy('fixed_assets.id');
 
         if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);
