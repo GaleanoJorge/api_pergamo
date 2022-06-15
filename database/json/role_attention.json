@@ -90,5 +90,14 @@
     {
         "role_id": "8",
         "type_of_attention_id": "12"
+    },
+    {
+        "role_id": "17",
+        "type_of_attention_id": "11"
+    }
+    ,
+    {
+        "role_id": "17",
+        "type_of_attention_id": "19"
     }
 ]
