@@ -1213,5 +1213,61 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
     Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
     Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
+    
+    //Tablas de Terapia de Lenguaje
+    Route::apiResource('cif_diagnosis_tl', 'Management\CifDiagnosisTlController');
+    Route::get('cif_diagnosis_tl/by_record/{id}/{type_record_id}', 'Management\CifDiagnosisTlController@getByRecord');
+
+    Route::apiResource('cognitive_tl', 'Management\CognitiveTlController');
+    Route::get('cognitive_tl/by_record/{id}/{type_record_id}', 'Management\CognitiveTlController@getByRecord');
+    
+    Route::apiResource('communication_tl', 'Management\CommunicationTlController');
+    Route::get('communication_tl/by_record/{id}/{type_record_id}', 'Management\CommunicationTlController@getByRecord');
+
+    Route::apiResource('hearing_tl', 'Management\HearingTlController');
+    Route::get('hearing_tl/by_record/{id}/{type_record_id}', 'Management\HearingTlController@getByRecord');
+    
+    Route::apiResource('language_tl', 'Management\LanguageTlController');
+    Route::get('language_tl/by_record/{id}/{type_record_id}', 'Management\LanguageTlController@getByRecord');
+   
+    Route::apiResource('number_monthly_sessions_tl', 'Management\NumberMonthlySessionsTlController');
+    Route::get('number_monthly_sessions_tl/by_record/{id}/{type_record_id}', 'Management\NumberMonthlySessionsTlController@getByRecord');
+   
+    Route::apiResource('ostomies_tl', 'Management\OstomiesTlController');
+    Route::get('ostomies_tl/by_record/{id}/{type_record_id}', 'Management\OstomiesTlController@getByRecord');
+    
+    Route::apiResource('specific_tests_tl', 'Management\SpecificTestsTlController');
+    Route::get('specific_tests_tl/by_record/{id}/{type_record_id}', 'Management\SpecificTestsTlController@getByRecord');
+    
+    Route::apiResource('speech_tl', 'Management\SpeechTlController');
+    Route::get('speech_tl/by_record/{id}/{type_record_id}', 'Management\SpeechTlController@getByRecord');
+   
+    Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersTlController');
+    Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersTlController@getByRecord');
+    
+    Route::apiResource('therapeutic_goals_tl', 'Management\TherapeuticGoalsTlController');
+    Route::get('therapeutic_goals_tl/by_record/{id}/{type_record_id}', 'Management\TherapeuticGoalsTlController@getByRecord');
+    
+    Route::apiResource('tl_therapy_language', 'Management\TlTherapyLanguageController');
+    Route::get('tl_therapy_language/by_record/{id}/{type_record_id}', 'Management\TlTherapyLanguageController@getByRecord');
+    
+    Route::apiResource('voice_alterations_tl', 'Management\VoiceAlterationsTlController');
+    Route::get('voice_alterations_tl/by_record/{id}/{type_record_id}', 'Management\VoiceAlterationsTlController@getByRecord');
+   
+    Route::apiResource('input_materials_used_tl', 'Management\InputMaterialsUsedTlController');
+    Route::get('input_materials_used_tl/by_record/{id}/{type_record_id}', 'Management\InputMaterialsUsedTlController@getByRecord');
+
+    Route::apiResource('intervention_tl', 'Management\InterventionTlController');
+    Route::get('intervention_tl/by_record/{id}/{type_record_id}', 'Management\InterventionTlController@getByRecord');
+
+    Route::apiResource('orofacial_tl', 'Management\OrofacialTlController');
+    Route::get('orofacial_tl/by_record/{id}/{type_record_id}', 'Management\OrofacialTlController@getByRecord');
+
+    Route::apiResource('therapy_concept_tl', 'Management\TherapyConceptTlController');
+    Route::get('therapy_concept_tl/by_record/{id}/{type_record_id}', 'Management\TherapyConceptTlController@getByRecord');
+
+    Route::apiResource('tl_therapy_language_regular', 'Management\TlTherapyLanguageRegularController');
+    Route::get('tl_therapy_language_regular/by_record/{id}/{type_record_id}', 'Management\TlTherapyLanguageRegularController@getByRecord');
+
 
 });

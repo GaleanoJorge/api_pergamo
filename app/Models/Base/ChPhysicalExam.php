@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $revision
  * @property unsignedBigInteger type_ch_physical_exam_id 
+ * @property string description 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 
  * @property Carbon $created_at

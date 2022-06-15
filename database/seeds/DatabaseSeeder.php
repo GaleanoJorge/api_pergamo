@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
+                $this->call(ContractTypeSeeder::class);
                 
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
