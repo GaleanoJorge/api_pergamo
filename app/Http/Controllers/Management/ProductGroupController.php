@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class ProductGroupController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,22 +20,26 @@ class ProductGroupController extends Controller
     {
         $ProductGroup = ProductGroup::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ProductGroup->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $ProductGroup->where('name','like','%' . $request->search. '%');
+            $ProductGroup->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ProductGroup=$ProductGroup->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ProductGroup=$ProductGroup->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->id) {
+            $ProductGroup->where('id', $request->id);
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ProductGroup = $ProductGroup->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ProductGroup = $ProductGroup->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -43,12 +47,12 @@ class ProductGroupController extends Controller
             'data' => ['product_group' => $ProductGroup]
         ]);
     }
-    
+
 
     public function store(ProductGroupRequest $request): JsonResponse
     {
         $ProductGroup = new ProductGroup;
-        $ProductGroup->name = $request->name;     
+        $ProductGroup->name = $request->name;
         $ProductGroup->save();
 
         return response()->json([
@@ -85,8 +89,8 @@ class ProductGroupController extends Controller
      */
     public function update(ProductGroupRequest $request, int $id): JsonResponse
     {
-        $ProductGroup = ProductGroup ::find($id);
-        $ProductGroup->name = $request->name;      
+        $ProductGroup = ProductGroup::find($id);
+        $ProductGroup->name = $request->name;
         $ProductGroup->save();
 
         return response()->json([

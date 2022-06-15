@@ -6,9 +6,9 @@
 
 namespace App\Models\Base;
 
-use App\Models\FixedAssets;
-use App\Models\FixedLocationCampus;
+use App\Models\FixedAdd;
 use App\Models\User;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -18,13 +18,13 @@ use Illuminate\Database\Eloquent\Model;
  
  * 
  * @property int $id
- * @property BigInteger $fixed_assets_id
- * @property BigInteger $fixed_location_campus_id
- * @property BigInteger $own_user_id
- * @property BigInteger $request_user_id
- * @property BigInteger $responsible_user_id
- * @property string $status
+ * @property integer $amount
+ * @property integer $amount_damaged
+ * @property integer $amount_provition
  * @property string $observation
+ * @property BigInteger $fixed_add_id
+ * @property BigInteger $responsible_user_id
+
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -35,22 +35,11 @@ class FixedLoan extends Model
 {
 	protected $table = 'fixed_loan';
 
-	public function fixed_assets()
+	public function fixed_add()
 	{
-		return $this->belongsTo(FixedAssets::class);
+		return $this->belongsTo(FixedAdd::class);
 	}
-	public function fixed_location_campus()
-	{
-		return $this->belongsTo(FixedLocationCampus::class);
-	}
-	public function own_user()
-	{
-		return $this->belongsTo(User::class);
-	}
-	public function request_user()
-	{
-		return $this->belongsTo(User::class);
-	}
+
 	public function responsible_user()
 	{
 		return $this->belongsTo(User::class);

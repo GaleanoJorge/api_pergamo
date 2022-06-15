@@ -22,18 +22,10 @@ class PharmacyProductRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        if($request->is=="true"){
-        $PharmacyProductRequest = PharmacyProductRequest::with('product_generic', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus')
+        $PharmacyProductRequest = PharmacyProductRequest::with('product_generic', 'product_supplies', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus')
             ->select('pharmacy_product_request.*', DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'))
-            ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
-            ->groupBy('pharmacy_product_request.id')->whereNull('pharmacy_product_request.services_briefcase_id');
-        }else{
-            $PharmacyProductRequest = PharmacyProductRequest::with('services_briefcase.manual_price','admissions.patients','users','product_generic', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus')
-            ->select('pharmacy_product_request.*', DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'))
-            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->groupBy('pharmacy_product_request.id');
-        }
 
         if ($request->_sort) {
             $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
@@ -48,6 +40,14 @@ class PharmacyProductRequestController extends Controller
 
         if ($request->search) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->product == "true") {
+            //medicamento  product_generic_id
+            $PharmacyProductRequest->whereNotNull('product_generic_id')->whereNull('product_supplies_id');
+        } else if ($request->product == "false") {
+            // insumo product_supplies_id
+            $PharmacyProductRequest->whereNull('product_generic_id')->whereNotNull('product_supplies_id');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -95,6 +95,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
+        $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyProductRequest->save();
@@ -137,6 +138,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
+        $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyProductRequest->save();
@@ -187,10 +189,11 @@ class PharmacyProductRequestController extends Controller
                     $elements = json_decode($request->pharmacy_lot_stock_id);
                     foreach ($elements as $element) {
                         $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
-
+                        
                         $LastPharmacyLot = PharmacyLot::find($PharmacyLotStock->pharmacy_lot_id);
-
+                        
                         $PharmacyRequestShipping = PharmacyRequestShipping::find($element->pharmacy_request_shipping_id);
+                        // $PharmacyRequestShipping->amount = $element->amount  - $element->amount_provition ;
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
                         $PharmacyRequestShipping->amount =  $element->amount;
                         $PharmacyRequestShipping->save();

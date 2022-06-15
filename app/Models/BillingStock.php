@@ -11,6 +11,7 @@ class BillingStock extends BaseBillingStock
     'amount',
     'amount_unit',
     'product_id',
+    'product_supplies_com_id',
     'billing_id',
   ];
 }
