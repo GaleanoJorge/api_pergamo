@@ -17,7 +17,8 @@ class CreateBillingStockTable extends Migration
             $table->bigIncrements('id');
             $table->string('amount'); 
             $table->string('amount_unit'); 
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_supplies_com_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('billing_id');
             $table->timestamps();
 
@@ -28,6 +29,10 @@ class CreateBillingStockTable extends Migration
             $table->index('product_id');
             $table->foreign('product_id')->references('id')
                 ->on('product');
+
+            $table->index('product_supplies_com_id');
+            $table->foreign('product_supplies_com_id')->references('id')
+                ->on('product_supplies_com');
         });
     }
 

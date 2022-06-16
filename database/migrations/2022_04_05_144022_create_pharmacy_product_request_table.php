@@ -22,7 +22,8 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('user_request_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
-            $table->unsignedBigInteger('product_generic_id')->nullable();
+            $table->unsignedBigInteger('product_generic_id')->nullable()->nullable();
+            $table->unsignedBigInteger('product_supplies_id')->nullable()->nullable();
             $table->unsignedBigInteger('own_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('request_pharmacy_stock_id')->nullable();
             $table->timestamps();
@@ -31,6 +32,10 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->index('user_request_id');
             $table->foreign('user_request_id')->references('id')
                 ->on('users');
+
+            $table->index('product_supplies_id');
+            $table->foreign('product_supplies_id')->references('id')
+                ->on('product_supplies');
 
             $table->index('product_generic_id');
             $table->foreign('product_generic_id')->references('id')

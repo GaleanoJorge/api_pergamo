@@ -56,8 +56,8 @@ class ChNutritionDietTypeController extends Controller
 
     public function store(ChNutritionDietTypeRequest $request)
     {
-        $validate = ChNutritionDietType::select('ch_nutrition_diet_type.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNutritionDietType::select('ch_nutrition_diet_type.*')->where('ch_record_id', $request->ch_record_id)->first();
+        if (!$validate) {
             $ChNutritionDietType = new ChNutritionDietType;
             $ChNutritionDietType->name = $request->name;
             $ChNutritionDietType->ch_nutrition_food_history_id = $request->ch_nutrition_food_history_id;
@@ -71,8 +71,9 @@ class ChNutritionDietTypeController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
+                'message' => 'Ya tiene observación',
+                'data' => []
+            ]);
         }
     }
 

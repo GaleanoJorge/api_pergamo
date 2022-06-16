@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Ostomy;
-use App\Models\SkinStatus;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -129,6 +127,17 @@ class DatabaseSeeder extends Seeder
 
                 $this->call(ChTypeBackgroundSeeder::class);
 
+                //valoracion terapia respiratoria 
+                $this->call(ChAssChestSymmetrySeeder::class);
+                $this->call(ChAssChestTypeSeeder::class);
+                $this->call(ChAssCoughSeeder::class);
+                $this->call(ChAssFrequencySeeder::class);
+                $this->call(ChAssModeSeeder::class);
+                $this->call(ChAssPatternSeeder::class);
+                //$this->call(ChAssSignsSeeder::class);
+                $this->call(ChAssSwingSeeder::class);
+
+
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
                 
@@ -166,7 +175,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(OstomySeeder::class);
                 $this->call(NursingProcedureSeeder::class);
                 $this->call(BodyRegionSeeder::class);
-                $this->call(SkinStatus::class);
+                $this->call(SkinStatusSeeder::class);
                 $this->call(ChRouteFluidSeeder::class);
                 $this->call(ChTypeFluidSeeder::class);
                 $this->call(ChTypeSeeder::class);
@@ -183,6 +192,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedCodeSeeder::class);
                 $this->call(FixedPropertySeeder::class);
                 $this->call(FixedConditionSeeder::class);
+                $this->call(SuppliesMeasureSeeder::class);
+                // BillingPad
+                $this->call(BillingPadStatusSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

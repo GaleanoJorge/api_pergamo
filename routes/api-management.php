@@ -62,6 +62,28 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pps', 'Management\ChScalePpsController');
     Route::apiResource('ch_scale_braden', 'Management\ChScaleBradenController');
     Route::apiResource('ch_scale_lawton', 'Management\ChScaleLawtonController');
+    
+    //Ch RespiratoryTherapy
+    Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
+    Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
+    Route::apiResource('ch_ass_signs', 'Management\ChAssSignsController');
+    Route::apiResource('ch_ass_pattern', 'Management\ChAssPatternController');
+    Route::apiResource('ch_ass_swing', 'Management\ChAssSwingController');
+    Route::apiResource('ch_ass_frequency', 'Management\ChAssFrequencyController');
+    Route::apiResource('ch_ass_mode', 'Management\ChAssModeController');
+    Route::apiResource('ch_ass_cough', 'Management\ChAssCoughController');
+    Route::apiResource('ch_ass_chest_type', 'Management\ChAssChestTypeController');
+    Route::apiResource('ch_ass_chest_symmetry', 'Management\ChAssChestSymmetryController');
+    
+    Route::apiResource('ch_rt_inspection', 'Management\ChRtInspectionController');
+    Route::apiResource('ch_oxygen_therapy', 'Management\ChOxygenTherapyController');
+    Route::get('ch_oxygen_therapy/by_record/{id}/{type_record_id}', 'Management\ChOxygenTherapyController@getByRecord');
+
+    Route::apiResource('ch_auscultation', 'Management\ChAuscultationController');
+    Route::apiResource('ch_diagnostic_aids', 'Management\ChDiagnosticAidsController');
+    Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
+    Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
+    Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
                         
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
@@ -108,7 +130,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Product
     Route::apiResource('product', 'Management\ProductController');
-
+    // insumo comercial
+    Route::apiResource('product_supplies_com', 'Management\ProductSuppliesComController');
     //Risk
     Route::apiResource('risk', 'Management\RiskController');
 
@@ -482,6 +505,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Producto Generico
     Route::apiResource('product_generic', 'Management\ProductGenericController');
+    //Producto insumos
+    Route::apiResource('product_supplies', 'Management\ProductSuppliesController');
 
     //Presentacion del producto
     Route::apiResource('product_presentation', 'Management\ProductPresentationController');
@@ -958,16 +983,23 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
-    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
     
     Route::apiResource('nom_product', 'Management\NomProductController');
-    Route::get('NomProduct/byCategory/{product_subcategory_id}',
+    Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
+    Route::get(
+        'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
-
-
+    
+    
+    Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
+    Route::get(
+        'NomSupplies/byCategory/{product_subcategory_id}',
+        'Management\NomSuppliesController@getSubcategoryByCategory'
+    );
+    
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
@@ -979,13 +1011,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
     Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
-    Route::apiResource('fixed_stock_accessories', 'Management\FixedStockAccessoriesController');
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
-
-
-
-
+    Route::apiResource('fixed_add', 'Management\FixedAddController');
+    Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
+    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
+    
+    
+    
+    
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
 

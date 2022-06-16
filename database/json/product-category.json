@@ -54,5 +54,21 @@
     {
         "name": "Varios",
         "product_group_id": "1"
+    },
+    {
+        "name": "I",
+        "product_group_id": "2"
+    },
+    {
+        "name": "IIA",
+        "product_group_id": "2"
+    },
+    {
+        "name": "IIB",
+        "product_group_id": "2"
+    },
+    {
+        "name": "III",
+        "product_group_id": "2"
     }
 ]

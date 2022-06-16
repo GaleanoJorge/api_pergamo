@@ -27,7 +27,11 @@ class PharmacyLotStockController extends Controller
             'billing_stock',
             'billing_stock.product',
             'billing_stock.product.factory',
-            'billing_stock.product.product_generic'
+            'billing_stock.product.product_generic',
+            'billing_stock.product_supplies_com',
+            'billing_stock.product_supplies_com.factory',
+            'billing_stock.product_supplies_com.product_supplies'
+
         )
             ->select('pharmacy_lot_stock.*')
             ->leftJoin('billing_stock', 'pharmacy_lot_stock.billing_stock_id', 'billing_stock.id')
@@ -43,6 +47,17 @@ class PharmacyLotStockController extends Controller
         if ($request->product_generic_id) {
             $PharmacyLotStock->where('product.product_generic_id', $request->product_generic_id);
         }
+        if ($request->product == "true") {
+            $PharmacyLotStock->whereNotNull('billing_stock.product_id')->whereNull('billing_stock.product_supplies_com_id');
+        } else if ($request->product == "false") {
+            $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
+        }
+        // if ($request->product1 == "true") {
+        //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
+        // } else if ($request->product1 == "false") {
+        //     $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
+        // }
+
         if ($request->search) {
             $PharmacyLotStock->where('status', 'like', '%' . $request->search . '%');
         }
