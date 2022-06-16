@@ -12,7 +12,7 @@ class ChAssChestTypeSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/ch-ass-type-chest.json'));
+        $data = file_get_contents(database_path('json/ch-ass-chest-type.json'));
 
         foreach (json_decode($data) as $row) {
             ChAssChestType::create([
