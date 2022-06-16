@@ -16,16 +16,8 @@ class CreateChAssChestTypeTable extends Migration
         Schema::create('ch_ass_chest_type', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->unsignedBigInteger('type_record_id');
-            $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
-            $table->index('type_record_id');
-            $table->foreign('type_record_id')->references('id')
-                ->on('type_record');
-            $table->index('ch_record_id');
-            $table->foreign('ch_record_id')->references('id')
-                ->on('ch_record');
 
         });
     }
