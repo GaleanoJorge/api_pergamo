@@ -13,9 +13,9 @@ class MunicipalityController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $municipalitys = Municipality::with('region', 'circuit')
-            ->leftJoin('region', 'municipality.region_id', '=', 'region.id');
-
+        $municipalitys = Municipality::select('municipality.*')
+        ->with('region', 'circuit')
+        ->leftJoin('region', 'municipality.region_id', '=', 'region.id');
         if ($request->_sort) {
             $municipalitys->orderBy($request->_sort, $request->_order);
         }

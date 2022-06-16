@@ -216,18 +216,6 @@
         </p>
         @endforeach
         @endisset
-        @if(count($chvitalsings) > 0)
-        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">SIGNOS VITALES</span>
-            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-        </p>
-        @foreach($chvitalsings as $ch)
-        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-            <span style="font-family:Calibri; font-size:9pt">{{$ch['type_ch_physical_exam']['name']}} - REVISIÓN: {{$ch['revision']}} </span>
-        </p>
-        @endforeach
-        @endisset
-
         @if(count($chdiagnosis) > 0)
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
             <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">DIAGNÓSTICOS</span>
@@ -341,7 +329,7 @@
         </p>
         @endisset
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['lastname']}}</span>
+            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">

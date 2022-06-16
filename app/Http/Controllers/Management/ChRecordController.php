@@ -236,8 +236,11 @@ class ChRecordController extends Controller
                 $ChRecord->ch_type_id = 1;
             } else if (false !== (array_search(8, $roles)) || false !== array_search(9, $roles)) {
                 $ChRecord->ch_type_id = 2;
-            }else if (false !== (array_search(10, $roles))) {
+            } else if (false !== (array_search(10, $roles))) {
                 $ChRecord->ch_type_id = 3;
+            
+            } else if (false !== (array_search(14, $roles))) {
+                $ChRecord->ch_type_id = 8;
             }
         }
 
