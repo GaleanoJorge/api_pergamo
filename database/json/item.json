@@ -1269,15 +1269,6 @@
         "show_menu": "1"
     },
     {
-        "id": "189",
-        "item_parent_id": null,
-        "name": "Facturación",
-        "code": "billing-pad",
-        "route": "/pages/billing-pad/list",
-        "icon": "pricetags-outline",
-        "show_menu": "1"
-    },
-    {
         "id": "191",
         "item_parent_id": "102",
         "name": "Permisos Act fijos",
