@@ -10,6 +10,7 @@ use App\Models\Company;
 use Carbon\Carbon;
 use App\Models\ContractStatus;
 use App\Models\TypeContract;
+use App\Models\TypeBriefcase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -60,6 +61,10 @@ class Contract extends Model
 	public function type_contract()
 	{
 		return $this->belongsTo(TypeContract::class);
+	}
+	public function type_briefcase()
+	{
+		return $this->belongsTo(TypeBriefcase::class,'regime_id');
 	}
 	
 }

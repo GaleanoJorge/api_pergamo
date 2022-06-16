@@ -19,9 +19,9 @@ class CreateFixedAddTable extends Migration
             $table->unsignedBigInteger('fixed_accessories_id')->nullable();
             $table->unsignedBigInteger('fixed_location_campus_id')->nullable();
             $table->unsignedBigInteger('responsible_user_id');
-            $table->string('observation')->nullable();
-            $table->string('amount_ship')->nullable();
+            $table->string('request_amount')->nullable();
             $table->string('status');
+            $table->string('observation')->nullable();
             $table->timestamps();
 
             $table->index('fixed_assets_id');

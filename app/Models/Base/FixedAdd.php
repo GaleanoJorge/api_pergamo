@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $fixed_location_campus_id
  * @property BigInteger $responsible_user_id
  * @property string $observation
- * @property string $amount_ship
+ * @property string $request_amount
  * @property string $status
  * @property Carbon $created_at
  * @property Carbon $updated_at

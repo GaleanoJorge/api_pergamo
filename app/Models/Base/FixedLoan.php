@@ -6,7 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\FixedRequest;
+use App\Models\FixedAdd;
 use App\Models\User;
 
 use Carbon\Carbon;
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $amount_damaged
  * @property integer $amount_provition
  * @property string $observation
- * @property BigInteger $fixed_request_id
+ * @property BigInteger $fixed_add_id
  * @property BigInteger $responsible_user_id
 
  * @property Carbon $created_at
@@ -35,9 +35,9 @@ class FixedLoan extends Model
 {
 	protected $table = 'fixed_loan';
 
-	public function fixed_request()
+	public function fixed_add()
 	{
-		return $this->belongsTo(FixedRequest::class);
+		return $this->belongsTo(FixedAdd::class);
 	}
 
 	public function responsible_user()

@@ -48,8 +48,8 @@ class ChNursingEntryController extends Controller
 
     public function store(ChNursingEntryRequest $request)
     {
-        $validate = ChNursingEntry::select('ch_nursing_entry.*')->where('ch_record_id', $request->ch_record_id);
-        if (!isset($validate)) {
+        $validate = ChNursingEntry::select('ch_nursing_entry.*')->where('ch_record_id', $request->ch_record_id)->where('patient_position_id', $request->patient_position_id)->first();
+        if (!$validate) {
             $ChNursingEntry = new ChNursingEntry;
             $ChNursingEntry->patient_position_id = $request->patient_position_id;
             $ChNursingEntry->ostomy_id = $request->ostomy_id;

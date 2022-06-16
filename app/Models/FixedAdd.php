@@ -13,7 +13,7 @@ class FixedAdd extends BaseFixedAdd
 		'fixed_location_campus_id',
 		'responsible_user_id',
 		'observation',
-		'amount_ship',
+		'request_amount',
 		'status',
 	];
 }

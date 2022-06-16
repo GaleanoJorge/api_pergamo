@@ -214,7 +214,7 @@ class ManagementPlanController extends Controller
             }
         }
 
-        if ($request->medical == false) {
+        if ($request->medical == false &&  $request->isnewrequest != 1) {
             if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
