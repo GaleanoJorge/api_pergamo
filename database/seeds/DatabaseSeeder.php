@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Ostomy;
-use App\Models\SkinStatus;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -53,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
+                $this->call(ContractTypeSeeder::class);
                 
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
@@ -165,7 +164,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(OstomySeeder::class);
                 $this->call(NursingProcedureSeeder::class);
                 $this->call(BodyRegionSeeder::class);
-                $this->call(SkinStatus::class);
+                $this->call(SkinStatusSeeder::class);
                 $this->call(ChRouteFluidSeeder::class);
                 $this->call(ChTypeFluidSeeder::class);
                 $this->call(ChTypeSeeder::class);
