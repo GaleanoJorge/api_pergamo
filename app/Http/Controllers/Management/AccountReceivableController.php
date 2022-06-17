@@ -29,14 +29,21 @@ class AccountReceivableController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary');
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
 
         if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
+            $AccountReceivable->where(function ($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+            });
         }
         if ($request->gloss_ambit_id) {
             $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
@@ -87,6 +94,7 @@ class AccountReceivableController extends Controller
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
             ->groupBy('account_receivable.id');
 
         if ($user_id != 0) {
@@ -98,7 +106,13 @@ class AccountReceivableController extends Controller
         }
 
         if ($request->search) {
-            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
+            $AccountReceivable->where(function ($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+            });
         }
 
 
