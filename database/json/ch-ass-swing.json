@@ -1,12 +1,9 @@
 [
     {
-        "name": "COSTAL INFERIOR"
+        "name": "IRREGULAR"
     },
     {
-        "name": "COSTAL SUPERIOR"
-    },
-    {
-        "name": "DIAFRAGMATICO-ABDOMINAL"
+        "name": "REGULAR"
     }
  
 ]
