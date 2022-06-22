@@ -25,8 +25,7 @@ class NomProductController extends Controller
         }            
 
         if ($request->search) {
-            $NomProduct->where('name','like','%' . $request->search. '%')
-            ->orWhere('description', 'like', '%' . $request->search . '%');
+            $NomProduct->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

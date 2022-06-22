@@ -21,12 +21,11 @@ class FactoryController extends Controller
         $Factory = Factory::select();
 
         if($request->_sort){
-            $Factorys->orderBy($request->_sort, $request->_order);
+            $Factory->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $Factory->where('name','like','%' . $request->search. '%')
-            ->orWhere('identification', 'like', '%' . $request->search . '%');
+            $Factory->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){
