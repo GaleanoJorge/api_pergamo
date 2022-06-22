@@ -90,15 +90,19 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . ",1,0) AS show_file"),
+                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
             ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
-            ->groupBy('account_receivable.id');
+            ;
 
         if ($user_id != 0) {
+            $AccountReceivable->groupBy('account_receivable.id');
             $AccountReceivable->where('account_receivable.user_id', $user_id);
+            $AccountReceivable->orderBy('account_receivable.id', 'desc');
+        } else {
+            $AccountReceivable->groupBy('users.id');
         }
 
         if ($request->_sort) {
@@ -317,16 +321,16 @@ class AccountReceivableController extends Controller
         $hundreds = ($value - (floor($value / 1000) * 1000));
 
         if ($millions != '') {
-            if ($thousands<100 && $thousands>=10) {
+            if ($thousands < 100 && $thousands >= 10) {
                 $thousands = '0' . $thousands;
-            } elseif ($thousands<10 && $thousands>=0) {
+            } elseif ($thousands < 10 && $thousands >= 0) {
                 $thousands = '00' . $thousands;
             }
         }
 
-        if ($hundreds<100 && $hundreds>=10) {
+        if ($hundreds < 100 && $hundreds >= 10) {
             $hundreds = '0' . $hundreds;
-        } elseif ($hundreds<10 && $hundreds>=0) {
+        } elseif ($hundreds < 10 && $hundreds >= 0) {
             $hundreds = '00' . $hundreds;
         }
 
