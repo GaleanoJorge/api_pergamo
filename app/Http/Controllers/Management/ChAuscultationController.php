@@ -69,37 +69,37 @@ class ChAuscultationController extends Controller
         if (isset($request->aus)) {
 
             $validator = array_search('MURMULLO VESICULAR CONSERVADO', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->murmur = $request->aus[$validator];
             };
 
             $validator = array_search('CREPITOS', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->crepits = $request->aus[$validator];
             };
 
             $validator = array_search('ESTERTORES', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->rales = $request->aus[$validator];
             };
 
             $validator = array_search('ESTRIDOR LARINGEO', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->stridor = $request->aus[$validator];
             };
 
             $validator = array_search('FROTE PLEURAL', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->pleural = $request->aus[$validator];
             };
 
             $validator = array_search('RONCUS', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->roncus = $request->aus[$validator];
             };
 
             $validator = array_search('SIBILANCIAS', $request->aus);
-            if($validator){
+            if(isset($validator)){
                 $ChAuscultation->wheezing = $request->aus[$validator];
             };
            

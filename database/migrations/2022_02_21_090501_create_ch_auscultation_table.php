@@ -15,14 +15,14 @@
         {
             Schema::create('ch_auscultation', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('murmur')->nullable();;
-                $table->string('crepits')->nullable();;
-                $table->string('rales')->nullable();;
-                $table->string('stridor')->nullable();;
-                $table->string('pleural')->nullable();;
-                $table->string('roncus')->nullable();;
-                $table->string('wheezing')->nullable();;
-                $table->string('observation')->nullable();;
+                $table->string('murmur')->nullable();
+                $table->string('crepits')->nullable();
+                $table->string('rales')->nullable();
+                $table->string('stridor')->nullable();
+                $table->string('pleural')->nullable();
+                $table->string('roncus')->nullable();
+                $table->string('wheezing')->nullable();
+                $table->string('observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
