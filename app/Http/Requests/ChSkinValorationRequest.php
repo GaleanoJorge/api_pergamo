@@ -24,6 +24,7 @@ class ChSkinValorationRequest extends FormRequest
     public function rules()
     {
         return [
+            'diagnosis_id' => 'required',
             'body_region_id' => 'required',
             'skin_status_id' => 'required',
             'exudate' => '',
