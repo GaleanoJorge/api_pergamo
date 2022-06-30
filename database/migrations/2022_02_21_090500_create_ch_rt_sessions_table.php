@@ -17,7 +17,7 @@ class CreateChRtSessionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('month');
             $table->integer('week');
-            $table->String('recommendations');            
+            $table->String('recommendations')->nullable();            
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
