@@ -21,8 +21,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $medical_diagnosis_id
  * @property BigInteger $therapeutic_diagnosis_id
  * @property string $reason_consultation
- * @property BigInteger $ch_background_id 
- * @property BigInteger $ch_gynecologists_id 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -40,14 +38,7 @@ class ChRespiratoryTherapy extends Model
 	{
 		return $this->belongsTo(Diagnosis::class);
 	}
-	public function ch_background()
-	{
-		return $this->belongsTo(ChBackground::class);
-	}
-	public function ch_gynecologists()
-	{
-		return $this->belongsTo(ChGynecologists::class);
-	}
+	
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);
