@@ -5,7 +5,7 @@
     },
     {
         "id": 2,
-        "name": "COLONOSTOMÍA"
+        "name": "COLOSTOMÍA"
     },
     {
         "id": 3,
@@ -17,11 +17,19 @@
     },
     {
         "id": 5,
-        "name": "YEYUNOSTROMÍA"
+        "name": "YEYUNOSTOMÍA"
     },
     {
         "id": 6,
-        "name": "OTRO"
+        "name": "TRAQUEOSTOMIA"
+    },
+    {
+        "id": 7,
+        "name": "NEFROSTOMÍA"
+    },
+    {
+        "id": 8,
+        "name": "NO APLICA"
     }
   
 ]
