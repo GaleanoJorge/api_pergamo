@@ -40,7 +40,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidos exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -58,12 +58,12 @@ class ChDiagnosticAidsController extends Controller
         
        
         $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_type_background')->get()->toArray();
+            ->get()->toArray();
         
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidos exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -75,7 +75,7 @@ class ChDiagnosticAidsController extends Controller
     
             if (isset($request->aids)) {
                 $validator = array_search('RADIOGRAFIA', $request->aids);
-                if($validator){
+                if(isset($validator)){
                     $ChDiagnosticAids->scan = $request->aids[$validator];
                 };
     
@@ -108,7 +108,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas asociados al paciente exitosamente',
+            'message' => 'Ayudas Diagnósticas asociadas al paciente exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids->toArray()]
         ]);
 
@@ -126,7 +126,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidas exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -152,7 +152,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas actualizadas exitosamente',
+            'message' => 'Ayudas Diagnósticas actualizadas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -171,12 +171,12 @@ class ChDiagnosticAidsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Ayudas Diagnosticas eliminadas exitosamente'
+                'message' => 'Ayudas Diagnósticas eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ayudas Diagnosticas en uso, no es posible eliminarlo'
+                'message' => 'Ayudas Diagnósticas en uso, no es posible eliminarlo'
             ], 423);
         }
     }
