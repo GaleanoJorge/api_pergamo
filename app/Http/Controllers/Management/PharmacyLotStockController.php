@@ -63,7 +63,7 @@ class PharmacyLotStockController extends Controller
         // }
 
         if ($request->search) {
-            $PharmacyLotStock->where('status', 'like', '%' . $request->search . '%');
+            $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) == "false") {
             $PharmacyLotStock = $PharmacyLotStock->get()->toArray();
