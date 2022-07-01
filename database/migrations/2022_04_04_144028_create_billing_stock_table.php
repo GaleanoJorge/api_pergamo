@@ -17,6 +17,7 @@ class CreateBillingStockTable extends Migration
             $table->bigIncrements('id');
             $table->string('amount'); 
             $table->string('amount_unit'); 
+            $table->string('iva')->nullable(); 
             $table->unsignedBigInteger('product_supplies_com_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('billing_id');
