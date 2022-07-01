@@ -1362,5 +1362,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
     Route::apiResource('ch_nutrition_interpretation', 'Management\ChNutritionInterpretationController');
     Route::apiResource('ch_nutrition_diet_type', 'Management\ChNutritionDietTypeController');
+    Route::get('ch_background/getAlergicsByPatient/{patient_id}', 'Management\ChBackgroundController@getAlergicsByPatient');
+    Route::get('ch_background/getByPatient/{patient_id}', 'Management\ChBackgroundController@getByPatient');
+    Route::get('ch_nutrition_interpretation/getAllInterpretetations/{patient_id}', 'Management\ChNutritionInterpretationController@getAllInterpretetations');
 
 });
