@@ -55,7 +55,7 @@ class ChMedicalOrdersController extends Controller
     {
         
        
-        $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('procedure','hourly_frequency')
+        $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('procedure','frequency')
             ->get()->toArray();
         
 
@@ -73,7 +73,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
         $ChMedicalOrders->amount = $request->amount;
-        $ChMedicalOrders->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
@@ -116,7 +116,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
         $ChMedicalOrders->amount = $request->amount;
-        $ChMedicalOrders->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;

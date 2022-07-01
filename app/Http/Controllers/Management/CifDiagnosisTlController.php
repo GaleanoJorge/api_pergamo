@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class CifDiagnosisTlController extends Controller
-{
+{ 
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +18,11 @@ class CifDiagnosisTlController extends Controller
     public function index(Request $request): JsonResponse
     {
         $CifDiagnosisTl = CifDiagnosisTl::select();
+
+        if($request->ch_record_id){
+            $CifDiagnosisTl->where('ch_record_id', $request->ch_record_id)->where('type_record_id',1);
+        }  
+
 
         if ($request->_sort) {
             $CifDiagnosisTl->orderBy($request->_sort, $request->_order);

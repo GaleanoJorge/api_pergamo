@@ -15,10 +15,10 @@ class CreateInputMaterialsUsedTlTable extends Migration
     {
         Schema::create('input_materials_used_tl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('biosecurity_elements');
-            $table->string('didactic_materials');
-            $table->string('liquid_food');
-            $table->string('stationery');
+            $table->string('biosecurity_elements')->nullable();
+            $table->string('didactic_materials')->nullable();
+            $table->string('liquid_food')->nullable();
+            $table->string('stationery')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

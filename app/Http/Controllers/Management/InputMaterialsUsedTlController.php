@@ -17,7 +17,7 @@ class InputMaterialsUsedTlController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $InputMaterialsUsedTl = InputMaterialsUsedTl::select();
+        $InputMaterialsUsedTl = InputMaterialsUsedTl::with('input_materials_used_tl');
 
         if ($request->_sort) {
             $InputMaterialsUsedTl->orderBy($request->_sort, $request->_order);
@@ -44,20 +44,20 @@ class InputMaterialsUsedTlController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -65,35 +65,35 @@ class InputMaterialsUsedTlController extends Controller
             'data' => ['input_materials_used_tl' => $InputMaterialsUsedTl]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
         $InputMaterialsUsedTl = new InputMaterialsUsedTl;
-    
+
         if (isset($request->materialused)) {
 
             $validator = array_search('ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS)', $request->materialused);
-            if($validator){
+            if (isset($validator)) {
                 $InputMaterialsUsedTl->biosecurity_elements = $request->materialused[$validator];
             };
 
-            $validator = array_search(' MATERIALES DIDÁCTICOS)', $request->materialused);
-            if($validator){
+            $validator = array_search('MATERIALES DIDÁCTICOS', $request->materialused);
+            if ($validator) {
                 $InputMaterialsUsedTl->didactic_materials = $request->materialused[$validator];
             };
 
-            $validator = array_search('ALIMENTOS Y LÍQUIDOS)', $request->materialused);
-            if($validator){
+            $validator = array_search('ALIMENTOS Y LÍQUIDOS', $request->materialused);
+            if ($validator) {
                 $InputMaterialsUsedTl->liquid_food = $request->materialused[$validator];
             };
 
-            $validator = array_search('MATERIAL DE PAPELERÍA)', $request->materialused);
-            if($validator){
+            $validator = array_search('MATERIAL DE PAPELERÍA', $request->materialused);
+            if ($validator) {
                 $InputMaterialsUsedTl->stationery = $request->materialused[$validator];
             };
         }
-   
+
         $InputMaterialsUsedTl->type_record_id = $request->type_record_id;
         $InputMaterialsUsedTl->ch_record_id = $request->ch_record_id;
         $InputMaterialsUsedTl->save();

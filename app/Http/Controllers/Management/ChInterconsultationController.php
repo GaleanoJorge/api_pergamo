@@ -54,7 +54,7 @@ class ChInterconsultationController extends Controller
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
        
-        $ChInterconsultation = ChInterconsultation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('specialty','hourly_frequency')
+        $ChInterconsultation = ChInterconsultation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('specialty','frequency')
             ->get()->toArray();
         
 
@@ -71,7 +71,7 @@ class ChInterconsultationController extends Controller
         $ChInterconsultation = new ChInterconsultation;
         $ChInterconsultation->specialty_id = $request->specialty_id;
         $ChInterconsultation->amount = $request->amount;
-        $ChInterconsultation->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChInterconsultation->frequency_id = $request->frequency_id;
         $ChInterconsultation->observations = $request->observations;
         $ChInterconsultation->type_record_id = $request->type_record_id;
         $ChInterconsultation->ch_record_id = $request->ch_record_id;
@@ -113,7 +113,7 @@ class ChInterconsultationController extends Controller
         $ChInterconsultation = ChInterconsultation::find($id);
         $ChInterconsultation->specialty_id = $request->specialty_id;
         $ChInterconsultation->amount = $request->amount;
-        $ChInterconsultation->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChInterconsultation->frequency_id = $request->frequency_id;
         $ChInterconsultation->observations = $request->observations;
         $ChInterconsultation->type_record_id = $request->type_record_id;
         $ChInterconsultation->ch_record_id = $request->ch_record_id;
