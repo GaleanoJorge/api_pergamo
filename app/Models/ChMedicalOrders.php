@@ -11,7 +11,7 @@ class ChMedicalOrders extends BaseChMedicalOrders
     'ambulatory_medical_order',
     'procedure_id',
     'amount',
-    'hourly_frequency_id',
+    'frequency_id',
     'observations',
     'type_record_id',
     'ch_record_id',
