@@ -36,6 +36,7 @@ class PharmacyLotStockController extends Controller
             ->select('pharmacy_lot_stock.*')
             ->leftJoin('billing_stock', 'pharmacy_lot_stock.billing_stock_id', 'billing_stock.id')
             ->leftJoin('product', 'billing_stock.product_id', 'product.id')
+            ->leftJoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
             ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id');
 
         if ($request->_sort) {
@@ -46,6 +47,9 @@ class PharmacyLotStockController extends Controller
         }
         if ($request->product_generic_id) {
             $PharmacyLotStock->where('product.product_generic_id', $request->product_generic_id);
+        }
+        if ($request->product_supplies_id) {
+            $PharmacyLotStock->where('product_supplies_com.product_supplies_id', $request->product_supplies_id);
         }
         if ($request->product == "true") {
             $PharmacyLotStock->whereNotNull('billing_stock.product_id')->whereNull('billing_stock.product_supplies_com_id');
