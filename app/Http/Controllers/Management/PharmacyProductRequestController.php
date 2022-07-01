@@ -37,6 +37,10 @@ class PharmacyProductRequestController extends Controller
         if ($request->product_generic_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.product_generic_id', $request->product_generic_id);
         }
+        
+        if ($request->status) {
+            $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
+        }
 
         if ($request->search) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%');
