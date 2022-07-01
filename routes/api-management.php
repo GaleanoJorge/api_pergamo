@@ -753,6 +753,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Portafolio de servicios
     Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
 
+    Route::get('management_plan_by_patient/{id}/{userId}', 'Management\ManagementPlanController@getByPatient');
+
     //Modalidad del servicio
     Route::apiResource('modality', 'Management\ModalityController');
 

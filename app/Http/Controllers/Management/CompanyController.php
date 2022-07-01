@@ -11,36 +11,40 @@ use Illuminate\Database\QueryException;
 
 class CompanyController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Company = Company::select();
+        if ($request->eps == 0) {
+            $Company = Company::where('company_type_id',1)->OrWhere('company_type_id',4);
+        }else{
 
-        if($request->_sort){
+        $Company = Company::select();
+        }
+
+        if ($request->_sort) {
             $Company->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Company->where('name','like','%' . $request->search. '%');
+            $Company->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->company_category_id) {
             $Company->where('company_category_id', $request->company_category_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Company=$Company->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Company = $Company->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Company = $Company->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Company=$Company->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -49,16 +53,16 @@ class CompanyController extends Controller
             'data' => ['company' => $Company]
         ]);
     }
-    
+
 
     public function store(CompanyRequest $request): JsonResponse
     {
         $Company = new Company;
         $Company->identification_type_id = $request->identification_type_id;
         $Company->identification = $request->identification;
-        $Company->verification = $request->verification; 
-        $Company->name= $request->name;
-        $Company->company_category_id= $request->company_category_id ;
+        $Company->verification = $request->verification;
+        $Company->name = $request->name;
+        $Company->company_category_id = $request->company_category_id;
         $Company->company_type_id = $request->company_type_id;
         $Company->administrator = $request->administrator;
         $Company->country_id = $request->country_id;
@@ -116,9 +120,9 @@ class CompanyController extends Controller
         $Company = Company::find($id);
         $Company->identification_type_id = $request->identification_type_id;
         $Company->identification = $request->identification;
-        $Company->verification = $request->verification; 
-        $Company->name= $request->name;
-        $Company->company_category_id= $request->company_category_id ;
+        $Company->verification = $request->verification;
+        $Company->name = $request->name;
+        $Company->company_category_id = $request->company_category_id;
         $Company->company_type_id = $request->company_type_id;
         $Company->administrator = $request->administrator;
         $Company->country_id = $request->country_id;
@@ -139,7 +143,7 @@ class CompanyController extends Controller
         $Company->discount = $request->discount;
         $Company->payment_terms_id = $request->payment_terms_id;
         $Company->save();
-        
+
 
         return response()->json([
             'status' => true,
