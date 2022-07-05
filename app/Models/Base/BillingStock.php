@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id 
  * @property string $amount 
  * @property string $amount_unit 
+ * @property string $iva 
  * @property BigInteger $product_id
  * @property BigInteger $product_supplies_com_id
  * @property BigInteger $billing_id

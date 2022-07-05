@@ -1438,5 +1438,14 @@
         "route": "/pages/setting/municipality-ica",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "210",
+        "item_parent_id": "169",
+        "name": "Solicitar a compras",
+        "code": "billing-request-pharmacy",
+        "route": "/pages/setting/billing-request-pharmacy",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

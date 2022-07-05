@@ -25,8 +25,7 @@ class ProductSuppliesController extends Controller
         }
 
         if ($request->search) {
-            $ProductSupplies->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
+            $ProductSupplies->where('description', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {

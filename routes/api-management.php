@@ -971,6 +971,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_billing_evidence', 'Management\TypeBillingEvidenceController');
     Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('billing_stock', 'Management\BillingStockController');
+    Route::apiResource('billing_stock_request', 'Management\BillingStockRequestController');
     Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
