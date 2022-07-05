@@ -50,10 +50,14 @@ class ChVitalSignsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function byrecord(Request $request, int $id,int $type_record_id): JsonResponse
+    public function byrecord(Request $request, int $id,int $type_record_id = null): JsonResponse
     {
         $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological', 'oxygen_type', 'liters_per_minute','parameters_signs', 'type_record','ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        ->where('ch_record_id', $id);
+        
+        if($type_record_id){
+            $ChVitalSigns->where('type_record_id',$type_record_id);
+        }
 
         if ($request->_sort) {
             $ChVitalSigns->orderBy($request->_sort, $request->_order);
