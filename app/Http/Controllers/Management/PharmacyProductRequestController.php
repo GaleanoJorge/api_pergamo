@@ -40,6 +40,11 @@ class PharmacyProductRequestController extends Controller
         if ($request->product_supplies_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.product_supplies_id', $request->product_supplies_id);
         }
+        if ($request->cantidad==0) {
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->where('pharmacy_request_shipping.amount_provition', '>', 0);
+            });
+        }
         
         if ($request->status) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
