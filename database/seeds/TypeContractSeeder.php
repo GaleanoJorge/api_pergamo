@@ -20,7 +20,6 @@ class TypeContractSeeder extends Seeder
         
                 'name' =>  $row->name,
             ]);
-            
         }
     }
 }

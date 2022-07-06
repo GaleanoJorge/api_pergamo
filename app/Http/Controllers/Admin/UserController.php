@@ -982,7 +982,7 @@ class UserController extends Controller
                     $imagePath = 'firmas/' . $random . '.png';
                     Storage::disk('public')->put($imagePath, base64_decode($image));
 
-                    $assistance->firm = $imagePath;
+                    $assistance->file_firm = $imagePath;
                 }
                 $assistance->save();
 
@@ -1123,7 +1123,7 @@ class UserController extends Controller
      * @param integer $id
      * @return JsonResponse
      */
-    public function update(UserUpdateRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
 
 
@@ -1185,7 +1185,8 @@ class UserController extends Controller
 
         $RoleType = Role::where('id', $role)->get()->toArray();
         if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
-            $assistance = Assistance::find($request->assistance_id);
+            $assistance_id = Assistance::select('id')->where('user_id',$id)->get()->toArray();
+            $assistance=Assistance::find($assistance_id[0]['id']);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
             $assistance->cost_center_id = $request->cost_center_id;
@@ -1202,7 +1203,7 @@ class UserController extends Controller
                 $imagePath = 'firmas/' . $random . '.png';
                 Storage::disk('public')->put($imagePath, base64_decode($image));
 
-                $assistance->firm = $imagePath;
+                $assistance->file_firm = $imagePath;
             }
             $assistance->save();
 

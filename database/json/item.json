@@ -1256,7 +1256,7 @@
         "name": "Nombre del producto",
         "code": "nom-product",
         "route": "/pages/setting/nom-product",
-        "icon": "people-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {

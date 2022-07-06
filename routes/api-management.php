@@ -62,7 +62,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_scale_pps', 'Management\ChScalePpsController');
     Route::apiResource('ch_scale_braden', 'Management\ChScaleBradenController');
     Route::apiResource('ch_scale_lawton', 'Management\ChScaleLawtonController');
-    
+
     //Ch RespiratoryTherapy
     Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
     Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
@@ -74,7 +74,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_ass_cough', 'Management\ChAssCoughController');
     Route::apiResource('ch_ass_chest_type', 'Management\ChAssChestTypeController');
     Route::apiResource('ch_ass_chest_symmetry', 'Management\ChAssChestSymmetryController');
-    
+
     Route::apiResource('ch_rt_inspection', 'Management\ChRtInspectionController');
     Route::apiResource('ch_oxygen_therapy', 'Management\ChOxygenTherapyController');
     Route::get('ch_oxygen_therapy/by_record/{id}/{type_record_id}', 'Management\ChOxygenTherapyController@getByRecord');
@@ -84,7 +84,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
     Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
-                        
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -985,21 +985,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
-    
+
     Route::apiResource('nom_product', 'Management\NomProductController');
     Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
     Route::get(
         'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
-    
-    
+
+
     Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
     Route::get(
         'NomSupplies/byCategory/{product_subcategory_id}',
         'Management\NomSuppliesController@getSubcategoryByCategory'
     );
-    
+
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
@@ -1016,10 +1016,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
-    
-    
-    
-    
+
+
+
+
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
 
@@ -1281,40 +1281,40 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('cognitive_tl', 'Management\CognitiveTlController');
     Route::get('cognitive_tl/by_record/{id}/{type_record_id}', 'Management\CognitiveTlController@getByRecord');
-    
+
     Route::apiResource('communication_tl', 'Management\CommunicationTlController');
     Route::get('communication_tl/by_record/{id}/{type_record_id}', 'Management\CommunicationTlController@getByRecord');
 
     Route::apiResource('hearing_tl', 'Management\HearingTlController');
     Route::get('hearing_tl/by_record/{id}/{type_record_id}', 'Management\HearingTlController@getByRecord');
-    
+
     Route::apiResource('language_tl', 'Management\LanguageTlController');
     Route::get('language_tl/by_record/{id}/{type_record_id}', 'Management\LanguageTlController@getByRecord');
-   
+
     Route::apiResource('number_monthly_sessions_tl', 'Management\NumberMonthlySessionsTlController');
     Route::get('number_monthly_sessions_tl/by_record/{id}/{type_record_id}', 'Management\NumberMonthlySessionsTlController@getByRecord');
-   
+
     Route::apiResource('ostomies_tl', 'Management\OstomiesTlController');
     Route::get('ostomies_tl/by_record/{id}/{type_record_id}', 'Management\OstomiesTlController@getByRecord');
-    
+
     Route::apiResource('specific_tests_tl', 'Management\SpecificTestsTlController');
     Route::get('specific_tests_tl/by_record/{id}/{type_record_id}', 'Management\SpecificTestsTlController@getByRecord');
-    
+
     Route::apiResource('speech_tl', 'Management\SpeechTlController');
     Route::get('speech_tl/by_record/{id}/{type_record_id}', 'Management\SpeechTlController@getByRecord');
-   
+
     Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersTlController');
     Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersTlController@getByRecord');
-    
+
     Route::apiResource('therapeutic_goals_tl', 'Management\TherapeuticGoalsTlController');
     Route::get('therapeutic_goals_tl/by_record/{id}/{type_record_id}', 'Management\TherapeuticGoalsTlController@getByRecord');
-    
+
     Route::apiResource('tl_therapy_language', 'Management\TlTherapyLanguageController');
     Route::get('tl_therapy_language/by_record/{id}/{type_record_id}', 'Management\TlTherapyLanguageController@getByRecord');
-    
+
     Route::apiResource('voice_alterations_tl', 'Management\VoiceAlterationsTlController');
     Route::get('voice_alterations_tl/by_record/{id}/{type_record_id}', 'Management\VoiceAlterationsTlController@getByRecord');
-   
+
     Route::apiResource('input_materials_used_tl', 'Management\InputMaterialsUsedTlController');
     Route::get('input_materials_used_tl/by_record/{id}/{type_record_id}', 'Management\InputMaterialsUsedTlController@getByRecord');
 
@@ -1355,12 +1355,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Rutas de procedimientos de enfermeria
     Route::apiResource('nursing_procedure', 'Management\NursingProcedureController');
 
+    //Typos de examen para enfermeria
+    Route::apiResource('nursing_type_physical', 'Management\NursingTypePhysicalController');
+
     //Historia clinica de enfermeria
     //ruta entrada clinica
     Route::apiResource('ch_nursing_entry', 'Management\ChNursingEntryController');
     //ruta nota de enfermeria
     Route::apiResource('ch_notes_description', 'Management\ChNotesDescriptionController');
-    Route::get('ch_notes_description/by_record/{record_id}', 'Management\ChNotesDescriptionController@getByRecord');
+    Route::get('ch_notes_description/by_record/{record_id}/{type_record}', 'Management\ChNotesDescriptionController@getByRecord');
     //ruta plan de cuidado
     Route::apiResource('ch_care_plan', 'Management\ChCarePlanController');
     Route::get('ch_care_plan/by_record/{record_id}', 'Management\ChCarePlanController@getByRecord');
@@ -1369,11 +1372,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_liquid_control/by_record/{record_id}', 'Management\ChLiquidControlController@getByRecord');
     //ruta de valoracion de piel
     Route::apiResource('ch_skin_valoration', 'Management\ChSkinValorationController');
-    Route::get('ch_skin_valoration/by_record/{record_id}', 'Management\ChSkinValorationController@getByRecord');
+    Route::get('ch_skin_valoration/by_record/{record_id}/{type_record}', 'Management\ChSkinValorationController@getByRecord');
     //ruta de valoracion de piel
     Route::apiResource('ch_nursing_procedure', 'Management\ChNursingProcedureController');
     Route::get('ch_nursing_procedure/by_record/{record_id}', 'Management\ChNursingProcedureController@getByRecord');
     
+
     //ch nutrición
     Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
     Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');

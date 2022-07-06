@@ -56,11 +56,12 @@ class ChSkinValorationController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(Request $request, int $id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record): JsonResponse
     {
 
         $ChSkinValoration = ChSkinValoration::select('ch_skin_valoration.*')
             ->where('ch_record_id', $id)
+            ->where('type_record_id', $type_record)
             ->with(
                 'body_region',
                 'skin_status',
@@ -104,6 +105,7 @@ class ChSkinValorationController extends Controller
 
             $ChSkinValoration->diagnosis_id = $request->diagnosis_id;
             $ChSkinValoration->body_region_id = $request->body_region_id;
+            $ChSkinValoration->pressure_ulcers = $request->pressure_ulcers;
             $ChSkinValoration->skin_status_id = $request->skin_status_id;
             $ChSkinValoration->exudate = $request->exudate;
             $ChSkinValoration->concentrated = $request->concentrated;
