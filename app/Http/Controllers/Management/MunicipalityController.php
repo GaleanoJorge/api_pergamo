@@ -104,7 +104,7 @@ class MunicipalityController extends Controller
     {
         $Municipality = new Municipality;
         $Municipality->region_id = $request->region_id;
-        $Municipality->circuit_id = $request->circuit_id;
+        $Municipality->sga_origin_fk = $request->circuit_id;
         $Municipality->name = $request->name;
         $Municipality->save();
 
@@ -144,7 +144,7 @@ class MunicipalityController extends Controller
     {
         $Municipality = Municipality::find($id);
         $Municipality->region_id = $request->region_id;
-        $Municipality->circuit_id = $request->circuit_id;
+        $Municipality->sga_origin_fk = $request->circuit_id;
         $Municipality->name = $request->name;
         $Municipality->save();
 
