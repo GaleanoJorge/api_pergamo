@@ -152,6 +152,10 @@ class PharmacyLotStockController extends Controller
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
             $PharmacyLotStock->billing_stock_id = $element->billing_stock_id;
             $PharmacyLotStock->save();
+
+            $BillingStock = BillingStock::find($element->billing_stock_id);
+            $BillingStock->amount_provitional = $BillingStock->amount_provitional - $element->amount_total;
+            $BillingStock->save();
         }
 
         return response()->json([
