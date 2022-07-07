@@ -22,7 +22,7 @@ class PharmacyProductRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyProductRequest = PharmacyProductRequest::with('product_generic', 'product_supplies', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus','user_request')
+        $PharmacyProductRequest = PharmacyProductRequest::with('product_generic', 'product_supplies', 'own_pharmacy_stock', 'request_pharmacy_stock', 'request_pharmacy_stock.campus', 'own_pharmacy_stock.campus', 'user_request')
             ->select('pharmacy_product_request.*', DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'))
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->groupBy('pharmacy_product_request.id');
@@ -40,12 +40,21 @@ class PharmacyProductRequestController extends Controller
         if ($request->product_supplies_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.product_supplies_id', $request->product_supplies_id);
         }
-        if ($request->cantidad==0) {
+        if ($request->cantidad) {
             $PharmacyProductRequest->where(function ($query) use ($request) {
-                $query->where('pharmacy_request_shipping.amount_provition', '>', 0);
+                if ($request->cantidad == 0) {
+                    $query->where('pharmacy_request_shipping.amount_provition', '>', 0);
+                }
             });
         }
-        
+        if ($request->request_amount) {
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                if ($request->request_amount == 0) {
+                    $query->where('pharmacy_product_request.request_amount', '>', 0);
+                }
+            });
+        }
+
         if ($request->status) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
         }
@@ -203,9 +212,9 @@ class PharmacyProductRequestController extends Controller
                     $elements = json_decode($request->pharmacy_lot_stock_id);
                     foreach ($elements as $element) {
                         $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
-                        
+
                         $LastPharmacyLot = PharmacyLot::find($PharmacyLotStock->pharmacy_lot_id);
-                        
+
                         $PharmacyRequestShipping = PharmacyRequestShipping::find($element->pharmacy_request_shipping_id);
                         // $PharmacyRequestShipping->amount = $element->amount  - $element->amount_provition ;
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
