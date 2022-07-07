@@ -17,7 +17,7 @@ class ChTypeProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChTypeProcedure = ChTypeProcedure::with('enterally_diet','diet_consistency'); /// Cargar 
+        $ChTypeProcedure = ChTypeProcedure::select(); /// Cargar 
 
         if ($request->_sort) {
             $ChTypeProcedure->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class ChTypeProcedureController extends Controller
     {
         
        
-        $ChTypeProcedure = ChTypeProcedure::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
+        $ChTypeProcedure = ChTypeProcedure::with('type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {

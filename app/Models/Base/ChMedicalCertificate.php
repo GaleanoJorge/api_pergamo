@@ -26,6 +26,15 @@ class ChMedicalCertificate extends Model
 {
 	protected $table = 'ch_medical_certificate';
 
+	public function type_record()
+	{
+		return $this->belongsTo(ChTypeRecord::class);
+	}
+	public function ch_record()
+	{
+		return $this->belongsTo(ChRecord::class);
+	}
+
 	
 
 }

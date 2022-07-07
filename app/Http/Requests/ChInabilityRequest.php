@@ -25,13 +25,14 @@ class ChInabilityRequest extends FormRequest
     {
         return [
             'ch_contingency_code_id' => '',
-            'extension' => '',
+      
             'initial_date' => '',
             'final_date' => '',
             'diagnosis_id' => '',
             'ch_type_inability_id' => '',
             'ch_type_procedure_id' => '',
             'observation' => '',
+            'total_days'=> '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

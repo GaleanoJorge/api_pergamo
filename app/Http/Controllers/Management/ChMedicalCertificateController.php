@@ -17,7 +17,7 @@ class ChMedicalCertificateController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChMedicalCertificate = ChMedicalCertificate::with('enterally_diet','diet_consistency'); /// Cargar 
+        $ChMedicalCertificate = ChMedicalCertificate::select(); 
 
         if ($request->_sort) {
             $ChMedicalCertificate->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class ChMedicalCertificateController extends Controller
     {
         
        
-        $ChMedicalCertificate = ChMedicalCertificate::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
+        $ChMedicalCertificate = ChMedicalCertificate::with('type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
@@ -78,7 +78,9 @@ class ChMedicalCertificateController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChMedicalCertificate = new ChMedicalCertificate;
-        $ChMedicalCertificate->name = $request->name;
+        $ChMedicalCertificate->description = $request->description;
+        $ChMedicalCertificate->type_record_id = $request->type_record_id;
+        $ChMedicalCertificate->ch_record_id = $request->ch_record_id;
         
         $ChMedicalCertificate->save();
 
@@ -116,7 +118,9 @@ class ChMedicalCertificateController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChMedicalCertificate = ChMedicalCertificate::find($id);
-        $ChMedicalCertificate->name = $request->name;
+        $ChMedicalCertificate->description = $request->description;
+        $ChMedicalCertificate->type_record_id = $request->type_record_id;
+        $ChMedicalCertificate->ch_record_id = $request->ch_record_id;
         
         $ChMedicalCertificate->save();
 

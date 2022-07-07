@@ -25,6 +25,10 @@ class ChMedicalCertificateRequest extends FormRequest
     {
         return [
             'description' => '',
+            'ch_record_id' => '',
+            'type_record_id'=> '',
+        
+  
             
         ];
     }

@@ -17,7 +17,7 @@ class ChTypeInabilityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChTypeInability = ChTypeInability::with('enterally_diet','diet_consistency'); /// Cargar 
+        $ChTypeInability = ChTypeInability::select(); /// Cargar 
 
         if ($request->_sort) {
             $ChTypeInability->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class ChTypeInabilityController extends Controller
     {
         
        
-        $ChTypeInability = ChTypeInability::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
+        $ChTypeInability = ChTypeInability::with('type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {

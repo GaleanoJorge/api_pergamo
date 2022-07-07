@@ -16,6 +16,7 @@ class ChInability extends BaseChInability
     'ch_type_inability_id',
     'ch_type_procedure_id',
     'observation',
+    'total_days',
     'type_record_id',
     'ch_record_id',
   ];

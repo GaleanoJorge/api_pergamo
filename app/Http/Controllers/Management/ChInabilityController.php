@@ -17,7 +17,7 @@ class ChInabilityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChInability = ChInability::select();
+        $ChInability = ChInability::with('ch_contingency_code','diagnosis_id','ch_type_inability','ch_type_procedure');
 
         if ($request->_sort) {
             $ChInability->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class ChInabilityController extends Controller
     {
         
        
-        $ChInability = ChInability::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChInability = ChInability::with('ch_contingency_code', 'diagnosis','ch_type_inability', 'ch_type_procedure', 'type_record', 'ch_record')->where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 
@@ -78,6 +78,7 @@ class ChInabilityController extends Controller
         $ChInability->ch_type_inability_id = $request->ch_type_inability_id;
         $ChInability->ch_type_procedure_id = $request->ch_type_procedure_id;
         $ChInability->observation = $request->observation;
+        $ChInability->total_days = $request->total_days;
         $ChInability->type_record_id = $request->type_record_id;
         $ChInability->ch_record_id = $request->ch_record_id;
         $ChInability->save();
@@ -124,6 +125,7 @@ class ChInabilityController extends Controller
         $ChInability->ch_type_inability_id = $request->ch_type_inability_id;
         $ChInability->ch_type_procedure_id = $request->ch_type_procedure_id;
         $ChInability->observation = $request->observation;
+        $ChInability->total_days = $request->total_days;
         $ChInability->type_record_id = $request->type_record_id;
         $ChInability->ch_record_id = $request->ch_record_id;
         $ChInability->save();

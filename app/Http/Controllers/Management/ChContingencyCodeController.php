@@ -17,7 +17,7 @@ class ChContingencyCodeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChContingencyCode = ChContingencyCode::with('enterally_diet','diet_consistency'); /// Cargar 
+        $ChContingencyCode = ChContingencyCode::select(); /// Cargar 
 
         if ($request->_sort) {
             $ChContingencyCode->orderBy($request->_sort, $request->_order);
@@ -55,8 +55,8 @@ class ChContingencyCodeController extends Controller
     {
         
        
-        $ChContingencyCode = ChContingencyCode::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        $ChContingencyCode = ChContingencyCode::select();
+       
         
         if ($request->query("pagination", true) == "false") {
             $ChContingencyCode = $ChContingencyCode->get()->toArray();

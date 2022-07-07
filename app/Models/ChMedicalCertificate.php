@@ -8,7 +8,9 @@ use App\Models\Base\ChMedicalCertificate as BaseChMedicalCertificate;
 class ChMedicalCertificate extends BaseChMedicalCertificate
 {
   protected $fillable = [
-    'description'
+    'description',
+    'ch_record_id',
+    'type_record_id',
   
   ];
 }

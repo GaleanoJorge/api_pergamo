@@ -23,6 +23,7 @@ class CreateChInabilityTable extends Migration
             $table->unsignedBigInteger('ch_type_inability_id');
             $table->unsignedBigInteger('ch_type_procedure_id');
             $table->string('observation');
+            $table->boolean('total_days')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -55,7 +55,7 @@ class VoiceAlterationsTlController extends Controller
     {
         
        
-        $VoiceAlterationsTl = VoiceAlterationsTl::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
+        $VoiceAlterationsTl = VoiceAlterationsTl::with('type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {

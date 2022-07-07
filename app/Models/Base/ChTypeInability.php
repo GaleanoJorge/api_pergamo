@@ -6,8 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\ChRecord;
-use App\Models\ChTypeRecord;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 

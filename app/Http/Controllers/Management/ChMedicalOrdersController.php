@@ -17,7 +17,7 @@ class ChMedicalOrdersController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChMedicalOrders = ChMedicalOrders::select();
+        $ChMedicalOrders = ChMedicalOrders::with('procedure','frequency');
 
         if ($request->_sort) {
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
