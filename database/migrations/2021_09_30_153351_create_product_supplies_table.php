@@ -23,6 +23,8 @@ class CreateProductSuppliesTable extends Migration
                         $table->Integer('minimum_stock');
                         $table->Integer('maximum_stock');
                         $table->string('description');
+                        $table->unsignedBigInteger('product_dose_id');
+                        $table->string('dose')->nullable();
 
                         $table->timestamps();
                         $table->index('size_supplies_measure_id');
@@ -32,6 +34,10 @@ class CreateProductSuppliesTable extends Migration
                         $table->index('measure_supplies_measure_id');
                         $table->foreign('measure_supplies_measure_id')->references('id')
                                 ->on('supplies_measure');
+
+                        $table->index('product_dose_id');
+                        $table->foreign('product_dose_id')->references('id')
+                                ->on('product_dose');
                 });
         }
 
