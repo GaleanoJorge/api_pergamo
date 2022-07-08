@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property BigInteger $medical_diagnosis_id
- * @property BigInteger $therapeutic_diagnosis_id
+ * @property string $therapeutic_diagnosis
  * @property string $reason_consultation
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
@@ -34,7 +34,7 @@ class ChRespiratoryTherapy extends Model
 {
 	protected $table = 'ch_respiratory_therapy';
 
-		public function diagnosis()
+		public function medical_diagnosis()
 	{
 		return $this->belongsTo(Diagnosis::class);
 	}

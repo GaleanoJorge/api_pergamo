@@ -26,6 +26,10 @@ class ChRespiratoryTherapyController extends Controller
         if ($request->search) {
             $ChRespiratoryTherapy->where('name', 'like', '%' . $request->search . '%');
         }
+        
+        if ($request->ch_record_id) {
+            $ChRespiratoryTherapy->where('ch_record_id', $request->ch_record_id);
+        }
 
         if ($request->query("pagination", true) == "false") {
             $ChRespiratoryTherapy = $ChRespiratoryTherapy->get()->toArray();
@@ -54,7 +58,7 @@ class ChRespiratoryTherapyController extends Controller
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
         $ChRespiratoryTherapy = ChRespiratoryTherapy::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->with('diagnosis') ->get()->toArray();
+        ->with('medical_diagnosis') ->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico obtenido exitosamente',
@@ -72,7 +76,7 @@ class ChRespiratoryTherapyController extends Controller
         if(!$validate){
         $ChRespiratoryTherapy = new ChRespiratoryTherapy;
         $ChRespiratoryTherapy->medical_diagnosis_id = $request->medical_diagnosis_id;
-        $ChRespiratoryTherapy->therapeutic_diagnosis_id = $request->therapeutic_diagnosis_id;
+        $ChRespiratoryTherapy->therapeutic_diagnosis = $request->therapeutic_diagnosis;
         $ChRespiratoryTherapy->reason_consultation = $request->reason_consultation;
         $ChRespiratoryTherapy->type_record_id = $request->type_record_id;
         $ChRespiratoryTherapy->ch_record_id = $request->ch_record_id;
@@ -119,7 +123,7 @@ class ChRespiratoryTherapyController extends Controller
     {
         $ChRespiratoryTherapy = ChRespiratoryTherapy::find($id);
         $ChRespiratoryTherapy->medical_diagnosis_id = $request->medical_diagnosis_id;
-        $ChRespiratoryTherapy->therapeutic_diagnosis_id = $request->therapeutic_diagnosis_id;
+        $ChRespiratoryTherapy->therapeutic_diagnosis = $request->therapeutic_diagnosis;
         $ChRespiratoryTherapy->reason_consultation = $request->reason_consultation;
         $ChRespiratoryTherapy->type_record_id = $request->type_record_id;
         $ChRespiratoryTherapy->ch_record_id = $request->ch_record_id;

@@ -16,7 +16,7 @@
             Schema::create('ch_respiratory_therapy', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('medical_diagnosis_id') ->nullable();
-                $table->unsignedBigInteger('therapeutic_diagnosis_id') ->nullable();
+                $table->string('therapeutic_diagnosis') ->nullable();
                 $table->string('reason_consultation') ->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
@@ -32,11 +32,6 @@
 
                 $table->index('medical_diagnosis_id');
                 $table->foreign('medical_diagnosis_id')->references('id')
-                    ->on('diagnosis');
-
-
-                $table->index('therapeutic_diagnosis_id');
-                $table->foreign('therapeutic_diagnosis_id')->references('id')
                     ->on('diagnosis');
             });
         }
