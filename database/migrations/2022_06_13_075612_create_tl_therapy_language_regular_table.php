@@ -15,16 +15,16 @@ class CreateTlTherapyLanguageRegularTable extends Migration
     {
         Schema::create('tl_therapy_language_regular', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('tl_therapy_language_id')->nullable();
+            $table->unsignedBigInteger('diagnosis_id')->nullable();
             $table->string('status_patient')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
             
 
-            $table->index('tl_therapy_language_id');
-            $table->foreign('tl_therapy_language_id')->references('id')
-                    ->on('tl_therapy_language');
+            $table->index('diagnosis_id');
+            $table->foreign('diagnosis_id')->references('id')
+                    ->on('diagnosis');
 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
