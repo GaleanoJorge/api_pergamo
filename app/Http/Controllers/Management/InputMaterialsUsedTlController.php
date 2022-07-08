@@ -72,27 +72,41 @@ class InputMaterialsUsedTlController extends Controller
         $InputMaterialsUsedTl = new InputMaterialsUsedTl;
 
         if (isset($request->materialused)) {
-
-            $validator = array_search('ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS)', $request->materialused);
-            if (isset($validator)) {
-                $InputMaterialsUsedTl->biosecurity_elements = $request->materialused[$validator];
-            };
-
-            $validator = array_search('MATERIALES DIDÁCTICOS', $request->materialused);
-            if ($validator) {
-                $InputMaterialsUsedTl->didactic_materials = $request->materialused[$validator];
-            };
-
-            $validator = array_search('ALIMENTOS Y LÍQUIDOS', $request->materialused);
-            if ($validator) {
-                $InputMaterialsUsedTl->liquid_food = $request->materialused[$validator];
-            };
-
-            $validator = array_search('MATERIAL DE PAPELERÍA', $request->materialused);
-            if ($validator) {
-                $InputMaterialsUsedTl->stationery = $request->materialused[$validator];
+            foreach ($request->materialused as $element) {
+                if ($element == 'ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS') {
+                    $InputMaterialsUsedTl->biosecurity_elements = $element;
+                } else if ($element == 'MATERIALES DIDÁCTICOS') {
+                    $InputMaterialsUsedTl->didactic_materials = $element;
+                } else if ($element == 'ALIMENTOS Y LÍQUIDOS') {
+                    $InputMaterialsUsedTl->liquid_food = $element;
+                } else if ($element == 'MATERIAL DE PAPELERÍA') {
+                    $InputMaterialsUsedTl->stationery = $element;
+               
             };
         }
+
+        // if (isset($request->materialused)) {
+
+        //     $validator = array_search('ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS)', $request->materialused);
+        //     if (isset($validator)) {
+        //         $InputMaterialsUsedTl->biosecurity_elements = $request->materialused[$validator];
+        //     };
+
+        //     $validator = array_search('MATERIALES DIDÁCTICOS', $request->materialused);
+        //     if ($validator) {
+        //         $InputMaterialsUsedTl->didactic_materials = $request->materialused[$validator];
+        //     };
+
+        //     $validator = array_search('ALIMENTOS Y LÍQUIDOS', $request->materialused);
+        //     if ($validator) {
+        //         $InputMaterialsUsedTl->liquid_food = $request->materialused[$validator];
+        //     };
+
+        //     $validator = array_search('MATERIAL DE PAPELERÍA', $request->materialused);
+        //     if ($validator) {
+        //         $InputMaterialsUsedTl->stationery = $request->materialused[$validator];
+        //     };
+        // }
 
         $InputMaterialsUsedTl->type_record_id = $request->type_record_id;
         $InputMaterialsUsedTl->ch_record_id = $request->ch_record_id;
@@ -104,6 +118,7 @@ class InputMaterialsUsedTlController extends Controller
             'data' => ['input_materials_used_tl' => $InputMaterialsUsedTl->toArray()]
         ]);
     }
+}
 
     /**
      * Display the specified resource.

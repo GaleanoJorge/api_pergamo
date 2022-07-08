@@ -17,7 +17,7 @@ class ChInabilityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChInability = ChInability::with('ch_contingency_code','diagnosis_id','ch_type_inability','ch_type_procedure');
+        $ChInability = ChInability::with('ch_contingency_code','diagnosis_id','ch_type_inability','ch_type_procedure', 'type_record', 'ch_record');
 
         if ($request->_sort) {
             $ChInability->orderBy($request->_sort, $request->_order);

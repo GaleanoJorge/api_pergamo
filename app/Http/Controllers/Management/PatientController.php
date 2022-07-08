@@ -668,7 +668,7 @@ class PatientController extends Controller
     {
 
         DB::beginTransaction();
-        $validate = Patient::Where('identification', $request->identification);
+        $validate = Patient::Where('identification', $request->identification)->first();
         $validate_wrong_user = UserChange::Join('patients', 'patients.id', 'user_change.wrong_user_id')->Where('patients.identification', $request->identification);
         if ($validate) {
             // if ($validate_wrong_user) {

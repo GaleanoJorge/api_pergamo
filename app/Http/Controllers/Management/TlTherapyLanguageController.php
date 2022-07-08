@@ -66,7 +66,7 @@ class TlTherapyLanguageController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Evolución T. Lenguaje del paciente del paciente exitosamente',
+            'message' => 'Evolución T. Lenguaje del paciente exitosamente',
             'data' => ['tl_therapy_language' => $TlTherapyLanguage]
         ]);
     }

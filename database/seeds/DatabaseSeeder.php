@@ -241,6 +241,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypeProcedureSeeder::class);
                 $this->call(ChTypeInabilitySeeder::class);
                 $this->call(ChContingencyCodeSeeder::class);
+          
 
 
 

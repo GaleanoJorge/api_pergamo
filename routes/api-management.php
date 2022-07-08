@@ -1255,7 +1255,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
     Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
     Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
-
+    Route::apiResource('ch_ostomies', 'Management\ChOstomiesController');
+    Route::get('ch_ostomies/by_record/{id}/{type_record_id}', 'Management\ChOstomiesController@getByRecord');
     //Tablas Incapacidad y Certificado Medico
     Route::apiResource('ch_contingency_code', 'Management\ChContingencyCodeController');
     Route::get('ch_contingency_code/by_record/{id}/{type_record_id}', 'Management\ChContingencyCodeController@getByRecord');
@@ -1333,7 +1334,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ostomias 
     Route::apiResource('ostomy', 'Management\OstomyController');
-
+  
     //posiciones del paciente 
     Route::apiResource('patient_position', 'Management\PatientPositionController');
 
