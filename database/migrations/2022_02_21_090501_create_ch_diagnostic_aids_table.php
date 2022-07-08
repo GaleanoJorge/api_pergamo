@@ -20,6 +20,7 @@
                 $table->string('gases')->nullable();
                 $table->string('polysomnography')->nullable();
                 $table->string('other')->nullable();
+                $table->string('none')->nullable();
                 $table->string('observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

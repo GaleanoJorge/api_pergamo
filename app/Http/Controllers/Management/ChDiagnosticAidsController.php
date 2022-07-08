@@ -72,33 +72,23 @@ class ChDiagnosticAidsController extends Controller
     public function store(Request $request): JsonResponse
     {
             $ChDiagnosticAids = new ChDiagnosticAids;
-    
-            if (isset($request->aids)) {
-                $validator = array_search('RADIOGRAFIA', $request->aids);
-                if(isset($validator)){
-                    $ChDiagnosticAids->scan = $request->aids[$validator];
-                };
-    
-                $validator = array_search('ESPIROMETRIA', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->spirometry = $request->aids[$validator];
-                };
-    
-                $validator = array_search('GASES ARTERIALES', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->gases = $request->aids[$validator];
-                };
-    
-                $validator = array_search('POLISOMNOGRAFIA', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->polysomnography = $request->aids[$validator];
-                };
-    
-                $validator = array_search('OTRO', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->other = $request->aids[$validator];
-                };
 
+            if (isset($request->aids)) {
+                foreach ($request->aids as $element) {
+                    if ($element == 'RADIOGRAFIA') {
+                        $ChDiagnosticAids->scan = $element;
+                    } else if ($element == 'ESPIROMETRIA') {
+                        $ChDiagnosticAids->spirometry = $element;
+                    } else if ($element == 'GASES ARTERIALES') {
+                        $ChDiagnosticAids->gases = $element;
+                    } else if ($element == 'POLISOMNOGRAFIA') {
+                        $ChDiagnosticAids->polysomnography = $element;
+                    } else if ($element == 'OTRO') {
+                        $ChDiagnosticAids->other = $element;
+                    } else if ($element == 'NINGUNO') {
+                        $ChDiagnosticAids->none = $element;
+                    } 
+                }
             }
             
         $ChDiagnosticAids->observation = $request->observation; 
