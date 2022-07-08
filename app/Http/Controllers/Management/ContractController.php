@@ -18,7 +18,12 @@ class ContractController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Contract = Contract::with('contract_status');
+        if ($request->company_id) {
+            $Contract = Contract::with('contract_status')->where('company_id', $request->company_id)->where('contract_status_id',1);
+        } else {
+
+            $Contract = Contract::with('contract_status');
+        }
 
         if ($request->_sort) {
             $Contract->orderBy($request->_sort, $request->_order);
@@ -26,6 +31,10 @@ class ContractController extends Controller
 
         if ($request->search) {
             $Contract->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->id) {
+            $Contract->where('id', $request->id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -102,7 +111,7 @@ class ContractController extends Controller
     public function byCompany(int $id)
     {
         $Contract = Contract::where('company_id', $id)->get()->toArray();
-            
+
         return response()->json([
             'status' => true,
             'message' => 'Contratos de la compañía obtenido exitosamente',

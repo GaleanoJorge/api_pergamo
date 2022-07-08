@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BillUserActivityRequest;
 use Illuminate\Database\QueryException;
 use App\Models\AccountReceivable;
-
+use App\Models\Tariff;
 
 class BillUserActivityController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -23,23 +23,22 @@ class BillUserActivityController extends Controller
     {
         $BillUserActivity = BillUserActivity::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $BillUserActivity->where('name','like','%' . $request->search. '%');
+            $BillUserActivity->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $BillUserActivity=$BillUserActivity->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $BillUserActivity = $BillUserActivity->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $BillUserActivity = $BillUserActivity->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $BillUserActivity=$BillUserActivity->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -48,7 +47,7 @@ class BillUserActivityController extends Controller
             'data' => ['bill_user_activity' => $BillUserActivity]
         ]);
     }
-    
+
 
     public function store(BillUserActivityRequest $request): JsonResponse
     {
@@ -56,7 +55,7 @@ class BillUserActivityController extends Controller
         $BillUserActivity->num_activity = $request->num_activity;
         $BillUserActivity->user_id = $request->user_id;
         $BillUserActivity->full_value = $request->full_value;
-        $BillUserActivity->account_receivable_id = $request->account_receivable_id; 
+        $BillUserActivity->account_receivable_id = $request->account_receivable_id;
         $BillUserActivity->observation = $request->observation;
         $BillUserActivity->save();
 
@@ -86,7 +85,7 @@ class BillUserActivityController extends Controller
     }
 
 
-        /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
@@ -94,24 +93,23 @@ class BillUserActivityController extends Controller
      */
     public function getByAccountReceivable(Request $request, int $id): JsonResponse
     {
-        $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)->with('procedure','procedure.manual_price');
-        if($request->_sort){
+        $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)->with('procedure', 'procedure.manual_price', 'tariff');
+        if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $BillUserActivity->where('name','like','%' . $request->search. '%');
+            $BillUserActivity->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $BillUserActivity=$BillUserActivity->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $BillUserActivity = $BillUserActivity->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $BillUserActivity = $BillUserActivity->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $BillUserActivity=$BillUserActivity->paginate($per_page,'*','page',$page); 
-        } 
 
         return response()->json([
             'status' => true,
@@ -129,15 +127,16 @@ class BillUserActivityController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $BillUserActivity = BillUserActivity::find($id);
-        $BillUserActivity->status = $request->status; 
+        $BillUserActivity = BillUserActivity::where('id', $id)->with('procedure', 'procedure.manual_price', 'tariff')->get()->first();
+        $BillUserActivity->status = $request->status;
         $BillUserActivity->observation = $request->observation;
-        if($request->status=='APROBADO'){
-            $AccountReceivable= AccountReceivable::find($BillUserActivity->account_receivable_id);
-            $AccountReceivable->gross_value_activities=$AccountReceivable->gross_value_activities+$BillUserActivity->value;
+        $BillUserActivity->save();
+        if ($request->status == 'APROBADO') {
+            $tariff = Tariff::where('id', $BillUserActivity->tariff_id)->get()->first();
+            $AccountReceivable = AccountReceivable::find($BillUserActivity->account_receivable_id);
+            $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
             $AccountReceivable->save();
         }
-        $BillUserActivity->save();
 
         return response()->json([
             'status' => true,

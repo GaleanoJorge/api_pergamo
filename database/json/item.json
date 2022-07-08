@@ -119,8 +119,8 @@
     {
         "id": "23",
         "item_parent_id": "65",
-        "name": "Ciudad",
-        "code": "ciudad",
+        "name": "Providencia, Vereda o Municipio",
+        "code": "Providencia, Vereda o Municipio",
         "route": "/pages/setting/municipality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -1010,8 +1010,8 @@
     {
         "id": "163",
         "item_parent_id": "65",
-        "name": "Localidad",
-        "code": "localidad",
+        "name": "Comuna, Localidad o Vereda",
+        "code": "Comuna, Localidad o Vereda",
         "route": "/pages/setting/locality",
         "icon": "navigation-outline",
         "show_menu": "1"
@@ -1037,16 +1037,16 @@
     {
         "id": "166",
         "item_parent_id": "165",
-        "name": "Tarifa de barrios",
+        "name": "Zona",
         "code": "risk-neighborhood",
         "route": "/pages/setting/pad-risk",
-        "icon": "navigation-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
         "id": "167",
         "item_parent_id": "165",
-        "name": "Tarifas",
+        "name": "Tarifas contratistas",
         "code": "tariff",
         "route": "/pages/setting/tariff",
         "icon": "navigation-outline",
@@ -1386,11 +1386,56 @@
         "show_menu": "1"
     },
     {
+        "id": "204",
+        "item_parent_id": "67",
+        "name": "Variables Macroeconómicas",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "205",
+        "item_parent_id": "204",
+        "name": "Salario mínimo",
+        "code": "minimum-salary",
+        "route": "/pages/setting/minimum-salary",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "206",
+        "item_parent_id": "204",
+        "name": "UVT",
+        "code": "tax-value-unit",
+        "route": "/pages/setting/tax-value-unit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "207",
+        "item_parent_id": "204",
+        "name": "Rete ICA",
+        "code": "municipality-ica",
+        "route": "/pages/setting/municipality-ica",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
         "id": "210",
         "item_parent_id": "169",
         "name": "Solicitar a compras",
         "code": "billing-request-pharmacy",
         "route": "/pages/setting/billing-request-pharmacy",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "211",
+        "item_parent_id": "183",
+        "name": "Rentabilidad",
+        "code": "rentability",
+        "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
     }

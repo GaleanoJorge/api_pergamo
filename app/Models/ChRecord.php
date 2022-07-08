@@ -13,6 +13,7 @@ class ChRecord extends BaseChRecord
     'admissions_id',
     'assigned_management_plan_id',
     'user_id',
+    'ch_type_id',
     'date_finish',
   ];
 }

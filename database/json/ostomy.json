@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "name": "CITOSTOMÍA"
+    },
+    {
+        "id": 2,
+        "name": "COLOSTOMÍA"
+    },
+    {
+        "id": 3,
+        "name": "GASTROSTOMÍA"
+    },
+    {
+        "id": 4,
+        "name": "ILEOSTOMÍA"
+    },
+    {
+        "id": 5,
+        "name": "YEYUNOSTOMÍA"
+    },
+    {
+        "id": 6,
+        "name": "TRAQUEOSTOMIA"
+    },
+    {
+        "id": 7,
+        "name": "NEFROSTOMÍA"
+    },
+    {
+        "id": 8,
+        "name": "NO APLICA"
+    }
+  
+]

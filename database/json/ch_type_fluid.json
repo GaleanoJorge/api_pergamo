@@ -1,0 +1,147 @@
+[
+    {
+        "id": 1,
+        "name": "NUTRICIÓN ENTERAL",
+        "ch_route_fluid_id": 1
+    },
+    {
+        "id": 2,
+        "name": "NUTRICIÓN PARENTERAL",
+        "ch_route_fluid_id": 2
+    },
+    {
+        "id": 3,
+        "name": "DESAYUNO",
+        "ch_route_fluid_id": 3
+    },
+    {
+        "id": 4,
+        "name": "ONCES",
+        "ch_route_fluid_id": 3
+    },
+    {
+        "id": 5,
+        "name": "ALMUERZO",
+        "ch_route_fluid_id": 3
+    },
+    {
+        "id": 6,
+        "name": "CENA",
+        "ch_route_fluid_id": 3
+    },
+    {
+        "id": 7,
+        "name": "OTROS",
+        "ch_route_fluid_id": 3
+    },
+    {
+        "id": 8,
+        "name": "GLOBULOS ROJOS",
+        "ch_route_fluid_id": 4
+    },
+    {
+        "id": 9,
+        "name": "PLASMA",
+        "ch_route_fluid_id": 4
+    },
+    {
+        "id": 10,
+        "name": "PLAQUETAS",
+        "ch_route_fluid_id": 4
+    },
+    {
+        "id": 11,
+        "name": "SANGRE TOTAL",
+        "ch_route_fluid_id": 4
+    },
+    {
+        "id": 12,
+        "name": "CRIOPRECIPITADOS",
+        "ch_route_fluid_id": 4
+    },
+    {
+        "id": 13,
+        "name": "ESPONTANEA",
+        "ch_route_fluid_id": 5
+    },
+    {
+        "id": 14,
+        "name": "SONDA VESICAL",
+        "ch_route_fluid_id": 5
+    },
+    {
+        "id": 15,
+        "name": "CISTOSTOMÍA",
+        "ch_route_fluid_id": 5
+    },
+    {
+        "id": 16,
+        "name": "NEFROSTOMÍA",
+        "ch_route_fluid_id": 5
+    },
+    {
+        "id": 17,
+        "name": "BLANDA",
+        "ch_route_fluid_id": 6
+    },
+    {
+        "id": 18,
+        "name": "LIQUIDA",
+        "ch_route_fluid_id": 6
+    },
+    {
+        "id": 19,
+        "name": "VÓMITO",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 20,
+        "name": "SONDA OROGÁSTRICA",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 21,
+        "name": "TUVO DE TORAX DER.",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 22,
+        "name": "TUVO DE TORAX IZQ.",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 23,
+        "name": "HEMOVAC DER.",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 24,
+        "name": "HEMOVAC IZQ.",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 25,
+        "name": "COLOSTOMÍA",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 26,
+        "name": "ILEOSTOMÍA",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 27,
+        "name": "TUBO MEDIASTINO",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 28,
+        "name": "IRRIGACIÓN",
+        "ch_route_fluid_id": 7
+    },
+    {
+        "id": 29,
+        "name": "ESPECIFICAR",
+        "ch_route_fluid_id": 7
+    }
+]

@@ -3050,6 +3050,86 @@
         "permission_id": "4"
     },
     {
+        "item_id": "204",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "204",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "204",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "204",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "205",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "205",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "205",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "205",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "206",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "206",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "206",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "206",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "207",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "207",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "207",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "207",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
         "item_id": "208",
         "role_id": "1",
         "permission_id": "1"
@@ -3106,6 +3186,26 @@
     },
     {
         "item_id": "210",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "211",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "211",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "211",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "211",
         "role_id": "1",
         "permission_id": "4"
     }

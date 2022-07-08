@@ -12,7 +12,7 @@ class RelationshipSeeder extends Seeder
      */
     public function run()
     {
-        $data = file_get_contents(database_path('json/relationship.json'));
+        $data = file_get_contents(database_path('json/Relationship.json'));
 
         foreach (json_decode($data) as $row) {
             //print_r($row);

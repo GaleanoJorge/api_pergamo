@@ -7,23 +7,18 @@ use App\Models\PharmacyProductRequest;
 use App\Models\ServicesBriefcase;
 use App\Models\HumanTalentRequest;
 use App\Models\AssignedManagementPlan;
-use App\Models\Frequency;
-use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManagementPlanRequest;
-use App\Models\Admissions;
 use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
 use App\Models\BillingPad;
-use App\Models\Briefcase;
 use App\Models\LocationCapacity;
+use App\Models\TypeContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use DateInterval;
-use DatePeriod;
 use Illuminate\Support\Facades\DB;
 
 class ManagementPlanController extends Controller
@@ -118,6 +113,95 @@ class ManagementPlanController extends Controller
         ]);
     }
 
+
+    public function getByPatient(Request $request, int $id,int $userId): JsonResponse
+    {
+        if($userId==0){
+        $ManagementPlan = ManagementPlan::select(
+            'management_plan.*',
+            DB::raw('
+                        IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                            SUM(
+                                CASE assigned_management_plan.execution_date 
+                                    WHEN "0000-00-00" THEN 1 
+                                    ELSE 0 
+                                END), 
+                            -1) AS not_executed'),
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+                         
+                            SUM(
+                                IF( CURDATE() > assigned_management_plan.finish_date , 
+                                   1,0 
+                            )
+                           ) AS incumplidas'),
+        )
+            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
+            'admissions.location.admission_route',
+            'admissions.location.scope_of_attention',
+            'admissions.location.program', 'assigned_user')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+            ->where('admissions.patient_id', $id)
+            ->groupBy('management_plan.id');
+
+        }else{
+            $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
+                            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                                SUM(
+                                    CASE assigned_management_plan.execution_date 
+                                        WHEN "0000-00-00" THEN 1 
+                                        ELSE 0 
+                                    END), 
+                                -1) AS not_executed'),
+                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+                DB::raw('
+                             
+                                SUM(
+                                    IF( CURDATE() > assigned_management_plan.finish_date , 
+                                       1,0 
+                                )
+                               ) AS incumplidas'),
+            )
+                ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program', 'assigned_user')
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+                ->where('admissions.patient_id', $id)
+                ->where('management_plan.assigned_user_id',$userId)
+                ->groupBy('management_plan.id');
+        }
+
+        if ($request->_sort) {
+            $ManagementPlan->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $ManagementPlan->where('invoice_prefix', 'like', '%' . $request->search . '%')
+                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('received_date', 'like', '%' . $request->search . '%')
+                ->orWhere('company.name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ManagementPlan = $ManagementPlan->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 30);
+
+            $ManagementPlan = $ManagementPlan->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Planes obtenidos exitosamente',
+            'data' => ['management_plan' => $ManagementPlan]
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -135,6 +219,11 @@ class ManagementPlanController extends Controller
         //     $Authorization->auth_status_id =  1;
         // }
         // $Authorization->save();
+        $TypeContract = TypeContract::select('type_contract.*')
+            ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+            ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+            ->where('admissions.id', $request->admissions_id)
+            ->first();
 
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
@@ -184,8 +273,12 @@ class ManagementPlanController extends Controller
             $BillingPad = new BillingPad;
             $BillingPad->admissions_id = $request->admissions_id;
             $BillingPad->validation_date = Carbon::now();
+            if ($TypeContract->id == 5) {
+                $BillingPad->billing_pad_status_id = 2;
+            } else {
+                $BillingPad->billing_pad_status_id = 1;
+            }
             $BillingPad->total_value = 0;
-            $BillingPad->billing_pad_status_id = 1;
             $BillingPad->save();
         }
 
@@ -200,13 +293,17 @@ class ManagementPlanController extends Controller
 
         // $admission_present = Admissions::find($request->admissions_id)->get()->first();
         // $act_briefcase = Briefcase::find($admission_present->briefcase_id)->get()->first();
-        if ($request->type_auth == 0) {
-            $auth_status = 1;
+        if ($TypeContract->id == 5) {
+            $auth_status = 3;
         } else {
-            $auth_status = 2;
+            if ($request->type_auth == 0) {
+                $auth_status = 1;
+            } else {
+                $auth_status = 2;
+            }
         }
 
-        if ($request->medical == false) {
+        if ($request->medical == false &&  $request->isnewrequest != 1) {
             if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
@@ -429,18 +526,15 @@ class ManagementPlanController extends Controller
                         $firstDateMonth->addMonth();
                         $lastDateMonth->subDays(15)->addMonth()->endOfMonth();
                     }
-                    // while (!$assigned && $error == 0) {
-                    // }
                 }
             }
         }
-
 
         if ($request->type_auth == 0) {
             return response()->json([
                 'status' => true,
                 'message' => 'Plan de manejo creado exitosamente',
-                'message_error' => 'Pendiente por autorizar',
+                // 'message_error' => 'Pendiente por autorizar',
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         } else {
@@ -467,7 +561,7 @@ class ManagementPlanController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Plan de manejo creado exitosamente',
-                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
+                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
                     'data' => ['management_plan' => $ManagementPlan->toArray()]
                 ]);
             }
@@ -482,14 +576,24 @@ class ManagementPlanController extends Controller
      */
     public function createAuth($request, AssignedManagementPlan $assignedManagement): Authorization
     {
+        $TypeContract = TypeContract::select('type_contract.*')
+            ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+            ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+            ->where('admissions.id', $request->admissions_id)
+            ->first();
+
         $Authorization = new Authorization;
         $Authorization->services_briefcase_id = $request->procedure_id;
         $Authorization->assigned_management_plan_id = $assignedManagement->id;
         $Authorization->admissions_id = $request->admissions_id;
-        if ($request->type_auth == 1) {
-            $Authorization->auth_status_id =  2;
+        if ($TypeContract->id == 5) {
+            $Authorization->auth_status_id =  3;
         } else {
-            $Authorization->auth_status_id =  1;
+            if ($request->type_auth == 1) {
+                $Authorization->auth_status_id =  2;
+            } else {
+                $Authorization->auth_status_id =  1;
+            }
         }
 
         return $Authorization;
@@ -623,7 +727,7 @@ class ManagementPlanController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Plan de manejo actualizado exitosamente',
-                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la localidad',
+                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         }

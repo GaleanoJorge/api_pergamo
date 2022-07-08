@@ -51,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReceivedBySeeder::class);
                 $this->call(AdministrationRouteSeeder::class);
                 $this->call(TypeContractSeeder::class);
+                $this->call(ContractTypeSeeder::class);
                 
                 $this->call(EthnicitySeeder::class);
                 $this->call(DiagnosisSeeder::class);
@@ -124,7 +125,18 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypePhysicalExamSeeder::class);
                 $this->call(ChTypeSystemExamSeeder::class);
 
-                // $this->call(ChTypeBackgroundSeeder::class);
+                $this->call(ChTypeBackgroundSeeder::class);
+
+                //valoracion terapia respiratoria 
+                $this->call(ChAssChestSymmetrySeeder::class);
+                $this->call(ChAssChestTypeSeeder::class);
+                $this->call(ChAssCoughSeeder::class);
+                $this->call(ChAssFrequencySeeder::class);
+                $this->call(ChAssModeSeeder::class);
+                $this->call(ChAssPatternSeeder::class);
+                $this->call(ChSignsSeeder::class);
+                $this->call(ChAssSwingSeeder::class);
+
 
                 //autorizaciones
                 $this->call(AuthStatusSeeder::class);
@@ -152,7 +164,24 @@ class DatabaseSeeder extends Seeder
                 $this->call(MunicipalityIcaSeeder::class);
                 
                 $this->call(ProductDoseSeeder::class);
+                $this->call(SuppliesMeasureSeeder::class);
 
+                // BillingPad
+                $this->call(BillingPadStatusSeeder::class);
+
+                // clinic history of nursing
+
+                $this->call(NursingCarePlansSeeder::class);
+                $this->call(PatientPositionSeeder::class);
+                $this->call(OstomySeeder::class);
+                $this->call(NursingTypePhysicalSeeder::class);
+                $this->call(NursingProcedureSeeder::class);
+                $this->call(BodyRegionSeeder::class);
+                $this->call(SkinStatusSeeder::class);
+                $this->call(ChRouteFluidSeeder::class);
+                $this->call(ChTypeFluidSeeder::class);
+                $this->call(ChTypeSeeder::class);
+        
                 $this->call(ProductGroupSeeder::class);
                 $this->call(ProductConcentrationSeeder::class);
                 $this->call(ProductPresentationSeeder::class);
@@ -195,9 +224,9 @@ class DatabaseSeeder extends Seeder
                 //MIGRATION-$this->call(UserRoleCourseSeeder::class);
 
                 //Semillas Campos Adicionales Signos Vitales
-                // $this->call(LitersPerMinuteSeeder::class);
-                // $this->call(OxygenTypeSeeder::class); 
-                // $this->call(ParametersSignsSeeder::class);
+                $this->call(LitersPerMinuteSeeder::class);
+                $this->call(OxygenTypeSeeder::class); 
+                $this->call(ParametersSignsSeeder::class);
 
                 //Semillas De Pruebas
                 $this->call(ContractStatusSeeder::class);
@@ -211,7 +240,14 @@ class DatabaseSeeder extends Seeder
                 //Semillas Tipo de registro
                 $this->call(ChTypeRecordSeeder::class);
 
-
+                 //Semillas HC Medica
+                $this->call(ReasonExitSeeder::class);
+                $this->call(RecommendationsEvoSeeder::class);
+                $this->call(EnterallyDietSeeder::class);
+                
+                
+                //Semillas talento humano
+                $this->call(TalentHumanActionSeeder::class);
 
         }
 }

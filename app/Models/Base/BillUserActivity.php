@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\ServicesBriefcase;
+use App\Models\Tariff;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property bigInteger $user_id
  * @property bigInteger $account_receivable_id
  * @property bigInteger $procedure_id
- * @property double $value_total
  * @property string $observation
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -33,6 +33,11 @@ class BillUserActivity extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(ServicesBriefcase::class,'procedure_id');
+
+	}
+	public function tariff()
+	{
+		return $this->belongsTo(Tariff::class,'tariff_id');
 
 	}
 	

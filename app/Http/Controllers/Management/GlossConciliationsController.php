@@ -19,7 +19,7 @@ class GlossConciliationsController extends Controller
     {
         $GlossConciliations = GlossConciliations::select('gloss_conciliations.id AS id_conciliation', 'gloss_conciliations.objeted_value AS objeted_cons_value', 'gloss.*')
             ->leftjoin('gloss', 'gloss_conciliations.gloss_id','=', 'gloss.id')
-            ->leftjoin('conciliation_response', 'gloss_conciliations.id','=', 'conciliation_response.gloss_conciliations_id')
+            // ->leftjoin('conciliation_response', 'gloss_conciliations.id','=', 'conciliation_response.gloss_conciliations_id')
             ->with(
                 'company', 
                 'campus', 
@@ -41,7 +41,11 @@ class GlossConciliationsController extends Controller
         }
 
         if ($request->search) {
-            $GlossConciliations->where('name', 'like', '%' . $request->search . '%');
+            $GlossConciliations->where(function ($query) use ($request){
+                $query->where('gloss.invoice_prefix', 'like', '%' . $request->search . '%')
+                ->orWhere('gloss.invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('gloss.received_date', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {

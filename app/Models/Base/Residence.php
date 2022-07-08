@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Residence extends Model
 {
-	protected $table = 'Residence';
+	protected $table = 'residence';
 
 	
 }
