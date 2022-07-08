@@ -17,6 +17,7 @@ use App\Models\ProcedurePackage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use stdClass;
 
 class BillingPadController extends Controller
@@ -561,4 +562,41 @@ class BillingPadController extends Controller
             ], 423);
         }
     }
+
+    /**
+     * Generate PDF file with all information of the account receivable
+     * 
+     * @param  int  $id
+     */
+    public function generateBillingDat(int $id): JsonResponse
+    {
+        
+        $file = [
+'SAN110550;;FA;01;10;;COP;2022-05-25 16:29:52;;;;;SAN1;;2022-06-09 16:29:52;;;;;;;;Cra 36#51-33 (Bucaramanga);68;68001;;680002;CO;
+;;;
+900900122-7;;;;;;;;;;;;;;;;;;;
+900226715-3;31;48;COOSALUD EPS S.A.;;;;1;BARRIO BOCAGRANDE CARRERA 2DA CALLE 11 TORRE EMPRESARIAL PISO 8;15;15001;;15001;6455180;notificacionesjudiciales@coosalud.com;CO;24667804;O-13;03|05|07;8430|6521
+248520;0;0;;0;248520;244820
+248520;0;0;01
+;;;
+A;CONTRIBUTIVOMODELOSANTANDER;1;A;;2;A;JUAN DIEGO OCHOA ROMAÑA;3;A;TI 1045110381;4;A;MARIANA RODRIGUEZ;5;A;;6;A;;7;A;;8;A;;9;A; DOSCIENTOS  CUARENTA  Y  CUATRO  MIL  OCHOCIENTOS  VEINTE  PESOS M CTE;10;A;;11;A;RAFAEL LEAL;12
+2;1;;;;2022-06-09 16:29:52
+;;;
+
+ANTICIPOS;3700;;3700;;;
+SALUD;SS-CUFE;6800170283;TI;1045110381;OCHOA;ROMAÑA;JUAN;DIEGO;02;12;01;;;;;;2022-04-28;2022-04-28;0;3700;0;0;REC126362;6cbc3d25a6e228194199437077e20f5b0c6e32bd594ba821904a8ec5c2d19a5b4b6a39f394731c1902a30054a69ea605;01;2022-04-28 12:39:16;3700;COP;CUOTA_MODERADORA;REC126363;c75ac561e983f4a7351aba69749c863bc18d32bdcb6b6bd67b857dfa47bda26ac60c86821cf1d806a253698f56c452b2;01;2022-04-28 12:39:53;3700;COP;COPAGO
+1;Pañal Desechable Medida Adulto;999;;94;;;;120;2071;248520;0;0;248520;0;0;01',
+        ];
+
+        $name = 'billings_pad/prueba.dat';
+
+        Storage::disk('public')->put($name, $file);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Factura generada exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+    }
+
 }
