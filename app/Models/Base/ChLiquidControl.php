@@ -6,8 +6,11 @@
 
 namespace App\Models\Base;
 
+use App\Models\ChLiquidControl as ModelsChLiquidControl;
+use App\Models\ChRecord;
 use App\Models\ChRouteFluid;
 use App\Models\ChTypeFluid;
+use App\Models\ChVitalSigns;
 use App\Models\NursingCarePlan;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,4 +48,14 @@ class ChLiquidControl extends Model
 		return $this->belongsTo(ChTypeFluid::class, 'ch_type_fluid_id');
 	}
 
+	public function signs()
+	{
+		return $this->belongsTo(
+			ChVitalSigns::class,
+			ChRecord::class,
+			// 'id',
+			'ch_record_id',
+			
+		);
+	}
 }
