@@ -102,50 +102,29 @@ class ChTherapeuticAssController extends Controller
         $ChTherapeuticAss->save();
 
         $ChAssSigns = new ChAssSigns;
-    
-            if (isset($request->ch_signs)) {
-                
-                $validator = array_search('ALETEO NASAL', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->distal = $request->ch_signs[$validator];
-                };
 
-                $validator = array_search('CIANOSIS DISTAL', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->distal = $request->ch_signs[$validator];
-                };
-    
-                $validator = array_search('CIANOSIS GENERALIZADA', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->widespread = $request->ch_signs[$validator];
-                };
-    
-                $validator = array_search('CIANOSIS PERIBUCAL', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->peribucal = $request->ch_signs[$validator];
-                };
-    
-                $validator = array_search('CIANOSIS PERIORBITAL', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->periorbitary = $request->ch_signs[$validator];
-                };
-
-                $validator = array_search('NINGUNO', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->none = $request->ch_signs[$validator];
-                };
-
-                $validator = array_search('USO DE MUSCULOS INTERCOSTALES', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->intercostal = $request->ch_signs[$validator];
-                };
-
-                $validator = array_search('USO DE MUSCULOS SUPRACLAVICULARES', $request->ch_signs);
-                if($validator){
-                    $ChAssSigns->aupraclavicular = $request->ch_signs[$validator];
-                };
-
+        if (isset($request->ch_signs)) {
+            foreach ($request->ch_signs as $element) {
+                if ($element == 'ALETEO NASAL') {
+                    $ChAssSigns->fluter = $element;
+                } else if ($element == 'CIANOSIS DISTAL') {
+                    $ChAssSigns->distal = $element;
+                } else if ($element == 'CIANOSIS GENERALIZADA') {
+                    $ChAssSigns->widespread = $element;
+                } else if ($element == 'CIANOSIS PERIBUCAL') {
+                    $ChAssSigns->peribucal = $element;
+                } else if ($element == 'CIANOSIS PERIORBITAL') {
+                    $ChAssSigns->periorbitary = $element;
+                } else if ($element == 'NINGUNO') {
+                    $ChAssSigns->none = $element;
+                }else if ($element == 'USO DE MUSCULOS INTERCOSTALES') {
+                    $ChAssSigns->intercostal = $element;
+                } else if ($element == 'USO DE MUSCULOS SUPRACLAVICULARES') {
+                    $ChAssSigns->aupraclavicular = $element;
             }
+        }
+    }
+
             
         $ChAssSigns->type_record_id = $request->type_record_id; 
         $ChAssSigns->ch_record_id = $request->ch_record_id; 
@@ -157,7 +136,7 @@ class ChTherapeuticAssController extends Controller
             'data' => ['ch_therapeutic_ass' => $ChTherapeuticAss->toArray()]
         ]);
     }
-
+    
     /**
      * Display the specified resource.
      *
