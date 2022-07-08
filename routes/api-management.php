@@ -65,7 +65,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ch RespiratoryTherapy
     Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
+    Route::get('ch_respiratory_therapy/by_record/{id}/{type_record_id}', 'Management\ChRespiratoryTherapyController@getByRecord');
     Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
+    Route::apiResource('ch_signs', 'Management\ChSignsController');
     Route::apiResource('ch_ass_signs', 'Management\ChAssSignsController');
     Route::apiResource('ch_ass_pattern', 'Management\ChAssPatternController');
     Route::apiResource('ch_ass_swing', 'Management\ChAssSwingController');
@@ -84,7 +86,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
     Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
-
+    Route::apiResource('ch_supplies_therapy', 'Management\ChSuppliesTherapyController');
+    Route::get('ch_supplies_therapy/by_record/{id}/{type_record_id}', 'Management\ChSuppliesTherapyController@getByRecord');
+                        
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -944,6 +948,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
     Route::apiResource('ch_system_exam', 'Management\ChSystemExamController');
     Route::apiResource('ch_background', 'Management\ChBackgroundController');
+    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
 
     Route::get('ch_physical_exam/by_record/{id}/{type_record_id}', 'Management\ChPhysicalExamController@getByRecord');
     Route::get('ch_system_exam/by_record/{id}/{type_record_id}', 'Management\ChSystemExamController@getByRecord');

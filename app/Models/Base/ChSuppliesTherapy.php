@@ -6,9 +6,7 @@
 
 namespace App\Models\Base;
 
-use App\Models\Diagnosis;
-use App\Models\ChBackground;
-use App\Models\ChGynecologists;
+use App\Models\ProductSupplies;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use Carbon\Carbon;
@@ -18,9 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChDiagnosis
  * 
  * @property int $id
- * @property BigInteger $medical_diagnosis_id
- * @property string $therapeutic_diagnosis
- * @property string $reason_consultation
+ * @property BigInteger $product_id
+ * @property int $amount
+ * @property string $justification
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -30,13 +28,13 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class ChRespiratoryTherapy extends Model
+class ChSuppliesTherapy extends Model
 {
-	protected $table = 'ch_respiratory_therapy';
+	protected $table = 'ch_supplies_therapy';
 
-		public function medical_diagnosis()
+		public function product()
 	{
-		return $this->belongsTo(Diagnosis::class);
+		return $this->belongsTo(ProductSupplies::class);
 	}
 	
 	public function type_record()

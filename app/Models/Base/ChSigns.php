@@ -5,8 +5,6 @@
  */
 
 namespace App\Models\Base;
-use App\Models\ChTypeRecord;
-use App\Models\ChRecord;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,22 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property string $scan
- * @property string $spirometry
- * @property string $gases 
- * @property string $polysomnography
- * @property string $other
- * @property string $none
- * @property string $observation 	
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
+ * @property string $name
+
  *
  * @package App\Models\Base
  */
-class ChDiagnosticAids extends Model
+class ChSigns extends Model
 {
-	protected $table = 'ch_diagnostic_aids';
+	protected $table = 'ch_signs';
+
 	
 	public function type_record()
 	{

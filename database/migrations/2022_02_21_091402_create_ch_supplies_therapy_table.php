@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class CreateChDiagnosticAidsTable extends Migration
+    class CreateChSuppliesTherapyTable extends Migration
     {
         /**
          * Run the migrations.
@@ -13,25 +13,28 @@
          */
         public function up()
         {
-            Schema::create('ch_diagnostic_aids', function (Blueprint $table) {
+            Schema::create('ch_supplies_therapy', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('scan')->nullable();
-                $table->string('spirometry')->nullable();
-                $table->string('gases')->nullable();
-                $table->string('polysomnography')->nullable();
-                $table->string('other')->nullable();
-                $table->string('none')->nullable();
-                $table->string('observation')->nullable();
+                $table->unsignedBigInteger('product_id')->nullable();
+                $table->string('amount') ->nullable();
+                $table->string('justification')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();
+            
+
+                $table->index('product_id');
+                $table->foreign('product_id')->references('id')
+                    ->on('product_supplies');
 
                 $table->index('type_record_id');
                 $table->foreign('type_record_id')->references('id')
                     ->on('type_record');
+
                 $table->index('ch_record_id');
                 $table->foreign('ch_record_id')->references('id')
                     ->on('ch_record');
+
             });
         }
 
@@ -42,6 +45,6 @@
          */
         public function down()
         {
-            Schema::dropIfExists('ch_diagnostic_aids');
+            Schema::dropIfExists('ch_supplies_therapy');
         }
     }

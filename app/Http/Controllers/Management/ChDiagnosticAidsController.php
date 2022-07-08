@@ -40,7 +40,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidos exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -58,12 +58,12 @@ class ChDiagnosticAidsController extends Controller
         
        
         $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_type_background')->get()->toArray();
+            ->get()->toArray();
         
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidos exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -72,33 +72,23 @@ class ChDiagnosticAidsController extends Controller
     public function store(Request $request): JsonResponse
     {
             $ChDiagnosticAids = new ChDiagnosticAids;
-    
-            if (isset($request->aids)) {
-                $validator = array_search('RADIOGRAFIA', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->scan = $request->aids[$validator];
-                };
-    
-                $validator = array_search('ESPIROMETRIA', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->spirometry = $request->aids[$validator];
-                };
-    
-                $validator = array_search('GASES ARTERIALES', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->gases = $request->aids[$validator];
-                };
-    
-                $validator = array_search('POLISOMNOGRAFIA', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->polysomnography = $request->aids[$validator];
-                };
-    
-                $validator = array_search('OTRO', $request->aids);
-                if($validator){
-                    $ChDiagnosticAids->other = $request->aids[$validator];
-                };
 
+            if (isset($request->aids)) {
+                foreach ($request->aids as $element) {
+                    if ($element == 'RADIOGRAFIA') {
+                        $ChDiagnosticAids->scan = $element;
+                    } else if ($element == 'ESPIROMETRIA') {
+                        $ChDiagnosticAids->spirometry = $element;
+                    } else if ($element == 'GASES ARTERIALES') {
+                        $ChDiagnosticAids->gases = $element;
+                    } else if ($element == 'POLISOMNOGRAFIA') {
+                        $ChDiagnosticAids->polysomnography = $element;
+                    } else if ($element == 'OTRO') {
+                        $ChDiagnosticAids->other = $element;
+                    } else if ($element == 'NINGUNO') {
+                        $ChDiagnosticAids->none = $element;
+                    } 
+                }
             }
             
         $ChDiagnosticAids->observation = $request->observation; 
@@ -108,7 +98,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas asociados al paciente exitosamente',
+            'message' => 'Ayudas Diagnósticas asociadas al paciente exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids->toArray()]
         ]);
 
@@ -126,7 +116,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas obtenidas exitosamente',
+            'message' => 'Ayudas Diagnósticas obtenidas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -152,7 +142,7 @@ class ChDiagnosticAidsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Ayudas Diagnosticas actualizadas exitosamente',
+            'message' => 'Ayudas Diagnósticas actualizadas exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
@@ -171,12 +161,12 @@ class ChDiagnosticAidsController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Ayudas Diagnosticas eliminadas exitosamente'
+                'message' => 'Ayudas Diagnósticas eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ayudas Diagnosticas en uso, no es posible eliminarlo'
+                'message' => 'Ayudas Diagnósticas en uso, no es posible eliminarlo'
             ], 423);
         }
     }

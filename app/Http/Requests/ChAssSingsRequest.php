@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChRtInspectionRequest extends FormRequest
+class ChAssSignsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,16 @@ class ChRtInspectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'expansion' => '',
-            'masses' => '',
-            'detail_masses' => '',
-            'crepitations' => '',
-            'fracturues' => '',
-            'detail_fracturues' => '',
-            'airway' => '',
-            'pain' => '',
+            'fluter' => '',
+            'distal' => '',
+            'widespread' => '',
+            'peribucal' => '',
+            'periorbitary' => '',
+            'none' => '',
+            'intercostal' => '',
+            'aupraclavicular' => '',
             'type_record_id' => '',
-            'ch_record_id' => '',
+            'ch_record_id' => ''
         ];
     }
 }
