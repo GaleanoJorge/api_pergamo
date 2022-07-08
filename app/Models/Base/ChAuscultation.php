@@ -17,13 +17,19 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id 
  * @property string $murmur
- * @property string $crepits
- * @property string $rales 
- * @property string $stridor
+ * @property string $obs_murmur
+ * @property string $crepits 
+ * @property string $obs_crepits
+ * @property string $rales
+ * @property string $obs_rales 	
+ * @property string $stridor 	
+ * @property string $obs_stridor
  * @property string $pleural
- * @property string $roncus 	
+ * @property string $obs_pleural 
+ * @property string $roncus
+ * @property string $obs_roncus
  * @property string $wheezing 	
- * @property string $observation 	
+ * @property string $obs_wheezing 	
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

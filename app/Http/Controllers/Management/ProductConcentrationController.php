@@ -25,7 +25,7 @@ class ProductConcentrationController extends Controller
         }            
 
         if ($request->search) {
-            $ProductConcentration->where('name','like','%' . $request->search. '%');
+            $ProductConcentration->where('value','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

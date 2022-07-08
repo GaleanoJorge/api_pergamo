@@ -10,5 +10,9 @@
     {
         "id": 3,
         "name": "Nutrición"
+    },
+    {
+        "id": 8,
+        "name": "Terapia"
     }
 ]

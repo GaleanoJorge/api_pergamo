@@ -79,11 +79,24 @@ class ChLiquidControlController extends Controller
     public function getByRecord(Request $request, int $id): JsonResponse
     {
 
-        $ChLiquidControl = ChLiquidControl::select('ch_liquid_control.*'
+        $ChLiquidControl = ChLiquidControl::select(
+            // 'ch_liquid_control.id AS liquid_id',
+            // 'ch_liquid_control.ch_record_id AS liquid_record_id',
+            // 'ch_vital_signs.*',
+            // 'ch_vital_signs.ch_record_id AS vital_record_id',
+            'ch_liquid_control.*',
         )
             ->where('ch_record_id', $id)
-            ->with('ch_route_fluid', 'ch_type_fluid');
-
+            // ->leftjoin('ch_record','ch_liquid_control.ch_record_id','ch_record.id')
+            // ->leftjoin('ch_vital_signs', 'ch_liquid_control.liquid_record_id','=', 'ch_vital_signs.vital_record_id')
+            // ->group
+            ->orderBy('clock','DESC')
+            ->with(
+                'ch_route_fluid',
+                'ch_type_fluid',
+                // 'signs'
+            );
+        
 
         if ($request->query("pagination", true) == "false") {
             $ChLiquidControl = $ChLiquidControl->get()->toArray();

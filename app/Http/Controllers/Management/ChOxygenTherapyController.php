@@ -19,6 +19,9 @@ class ChOxygenTherapyController extends Controller
     {
         $ChOxygenTherapy = ChOxygenTherapy::select();
 
+        if($request->ch_record_id){
+            $ChOxygenTherapy->where('ch_record_id', $request->ch_record_id)->where('type_record_id',1);
+        }     
         if($request->_sort){
             $ChOxygenTherapy->orderBy($request->_sort, $request->_order);
         }            

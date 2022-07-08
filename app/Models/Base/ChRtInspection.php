@@ -18,8 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id 
  * @property string $expansion
  * @property string $masses 
+ * @property string $detail_masses 
  * @property string $crepitations
  * @property string $fracturues
+ * @property string $detail_fracturues
  * @property string $airway 	
  * @property string $pain 	
  * @property Carbon $created_at

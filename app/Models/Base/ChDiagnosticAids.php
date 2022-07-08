@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $gases 
  * @property string $polysomnography
  * @property string $other
+ * @property string $none
  * @property string $observation 	
  * @property Carbon $created_at
  * @property Carbon $updated_at

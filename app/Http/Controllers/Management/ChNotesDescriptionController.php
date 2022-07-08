@@ -85,11 +85,12 @@ class ChNotesDescriptionController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(Request $request, int $id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record): JsonResponse
     {
        
         $ChNotesDescription = ChNotesDescription::select('ch_notes_description.*')
             ->where('ch_record_id', $id)
+            ->where('type_record_id', $type_record)
             ->with(
                 'patient_position',
                 'patient_position',

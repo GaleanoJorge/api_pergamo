@@ -134,7 +134,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChAssFrequencySeeder::class);
                 $this->call(ChAssModeSeeder::class);
                 $this->call(ChAssPatternSeeder::class);
-                //$this->call(ChAssSignsSeeder::class);
+                $this->call(ChSignsSeeder::class);
                 $this->call(ChAssSwingSeeder::class);
 
 
@@ -165,6 +165,7 @@ class DatabaseSeeder extends Seeder
                 
                 $this->call(ProductDoseSeeder::class);
                 $this->call(SuppliesMeasureSeeder::class);
+
                 // BillingPad
                 $this->call(BillingPadStatusSeeder::class);
 
@@ -173,6 +174,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(NursingCarePlansSeeder::class);
                 $this->call(PatientPositionSeeder::class);
                 $this->call(OstomySeeder::class);
+                $this->call(NursingTypePhysicalSeeder::class);
                 $this->call(NursingProcedureSeeder::class);
                 $this->call(BodyRegionSeeder::class);
                 $this->call(SkinStatusSeeder::class);
@@ -192,6 +194,11 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedCodeSeeder::class);
                 $this->call(FixedPropertySeeder::class);
                 $this->call(FixedConditionSeeder::class);
+                $this->call(SuppliesMeasureSeeder::class);
+                // BillingPad
+                $this->call(BillingPadStatusSeeder::class);
+                $this->call(StorageConditionsSeeder::class);
+                $this->call(InvimaStatusSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

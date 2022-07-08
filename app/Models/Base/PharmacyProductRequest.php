@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $product_generic_id
  * @property BigInteger $admissions_id
  * @property BigInteger $own_pharmacy_stock_id
+ * @property BigInteger $user_request_id
  * @property BigInteger $product_supplies_id
  * @property BigInteger $request_pharmacy_stock_id
  * @property BigInteger $request_pharmacy_stock_id
@@ -63,7 +64,7 @@ class PharmacyProductRequest extends Model
 		return $this->belongsTo(Admissions::class);
 	}
 
-	public function users()
+	public function user_request()
 	{
 		return $this->belongsTo(User::class,'user_request_id');
 	}

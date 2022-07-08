@@ -18,6 +18,7 @@ class CreateChSkinValorationTable extends Migration
             $table->unsignedBigInteger('diagnosis_id');
             $table->unsignedBigInteger('body_region_id');
             $table->unsignedBigInteger('skin_status_id');
+            $table->string('pressure_ulcers')->nullable();
             $table->string('exudate')->nullable();
             $table->string('concentrated')->nullable();
             $table->string('infection_sign')->nullable();

@@ -450,15 +450,6 @@
         "show_menu": "1"
     },
     {
-        "id": "95",
-        "item_parent_id": "91",
-        "name": "Unidad de consumo",
-        "code": "consumption-unit",
-        "route": "/pages/setting/consumption-unit",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "96",
         "item_parent_id": "91",
         "name": "Grupo del producto",
@@ -531,18 +522,9 @@
         "show_menu": "1"
     },
     {
-        "id": "107",
-        "item_parent_id": "89",
-        "name": "Riesgo",
-        "code": "risk",
-        "route": "/pages/setting/risk",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "108",
         "item_parent_id": "89",
-        "name": "Producto",
+        "name": "Producto comercial",
         "code": "product",
         "route": "/pages/setting/product",
         "icon": "",
@@ -1436,6 +1418,24 @@
         "name": "Rete ICA",
         "code": "municipality-ica",
         "route": "/pages/setting/municipality-ica",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "210",
+        "item_parent_id": "169",
+        "name": "Solicitar a compras",
+        "code": "billing-request-pharmacy",
+        "route": "/pages/setting/billing-request-pharmacy",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "211",
+        "item_parent_id": "183",
+        "name": "Rentabilidad",
+        "code": "rentability",
+        "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
     }
