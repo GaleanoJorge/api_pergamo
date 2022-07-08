@@ -22,6 +22,7 @@ class CreateFixedAssetsTable extends Migration
             $table->string('plaque')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->integer('amount');
+            $table->integer('actual_amount');
             $table->string('model')->nullable();
             $table->string('mark');
             $table->string('serial')->nullable();

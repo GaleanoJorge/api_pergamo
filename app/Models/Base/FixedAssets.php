@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $plaque
  * @property string $status
  * @property integer $amount
+ * @property integer $actual_amount
  * @property string $model
  * @property string $mark
  * @property string $serial

@@ -15,6 +15,7 @@ class FixedAssets extends BaseFixedAssets
 		'obs_property',
 		'plaque',
 		'amount',
+		'actual_amount',
 		'campus_id',
 		'status',
 		'model',
