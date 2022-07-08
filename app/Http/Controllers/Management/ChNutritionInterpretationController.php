@@ -48,11 +48,43 @@ class ChNutritionInterpretationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Entrada de enfermeria asociadas exitosamente',
+            'message' => 'Análisis e interpretaciones de nutrición asociadas exitosamente',
             'data' => ['ch_nutrition_interpretation' => $ChNutritionInterpretation]
         ]);
     }
 
+    /**
+     * Get All Interpretations
+     * 
+     * @param  int  $patient_id
+     * @return JsonResponse
+     */
+    public function getAllInterpretetations(Request $request, int $patient_id): JsonResponse
+    {
+        $ChNutritionInterpretation = ChNutritionInterpretation::select('ch_nutrition_interpretation.*')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_nutrition_interpretation.ch_record_id')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->where('admissions.patient_id', $patient_id)
+            ->orderBy('ch_nutrition_interpretation.id', 'desc')
+        ;
+
+        if($request->query("pagination", true)=="false"){
+            $ChNutritionInterpretation=$ChNutritionInterpretation->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ChNutritionInterpretation=$ChNutritionInterpretation->paginate($per_page,'*','page',$page); 
+        } 
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antecedentes alérgicos obtenidos exitosamente',
+            'data' => ['ch_nutrition_interpretation' => $ChNutritionInterpretation]
+        ]);
+    }
 
     public function store(ChNutritionInterpretationRequest $request)
     {
@@ -66,7 +98,7 @@ class ChNutritionInterpretationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Entrada de enfermeria creada exitosamente',
+                'message' => 'Análisis e interpretaciones de nutrición creada exitosamente',
                 'data' => ['ch_nutrition_interpretation' => $ChNutritionInterpretation->toArray()]
             ]);
         } else {
@@ -112,7 +144,7 @@ class ChNutritionInterpretationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Entrada de enfermeria actualizadas exitosamente',
+            'message' => 'Análisis e interpretaciones de nutrición actualizadas exitosamente',
             'data' => ['ch_nutrition_interpretation' => $ChNutritionInterpretation]
         ]);
     }
@@ -131,12 +163,12 @@ class ChNutritionInterpretationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Entrada de enfermeria eliminada exitosamente'
+                'message' => 'Análisis e interpretaciones de nutrición eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Entrada de enfermeria esta en uso, no es posible eliminarlo'
+                'message' => 'Análisis e interpretaciones de nutrición esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }

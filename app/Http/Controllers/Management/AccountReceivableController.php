@@ -29,14 +29,21 @@ class AccountReceivableController extends Controller
     public function index(Request $request): JsonResponse
 
     {
-        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary');
+        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
 
         if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
+            $AccountReceivable->where(function ($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+            });
         }
         if ($request->gloss_ambit_id) {
             $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
@@ -83,14 +90,19 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . ",1,0) AS show_file"),
+                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
-            ->groupBy('account_receivable.id');
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
+            ;
 
         if ($user_id != 0) {
+            $AccountReceivable->groupBy('account_receivable.id');
             $AccountReceivable->where('account_receivable.user_id', $user_id);
+            $AccountReceivable->orderBy('account_receivable.id', 'desc');
+        } else {
+            $AccountReceivable->groupBy('users.id');
         }
 
         if ($request->_sort) {
@@ -98,7 +110,13 @@ class AccountReceivableController extends Controller
         }
 
         if ($request->search) {
-            $AccountReceivable->where('name', 'like', '%' . $request->search . '%');
+            $AccountReceivable->where(function ($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+            });
         }
 
 
@@ -303,16 +321,16 @@ class AccountReceivableController extends Controller
         $hundreds = ($value - (floor($value / 1000) * 1000));
 
         if ($millions != '') {
-            if ($thousands<100 && $thousands>=10) {
+            if ($thousands < 100 && $thousands >= 10) {
                 $thousands = '0' . $thousands;
-            } elseif ($thousands<10 && $thousands>=0) {
+            } elseif ($thousands < 10 && $thousands >= 0) {
                 $thousands = '00' . $thousands;
             }
         }
 
-        if ($hundreds<100 && $hundreds>=10) {
+        if ($hundreds < 100 && $hundreds >= 10) {
             $hundreds = '0' . $hundreds;
-        } elseif ($hundreds<10 && $hundreds>=0) {
+        } elseif ($hundreds < 10 && $hundreds >= 0) {
             $hundreds = '00' . $hundreds;
         }
 
