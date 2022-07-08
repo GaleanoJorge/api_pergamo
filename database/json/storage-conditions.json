@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Congelamiento - Inferior a 0°C"
+    },
+    {
+        "name": "Refrigeración - Entre 2-8°C"
+    },
+    {
+        "name": "Ambiente - Inferior a 30°C"
+    },
+    {
+        "name": "Fotosencible - Proteger de la luz"
+    },
+    {
+        "name": "Higroscópico - Evitar niveles altos de humedad"
+    }
+]

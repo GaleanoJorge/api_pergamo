@@ -14,6 +14,8 @@ protected $fillable = [
 	'description',     
 	'minimum_stock',     
 	'size_supplies_measure_id',     
-	'measure_supplies_measure_id',     
+	'measure_supplies_measure_id',    
+	'dose',     
+	'product_dose_id',  
 	];
 }

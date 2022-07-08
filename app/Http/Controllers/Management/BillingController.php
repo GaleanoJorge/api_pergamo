@@ -29,6 +29,10 @@ class BillingController extends Controller
             $Billing->where('status', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->type_billing_evidence_id) {
+            $Billing->where('type_billing_evidence_id', $request->type_billing_evidence_id);
+        }
+
         if ($request->query("pagination", true) == "false") {
             $Billing = $Billing->get()->toArray();
         } else {
@@ -159,12 +163,12 @@ class BillingController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Platos de dietas eliminados exitosamente'
+                'message' => 'Orden de compra eliminada exitosamente'
             ]);  
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Registro de factura en uso, no es posible eliminarlo'
+                'message' => 'Orden de compra en uso, no es posible eliminarlo'
             ], 423);
         }
     }

@@ -31,8 +31,8 @@ class CreateProductTable extends Migration
             $table->string('indications');
             $table->string('contraindications');
             $table->string('applications');
-            $table->string('value_circular');
-            $table->string('circular');
+            $table->string('value_circular')->nullable();
+            $table->string('circular')->nullable();
             $table->string('unit_packing');
             $table->string('refrigeration');
             $table->string('useful_life');

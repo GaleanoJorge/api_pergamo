@@ -25,8 +25,7 @@ class ProductSuppliesController extends Controller
         }
 
         if ($request->search) {
-            $ProductSupplies->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
+            $ProductSupplies->where('description', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -57,6 +56,8 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->description = $request->description;
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
+        $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 
         return response()->json([
@@ -102,6 +103,8 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->description = $request->description;
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
+        $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 
         return response()->json([
