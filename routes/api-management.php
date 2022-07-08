@@ -1220,9 +1220,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_tc', 'Management\BillingTcController');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
+    Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
+    Route::post('rentability_tc/file', 'Management\RentabilityTcController@import');
 
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
