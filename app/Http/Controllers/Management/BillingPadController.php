@@ -517,20 +517,21 @@ class BillingPadController extends Controller
             } else {
                 $AuthBillingPad->value = $conponent->services_briefcase->value;
             }
-            $AuthBillingPad->save();
+            // $AuthBillingPad->save();
             $total_value += $AuthBillingPad->value;
         }
 
         $BillingPad = BillingPad::where('id', $id)->first();
         $BillingPad->billing_pad_status_id = 2;
         $BillingPad->total_value = $BillingPad->total_value + $total_value;
-        $BillingPad->save();
+        // $BillingPad->save();
+        $this->generateBillingDat(1);
 
         $BillingPadLog = new BillingPadLog;
         $BillingPadLog->billing_pad_id = $id;
         $BillingPadLog->billing_pad_status_id = 2;
         $BillingPadLog->user_id = $request->user_id;
-        $BillingPadLog->save();
+        // $BillingPadLog->save();
 
         return response()->json([
             'status' => true,
@@ -570,25 +571,81 @@ class BillingPadController extends Controller
      */
     public function generateBillingDat(int $id): JsonResponse
     {
-        
+        $BillingPad = BillingPad::find($id)
+            ->select(
+                'patients.firstname AS firstname',
+                'patients.middlefirstname AS middlefirstname',
+                'patients.lastname AS lastname',
+                'patients.middlelastname AS middlelastname',
+                'patients.identification AS identification',
+                'patients.residence_address AS residence_address',
+                'patients.email AS email',
+                'patients.phone AS phone',
+                'identification_type.code AS identification_type',
+                'company.name AS eps_name', // --------------------------------------------------------
+                'company.identification AS eps_identification', //      PARA COPAGOS
+                'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
+                'company.phone AS eps_phone',
+                'company.mail AS eps_mail', // --------------------------------------------------------
+            )
+            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->get()->toArray();
+
+        $copago = false; // VALIDAR SI ES UN COPAGO
+        $payer_identification = '';
+        $payer_firstname = '';
+        $payer_lastname = '';
+        $payer_middlelastname = '';
+        $payer_email = '';
+        $payer_phone = '';
+        $payer_address = '';
+        $eps_name = '';
+        if ($copago) {
+            $payer_identification = $BillingPad[0]['identification'];
+            $payer_firstname = $BillingPad[0]['firstname'];
+            $payer_lastname = $BillingPad[0]['lastname'];
+            $payer_middlelastname = $BillingPad[0]['middlelastname'];
+            $payer_email = $BillingPad[0]['email'];
+            $payer_phone = $BillingPad[0]['phone'];
+            $payer_address = $BillingPad[0]['residence_address'];
+        } else {
+            $payer_identification = $BillingPad[0]['eps_identification'];
+            $eps_name = $BillingPad[0]['eps_name'];
+            $payer_email = $BillingPad[0]['eps_mail'];
+            $payer_phone = $BillingPad[0]['eps_phone'];
+            $payer_address = $BillingPad[0]['eps_address'];
+        }
+
+        $full_name = $BillingPad[0]['firstname'] .
+            ' ' . '' . $BillingPad[0]['middlefirstname'] .
+            ($BillingPad[0]['middlefirstname'] ? ' ' : '') .
+            '' . $BillingPad[0]['lastname'] .
+            '' . ($BillingPad[0]['middlelastname'] ? ' ' : '') .
+            $BillingPad[0]['middlelastname'];
+
         $file = [
-'SAN110550;;FA;01;10;;COP;2022-05-25 16:29:52;;;;;SAN1;;2022-06-09 16:29:52;;;;;;;;Cra 36#51-33 (Bucaramanga);68;68001;;680002;CO;
+            'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;11;11001;;11001;CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
-900226715-3;31;48;COOSALUD EPS S.A.;;;;1;BARRIO BOCAGRANDE CARRERA 2DA CALLE 11 TORRE EMPRESARIAL PISO 8;15;15001;;15001;6455180;notificacionesjudiciales@coosalud.com;CO;24667804;O-13;03|05|07;8430|6521
-248520;0;0;;0;248520;244820
-248520;0;0;01
+' . $payer_identification . ';31;48;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';1;' . $payer_address . ';11;11001;;11001;' . $payer_phone . ';' . $payer_email . ';CO;;;;
+689352;0;0;;0;689352;689352
+689352;0;0;01
 ;;;
-A;CONTRIBUTIVOMODELOSANTANDER;1;A;;2;A;JUAN DIEGO OCHOA ROMAÑA;3;A;TI 1045110381;4;A;MARIANA RODRIGUEZ;5;A;;6;A;;7;A;;8;A;;9;A; DOSCIENTOS  CUARENTA  Y  CUATRO  MIL  OCHOCIENTOS  VEINTE  PESOS M CTE;10;A;;11;A;RAFAEL LEAL;12
-2;1;;;;2022-06-09 16:29:52
+A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A; SEISCIENTOS  OCHENTA  Y  NUEVE  MIL  TRESCIENTOS  CINCUENTA  Y  DOS  PESOS M CTE;10;A;;11;A;ADRIANA OSUNA;12
+2;1;;;;2022-06-05 15:36:28
 ;;;
 
-ANTICIPOS;3700;;3700;;;
-SALUD;SS-CUFE;6800170283;TI;1045110381;OCHOA;ROMAÑA;JUAN;DIEGO;02;12;01;;;;;;2022-04-28;2022-04-28;0;3700;0;0;REC126362;6cbc3d25a6e228194199437077e20f5b0c6e32bd594ba821904a8ec5c2d19a5b4b6a39f394731c1902a30054a69ea605;01;2022-04-28 12:39:16;3700;COP;CUOTA_MODERADORA;REC126363;c75ac561e983f4a7351aba69749c863bc18d32bdcb6b6bd67b857dfa47bda26ac60c86821cf1d806a253698f56c452b2;01;2022-04-28 12:39:53;3700;COP;COPAGO
-1;Pañal Desechable Medida Adulto;999;;94;;;;120;2071;248520;0;0;248520;0;0;01',
+SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';04;12;01;;;;;;2022-04-01;2022-04-30;0;0;0;0;;;;;;;
+1;Atencion (visita) domiciliaria, por fisioterapia;999;890111.;94;;;;8;28723;229784;0;0;229784;0;0;01
+2;Atencion (visita) domiciliaria, por foniatria y fonoaudiologia;999;890110;94;;;;8;28723;229784;0;0;229784;0;0;01
+3;Atencion (visita) domiciliaria, por terapia ocupacional;999;890113;94;;;;8;28723;229784;0;0;229784;0;0;01',
         ];
 
-        $name = 'billings_pad/prueba.dat';
+        $name = 'billings_pad/billings_pad.dat';
 
         Storage::disk('public')->put($name, $file);
 
@@ -598,5 +655,4 @@ SALUD;SS-CUFE;6800170283;TI;1045110381;OCHOA;ROMAÑA;JUAN;DIEGO;02;12;01;;;;;;20
             'url' => asset('/storage' .  '/' . $name),
         ]);
     }
-
 }
