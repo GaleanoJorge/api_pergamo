@@ -18,7 +18,7 @@
                 $table->unsignedBigInteger('ch_diagnosis_type_id');
                 $table->unsignedBigInteger('ch_diagnosis_class_id');
                 $table->unsignedBigInteger('diagnosis_id');
-                $table->string('diagnosis_observation');
+                $table->string('diagnosis_observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

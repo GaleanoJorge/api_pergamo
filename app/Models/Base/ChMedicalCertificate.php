@@ -8,34 +8,23 @@ namespace App\Models\Base;
 
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
-use App\Models\Diagnosis;
-use App\Models\TlTherapyLanguageRegular as ModelsTlTherapyLanguageRegular;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class TlTherapyLanguageRegular
+ * Class ChMedicalCertificate
  * 
  * @property int $id
- * @property BigInteger $diagnosis_id
- * @property string $status_patient
- * @property BigInteger $type_record_id
- * @property BigInteger $ch_record_id
+ * @property string $description
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class TlTherapyLanguageRegular extends Model
+class ChMedicalCertificate extends Model
 {
-	protected $table = 'tl_therapy_language_regular';
-
-
-	public function diagnosis()
-	{
-		return $this->belongsTo(Diagnosis::class,  );
-	}
+	protected $table = 'ch_medical_certificate';
 
 	public function type_record()
 	{
@@ -45,5 +34,8 @@ class TlTherapyLanguageRegular extends Model
 	{
 		return $this->belongsTo(ChRecord::class);
 	}
+
+	
+
 }
 

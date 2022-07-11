@@ -243,10 +243,17 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReasonExitSeeder::class);
                 $this->call(RecommendationsEvoSeeder::class);
                 $this->call(EnterallyDietSeeder::class);
+                $this->call(ChTypeProcedureSeeder::class);
+                $this->call(ChTypeInabilitySeeder::class);
+                $this->call(ChContingencyCodeSeeder::class);
                 
                 
                 //Semillas talento humano
                 $this->call(TalentHumanActionSeeder::class);
+          
+
+
+
 
         }
 }

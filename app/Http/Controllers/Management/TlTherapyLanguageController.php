@@ -18,7 +18,7 @@ class TlTherapyLanguageController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $TlTherapyLanguage = TlTherapyLanguage::select();
+        $TlTherapyLanguage = TlTherapyLanguage::with('medical_diagnostic','therapeutic_diagnosis');
 
         if($request->_sort){
             $TlTherapyLanguage->orderBy($request->_sort, $request->_order);
@@ -66,7 +66,7 @@ class TlTherapyLanguageController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Evolución T. Lenguaje del paciente del paciente exitosamente',
+            'message' => 'Evolución T. Lenguaje del paciente exitosamente',
             'data' => ['tl_therapy_language' => $TlTherapyLanguage]
         ]);
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChInterconsultationTable extends Migration
+class CreateChOstomiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,32 +13,25 @@ class CreateChInterconsultationTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_interconsultation', function (Blueprint $table) {
+        Schema::create('ch_ostomies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('specialty_id');
-            $table->integer('amount');
-            $table->unsignedTinyInteger('frequency_id');
-            $table->string('observations');
+            $table->unsignedBigInteger('ostomy_id');
+            $table->string('observation');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
-            
-            $table->index('specialty_id');
-            $table->foreign('specialty_id')->references('id')
-                ->on('specialty');
 
-            $table->index('frequency_id');
-            $table->foreign('frequency_id')->references('id')
-                ->on('frequency');
-
+            $table->index('ostomy_id');
+            $table->foreign('ostomy_id')->references('id')
+                    ->on('ostomy');
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
-                ->on('type_record');
-                
+                    ->on('type_record');
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
-                ->on('ch_record');
+                    ->on('ch_record');
         });
+       
     }
 
     /**
@@ -48,6 +41,6 @@ class CreateChInterconsultationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_interconsultation');
+        Schema::dropIfExists('ch_ostomies');
     }
 }
