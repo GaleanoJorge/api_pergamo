@@ -1,59 +1,78 @@
 [
     {
+        "id": 1,
         "name": "MÉDICINA GENERAL"
     },
     {
+        "id": 2,
         "name": "ESPECIALISTA"
     },
     {
+        "id": 3,
         "name": "JEFE DE ENFERMERIA"
     },
     {
+        "id": 4,
         "name": "NUTRICIÓN"
     },
     {
+        "id": 5,
         "name": "PSICOLOGÍA"
     },
     {
+        "id": 6,
         "name": "TRABAJO SOCIAL"
     },
     {
+        "id": 7,
         "name": "TERAPIA FISICA"
     },
     {
+        "id": 8,
         "name": "TERAPIA RESPIRATORIA SIN SUCCION"
     },
     {
+        "id": 9,
         "name": "TERAPIA RESPIRATORIA CON SUCCION"
     },
     {
+        "id": 10,
         "name": "TERAPIA OCUPACIONAL"
     },
     {
+        "id": 11,
         "name": "TERAPIA LENGUAJE"
     },
     {
+        "id": 12,
         "name": "TEMPORALIDAD SERVICIO ENFERMERÍA"
     },
     {
+        "id": 13,
         "name": "SERVICIO DE CUIDADOR"
     },
     {
+        "id": 14,
         "name": "CATETERISMOS VESICALES"
     },
     {
+        "id": 15,
         "name": "CAMBIOS DE SONDA VESICAL"
     },
     {
+        "id": 16,
         "name": "LABORATORIOS"
     },
     {
+        "id": 17,
         "name": "APLICACIÓN DE MEDICAMENTOS"
     },
     {
+        "id": 18,
         "name": "DEPORTOLOGÍA"
     },
     {
+        "id": 19,
         "name": "TERAPIA FÍSICO-RESPIRATORIA"
     }
 ]
