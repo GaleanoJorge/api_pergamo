@@ -9,7 +9,6 @@ namespace App\Models\Base;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Diagnosis;
-use App\Models\TlTherapyLanguageRegular as ModelsTlTherapyLanguageRegular;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,7 +33,7 @@ class TlTherapyLanguageRegular extends Model
 
 	public function diagnosis()
 	{
-		return $this->belongsTo(Diagnosis::class,  );
+		return $this->belongsTo(Diagnosis::class);
 	}
 
 	public function type_record()

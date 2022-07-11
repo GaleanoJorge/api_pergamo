@@ -17,8 +17,7 @@ class VoiceAlterationsTlController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $VoiceAlterationsTl = VoiceAlterationsTl::with(''); /// Cargar 
-
+        $VoiceAlterationsTl = VoiceAlterationsTl::select();
         if ($request->_sort) {
             $VoiceAlterationsTl->orderBy($request->_sort, $request->_order);
         }
@@ -55,7 +54,7 @@ class VoiceAlterationsTlController extends Controller
     {
         
        
-        $VoiceAlterationsTl = VoiceAlterationsTl::with('type_record', 'ch_record')
+        $VoiceAlterationsTl = VoiceAlterationsTl::with( 'type_record', 'ch_record')
         ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
