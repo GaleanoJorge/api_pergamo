@@ -256,7 +256,7 @@ class ChRecordController extends Controller
         // }
         switch ($request->type_of_attention_id) {
             case (1): {
-                    $ChRecord->ch_type_id = 5;
+                    $ChRecord->ch_type_id = 1;
                     break;
                 }
             case (2): {
