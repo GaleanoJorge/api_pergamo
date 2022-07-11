@@ -527,7 +527,7 @@ class BillingPadController extends Controller
         $BillingPad->billing_pad_status_id = 2;
         $BillingPad->total_value = $BillingPad->total_value + $total_value;
         // $BillingPad->save();
-        $this->generateBillingDat(1);
+        $this->generateBillingDat($request, 1);
 
         $BillingPadLog = new BillingPadLog;
         $BillingPadLog->billing_pad_id = $id;
@@ -571,7 +571,7 @@ class BillingPadController extends Controller
      * 
      * @param  int  $id
      */
-    public function generateBillingDat(int $id): JsonResponse
+    public function generateBillingDat(Request $request, int $id): JsonResponse
     {
         $BillingPad = BillingPad::find($id)
             ->select(
@@ -588,10 +588,11 @@ class BillingPadController extends Controller
                 'identification_type.code AS identification_type',
                 'company.id AS eps_id',
                 'company.name AS eps_name', // --------------------------------------------------------
-                'company.identification AS eps_identification', //      PARA COPAGOS
+                'company.identification AS eps_identification', //       PARA COPAGOS
                 'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
-                'company.phone AS eps_phone',
+                'company.phone AS eps_phone', //
                 'company.mail AS eps_mail', // --------------------------------------------------------
+                'billing_pad.total_value AS billing_total_value',
             )
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
@@ -603,12 +604,27 @@ class BillingPadController extends Controller
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
             ->get()->toArray();
 
+        $billMaker = BillingPadLog::select(
+            'users.firstname AS billing_maker_firstname',
+            'users.lastname AS billing_maker_lastname',
+        )
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->where('billing_pad_log.billing_pad_id', $id)
+            ->get()->toArray();
+        if ($billMaker) {
+            $billMakerName = $this->nameBuilder($billMaker[0]['billing_maker_firstname'], null, $billMaker[0]['billing_maker_lastname'], null);
+        } else {
+            $billMakerName = $this->nameBuilder('DANIEL', null, 'MONTAÑEZ', null);
+        }
+
         $CompanyLocationInfo = Company::find($BillingPad[0]['eps_id'])
             ->select('region.code AS eps_departament_code')
             ->leftJoin('region', 'region.id', 'company.city_id')
+            // FALTA HACER CONSULTA DE CIUDAD
             ->get()->toArray();
 
         $copago = false; // VALIDAR SI ES UN COPAGO
+        $payer_type = '';
         $payer_identification = '';
         $payer_firstname = '';
         $payer_lastname = '';
@@ -619,6 +635,7 @@ class BillingPadController extends Controller
         $user_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $BillingPad[0]['user_departament_code'] : $BillingPad[0]['user_departament_code']);
         $eps_name = '';
         if ($copago) {
+            $payer_type = '2';
             $payer_identification = $BillingPad[0]['identification'];
             $payer_firstname = $BillingPad[0]['firstname'];
             $payer_lastname = $BillingPad[0]['lastname'];
@@ -629,6 +646,7 @@ class BillingPadController extends Controller
             $payer_departament_code = $user_departament_code;
             $payer_city_code = $BillingPad[0]['user_city_code'];
         } else {
+            $payer_type = '1';
             $payer_identification = $BillingPad[0]['eps_identification'];
             $eps_name = $BillingPad[0]['eps_name'];
             $payer_email = $BillingPad[0]['eps_mail'];
@@ -638,25 +656,20 @@ class BillingPadController extends Controller
             $payer_city_code = /*$BillingPad[0]['user_city_code']*/ '11001';
         }
 
-        $full_name = $BillingPad[0]['firstname'] .
-            ' ' . '' . $BillingPad[0]['middlefirstname'] .
-            ($BillingPad[0]['middlefirstname'] ? ' ' : '') .
-            '' . $BillingPad[0]['lastname'] .
-            '' . ($BillingPad[0]['middlelastname'] ? ' ' : '') .
-            $BillingPad[0]['middlelastname'];
+        $full_name = $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']);
 
 
-        $totalToPay = $this->NumToLetters(689352);
+        $totalToPay = $this->NumToLetters($BillingPad[0]['billing_total_value']);
 
         $file = [
             'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
-' . $payer_identification . ';31;48;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';1;' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;;;;
-689352;0;0;;0;689352;689352
-689352;0;0;01
+' . $payer_identification . ';31;48;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;;;;
+' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
+' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;ADRIANA OSUNA;12
+A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
 2;1;;;;2022-06-05 15:36:28
 ;;;
 
@@ -680,7 +693,11 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['identification_type'] . ';' . 
 
     public function NumToLetters(int $value): string
     {
-        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
-        return $res;
+        return NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+    }
+
+    public function nameBuilder($fn, $sn, $ln, $sln): string
+    {
+        return $fn . ' ' . '' . $sn . ($sn ? ' ' : '') . '' . $ln . '' . ($sln ? ' ' : '') . $sln;
     }
 }
