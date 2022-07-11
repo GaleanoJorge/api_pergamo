@@ -12,6 +12,7 @@ use App\Models\AuthBillingPad;
 use App\Models\Authorization;
 use App\Models\BillingPadLog;
 use App\Models\BillingPadPgp;
+use App\Models\Company;
 use App\Models\Contract;
 use App\Models\ProcedurePackage;
 use Illuminate\Support\Facades\DB;
@@ -581,7 +582,10 @@ class BillingPadController extends Controller
                 'patients.residence_address AS residence_address',
                 'patients.email AS email',
                 'patients.phone AS phone',
+                'municipality.sga_origin_fk AS user_city_code',
+                'region.code AS user_departament_code',
                 'identification_type.code AS identification_type',
+                'company.id AS eps_id',
                 'company.name AS eps_name', // --------------------------------------------------------
                 'company.identification AS eps_identification', //      PARA COPAGOS
                 'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
@@ -589,10 +593,18 @@ class BillingPadController extends Controller
                 'company.mail AS eps_mail', // --------------------------------------------------------
             )
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
+            ->leftJoin('region', 'region.id', 'campus.region_id')
+            ->leftJoin('municipality', 'municipality.id', 'campus.municipality_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->get()->toArray();
+
+        $CompanyLocationInfo = Company::find($BillingPad[0]['eps_id'])
+            ->select('region.code AS eps_departament_code')
+            ->leftJoin('region', 'region.id', 'company.city_id')
             ->get()->toArray();
 
         $copago = false; // VALIDAR SI ES UN COPAGO
@@ -603,6 +615,7 @@ class BillingPadController extends Controller
         $payer_email = '';
         $payer_phone = '';
         $payer_address = '';
+        $user_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $BillingPad[0]['user_departament_code'] : $BillingPad[0]['user_departament_code']);
         $eps_name = '';
         if ($copago) {
             $payer_identification = $BillingPad[0]['identification'];
@@ -612,12 +625,16 @@ class BillingPadController extends Controller
             $payer_email = $BillingPad[0]['email'];
             $payer_phone = $BillingPad[0]['phone'];
             $payer_address = $BillingPad[0]['residence_address'];
+            $payer_departament_code = $user_departament_code;
+            $payer_city_code = $BillingPad[0]['user_city_code'];
         } else {
             $payer_identification = $BillingPad[0]['eps_identification'];
             $eps_name = $BillingPad[0]['eps_name'];
             $payer_email = $BillingPad[0]['eps_mail'];
             $payer_phone = $BillingPad[0]['eps_phone'];
             $payer_address = $BillingPad[0]['eps_address'];
+            $payer_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $CompanyLocationInfo[0]['eps_departament_code'] : $CompanyLocationInfo[0]['eps_departament_code']);
+            $payer_city_code = /*$BillingPad[0]['user_city_code']*/ '11001';
         }
 
         $full_name = $BillingPad[0]['firstname'] .
@@ -628,10 +645,10 @@ class BillingPadController extends Controller
             $BillingPad[0]['middlelastname'];
 
         $file = [
-            'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;11;11001;;11001;CO;
+            'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
-' . $payer_identification . ';31;48;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';1;' . $payer_address . ';11;11001;;11001;' . $payer_phone . ';' . $payer_email . ';CO;;;;
+' . $payer_identification . ';31;48;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';1;' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;;;;
 689352;0;0;;0;689352;689352
 689352;0;0;01
 ;;;
