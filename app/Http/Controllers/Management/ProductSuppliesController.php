@@ -56,6 +56,8 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->description = $request->description;
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
+        $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 
         return response()->json([
@@ -101,6 +103,8 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->description = $request->description;
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
+        $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 
         return response()->json([

@@ -62,6 +62,7 @@ class FixedAssetsController extends Controller
         $FixedAssets->campus_id = $request->campus_id;
         $FixedAssets->status = $request->status;
         $FixedAssets->amount = $request->amount;
+        $FixedAssets->actual_amount = $request->amount;
         $FixedAssets->model = $request->model;
         $FixedAssets->mark = $request->mark;
         $FixedAssets->serial = $request->serial;
@@ -114,6 +115,7 @@ class FixedAssetsController extends Controller
         $FixedAssets->campus_id = $request->campus_id;
         $FixedAssets->status = $request->status;
         $FixedAssets->amount = $request->amount;
+        $FixedAssets->actual_amount = $request->actual_amount;
         $FixedAssets->company_id = $request->company_id;
         $FixedAssets->model = $request->model;
         $FixedAssets->mark = $request->mark;

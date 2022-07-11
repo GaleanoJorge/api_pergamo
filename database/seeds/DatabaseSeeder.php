@@ -193,7 +193,12 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedAreaCampusSeeder::class);
                 $this->call(FixedCodeSeeder::class);
                 $this->call(FixedPropertySeeder::class);
-                $this->call(FixedConditionSeeder::class);
+                $this->call(FixedConditionSeeder::class);       
+                $this->call(StorageConditionsSeeder::class);
+                $this->call(SuppliesMeasureSeeder::class);
+                // BillingPad
+                $this->call(InvimaStatusSeeder::class);
+                $this->call(FixedTypeSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

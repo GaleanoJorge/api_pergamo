@@ -17,6 +17,7 @@ class CreateFixedAccessoriesTable extends Migration
             $table->BigIncrements('id');
             $table->string('name');
             $table->integer('amount');
+            $table->integer('actual_amount');
             $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('fixed_type_role_id');
             $table->timestamps();

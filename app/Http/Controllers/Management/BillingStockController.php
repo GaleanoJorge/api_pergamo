@@ -63,6 +63,7 @@ class BillingStockController extends Controller
                 $BillingStock = new BillingStock;
                 $BillingStock->amount = $element->amount;
                 $BillingStock->amount_unit = $element->amount_unit;
+                $BillingStock->amount_provitional = $element->amount;
                 $BillingStock->iva = $element->iva;
                 $BillingStock->billing_id = $request->billing_id;
                 $BillingStock->product_id = $element->product_id;
@@ -79,14 +80,14 @@ class BillingStockController extends Controller
                 $BillingStock->amount = $element1->amount;
                 $BillingStock->amount_unit = $element1->amount_unit;
                 $BillingStock->iva = $element1->iva;
+                $BillingStock->amount_provitional = $element->amount;
                 $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
                 $BillingStock->billing_id = $request->billing_id;
                 $BillingStock->product_id = null;
                 $BillingStock->save();
             }
-
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Insumos creados exitosamente',
@@ -130,21 +131,15 @@ class BillingStockController extends Controller
                 $BillingStock = new BillingStock;
                 $BillingStock->amount = $element->amount;
                 $BillingStock->amount_unit = $element->amount_unit;
+                $BillingStock->amount_provitional = $element->amount_provitional;
                 $BillingStock->iva = $element->iva;
                 $BillingStock->billing_id = $id;
                 $BillingStock->product_id = $element->product_id;
                 $BillingStock->product_supplies_com_id = null;
-
                 $BillingStock->save();
             }
-            return response()->json([
-                'status' => true,
-                'message' => 'Medicamentos actualizadas exitosamente',
-                'data' => ['billing_stock' => $BillingStock]
-            ]);
         }
         if ($request->product_supplies_com_id) {
-
             $BillingStockDelete = BillingStock::where('billing_id', $id);
             $BillingStockDelete->delete();
             $supplies1 = json_decode($request->product_supplies_com_id);
@@ -152,6 +147,7 @@ class BillingStockController extends Controller
                 $BillingStock = new BillingStock;
                 $BillingStock->amount = $element1->amount;
                 $BillingStock->amount_unit = $element1->amount_unit;
+                $BillingStock->amount_provitional = $element->amount_provitional;
                 $BillingStock->iva = $element1->iva;
                 $BillingStock->billing_id = $id;
                 $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
@@ -159,14 +155,12 @@ class BillingStockController extends Controller
 
                 $BillingStock->save();
             }
-
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Insumos actualizados exitosamente',
-                'data' => ['billing_stock' => $BillingStock]
-            ]);
         }
+        return response()->json([
+            'status' => true,
+            'message' => 'Insumos actualizados exitosamente',
+            'data' => ['billing_stock' => $BillingStock]
+        ]);
     }
 
     /**

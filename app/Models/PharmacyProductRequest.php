@@ -17,5 +17,6 @@ class PharmacyProductRequest extends BasePharmacyProductRequest
     'product_supplies_id',
     'own_pharmacy_stock_id',
     'request_pharmacy_stock_id',
+    'user_request_id',
   ];
 }

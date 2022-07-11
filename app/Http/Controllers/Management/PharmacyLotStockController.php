@@ -63,7 +63,7 @@ class PharmacyLotStockController extends Controller
         // }
 
         if ($request->search) {
-            $PharmacyLotStock->where('status', 'like', '%' . $request->search . '%');
+            $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) == "false") {
             $PharmacyLotStock = $PharmacyLotStock->get()->toArray();
@@ -152,6 +152,10 @@ class PharmacyLotStockController extends Controller
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
             $PharmacyLotStock->billing_stock_id = $element->billing_stock_id;
             $PharmacyLotStock->save();
+
+            $BillingStock = BillingStock::find($element->billing_stock_id);
+            $BillingStock->amount_provitional = $BillingStock->amount_provitional - $element->amount_total;
+            $BillingStock->save();
         }
 
         return response()->json([

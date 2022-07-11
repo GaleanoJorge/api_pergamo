@@ -40,7 +40,7 @@ class FixedAccessoriesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Accesorios de act. fijoss obtenidos exitosamente',
+            'message' => 'Accesorios de act. fijos obtenidos exitosamente',
             'data' => ['fixed_accessories' => $FixedAccessories]
         ]);
     }
@@ -51,13 +51,14 @@ class FixedAccessoriesController extends Controller
         $FixedAccessories = new FixedAccessories;
         $FixedAccessories->name = $request->name;
         $FixedAccessories->amount = $request->amount;
+        $FixedAccessories->actual_amount = $request->amount;
         $FixedAccessories->campus_id = $request->campus_id;
         $FixedAccessories->fixed_type_role_id = $request->fixed_type_role_id;
         $FixedAccessories->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Accesorios de act. fijos asociado al paciente exitosamente',
+            'message' => 'Accesorios de act. fijos asociado exitosamente',
             'data' => ['fixed_accessories' => $FixedAccessories->toArray()]
         ]);
     }
@@ -91,6 +92,7 @@ class FixedAccessoriesController extends Controller
         $FixedAccessories = FixedAccessories::find($id);
         $FixedAccessories->name = $request->name;
         $FixedAccessories->amount = $request->amount;
+        $FixedAccessories->actual_amount = $request->amount;
         $FixedAccessories->campus_id = $request->campus_id;
         $FixedAccessories->fixed_type_role_id = $request->fixed_type_role_id;
         $FixedAccessories->save();

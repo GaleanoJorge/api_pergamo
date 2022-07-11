@@ -27,6 +27,10 @@ class TypeBillingEvidenceController extends Controller
             $TypeBillingEvidence->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->id) {
+            $TypeBillingEvidence->where('id', $request->id);
+        }
+
         if ($request->query("pagination", true) == "false") {
             $TypeBillingEvidence = $TypeBillingEvidence->get()->toArray();
         } else {
@@ -85,7 +89,7 @@ class TypeBillingEvidenceController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $TypeBillingEvidence = TypeBillingEvidence::find($id);
-        $TypeBillingEvidence->name = $request->name; 
+        $TypeBillingEvidence->name = $request->name;
         $TypeBillingEvidence->save();
 
         return response()->json([

@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\ProductDose;
 use App\Models\SuppliesMeasure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $stature
  * @property integer $minimum_stock
  * @property integer $maximum_stock
+ * @property BigInteger $product_dose_id
  * @property BigInteger $size_supplies_measure_id
  * @property BigInteger $measure_supplies_measure_id
  * @property Carbon $created_at
@@ -43,4 +45,8 @@ class ProductSupplies extends Model
 		return $this->belongsTo(SuppliesMeasure::class);
 	}
 
+	public function product_dose()
+	{
+		return $this->belongsTo(ProductDose::class);
+	}
 }
