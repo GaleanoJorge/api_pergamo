@@ -15,6 +15,7 @@ use App\Models\BillingPadPgp;
 use App\Models\Company;
 use App\Models\Contract;
 use App\Models\ProcedurePackage;
+use App\Actions\Transform\NumerosEnLetras;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -644,6 +645,9 @@ class BillingPadController extends Controller
             '' . ($BillingPad[0]['middlelastname'] ? ' ' : '') .
             $BillingPad[0]['middlelastname'];
 
+
+        $totalToPay = $this->NumToLetters(689352);
+
         $file = [
             'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
@@ -652,7 +656,7 @@ class BillingPadController extends Controller
 689352;0;0;;0;689352;689352
 689352;0;0;01
 ;;;
-A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A; SEISCIENTOS  OCHENTA  Y  NUEVE  MIL  TRESCIENTOS  CINCUENTA  Y  DOS  PESOS M CTE;10;A;;11;A;ADRIANA OSUNA;12
+A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;ADRIANA OSUNA;12
 2;1;;;;2022-06-05 15:36:28
 ;;;
 
@@ -671,5 +675,12 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['identification_type'] . ';' . 
             'message' => 'Factura generada exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
+    }
+
+
+    public function NumToLetters(int $value): string
+    {
+        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+        return $res;
     }
 }
