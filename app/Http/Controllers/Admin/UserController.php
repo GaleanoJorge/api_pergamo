@@ -66,6 +66,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
+use App\Models\RoleAttention;
 use App\Models\TalentHumanLog;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -304,18 +305,29 @@ class UserController extends Controller
         $users = User::select(
             'assistance.id AS assistance_id',
             'users.id'
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->Join('assistance', 'users.id', 'assistance.user_id');
+        )
+            ->Join('user_role', 'users.id', 'user_role.user_id')
+            ->Join('assistance', 'users.id', 'assistance.user_id')
+            ->Join('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+            ->where('users.status_id', 1)
+            ->groupBy('users.id');
 
-        $first = true;
-        foreach ($roles as $role) {
-            if ($first) {
-                $users->where('user_role.role_id', $role->role_id);
-                $first = false;
-            } else {
-                $users->orWhere('user_role.role_id', $role->role_id);
+        $users->where(function ($query) use ($request, $roles) {
+            $first = true;
+            foreach ($roles as $role) {
+                if ($role->role_id == 14) {
+                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first()->specialty_id;
+                    $query->where('assistance_special.specialty_id', $specialty);
+                } else {
+                    if ($first) {
+                        $query->where('user_role.role_id', $role->role_id);
+                        $first = false;
+                    } else {
+                        $query->orWhere('user_role.role_id', $role->role_id);
+                    }
+                }
             }
-        }
+        });
 
         $users = $users->get()->toArray();
 
