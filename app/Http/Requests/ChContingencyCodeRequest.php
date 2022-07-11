@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TlTherapyLanguageRegularRequest extends FormRequest
+class ChContingencyCodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,8 @@ class TlTherapyLanguageRegularRequest extends FormRequest
     {
         return [
         
-            'type_record_id' => 'required',
-            'ch_record_id' => 'required',
+            'name' => '',
+            
         ];
     }
 }

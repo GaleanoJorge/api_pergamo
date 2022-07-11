@@ -17,7 +17,7 @@ class TlTherapyLanguageRegularController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::select();
+        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::with('diagnosis',);
 
         if ($request->_sort) {
             $TlTherapyLanguageRegular->orderBy($request->_sort, $request->_order);

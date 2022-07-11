@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTlTherapyLanguageRegularTable extends Migration
+class CreateChMedicalCertificateTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,13 @@ class CreateTlTherapyLanguageRegularTable extends Migration
      */
     public function up()
     {
-        Schema::create('tl_therapy_language_regular', function (Blueprint $table) {
+        Schema::create('ch_medical_certificate', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('diagnosis_id')->nullable();
-            $table->string('status_patient')->nullable();
+            $table->string('description');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
-            
 
-            $table->index('diagnosis_id');
-            $table->foreign('diagnosis_id')->references('id')
-                    ->on('diagnosis');
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                     ->on('type_record');
@@ -41,6 +36,6 @@ class CreateTlTherapyLanguageRegularTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tl_therapy_language_regular');
+        Schema::dropIfExists('ch_medical_certificate');
     }
 }

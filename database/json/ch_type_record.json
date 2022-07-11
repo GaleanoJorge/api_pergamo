@@ -18,6 +18,12 @@
         "name": "ORDEN MEDICA"
     },
     {
+        "name": "INCAPACIDAD"
+    },
+    {
+        "name": "CERTIFICADO MEDICO"
+    },
+    {
         "name": "FALLIDA"
     },
     {

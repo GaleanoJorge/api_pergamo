@@ -24,7 +24,10 @@ class InputMaterialsUsedTlRequest extends FormRequest
     public function rules()
     {
         return [
-        
+            'biosecurity_elements' => '',
+            'didactic_materials' => '',
+            'liquid_food' => '',
+            'stationery' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];
