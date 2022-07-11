@@ -17,6 +17,7 @@ class RoleAttentionSeeder extends Seeder
         foreach(json_decode($jRoleAttention) as $row){
             RoleAttention::create([
                 'role_id' => $row->role_id,
+                'specialty_id' => $row->specialty_id,
                 'type_of_attention_id' => $row->type_of_attention_id,
             ]);
         }
