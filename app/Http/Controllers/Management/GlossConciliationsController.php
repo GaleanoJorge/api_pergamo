@@ -19,7 +19,7 @@ class GlossConciliationsController extends Controller
     {
         $GlossConciliations = GlossConciliations::select('gloss_conciliations.id AS id_conciliation', 'gloss_conciliations.objeted_value AS objeted_cons_value', 'gloss.*')
             ->leftjoin('gloss', 'gloss_conciliations.gloss_id','=', 'gloss.id')
-            ->leftjoin('conciliation_response', 'gloss_conciliations.id','=', 'conciliation_response.gloss_conciliations_id')
+            // ->leftjoin('conciliation_response', 'gloss_conciliations.id','=', 'conciliation_response.gloss_conciliations_id')
             ->with(
                 'company', 
                 'campus', 

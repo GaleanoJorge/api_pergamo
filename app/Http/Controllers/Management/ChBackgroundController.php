@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChBackground;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
 
@@ -45,7 +46,73 @@ class ChBackgroundController extends Controller
         ]);
     }
 
+    /**
+     *Get alergics by patient.
+     * 
+     * @param  int  $patient_id
+     * @return JsonResponse
+     */
+    public function getAlergicsByPatient(Request $request, int $patient_id): JsonResponse
+    {
+        $ChRecord = ChRecord::select('ch_background.observation')
+            ->leftJoin('ch_background', 'ch_background.ch_record_id', 'ch_record.id')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->where('admissions.patient_id', $patient_id)
+            ->where('ch_background.ch_type_background_id', 1)
+        ;
 
+        if($request->query("pagination", true)=="false"){
+            $ChRecord=$ChRecord->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ChRecord=$ChRecord->paginate($per_page,'*','page',$page); 
+        } 
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antecedentes alérgicos obtenidos exitosamente',
+            'data' => ['ch_background' => $ChRecord]
+        ]);
+    }
+
+     /**
+     *Get by patient.
+     * 
+     * @param  int  $patient_id
+     * @return JsonResponse
+     */
+    public function getByPatient(Request $request, int $patient_id): JsonResponse
+    {
+        $ChBackground = ChBackground::select('ch_background.*', 'ch_type_background.name AS ch_type_background')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_background.ch_record_id')
+            ->leftJoin('ch_type_background', 'ch_type_background.id', 'ch_background.ch_type_background_id')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->where('admissions.patient_id', $patient_id)
+            ->groupBy('ch_background.id')
+            ->orderBy('ch_background.id', 'desc')
+        ;
+
+        if($request->query("pagination", true)=="false"){
+            $ChBackground=$ChBackground->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ChBackground=$ChBackground->paginate($per_page,'*','page',$page); 
+        } 
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Antecedentes alérgicos obtenidos exitosamente',
+            'data' => ['ch_background' => $ChBackground]
+        ]);
+    }
         /**
      * Display the specified resource.
      *

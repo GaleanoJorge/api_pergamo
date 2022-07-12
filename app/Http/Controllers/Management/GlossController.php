@@ -13,6 +13,7 @@ use App\Models\GlossConciliations;
 use App\Models\GlossResponse;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class GlossController extends Controller
 {
@@ -23,7 +24,10 @@ class GlossController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Gloss = Gloss::select('gloss.*', 'gloss_response.id AS response_id')->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user', 'regimen')
+        $Gloss = Gloss::select('gloss.*', 'gloss_response.id AS response_id',
+        // DB::raw('CONCAT_WS(" ",gloss.invoice_prefix,gloss.invoice_consecutive) AS nombre_completo')
+
+        )->with('company', 'campus', 'objetion_type', 'repeated_initial', 'gloss_modality', 'gloss_ambit', 'gloss_service', 'objetion_code', 'user', 'received_by', 'gloss_status', 'assing_user', 'regimen')
             ->Join('company', 'gloss.company_id', 'company.id')
             ->leftjoin('gloss_response', 'gloss.id', '=', 'gloss_response.gloss_id')->orderBy('received_date', 'ASC');
 
@@ -36,6 +40,7 @@ class GlossController extends Controller
                 ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
                 ->orWhere('received_date', 'like', '%' . $request->search . '%')
                 ->orWhere('company.name', 'like', '%' . $request->search . '%');
+                // ->orWhere('gloss.nombre_completo', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -238,7 +243,7 @@ class GlossController extends Controller
                 $GlossConciliation = new GlossConciliations;
                 $GlossConciliation->gloss_id = $request->gloss_id;
                 $GlossConciliation->conciliations_date = Carbon::now();
-                $GlossConciliation->objeted_value = $gloss_response->accepted_value;
+                $GlossConciliation->objeted_value = $gloss_response->value_not_accepted;
                 $GlossConciliation->user_id = Auth::user()->id;
                 $GlossConciliation->save();
             }

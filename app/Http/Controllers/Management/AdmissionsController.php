@@ -278,6 +278,16 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
+        $count=0;
+        $admissions=Admissions::where('patient_id',$request->patient_id)->get()->toArray();
+        foreach($admissions as $admission){
+            $nowlocation= Location::where('admissions_id',$admission['id'])->where('program_id',$request->program_id)->get()->toArray();
+            if(sizeof($nowlocation)>0){
+            $count++;
+            }
+        }
+        
+        if($count==0){
         $count      = Admissions::where('patient_id', $request->patient_id)->count();
         $Admissions = new Admissions;
         $Admissions->consecutive = $count + 1;
@@ -329,6 +339,12 @@ class AdmissionsController extends Controller
             'message' => 'Admisión creado exitosamente',
             'data' => ['admissions' => $Admissions->toArray()]
         ]);
+    }else{
+        return response()->json([
+            'status' => true,
+            'message' => 'Ya se creo una admisión con el mismo programa',
+        ]);
+    }
     }
 
     /**

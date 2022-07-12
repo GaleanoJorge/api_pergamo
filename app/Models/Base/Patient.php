@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\AcademicLevel;
+use App\Models\Activities;
 use App\Models\Category;
 use App\Models\Contract;
 use App\Models\Course;
@@ -31,6 +32,7 @@ use App\Models\UserAssignSurvey;
 use App\Models\UserCertificate;
 use App\Models\UserUser;
 use Carbon\Carbon;
+use Faker\ORM\Spot\Populator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -123,10 +125,37 @@ class Patient extends Model
 		return $this->belongsTo(AcademicLevel::class);
 	}
 
+	public function residence_municipality()
+    {
+        return $this->belongsTo(Municipality::class, 'residence_municipality_id');
+    }
+
+    public function residence()
+    {
+        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+    }
+
+
 	public function municipality()
 	{
 		return $this->belongsTo(Municipality::class, 'birthplace_municipality_id');
 	}
+
+	public function marital_status()
+	{
+		return $this->belongsTo(MaritalStatus::class);
+	}
+
+	public function activities()
+	{
+		return $this->belongsTo(Activities::class);
+	}
+
+	public function population_group()
+	{
+		return $this->belongsTo(PopulationGroup::class);
+	}
+
 
 	public function ethnicity()
 	{

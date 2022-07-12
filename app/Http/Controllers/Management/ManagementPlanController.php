@@ -113,6 +113,95 @@ class ManagementPlanController extends Controller
         ]);
     }
 
+
+    public function getByPatient(Request $request, int $id,int $userId): JsonResponse
+    {
+        if($userId==0){
+        $ManagementPlan = ManagementPlan::select(
+            'management_plan.*',
+            DB::raw('
+                        IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                            SUM(
+                                CASE assigned_management_plan.execution_date 
+                                    WHEN "0000-00-00" THEN 1 
+                                    ELSE 0 
+                                END), 
+                            -1) AS not_executed'),
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+                         
+                            SUM(
+                                IF( CURDATE() > assigned_management_plan.finish_date , 
+                                   1,0 
+                            )
+                           ) AS incumplidas'),
+        )
+            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
+            'admissions.location.admission_route',
+            'admissions.location.scope_of_attention',
+            'admissions.location.program', 'assigned_user')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+            ->where('admissions.patient_id', $id)
+            ->groupBy('management_plan.id');
+
+        }else{
+            $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
+                            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                                SUM(
+                                    CASE assigned_management_plan.execution_date 
+                                        WHEN "0000-00-00" THEN 1 
+                                        ELSE 0 
+                                    END), 
+                                -1) AS not_executed'),
+                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+                DB::raw('
+                             
+                                SUM(
+                                    IF( CURDATE() > assigned_management_plan.finish_date , 
+                                       1,0 
+                                )
+                               ) AS incumplidas'),
+            )
+                ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program', 'assigned_user')
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+                ->where('admissions.patient_id', $id)
+                ->where('management_plan.assigned_user_id',$userId)
+                ->groupBy('management_plan.id');
+        }
+
+        if ($request->_sort) {
+            $ManagementPlan->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $ManagementPlan->where('invoice_prefix', 'like', '%' . $request->search . '%')
+                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('received_date', 'like', '%' . $request->search . '%')
+                ->orWhere('company.name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ManagementPlan = $ManagementPlan->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 30);
+
+            $ManagementPlan = $ManagementPlan->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Planes obtenidos exitosamente',
+            'data' => ['management_plan' => $ManagementPlan]
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -214,7 +303,7 @@ class ManagementPlanController extends Controller
             }
         }
 
-        if ($request->medical == false) {
+        if ($request->medical == false &&  $request->isnewrequest != 1) {
             if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);

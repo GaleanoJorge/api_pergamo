@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Enfermedad General"
+    },
+    {
+        "name": "Accidente de Trabajo"
+    },
+    {
+        "name": "Enfermedad Laboral"
+    },
+    {
+        "name": "Licencia de Maternidad"
+    }
+    ,
+    {
+        "name": "Accidente de Transito"
+    }
+    ,
+    {
+        "name": "Licencia de Aborto"
+    }
+]

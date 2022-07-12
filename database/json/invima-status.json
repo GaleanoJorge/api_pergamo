@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Vigente"
+    },
+    {
+        "name": "Vencido"
+    },
+    {
+        "name": "En trámite de renovación"
+    },
+    {
+        "name": "Temporalmente no comercializable"
+    },
+    {
+        "name": "Pérdida de fuerza ejecutoria"
+    }
+]

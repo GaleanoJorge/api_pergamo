@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "name": "DECÚBITO DORSAL"
+    },
+    {
+        "id": 2,
+        "name": "DECÚBITO LATERAL DERECHO"
+    },
+    {
+        "id": 3,
+        "name": "DECÚBITO LATERAL IZQUIERDO"
+    },
+    {
+        "id": 4,
+        "name": "DECÚBITO SUPINO"
+    },
+    {
+        "id": 5,
+        "name": "FOWLER"
+    },
+    {
+        "id": 6,
+        "name": "GINECOLÓGICA"
+    },
+    {
+        "id": 7,
+        "name": "PRONO"
+    },
+    {
+        "id": 8,
+        "name": "SEMIFOWLER"
+    },
+    {
+        "id": 9,
+        "name": "TRENDELENBURG"
+    }
+  
+]

@@ -27,7 +27,7 @@ class FixedAssetsRequest extends FormRequest
             'fixed_clasification_id' => 'required',
             'fixed_type_role_id' => 'required',
             'fixed_property_id' => 'required',
-            'name' => 'required',
+            'campus_id' => 'required',
             'amount' => 'required',
             'description' => 'required',
             'detail_description' => 'required',

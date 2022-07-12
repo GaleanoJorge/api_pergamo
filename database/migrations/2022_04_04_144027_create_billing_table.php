@@ -15,8 +15,8 @@ class CreateBillingTable extends Migration
     {
         Schema::create('billing', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('pharmacy_stock_id');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('type_billing_evidence_id');
             $table->timestamps();
 

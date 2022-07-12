@@ -236,7 +236,13 @@ class BillingPadController extends Controller
         }
 
         if ($request->search) {
-            $EnabledAdmissions->where('patients.name', 'like', '%' . $request->search . '%');
+            $EnabledAdmissions->where(function ($query) use ($request) {
+                $query->where('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -363,7 +369,7 @@ class BillingPadController extends Controller
                     ->first();
                 if ($ProcedurePackages) {
                     $ProcedurePackages->toArray();
-    
+
                     if (!$ProcedurePackages['min_quantity']) {
                         $ProcedurePackages['min_quantity'] = 1;
                     }
@@ -381,7 +387,6 @@ class BillingPadController extends Controller
                         break;
                     }
                 }
-
             }
             $Authsresponse = Authorization::select('authorization.*')
                 ->with(

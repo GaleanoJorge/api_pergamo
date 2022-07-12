@@ -450,15 +450,6 @@
         "show_menu": "1"
     },
     {
-        "id": "95",
-        "item_parent_id": "91",
-        "name": "Unidad de consumo",
-        "code": "consumption-unit",
-        "route": "/pages/setting/consumption-unit",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "96",
         "item_parent_id": "91",
         "name": "Grupo del producto",
@@ -531,18 +522,9 @@
         "show_menu": "1"
     },
     {
-        "id": "107",
-        "item_parent_id": "89",
-        "name": "Riesgo",
-        "code": "risk",
-        "route": "/pages/setting/risk",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "108",
         "item_parent_id": "89",
-        "name": "Producto",
+        "name": "Producto comercial",
         "code": "product",
         "route": "/pages/setting/product",
         "icon": "",
@@ -1256,7 +1238,7 @@
         "name": "Nombre del producto",
         "code": "nom-product",
         "route": "/pages/setting/nom-product",
-        "icon": "people-outline",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1370,9 +1352,36 @@
     {
         "id": "202",
         "item_parent_id": "102",
-        "name": "Prestamos",
-        "code": "fixed-loan",
-        "route": "/pages/setting/fixed-loan",
+        "name": "Solicitar activos fijos",
+        "code": "fixed-request",
+        "route": "/pages/setting/fixed-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "203",
+        "item_parent_id": "102",
+        "name": "Solicitudes de activos",
+        "code": "fixed-access-requests",
+        "route": "/pages/setting/fixed-access-requests",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "208",
+        "item_parent_id": "91",
+        "name": "Insumo generico",
+        "code": "product-supplies",
+        "route": "/pages/setting/product-supplies",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "209",
+        "item_parent_id": "89",
+        "name": "Insumo comercial",
+        "code": "supplies-comm",
+        "route": "/pages/setting/supplies-comm",
         "icon": "",
         "show_menu": "1"
     },
@@ -1409,6 +1418,24 @@
         "name": "Rete ICA",
         "code": "municipality-ica",
         "route": "/pages/setting/municipality-ica",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "210",
+        "item_parent_id": "169",
+        "name": "Solicitar a compras",
+        "code": "billing-request-pharmacy",
+        "route": "/pages/setting/billing-request-pharmacy",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "211",
+        "item_parent_id": "183",
+        "name": "Rentabilidad",
+        "code": "rentability",
+        "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
     }

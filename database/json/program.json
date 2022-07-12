@@ -31,94 +31,81 @@
     },
     {
         "id":7,
-        "name": "Ventilado",
+        "name": "VENTILADO",
         "scope_of_attention_id":3
     },
     {
         "id":8,
-        "name": "No Ventilado",
+        "name": "NO VENTILADO",
         "scope_of_attention_id":3
     },
     {
         "id":9,
-        "name": "Antibioticoterapia",
+        "name": "PUNTUAL",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":10,
-        "name": "Antibioticoterapia - Clínica De Heridas",
+        "name": "APLICACIÓN DE MEDICAMENTO",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":11,
-        "name": "Aplicación De Medicamento",
+        "name": "DESTETE DE OXIGENO",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":12,
-        "name": "Clínica De Heridas",
+        "name": "MIXTO",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":13,
-        "name": "Consulta",
+        "name": "SALUD TOTAL PAC",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":14,
-        "name": "Destete De Oxigeno",
+        "name": "PROGRAMA HL REHAB",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":15,
-        "name": "Hl Rehab",
+        "name": "SEGUROS DE VIDA",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":16,
-        "name": "Mixto",
+        "name": "SANITAS PREMIUM",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":17,
-        "name": "Pac Salud Total",
+        "name": "APLICACIÓN DE BIOLOGICO",
         "scope_of_attention_id":4
     },
     {
         "id":18,
-        "name": "Puntual",
+        "name": "PPL",
         "scope_of_attention_id":4
     }
     ,
     {
         "id":19,
-        "name": "Rehabilitación",
+        "name": "SIGMA",
         "scope_of_attention_id":4
     },
     {
         "id":20,
-        "name": "Rehabilitación - Clínica De Heridas",
+        "name": "ARL",
         "scope_of_attention_id":4
     }
-    ,
-    {
-        "id":21,
-        "name": "Salud Total Pac",
-        "scope_of_attention_id":4
-    }
-    ,
-    {
-        "id":22,
-        "name": "Plan atención complementario",
-        "scope_of_attention_id":4
-    }
-
 ]  

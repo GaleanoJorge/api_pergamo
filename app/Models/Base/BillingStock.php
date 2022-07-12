@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\Billing;
 use App\Models\Product;
+use App\Models\ProductSuppliesCom;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +18,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id 
  * @property string $amount 
  * @property string $amount_unit 
+ * @property string $amount_provitional 
+ * @property string $iva 
  * @property BigInteger $product_id
+ * @property BigInteger $product_supplies_com_id
  * @property BigInteger $billing_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -36,5 +40,9 @@ class BillingStock extends Model
 	public function billing()
 	{
 		return $this->belongsTo(Billing::class);
+	}
+	public function product_supplies_com()
+	{
+		return $this->belongsTo(ProductSuppliesCom::class);
 	}
 }
