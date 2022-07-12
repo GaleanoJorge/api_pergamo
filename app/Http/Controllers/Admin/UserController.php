@@ -316,8 +316,8 @@ class UserController extends Controller
             $first = true;
             foreach ($roles as $role) {
                 if ($role->role_id == 14) {
-                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first()->specialty_id;
-                    $query->where('assistance_special.specialty_id', $specialty);
+                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                    $query->where('assistance_special.specialty_id', $specialty->specialty_id);
                 } else {
                     if ($first) {
                         $query->where('user_role.role_id', $role->role_id);
