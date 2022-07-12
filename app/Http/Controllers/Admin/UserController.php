@@ -306,9 +306,9 @@ class UserController extends Controller
             'assistance.id AS assistance_id',
             'users.id'
         )
-            ->Join('user_role', 'users.id', 'user_role.user_id')
-            ->Join('assistance', 'users.id', 'assistance.user_id')
-            ->Join('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+            ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+            ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+            ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
             ->where('users.status_id', 1)
             ->groupBy('users.id');
 
