@@ -661,7 +661,11 @@ class BillingPadController extends Controller
 
         $totalToPay = $this->NumToLetters($BillingPad[0]['billing_total_value']);
 
-        $file = [
+
+
+        $file = [];
+
+        $file_no_pgp = [
             'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
@@ -677,6 +681,21 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['identification_type'] . ';' . 
 1;Atencion (visita) domiciliaria, por fisioterapia;999;890111.;94;;;;8;28723;229784;0;0;229784;0;0;01
 2;Atencion (visita) domiciliaria, por foniatria y fonoaudiologia;999;890110;94;;;;8;28723;229784;0;0;229784;0;0;01
 3;Atencion (visita) domiciliaria, por terapia ocupacional;999;890113;94;;;;8;28723;229784;0;0;229784;0;0;01',
+        ];
+
+        $file_pgp = [
+            'BOG34705;;FA;01;10;;COP;2022-06-08 16:15:47;;;;;BOG3;;2022-07-08 16:15:47;;;;;;;;Av cra. 68 No. 13-73 Piso 1 barrio Granjas de Techo;11;11001;;11001;CO;
+;;;
+900900122-7;;;;;;;;;;;;;;;;;;;
+900226715-3;31;48;COOSALUD EPS S.A.;;;;1;transversal 11 n 10-64  Tunja- Belarcazar;15;15001;;15001;7408898;notificacionesjudiciales@coosalud.com;CO;24667804;O-13;03|05|07;8430|6521
+28779320;0;0;;0;28779320;28779320
+28779320;0;0;01
+;;;
+A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A; VEINTE  Y  OCHO  MILLONES  SETECIENTOS  SETENTA  Y  NUEVE  MIL  TRESCIENTOS  VEINTE  PESOS M CTE;10;A;;11;A;DIEGO LAGOS;12
+2;1;;;;2022-07-08 16:15:47
+;;;
+
+1;PRESUPUESTO GLOBAL AJUSTADO A CONDICIÓN MÉDICA SALUD MENTAL - REGIMEN SUBSIDIADO - REGIONAL BOGOTÁ;999;1 SUBSIDIADO;94;;;;1;28779320;28779320;0;0;28779320;0;0;01',
         ];
 
         $name = 'billings_pad/billings_pad.dat';
@@ -699,5 +718,9 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['identification_type'] . ';' . 
     public function nameBuilder($fn, $sn, $ln, $sln): string
     {
         return $fn . ' ' . '' . $sn . ($sn ? ' ' : '') . '' . $ln . '' . ($sln ? ' ' : '') . $sln;
+    }
+
+    public function getDocTipe(): int {
+        return 8;
     }
 }
