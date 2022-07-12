@@ -17,7 +17,7 @@ class TlTherapyLanguageRegularController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::select();
+        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::with('diagnosis',);
 
         if ($request->_sort) {
             $TlTherapyLanguageRegular->orderBy($request->_sort, $request->_order);
@@ -55,7 +55,7 @@ class TlTherapyLanguageRegularController extends Controller
     {
         
        
-        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::with('tl_therapy_language') ->where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $TlTherapyLanguageRegular = TlTherapyLanguageRegular::with('diagnosis') ->where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 
@@ -70,7 +70,7 @@ class TlTherapyLanguageRegularController extends Controller
     public function store(Request $request): JsonResponse
     {
         $TlTherapyLanguageRegular = new TlTherapyLanguageRegular;
-        $TlTherapyLanguageRegular->tl_therapy_language_id = $request->tl_therapy_language_id;
+        $TlTherapyLanguageRegular->diagnosis_id = $request->diagnosis_id;
         $TlTherapyLanguageRegular->status_patient = $request->status_patient;
         $TlTherapyLanguageRegular->type_record_id = $request->type_record_id;
         $TlTherapyLanguageRegular->ch_record_id = $request->ch_record_id;
@@ -110,7 +110,7 @@ class TlTherapyLanguageRegularController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $TlTherapyLanguageRegular = TlTherapyLanguageRegular::find($id);
-        $TlTherapyLanguageRegular->tl_therapy_language_id = $request->tl_therapy_language_id;
+        $TlTherapyLanguageRegular->diagnosis_id = $request->diagnosis_id;
         $TlTherapyLanguageRegular->status_patient = $request->status_patient;
         $TlTherapyLanguageRegular->type_record_id = $request->type_record_id;
         $TlTherapyLanguageRegular->ch_record_id = $request->ch_record_id;

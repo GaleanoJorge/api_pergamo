@@ -10,8 +10,10 @@ class ChRtInspection extends BaseChRtInspection
   protected $fillable = [
     'expansion',
     'masses',
+    'detail_masses',
     'crepitations',
     'fracturues',
+    'detail_fracturues',
     'airway',
     'pain',
     'type_record_id',

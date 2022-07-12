@@ -17,7 +17,7 @@ class CreateChInterconsultationTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('specialty_id');
             $table->integer('amount');
-            $table->unsignedBigInteger('hourly_frequency_id')->nullable();
+            $table->unsignedTinyInteger('frequency_id');
             $table->string('observations');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
@@ -27,9 +27,9 @@ class CreateChInterconsultationTable extends Migration
             $table->foreign('specialty_id')->references('id')
                 ->on('specialty');
 
-            $table->index('hourly_frequency_id');
-            $table->foreign('hourly_frequency_id')->references('id')
-                ->on('hourly_frequency');
+            $table->index('frequency_id');
+            $table->foreign('frequency_id')->references('id')
+                ->on('frequency');
 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')

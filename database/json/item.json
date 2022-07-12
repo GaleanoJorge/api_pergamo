@@ -1429,5 +1429,14 @@
         "route": "/pages/setting/billing-request-pharmacy",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "211",
+        "item_parent_id": "183",
+        "name": "Rentabilidad",
+        "code": "rentability",
+        "route": "/pages/setting/tc-rentability",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

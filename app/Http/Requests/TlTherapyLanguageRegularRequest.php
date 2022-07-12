@@ -25,8 +25,8 @@ class TlTherapyLanguageRegularRequest extends FormRequest
     {
         return [
         
-            'type_record_id' => '',
-            'ch_record_id' => '',
+            'type_record_id' => 'required',
+            'ch_record_id' => 'required',
         ];
     }
 }

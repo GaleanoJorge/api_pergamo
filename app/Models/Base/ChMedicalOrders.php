@@ -8,7 +8,8 @@ namespace App\Models\Base;
 
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
-use App\Models\HourlyFrequency;
+use App\Models\Frequency;
+
 use App\Models\Procedure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ambulatory_medical_order
  * @property BigInteger $procedure_id
  * @property Integer $amount
- * @property BigInteger $hourly_frequency_id
+ * @property TinyInteger $frequency_id
  * @property string $observations
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
@@ -39,9 +40,9 @@ class ChMedicalOrders extends Model
 	{
 		return $this->belongsTo(Procedure::class);
 	}
-	public function hourly_frequency()
+	public function frequency()
 	{
-		return $this->belongsTo(HourlyFrequency::class);
+		return $this->belongsTo(Frequency::class);
 	}
 	public function type_record()
 	{

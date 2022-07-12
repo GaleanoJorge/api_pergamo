@@ -26,6 +26,10 @@ class ChRespiratoryTherapyController extends Controller
         if ($request->search) {
             $ChRespiratoryTherapy->where('name', 'like', '%' . $request->search . '%');
         }
+        
+        if ($request->ch_record_id) {
+            $ChRespiratoryTherapy->where('ch_record_id', $request->ch_record_id);
+        }
 
         if ($request->query("pagination", true) == "false") {
             $ChRespiratoryTherapy = $ChRespiratoryTherapy->get()->toArray();
@@ -54,7 +58,7 @@ class ChRespiratoryTherapyController extends Controller
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
         $ChRespiratoryTherapy = ChRespiratoryTherapy::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->with('diagnosis','ch_background','ch_gynecologists') ->get()->toArray();
+        ->with('medical_diagnosis') ->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico obtenido exitosamente',
@@ -65,18 +69,15 @@ class ChRespiratoryTherapyController extends Controller
     public function store(Request $request): JsonResponse
     {
         if($request->ch_respiratory_therapy_class_id==1){
-        $validate=ChRespiratoryTherapy::where('ch_record_id', $request->ch_record_id)->where('medical_diagnosis_id',$request->medical_diagnosis_id,'ch_background_id',$request->ch_background_id,
-        'ch_gynecologists_id',$request->ch_gynecologists_id)->first();
+        $validate=ChRespiratoryTherapy::where('ch_record_id', $request->ch_record_id)->where('medical_diagnosis_id',$request->medical_diagnosis_id)->first();
         }else{
             $validate=null;
         }
         if(!$validate){
         $ChRespiratoryTherapy = new ChRespiratoryTherapy;
         $ChRespiratoryTherapy->medical_diagnosis_id = $request->medical_diagnosis_id;
-        $ChRespiratoryTherapy->therapeutic_diagnosis_id = $request->therapeutic_diagnosis_id;
+        $ChRespiratoryTherapy->therapeutic_diagnosis = $request->therapeutic_diagnosis;
         $ChRespiratoryTherapy->reason_consultation = $request->reason_consultation;
-        $ChRespiratoryTherapy->ch_background_id = $request->ch_background_id;
-        $ChRespiratoryTherapy->ch_gynecologists_id = $request->ch_gynecologists_id;
         $ChRespiratoryTherapy->type_record_id = $request->type_record_id;
         $ChRespiratoryTherapy->ch_record_id = $request->ch_record_id;
         $ChRespiratoryTherapy->save();
@@ -122,10 +123,8 @@ class ChRespiratoryTherapyController extends Controller
     {
         $ChRespiratoryTherapy = ChRespiratoryTherapy::find($id);
         $ChRespiratoryTherapy->medical_diagnosis_id = $request->medical_diagnosis_id;
-        $ChRespiratoryTherapy->therapeutic_diagnosis_id = $request->therapeutic_diagnosis_id;
+        $ChRespiratoryTherapy->therapeutic_diagnosis = $request->therapeutic_diagnosis;
         $ChRespiratoryTherapy->reason_consultation = $request->reason_consultation;
-        $ChRespiratoryTherapy->ch_background_id = $request->ch_background_id;
-        $ChRespiratoryTherapy->ch_gynecologists_id = $request->ch_gynecologists_id;
         $ChRespiratoryTherapy->type_record_id = $request->type_record_id;
         $ChRespiratoryTherapy->ch_record_id = $request->ch_record_id;
         $ChRespiratoryTherapy->save();

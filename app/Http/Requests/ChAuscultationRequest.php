@@ -25,13 +25,19 @@ class ChAuscultationRequest extends FormRequest
     {
         return [
             'murmur' => '',
+            'obs_murmur' => '',
             'crepits' => '',
+            'obs_crepits' => '',
             'rales' => '',
+            'obs_rales' => '',
             'stridor' => '',
+            'obs_stridor' => '',
             'pleural' => '',
+            'obs_pleural' => '',
             'roncus' => '',
+            'obs_roncus' => '',
             'wheezing' => '',
-            'observation' => '',
+            'obs_wheezing' => '',
             'type_record_id' => '',
             'ch_record_id' => ''
         ];

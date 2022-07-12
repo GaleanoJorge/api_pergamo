@@ -13,6 +13,7 @@ class ChDiagnosticAids extends BaseChDiagnosticAids
     'gases',
     'polysomnography',
     'other',
+    'none',
     'observation',
     'type_record_id',
     'ch_record_id',

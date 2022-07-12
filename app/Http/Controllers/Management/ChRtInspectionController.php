@@ -19,6 +19,10 @@ class ChRtInspectionController extends Controller
     {
         $ChRtInspection = ChRtInspection::select();
 
+        if ($request->ch_record_id) {
+            $ChRtInspection->where('ch_record_id', $request->ch_record_id);
+        }
+
         if ($request->_sort) {
             $ChRtInspection->orderBy($request->_sort, $request->_order);
         }
@@ -74,8 +78,10 @@ class ChRtInspectionController extends Controller
         $ChRtInspection = new ChRtInspection;
         $ChRtInspection->expansion = $request->expansion;
         $ChRtInspection->masses = $request->masses;
+        $ChRtInspection->detail_masses = $request->detail_masses;
         $ChRtInspection->crepitations = $request->crepitations;
         $ChRtInspection->fracturues = $request->fracturues;
+        $ChRtInspection->detail_fracturues = $request->detail_fracturues;
         $ChRtInspection->airway = $request->airway;
         $ChRtInspection->pain = $request->pain;
         $ChRtInspection->type_record_id = $request->type_record_id;
@@ -124,8 +130,10 @@ class ChRtInspectionController extends Controller
         $ChRtInspection = ChRtInspection::find($id);
         $ChRtInspection->expansion = $request->expansion;
         $ChRtInspection->masses = $request->masses;
+        $ChRtInspection->detail_masses = $request->detail_masses;
         $ChRtInspection->crepitations = $request->crepitations;
         $ChRtInspection->fracturues = $request->fracturues;
+        $ChRtInspection->detail_fracturues = $request->detail_fracturues;
         $ChRtInspection->airway = $request->airway;
         $ChRtInspection->pain = $request->pain;
         $ChRtInspection->type_record_id = $request->type_record_id;

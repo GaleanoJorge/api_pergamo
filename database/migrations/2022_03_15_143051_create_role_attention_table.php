@@ -16,14 +16,18 @@ class CreateRoleAttentionTable extends Migration
         Schema::create('role_attention', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedSmallInteger('role_id');
+            $table->unsignedBigInteger('specialty_id')->nullable();
             $table->unsignedTinyInteger('type_of_attention_id');
             $table->timestamps();
 
             $table->index('role_id');
+            $table->index('specialty_id');
             $table->index('type_of_attention_id');
 
             $table->foreign('role_id')->references('id')
                 ->on('role');
+            $table->foreign('specialty_id')->references('id')
+                ->on('specialty');
             $table->foreign('type_of_attention_id')->references('id')
                 ->on('type_of_attention');
         });

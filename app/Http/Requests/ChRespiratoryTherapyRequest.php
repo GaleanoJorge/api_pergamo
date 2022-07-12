@@ -25,10 +25,8 @@ class ChRespiratoryTherapyRequest extends FormRequest
     {
         return [
             'medical_diagnosis_id' => '',
-            'therapeutic_diagnosis_id' => '',
+            'therapeutic_diagnosis' => '',
             'reason_consultation' => '',
-            'ch_background_id' => '',
-            'ch_gynecologists_id' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

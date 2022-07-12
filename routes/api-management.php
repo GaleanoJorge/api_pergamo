@@ -65,7 +65,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ch RespiratoryTherapy
     Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
+    Route::get('ch_respiratory_therapy/by_record/{id}/{type_record_id}', 'Management\ChRespiratoryTherapyController@getByRecord');
     Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
+    Route::apiResource('ch_signs', 'Management\ChSignsController');
     Route::apiResource('ch_ass_signs', 'Management\ChAssSignsController');
     Route::apiResource('ch_ass_pattern', 'Management\ChAssPatternController');
     Route::apiResource('ch_ass_swing', 'Management\ChAssSwingController');
@@ -84,7 +86,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
     Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
-
+    Route::apiResource('ch_supplies_therapy', 'Management\ChSuppliesTherapyController');
+    Route::get('ch_supplies_therapy/by_record/{id}/{type_record_id}', 'Management\ChSuppliesTherapyController@getByRecord');
+                        
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -944,6 +948,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_physical_exam', 'Management\ChPhysicalExamController');
     Route::apiResource('ch_system_exam', 'Management\ChSystemExamController');
     Route::apiResource('ch_background', 'Management\ChBackgroundController');
+    Route::apiResource('ch_gynecologists', 'Management\ChGynecologistsController');
+    Route::get('ch_gynecologists/by_record/{id}/{type_record_id}', 'Management\ChGynecologistsController@getByRecord');
 
     Route::get('ch_physical_exam/by_record/{id}/{type_record_id}', 'Management\ChPhysicalExamController@getByRecord');
     Route::get('ch_system_exam/by_record/{id}/{type_record_id}', 'Management\ChSystemExamController@getByRecord');
@@ -1223,9 +1229,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_tc', 'Management\BillingTcController');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
+    Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
+    Route::post('rentability_tc/file', 'Management\RentabilityTcController@import');
 
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
@@ -1258,10 +1266,30 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
     Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
     Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
+    Route::apiResource('ch_ostomies', 'Management\ChOstomiesController');
+    Route::get('ch_ostomies/by_record/{id}/{type_record_id}', 'Management\ChOstomiesController@getByRecord');
+    //Tablas Incapacidad y Certificado Medico
+    Route::apiResource('ch_contingency_code', 'Management\ChContingencyCodeController');
+    Route::get('ch_contingency_code/by_record/{id}/{type_record_id}', 'Management\ChContingencyCodeController@getByRecord');
+    
+    Route::apiResource('ch_type_inability', 'Management\ChTypeInabilityController');
+    Route::get('ch_type_inability/by_record/{id}/{type_record_id}', 'Management\ChTypeInabilityController@getByRecord');
 
+    Route::apiResource('ch_type_procedure', 'Management\ChTypeProcedureController');
+    Route::get('ch_type_procedure/by_record/{id}/{type_record_id}', 'Management\ChTypeProcedureController@getByRecord');
+
+    Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
+    Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
+
+    Route::apiResource('ch_inability', 'Management\ChInabilityController');
+    Route::get('ch_inability/by_record/{id}/{type_record_id}', 'Management\ChInabilityController@getByRecord');
+
+    Route::apiResource('ch_medical_certificate', 'Management\ChMedicalCertificateController');
+    Route::get('ch_medical_certificate/by_record/{id}/{type_record_id}', 'Management\ChMedicalCertificateController@getByRecord');
+    
     //Tablas de Terapia de Lenguaje
     Route::apiResource('cif_diagnosis_tl', 'Management\CifDiagnosisTlController');
-    Route::get('cif_diagnosis_tl/by_record/{id}/{type_record_id}', 'Management\CifDiagnosisTlController@getByRecord');
+ //CCC   Route::get('cif_diagnosis_tl/by_record/{id}/{type_record_id}', 'Management\CifDiagnosisTlController@getByRecord');
 
     Route::apiResource('cognitive_tl', 'Management\CognitiveTlController');
     Route::get('cognitive_tl/by_record/{id}/{type_record_id}', 'Management\CognitiveTlController@getByRecord');
@@ -1317,7 +1345,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ostomias 
     Route::apiResource('ostomy', 'Management\OstomyController');
-
+  
     //posiciones del paciente 
     Route::apiResource('patient_position', 'Management\PatientPositionController');
 

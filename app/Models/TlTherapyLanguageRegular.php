@@ -8,7 +8,7 @@ use App\Models\Base\TlTherapyLanguageRegular as BaseTlTherapyLanguageRegular;
 class TlTherapyLanguageRegular extends BaseTlTherapyLanguageRegular
 {
   protected $fillable = [
-    'tl_therapy_language_id',
+    'diagnosis_id',
     'status_patient',
     'type_record_id',
     'ch_record_id',

@@ -8,7 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
-use App\Models\TlTherapyLanguageRegular as ModelsTlTherapyLanguageRegular;
+use App\Models\Diagnosis;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,9 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class TlTherapyLanguageRegular
  * 
  * @property int $id
- * @property BigInteger $tl_therapy_language_id
+ * @property BigInteger $diagnosis_id
  * @property string $status_patient
- 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -32,9 +31,9 @@ class TlTherapyLanguageRegular extends Model
 	protected $table = 'tl_therapy_language_regular';
 
 
-	public function tl_therapy_language()
+	public function diagnosis()
 	{
-		return $this->belongsTo(ModelsTlTherapyLanguageRegular::class, 'medical_diagnostic_id' );
+		return $this->belongsTo(Diagnosis::class);
 	}
 
 	public function type_record()

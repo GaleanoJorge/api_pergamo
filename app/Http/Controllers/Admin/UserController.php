@@ -66,6 +66,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
+use App\Models\RoleAttention;
+use App\Models\TalentHumanLog;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -303,18 +305,29 @@ class UserController extends Controller
         $users = User::select(
             'assistance.id AS assistance_id',
             'users.id'
-        )->Join('user_role', 'users.id', 'user_role.user_id')
-            ->Join('assistance', 'users.id', 'assistance.user_id');
+        )
+            ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+            ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+            ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+            ->where('users.status_id', 1)
+            ->groupBy('users.id');
 
-        $first = true;
-        foreach ($roles as $role) {
-            if ($first) {
-                $users->where('user_role.role_id', $role->role_id);
-                $first = false;
-            } else {
-                $users->orWhere('user_role.role_id', $role->role_id);
+        $users->where(function ($query) use ($request, $roles) {
+            $first = true;
+            foreach ($roles as $role) {
+                if ($role->role_id == 14) {
+                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                    $query->where('assistance_special.specialty_id', $specialty->specialty_id);
+                } else {
+                    if ($first) {
+                        $query->where('user_role.role_id', $role->role_id);
+                        $first = false;
+                    } else {
+                        $query->orWhere('user_role.role_id', $role->role_id);
+                    }
+                }
             }
-        }
+        });
 
         $users = $users->get()->toArray();
 
@@ -358,7 +371,7 @@ class UserController extends Controller
                                     'user_role.role',
                                     'assistance'
                                 )->orderBy('nombre_completo', 'DESC')->groupBy('id');
-    
+
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
                             $usersfinal = array();
@@ -394,7 +407,7 @@ class UserController extends Controller
                                     'user_role.role',
                                     'assistance'
                                 )->orderBy('nombre_completo', 'DESC')->groupBy('id');
-    
+
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
                             $usersfinal = array();
@@ -716,9 +729,8 @@ class UserController extends Controller
             'user_role',
             'user_role.role'
         )
-        ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
-        ->orderBy('users.id', 'asc');
-        ;
+            ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
+            ->orderBy('users.id', 'asc');;
 
         if ($roleId > 0) {
             $users->Join('user_role', 'users.id', 'user_role.user_id');
@@ -815,25 +827,28 @@ class UserController extends Controller
                 $user->force_reset_password = 1;
                 $user->save();
 
+                $THLog = new TalentHumanLog;
+                $THLog->talent_human_user_id = $request->own_user;
+                $THLog->user_id = $user->id;
+                $THLog->talent_human_action_id = 1;
+                $THLog->save();
 
-                if($request->campus_id){
+                if ($request->campus_id) {
                     $arraycampus = json_decode($request->campus_id);
-              
-                    foreach ($arraycampus as $item) {                
+
+                    foreach ($arraycampus as $item) {
                         $userCampus = new UserCampus;
                         $userCampus->user_id = $user->id;
                         $userCampus->campus_id = $item->campus_id;
                         $userCampus->save();
-                
                     }
                 }
 
 
-                if($request->isTH){
-                    $HumanTalentRequest= HumanTalentRequest::find($request->isTH);
-                    $HumanTalentRequest->status='Aprobado';
+                if ($request->isTH) {
+                    $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
+                    $HumanTalentRequest->status = 'Aprobado';
                     $HumanTalentRequest->save();
-
                 }
 
                 $RoleType = Role::where('id', $role)->get()->toArray();
@@ -860,7 +875,7 @@ class UserController extends Controller
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
-                 
+
                     $id = Assistance::latest('id')->first();
                     $array = json_decode($request->localities_id);
                     foreach ($array as $item) {
@@ -960,6 +975,12 @@ class UserController extends Controller
                 $user->file = $path;
             }
             $user->save();
+
+            $THLog = new TalentHumanLog;
+            $THLog->talent_human_user_id = $request->own_user;
+            $THLog->user_id = $user->id;
+            $THLog->talent_human_action_id = 1;
+            $THLog->save();
 
             $RoleType = Role::where('id', $role)->get()->toArray();
             if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
@@ -1150,18 +1171,17 @@ class UserController extends Controller
         $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         $user->age = $request->age;
 
-        if($request->campus_id){
-            $deleteusers=UserCampus::where('user_id', $id);
+        if ($request->campus_id) {
+            $deleteusers = UserCampus::where('user_id', $id);
             $deleteusers->delete();
             $arraycampus = json_decode($request->campus_id);
-      
+
             foreach ($arraycampus as $item) {
-        
+
                 $userCampus = new UserCampus;
                 $userCampus->user_id = $id;
                 $userCampus->campus_id = $item->campus_id;
                 $userCampus->save();
-        
             }
         }
         if ($request->file('file')) {
@@ -1183,10 +1203,16 @@ class UserController extends Controller
         }
         $user->save();
 
+        $THLog = new TalentHumanLog;
+        $THLog->talent_human_user_id = $request->own_user;
+        $THLog->user_id = $user->id;
+        $THLog->talent_human_action_id = 2;
+        $THLog->save();
+
         $RoleType = Role::where('id', $role)->get()->toArray();
         if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
-            $assistance_id = Assistance::select('id')->where('user_id',$id)->get()->toArray();
-            $assistance=Assistance::find($assistance_id[0]['id']);
+            $assistance_id = Assistance::select('id')->where('user_id', $id)->get()->toArray();
+            $assistance = Assistance::find($assistance_id[0]['id']);
             $assistance->medical_record = $request->medical_record;
             $assistance->contract_type_id = $request->contract_type_id;
             $assistance->cost_center_id = $request->cost_center_id;
@@ -1375,15 +1401,21 @@ class UserController extends Controller
     }
 
 
-    public function changeStatus(int $id): JsonResponse
+    public function changeStatus(Request $request, int $id): JsonResponse
     {
         $user = User::find($id);
         $status_id = User::where('id', $id)->get()->first()->status_id;
+        $THLog = new TalentHumanLog;
+        $THLog->talent_human_user_id = $request->own_user;
+        $THLog->user_id = $user->id;
         if ($status_id == 1) {
             $user->status_id = 2;
+            $THLog->talent_human_action_id = 4;
         } else {
             $user->status_id = 1;
+            $THLog->talent_human_action_id = 3;
         }
+        $THLog->save();
         $user->save();
 
         return response()->json([
