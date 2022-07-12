@@ -90,7 +90,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
                 $this->call(ResidenceSeeder::class);
-                $this->call(RoleAttentionSeeder::class);
                 
                 //dietas
                 $this->call(DietComponentSeeder::class);
@@ -109,6 +108,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeProfessionalSeeder::class);
                 $this->call(SpecialtySeeder::class);
                 $this->call(TariffSeeder::class);
+                $this->call(RoleAttentionSeeder::class);
 
                 //Terceros Asistenciales
                 $this->call(BankSeeder::class);
