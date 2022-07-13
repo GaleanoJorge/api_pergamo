@@ -17,9 +17,11 @@ class CampusSeeder extends Seeder
         foreach (json_decode($data) as $row) {
             //print_r($row);
             Campus::create([
-                'name' => $row -> name,
-                'region_id' => $row ->region_id,
-                'municipality_id' => $row ->municipality_id,
+                'name' => $row->name,
+                'address' => $row->address,
+                'enable_code' => $row->enable_code,
+                'region_id' => $row->region_id,
+                'municipality_id' => $row->municipality_id,
             ]);
         }
     }
