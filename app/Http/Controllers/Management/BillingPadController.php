@@ -619,6 +619,7 @@ class BillingPadController extends Controller
 
         $CompanyLocationInfo = Company::where('company.id', $BillingPad[0]['eps_id'])
             ->select(
+                'company.registration AS eps_registration',
                 'region.code AS eps_departament_code',
                 'identification_type.code AS eps_identification_type',
             )
@@ -638,6 +639,8 @@ class BillingPadController extends Controller
         $payer_email = '';
         $payer_phone = '';
         $payer_address = '';
+        $payer_registration = '';
+        $payer_fiscal_characteristics = '';
         $user_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $BillingPad[0]['user_departament_code'] : $BillingPad[0]['user_departament_code']);
         $eps_name = '';
         if ($copago) {
@@ -653,6 +656,8 @@ class BillingPadController extends Controller
             $payer_departament_code = $user_departament_code;
             $payer_city_code = $BillingPad[0]['user_city_code'];
         } else {
+            $payer_registration = $CompanyLocationInfo[0]['eps_registration'];
+            $payer_fiscal_characteristics = 'O-13';
             $payer_type = '1';
             $payer_identification = $BillingPad[0]['eps_identification'];
             $payer_identification_type = $this->getDocTipe($CompanyLocationInfo[0]['eps_identification_type']);
@@ -710,13 +715,13 @@ class BillingPadController extends Controller
 
 
 
-        // FACTURAS PGP
+        // FACTURAS NO PGP
 
         $file_no_pgp = [
             'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
-' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;;;;
+' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
@@ -733,10 +738,10 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['patient_identification_type'] 
         // FACTURAS PGP
 
         $file_pgp = [
-            'BOG34705;;FA;01;10;;COP;2022-06-08 16:15:47;;;;;BOG3;;2022-07-08 16:15:47;;;;;;;;Av cra. 68 No. 13-73 Piso 1 barrio Granjas de Techo;11;11001;;11001;CO;
+            'BOG34705;;FA;01;10;;COP;2022-06-08 16:15:47;;;;;BOG3;;2022-07-08 16:15:47;;;;;;;;Av cra. 68 No. 13-73 Piso 1 barrio Granjas de Techo;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
-' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;;;;
+' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
@@ -813,7 +818,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A; VEINTE  Y  OCHO  MILLONES  SETEC
                 $res = $element['code'];
             }
         }
-        
+
         return $res;
     }
 }
