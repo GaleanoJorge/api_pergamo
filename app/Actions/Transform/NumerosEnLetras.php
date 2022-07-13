@@ -217,6 +217,12 @@ class NumerosEnLetras
             }
         }
 
+        $val1 = trim($valor_convertido);
+        $val2 = trim($currency);
+
+        if ($val1 == $val2) {
+            $valor_convertido = 'cero ' . $currency;
+        }
 
         if ($uppercase) {
             return strtoupper($valor_convertido);
