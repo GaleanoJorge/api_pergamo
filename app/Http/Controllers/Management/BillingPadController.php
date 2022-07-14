@@ -583,6 +583,9 @@ class BillingPadController extends Controller
                 'patients.residence_address AS residence_address',
                 'patients.email AS email',
                 'patients.phone AS phone',
+                'campus.address AS patient_admission_address',
+                'campus.enable_code AS patient_admission_enable_code',
+                'briefcase.name AS briefcase_name',
                 'municipality.sga_origin_fk AS user_city_code',
                 'region.code AS user_departament_code',
                 'identification_type.code AS patient_identification_type',
@@ -596,6 +599,7 @@ class BillingPadController extends Controller
             )
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
+            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
             ->leftJoin('region', 'region.id', 'campus.region_id')
             ->leftJoin('municipality', 'municipality.id', 'campus.municipality_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
@@ -676,25 +680,84 @@ class BillingPadController extends Controller
 
         $consecutivo = 1;
         $billing_line = '';
+        $assistance_name = '';
+        $services_date = array();
         $components = AuthBillingPad::where('billing_pad_id', $id)->get()->toArray();
         foreach ($components as $component) {
             $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                 ->select(
-                    'authorization.*',
+                    'authorization.id AS authorization_id',
+                    'authorization.auth_number AS auth_number',
+                    'authorization.observation AS observation',
+                    'authorization.file_auth AS file_auth',
+                    'authorization.services_briefcase_id AS services_briefcase_id',
+                    'authorization.assigned_management_plan_id AS assigned_management_plan_id',
+                    'authorization.admissions_id AS admissions_id',
+                    'authorization.authorized_amount AS authorized_amount',
+                    'authorization.auth_status_id AS auth_status_id',
+                    'authorization.auth_package_id AS auth_package_id',
+                    'authorization.manual_price_id AS manual_price_id',
                 )
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
                     'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
-                    'manual_price.procedure'
+                    'manual_price.procedure',
                 )
                 ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+                ->groupBy('authorization.id')
                 ->get()->toArray();
+
+            if ($Auth[0]['assigned_management_plan'] != null) {
+                array_push($services_date, $Auth[0]['assigned_management_plan']['execution_date']);
+                if ($assistance_name == '') {
+                    $assistance_name = $Auth[0]['assigned_management_plan']['user']['firstname'] . ' ' . $Auth[0]['assigned_management_plan']['user']['lastname'];
+                }
+            } else {
+                $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
+                    ->select(
+                        'authorization.auth_number AS auth_number',
+                        'authorization.observation AS observation',
+                        'authorization.file_auth AS file_auth',
+                        'authorization.services_briefcase_id AS services_briefcase_id',
+                        'authorization.assigned_management_plan_id AS assigned_management_plan_id',
+                        'authorization.admissions_id AS admissions_id',
+                        'authorization.authorized_amount AS authorized_amount',
+                        'authorization.auth_status_id AS auth_status_id',
+                        'authorization.auth_package_id AS auth_package_id',
+                        'authorization.manual_price_id AS manual_price_id',
+                    )
+                    ->with(
+                        'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'services_briefcase.manual_price.procedure',
+                        'assigned_management_plan',
+                        'assigned_management_plan.user',
+                        'assigned_management_plan.management_plan',
+                        'assigned_management_plan.management_plan.service_briefcase',
+                        'assigned_management_plan.management_plan.procedure',
+                        'manual_price',
+                        'manual_price.procedure',
+                    )
+                    ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+                    ->groupBy('authorization.id')
+                    ->get()->toArray();
+                foreach ($packedAuths as $element) {
+                    $A = $element['assigned_management_plan']['execution_date'];
+                    $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+                    if ($assistance_name == '') {
+                        $assistance_name = $b;
+                    }
+                    array_push($services_date, $A);
+                }
+            }
+
 
             $value = ($Auth[0]['manual_price'] != null ? $Auth[0]['manual_price']['value'] : $Auth[0]['services_briefcase']['value']);
             $service = ($Auth[0]['assigned_management_plan'] != null ? $Auth[0]['services_briefcase']['manual_price']['procedure']['name'] : $Auth[0]['services_briefcase']['manual_price']['name']);
@@ -712,24 +775,27 @@ class BillingPadController extends Controller
 
 
         $file = [];
-
-
+        $collection = collect($services_date);
+        $sortDates = $collection->sort()->toArray();
+        $first_date = (count($sortDates) > 0 ? $sortDates[0] : '');
+        $last_date = (count($sortDates) > 0 ? $sortDates[count($sortDates) - 1] : '');
+        $now_date = Carbon::now();
 
         // FACTURAS NO PGP
 
         $file_no_pgp = [
-            'BOG479031;;FA;01;10;;COP;2022-05-06 15:36:28;;;;;BOG4;;2022-06-05 15:36:28;;;;;;;;Av cra 30 nro 12-33;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+            'BOG479031;;FA;01;10;;COP;' . $now_date . ';;;;;BOG4;;;;;;;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
 ' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;Plan1;1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;CARMEN PULIDO;5;A;;6;A;2022-04-01;7;A;2022-04-30;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
-2;1;;;;2022-06-05 15:36:28
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+2;1;;;;
 ;;;
 
-SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';04;12;01;;;;;;2022-04-01;2022-04-30;0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';04;12;01;;;;;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
         ];
 
@@ -738,15 +804,15 @@ SALUD;SS-SinAporte;1100128942;' . $BillingPad[0]['patient_identification_type'] 
         // FACTURAS PGP
 
         $file_pgp = [
-            'BOG34705;;FA;01;10;;COP;2022-06-08 16:15:47;;;;;BOG3;;2022-07-08 16:15:47;;;;;;;;Av cra. 68 No. 13-73 Piso 1 barrio Granjas de Techo;' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+            'BOG34705;;FA;01;10;;COP;' . $now_date . ';;;;;BOG3;;;;;;;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
 ' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A; VEINTE  Y  OCHO  MILLONES  SETECIENTOS  SETENTA  Y  NUEVE  MIL  TRESCIENTOS  VEINTE  PESOS M CTE;10;A;;11;A;DIEGO LAGOS;12
-2;1;;;;2022-07-08 16:15:47
+A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+2;1;;;;
 ;;;
 
 1;PRESUPUESTO GLOBAL AJUSTADO A CONDICIÓN MÉDICA SALUD MENTAL - REGIMEN SUBSIDIADO - REGIONAL BOGOTÁ;999;1 SUBSIDIADO;94;;;;1;28779320;28779320;0;0;28779320;0;0;01',
