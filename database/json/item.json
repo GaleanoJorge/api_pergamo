@@ -1438,5 +1438,14 @@
         "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "212",
+        "item_parent_id": "66",
+        "name": "Mi inventario",
+        "code": "assistance-stock",
+        "route": "/pages/setting/assistance-stock",
+        "icon": null,
+        "show_menu": "1"
     }
 ]
