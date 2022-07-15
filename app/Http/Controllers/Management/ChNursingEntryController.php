@@ -52,6 +52,7 @@ class ChNursingEntryController extends Controller
         if (!$validate) {
             $ChNursingEntry = new ChNursingEntry;
             $ChNursingEntry->patient_position_id = $request->patient_position_id;
+            $ChNursingEntry->observation_position = $request->observation_position;
             $ChNursingEntry->ostomy_id = $request->ostomy_id;
             $ChNursingEntry->observation = $request->observation;
             $ChNursingEntry->hair_revision = $request->hair_revision;
