@@ -778,7 +778,7 @@ class UserController extends Controller
     {
 
         DB::beginTransaction();
-        $validate = User::Where('identification', $request->identification);
+        $validate = User::Where('identification', $request->identification)->first();
         $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
         if ($validate) {
             if ($validate_wrong_user) {
@@ -1009,7 +1009,8 @@ class UserController extends Controller
 
                 $id = Assistance::latest('id')->first();
 
-                foreach ($request->localities_id as $item) {
+                
+                foreach (json_decode($request->localities_id) as $item) {
                     $BaseLocationCapacity = new BaseLocationCapacity();
                     $BaseLocationCapacity->locality_id = $item->locality_id;
                     $BaseLocationCapacity->assistance_id = $id->id;
