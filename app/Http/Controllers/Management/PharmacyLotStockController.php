@@ -22,22 +22,22 @@ class PharmacyLotStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyLotStock = PharmacyLotStock::with(
-            'pharmacy_lot',
-            'billing_stock',
-            'billing_stock.product',
-            'billing_stock.product.factory',
-            'billing_stock.product.product_generic',
-            'billing_stock.product_supplies_com',
-            'billing_stock.product_supplies_com.factory',
-            'billing_stock.product_supplies_com.product_supplies'
-
-        )
-            ->select('pharmacy_lot_stock.*')
+        $PharmacyLotStock = PharmacyLotStock::select('pharmacy_lot_stock.*')
             ->leftJoin('billing_stock', 'pharmacy_lot_stock.billing_stock_id', 'billing_stock.id')
             ->leftJoin('product', 'billing_stock.product_id', 'product.id')
             ->leftJoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
-            ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id');
+            ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')
+            ->with(
+                'pharmacy_lot',
+                'billing_stock',
+                'billing_stock.product',
+                'billing_stock.product.factory',
+                'billing_stock.product.product_generic',
+                'billing_stock.product_supplies_com',
+                'billing_stock.product_supplies_com.factory',
+                'billing_stock.product_supplies_com.product_supplies'
+
+            );
 
         if ($request->_sort) {
             $PharmacyLotStock->orderBy($request->_sort, $request->_order);
