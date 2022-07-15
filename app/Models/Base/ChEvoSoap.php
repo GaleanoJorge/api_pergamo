@@ -6,6 +6,8 @@
 
 namespace App\Models\Base;
 
+use App\Models\ChRecord;
+use App\Models\ChTypeRecord;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +28,13 @@ use Illuminate\Database\Eloquent\Model;
 class ChEvoSoap extends Model
 {
 	protected $table = 'ch_evo_soap';
+
+	public function type_record()
+	{
+		return $this->belongsTo(ChTypeRecord::class);
+	}
+	public function ch_record()
+	{
+		return $this->belongsTo(ChRecord::class);
+	}
 }
