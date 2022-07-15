@@ -250,6 +250,8 @@ class DatabaseSeeder extends Seeder
                 
                 //Semillas talento humano
                 $this->call(TalentHumanActionSeeder::class);
+                //
+                $this->call(SuppliesStatusSeeder::class);
           
 
 
