@@ -1388,7 +1388,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //ruta de valoracion de piel
     Route::apiResource('ch_nursing_procedure', 'Management\ChNursingProcedureController');
     Route::get('ch_nursing_procedure/by_record/{record_id}', 'Management\ChNursingProcedureController@getByRecord');
-    
+
 
     //ch nutrición
     Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
@@ -1401,4 +1401,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_background/getByPatient/{patient_id}', 'Management\ChBackgroundController@getByPatient');
     Route::get('ch_nutrition_interpretation/getAllInterpretetations/{patient_id}', 'Management\ChNutritionInterpretationController@getAllInterpretetations');
 
+    //supplies status
+    Route::apiResource('supplies_status', 'Management\SuppliesStatusController');
+
+    //Aplicaciones
+    Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
 });
