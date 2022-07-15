@@ -45,6 +45,10 @@ class BillingPadController extends Controller
             $BillingPad->where('admissions_id', $request->admission_id);
         }
 
+        if ($request->descendente) {
+            $BillingPad->orderBy('id', 'desc');
+        }
+
         if ($request->billing_pad_status_id) {
             $BillingPad->where('billing_pad_status_id', $request->billing_pad_status_id);
         }
@@ -79,6 +83,23 @@ class BillingPadController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'facturas creadas exitosamente',
+            'data' => ['billing_pad' => $BillingPad]
+        ]);
+    }
+
+    public function newBillingPad(Request $request): JsonResponse
+    {
+        $BillingPad = new BillingPad;
+        $BillingPad->total_value = 0;
+        $BillingPad->validation_date = Carbon::now();
+        $BillingPad->billing_pad_status_id = 1;
+        $BillingPad->admissions_id = $request->admissions_id;
+        $BillingPad->billing_pad_pgp_id = null;
+        $BillingPad->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'factura creadas exitosamente',
             'data' => ['billing_pad' => $BillingPad]
         ]);
     }
@@ -219,6 +240,7 @@ class BillingPadController extends Controller
                 'location.program',
             )
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('briefcase', 'briefcase.contract_id', 'contract.id')
             ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
             ->groupBy('admissions.id');
         if ($request->pgp == "true") {
@@ -230,6 +252,9 @@ class BillingPadController extends Controller
             }
         } else {
             $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
+            if ($request->briefcase_id) {
+                $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
+            }
             $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
         }
         $EnabledAdmissions->orderBy('admissions.created_at', 'desc');

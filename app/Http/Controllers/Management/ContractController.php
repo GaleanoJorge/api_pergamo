@@ -19,10 +19,10 @@ class ContractController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->company_id) {
-            $Contract = Contract::with('contract_status')->where('company_id', $request->company_id)->where('contract_status_id',1);
+            $Contract = Contract::with('contract_status', 'company')->where('company_id', $request->company_id)->where('contract_status_id',1);
         } else {
 
-            $Contract = Contract::with('contract_status');
+            $Contract = Contract::with('contract_status', 'company');
         }
 
         if ($request->_sort) {
@@ -35,6 +35,14 @@ class ContractController extends Controller
 
         if ($request->id) {
             $Contract->where('id', $request->id);
+        }
+
+        if ($request->type_contract_id) {
+            $Contract->where('type_contract_id', $request->type_contract_id);
+        }
+
+        if ($request->pgp) {
+            $Contract->where('type_contract_id', $request->pgp, 5);
         }
 
         if ($request->query("pagination", true) == "false") {
