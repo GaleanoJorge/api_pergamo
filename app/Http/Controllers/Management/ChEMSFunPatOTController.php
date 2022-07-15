@@ -20,8 +20,12 @@ class ChEMSFunPatOTController extends Controller
         $ChEMSFunPatOT = ChEMSFunPatOT::select();
 
         if($request->ch_record_id){
-            $ChEMSFunPatOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id',1);
-        }  
+            $ChEMSFunPatOT->where('ch_record_id', $request->ch_record_id);
+        }
+        
+        if($request->type_record_id){
+            $ChEMSFunPatOT->where('type_record_id', $request->type_record_id);
+        }
         
         if($request->_sort){
             $ChEMSFunPatOT->orderBy($request->_sort, $request->_order);

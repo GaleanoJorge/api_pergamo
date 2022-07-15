@@ -14,8 +14,17 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class ChEPastOT
  * 
+ * 
  * @property int $id
- * @property string $family_base
+ * //
+ * @property string $mother
+ * @property string $dad
+ * @property string $spouse
+ * @property string $sons
+ * @property string $uncles
+ * @property string $grandparents
+ * @property string $others
+ * //
  * @property string $number_childrens
  * @property string $observation_family_struct
  * @property string $academy

@@ -8,7 +8,15 @@ use App\Models\Base\ChEPastOT as BaseChEPastOT;
 class ChEPastOT extends BaseChEPastOT
 {
   protected $fillable = [
-    'family_base',
+    //
+    'mother',
+    'dad',
+    'spouse',
+    'sons',
+    'uncles',
+    'grandparents',
+    'others',
+    //
     'number_childrens',
     'observation_family_struct',
     'academy',

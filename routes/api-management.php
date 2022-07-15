@@ -1007,6 +1007,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
     Route::get('ch_r_n_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNValorationOTController@getByRecord');
+
+    Route::apiResource('ch_e_m_s_assessment_o_t', 'Management\ChEMSAssessmentOTController');
+    Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');  
+    Route::apiResource('ch_r_n_therapeutic_obj_o_t', 'Management\ChRNTherapeuticObjOTController');
+    Route::get('ch_r_n_therapeutic_obj_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNTherapeuticObjOTController@getByRecord');
+
+    Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
+    Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
+
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::apiResource('ch_e_past_o_t', 'Management\ChEPastOTController');
     Route::apiResource('ch_e_daily_activities_o_t', 'Management\ChEDailyActivitiesOTController');
@@ -1020,8 +1029,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');
     Route::apiResource('ch_e_m_s_test_o_t', 'Management\ChEMSTestOTController');
     Route::apiResource('ch_e_m_s_communication_o_t', 'Management\ChEMSCommunicationOTController');
-    Route::apiResource('ch_e_m_s_assessment_o_t', 'Management\ChEMSAssessmentOTController');
     Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
+
 
     Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
     Route::get(

@@ -5,7 +5,6 @@
  */
 
 namespace App\Models\Base;
-use App\Models\Diagnosis;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
 
@@ -13,11 +12,19 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ChBackground
+ * Class 
  * 
  * @property int $id
- * @property unsignedBigInteger $ch_diagnosis_id 
- * @property string $patient_state 
+ * @property string $check1_hold
+ * @property string $check2_improve
+ * @property string $check3_structure
+ * @property string $check4_promote
+ * @property string $check5_strengthen
+ * @property string $check6_promote_2
+ * @property string $check7_develop
+ * @property string $check8_strengthen_2
+ * @property string $check9_favor
+ * @property string $check10_functionality
 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 
@@ -27,14 +34,10 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class ChRNValorationOT extends Model
+class ChRNTherapeuticObjOT extends Model
 {
-	protected $table = 'ch_r_n_valoration_o_t';
+	protected $table = 'ch_r_n_therapeutic_obj_o_t';
 
-	public function ch_diagnosis()
-	{
-		return $this->belongsTo(Diagnosis::class);
-	}
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);

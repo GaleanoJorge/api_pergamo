@@ -15,7 +15,17 @@ class CreateChEPastOTTable extends Migration
     {
         Schema::create('ch_e_past_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('family_base');
+            //$table->string('family_base');
+            /////////////////////////////////////////
+            $table->string('mother');
+            $table->string('dad');
+            $table->string('spouse');
+            $table->string('sons');
+            $table->string('uncles');
+            $table->string('grandparents');
+            $table->string('others');
+
+            /////////////////////////////////////////
             $table->string('number_childrens');
             $table->string('observation_family_struct');
             $table->string('academy');

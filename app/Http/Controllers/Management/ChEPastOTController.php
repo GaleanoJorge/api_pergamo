@@ -79,7 +79,47 @@ class ChEPastOTController extends Controller
        
         // if(!$validate){
         $ChEPastOT = new ChEPastOT; 
-        $ChEPastOT->family_base = $request-> family_base; 
+        //$ChEPastOT->family_base = $request-> family_base; 
+        if(isset($request->family_base))
+        {
+            foreach($request->family_base as $element)
+            {
+               if($element == 'Madre')
+               {
+                 $ChEPastOT -> mother = $element;
+               }
+
+               if($element == 'Padre')
+               {
+                 $ChEPastOT -> dad = $element;
+               }
+
+               if($element == 'Conyuge')
+               {
+                 $ChEPastOT -> spouse = $element;
+               }
+
+               if($element == 'Hijos')
+               {
+                 $ChEPastOT -> sons = $element;
+               }
+
+               if($element == 'Tios')
+               {
+                 $ChEPastOT -> uncles = $element;
+               }
+
+               if($element == 'Abuelos')
+               {
+                 $ChEPastOT -> grandparents = $element;
+               }
+
+               if($element == 'Otros')
+               {
+                 $ChEPastOT -> others = $element;
+               }
+            }
+        }
         $ChEPastOT->number_childrens = $request-> number_childrens;
         $ChEPastOT->observation_family_struct = $request-> observation_family_struct;
         $ChEPastOT->academy = $request-> academy;

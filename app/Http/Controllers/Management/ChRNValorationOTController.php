@@ -17,7 +17,7 @@ class ChRNValorationOTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRNValorationOT = ChRNValorationOT::select();
+        $ChRNValorationOT = ChRNValorationOT::with('ch_diagnosis');
 
 
 //    if ($request->ch_record_id) {
@@ -59,11 +59,8 @@ class ChRNValorationOTController extends Controller
      */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-
-
         $ChRNValorationOT = ChRNValorationOT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->with('ch_diagnosis')->get()->toArray();
-
 
         return response()->json([
             'status' => true,
@@ -75,6 +72,9 @@ class ChRNValorationOTController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $validate = ChRNValorationOT::select('ch_r_n_valoration_o_t.*')->where('ch_record_id', $request->ch_record_id)
+        ->where('type_record_id', $request->type_record_id)
+        ->get()->toArray();
          $validate=ChRNValorationOT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
          if(!$validate){
         $ChRNValorationOT = new ChRNValorationOT;
@@ -95,7 +95,20 @@ class ChRNValorationOTController extends Controller
                  'message' => 'Ya tiene observación'
              ], 423);
          }
+
+
     }
+    
+
+    
+    /*
+    
+    public function refresh()
+    {
+        return $this->respondWithToken(auth($this->guard)->refresh());
+    }
+
+    */
 
 
     /**

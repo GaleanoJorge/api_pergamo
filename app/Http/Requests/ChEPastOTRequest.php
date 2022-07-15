@@ -24,7 +24,15 @@ class ChEPastOTRequest extends FormRequest
     public function rules()
     {
         return [
-            'family_base' => '',
+            //
+            'mother' => '',
+            'dad' => '',
+            'spouse' => '',
+            'sons' => '',
+            'uncles' => '',
+            'grandparents' => '',
+            'others' => '',
+            //
             'number_childrens' => '',
             'observation_family_struct' => '',
             'academy' => '',
