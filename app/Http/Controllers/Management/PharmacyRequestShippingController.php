@@ -34,6 +34,15 @@ class PharmacyRequestShippingController extends Controller
             )
             ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'pharmacy_request_shipping.pharmacy_product_request_id');
 
+        if ($request->user_id) {
+            $PharmacyRequestShipping->where('pharmacy_product_request.user_request_id', $request->user_id);
+        }
+
+        
+        if ($request->status) {
+            $PharmacyRequestShipping->where('pharmacy_product_request.status', $request->status);
+        }
+        
         if ($request->_sort) {
             $PharmacyRequestShipping->orderBy($request->_sort, $request->_order);
         }
