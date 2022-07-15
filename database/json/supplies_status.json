@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "EN POSESIÓN"
+    },
+    {
+        "id": 2,
+        "name": "USADO"
+    },
+    {
+        "id": 3,
+        "name": "DAÑADO"
+    },
+    {
+        "id": 4,
+        "name": "EN DEVOLUCIÓN"
+    },
+    {
+        "id": 4,
+        "name": "DEVUELTO"
+    }
+]
