@@ -1,21 +1,18 @@
 [
     {
-        "name": "Atípia de significado indeterminado (ASCUS)"
+        "name": "1- ASC-US (CÉLULAS ESCAMOSAS)"
     },
     {
-        "name": "Cáncer"
+        "name": "2- ASC-H (CÉLULAS ESCAMOSAS)"
     },
     {
-        "name": "Inadecuada"
+        "name": "3- LESIÓN INTRAEPITELIAL"
     },
     {
-        "name": "Lesión de bajo grado (LSIL)"
+        "name": "4- CARCINOMA DE CÉLULAS"
     },
     {
-        "name": "Lesión de alto grado (HSIL)"
-    },
-    {
-        "name": "Normal o Negativa"
+        "name": "5- NEGATIVO PARA NEOPLASIA(BIOPSIA CERVICAL)"
     }
  
 ]
