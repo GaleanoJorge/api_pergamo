@@ -26,7 +26,7 @@ class ChRNWeeklyOTRequest extends FormRequest
         return [
             'monthly_sessions' => '',
             'weekly_intensity' => '',
-            'recommendations' => '',
+            'recomendations' => '',
 
             'type_record_id' => '',
             'ch_record_id' => ''
