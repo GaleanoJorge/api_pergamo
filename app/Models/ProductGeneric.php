@@ -26,5 +26,6 @@ protected $fillable = [
 	'consignment',     
 	'dose',     
 	'product_dose_id',     
+	'multidose_concentration_id',     
 	];
 }

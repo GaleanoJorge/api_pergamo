@@ -10,6 +10,7 @@ use App\Models\ProductDose;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MeasurementUnits;
+use App\Models\MultidoseConcentration;
 use App\Models\ProductConcentration;
 
 
@@ -36,6 +37,7 @@ use App\Models\ProductConcentration;
  * @property int $maximum_stock
  * @property int $consignment
  * @property BigInteger $product_dose_id
+ * @property BigInteger $multidose_concentration_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -63,5 +65,9 @@ class ProductGeneric extends Model
 	public function product_dose()
 	{
 		return $this->belongsTo(ProductDose::class);
+	}
+	public function multidose_concentration()
+	{
+		return $this->belongsTo(MultidoseConcentration::class);
 	}
 }
