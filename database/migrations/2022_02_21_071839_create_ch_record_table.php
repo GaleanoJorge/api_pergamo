@@ -17,6 +17,7 @@
                 $table->bigIncrements('id');
                 $table->string('status');
                 $table->date('date_attention');
+                $table->string('firm_file')->nullable();
                 $table->unsignedBigInteger('admissions_id');
                 $table->unsignedBigInteger('assigned_management_plan_id');
                 $table->unsignedBigInteger('user_id');

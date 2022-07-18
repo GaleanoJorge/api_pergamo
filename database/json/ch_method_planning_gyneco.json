@@ -1,24 +1,31 @@
 [
     {
-        "name": "Anillo anticonceptivo"
+        "name": "DIU Hormonal"
     },
     {
-        "name": "Condón"
+        "name": "DIU TdeCu."
     },
     {
-        "name": "Inyección anticonceptiva"
+        "name": "(Hormonal) Implante."
     },
     {
-        "name": "Implante anticonceptivo"
+        "name": "Inyección trimestral."
     },
     {
-        "name": "Parche anticonceptivo "
+        "name": "Inyección mensual."
     },
     {
-        "name": "Píldora anticonceptiva"
+        "name": "Parche "
     },
     {
-        "name": "Sistema intrauterino"
+        "name": "Pastillas"
+    },
+    {
+        "name": "Preservativo"
+    },
+        {
+        "name": "Anillo Vaginal"
     }
  
+    
 ]

@@ -25,8 +25,6 @@ class ChRecommendationsEvoRequest extends FormRequest
     {
         return [
             'recommendations_evo_id' => '',
-            'analisys' => '',
-            'plan' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

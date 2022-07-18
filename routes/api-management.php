@@ -1289,6 +1289,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
     Route::put('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
+    Route::get('billing_pad/generateBillingDat/{id}', 'Management\BillingPadController@generateBillingDat');
+    Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
 
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
@@ -1300,8 +1302,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_medical_orders/by_record/{id}/{type_record_id}', 'Management\ChMedicalOrdersController@getByRecord');
     Route::apiResource('ch_interconsultation', 'Management\ChInterconsultationController');
     Route::get('ch_interconsultation/by_record/{id}/{type_record_id}', 'Management\ChInterconsultationController@getByRecord');
+    //Tabla Ostomias HC Medica
     Route::apiResource('ch_ostomies', 'Management\ChOstomiesController');
     Route::get('ch_ostomies/by_record/{id}/{type_record_id}', 'Management\ChOstomiesController@getByRecord');
+    //Tabla AP HC Medica
+    Route::apiResource('ch_ap', 'Management\ChApController');
+    Route::get('ch_ap/by_record/{id}/{type_record_id}', 'Management\ChApController@getByRecord');
+
+
     //Tablas Incapacidad y Certificado Medico
     Route::apiResource('ch_contingency_code', 'Management\ChContingencyCodeController');
     Route::get('ch_contingency_code/by_record/{id}/{type_record_id}', 'Management\ChContingencyCodeController@getByRecord');

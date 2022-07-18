@@ -88,6 +88,23 @@ class ChVitalSignsController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChVitalSigns = new ChVitalSigns;
+
+        if (isset($request->pupil)) {
+            $dtalist = json_decode($request->pupil);
+            foreach ($dtalist as $element) {
+                if ($element->label == 'MINDRIÁTICA' && $element->isChecked==true) {
+                    $ChVitalSigns->mydriatic = $element;
+                } else if ($element->label == 'NORMAL' && $element->isChecked==true) {
+                    $ChVitalSigns->normal = $element->label;
+                } else if ($element->label == 'REACCIÓN PERESOZA ( A LA LUZ)'&& $element->isChecked==true) {
+                    $ChVitalSigns->lazy_reaction_light = $element->label;
+                } else if ($element->label == 'REACCIÓN PERESOZA'&& $element->isChecked==true) {
+                    $ChVitalSigns->fixed_lazy_reaction = $element->label;
+                } else if ($element->label == 'TAMAÑO MIÓTICA'&& $element->isChecked==true) {
+                    $ChVitalSigns->miotic_size = $element->label;
+                } 
+            }
+        }
         $ChVitalSigns->clock =  $request->clock;
         $ChVitalSigns->cardiac_frequency = $request->cardiac_frequency;
         $ChVitalSigns->respiratory_frequency = $request->respiratory_frequency;
@@ -115,11 +132,11 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->pupil_size_right = $request->pupil_size_right;
         $ChVitalSigns->left_reaction = $request->left_reaction;
         $ChVitalSigns->pupil_size_left = $request->pupil_size_left; 
-        $ChVitalSigns->mydriatic =  $request->mydriatic;
-        $ChVitalSigns->normal =  $request->normal;
-        $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
-        $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
-        $ChVitalSigns->miotic_size =  $request->miotic_size;
+        // $ChVitalSigns->mydriatic =  $request->mydriatic;
+        // $ChVitalSigns->normal =  $request->normal;
+        // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
+        // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
+        // $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry; 
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
@@ -210,11 +227,11 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->right_reaction =  $request->right_reaction;
         $ChVitalSigns->pupil_size_right =  $request->pupil_size_right;
         $ChVitalSigns->left_reaction =  $request->left_reaction;
-        $ChVitalSigns->mydriatic =  $request->mydriatic;
-        $ChVitalSigns->normal =  $request->normal;
-        $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
-        $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
-        $ChVitalSigns->miotic_size =  $request->miotic_size;
+        // $ChVitalSigns->mydriatic =  $request->mydriatic;
+        // $ChVitalSigns->normal =  $request->normal;
+        // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
+        // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
+        // $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;

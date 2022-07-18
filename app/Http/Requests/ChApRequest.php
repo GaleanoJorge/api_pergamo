@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CampusRequest extends FormRequest
+class ChApRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,10 @@ class CampusRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'name' => 'required|between:1,191',
+            'analisys' => '',
+            'plan' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '',
         ];
     }
 }

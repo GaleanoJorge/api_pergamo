@@ -36,6 +36,7 @@ use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
 use App\Models\RoleAttention;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 
 
@@ -365,6 +366,17 @@ class ChRecordController extends Controller
                     $ChRecord->ch_type_id = 5;
                     break;
                 }
+        }
+
+        if ($request->firm_file) {
+            $image = $request->get('firm_file');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $random = Str::random(10);
+            $imagePath = 'firmas/' . $random . '.png';
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+
+            $ChRecord->file_firm = $imagePath;
         }
 
         $ChRecord->save();

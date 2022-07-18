@@ -31,7 +31,6 @@ class ChRtInspectionRequest extends FormRequest
             'fracturues' => '',
             'detail_fracturues' => '',
             'airway' => '',
-            'pain' => '',
             'type_record_id' => '',
             'ch_record_id' => '',
         ];
