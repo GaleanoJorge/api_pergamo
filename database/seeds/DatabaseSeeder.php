@@ -244,7 +244,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypeProcedureSeeder::class);
                 $this->call(ChTypeInabilitySeeder::class);
                 $this->call(ChContingencyCodeSeeder::class);
-                $this->call(ChOstomiesSeeder::class);
                 $this->call(ChReasonSeeder::class);
                 
                 
