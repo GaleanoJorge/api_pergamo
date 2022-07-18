@@ -16,6 +16,8 @@ class CreateCampusTable extends Migration
         Schema::create('campus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('address')->nullable();
+            $table->string('enable_code')->nullable();
             $table->unsignedBigInteger('region_id');
             $table->unsignedBigInteger('municipality_id')->nullable();
             $table->timestamps();
