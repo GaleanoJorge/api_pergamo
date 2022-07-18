@@ -83,7 +83,6 @@ class ChRtInspectionController extends Controller
         $ChRtInspection->fracturues = $request->fracturues;
         $ChRtInspection->detail_fracturues = $request->detail_fracturues;
         $ChRtInspection->airway = $request->airway;
-        $ChRtInspection->pain = $request->pain;
         $ChRtInspection->type_record_id = $request->type_record_id;
         $ChRtInspection->ch_record_id = $request->ch_record_id;
         $ChRtInspection->save();
@@ -135,7 +134,6 @@ class ChRtInspectionController extends Controller
         $ChRtInspection->fracturues = $request->fracturues;
         $ChRtInspection->detail_fracturues = $request->detail_fracturues;
         $ChRtInspection->airway = $request->airway;
-        $ChRtInspection->pain = $request->pain;
         $ChRtInspection->type_record_id = $request->type_record_id;
         $ChRtInspection->ch_record_id = $request->ch_record_id;
         $ChRtInspection->save();
