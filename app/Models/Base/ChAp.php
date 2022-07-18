@@ -12,11 +12,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ChEvoSoap
+ * Class ChAp
  * 
  * @property int $id
- * @property string $subjective
- * @property string $objective
+ * @property string $analisys
+ * @property string $plan
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -25,9 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class ChEvoSoap extends Model
+class ChAp extends Model
 {
-	protected $table = 'ch_evo_soap';
+	protected $table = 'ch_ap';
 
 	public function type_record()
 	{

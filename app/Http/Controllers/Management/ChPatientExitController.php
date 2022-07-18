@@ -18,7 +18,7 @@ class ChPatientExitController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChPatientExit = ChPatientExit::select();
+        $ChPatientExit = ChPatientExit::with('death_diagnosis','ch_diagnosis','exit_diagnosis','relations_diagnosis','reason_exit');
 
         if($request->_sort){
             $ChPatientExit->orderBy($request->_sort, $request->_order);
