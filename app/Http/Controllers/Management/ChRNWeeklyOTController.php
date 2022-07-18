@@ -73,16 +73,9 @@ class ChRNWeeklyOTController extends Controller
     
         $ChRNWeeklyOT = new ChRNWeeklyOT;
 
-        $ChRNWeeklyOT->check1_cognitive = $request-> check1_cognitive; 
-        $ChRNWeeklyOT->check2_colors = $request-> check2_colors;
-        $ChRNWeeklyOT->check3_elements = $request-> check3_elements; 
-        $ChRNWeeklyOT->check4_balls = $request-> check4_balls; 
-        $ChRNWeeklyOT->check5_material_paper = $request-> check5_material_paper;
-        $ChRNWeeklyOT->check6_material_didactic = $request-> check6_material_didactic; 
-        $ChRNWeeklyOT->check7_computer = $request-> check7_computer; 
-        $ChRNWeeklyOT->check8_clay = $request-> check8_clay;
-        $ChRNWeeklyOT->check9_colbon = $request-> check9_colbon; 
-        $ChRNWeeklyOT->check10_pug = $request-> check10_pug; 
+        $ChRNWeeklyOT->monthly_sessions = $request-> monthly_sessions; 
+        $ChRNWeeklyOT->weekly_intensity = $request-> weekly_intensity;
+        $ChRNWeeklyOT->recomendations = $request-> recomendations; 
 
         $ChRNWeeklyOT->type_record_id = $request->type_record_id;
         $ChRNWeeklyOT->ch_record_id = $request->ch_record_id;
@@ -124,16 +117,10 @@ class ChRNWeeklyOTController extends Controller
     {
         $ChRNWeeklyOT = ChRNWeeklyOT::find($id);
         
-        $ChRNWeeklyOT->check1_cognitive = $request-> check1_cognitive; 
-        $ChRNWeeklyOT->check2_colors = $request-> check2_colors;
-        $ChRNWeeklyOT->check3_elements = $request-> check3_elements; 
-        $ChRNWeeklyOT->check4_balls = $request-> check4_balls; 
-        $ChRNWeeklyOT->check5_material_paper = $request-> check5_material_paper;
-        $ChRNWeeklyOT->check6_material_didactic = $request-> check6_material_didactic; 
-        $ChRNWeeklyOT->check7_computer = $request-> check7_computer; 
-        $ChRNWeeklyOT->check8_clay = $request-> check8_clay;
-        $ChRNWeeklyOT->check9_colbon = $request-> check9_colbon; 
-        $ChRNWeeklyOT->check10_pug = $request-> check10_pug; 
+
+        $ChRNWeeklyOT->monthly_sessions = $request-> monthly_sessions; 
+        $ChRNWeeklyOT->weekly_intensity = $request-> weekly_intensity;
+        $ChRNWeeklyOT->recomendations = $request-> recomendations; 
 
         $ChRNWeeklyOT->type_record_id = $request->type_record_id;
         $ChRNWeeklyOT->ch_record_id = $request->ch_record_id;

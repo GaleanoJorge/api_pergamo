@@ -10,7 +10,7 @@ class ChRNWeeklyOT extends BaseChRNWeeklyOT
   protected $fillable = [
     'monthly_sessions',
     'weekly_intensity',
-    'recommendations',
+    'recomendations',
 
     'type_record_id',
     'ch_record_id',

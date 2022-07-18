@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $monthly_sessions
  * @property string $weekly_intensity
- * @property string $recommendations
+ * @property string $recomendations
 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 

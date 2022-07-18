@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChRNMaterialsOTTable extends Migration
+class CreateChRNWeeklyOTTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateChRNMaterialsOTTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_r_n_materials_o_t', function (Blueprint $table) {
+        Schema::create('ch_r_n_weekly_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('monthly_sessions')->nullable();
             $table->string('weekly_intensity')->nullable();
@@ -40,6 +40,6 @@ class CreateChRNMaterialsOTTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_r_n_materials_o_t');
+        Schema::dropIfExists('ch_r_n_weekly_o_t');
     }
 }
