@@ -16,7 +16,7 @@
                     <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: 14/06/2022</p>
+                        <p>Fecha de registro: {{$today}}</p>
                         <p> Folio: {{$chrecord[0]['id']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
@@ -176,10 +176,14 @@
                 </span><span style="font-family:Calibri">Nivel estrato:</span><span style="font-family:Calibri"></span><span style="font-family:Calibri">ESTRATO 2 (10 % )
                     SUBSIDIADO SISBEN</span><span style="font-family:Calibri"></span><span style="font-family:Calibri">Cama:</span><span style="font-family:Calibri"></span><span style="font-family:Calibri">OUA77</span>
         </p>
+
+
+        
+        @if(count($chreasonconsultation) > 0) 
         <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
             INGRESO<br>
         </p>
-        @if(count($chreasonconsultation) > 0) 
+
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
             <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">VALORACIÓN</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
