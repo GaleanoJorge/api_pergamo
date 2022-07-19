@@ -17,19 +17,18 @@ class FixedLoanController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedLoan = FixedLoan::select('fixed_add_id.*')
+        $FixedLoan = FixedLoan::select('fixed_loan.*')
             ->with(
                 'fixed_add',
                 'fixed_add.fixed_assets',
-                'fixed_add.fixed_accessories',
                 'fixed_assets',
-                'fixed_assets.fixed_type_role',
-                'fixed_assets.fixed_type_role.fixed_type',
+                'fixed_assets.fixed_type',
                 'fixed_assets.fixed_clasification',
+                'fixed_add.fixed_accessories',
                 'fixed_accessories',
-                'fixed_accessories.fixed_type_role',
-                'fixed_accessories.fixed_type_role.fixed_type'
-            );
+                'fixed_accessories.fixed_type'
+            )
+            ->leftJoin('fixed_add', 'fixed_add.id', 'fixed_loan.fixed_add_id');
 
         if ($request->_sort) {
             $FixedLoan->orderBy($request->_sort, $request->_order);
@@ -77,7 +76,6 @@ class FixedLoanController extends Controller
         $FixedLoan->amount_damaged = $request->amount_damaged;
         $FixedLoan->amount_provition = $request->amount_provition;
         $FixedLoan->fixed_add_id = $request->fixed_add_id;
-        $FixedLoan->responsible_user_id = $request->responsible_user_id;
         $FixedLoan->fixed_assets_id = $request->fixed_assets_id;
         $FixedLoan->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedLoan->save();
@@ -120,7 +118,6 @@ class FixedLoanController extends Controller
         $FixedLoan->amount_damaged = $request->amount_damaged;
         $FixedLoan->amount_provition = $request->amount_provition;
         $FixedLoan->fixed_add_id = $request->fixed_add_id;
-        $FixedLoan->responsible_user_id = $request->responsible_user_id;
         $FixedLoan->fixed_assets_id = $request->fixed_assets_id;
         $FixedLoan->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedLoan->save();
