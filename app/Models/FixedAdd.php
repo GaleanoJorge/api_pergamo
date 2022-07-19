@@ -15,5 +15,6 @@ class FixedAdd extends BaseFixedAdd
 		'observation',
 		'request_amount',
 		'status',
+		'fixed_nom_product_id',
 	];
 }

@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\FixedCode;
+use App\Models\FixedType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id 
  * @property string $name
  * @property BigInteger $fixed_code_id
+ * @property BigInteger $fixed_type_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -30,5 +32,9 @@ class FixedClasification extends Model
 	public function fixed_code()
 	{
 		return $this->belongsTo(FixedCode::class);
+	}
+	public function fixed_type()
+	{
+		return $this->belongsTo(FixedType::class);
 	}
 }

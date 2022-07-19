@@ -26,8 +26,8 @@ class FixedAccessoriesRequest extends FormRequest
         return [
             //
             'name' => 'required',
-            'amount' => 'required',
-            'fixed_type_role_id' => 'required',
+            'amount_total' => 'required',
+            'fixed_role_id' => 'required',
             'campus_id' => 'required',
         ];
     }
