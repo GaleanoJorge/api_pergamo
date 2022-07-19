@@ -18,14 +18,26 @@ class CampusController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $campus = Campus::select()->with('region', 'municipality', 'billing_pad_prefix');
+        $campus = Campus::select()->with('region', 'municipality', 'billing_pad_prefix')
+            ->LeftJoin('region', 'region.id', 'campus.region_id')
+            ->LeftJoin('municipality', 'municipality.id', 'campus.municipality_id')
+            ->LeftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ;
 
         if($request->_sort){
             $campus->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $campus->where('name','like','%' . $request->search. '%');
+            $campus->where(function ($query) use ($request) {
+                $query->where('campus.name','like','%' . $request->search. '%')
+                ->orWhere('campus.address','like','%' . $request->search. '%')
+                ->orWhere('campus.enable_code','like','%' . $request->search. '%')
+                ->orWhere('region.name','like','%' . $request->search. '%')
+                ->orWhere('municipality.name','like','%' . $request->search. '%')
+                ->orWhere('billing_pad_prefix.name','like','%' . $request->search. '%')
+                ;
+            });
         }
         
         if($request->query("pagination", true)=="false"){
