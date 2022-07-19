@@ -88,7 +88,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
     Route::apiResource('ch_supplies_therapy', 'Management\ChSuppliesTherapyController');
     Route::get('ch_supplies_therapy/by_record/{id}/{type_record_id}', 'Management\ChSuppliesTherapyController@getByRecord');
-                        
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -995,12 +995,23 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
 
+    Route::apiResource('multidose_concentration', 'Management\MultidoseConcentrationController');
     Route::apiResource('nom_product', 'Management\NomProductController');
     Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
     Route::get(
         'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
+
+    Route::apiResource('fixed_nom_product', 'Management\FixedNomProductController');
+    Route::get(
+        'FixedNomProduct/byCategory/{fixed_clasification_id}',
+        'Management\FixedNomProductController@getSubcategoryByCategory'
+    );
+
+    Route::get('FixedNomProduct/byGroup/{fixed_type_id}',
+        'Management\FixedNomProductController@getCategoryByGroup');
+
 
 
     Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
@@ -1011,9 +1022,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
+
+    Route::post('fixed_accessories/updateInventoryByLot/{lot_id}', 'Management\FixedAccessoriesController@updateInventoryByLot');
+    Route::get('fixed_accessories/pharmacies/{user_id}', 'Management\FixedAccessoriesController@getPharmacyByUserId');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
     Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    Route::post('fixed_assets/updateInventoryByLot/{lot_id}', 'Management\FixedAssetsController@updateInventoryByLot');
+    Route::get('fixed_assets/pharmacies/{user_id}', 'Management\FixedAssetsController@getPharmacyByUserId');
+
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
+    Route::get(
+        'FixedClasification/byGroup/{fixed_type_id}',
+        'Management\FixedClasificationController@getCategoryByGroup'
+    );
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
     Route::apiResource('fixed_loan', 'Management\FixedLoanController');
@@ -1026,6 +1047,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
 
+    Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
 
 
 
@@ -1368,7 +1390,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //ruta de valoracion de piel
     Route::apiResource('ch_nursing_procedure', 'Management\ChNursingProcedureController');
     Route::get('ch_nursing_procedure/by_record/{record_id}', 'Management\ChNursingProcedureController@getByRecord');
-    
+
 
     //ch nutrición
     Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
@@ -1380,5 +1402,4 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_background/getAlergicsByPatient/{patient_id}', 'Management\ChBackgroundController@getAlergicsByPatient');
     Route::get('ch_background/getByPatient/{patient_id}', 'Management\ChBackgroundController@getByPatient');
     Route::get('ch_nutrition_interpretation/getAllInterpretetations/{patient_id}', 'Management\ChNutritionInterpretationController@getAllInterpretetations');
-
 });

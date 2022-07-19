@@ -1438,5 +1438,14 @@
         "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "213",
+        "item_parent_id": "102",
+        "name": "Descripción del activo",
+        "code": "fixed-nom-product",
+        "route": "/pages/setting/fixed-nom-product",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

@@ -43,6 +43,26 @@ class FixedNomProductController extends Controller
             'data' => ['fixed_nom_product' => $FixedNomProduct]
         ]);
     }
+
+                /**
+     * Display a listing of the resource
+     *
+     * @param integer $fixed_type_id
+     * @return JsonResponse
+     */
+    public function getCategoryByGroup(int $fixed_type_id): JsonResponse
+    {
+        $FixedNomProduct = FixedNomProduct::where('fixed_type_id', $fixed_type_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Categoria del insumo obtenidos exitosamente',
+            'data' => ['fixed_nom_product' => $FixedNomProduct]
+        ]);
+    }
+
+
      
              /**
      * Display a listing of the resource
