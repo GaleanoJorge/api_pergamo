@@ -741,6 +741,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
+    Route::apiResource('consents_informed', 'Management\ConsentsInformedController');
+    Route::apiResource('type_consents', 'Management\TypeConsentsController');
     Route::apiResource('assigned_management_plan', 'Management\AssignedManagementPlanController');
 
 
@@ -756,6 +758,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Portafolio de servicios
     Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
+    Route::get('consents_informed_by_admissions/{id}', 'Management\ConsentsInformedController@getByAdmission');
 
     Route::get('management_plan_by_patient/{id}/{userId}', 'Management\ManagementPlanController@getByPatient');
 
