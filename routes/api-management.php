@@ -1286,7 +1286,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::put('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{id}', 'Management\BillingPadController@generateBillingDat');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
-
+    Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
+    Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
+    
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
     Route::apiResource('reason_exit', 'Management\ReasonExitController');
