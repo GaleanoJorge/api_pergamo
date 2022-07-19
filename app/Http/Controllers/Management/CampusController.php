@@ -18,21 +18,25 @@ class CampusController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $campus = Campus::select()->with('region', 'municipality', 'billing_pad_prefix');
 
-        if ($request->_sort) {
-            $campus = Campus::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $campus->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $campus = Campus::where('name', 'like', '%' . $request->search . '%');
+            $campus->where('name','like','%' . $request->search. '%');
         }
-        if ($request->query("pagination", true) === "false") {
-            $campus = Campus::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $campus = Campus::paginate($per_page, '*', 'page', $page);
+        
+        if($request->query("pagination", true)=="false"){
+            $campus=$campus->get()->toArray();    
         }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $campus=$campus->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([
@@ -48,6 +52,7 @@ class CampusController extends Controller
         $Campus->name = $request->name;
         $Campus->address = $request->address;
         $Campus->enable_code = $request->enable_code;
+        $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
@@ -89,6 +94,7 @@ class CampusController extends Controller
         $Campus = Campus::find($id);
         $Campus->name = $request->name;
         $Campus->address = $request->address;
+        $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
         $Campus->enable_code = $request->enable_code;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;
