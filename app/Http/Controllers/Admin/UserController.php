@@ -306,9 +306,9 @@ class UserController extends Controller
             'assistance.id AS assistance_id',
             'users.id'
         )
-            ->Join('user_role', 'users.id', 'user_role.user_id')
-            ->Join('assistance', 'users.id', 'assistance.user_id')
-            ->Join('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+            ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+            ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+            ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
             ->where('users.status_id', 1)
             ->groupBy('users.id');
 
@@ -316,8 +316,8 @@ class UserController extends Controller
             $first = true;
             foreach ($roles as $role) {
                 if ($role->role_id == 14) {
-                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first()->specialty_id;
-                    $query->where('assistance_special.specialty_id', $specialty);
+                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                    $query->where('assistance_special.specialty_id', $specialty->specialty_id);
                 } else {
                     if ($first) {
                         $query->where('user_role.role_id', $role->role_id);

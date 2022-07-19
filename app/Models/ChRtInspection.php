@@ -15,7 +15,6 @@ class ChRtInspection extends BaseChRtInspection
     'fracturues',
     'detail_fracturues',
     'airway',
-    'pain',
     'type_record_id',
     'ch_record_id',
   ];

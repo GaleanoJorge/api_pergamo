@@ -195,8 +195,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedPropertySeeder::class);
                 $this->call(FixedConditionSeeder::class);
                 $this->call(SuppliesMeasureSeeder::class);
-                // BillingPad
-                $this->call(BillingPadStatusSeeder::class);
                 $this->call(StorageConditionsSeeder::class);
                 $this->call(InvimaStatusSeeder::class);
                 //$this->call(TypeOfAttention::class);
@@ -246,6 +244,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypeProcedureSeeder::class);
                 $this->call(ChTypeInabilitySeeder::class);
                 $this->call(ChContingencyCodeSeeder::class);
+                $this->call(ChReasonSeeder::class);
+                
+                
+                
                 
                 
                 //Semillas talento humano

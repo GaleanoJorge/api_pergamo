@@ -26,6 +26,7 @@ class ChRecordRequest extends FormRequest
         return [
             'status' => '',
             'date_attention' => '',
+            'firm_file' => '',
             'admissions_id' => '',
             'assigned_management_plan_id',
             'user_id' => '',

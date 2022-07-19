@@ -1,12 +1,15 @@
 [
     {
-        "name": "Cáncer de cuello uterino"
+        "name": "1- Neoplasia Micro infiltrante: Escamocelular o Adenocarcinoma"
     },
     {
-        "name": "Normal"
+        "name": "2- Neoplasia Infiltrante: Escamocelular o Adenocarcinoma."
     },
     {
-        "name": "Verrugas cervicales"
+        "name": "3- Benigna"
+    },
+    {
+        "name": "4- Atípica (Indeterminada)(biopsia de seno)"
     }
- 
+
 ]

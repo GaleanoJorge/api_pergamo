@@ -17,7 +17,7 @@ class ChDiagnosticAidsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChDiagnosticAids = ChDiagnosticAids::with('ch_diagnostic_aids');
+        $ChDiagnosticAids = ChDiagnosticAids::select();
 
         if($request->_sort){
             $ChDiagnosticAids->orderBy($request->_sort, $request->_order);

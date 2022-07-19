@@ -8,6 +8,8 @@ class Campus extends BaseCampus
 {
 	protected $fillable = [
 		'name',
+		'address',
+		'enable_code',
 		'region_id',
 		'municipality_id',
 	];

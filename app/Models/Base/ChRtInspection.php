@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $fracturues
  * @property string $detail_fracturues
  * @property string $airway 	
- * @property string $pain 	
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

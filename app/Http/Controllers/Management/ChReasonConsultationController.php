@@ -45,7 +45,7 @@ class ChReasonConsultationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico obtenidos exitosamente',
+            'message' => 'Valoración  obtenida exitosamente',
             'data' => ['ch_reason_consultation' => $ChReasonConsultation]
         ]);
     }
@@ -63,7 +63,7 @@ class ChReasonConsultationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico asociado al paciente exitosamente',
+            'message' => 'Valoración asociada al registro del paciente exitosamente',
             'data' => ['ch_reason_consultation' => $ChReasonConsultation->toArray()]
         ]);
     }
@@ -81,7 +81,7 @@ class ChReasonConsultationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico obtenido exitosamente',
+            'message' => 'Valoración  obtenida exitosamente',
             'data' => ['ch_reason_consultation' => $ChReasonConsultation]
         ]);
     }
@@ -107,7 +107,7 @@ class ChReasonConsultationController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Clase de diagnostico actualizado exitosamente',
+            'message' => 'Valoración actualizada exitosamente',
             'data' => ['ch_reason_consultation' => $ChReasonConsultation]
         ]);
     }
@@ -126,12 +126,12 @@ class ChReasonConsultationController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Clase de diagnostico eliminado exitosamente'
+                'message' => 'Valoración eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Clase de diagnostico en uso, no es posible eliminarlo'
+                'message' => 'Valoración en uso, no es posible eliminarlo'
             ], 423);
         }
     }

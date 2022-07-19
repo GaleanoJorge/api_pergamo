@@ -1,12 +1,14 @@
 [
     {
-        "name": "Cáncer de cuello uterino"
+        "name": "1- Negativo para Neoplasia(biopsia cervical)"
     },
     {
-        "name": "Células precancerosas en el cuello uterino"
+        "name": "2- NIC de Bajo Grado - NIC I(biopsia cervical)"
     },
     {
-        "name": "Infección por VPH"
+        "name": "3- NIC de Alto Grado: NIC II - NIC III"
+    },
+    {
+        "name": " 4- Neoplasia Micro infiltrante: Escamocelular o Adenocarcinoma"
     }
- 
 ]

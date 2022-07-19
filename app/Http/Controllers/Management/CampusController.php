@@ -46,6 +46,8 @@ class CampusController extends Controller
     {
         $Campus = new Campus;
         $Campus->name = $request->name;
+        $Campus->address = $request->address;
+        $Campus->enable_code = $request->enable_code;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
@@ -86,6 +88,8 @@ class CampusController extends Controller
     {
         $Campus = Campus::find($id);
         $Campus->name = $request->name;
+        $Campus->address = $request->address;
+        $Campus->enable_code = $request->enable_code;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;
         $Campus->save();

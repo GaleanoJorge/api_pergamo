@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $status
  * @property date $date_attention
+ * @property string $firm_file
  * @property BigInteger $admissions_id
  * @property BigInteger $user_id
  * @property BigInteger $ch_type_id

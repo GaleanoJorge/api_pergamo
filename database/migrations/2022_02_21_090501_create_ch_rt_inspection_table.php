@@ -17,12 +17,11 @@
                 $table->bigIncrements('id');
                 $table->string('expansion');
                 $table->string('masses');
-                $table->string('detail_masses');
+                $table->string('detail_masses')->nullable();
                 $table->string('crepitations');
                 $table->string('fracturues');
-                $table->string('detail_fracturues');
+                $table->string('detail_fracturues')->nullable();
                 $table->string('airway');
-                $table->string('pain')->nullable();;
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

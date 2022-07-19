@@ -25,7 +25,7 @@ class CampusRequest extends FormRequest
     {
         return [
             //
-            'name' => 'required|between:1,191'
+            'name' => 'required|between:1,191',
         ];
     }
 }
