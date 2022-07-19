@@ -10,6 +10,7 @@ class FixedAccessories extends BaseFixedAccessories
 protected $fillable = [
 	'name',
 	'amount',
+	'actual_amount',
     'fixed_type_role_id',
     'campus_id',
 	];

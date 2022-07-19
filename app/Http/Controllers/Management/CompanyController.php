@@ -18,11 +18,13 @@ class CompanyController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        if ($request->eps == 0) {
+        if ($request->eps) {
             $Company = Company::where('company_type_id',1)->OrWhere('company_type_id',4);
-        }else{
+        }else if($request->company_category_id){
 
-        $Company = Company::select();
+        $Company = Company::select()->where('company_category_id', $request->company_category_id);
+        }else{
+            $Company =  Company::select();
         }
 
         if ($request->_sort) {
@@ -31,10 +33,6 @@ class CompanyController extends Controller
 
         if ($request->search) {
             $Company->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->company_category_id) {
-            $Company->where('company_category_id', $request->company_category_id);
         }
 
         if ($request->query("pagination", true) == "false") {
