@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use Carbon\Carbon;
+use App\Models\PatientPosition;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -25,6 +26,12 @@ use Illuminate\Database\Eloquent\Model;
 class ChNursingEntry extends Model
 {
 	protected $table = 'ch_nursing_entry';
+
+
+	public function patient_position()
+	{
+		return $this->belongsTo(PatientPosition::class, 'patient_position_id');
+	}
 
 	
 }

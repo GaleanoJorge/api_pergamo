@@ -23,6 +23,7 @@ use App\Models\BillingPad;
 use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ChReasonConsultation;
+use App\Models\ChNursingEntry;
 use App\Models\ChVitalSigns;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChSystemExam;
@@ -230,19 +231,9 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
-            $ChReasonConsultation = ChReasonConsultation::where('ch_record_id', $id)->get()->toArray();
-            $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
-            $ChVitalSigns = ChVitalSigns::where('ch_record_id', $id)->get()->toArray();
-            $ChDiagnosis = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->get()->toArray();
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->get()->toArray();
-            $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChVitalSignsEvo = ChVitalSigns::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->get()->toArray();
-            // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
-            // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
+            $ChnursingEntry = ChNursingEntry::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('ñ')->where('ch_record_id', $id)->get()->toArray();
+       
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
@@ -257,17 +248,8 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
-                'chreasonconsultation' => $ChReasonConsultation,
-                'chsystemexam' => $ChSystemExam,
-                'chphysicalexam' => $ChPhysicalExam,
-                'chvitalsings' => $ChVitalSigns,
-                'chdiagnosis' => $ChDiagnosis,
-                'chbackground' => $ChBackground,
-                'ChEvoSoap' => $ChEvoSoap,
-                'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
-                'ChVitalSignsEvo' => $ChVitalSignsEvo,
-                'ChDiagnosisEvo' => $ChDiagnosisEvo,
-                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                'chnursingentry' => $ChnursingEntry,
+                'chphysicalexam'=> $ChPhysicalExam,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),

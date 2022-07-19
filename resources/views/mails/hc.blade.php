@@ -179,6 +179,7 @@
 
 
         
+        @if($chrecord[0]['ch_type_id'] == 1 ) 
         @if(count($chreasonconsultation) > 0) 
         <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
             INGRESO<br>
@@ -345,7 +346,47 @@
             <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
+        @endisset      
         @endisset
+
+<!-- Enfermeria -->
+@if($chrecord[0]['ch_type_id'] == 2 ) 
+@if(count($chnursingentry) > 0 || count($chphysicalexam) > 0) 
+        <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+            INGRESO<br>
+        </p>
+        @endisset
+        @if(count($chnursingentry) > 0) 
+        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">NOTA DE INGRESO</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt">DIAGNOSTICO CUTANEO:</span>
+        </p>
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt">POSICIÓN: {{$chnursingentry[0]['patient_position']['name']}}</span>
+        </p>
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt">CUERO CABELLUDO: {{$chnursingentry[0]['hair_revision']}}</span>
+        </p>
+@endisset
+@if(count($chphysicalexam) > 0) 
+<p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">REVISIÓN POR ESTADO FÍSICO</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        @foreach($chphysicalexam as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b>{{$ch['type_ch_physical_exam']['name']}}</b> - <b>REVISIÓN:</b> {{$ch['revision']}} - <b>OBSERVACIÓN:</b> {{$ch['description']}}  </span>
+        </p>
+        @endforeach
+
+@endisset
+@endisset
+
 
     </div>
 </body>
