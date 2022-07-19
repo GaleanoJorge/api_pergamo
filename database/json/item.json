@@ -1438,5 +1438,32 @@
         "route": "/pages/setting/tc-rentability",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "214",
+        "item_parent_id": "66",
+        "name": "Facturación",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "215",
+        "item_parent_id": "214",
+        "name": "Prefijos de facturación",
+        "code": "billing-pad-prefix",
+        "route": "/pages/setting/billing-pad-prefix",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "216",
+        "item_parent_id": "214",
+        "name": "Consecutivos de facturación",
+        "code": "billing-pad-consecutive",
+        "route": "/pages/setting/billing-pad-consecutive",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
