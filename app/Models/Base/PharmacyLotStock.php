@@ -39,7 +39,7 @@ class PharmacyLotStock extends Model
 	
 	public function billing_stock()
 	{
-		return $this->belongsTo(BillingStock::class);
+		return $this->belongsTo(BillingStock::class,'billing_stock_id');
 	}
 	
 }

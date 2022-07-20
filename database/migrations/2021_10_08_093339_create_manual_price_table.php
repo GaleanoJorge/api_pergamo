@@ -20,6 +20,7 @@ class CreateManualPriceTable extends Migration
             $table->unsignedBigInteger('manual_id')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('supplies_id')->nullable();
             $table->unsignedBigInteger('manual_procedure_type_id')->nullable();
             $table->string('homologous_id')->nullable();
             $table->Integer('value');
@@ -33,6 +34,7 @@ class CreateManualPriceTable extends Migration
             $table->index('product_id');
             $table->index('manual_procedure_type_id');
             $table->index('homologous_id');
+            $table->index('supplies_id');
 
             $table->foreign('manual_id')->references('id')
                 ->on('manual');
@@ -44,6 +46,8 @@ class CreateManualPriceTable extends Migration
                 ->on('product_generic');
             $table->foreign('manual_procedure_type_id')->references('id')
                 ->on('procedure_type');
+            $table->foreign('supplies_id')->references('id')
+                ->on('product_supplies');
         });
     }
 

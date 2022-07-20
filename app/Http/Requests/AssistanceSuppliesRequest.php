@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ManualPriceRequest extends FormRequest
+class AssistanceSuppliesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,10 @@ class ManualPriceRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'own_code' => 'required',
-            'manual_procedure_type_id' => 'required',
-            'homologous_id' => '',
-            'manual_id' => 'required',
-            'procedure_id' => '',
-            'supplies_id' => '',
-            'product_id' => '',
-            'value' => 'required',
-            'price_type_id' => 'required'
+            'user_incharge_id' => 'required',
+            'pharmacy_product_request_id' => '',
+            'ch_record_id' => 'required',
+            'supplies_status_id' => 'required',
         ];
     }
 }

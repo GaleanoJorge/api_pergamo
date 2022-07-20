@@ -17,6 +17,7 @@ class CreateChNursingEntryTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('patient_position_id');
             $table->unsignedBigInteger('ostomy_id');
+            $table->string('observation_position');
             $table->string('observation');
             $table->string('hair_revision');
             $table->unsignedBigInteger('type_record_id');

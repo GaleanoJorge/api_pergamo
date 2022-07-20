@@ -484,6 +484,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'ManualPrice/ProcedureByManual2/{manualId}',
         'Management\ManualPriceController@getByManual2'
     );
+    Route::get(
+        'ManualPrice/ProcedureByManual3/{manualId}',
+        'Management\ManualPriceController@getByManual3'
+    );
 
     //Tipo de precio que uilizan las tarifas en salud UVR y Valor 
     Route::apiResource('price_type', 'Management\PriceTypeController');
@@ -1463,4 +1467,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_background/getAlergicsByPatient/{patient_id}', 'Management\ChBackgroundController@getAlergicsByPatient');
     Route::get('ch_background/getByPatient/{patient_id}', 'Management\ChBackgroundController@getByPatient');
     Route::get('ch_nutrition_interpretation/getAllInterpretetations/{patient_id}', 'Management\ChNutritionInterpretationController@getAllInterpretetations');
+
+    //supplies status
+    Route::apiResource('supplies_status', 'Management\SuppliesStatusController');
+
+    //Aplicaciones
+    Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
 });

@@ -19,7 +19,8 @@ class BillingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Billing = Billing::with('company', 'pharmacy_stock');
+        $Billing = Billing::select('billing.*')
+        ->with('company', 'pharmacy_stock');
 
         if ($request->_sort) {
             $Billing->orderBy($request->_sort, $request->_order);

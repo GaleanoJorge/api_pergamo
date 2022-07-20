@@ -8,6 +8,8 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\Procedure;
+use App\Models\ProductGeneric;
+use App\Models\ProductSupplies;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,6 +40,16 @@ class ProcedurePackage extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(Procedure::class);
+	}
+
+	public function product()
+	{	
+		return $this->belongsTo(ProductGeneric::class);
+	}
+
+	public function supplies()
+	{
+		return $this->belongsTo(ProductSupplies::class);
 	}
 		
 }
