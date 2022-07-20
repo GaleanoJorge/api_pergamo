@@ -114,12 +114,12 @@ class ManagementPlanController extends Controller
     }
 
 
-    public function getByPatient(Request $request, int $id,int $userId): JsonResponse
+    public function getByPatient(Request $request, int $id, int $userId): JsonResponse
     {
-        if($userId==0){
-        $ManagementPlan = ManagementPlan::select(
-            'management_plan.*',
-            DB::raw('
+        if ($userId == 0) {
+            $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
                         IF(COUNT(assigned_management_plan.execution_date) > 0, 
                             SUM(
                                 CASE assigned_management_plan.execution_date 
@@ -127,25 +127,33 @@ class ManagementPlanController extends Controller
                                     ELSE 0 
                                 END), 
                             -1) AS not_executed'),
-            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
-            DB::raw('
+                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+                DB::raw('
                          
                             SUM(
                                 IF( CURDATE() > assigned_management_plan.finish_date , 
                                    1,0 
                             )
                            ) AS incumplidas'),
-        )
-            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
-            'admissions.location.admission_route',
-            'admissions.location.scope_of_attention',
-            'admissions.location.program', 'assigned_user')
-            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-            ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
-            ->where('admissions.patient_id', $id)
-            ->groupBy('management_plan.id');
-
-        }else{
+            )
+                ->with(
+                    'authorization',
+                    'type_of_attention',
+                    'frequency',
+                    'specialty',
+                    'admissions',
+                    'admissions.briefcase',
+                    'admissions.location',
+                    'admissions.location.admission_route',
+                    'admissions.location.scope_of_attention',
+                    'admissions.location.program',
+                    'assigned_user'
+                )
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+                ->where('admissions.patient_id', $id)
+                ->groupBy('management_plan.id');
+        } else {
             $ManagementPlan = ManagementPlan::select(
                 'management_plan.*',
                 DB::raw('
@@ -165,14 +173,23 @@ class ManagementPlanController extends Controller
                                 )
                                ) AS incumplidas'),
             )
-                ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program', 'assigned_user')
+                ->with(
+                    'authorization',
+                    'type_of_attention',
+                    'frequency',
+                    'specialty',
+                    'admissions',
+                    'admissions.briefcase',
+                    'admissions.location',
+                    'admissions.location.admission_route',
+                    'admissions.location.scope_of_attention',
+                    'admissions.location.program',
+                    'assigned_user'
+                )
                 ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
                 ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
                 ->where('admissions.patient_id', $id)
-                ->where('management_plan.assigned_user_id',$userId)
+                ->where('management_plan.assigned_user_id', $userId)
                 ->groupBy('management_plan.id');
         }
 
@@ -574,7 +591,7 @@ class ManagementPlanController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function createAuth($request, AssignedManagementPlan $assignedManagement): Authorization
+    public function createAuth($request, AssignedManagementPlan $assignedManagement, ManagementPlan $ManagementPlan): Authorization
     {
         $TypeContract = TypeContract::select('type_contract.*')
             ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
@@ -582,24 +599,31 @@ class ManagementPlanController extends Controller
             ->where('admissions.id', $request->admissions_id)
             ->first();
 
+        
+
         $Authorization = new Authorization;
-        $Authorization->services_briefcase_id = $request->procedure_id;
+        $Authorization->services_briefcase_id = $ManagementPlan->procedure_id;
         $Authorization->assigned_management_plan_id = $assignedManagement->id;
         $Authorization->admissions_id = $request->admissions_id;
         if ($TypeContract->id == 5) {
             $Authorization->auth_status_id =  3;
         } else {
-            if ($request->type_auth == 1) {
+            $briefcase = ServicesBriefcase::find($ManagementPlan->procedure_id)
+                ->leftJoin('briefcase', 'briefcase.id', 'services_briefcase.briefcase_id')
+                ->first();
+            if ($briefcase->type_auth == 1) {
                 $Authorization->auth_status_id =  2;
             } else {
                 $Authorization->auth_status_id =  1;
             }
         }
 
+        $Authorization->save();
+
         return $Authorization;
     }
 
-    /**
+    /** 
      * Display the specified resource.
      *
      * @param integer $id
@@ -708,6 +732,8 @@ class ManagementPlanController extends Controller
             $assignedManagement->user_id = $request->assigned_user_id;
             $assignedManagement->management_plan_id = $id;
             $assignedManagement->save();
+
+            $this->createAuth($request, $assignedManagement, $ManagementPlan);
         }
 
         if ($error == 0) {
