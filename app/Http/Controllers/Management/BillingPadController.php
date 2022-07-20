@@ -16,6 +16,7 @@ use App\Models\Company;
 use App\Models\Contract;
 use App\Models\ProcedurePackage;
 use App\Actions\Transform\NumerosEnLetras;
+use App\Models\BillingPadConsecutive;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -530,6 +531,21 @@ class BillingPadController extends Controller
      */
     public function update(BillingPadRequest $request, int $id): JsonResponse
     {
+        $billingInfo = $this->getBillingPadInformation($id);
+
+        $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
+            ->where('billing_pad_prefix_id', $billingInfo[0]['billing_prefix_id'])
+            ->where('final_consecutive', '>', 'actual_consecutive')
+            ->where('expiracy_date', '>', Carbon::now())
+            ->get()->first();
+
+        if (!$BillingPadConsecutive) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas',
+                'data' => ['billing_pad' => []]
+            ]);
+        }
 
         $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
         $AuthBillingPadDelete->delete();
@@ -548,11 +564,21 @@ class BillingPadController extends Controller
             $total_value += $AuthBillingPad->value;
         }
 
+        $consecutive = ($BillingPadConsecutive->consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->consecutive + 1);
+        if ($consecutive == $BillingPadConsecutive->final_consecutive) {
+            $BillingPadConsecutive->stats_id = 2;
+        }
+        $BillingPadConsecutive->actual_consecutive = $consecutive;
+        $BillingPadConsecutive->save();
+
         $BillingPad = BillingPad::where('id', $id)->first();
         $BillingPad->billing_pad_status_id = 2;
         $BillingPad->total_value = $total_value;
+        $BillingPad->consecutive = $consecutive;
+        $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['billing_prefix_id'];
         $BillingPad->save();
-        $this->generateBillingDat(1);
+        $this->generateBillingDat($id);
 
         $BillingPadLog = new BillingPadLog;
         $BillingPadLog->billing_pad_id = $id;
@@ -598,40 +624,7 @@ class BillingPadController extends Controller
      */
     public function generateBillingDat(int $id): JsonResponse
     {
-        $BillingPad = BillingPad::find($id)
-            ->select(
-                'patients.firstname AS firstname',
-                'patients.middlefirstname AS middlefirstname',
-                'patients.lastname AS lastname',
-                'patients.middlelastname AS middlelastname',
-                'patients.identification AS identification',
-                'patients.residence_address AS residence_address',
-                'patients.email AS email',
-                'patients.phone AS phone',
-                'campus.address AS patient_admission_address',
-                'campus.enable_code AS patient_admission_enable_code',
-                'briefcase.name AS briefcase_name',
-                'municipality.sga_origin_fk AS user_city_code',
-                'region.code AS user_departament_code',
-                'identification_type.code AS patient_identification_type',
-                'company.id AS eps_id',
-                'company.name AS eps_name', // --------------------------------------------------------
-                'company.identification AS eps_identification', //       PARA COPAGOS
-                'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
-                'company.phone AS eps_phone', //
-                'company.mail AS eps_mail', // --------------------------------------------------------
-                'billing_pad.total_value AS billing_total_value',
-            )
-            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
-            ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
-            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
-            ->leftJoin('region', 'region.id', 'campus.region_id')
-            ->leftJoin('municipality', 'municipality.id', 'campus.municipality_id')
-            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
-            ->leftJoin('company', 'company.id', 'contract.company_id')
-            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-            ->get()->toArray();
+        $BillingPad = $this->getBillingPadInformation($id);
 
         $billMaker = BillingPadLog::select(
             'users.firstname AS billing_maker_firstname',
@@ -809,7 +802,7 @@ class BillingPadController extends Controller
         // FACTURAS NO PGP
 
         $file_no_pgp = [
-            'BOG479031;;FA;01;10;;COP;' . $now_date . ';;;;;BOG4;;;;;;;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+            $BillingPad[0]['billing_consecutive'] . $BillingPad[0]['billing_prefix'] . ';;FA;01;10;;COP;' . $now_date . ';;;;;' . $BillingPad[0]['billing_consecutive'] . ';;;;;' . $BillingPad[0]['billing_resolution'] . ';;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
 ;;;
 900900122-7;;;;;;;;;;;;;;;;;;;
 ' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
@@ -854,6 +847,53 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'message' => 'Factura generada exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
+    }
+
+    public function getBillingPadInformation(int $billing_id): array
+    {
+        return BillingPad::find($billing_id)
+            ->select(
+                'patients.firstname AS firstname',
+                'patients.middlefirstname AS middlefirstname',
+                'patients.lastname AS lastname',
+                'patients.middlelastname AS middlelastname',
+                'patients.identification AS identification',
+                'patients.residence_address AS residence_address',
+                'patients.email AS email',
+                'patients.phone AS phone',
+                'campus.address AS patient_admission_address',
+                'campus.enable_code AS patient_admission_enable_code',
+                'campus.billing_pad_prefix_id AS campus_billing_pad_prefix_id',
+                'billing_pad_prefix.name AS campus_billing_pad_prefix',
+                'briefcase.name AS briefcase_name',
+                'municipality.sga_origin_fk AS user_city_code',
+                'region.code AS user_departament_code',
+                'identification_type.code AS patient_identification_type',
+                'company.id AS eps_id',
+                'company.name AS eps_name', // --------------------------------------------------------
+                'company.identification AS eps_identification', //       PARA COPAGOS
+                'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
+                'company.phone AS eps_phone', //
+                'company.mail AS eps_mail', // --------------------------------------------------------
+                'billing_pad_consecutive.resolution AS billing_resolution',
+                'PF.name AS billing_prefix',
+                'billing_pad.billing_pad_prefix_id AS billing_prefix_id',
+                'billing_pad.total_value AS billing_total_value',
+                'billing_pad.consecutive AS billing_consecutive',
+            )
+            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->leftJoin('billing_pad_prefix AS PF', 'PF.id', 'billing_pad.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_consecutive', 'billing_pad_consecutive.id', 'billing_pad.billing_pad_consecutive_id')
+            ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
+            ->leftJoin('region', 'region.id', 'campus.region_id')
+            ->leftJoin('municipality', 'municipality.id', 'campus.municipality_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->get()->toArray();
     }
 
 

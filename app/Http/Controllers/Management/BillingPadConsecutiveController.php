@@ -83,7 +83,8 @@ class BillingPadConsecutiveController extends Controller
     public function store(BillingPadConsecutiveRequest $request): JsonResponse
     {
         $validate = BillingPadConsecutive::where('billing_pad_prefix_id', $request->billing_pad_prefix_id)
-            ->where('status_id', 1);
+            ->where('status_id', 1)
+            ->get()->first();
 
         if ($validate) {
             return response()->json([
@@ -97,7 +98,7 @@ class BillingPadConsecutiveController extends Controller
         $BillingPadConsecutive->resolution = $request->resolution;
         $BillingPadConsecutive->initial_consecutive = $request->initial_consecutive;
         $BillingPadConsecutive->final_consecutive = $request->final_consecutive;
-        $BillingPadConsecutive->actual_consecutive = $request->actual_consecutive;
+        $BillingPadConsecutive->actual_consecutive = 0;
         $BillingPadConsecutive->expiracy_date = $request->expiracy_date;
         $BillingPadConsecutive->status_id = $request->status_id;
         $BillingPadConsecutive->billing_pad_prefix_id = $request->billing_pad_prefix_id;
