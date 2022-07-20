@@ -6,12 +6,14 @@
 
 namespace App\Models\Base;
 
+use App\Models\AdministrationRoute;
 use App\Models\ProductDose;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MeasurementUnits;
+use App\Models\NomProduct;
 use App\Models\ProductConcentration;
-
+use App\Models\ProductPresentation;
 
 /**
  * Class ProductGeneric
@@ -63,5 +65,20 @@ class ProductGeneric extends Model
 	public function product_dose()
 	{
 		return $this->belongsTo(ProductDose::class);
+	}
+
+	public function administration_route()
+	{
+		return $this->belongsTo(AdministrationRoute::class);
+	}
+
+	public function product_presentation()
+	{
+		return $this->belongsTo(ProductPresentation::class);
+	}
+
+	public function nom_product()
+	{
+		return $this->belongsTo(NomProduct::class);
 	}
 }
