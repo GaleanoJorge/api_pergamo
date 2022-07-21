@@ -242,6 +242,7 @@ class ManualPriceController extends Controller
             $ManualPrice->price_type_id = $request->price_type_id;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->homologous_id;
+            $ManualPrice->description = $request->description;
             $ManualPrice->save();
             return response()->json([
                 'status' => true,
@@ -296,6 +297,7 @@ class ManualPriceController extends Controller
             $ManualPrice->own_code = $request->code_atc;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->code_atc;
+            $ManualPrice->description = $request->description;
             $ManualPrice->save();
 
 
@@ -315,6 +317,7 @@ class ManualPriceController extends Controller
             $ManualPrice->own_code = $request->code_atc;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->code_atc;
+            $ManualPrice->description = $request->description;
             $ManualPrice->save();
 
 
@@ -415,6 +418,7 @@ class ManualPriceController extends Controller
         $ManualPrice->own_code = $request->own_code;
         $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
         $ManualPrice->homologous_id = $request->homologous_id;
+        $ManualPrice->description = $request->description;
         $ManualPrice->save();
 
         return response()->json([
