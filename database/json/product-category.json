@@ -60,15 +60,23 @@
         "product_group_id": "2"
     },
     {
-        "name": "IIA",
+        "name": "IIa",
         "product_group_id": "2"
     },
     {
-        "name": "IIB",
+        "name": "IIb",
         "product_group_id": "2"
     },
     {
         "name": "III",
+        "product_group_id": "2"
+    },
+    {
+        "name": "III",
+        "product_group_id": "2"
+    },
+    {
+        "name": "N/A",
         "product_group_id": "2"
     }
 ]
