@@ -40,7 +40,7 @@ class ChSystemExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Examen Sistema obtenidos exitosamente',
+            'message' => 'Revisión Por  Sistema obtenidos exitosamente',
             'data' => ['ch_system_exam' => $ChSystemExam]
         ]);
     }
@@ -63,7 +63,7 @@ class ChSystemExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Examen Sistema obtenido exitosamente',
+            'message' => 'Revisión Por  Sistema obtenido exitosamente',
             'data' => ['ch_system_exam' => $ChSystemExam]
         ]);
     }
@@ -83,7 +83,7 @@ class ChSystemExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Examen Sistema asociado al paciente exitosamente',
+            'message' => 'Revisión Por  Sistema asociado al paciente exitosamente',
             'data' => ['ch_system_exam' => $ChSystemExam->toArray()]
         ]);
     }else{
@@ -107,7 +107,7 @@ class ChSystemExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Examen Sistema obtenido exitosamente',
+            'message' => 'Revisión Por  Sistema obtenido exitosamente',
             'data' => ['ch_system_exam' => $ChSystemExam]
         ]);
     }
@@ -130,7 +130,7 @@ class ChSystemExamController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Examen Sistema actualizado exitosamente',
+            'message' => 'Revisión Por  Sistema actualizado exitosamente',
             'data' => ['ch_system_exam' => $ChSystemExam]
         ]);
     }
@@ -149,12 +149,12 @@ class ChSystemExamController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Examen Sistema eliminado exitosamente'
+                'message' => 'Revisión Por  Sistema eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Examen Sistema en uso, no es posible eliminarlo'
+                'message' => 'Revisión Por  Sistema en uso, no es posible eliminarlo'
             ], 423);
         }
     }

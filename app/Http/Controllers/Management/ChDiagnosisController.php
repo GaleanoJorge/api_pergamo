@@ -15,7 +15,7 @@ class ChDiagnosisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $validate): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $ChDiagnosis = ChDiagnosis::select()
             ->with('diagnosis');
@@ -35,16 +35,6 @@ class ChDiagnosisController extends Controller
             $per_page = $request->query("per_page", 10);
 
             $ChDiagnosis = $ChDiagnosis->paginate($per_page, '*', 'page', $page);
-        }
-        if ($request->ch_diagnosis_class_id == 1) {
-             ChDiagnosis::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_class_id', 1)->first();
-
-
-        } else {
-             ChDiagnosis::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_class_id', 3)->first();
-
-
-        
         }
 
 
@@ -75,8 +65,12 @@ class ChDiagnosisController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-       
-        
+        if ($request->ch_diagnosis_class_id == 1) {
+            $validate = ChDiagnosis::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_class_id', 1)->first();
+        } else {
+            $validate = null;
+        }
+        if (!$validate) {
             $ChDiagnosis = new ChDiagnosis;
             $ChDiagnosis->ch_diagnosis_type_id = $request->ch_diagnosis_type_id;
             $ChDiagnosis->ch_diagnosis_class_id = $request->ch_diagnosis_class_id;
@@ -91,14 +85,13 @@ class ChDiagnosisController extends Controller
                 'message' => 'Diagnóstico asociado al paciente exitosamente',
                 'data' => ['ch_diagnosis' => $ChDiagnosis->toArray()]
             ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya tiene un diagnostico principal asociado'
+            ], 423);
         }
-        // } else {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Ya tiene un diagnostico principal asociado'
-        //     ], 423);
-        // }
-    
+    }
 
     /**
      * Display the specified resource.
