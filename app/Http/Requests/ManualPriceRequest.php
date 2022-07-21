@@ -33,7 +33,8 @@ class ManualPriceRequest extends FormRequest
             'supplies_id' => '',
             'product_id' => '',
             'value' => 'required',
-            'price_type_id' => 'required'
+            'price_type_id' => 'required',
+            'description' => '',
         ];
     }
 }

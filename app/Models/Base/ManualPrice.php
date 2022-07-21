@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $price_type_id
  * @property int $manual_procedure_type_id
  * @property string homologous_id
+ * @property string description
  * @property int $value
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -47,6 +48,7 @@ class ManualPrice extends Model
 		'price_type_id' => 'int',
 		'manual_procedure_type_id' => 'int',
 		'homologous_id' => 'string',
+		'description' => 'string',
 	];
 
 	public function procedure()

@@ -22,6 +22,7 @@ class CreateManualPriceTable extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('supplies_id')->nullable();
             $table->unsignedBigInteger('manual_procedure_type_id')->nullable();
+            $table->longText('description')->nullable();
             $table->string('homologous_id')->nullable();
             $table->Integer('value');
             $table->unsignedBigInteger('price_type_id')->nullable();
