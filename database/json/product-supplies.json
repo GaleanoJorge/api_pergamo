@@ -1,0 +1,2314 @@
+[
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aplicadores asepticos"
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": "1",
+            "measure": "7",
+            "stature": null,
+            "measure_supplies_measure_id": "1",
+            "description": "barrera natura surfit  7 mm 7 mm "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": "1",
+            "measure": "7",
+            "stature": null,
+            "measure_supplies_measure_id": "1",
+            "description": "bolsa natura drenable 7 mm 7 mm "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter intravenoso periferico 2    "
+        },
+        {
+            "size": "22",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter intravenoso periferico 22    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito de anestesia pediatrico     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo de bomba infusion     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo ventury medida adulto     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "esparadrao fixomull  1 cm   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "filtro hidrofobico equipo de succión     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "gasa esteril precortada     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "gorro enfermeria     "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guantes esteriles 7    "
+        },
+        {
+            "size": "6.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guantes estériles  6,5    "
+        },
+        {
+            "size": "7.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guantes estériles  7,5    "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guantes esteriles 8    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "M",
+            "description": "guantes de latex para examen     M"
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa  1 mL   "
+        },
+        {
+            "size": "15",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "linner /con solidificante 15 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "M",
+            "description": "mascara oronasal ventilacion mecanica no invasiva     M"
+        },
+        {
+            "size": "1.5",
+            "size_supplies_measure_id": "4",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "recolector cortopunzante (guardian) 1,5 L   "
+        },
+        {
+            "size": "0.5",
+            "size_supplies_measure_id": "4",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "recolector de cortopunzantes medida 0,5 L   "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion cerrada 8 Fr   "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton 14 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tapabocas n95 no unidad     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter heparinizado     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa 1 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "adaptador mount con codo angulado     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": "1",
+            "description": "bajalenguas     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "bata paciente manga larga     "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "bolsa recolectora de orina 2 mL   "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": "6",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "caucho de succión 3 m   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "compresa esteril     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "compresa no esteril     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo de administracion macrogoteo con luer     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo micronebulizador medida adulto     "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "esparadrapo micropore piel  2 Pulgadas   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "extension de anestesia adulto     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": "1",
+            "description": "filtro antimicrobiano nariz de camello    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "filtro antibacterial - ventilador no 35     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "frasco recolector de orina     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "S",
+            "description": "guantes de nitrilo para examen     S"
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa punta cateter 6 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "lancetas     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "pañines impregnados de alcohol 7%     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "set para nutricion enteral con bolsa     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion 1 Fr   "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion  14 Fr   "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion 8 Fr   "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton 1 Fr   "
+        },
+        {
+            "size": "12",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton 12 Fr   "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton 6 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tiras de glucometria     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo tapa amarilla     "
+        },
+        {
+            "size": "4",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda elastica medida 4 pulgadas 4 Pulgadas   "
+        },
+        {
+            "size": "4",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda de algodon medida 4 pulgadas 4 Pulgadas   "
+        },
+        {
+            "size": "24",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter intravenoso periferico  24    "
+        },
+        {
+            "size": "85",
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aposito hidratante con alginato 85 g   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo para nutrición enteral amika     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "esparadrapo de tela     "
+        },
+        {
+            "size": "12",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion cerrada  12 Fr   "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton  8 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tienda de traqueostomía    Pediátrico  "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda de algodon  5 Pulgadas   "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda elastica  3 Pulgadas   "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda elastica  5 Pulgadas   "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "2",
+            "measure": "1",
+            "measure_supplies_measure_id": "2",
+            "stature": null,
+            "description": "aposito de hidrofibra con plata (aquacel ag) 1 cm 1 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "canula nasal    Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "set hemodialisis cateter para recambio     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo administración de nutrición por sonda    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "kit micronebulizacion   Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "filtro antimicrobiano nariz de camello    Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "frasco recolector de orina 24 horas     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "L",
+            "description": "guantes de nitrilo para examen      L"
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "M",
+            "description": "guantes de nitrilo para examen     M"
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "humidificador de oxigeno     "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa  2 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "linea para depuracion sanguinea extracorporea     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "pasta stomahesive tubo  56.7 g   "
+        },
+        {
+            "size": "29",
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "polvo stomahesive 29 g   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "resucitador manual desechable   Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "resucitador manual desechable    Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "set para nutricion enteral con tapa rosca     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "14",
+            "stature": null,
+            "measure_supplies_measure_id": "5",
+            "description": "sonda de succion cerrada    14 Fr "
+        },
+        {
+            "size": "12",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion 12 Fr   "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vias 2 Fr   "
+        },
+        {
+            "size": "22",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 3 vias  22 Fr   "
+        },
+        {
+            "size": "12",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica 12 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tapabocas con elastico     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "tienda de traqueostomía    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "tubo tapa lila     "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "aguja hipodermica  18    "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de guedel  3    "
+        },
+        {
+            "size": "4",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de guedel  4    "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de guedel  5    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de oxigeno    Adulto  "
+        },
+        {
+            "size": "7.5",
+            "size_supplies_measure_id": "5",
+            "measure": "2",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "cateter bilumen 7,5 Fr 2 cm "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": "5",
+            "measure": "2",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "catater venoso central trilumen 7 Fr 2 cm "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter intravenoso periferico 18    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "circuito de anestesia    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "electrodo de monitoreo    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "electrodo para desfibrilador nihon kohden   Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "equipo de bomba infusion fotosensible     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "7",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "esparadrapo micropore piel  1 Pulgadas   "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "extension de oxigeno  7 m    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "description": "gel conductor     ",
+            "stature": null,
+            "measure": null
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guia de intubacion medida adulto   Adulto  "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "3",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "jeringa  5 mL   "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "3",
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa 5 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "llave de tres vías azul     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "mascara de no reinhalacion    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "racord o niple de oxígeno     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion cerrada  1 Fr   "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion cerrada  14 Fr   "
+        },
+        {
+            "size": "22",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vias con balon 22 Fr   "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vías  18 Fr   "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vías  16 Fr   "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica 14 Fr   "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica  16 Fr   "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica 18 Fr   "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nelaton  16 Fr   "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon 6    "
+        },
+        {
+            "size": "6.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon  6,5    "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon  7    "
+        },
+        {
+            "size": "7.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon 7,5    "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon 8    "
+        },
+        {
+            "size": "8.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon  8,5    "
+        },
+        {
+            "size": "8.5",
+            "size_supplies_measure_id": "2",
+            "measure": "11.5",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito transparente iv para fijacion de cateter  8,5 cm 11,5 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "electrodo de monitoreo   Pediátrico  "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "concentrado de bicarbonato de sodio para dialisis  5 g   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito de ventilacion     "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "6",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "extension de oxigeno 2 m   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "manguera corrugada para oxigeno     "
+        },
+        {
+            "size": "12.5",
+            "size_supplies_measure_id": "2",
+            "measure": "12.5",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito aquacel tm foam 12,5 cm 12,5 cm "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vias 14 Fr   "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda elastica 6 Pulgadas   "
+        },
+        {
+            "size": "15",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canister 15 mL   "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "1",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "esteem + sistema de ostomia de una pieza 1 mm   "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion 6    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "termometro digital     "
+        },
+        {
+            "size": "15",
+            "size_supplies_measure_id": "10",
+            "measure": "15",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "conjunto de agujas desechables para fistula 15 Gauss 15 cm "
+        },
+        {
+            "size": "15",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "hoja de bisturi  15    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "interfase nasal    Pediátrico  "
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "seda silk 4-  45 cm   "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "2",
+            "measure": "1",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito aquacel ag+ extra 1 cm 1 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo tapa roja     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "algodon en torundas pqte  5 und     "
+        },
+        {
+            "size": "15",
+            "size_supplies_measure_id": "2",
+            "measure": "15",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito hidrocoloide cgf  15 cm 15 cm "
+        },
+        {
+            "size": "13.5",
+            "size_supplies_measure_id": "5",
+            "measure": "16",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "cateter de hemodialisis temporal precurvo  13,5 Fr 16 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo microgoteo sin aguja     "
+        },
+        {
+            "size": "75",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "seda 2- aguja recta  75 cm   "
+        },
+        {
+            "size": "27",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aguja hipodermica 27    "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "2",
+            "measure": "2",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito duoderm cgf  2 cm 2 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "candado carro de paro     "
+        },
+        {
+            "size": "14",
+            "size_supplies_measure_id": "5",
+            "measure": "2",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "cateter de hemodialisis doble lumen  14 Fr 2 cm "
+        },
+        {
+            "size": "13.5",
+            "size_supplies_measure_id": "5",
+            "measure": "19.5",
+            "stature": null,
+            "measure_supplies_measure_id": "5",
+            "description": "cateter temporal recto doble lumen 13,5 Fr 19,5 Fr "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "nebulizador con ventury alto volumen     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "incentivo respiratorio de tres bolas     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "inhalocamara   Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sabana para amortajar     "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "5",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sonda de succion 16 Fr   "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": "5",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sonda foley 3 vias 18 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito de ventilacion   Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "circuito de ventilacion    Pediátrico  "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": "3",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "jeringa 3 mL   "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": "4",
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "recolector de cortopunzante cilindrico  8 L   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Neonatal",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito respiratorio alma lisa    Neonatal  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Neonatal",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "filtro antimicrobiano nariz de camello    Neonatal  "
+        },
+        {
+            "size": "65",
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "concentrado de bicarbonato de sodio para dialisis  65 g   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "concentr. acido para hemodialisis con bicarbonato     "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "disp. limpieza sangre extracorporeo dializador  6    "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "disp. limpieza sangre extracorporeo dializador  8    "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "9",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "desinfec para limpieza de equipos de hemodialisis galon 6 Kg   "
+        },
+        {
+            "size": "25",
+            "size_supplies_measure_id": "9",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sal para dialisis 25 Kg   "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "2",
+            "measure": "25",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "aposito absorbente 2 cm 25 cm "
+        },
+        {
+            "size": "57",
+            "size_supplies_measure_id": "1",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "barrera natura convexa  57 mm   "
+        },
+        {
+            "size": "57",
+            "size_supplies_measure_id": "1",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "bolsa natura drenable de colostomia  57 mm   "
+        },
+        {
+            "size": "5.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia 5,5    "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia 6    "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia  8    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo ventury    Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "extension de anestesia    Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "mascara de no reinhalacion    Pediátrico  "
+        },
+        {
+            "size": "24",
+            "size_supplies_measure_id": "5",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sonda foley 2 vias  24 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "dynaflex no kit     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "papel para electrocardiograma     "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "5",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sonda de succion cerrada 6 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "tarjeta para analisis de gases arteriales     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "conos de otoscopio    Adulto  "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "3",
+            "measure": "25",
+            "stature": null,
+            "measure_supplies_measure_id": "10",
+            "description": "jeringa heparinizada para toma de gases arteriales medida 1ml x 25g 1 ml 25 Gauss "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "puerto de fuga     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "incentivo respiratorio de una esfera     "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica (levin) 8 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "S",
+            "description": "guantes de latex para examen     S"
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo tapa azul     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tapon protector esteril para dcpa     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "organizador sistema stay safe     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "miel en gel grado medico     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "recamara humidificadora     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "interface nasal   Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "camara de agua con auto llenado y manguera     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito respiratorio calentador   Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "papel termico para desfibrilador rollo     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "kit overol de alta proteccion     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "2",
+            "measure": "13",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aposito de alginato de calcio con miel activa medida 1 x 13 1 cm 13 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "description": "circuito para ventilador astral   Pediátrico  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "vaso desechable con tapa para esputo     "
+        },
+        {
+            "size": "4.5",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de traqueostomia  4,5    "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de traqueostomia  5    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "aguja para toma de muestras     "
+        },
+        {
+            "size": "18",
+            "size_supplies_measure_id": "5",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "sonda nelaton 18 Fr   "
+        },
+        {
+            "size": "7",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de traqueostomia  7    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "mascara de oxigeno    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "filtro para la solucion de dialisis     "
+        },
+        {
+            "size": "32",
+            "size_supplies_measure_id": "1",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "cateter autoadhesivo recolector de orina  32 mm   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "polainas resortadas     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "mascara de oxigeno    Pediátrico  "
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "polipropoileno 3-  45 cm   "
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "seda 2- sc 26 45 cm   "
+        },
+        {
+            "size": "8.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia  8,5    "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "venda de yeso 5 Pulgadas   "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "6",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "caucho de succión 2 m   "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda de succion cerrada  16 Fr   "
+        },
+        {
+            "size": "0.5",
+            "size_supplies_measure_id": "7",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "esparadrapo micropore piel  0,5 Pulgadas   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo de buretrol     "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": "7",
+            "measure": "5",
+            "stature": null,
+            "measure_supplies_measure_id": "7",
+            "description": "venda de yeso  3 Pulgadas 5 pulgadas "
+        },
+        {
+            "size": "6.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia  6,5    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "M",
+            "description": "bata cirujano antifluido      M"
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "polipro 5/ c/a curva cortante  45 cm   "
+        },
+        {
+            "size": "3.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon  3,5    "
+        },
+        {
+            "size": "4",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon 4    "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tubo endotraqueal con balon  5    "
+        },
+        {
+            "size": "3",
+            "size_supplies_measure_id": "10",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "gel con pectina duoderm  3 Gauss   "
+        },
+        {
+            "size": "12",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley  12 Fr   "
+        },
+        {
+            "size": "35",
+            "size_supplies_measure_id": "2",
+            "measure": "35",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "campo esteril abierto  35 cm 35 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "frasco recoleccion coprologico     "
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sond foley dos vias  8    "
+        },
+        {
+            "size": "7.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia  7,5    "
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "1",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "barrera natura convexa 45 mm   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "camisa para vacuette     "
+        },
+        {
+            "size": "8.5",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guantes esteriles  8,5    "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica (levin)  6    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "equipo de transfusion de sangre     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "inhalocamara con mascara en silicona    Pediátrico  "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "3",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "jeringa punta cateter  5 mL   "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "4",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "concentrado acido para hemodialisis  5 L   "
+        },
+        {
+            "size": "45",
+            "size_supplies_measure_id": "1",
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "bolsa natura drenable de colostomia  45 mm   "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "3",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "barrera cutánea no irritante spray  5 mL   "
+        },
+        {
+            "size": "5",
+            "size_supplies_measure_id": "3",
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "eliminador de adhesivo no irritante spray 5 mL   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "pinzas para bolsa decolostomía     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "conector para nutricion enteral     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": "L",
+            "measure": null,
+            "description": "mascara oronasal ventilacion mecanica no invasiva     L"
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "electrodos para desfibrilador welch allyn    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": "L",
+            "measure": null,
+            "description": "guantes de latex para examen      L"
+        },
+        {
+            "size": "4",
+            "size_supplies_measure_id": null,
+            "measure_supplies_measure_id": null,
+            "stature": null,
+            "measure": null,
+            "description": "canula de traqueostomia  4    "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "conos de otoscopio    Pediátrico  "
+        },
+        {
+            "size": "16",
+            "size_supplies_measure_id": "10",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "conjunto de agujas desechables para fistula  16 Gauss   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "tapon de policarbonato y silicona     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "campo auxiliar esteril     "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda foley 2 vias  1 Fr   "
+        },
+        {
+            "size": "17",
+            "size_supplies_measure_id": "10",
+            "measure": "15",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "conjunto de agujas desechables para fistula 17 Gauss 15 cm "
+        },
+        {
+            "size": "23",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aguja hipodermica  23    "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "guia de intubacion medida pediatrica  1 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "S",
+            "description": "mascara ventilacion mecanica no invasiva full face      S"
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de guedel 1    "
+        },
+        {
+            "size": "21",
+            "size_supplies_measure_id": "10",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aguja hipodermica desechable no nº21 x1 1 21 Gauss   "
+        },
+        {
+            "size": "75",
+            "size_supplies_measure_id": "2",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "polipro 2/ c/a recta ks 75 cm   "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "2",
+            "measure": "2",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "barrera para piel  2 cm 2 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "sabana para camilla     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "laminas cubre objetos     "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "circuito para ventilador astral    Adulto  "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "5",
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "sonda nasogastrica no 1 fr 1 Fr   "
+        },
+        {
+            "size": "25",
+            "size_supplies_measure_id": "6",
+            "stature": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "description": "vendaje de malla tubular  25 m   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Adulto",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "ferulas inmovilizadoras    Adulto  "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": "Pediátrico",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "electrodo para desfibrilador    Pediátrico  "
+        },
+        {
+            "size": "1.5",
+            "size_supplies_measure_id": "2",
+            "measure": "1.5",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "actisorb plus 25  1,5 cm 1,5 cm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "manguera desechable para succion     "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "ccanula de guedel  6    "
+        },
+        {
+            "size": "1",
+            "size_supplies_measure_id": "2",
+            "measure": "12",
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aposito tegaderm  1 cm 12 cm "
+        },
+        {
+            "size": "85",
+            "size_supplies_measure_id": "8",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "aposito hidratante con alginato ungüento 85 g   "
+        },
+        {
+            "size": "57",
+            "size_supplies_measure_id": "1",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "bolsa de colostomia  57 mm   "
+        },
+        {
+            "size": "11",
+            "size_supplies_measure_id": "2",
+            "measure": "11",
+            "stature": null,
+            "measure_supplies_measure_id": "2",
+            "description": "silvercel medida  11 cm 11 cm "
+        },
+        {
+            "size": "6",
+            "size_supplies_measure_id": "3",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "jeringa  6 mL   "
+        },
+        {
+            "size": "14.5",
+            "size_supplies_measure_id": "5",
+            "measure": "24",
+            "measure_supplies_measure_id": "2",
+            "stature": "Adulto",
+            "description": "set cateter tunelizado doble lumen  14,5 Fr 24 cm Adulto"
+        },
+        {
+            "size": "8",
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "canula de traqueostomia no fenestrada sin balon  8    "
+        },
+        {
+            "size": "2",
+            "size_supplies_measure_id": "5",
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "kit de gastrostomia percutanea  2 Fr   "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "measure_supplies_measure_id": null,
+            "stature": "M",
+            "description": "kit aspirador de secreciones      M"
+        },
+        {
+            "size": "22",
+            "size_supplies_measure_id": "10",
+            "measure": "12",
+            "stature": null,
+            "measure_supplies_measure_id": "1",
+            "description": "aguja surecan  22 Gauss 12 mm "
+        },
+        {
+            "size": null,
+            "size_supplies_measure_id": null,
+            "measure": null,
+            "stature": null,
+            "measure_supplies_measure_id": null,
+            "description": "humidificador de alto flujo     "
+        }
+    ]
