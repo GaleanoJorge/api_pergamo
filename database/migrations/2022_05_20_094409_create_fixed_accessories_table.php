@@ -16,13 +16,14 @@ class CreateFixedAccessoriesTable extends Migration
         Schema::create('fixed_accessories', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->string('name');
-            $table->integer('amount');
+            $table->integer('amount_total');
+            $table->integer('actual_amount');
             $table->unsignedBigInteger('campus_id');
-            $table->unsignedBigInteger('fixed_type_role_id');
+            $table->unsignedBigInteger('fixed_type_id');
             $table->timestamps();
-            $table->index('fixed_type_role_id');
-            $table->foreign('fixed_type_role_id')->references('id')
-                ->on('fixed_type_role');
+            $table->index('fixed_type_id');
+            $table->foreign('fixed_type_id')->references('id')
+                ->on('fixed_type');
             $table->index('campus_id');
             $table->foreign('campus_id')->references('id')
                 ->on('campus');

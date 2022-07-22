@@ -17,11 +17,18 @@ class FixedLoanController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedLoan = FixedLoan::select('fixed_add_id.*')
+        $FixedLoan = FixedLoan::select('fixed_loan.*')
             ->with(
                 'fixed_add',
                 'fixed_add.fixed_assets',
-                'fixed_add.fixed_accessories');
+                'fixed_assets',
+                'fixed_assets.fixed_type',
+                'fixed_assets.fixed_clasification',
+                'fixed_add.fixed_accessories',
+                'fixed_accessories',
+                'fixed_accessories.fixed_type'
+            )
+            ->leftJoin('fixed_add', 'fixed_add.id', 'fixed_loan.fixed_add_id');
 
         if ($request->_sort) {
             $FixedLoan->orderBy($request->_sort, $request->_order);
@@ -69,8 +76,8 @@ class FixedLoanController extends Controller
         $FixedLoan->amount_damaged = $request->amount_damaged;
         $FixedLoan->amount_provition = $request->amount_provition;
         $FixedLoan->fixed_add_id = $request->fixed_add_id;
-        $FixedLoan->responsible_user_id = $request->responsible_user_id;
-        $FixedLoan->observation = $request->observation;
+        $FixedLoan->fixed_assets_id = $request->fixed_assets_id;
+        $FixedLoan->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedLoan->save();
 
         return response()->json([
@@ -111,8 +118,8 @@ class FixedLoanController extends Controller
         $FixedLoan->amount_damaged = $request->amount_damaged;
         $FixedLoan->amount_provition = $request->amount_provition;
         $FixedLoan->fixed_add_id = $request->fixed_add_id;
-        $FixedLoan->responsible_user_id = $request->responsible_user_id;
-        $FixedLoan->observation = $request->observation;
+        $FixedLoan->fixed_assets_id = $request->fixed_assets_id;
+        $FixedLoan->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedLoan->save();
 
         return response()->json([
@@ -121,43 +128,6 @@ class FixedLoanController extends Controller
             'data' => ['fixed_loan' => $FixedLoan]
         ]);
     }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  int  $i
-    //  * @return JsonResponse
-    //  */
-    // public function updateInventoryByLot(Request $request, int $id): JsonResponse
-    // {
-    //     $FixedLoan = FixedLoan::find($id);
-    //     $FixedLoan->actual_amount = $FixedLoan->amount - $request->actual_amount;
-    //     $FixedLoan->save();
-    //     $PharmacyReceptorInventory = FixedLoan::select('pharmacy_lot_stock.*')
-    //         ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id)->where('pharmacy_lot_stock_id', $request->pharmacy_lot_stock_id)->first();
-    //     if ($PharmacyReceptorInventory) {
-    //         $PharmacyReceptorInventory->actual_amount = $PharmacyReceptorInventory->actual_amount + $request->amount;
-    //         $PharmacyReceptorInventory->save();
-    //     } else {
-    //         $PharmacyReceptorInventory = new FixedLoan;
-    //         $FixedLoan->actual_amount = $request->actual_amount;
-    //         $FixedLoan->fixed_add_id = $request->fixed_add_id;
-    //         $FixedLoan->fixed_loan_id = $request->fixed_loan_id;
-    //         $PharmacyReceptorInventory->save();
-    //     }
-
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'Inventario activos actualizado exitosamente',
-    //         'data' => ['fixed_loan' => $PharmacyReceptorInventory]
-    //     ]);
-    //     // return response()->json([
-    //     //     'status' => true,
-    //     //     'message' => 'Inventario lote actualizado exitosamente',
-    //     //     'data' => ['billing_stock_id' => $PharmacyReceptorInventory]
-    //     // ]);
-    // }
-
 
     /**
      * Remove the specified resource from storage.

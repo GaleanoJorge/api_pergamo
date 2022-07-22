@@ -23,6 +23,7 @@ use App\Models\BillingPad;
 use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ChReasonConsultation;
+use App\Models\ChNursingEntry;
 use App\Models\ChVitalSigns;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChSystemExam;
@@ -142,7 +143,7 @@ class ChRecordController extends Controller
      */
     public function ViewHC(int $id)
     {
-        $imagenComoBase64 = null;
+
         $ChRecord = ChRecord::with(
             'user',
             'user.assistance',
@@ -164,65 +165,113 @@ class ChRecordController extends Controller
             'admissions.contract.type_briefcase'
         )
             ->where('id', $id)->get()->toArray();
+        $imagenComoBase64 = null;
+        
+        if ($ChRecord[0]['ch_type_id'] == 1) {
+            $ChReasonConsultation = ChReasonConsultation::where('ch_record_id', $id)->get()->toArray();
+            $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::where('ch_record_id', $id)->get()->toArray();
+            $ChDiagnosis = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->get()->toArray();
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->get()->toArray();
+            $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->get()->toArray();
+            // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
+            // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
 
-        $ChReasonConsultation = ChReasonConsultation::where('ch_record_id', $id)->get()->toArray();
-        $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->get()->toArray();
-        $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
-        $ChVitalSigns = ChVitalSigns::where('ch_record_id', $id)->get()->toArray();
-        $ChDiagnosis = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->get()->toArray();
-        $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->get()->toArray();
-        $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->get()->toArray();
-        $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-        $ChVitalSignsEvo = ChVitalSigns::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-        $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-        $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->get()->toArray();
-        // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
-        // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
-        if (count($ChRecord[0]['user']['assistance']) > 0) {
-            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-            $contenidoBinario = file_get_contents($rutaImagen);
-            $imagenComoBase64 = base64_encode($contenidoBinario);
+
+
+             $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.hc', [
+                'chrecord' => $ChRecord,
+                'chreasonconsultation' => $ChReasonConsultation,
+                'chsystemexam' => $ChSystemExam,
+                'chphysicalexam' => $ChPhysicalExam,
+                'chvitalsings' => $ChVitalSigns,
+                'chdiagnosis' => $ChDiagnosis,
+                'chbackground' => $ChBackground,
+                'ChEvoSoap' => $ChEvoSoap,
+                'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
+                'ChVitalSignsEvo' => $ChVitalSignsEvo,
+                'ChDiagnosisEvo' => $ChDiagnosisEvo,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
+        } else if ($ChRecord[0]['ch_type_id'] == 2) {
+
+
+            $ChnursingEntry = ChNursingEntry::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('ñ')->where('ch_record_id', $id)->get()->toArray();
+       
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+
+
+
+             $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+            $html = view('mails.hc', [
+                'chrecord' => $ChRecord,
+                'chnursingentry' => $ChnursingEntry,
+                'chphysicalexam'=> $ChPhysicalExam,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
         }
-
-
-
-        $Patients = $ChRecord[0]['admissions']['patients'];
-
-        // $patient=$ChRecord['admissions'];
-
-        $html = view('mails.hc', [
-            'chrecord' => $ChRecord,
-            'chreasonconsultation' => $ChReasonConsultation,
-            'chsystemexam' => $ChSystemExam,
-            'chphysicalexam' => $ChPhysicalExam,
-            'chvitalsings' => $ChVitalSigns,
-            'chdiagnosis' => $ChDiagnosis,
-            'chbackground' => $ChBackground,
-            'ChEvoSoap' => $ChEvoSoap,
-            'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
-            'ChVitalSignsEvo' => $ChVitalSignsEvo,
-            'ChDiagnosisEvo' => $ChDiagnosisEvo,
-            'ChRecommendationsEvo' => $ChRecommendationsEvo,
-            'firm' => $imagenComoBase64,
-            //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-            //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
-            //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-
-
-        ])->render();
-
-        $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
-        $dompdf = new PDF($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('Carta', 'portrait');
-        $dompdf->render();
-        $this->injectPageCount($dompdf);
-        $file = $dompdf->output();
-
-        $name = 'prueba.pdf';
-
-        Storage::disk('public')->put($name, $file);
 
         return response()->json([
             'status' => true,

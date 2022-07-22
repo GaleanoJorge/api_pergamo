@@ -29,6 +29,7 @@ class CreateProductGenericTable extends Migration
             $table->string ('code_atc')->nullable();
             $table->unsignedBigInteger('product_dose_id');
             $table->string('dose')->nullable();
+            $table->unsignedBigInteger('multidose_concentration_id')->nullable();
             $table->timestamps();
 
 
@@ -48,6 +49,10 @@ class CreateProductGenericTable extends Migration
             $table->index('product_dose_id');
             $table->foreign('product_dose_id')->references('id')
                 ->on('product_dose');
+
+            $table->index('multidose_concentration_id');
+            $table->foreign('multidose_concentration_id')->references('id')
+                ->on('multidose_concentration');
         });
     }
 

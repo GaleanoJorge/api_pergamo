@@ -63,9 +63,16 @@ class PharmacyProductRequest extends Model
 	{
 		return $this->belongsTo(Admissions::class);
 	}
-
+	public function pharmacy_request_shipping()
+	{
+		return $this->belongsTo(
+			PharmacyRequestShipping::class,
+			'id',
+			'pharmacy_product_request_id'
+		);
+	}
 	public function user_request()
 	{
-		return $this->belongsTo(User::class,'user_request_id');
+		return $this->belongsTo(User::class, 'user_request_id');
 	}
 }

@@ -9,6 +9,7 @@ class ChNursingEntry extends BaseChNursingEntry
 {
   protected $fillable = [
     'patient_position_id',
+    'observation_position',
     'ostomy_id',
     'observation',
     'hair_revision',

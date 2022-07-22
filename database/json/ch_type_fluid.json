@@ -101,12 +101,12 @@
     },
     {
         "id": 21,
-        "name": "TUVO DE TORAX DER.",
+        "name": "TUBO DE TORAX DER.",
         "ch_route_fluid_id": 7
     },
     {
         "id": 22,
-        "name": "TUVO DE TORAX IZQ.",
+        "name": "TUBO DE TORAX IZQ.",
         "ch_route_fluid_id": 7
     },
     {
@@ -141,7 +141,7 @@
     },
     {
         "id": 29,
-        "name": "ESPECIFICAR",
+        "name": "OTRO",
         "ch_route_fluid_id": 7
     }
 ]

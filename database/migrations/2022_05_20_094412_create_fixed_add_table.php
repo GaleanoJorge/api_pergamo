@@ -16,6 +16,7 @@ class CreateFixedAddTable extends Migration
         Schema::create('fixed_add', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->unsignedBigInteger('fixed_assets_id')->nullable();
+            $table->unsignedBigInteger('fixed_nom_product_id')->nullable();
             $table->unsignedBigInteger('fixed_accessories_id')->nullable();
             $table->unsignedBigInteger('fixed_location_campus_id')->nullable();
             $table->unsignedBigInteger('responsible_user_id');
@@ -39,6 +40,9 @@ class CreateFixedAddTable extends Migration
             $table->index('responsible_user_id');
             $table->foreign('responsible_user_id')->references('id')
                 ->on('user_role');
+            $table->index('fixed_nom_product_id');
+            $table->foreign('fixed_nom_product_id')->references('id')
+                ->on('fixed_nom_product');
 
         });
     }

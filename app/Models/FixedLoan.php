@@ -12,7 +12,7 @@ class FixedLoan extends BaseFixedLoan
 		'amount_damaged',
 		'amount_provition',
 		'fixed_add_id',
-		'responsible_user_id',
-		'observation',
+		'fixed_assets_id',
+		'fixed_accessories_id',
 	];
 }

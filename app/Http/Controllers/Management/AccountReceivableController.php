@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
+use App\Actions\Transform\NumerosEnLetras;
 use App\Models\AccountReceivable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Dompdf\Dompdf as PDF;
 
 class AccountReceivableController extends Controller
@@ -90,12 +92,12 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
+                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
+                DB::raw("1 AS show_file"),
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
-            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
-            ;
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
 
         if ($user_id != 0) {
             $AccountReceivable->groupBy('account_receivable.id');
@@ -228,8 +230,13 @@ class AccountReceivableController extends Controller
      * 
      * @param  int  $id
      */
-    public function generatePdf(int $id): JsonResponse
+    public function generatePdf(Request $request, int $id): JsonResponse
     {
+        $UserDownload = User::select(
+            'users.*',
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        )
+            ->where('id', $request->user_id)->get()->first();
         $AccountReceivable = AccountReceivable::where('id', $id)->first();
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
@@ -247,19 +254,28 @@ class AccountReceivableController extends Controller
             $FinancialData = $FinancialData->toArray();
         }
 
-        $formatterES = 'valor';
         $LastDayOfMonthFromAccount = Carbon::parse($AccountReceivable->created_at)->endOfMonth()->day;
         $AccountYear = Carbon::parse($AccountReceivable->created_at)->year;
         $AccountMonth = $this->getMonthString(Carbon::parse($AccountReceivable->created_at)->month);
 
+        $ExpiracyDate = Carbon::parse($AccountReceivable->created_at)->endOfMonth()->addDays(90);
+        $ExpiracyDay = $ExpiracyDate->day;
+        $ExpiracyDateYear = $ExpiracyDate->year;
+        $ExpiracyDateMonth = $this->getMonthString($ExpiracyDate->month);
+
         $full_name = strtoupper($User->firstname . ' ' . $User->middlefirstname . ' ' . $User->lastname . ' ' . $User->middlelastname);
         $rut_number = $FinancialData['rut'];
-        $doc_type = strtoupper($IdentificationType->name);
+        $doc_type = strtoupper($IdentificationType->code);
         $doc_number = $User->identification;
         if (!$AccountReceivable->net_value_activities) {
             $AccountReceivable->net_value_activities = 0;
         }
-        $net_value = $this->getNetValue($AccountReceivable->net_value_activities);
+        $retCalculator = app('App\Http\Controllers\Management\SourceRetentionController')->getByAccountReceivableId($request, $id);
+        $retCalculator = json_decode($retCalculator->content(), true)['data']['source_retention'];
+        $consecutive = $AccountReceivable->id;
+        $gross_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->gross_value_activities));
+        $net_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->net_value_activities));
+        $letter_value = $this->fillCharacters($this->NumToLetters($AccountReceivable->net_value_activities));
         $account_type = strtoupper($FinancialData['account_type']['name']);
         $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
         $account_number = $FinancialData['account_number'];
@@ -267,19 +283,29 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
+        $nombre_completo = $UserDownload->nombre_completo;
+
+        $generate_date = Carbon::now()->format('d-m-Y H:i:s');
 
         $html = view('layouts.receivable', [
+            'consecutive' => $consecutive,
             'AccountYear' => $AccountYear,
             'AccountMonth' => $AccountMonth,
             'day' => $LastDayOfMonthFromAccount,
             'month' => $AccountMonth,
             'year' => $AccountYear,
+            'ExpiracyDay' => $ExpiracyDay,
+            'ExpiracyDateYear' => $ExpiracyDateYear,
+            'ExpiracyDateMonth' => $ExpiracyDateMonth,
             'full_name' => $full_name,
             'rut_number' => $rut_number,
             'doc_type' => $doc_type,
             'doc_number' => $doc_number,
+            'gross_value' => $gross_value,
+            'ica_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Rete_ica'])),
+            'source_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Retencion_por_aplicar'])),
             'net_value' => $net_value,
-            'formatterES' => $formatterES,
+            'letter_value' => $letter_value,
             'account_type' => $account_type,
             'bank' => $bank,
             'account_number' => $account_number,
@@ -287,6 +313,8 @@ class AccountReceivableController extends Controller
             'address' => $address,
             'phone' => $phone,
             'email' => $email,
+            'generate_date' => $generate_date,
+            'nombre_completo' => $nombre_completo,
         ])->render();
 
         $dompdf = new PDF();
@@ -307,34 +335,54 @@ class AccountReceivableController extends Controller
         ]);
     }
 
-    private function getNetValue(int $value): string
+    public function fillCharacters(string $value): string
+    {
+        $Response = $value;
+        while (Str::length($Response) < 16) {
+            $Response = '_' . $Response;
+        }
+
+        return $Response;
+    }
+
+    private function currencyTransform($value): string
     {
         $millions = '';
+        $millionsNum = 0;
         $thousands = '';
+        $thousandsNum = 0;
         $hundreds = '';
+        $hundredsNum = 0;
         if ($value >= 1000000) {
             $millions = floor($value / 1000000) . '.';
+            $millionsNum = floor($value / 1000000);
             $thousands = floor(($value / 1000) - (floor($value / 1000000) * 1000)) . '.';
+            $thousandsNum = floor(($value / 1000) - (floor($value / 1000000) * 1000));
         } else {
-            $thousands = floor($value / 1000) . '.';
+            if (floor($value / 1000) > 0) {
+                $thousands = floor($value / 1000) . '.';
+            }
+            $thousandsNum = floor($value / 1000);
         }
-        $hundreds = ($value - (floor($value / 1000) * 1000));
+        $hundreds = ($value - (floor($value / 1000) * 1000)) . '';
+        $hundredsNum = ($value - (floor($value / 1000) * 1000));
 
-        if ($millions != '') {
-            if ($thousands < 100 && $thousands >= 10) {
+        if ($millionsNum > 0) {
+            if ($thousandsNum < 100 && $thousandsNum >= 10) {
                 $thousands = '0' . $thousands;
-            } elseif ($thousands < 10 && $thousands >= 0) {
+            } else if ($thousandsNum < 10 && $thousandsNum >= 0) {
                 $thousands = '00' . $thousands;
             }
         }
-
-        if ($hundreds < 100 && $hundreds >= 10) {
-            $hundreds = '0' . $hundreds;
-        } elseif ($hundreds < 10 && $hundreds >= 0) {
-            $hundreds = '00' . $hundreds;
+        if ($thousandsNum > 0 || $millionsNum > 0) {
+            if ($hundredsNum < 100 && $hundredsNum >= 10) {
+                $hundreds = '0' . $hundreds;
+            } else if ($hundredsNum < 10 && $hundredsNum >= 0) {
+                $hundreds = '00' . $hundreds;
+            }
         }
 
-        $Response = $millions . $thousands . $hundreds;
+        $Response = '$' . $millions . $thousands . $hundreds . '.00';
 
         return $Response;
     }
@@ -405,5 +453,10 @@ class AccountReceivableController extends Controller
                 'message' => 'Cuenta de cobro esta en uso, no es posible eliminarlo'
             ], 423);
         }
+    }
+
+    public function NumToLetters(int $value): string
+    {
+        return NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
     }
 }

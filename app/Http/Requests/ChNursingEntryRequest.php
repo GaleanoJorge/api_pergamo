@@ -25,6 +25,7 @@ class ChNursingEntryRequest extends FormRequest
     {
         return [
             'patient_position_id' => 'required',
+            'observation_position' => 'required',
             'ostomy_id' => 'required',
             'observation' => '',
             'hair_revision' => 'required',

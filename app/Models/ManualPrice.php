@@ -16,7 +16,8 @@ class ManualPrice extends BaseManualPrice
     'procedure_id',
     'product_id',
     'value',
-    'price_type_id'
+    'price_type_id',
+    'description'
          
 	
 	];

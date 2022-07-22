@@ -5,6 +5,7 @@
         "address": "AC 57 14 A 16 LC",
         "enable_code": "1100128942",
         "municipality_id": 11001,
+        "billing_pad_prefix_id": 2,
         "region_id": 3
     },
     {
@@ -13,6 +14,7 @@
         "address": "CARRERA 66 # 67G-30",
         "enable_code": "1100128942",
         "municipality_id": 11001,
+        "billing_pad_prefix_id": 1,
         "region_id": 3
     },
     {
@@ -21,6 +23,7 @@
         "address": "Av Carrera 68 # 13 - 73",
         "enable_code": "1100128942",
         "municipality_id": 11001,
+        "billing_pad_prefix_id": 3,
         "region_id": 3
     },
     {
@@ -29,6 +32,7 @@
         "address": "CALLE 19 5 A 24",
         "enable_code": "4100102172",
         "municipality_id": 41001,
+        "billing_pad_prefix_id": 7,
         "region_id": 13
     },
     {
@@ -37,6 +41,7 @@
         "address": "CARRERA 36 # 51 - 33",
         "enable_code": "6800170283",
         "municipality_id": 68001,
+        "billing_pad_prefix_id": 9,
         "region_id": 21
     },
     {
@@ -45,6 +50,7 @@
         "address": "CR 4 F # 34-117",
         "enable_code": "7300103086",
         "municipality_id": 73001,
+        "billing_pad_prefix_id": 10,
         "region_id": 23
     },
     {
@@ -53,6 +59,7 @@
         "address": "AK 45  94 51",
         "enable_code": "1100128942",
         "municipality_id": 11001,
+        "billing_pad_prefix_id": 4,
         "region_id": 3
     }
 ]
