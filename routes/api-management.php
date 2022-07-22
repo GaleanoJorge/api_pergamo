@@ -84,6 +84,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_auscultation', 'Management\ChAuscultationController');
     Route::apiResource('ch_diagnostic_aids', 'Management\ChDiagnosticAidsController');
     Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
+    Route::get('ch_objectives_therapy/by_record/{id}/{type_record_id}', 'Management\ChObjectivesTherapyController@getByRecord');
+
     Route::apiResource('ch_rt_sessions', 'Management\ChRtSessionsController');
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
     Route::apiResource('ch_supplies_therapy', 'Management\ChSuppliesTherapyController');
