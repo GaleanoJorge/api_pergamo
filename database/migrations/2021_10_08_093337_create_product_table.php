@@ -26,10 +26,10 @@ class CreateProductTable extends Migration
             $table->string('code_cum_file');
             $table->Integer('code_cum_consecutive');
             $table->Integer('regulated_drug');
-            $table->Integer('high_price');
-            $table->string('maximum_dose');
+            $table->Integer('high_price')->nullable();
+            $table->string('maximum_dose')->nullable();
             $table->string('indications');
-            $table->string('contraindications');
+            $table->string('contraindications')->nullable();
             $table->string('applications');
             $table->string('value_circular')->nullable();
             $table->string('circular')->nullable();
@@ -55,7 +55,6 @@ class CreateProductTable extends Migration
             $table->index('storage_conditions_id');
             $table->foreign('storage_conditions_id')->references('id')
                 ->on('storage_conditions');
-           
         });
     }
 
