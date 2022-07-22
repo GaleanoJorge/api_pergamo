@@ -54,7 +54,7 @@ class ChObjectivesTherapyController extends Controller
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
         $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->with('diagnosis','ch_background','ch_gynecologists') ->get()->toArray();
+         ->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Objetivos  obtenidos exitosamente',
