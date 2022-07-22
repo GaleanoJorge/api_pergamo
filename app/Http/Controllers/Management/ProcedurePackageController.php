@@ -108,7 +108,7 @@ class ProcedurePackageController extends Controller
         $procedure = 0;
         $err = 0;
 
-        if ($request->procedure_id) {
+        if ($request->procedures_id) {
             $components = json_decode($request->procedure_id);
             foreach ($components as $item) {
                 $ProcedurePackage = new ProcedurePackage;
