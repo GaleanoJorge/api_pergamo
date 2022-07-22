@@ -92,6 +92,9 @@ class ConsentsInformedController extends Controller
         $ConsentsInformed->firm_responsible = $request->firm_responsible;
         $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
         $ConsentsInformed->type_consents_id = $request->type_consents_id;
+        $ConsentsInformed->name_responsible = $request->name_responsible;
+        $ConsentsInformed->parent_responsible = $request->parent_responsible;
+        $ConsentsInformed->identification_responsible = $request->identification_responsible;
 
       
         $ConsentsInformed->save();
