@@ -982,6 +982,17 @@ class UserController extends Controller
             $THLog->talent_human_action_id = 1;
             $THLog->save();
 
+            if ($request->campus_id) {
+                $arraycampus = json_decode($request->campus_id);
+
+                foreach ($arraycampus as $item) {
+                    $userCampus = new UserCampus;
+                    $userCampus->user_id = $user->id;
+                    $userCampus->campus_id = $item->campus_id;
+                    $userCampus->save();
+                }
+            }
+
             $RoleType = Role::where('id', $role)->get()->toArray();
             if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                 $assistance = new Assistance;
