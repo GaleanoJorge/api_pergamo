@@ -232,23 +232,91 @@ class ManualPriceController extends Controller
         $Manual = Manual::select('type_manual')->where('id', $request->manual_id)->get();
         if ($Manual[0]->type_manual == 0) {
             $ManualPriceFilter = ManualPrice::where([])->get();
-            $ManualPrice = new ManualPrice;
-            $ManualPrice->name = $request->name;
-            $ManualPrice->own_code = $request->own_code;
-            $ManualPrice->manual_id = $request->manual_id;
-            $ManualPrice->procedure_id = $request->procedure_id;
-            $ManualPrice->product_id = null;
-            $ManualPrice->value = $request->value;
-            $ManualPrice->price_type_id = $request->price_type_id;
-            $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
-            $ManualPrice->homologous_id = $request->homologous_id;
-            $ManualPrice->description = $request->description;
-            $ManualPrice->save();
-            return response()->json([
-                'status' => true,
-                'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
-                'data' => ['manual_price' => $ManualPrice->toArray()]
-            ]);
+            if ($request->manual_procedure_type_id != 3) {
+                $ManualPrice = new ManualPrice;
+                $ManualPrice->name = $request->name;
+                $ManualPrice->own_code = $request->own_code;
+                $ManualPrice->manual_id = $request->manual_id;
+                $ManualPrice->procedure_id = $request->procedure_id;
+                $ManualPrice->product_id = null;
+                $ManualPrice->value = $request->value;
+                $ManualPrice->price_type_id = $request->price_type_id;
+                $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
+                $ManualPrice->homologous_id = $request->homologous_id;
+                $ManualPrice->description = $request->description;
+                $ManualPrice->save();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Asociación de los manuales con los procedimientos y las tarifas creada exitosamente',
+                    'data' => ['manual_price' => $ManualPrice->toArray()]
+                ]);
+            } else {
+                $ManualPrice = new ManualPrice;
+                $ManualPrice->name = $request->name;
+                $ManualPrice->own_code = $request->own_code;
+                $ManualPrice->manual_id = $request->manual_id;
+                // $ManualPrice->procedure_id = $request->procedure_id;
+                // $ManualPrice->product_id = null;
+                $ManualPrice->value = $request->value;
+                $ManualPrice->price_type_id = $request->price_type_id;
+                $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
+                $ManualPrice->homologous_id = $request->homologous_id;
+                $ManualPrice->description = $request->description;
+                $ManualPrice->save();
+
+                if ($request->procedures_id) {
+                    $components = json_decode($request->procedures_id);
+                    foreach ($components as $item) {
+                        $ProcedurePackage = new ProcedurePackage;
+                        $ProcedurePackage->value = $request->value;
+                        $ProcedurePackage->procedure_package_id = $ManualPrice->id;
+                        $ProcedurePackage->procedure_id = $item->procedure_id;
+                        $ProcedurePackage->max_quantity = $item->max_quantity;
+                        $ProcedurePackage->min_quantity = $item->min_quantity;
+                        $ProcedurePackage->dynamic_charge = $item->dynamic_charge;
+                        $ProcedurePackage->save();
+                    }
+                }
+
+                if ($request->product_id) {
+                    $components = json_decode($request->product_id);
+
+                    foreach ($components as $item) {
+
+                        $ProcedurePackage = new ProcedurePackage;
+                        $ProcedurePackage->value = $request->value;
+                        $ProcedurePackage->procedure_package_id = $ManualPrice->id;
+                        $ProcedurePackage->product_id = $item->product_id;
+                        $ProcedurePackage->max_quantity = $item->max_quantity;
+                        $ProcedurePackage->min_quantity = $item->min_quantity;
+                        $ProcedurePackage->dynamic_charge = $item->dynamic_charge;
+                        $ProcedurePackage->save();
+                    }
+                }
+
+                if ($request->supplies_id) {
+                    $components = json_decode($request->supplies_id);
+
+                    foreach ($components as $item) {
+
+                        $ProcedurePackage = new ProcedurePackage;
+                        $ProcedurePackage->value = $request->value;
+                        $ProcedurePackage->procedure_package_id = $ManualPrice->id;
+                        $ProcedurePackage->supplies_id = $item->supplies_id;
+                        $ProcedurePackage->max_quantity = $item->max_quantity;
+                        $ProcedurePackage->min_quantity = $item->min_quantity;
+                        $ProcedurePackage->dynamic_charge = $item->dynamic_charge;
+                        $ProcedurePackage->save();
+                    }
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Asociación de procedimientos y tarifas creada exitosamente : Paquete ' . $ManualPrice->name . ' creado',
+                    'data' => ['manual_price' => $ManualPrice->toArray()]
+                ]);
+            }
             // if ($request->manual_procedure_type_id == 3) {
             //     $ManualPrice = new ManualPrice;
             //     $ManualPrice->name = $request->name;
