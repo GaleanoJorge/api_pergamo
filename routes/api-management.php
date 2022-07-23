@@ -1342,7 +1342,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Tablas Incapacidad y Certificado Medico
     Route::apiResource('ch_contingency_code', 'Management\ChContingencyCodeController');
     Route::get('ch_contingency_code/by_record/{id}/{type_record_id}', 'Management\ChContingencyCodeController@getByRecord');
-    
+
     Route::apiResource('ch_type_inability', 'Management\ChTypeInabilityController');
     Route::get('ch_type_inability/by_record/{id}/{type_record_id}', 'Management\ChTypeInabilityController@getByRecord');
 
@@ -1357,10 +1357,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('ch_medical_certificate', 'Management\ChMedicalCertificateController');
     Route::get('ch_medical_certificate/by_record/{id}/{type_record_id}', 'Management\ChMedicalCertificateController@getByRecord');
-    
+
     //Tablas de Terapia de Lenguaje
     Route::apiResource('cif_diagnosis_tl', 'Management\CifDiagnosisTlController');
- //CCC   Route::get('cif_diagnosis_tl/by_record/{id}/{type_record_id}', 'Management\CifDiagnosisTlController@getByRecord');
+    //CCC   Route::get('cif_diagnosis_tl/by_record/{id}/{type_record_id}', 'Management\CifDiagnosisTlController@getByRecord');
 
     Route::apiResource('cognitive_tl', 'Management\CognitiveTlController');
     Route::get('cognitive_tl/by_record/{id}/{type_record_id}', 'Management\CognitiveTlController@getByRecord');
@@ -1416,7 +1416,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ostomias 
     Route::apiResource('ostomy', 'Management\OstomyController');
-  
+
     //posiciones del paciente 
     Route::apiResource('patient_position', 'Management\PatientPositionController');
 
@@ -1442,8 +1442,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('nursing_type_physical', 'Management\NursingTypePhysicalController');
 
     //Historia clinica de enfermeria
-    //ruta entrada clinica
-    Route::apiResource('ch_nursing_entry', 'Management\ChNursingEntryController');
+
+    //ruta position
+    Route::apiResource('ch_position', 'Management\ChPositionController');
+    Route::get('ch_position/by_record/{record_id}/{type_record}', 'Management\ChPositionController@getByRecord');
+
+    //ruta valoracion de cabello
+    Route::apiResource('ch_oxigen', 'Management\ChOxigenController');
+    Route::get('ch_oxigen/by_record/{record_id}/{type_record}', 'Management\ChOxigenController@getByRecord');
+
+    //ruta valoracion de cabello
+    Route::apiResource('ch_hair_valoration', 'Management\ChHairValorationController');
+    Route::get('ch_hair_valoration/by_record/{record_id}/{type_record}', 'Management\ChHairValorationController@getByRecord');
+
     //ruta nota de enfermeria
     Route::apiResource('ch_notes_description', 'Management\ChNotesDescriptionController');
     Route::get('ch_notes_description/by_record/{record_id}/{type_record}', 'Management\ChNotesDescriptionController@getByRecord');

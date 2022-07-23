@@ -45,24 +45,4 @@ class ChNotesDescription extends Model
 		return $this->belongsTo(PatientPosition::class, 'patient_position_id');
 	}
 
-	public function ostomy()
-	{
-		return $this->belongsTo(Ostomy::class, 'ostomy_id');
-	}
-
-	public function oxygen_type()
-	{
-		return $this->belongsTo(OxygenType::class, 'oxygen_type_id');
-	}
-
-	
-	public function liters_per_minute()
-	{
-		return $this->belongsTo(LitersPerMinute::class, 'liters_per_minute_id');
-	}
-
-	public function change_position()
-	{
-		return $this->belongsTo(PatientPosition::class, 'change_position_id');
-	}
 }

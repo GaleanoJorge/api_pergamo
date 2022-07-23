@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChNotesDescriptionRequest extends FormRequest
+class ChPositionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class ChNotesDescriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_position_id'=> 'required',
-            'patient_dry'=> 'required',
-            'unit_arrangement'=> 'required',
-            'type_record_id'=> 'required',
-            'ch_record_id'=> 'required',
+            'patient_position_id' => 'required',
+            'observation' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '',
 
         ];
     }

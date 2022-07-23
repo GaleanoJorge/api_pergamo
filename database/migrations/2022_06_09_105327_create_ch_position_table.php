@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChNotesDescriptionTable extends Migration
+class CreateChPositionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateChNotesDescriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_notes_description', function (Blueprint $table) {
+        Schema::create('ch_position', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('patient_position_id');
-            $table->string('patient_dry');
-            $table->string('unit_arrangement');
+            $table->string('observation');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -43,6 +42,6 @@ class CreateChNotesDescriptionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_notes_description');
+        Schema::dropIfExists('ch_position');
     }
 }

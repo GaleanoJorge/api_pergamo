@@ -9,12 +9,6 @@ class ChNotesDescription extends BaseChNotesDescription
 {
   protected $fillable = [
     'patient_position_id',
-    'ostomy_id',
-    'hair_revision',
-    'has_oxigen',
-    'oxygen_type_id',
-    'liters_per_minute_id',
-    'change_position_id',
     'patient_dry',
     'unit_arrangement',
     'type_record_id',

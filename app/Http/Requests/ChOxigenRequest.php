@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChNursingEntryRequest extends FormRequest
+class ChOxigenRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class ChNursingEntryRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_position_id' => 'required',
-            'observation_position' => 'required',
-            'ostomy_id' => 'required',
-            'observation' => '',
-            'hair_revision' => 'required',
+            'oxygen_type_id' => 'required',
+            'liters_per_minute_id' => 'required',
             'type_record_id' => '',
             'ch_record_id' => '',
 

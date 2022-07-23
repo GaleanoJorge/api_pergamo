@@ -3,16 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\ChNursingEntry as BaseChNursingEntry;
+use App\Models\Base\ChPosition as BaseChPosition;
 
-class ChNursingEntry extends BaseChNursingEntry
+class ChPosition extends BaseChPosition
 {
   protected $fillable = [
     'patient_position_id',
-    'observation_position',
-    'ostomy_id',
-    'observation',
     'hair_revision',
+    'observation',
     'type_record_id',
     'ch_record_id',
   ];
