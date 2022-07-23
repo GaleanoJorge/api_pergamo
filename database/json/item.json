@@ -1483,5 +1483,14 @@
         "route": "/pages/setting/billing-pad-consecutive",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "218",
+        "item_parent_id": "183",
+        "name": "Recaudo",
+        "code": "collection",
+        "route": "/pages/setting/tc-collection",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
