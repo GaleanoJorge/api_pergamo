@@ -20,11 +20,6 @@ class ChNotesDescriptionController extends Controller
     {
         $ChNotesDescription = ChNotesDescription::select('ch_notes_description.*')
         ->with(
-            'patient_position',
-            'patient_position',
-            'ostomy',
-            'oxygen_type',
-            'liters_per_minute',
             'change_position',
         );
 
@@ -58,12 +53,6 @@ class ChNotesDescriptionController extends Controller
     {
         $ChNotesDescription = new ChNotesDescription;
         $ChNotesDescription->patient_position_id = $request->patient_position_id;
-        $ChNotesDescription->ostomy_id = $request->ostomy_id;
-        $ChNotesDescription->hair_revision = $request->hair_revision;
-        $ChNotesDescription->has_oxigen = $request->has_oxigen;
-        $ChNotesDescription->oxygen_type_id = $request->oxygen_type_id;
-        $ChNotesDescription->liters_per_minute_id = $request->liters_per_minute_id;
-        $ChNotesDescription->change_position_id = $request->change_position_id;
         $ChNotesDescription->patient_dry = $request->patient_dry;
         $ChNotesDescription->unit_arrangement = $request->unit_arrangement;
         $ChNotesDescription->type_record_id = $request->type_record_id;
@@ -93,11 +82,6 @@ class ChNotesDescriptionController extends Controller
             ->where('type_record_id', $type_record)
             ->with(
                 'patient_position',
-                'patient_position',
-                'ostomy',
-                'oxygen_type',
-                'liters_per_minute',
-                'change_position',
             );;
 
 
@@ -145,16 +129,10 @@ class ChNotesDescriptionController extends Controller
     {
         $ChNotesDescription = ChNotesDescription::find($id);
         $ChNotesDescription->patient_position_id = $request->patient_position_id;
-        $ChNotesDescription->ostomy_id = $request->ostomy_id;
-        $ChNotesDescription->hair_revision = $request->hair_revision;
-        $ChNotesDescription->has_oxigen = $request->has_oxigen;
-        $ChNotesDescription->oxygen_type_id = $request->oxygen_type_id;
-        $ChNotesDescription->liters_per_minute_id = $request->liters_per_minute_id;
-        $ChNotesDescription->change_position_id = $request->change_position_id;
-        $ChNotesDescription->patient_dry = $request->patient_dry;
         $ChNotesDescription->unit_arrangement = $request->unit_arrangement;
         $ChNotesDescription->type_record_id = $request->type_record_id;
         $ChNotesDescription->ch_record_id = $request->ch_record_id;
+        $ChNotesDescription->patient_dry = $request->patient_dry;
         $ChNotesDescription->save();
 
         return response()->json([

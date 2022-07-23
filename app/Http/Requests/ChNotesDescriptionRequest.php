@@ -25,12 +25,6 @@ class ChNotesDescriptionRequest extends FormRequest
     {
         return [
             'patient_position_id'=> 'required',
-            'ostomy_id'=> 'required',
-            'hair_revision'=> '',
-            'has_oxigen'=> '',
-            'oxygen_type_id'=> '',
-            'liters_per_minute_id'=> '',
-            'change_position_id'=> 'required',
             'patient_dry'=> 'required',
             'unit_arrangement'=> 'required',
             'type_record_id'=> 'required',
