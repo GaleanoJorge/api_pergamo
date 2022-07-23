@@ -24,6 +24,7 @@ use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ChReasonConsultation;
 use App\Models\ChNursingEntry;
+use App\Models\ChEValorationOT;
 use App\Models\ChVitalSigns;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChSystemExam;
@@ -166,7 +167,9 @@ class ChRecordController extends Controller
         )
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
-        
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
         if ($ChRecord[0]['ch_type_id'] == 1) {
             $ChReasonConsultation = ChReasonConsultation::where('ch_record_id', $id)->get()->toArray();
             $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->get()->toArray();
@@ -190,7 +193,7 @@ class ChRecordController extends Controller
 
 
 
-             $Patients = $ChRecord[0]['admissions']['patients'];
+            $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
 
@@ -228,12 +231,14 @@ class ChRecordController extends Controller
             $name = 'prueba.pdf';
 
             Storage::disk('public')->put($name, $file);
+
+            //////////////////////////////////////////////////////////
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
             $ChnursingEntry = ChNursingEntry::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExam = ChPhysicalExam::with('ñ')->where('ch_record_id', $id)->get()->toArray();
-       
+
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
@@ -243,13 +248,13 @@ class ChRecordController extends Controller
 
 
 
-             $Patients = $ChRecord[0]['admissions']['patients'];
+            $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
                 'chnursingentry' => $ChnursingEntry,
-                'chphysicalexam'=> $ChPhysicalExam,
+                'chphysicalexam' => $ChPhysicalExam,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -271,7 +276,60 @@ class ChRecordController extends Controller
             $name = 'prueba.pdf';
 
             Storage::disk('public')->put($name, $file);
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        } else if ($ChRecord[0]['ch_type_id'] == 6) {
+
+
+            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+
+
+
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+            $html = view('mails.hc', [
+                'chrecord' => $ChRecord,
+                'chevalorationot' => $ChEValorationOT,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
+
+
+
+
+
+
 
         return response()->json([
             'status' => true,
@@ -361,12 +419,9 @@ class ChRecordController extends Controller
                     break;
                 }
             case (10): {
+
                     // TERAPIA OCUPACIONAL
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []]
-                    ]);
+                    $ChRecord->ch_type_id = 6;
                     break;
                 }
             case (11): {

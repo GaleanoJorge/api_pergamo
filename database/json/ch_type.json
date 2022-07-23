@@ -18,5 +18,9 @@
     {
         "id": 5,
         "name": "terapia respiratoria"
+    },
+    {
+        "id": 6,
+        "name": "terapia ocupacional"
     }
 ]

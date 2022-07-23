@@ -184,9 +184,10 @@
         <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
             INGRESO<br>
         </p>
-
+        @endisset
+        @if(count($chreasonconsultation) > 0) 
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">VALORACIÓN</span>
+            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">VALORACION TERAPEUTICA</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -311,6 +312,9 @@
         @endforeach
         @endisset
 
+
+        <!-- 
+
         @if(count($ChRecommendationsEvo) > 0)
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
             <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">AP/RECOMENDACIONES</span>
@@ -325,6 +329,9 @@
 
         <hr>
 
+        
+        
+                    
         @if($firm != null)
         <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
         <span style="height:0pt;">
@@ -346,6 +353,9 @@
             <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
+        
+        -->
+
         @endisset      
         @endisset
 
@@ -385,6 +395,30 @@
         @endforeach
 
 @endisset
+@endisset
+
+<!-- TERAPIUA OCUPACIONAL -->
+@if($chrecord[0]['ch_type_id'] == 6 ) 
+@if(count($chevalorationot) > 0) 
+        <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+            INGRESO<br>
+        </p>
+        @endisset
+        @if(count($chevalorationot) > 0) 
+        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#44546a; background-color:#f4f4f4">VALORACION TERAPEUTICA</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        </p>
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b>DIAGNOSTICO:</b> {{$chevalorationot[0]['ch_diagnosis']['name']}}</span>
+        </p>
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b>MOTIVO DE CONSULTA:</b> {{$chevalorationot[0]['recomendations']}}</span>
+        </p>
+@endisset
+
 @endisset
 
 
