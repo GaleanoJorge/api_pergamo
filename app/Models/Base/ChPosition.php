@@ -6,7 +6,6 @@
 
 namespace App\Models\Base;
 
-use App\Models\PatientPosition;
 use Carbon\Carbon;
 use App\Models\PatientPosition;
 use Illuminate\Database\Eloquent\Model;
