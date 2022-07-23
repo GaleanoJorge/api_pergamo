@@ -1,6 +1,6 @@
 [
     {
-        "description": "Acompañar Paciente el baño"
+        "description": "Acompañar el paciente el baño"
     },
     {
         "description": "Asistencia a terapias de rehabilitación"
@@ -18,7 +18,7 @@
         "description": "Control de temperatura"
     },
     {
-        "description": "Control de líquidos Administrados y eliminados"
+        "description": "Control de líquidos administrados y eliminados"
     },
     {
         "description": "Curación o cambio de venopunción "
@@ -51,10 +51,10 @@
         "description": "Reposo en cama"
     },
     {
-        "description": "Retirar objetos que puedan causar lesion"
+        "description": "Retirar objetos que puedan causar lesión"
     },
     {
-        "description": "Ronda de enfermeria continua por riesgo de lesion"
+        "description": "Ronda de enfermeria continua por riesgo de lesión"
     },
     {
         "description": "Valorar aparición de edema"
@@ -69,28 +69,28 @@
         "description": "Valoración y control de signos vitales"
     },
     {
-        "description": "Valorar el cuidado de la Piel"
+        "description": "Valorar el cuidado de la piel"
     },
     {
         "description": "Valoración de escala del dolor"
     },
     {
-        "description": "Valoracion de sujeccion con riesgo de lesion"
+        "description": "Valoracion de sujeción con riesgo de lesión"
     },
     {
-        "description": "Valoración Patrón de eliminación"
+        "description": "Valoración patrón de eliminación"
     },
     {
         "description": "Valorar patrón respiratorio"
     },
     {
-        "description": "Valoracion de sujeccion con riesgo de lesion"
+        "description": "Valoración de sujeción con riesgo de lesión"
     },
     {
         "description": "Vigilar zonas de flebitis"
     },
     {
-        "description": "Valoracion de agitacion spicomotora"
+        "description": "Valoración de agitación psicomotora"
     },
     {
         "description": "Valoración de aspecto de la orina"
