@@ -57,16 +57,16 @@
     },
     {
         "id": 9,
-        "name": "AUXILIAR DE ENFERMERÍA",
+        "name": "CONTRATACIÓN",
         "status_id": 1,
-        "role_type_id": 2,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 10,
-        "name": "NUTRICIÓN",
+        "name": "CONSULTA CONTRATOS",
         "status_id": 1,
-        "role_type_id": 2,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
@@ -109,6 +109,34 @@
         "name": "DEPORTÓLOGO",
         "status_id": 1,
         "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 17,
+        "name": "ADMIN_TH",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 18,
+        "name": "AUXILIAR DE ENFERMERÍA",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 19,
+        "name": "NUTRICIÓN",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 22,
+        "name": "DIRECTIVO",
+        "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     }
 ]
