@@ -32,6 +32,6 @@ class ChPosition extends Model
 	
 	public function patient_position()
 	{
-		return $this->belongsTo(PatientPosition ::class);
+		return $this->belongsTo(PatientPosition::class);
 	}
 }
