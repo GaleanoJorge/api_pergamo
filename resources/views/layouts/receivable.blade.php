@@ -439,24 +439,24 @@
         <div >
             <div >
 
-                <div class="stl_01" style="left:111.76em;top:0.062em;"><span class="stl_07 stl_08 stl_09"
+                <div class="stl_01" style="left:11.76em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0.0006em;">DOCUMENTO SOPORTE EN ADQUISICIONES EFECTUADAS A NO &nbsp;</span>
                 </div>
 
-                <div class="stl_01" style="left:19.71em;top:1.132em;"><span class="stl_07 stl_08 stl_10"
+                <div class="stl_01" style="left:19.71em;top:3.132em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0em;">OBLIGADOS A FACTURAR &nbsp;</span></div>
 
-                <div class="stl_01" style="left:40.9202em;top:1.9453em;"><span class="stl_11 stl_12 stl_13"
+                {{-- <div class="stl_01" style="left:40.9202em;top:1.9453em;"><span class="stl_11 stl_12 stl_13"
                         style="word-spacing:-0.0248em;">Espacio Codigo &nbsp;</span></div>
 
                 <div class="stl_01" style="left:42.8304em;top:2.9057em;"><span class="stl_11 stl_12 stl_14">QR
-                        &nbsp;</span></div>
+                        &nbsp;</span></div> --}}
 
-                <div class="stl_01" style="left:11.32em;top:3.8052em;"><span class="stl_15 stl_08 stl_16"
+                {{-- <div class="stl_01" style="left:11.32em;top:3.8052em;"><span class="stl_15 stl_08 stl_16"
                         style="word-spacing:0.0018em;">Resolución documento soporte 18764023857542 Prefijo DSH desde 1 al 18.000 &nbsp;</span></div>
 
                 <div class="stl_01" style="left:22.04em;top:4.7752em;"><span class="stl_15 stl_08 stl_17"
-                        style="word-spacing:-0.0034em;">vence 07/01/2023 &nbsp;</span></div>
+                        style="word-spacing:-0.0034em;">vence 07/01/2023 &nbsp;</span></div> --}}
 
 
                 <!-- ---------------------------------------- -->
