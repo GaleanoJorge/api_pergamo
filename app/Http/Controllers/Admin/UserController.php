@@ -1020,7 +1020,7 @@ class UserController extends Controller
 
                 $id = Assistance::latest('id')->first();
 
-                
+
                 foreach (json_decode($request->localities_id) as $item) {
                     $BaseLocationCapacity = new BaseLocationCapacity();
                     $BaseLocationCapacity->locality_id = $item->locality_id;
@@ -1224,26 +1224,51 @@ class UserController extends Controller
         $RoleType = Role::where('id', $role)->get()->toArray();
         if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
             $assistance_id = Assistance::select('id')->where('user_id', $id)->get()->toArray();
-            $assistance = Assistance::find($assistance_id[0]['id']);
-            $assistance->medical_record = $request->medical_record;
-            $assistance->contract_type_id = $request->contract_type_id;
-            $assistance->cost_center_id = $request->cost_center_id;
-            // $assistance->type_professional_id = $request->type_professional_id;
-            $assistance->PAD_service = $request->PAD_service;
-            $assistance->attends_external_consultation = $request->attends_external_consultation;
-            $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+            if (count($assistance_id) > 0) {
+                $assistance = Assistance::find($assistance_id[0]['id']);
+                $assistance->medical_record = $request->medical_record;
+                $assistance->contract_type_id = $request->contract_type_id;
+                $assistance->cost_center_id = $request->cost_center_id;
+                // $assistance->type_professional_id = $request->type_professional_id;
+                $assistance->PAD_service = $request->PAD_service;
+                $assistance->attends_external_consultation = $request->attends_external_consultation;
+                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
-            if ($request->firm_file) {
-                $image = $request->get('firm_file');  // your base64 encoded
-                $image = str_replace('data:image/png;base64,', '', $image);
-                $image = str_replace(' ', '+', $image);
-                $random = Str::random(10);
-                $imagePath = 'firmas/' . $random . '.png';
-                Storage::disk('public')->put($imagePath, base64_decode($image));
+                if ($request->firm_file) {
+                    $image = $request->get('firm_file');  // your base64 encoded
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $random = Str::random(10);
+                    $imagePath = 'firmas/' . $random . '.png';
+                    Storage::disk('public')->put($imagePath, base64_decode($image));
 
-                $assistance->file_firm = $imagePath;
+                    $assistance->file_firm = $imagePath;
+                }
+                $assistance->save();
+            } else {
+                $assistance = new Assistance;
+                $assistance->user_id = $user->id;
+
+                $assistance->medical_record = $request->medical_record;
+                $assistance->contract_type_id = $request->contract_type_id;
+                $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->PAD_service = $request->PAD_service;
+                $assistance->attends_external_consultation = $request->attends_external_consultation;
+                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+                // $assistance->specialty = $request->specialty;
+
+                if ($request->firm_file) {
+                    $image = $request->get('firm');  // your base64 encoded
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $random = Str::random(10);
+                    $imagePath = 'firmas/' . $random . '.png';
+                    Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                    $assistance->file_firm = $imagePath;
+                }
+                $assistance->save();
             }
-            $assistance->save();
 
             $id = Assistance::latest('id')->first();
 
