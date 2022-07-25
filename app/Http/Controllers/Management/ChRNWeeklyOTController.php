@@ -17,10 +17,10 @@ class ChRNWeeklyOTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRNWeeklyOT = ChRNWeeklyOT::select();
-        if($request->ch_record_id){
-            $ChRNWeeklyOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id',3);
-        }  
+         $ChRNWeeklyOT = ChRNWeeklyOT::with('ch_r_n_weekly_o_t');
+        // if($request->ch_record_id){
+        //     $ChRNWeeklyOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id',3);
+        // }  
 
 
         if ($request->_sort) {
@@ -58,7 +58,8 @@ class ChRNWeeklyOTController extends Controller
      */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        $ChRNWeeklyOT = ChRNWeeklyOT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)->get()->toArray();
+        $ChRNWeeklyOT = ChRNWeeklyOT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        ->with('ch_r_n_weekly_o_t')->get()->toArray();            
 
         return response()->json([
             'status' => true,
@@ -70,7 +71,12 @@ class ChRNWeeklyOTController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-    
+        $validate = ChRNWeeklyOT::select('ch_r_n_weekly_o_t.*')->where('ch_record_id', $request->ch_record_id)
+        ->where('type_record_id', $request->type_record_id)
+        ->get()->toArray();
+         $validate=ChRNWeeklyOT::where('ch_record_id', $request->ch_record_id)->where('ch_r_n_weekly_o_t',$request->ch_r_n_weekly_o_t)->first();
+         if(!$validate){
+
         $ChRNWeeklyOT = new ChRNWeeklyOT;
 
         $ChRNWeeklyOT->monthly_sessions = $request-> monthly_sessions; 
@@ -86,7 +92,17 @@ class ChRNWeeklyOTController extends Controller
             'message' => 'Valoracion asociados al paciente exitosamente',
             'data' => ['ch_r_n_weekly_o_t' => $ChRNWeeklyOT->toArray()]
         ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya tiene observación'
+            ], 423);
+        }
+
+
     }
+
+    
 
 
     /**
