@@ -27,6 +27,7 @@ class CompanySeeder extends Seeder
                 'administrator' => $row->administrator,
                 'country_id' => $row->country_id,
                 'city_id' => $row->city_id,
+                'municipality_id' => $row->municipality_id,
                 'address' => $row->address,
                 'phone' => $row->phone,
                 'web' => $row->web,
