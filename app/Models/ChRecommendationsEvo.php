@@ -10,6 +10,7 @@ class ChRecommendationsEvo extends BaseChRecommendationsEvo
   protected $fillable = [
     'recommendations_evo_id',
     'patient_family_education',
+    'observations',
     'type_record_id',
     'ch_record_id',
   ];
