@@ -1485,6 +1485,15 @@
         "show_menu": "1"
     },
     {
+        "id": "217",
+        "item_parent_id": null,
+        "name": "Agendamiento Telemedicina",
+        "code": "telemedicine",
+        "route": "/pages/telemedicine/telemedicine",
+        "icon": "phone-call-outline",
+        "show_menu": "1"
+    },
+    {
         "id": "218",
         "item_parent_id": "183",
         "name": "Recaudo",

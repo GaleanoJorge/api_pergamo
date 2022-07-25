@@ -18,7 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property BigInteger $recommendations_evo_id
- * @property string $patient_family_education
+ * @property string $patient_family_education 
+ * @property string $observations 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
 
