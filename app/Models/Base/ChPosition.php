@@ -6,7 +6,6 @@
 
 namespace App\Models\Base;
 
-use App\Models\PatientPosition;
 use Carbon\Carbon;
 use App\Models\PatientPosition;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +32,6 @@ class ChPosition extends Model
 	
 	public function patient_position()
 	{
-		return $this->belongsTo(PatientPosition ::class);
+		return $this->belongsTo(PatientPosition::class);
 	}
 }
