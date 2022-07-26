@@ -83,7 +83,10 @@ class BriefcaseController extends Controller
       */
      public function getByContract(Request $request, int $contractId): JsonResponse
      {
-         $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
+         $Briefcase = Briefcase::select('briefcase.*')
+            ->orderBy('name', 'ASC')
+            ->where('contract_id', $contractId)
+            ->with('type_briefcase','coverage','modality','status');
          if ($request->search) {
              $Briefcase->where('name', 'like', '%' . $request->search . '%')
              ->Orwhere('id', 'like', '%' . $request->search . '%');
