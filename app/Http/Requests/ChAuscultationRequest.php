@@ -24,20 +24,8 @@ class ChAuscultationRequest extends FormRequest
     public function rules()
     {
         return [
-            'murmur' => '',
-            'obs_murmur' => '',
-            'crepits' => '',
-            'obs_crepits' => '',
-            'rales' => '',
-            'obs_rales' => '',
-            'stridor' => '',
-            'obs_stridor' => '',
-            'pleural' => '',
-            'obs_pleural' => '',
-            'roncus' => '',
-            'obs_roncus' => '',
-            'wheezing' => '',
-            'obs_wheezing' => '',
+            'auscultation' => '',
+            'observation' => '',
             'type_record_id' => '',
             'ch_record_id' => ''
         ];
