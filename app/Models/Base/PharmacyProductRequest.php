@@ -26,9 +26,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $admissions_id
  * @property BigInteger $own_pharmacy_stock_id
  * @property BigInteger $user_request_id
+ * @property BigInteger $services_briefcase_id
  * @property BigInteger $product_supplies_id
  * @property BigInteger $request_pharmacy_stock_id
  * @property BigInteger $request_pharmacy_stock_id
+ * @property BigInteger $user_request_pad_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -74,5 +76,9 @@ class PharmacyProductRequest extends Model
 	public function user_request()
 	{
 		return $this->belongsTo(User::class, 'user_request_id');
+	}
+	public function user_request_pad()
+	{
+		return $this->belongsTo(User::class);
 	}
 }

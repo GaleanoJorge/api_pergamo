@@ -27,9 +27,9 @@ class PharmacyProductRequestController extends Controller
     public function index(Request $request): JsonResponse
     {
         $PharmacyProductRequest = PharmacyProductRequest::select(
-            'pharmacy_product_request.*', 
+            'pharmacy_product_request.*',
             DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada')
-            )
+        )
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->with(
                 'product_generic',
@@ -42,7 +42,13 @@ class PharmacyProductRequestController extends Controller
                 'pharmacy_request_shipping.pharmacy_lot_stock',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
-                'user_request'
+                'user_request',
+                'admissions',
+                'admissions.patients',
+                'services_briefcase',
+                'services_briefcase.briefcase',
+                'services_briefcase.manual_price',
+                'user_request_pad',
             )->groupBy('pharmacy_product_request.id');
 
         if ($request->_sort) {
@@ -76,6 +82,11 @@ class PharmacyProductRequestController extends Controller
         if ($request->status) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
         }
+
+        if ($request->admissions_id) {
+            $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);
+        }
+
 
 
         if ($request->user_id) {
@@ -146,10 +157,13 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
         $PharmacyProductRequest->user_request_id = $request->user_request_id;
+        $PharmacyProductRequest->admissions_id = $request->admissions_id;
+        $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
         $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
+        $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
 
         return response()->json([
@@ -189,11 +203,14 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->request_amount = $request->request_amount;
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
+        $PharmacyProductRequest->admissions_id = $request->admissions_id;
+        $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
         $PharmacyProductRequest->user_request_id = $request->user_request_id;
         $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
+        $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
 
         return response()->json([
@@ -251,15 +268,15 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
                         $PharmacyRequestShipping->amount =  $element->amount;
                         $PharmacyRequestShipping->save();
-                        
-                        if($PharmacyProductRequest->product_generic_id){
+
+                        if ($PharmacyProductRequest->product_generic_id) {
                             $quantity = ProductGeneric::find($PharmacyProductRequest->product_generic_id);
                         } else {
                             $quantity = ProductSupplies::find($PharmacyProductRequest->product_supplies_id);
                         }
 
                         for ($i = 0; $i < $element->amount; $i++) {
-                            for($j = 0; $j < $quantity->dose; $j++ ){
+                            for ($j = 0; $j < $quantity->dose; $j++) {
                                 $assistanceSupplies = new AssistanceSupplies;
                                 $assistanceSupplies->user_incharge_id =  $user_id;
                                 $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest->id;
@@ -299,6 +316,9 @@ class PharmacyProductRequestController extends Controller
             $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
             $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
             $PharmacyProductRequest->user_request_id = $request->user_request_id;
+            $PharmacyProductRequest->admissions_id = $request->admissions_id;
+            $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
+            $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
             $PharmacyProductRequest->save();
 
             $PharmacyRequestShipping = new PharmacyRequestShipping;
