@@ -26,5 +26,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CollectionTc extends Model
 {
-	protected $table = 'Collection_tc';
+	protected $table = 'collection_tc';
 }
