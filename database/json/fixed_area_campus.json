@@ -1,20 +1,74 @@
 [
     {
-        "name": "INGRESO SEDE FACHADA"
+        "name": "RECEPCIÓN"
     },
     {
-        "name": "INGRESO SEDE"
+        "name": "SALA DE ESPERA"
     },
     {
-        "name": "CUARTO DE RESIDUOS PELIGROSOS"
+        "name": "CUARTO COVID"
     },
     {
-        "name": "CUARTO DE RESIDUOS PELIGROSOS"
+        "name": "CONSULTORIO 1"
     },
     {
-        "name": "AREA DE LAVADO"
+        "name": "CONSULTORIO 2"
     },
     {
-        "name": "PASILLO RECEPCIÓN"
+        "name": "CONSULTORIO 3"
+    },
+    {
+        "name": "FARMACIA"
+    },
+    {
+        "name": "GIMNASIO"
+    },
+    {
+        "name": "ADMINISTRATIVA"
+    },
+    {
+        "name": "PAD"
+    },
+    {
+        "name": "TALENTO HUMANO"
+    },
+    {
+        "name": "ADMINISTRATIVO COVID"
+    },
+    {
+        "name": "FACTURACIÓN"
+    },
+    {
+        "name": "CUARTO DE ASEO"
+    },
+    {
+        "name": "DIRECCIÓN REGIONAL"
+    },
+    {
+        "name": "BAÑO DISCAPACITADO HOMBRES"
+    },
+    {
+        "name": "BAÑO DISCAPACITADO MUJERES"
+    },
+    {
+        "name": "BAÑO DE CABALLEROS "
+    },
+    {
+        "name": "BAÑO DE DAMAS"
+    },
+    {
+        "name": "ÁREA BIOMEDICOS"
+    },
+    {
+        "name": "CUARTO RACK"
+    },
+    {
+        "name": "CUARTO DE INSUMOS "
+    },
+    {
+        "name": "CUARTO DE RESIDUOS "
+    },
+    {
+        "name": "COMEDOR"
     }
 ]
