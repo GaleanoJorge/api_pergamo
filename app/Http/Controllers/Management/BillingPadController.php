@@ -750,7 +750,7 @@ class BillingPadController extends Controller
         $BillingPad->total_value = $total_value;
         $BillingPad->consecutive = $consecutive;
         $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['billing_prefix_id'];
+        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix'];
         $BillingPad->save();
         $this->generateBillingDat($id);
 
