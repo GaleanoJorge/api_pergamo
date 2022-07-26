@@ -12,6 +12,7 @@ use App\Models\ProductGeneric;
 use App\Models\Manual;
 use App\Models\PriceType;
 use App\Models\ProcedureType;
+use App\Models\ProductSupplies;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,6 +60,11 @@ class ManualPrice extends Model
 	public function product()
 	{
 		return $this->belongsTo(ProductGeneric::class);
+	}
+
+	public function insume()
+	{
+		return $this->belongsTo(ProductSupplies::class,'supplies_id');
 	}
 
 	public function price_type()
