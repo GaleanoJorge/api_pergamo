@@ -44,7 +44,28 @@ class ChAssSignsController extends Controller
             'data' => ['ch_ass_signs' => $ChAssSigns]
         ]);
     }
-    
+
+ /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    {
+
+
+        $ChAssSigns = ChAssSigns::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Valoración terapéutica obtenida exitosamente',
+            'data' => ['ch_ass_signs' => $ChAssSigns]
+        ]);
+    }
 
     public function store(Request $request): JsonResponse
     {
