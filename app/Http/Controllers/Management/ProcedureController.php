@@ -59,10 +59,15 @@ class ProcedureController extends Controller
     {
         $ProcedurePackage = ProcedurePackage::pluck('procedure_id')->toArray();
         if ($request->procedure) {
-            $elementsPackage = Procedure::where('procedure_type_id', '!=', 3);
+            $elementsPackage = Procedure::where('procedure_type_id', '!=', 3)
+            ;
             if ($request->search) {
-                $elementsPackage->where('name', 'like', '%' . $request->search . '%')
-                    ->Orwhere('id', 'like', '%' . $request->search . '%');
+                $elementsPackage->where(function ($query) use ($request) {
+                    $query->where('code', 'like', '%' . $request->search . '%')
+                        ->Orwhere('name', 'like', '%' . $request->search . '%')
+                        ->Orwhere('equivalent', 'like', '%' . $request->search . '%')
+                        ->orWhere('id', 'like', '%' . $request->search . '%');
+                });
             }
             if ($request->query("pagination", true) === "false") {
                 $elementsPackage = $elementsPackage->get()->toArray();
@@ -72,11 +77,12 @@ class ProcedureController extends Controller
 
                 $elementsPackage = $elementsPackage->paginate($per_page, '*', 'page', $page);
             }
-
-        } else if($request->insume){
+        } else if ($request->insume) {
 
             $elementsPackage = ProductSupplies::select('product_supplies.*')
-            ->with('size_supplies_measure', 'measure_supplies_measure');
+                ->with('size_supplies_measure', 'measure_supplies_measure')
+            // ->orderBy('name','asc')
+            ;
             if ($request->search) {
                 $elementsPackage->where('description', 'like', '%' . $request->search . '%')
                     ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -89,18 +95,21 @@ class ProcedureController extends Controller
 
                 $elementsPackage = $elementsPackage->paginate($per_page, '*', 'page', $page);
             }
-        } else if($request->product){
+        } else if ($request->product) {
 
             $elementsPackage = ProductGeneric::select('product_generic.*')
                 ->with(
                     'administration_route',
                     'drug_concentration',
                     'product_dose',
-
-                );
+                )
+            // ->orderBy('name','asc')
+            ;
             if ($request->search) {
-                $elementsPackage->where('name', 'like', '%' . $request->search . '%')
-                    ->Orwhere('id', 'like', '%' . $request->search . '%');
+                $elementsPackage->where(function ($query) use ($request) {
+                    $query->where('description', 'like', '%' . $request->search . '%')
+                        ->orWhere('id', 'like', '%' . $request->search . '%');
+                });
             }
             if ($request->query("pagination", true) === "false") {
                 $elementsPackage = $elementsPackage->get()->toArray();
@@ -117,7 +126,6 @@ class ProcedureController extends Controller
             'message' => 'Paquete de procedimientos obtenido exitosamente',
             'data' => ['procedure_package' => $elementsPackage]
         ]);
-
     }
 
 

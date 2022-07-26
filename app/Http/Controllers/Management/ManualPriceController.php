@@ -79,11 +79,17 @@ class ManualPriceController extends Controller
     public function getByBriefcase(Request $request, int $briefcaseId): JsonResponse
     {
         $ServicesBriefcase = ServicesBriefcase::where('briefcase_id', '=', $briefcaseId)->pluck('manual_price_id')->toArray();
-        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)->with('procedure', 'product', 'price_type', 'manual');
+        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)
+            ->orderBy('name', 'ASC')
+            ->with('procedure', 'product', 'price_type', 'manual');
+
         if ($request->search) {
-            $ManualPrice->where('name', 'like', '%' . $request->search . '%')
-                ->Orwhere('id', 'like', '%' . $request->search . '%');
+            $ManualPrice->where(function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->Orwhere('id', 'like', '%' . $request->search . '%');
+            });
         }
+
         if ($request->query("pagination", true) === "false") {
             $ManualPrice = $ManualPrice->get()->toArray();
         } else {
@@ -110,7 +116,8 @@ class ManualPriceController extends Controller
     public function getByFilterManual(Request $request, int $briefcaseId, int $manualId): JsonResponse
     {
         $ServicesBriefcase = ServicesBriefcase::where('briefcase_id', '=', $briefcaseId)->pluck('manual_price_id')->toArray();
-        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)->with('procedure', 'product', 'price_type', 'manual')
+        $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)
+            ->with('procedure', 'product', 'price_type', 'manual')
             ->where('manual_id', $manualId);
         if ($request->search) {
             $ManualPrice->where('name', 'like', '%' . $request->search . '%')
@@ -141,7 +148,9 @@ class ManualPriceController extends Controller
      */
     public function getByManual(Request $request, int $manualId): JsonResponse
     {
-        $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('procedure', 'price_type');
+        $ManualPrice = ManualPrice::where('manual_id', $manualId)
+            ->orderBy('name', 'asc')
+            ->with('procedure', 'price_type');
         if ($request->search) {
             $ManualPrice->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('id', 'like', '%' . $request->search . '%')
@@ -174,7 +183,9 @@ class ManualPriceController extends Controller
      */
     public function getByManual2(Request $request, int $manualId): JsonResponse
     {
-        $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('product', 'price_type');
+        $ManualPrice = ManualPrice::where('manual_id', $manualId)
+            ->orderBy('name', 'asc')
+            ->with('product', 'price_type');
         if ($request->search) {
             $ManualPrice->where('value', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -204,7 +215,9 @@ class ManualPriceController extends Controller
      */
     public function getByManual3(Request $request, int $manualId): JsonResponse
     {
-        $ManualPrice = ManualPrice::where('manual_id', $manualId)->with('product', 'price_type');
+        $ManualPrice = ManualPrice::where('manual_id', $manualId)
+            ->orderBy('name', 'asc')
+            ->with('insume', 'price_type');
         if ($request->search) {
             $ManualPrice->where('value', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
