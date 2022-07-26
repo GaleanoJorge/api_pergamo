@@ -33,7 +33,13 @@ class BillingPadController extends Controller
     public function index(Request $request): JsonResponse
     {
         $BillingPad = BillingPad::select()
-            ->with('billing_pad_status', 'admissions');
+            ->with(
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+                'admissions',
+                'billing_pad_pgp',
+            );
 
         if ($request->_sort) {
             $BillingPad->orderBy($request->_sort, $request->_order);
@@ -716,7 +722,7 @@ class BillingPadController extends Controller
         if (!$BillingPadConsecutive) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: '. $billingInfo[0]['campus_billing_pad_prefix'],
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: ' . $billingInfo[0]['campus_billing_pad_prefix'],
                 'data' => ['billing_pad' => []]
             ]);
         }
