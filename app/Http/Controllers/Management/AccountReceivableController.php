@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
 use App\Models\MinimumSalary;
@@ -243,6 +244,18 @@ class AccountReceivableController extends Controller
         $UserRole = UserRole::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
         $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
+
+        $Activities = BillUserActivity::select(
+            'manual_price.name AS name',
+            DB::raw('COUNT(bill_user_activity.id) AS quantity'),
+            DB::raw('SUM(tariff.amount) AS amount'),
+        )
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'bill_user_activity.procedure_id')
+            ->leftJoin('tariff', 'tariff.id', 'bill_user_activity.tariff_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->where('bill_user_activity.account_receivable_id', $id)
+            ->groupBy('services_briefcase.id')
+            ->get()->toArray();
 
         if (!$FinancialData) {
             return response()->json([
