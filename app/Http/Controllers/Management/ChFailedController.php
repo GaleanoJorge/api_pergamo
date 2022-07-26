@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChFailedRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Storage;
+
 
 class ChFailedController extends Controller
 {
@@ -76,8 +78,11 @@ class ChFailedController extends Controller
     public function store(ChFailedRequest $request): JsonResponse
     {
         $ChFailed = new ChFailed;
-        $ChFailed->descriptions = $request->descriptions;   
-        $ChFailed->file_evidence = $request->file_evidence; 
+        $ChFailed->descriptions = $request->descriptions;
+        if ($request->file('file_evidence')) {
+            $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
+            $ChFailed->file_evidence = $path;
+        }       
         $ChFailed->ch_reason_id = $request->ch_reason_id;  
         $ChFailed->type_record_id = $request->type_record_id; 
         $ChFailed->ch_record_id = $request->ch_record_id; 
@@ -120,7 +125,10 @@ class ChFailedController extends Controller
     {
         $ChFailed = ChFailed ::find($id);
         $ChFailed->descriptions = $request->descriptions;   
-        $ChFailed->file_evidence = $request->file_evidence; 
+        if ($request->file('file_evidence')) {
+            $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
+            $ChFailed->file_evidence = $path;
+        }     
         $ChFailed->ch_reason_id = $request->ch_reason_id; 
         $ChFailed->type_record_id = $request->type_record_id; 
         $ChFailed->ch_record_id = $request->ch_record_id;    

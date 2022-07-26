@@ -35,6 +35,7 @@ class CreateCompanyTable extends Migration
             $table->unsignedBigInteger('iva_id');
             $table->unsignedBigInteger('retiner_id');
             $table->unsignedBigInteger('company_kindperson_id');
+            $table->unsignedBigInteger('municipality_id');
             $table->integer('registration');
             $table->integer('opportunity');
             $table->integer('discount');
@@ -56,6 +57,9 @@ class CreateCompanyTable extends Migration
             $table->index('company_kindperson_id');
             $table->foreign('company_kindperson_id')->references('id')
             ->on('company_kindperson');
+            $table->index('municipality_id');
+            $table->foreign('municipality_id')->references('id')
+            ->on('municipality');
             $table->index('city_id');
             $table->foreign('city_id')->references('id')
             ->on('region');

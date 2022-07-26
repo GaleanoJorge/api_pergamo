@@ -43,6 +43,7 @@ class CompanyRequest extends FormRequest
         'repre_mail' => 'required',
         'repre_identification' => 'required',
         'iva_id' => 'required',
+        'municipality_id' => 'required',
         'retiner_id' => 'required',
         'company_kindperson_id' => 'required',
         'registration' => 'required',

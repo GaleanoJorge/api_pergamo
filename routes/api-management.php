@@ -1026,6 +1026,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
     Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
+    Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSWeeklyOTController@getByRecord');
+    Route::apiResource('ch_r_n_weekly_o_t', 'Management\ChRNWeeklyOTController');
+    Route::get('ch_r_n_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNWeeklyOTController@getByRecord');
+
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::apiResource('ch_e_past_o_t', 'Management\ChEPastOTController');
     Route::apiResource('ch_e_daily_activities_o_t', 'Management\ChEDailyActivitiesOTController');
@@ -1312,6 +1317,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
+    Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');

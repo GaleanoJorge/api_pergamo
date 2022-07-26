@@ -24,7 +24,7 @@ class ChRecommendationsEvoRequest extends FormRequest
     public function rules()
     {
         return [
-            'recommendations_evo_id' => '',
+            
             'type_record_id' => '',
             'ch_record_id' => '',
         ];

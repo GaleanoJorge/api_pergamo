@@ -28,6 +28,7 @@ class Company extends BaseCompany
       'repre_identification',
       'iva_id',
       'retiner_id',
+      'municipality_id',
       'company_kindperson_id',
       'registration',
       'opportunity',
