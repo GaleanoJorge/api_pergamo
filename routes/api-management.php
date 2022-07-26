@@ -739,6 +739,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //frecuencia para plan de manejo PAD
     Route::apiResource('frequency', 'Management\FrequencyController');
 
+
+    Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
+    Route::apiResource('medical_citation', 'Management\MedicalCitationController');
+
+
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
     Route::apiResource('consents_informed', 'Management\ConsentsInformedController');

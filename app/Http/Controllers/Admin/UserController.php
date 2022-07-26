@@ -735,6 +735,20 @@ class UserController extends Controller
         if ($roleId > 0) {
             $users->Join('user_role', 'users.id', 'user_role.user_id');
             $users = $users->where('user_role.role_id', $roleId);
+        }else if($roleId < 0){
+            $users->select(
+                'users.*','assistance.id as assistance_id',
+                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+            )->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'user_role',
+                'user_role.role'
+            );
+            $users->Join('assistance', 'users.id', 'assistance.user_id');
+            $users = $users->where('assistance.attends_external_consultation', 1);
         }
 
         if ($request->_sort) {
