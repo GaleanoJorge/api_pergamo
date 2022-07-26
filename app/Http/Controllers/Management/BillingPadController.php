@@ -716,7 +716,7 @@ class BillingPadController extends Controller
         if (!$BillingPadConsecutive) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas',
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo'. $billingInfo[0]['campus_billing_pad_prefix_id'],
                 'data' => ['billing_pad' => []]
             ]);
         }
