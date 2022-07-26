@@ -1317,6 +1317,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
+    Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
