@@ -18,7 +18,6 @@ class ChFormulation extends BaseChFormulation
     'dose',
     'observation',
     'number_mipres',
-    'product_dose_id',
     'type_record_id',
     'ch_record_id',
 	];
