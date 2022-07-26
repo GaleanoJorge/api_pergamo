@@ -708,7 +708,7 @@ class BillingPadController extends Controller
         $billingInfo = $this->getBillingPadInformation($id);
 
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
-            ->where('billing_pad_prefix_id', $billingInfo[0]['billing_prefix_id'])
+            ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
             ->where('expiracy_date', '>', Carbon::now())
             ->get()->first();
@@ -716,7 +716,7 @@ class BillingPadController extends Controller
         if (!$BillingPadConsecutive) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo'. $billingInfo[0]['campus_billing_pad_prefix_id'],
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: '. $billingInfo[0]['campus_billing_pad_prefix'],
                 'data' => ['billing_pad' => []]
             ]);
         }
