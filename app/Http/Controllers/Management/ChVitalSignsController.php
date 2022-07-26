@@ -93,7 +93,7 @@ class ChVitalSignsController extends Controller
             $dtalist = json_decode($request->pupil);
             foreach ($dtalist as $element) {
                 if ($element->label == 'MINDRIÁTICA' && $element->isChecked==true) {
-                    $ChVitalSigns->mydriatic = $element;
+                    $ChVitalSigns->mydriatic = $element->label;
                 } else if ($element->label == 'NORMAL' && $element->isChecked==true) {
                     $ChVitalSigns->normal = $element->label;
                 } else if ($element->label == 'REACCIÓN PERESOZA ( A LA LUZ)'&& $element->isChecked==true) {

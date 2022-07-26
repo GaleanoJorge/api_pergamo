@@ -15,7 +15,7 @@ class ChDiagnosisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $validate): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $ChDiagnosis = ChDiagnosis::select()
             ->with('diagnosis');

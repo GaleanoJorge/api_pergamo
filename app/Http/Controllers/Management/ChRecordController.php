@@ -25,11 +25,11 @@ use App\Models\Location;
 use App\Models\ChReasonConsultation;
 use App\Models\ChNursingEntry;
 use App\Models\ChEValorationOT;
-use App\Models\ChVitalSigns;
 use App\Models\ChOstomies;
 use App\Models\ChAp;
 use App\Models\ChRecommendationsEvo;
-use App\Models\ChInability;
+use App\Models\ChDietsEvo;
+use App\Models\ChVitalSigns;
 
 
 use App\Models\ChSystemExam;
@@ -184,12 +184,13 @@ class ChRecordController extends Controller
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->get()->toArray();
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChVitalSignsEvo = ChVitalSigns::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChAp = ChAp::where('ch_record_id', $id)->get()->toArray();
             $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->get()->toArray();
-            $ChInability = ChInability::with('ch_contingency_code','diagnosis','ch_type_inability','ch_type_procedure' )->where('ch_record_id', $id)->get()->toArray();
+            $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency' )->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -215,12 +216,12 @@ class ChRecordController extends Controller
                 'chbackground' => $ChBackground,
                 'ChEvoSoap' => $ChEvoSoap,
                 'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
-                'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChDiagnosisEvo' => $ChDiagnosisEvo,
                 'ChOstomies' => $ChOstomies,
                 'ChAp' => $ChAp,
                 'ChRecommendationsEvo' => $ChRecommendationsEvo,
-                'ChInability' => $ChInability,
+                'ChDietsEvo' => $ChDietsEvo,
+                'ChVitalSignsEvo' => $ChVitalSignsEvo,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,

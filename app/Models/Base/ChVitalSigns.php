@@ -61,6 +61,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $oxygen_type_id
  * @property BigInteger $liters_per_minute_id
  * @property BigInteger $parameters_signs_id
+ * 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
