@@ -67,8 +67,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_respiratory_therapy', 'Management\ChRespiratoryTherapyController');
     Route::get('ch_respiratory_therapy/by_record/{id}/{type_record_id}', 'Management\ChRespiratoryTherapyController@getByRecord');
     Route::apiResource('ch_therapeutic_ass', 'Management\ChTherapeuticAssController');
+    Route::get('ch_therapeutic_ass/by_record/{id}/{type_record_id}', 'Management\ChTherapeuticAssController@getByRecord');
     Route::apiResource('ch_signs', 'Management\ChSignsController');
     Route::apiResource('ch_ass_signs', 'Management\ChAssSignsController');
+    Route::get('ch_ass_signs/by_record/{id}/{type_record_id}', 'Management\ChAssSignsController@getByRecord');
     Route::apiResource('ch_ass_pattern', 'Management\ChAssPatternController');
     Route::apiResource('ch_ass_swing', 'Management\ChAssSwingController');
     Route::apiResource('ch_ass_frequency', 'Management\ChAssFrequencyController');
@@ -78,11 +80,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_ass_chest_symmetry', 'Management\ChAssChestSymmetryController');
 
     Route::apiResource('ch_rt_inspection', 'Management\ChRtInspectionController');
+    Route::get('ch_rt_inspection/by_record/{id}/{type_record_id}', 'Management\ChRtInspectionController@getByRecord');
     Route::apiResource('ch_oxygen_therapy', 'Management\ChOxygenTherapyController');
     Route::get('ch_oxygen_therapy/by_record/{id}/{type_record_id}', 'Management\ChOxygenTherapyController@getByRecord');
 
     Route::apiResource('ch_auscultation', 'Management\ChAuscultationController');
+    Route::get('ch_auscultation/by_record/{id}/{type_record_id}', 'Management\ChAuscultationController@getByRecord');
     Route::apiResource('ch_diagnostic_aids', 'Management\ChDiagnosticAidsController');
+    Route::get('ch_diagnostic_aids/by_record/{id}/{type_record_id}', 'Management\ChDiagnosticAidsController@getByRecord');
     Route::apiResource('ch_objectives_therapy', 'Management\ChObjectivesTherapyController');
     Route::get('ch_objectives_therapy/by_record/{id}/{type_record_id}', 'Management\ChObjectivesTherapyController@getByRecord');
 
@@ -90,6 +95,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_rt_sessions/by_record/{id}/{type_record_id}', 'Management\ChRtSessionsController@getByRecord');
     Route::apiResource('ch_supplies_therapy', 'Management\ChSuppliesTherapyController');
     Route::get('ch_supplies_therapy/by_record/{id}/{type_record_id}', 'Management\ChSuppliesTherapyController@getByRecord');
+
+    //Ch Trabajo Social
+    Route::apiResource('ch_sw_family', 'Management\ChSwFamilyController');
+    Route::get('ch_sw_family/by_record/{id}/{type_record_id}', 'Management\ChSwFamilyController@getByRecord');
 
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
@@ -1019,7 +1028,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_r_n_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNValorationOTController@getByRecord');
 
     Route::apiResource('ch_e_m_s_assessment_o_t', 'Management\ChEMSAssessmentOTController');
-    Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');  
+    Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');
     Route::apiResource('ch_r_n_therapeutic_obj_o_t', 'Management\ChRNTherapeuticObjOTController');
     Route::get('ch_r_n_therapeutic_obj_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNTherapeuticObjOTController@getByRecord');
 

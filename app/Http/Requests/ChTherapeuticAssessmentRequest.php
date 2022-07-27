@@ -30,7 +30,7 @@ class ChTherapeuticAssRequest extends FormRequest
             'ch_ass_mode_id' => '',
             'ch_ass_cough_id' => '',
             'ch_ass_chest_type_id' => '',
-            'ch_ass_symmetry_id' => '',
+            'ch_ass_chest_symmetry_id' => '',
             'type_record_id' => '',
             'ch_record_id' => ''
         ];

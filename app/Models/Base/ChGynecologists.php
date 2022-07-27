@@ -14,7 +14,7 @@ use App\Models\ChRstBipsyGyneco;
 use App\Models\ChRstMammographyGyneco;
 use App\Models\ChRstColopsciaGyneco;
 use App\Models\ChFailureMethodGyneco;
-use app\Models\ChMethodPlanningGyneco;
+use App\Models\ChMethodPlanningGyneco;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
 
@@ -57,18 +57,18 @@ use Illuminate\Database\Eloquent\Model;
 *@property number  $time_exam_breast_self
 *@property string  $observation_breast_self_exam
 *@property string  $observation_flow
-*@property unsignedBigInteger  $ch_type_gynecologists_id
-*@property unsignedBigInteger  $ch_planning_gynecologists_id
-*@property unsignedBigInteger  $ch_flow_gynecologists_id
-*@property unsignedBigInteger  $ch_exam_gynecologists_id
-*@property unsignedBigInteger  $ch_rst_cytology_gyneco_id
-*@property unsignedBigInteger  $ch_rst_biopsy_gyneco_id
-*@property unsignedBigInteger  $ch_rst_mammography_gyneco_id
-*@property unsignedBigInteger  $ch_rst_colposcipia_gyneco_id
-*@property unsignedBigInteger  $ch_failure_method_gyneco_id
-*@property unsignedBigInteger  $ch_method_planning_gyneco_id 
-*@property unsignedBigInteger type_record_id 
-*@property unsignedBigInteger ch_record_id 
+*@property unsignedBigInteger  $ch_type_gynecologists
+*@property unsignedBigInteger  $ch_planning_gynecologists
+*@property unsignedBigInteger  $ch_flow_gynecologists
+*@property unsignedBigInteger  $ch_exam_gynecologists
+*@property unsignedBigInteger  $ch_rst_cytology_gyneco
+*@property unsignedBigInteger  $ch_rst_biopsy_gyneco
+*@property unsignedBigInteger  $ch_rst_mammography_gyneco
+*@property unsignedBigInteger  $ch_rst_colposcipia_gyneco
+*@property unsignedBigInteger  $ch_failure_method_gyneco
+*@property unsignedBigInteger  $ch_method_planning_gyneco 
+*@property unsignedBigInteger type_record 
+*@property unsignedBigInteger ch_record 
 *@property Carbon $created_at
 *@property Carbon $updated_at
  * 
@@ -87,7 +87,7 @@ class ChGynecologists extends Model
 	{
 		return $this->belongsTo(ChPlanningGynecologists::class);
 	}
-	public function ch_exam_gynecologists_record()
+	public function ch_exam_gynecologists()
 	{
 		return $this->belongsTo(ChExamGynecologists::class);
 	}
@@ -95,27 +95,27 @@ class ChGynecologists extends Model
 	{
 		return $this->belongsTo(ChFlowGynecologists::class);
 	}
-	public function ch_rst_cytology_gyneco_id()
+	public function ch_rst_cytology_gyneco()
 	{
 		return $this->belongsTo(ChRstCytologyGyneco::class);
 	}
-	public function ch_rst_biopsy_gyneco_id()
+	public function ch_rst_biopsy_gyneco()
 	{
-		return $this->belongsTo(ChRstBipsyGyneco::class);
+		return $this->belongsTo(ChRstBiopsyGyneco::class);
 	}
-	public function ch_rst_mammography_gyneco_id()
+	public function ch_rst_mammography_gyneco()
 	{
 		return $this->belongsTo(ChRstMammographyGyneco::class);
 	}
-	public function ch_rst_colposcipia_gyneco_id()
+	public function ch_rst_colposcipia_gyneco()
 	{
-		return $this->belongsTo(ChRstColopsciaGyneco::class);
+		return $this->belongsTo(ChRstColposcipiaGyneco::class);
 	}
-	public function ch_failure_method_gyneco_id()
+	public function ch_failure_method_gyneco()
 	{
 		return $this->belongsTo(ChFailureMethodGyneco::class);
 	}
-	public function ch_method_planning_gyneco_id()
+	public function ch_method_planning_gyneco()
 	{
 		return $this->belongsTo(ChMethodPlanningGyneco::class);
 	}

@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChDiagnosticAids;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class ChDiagnosticAidsController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -19,23 +19,22 @@ class ChDiagnosticAidsController extends Controller
     {
         $ChDiagnosticAids = ChDiagnosticAids::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ChDiagnosticAids->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $ChDiagnosticAids->where('name','like','%' . $request->search. '%');
+            $ChDiagnosticAids->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ChDiagnosticAids=$ChDiagnosticAids->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $ChDiagnosticAids = $ChDiagnosticAids->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChDiagnosticAids = $ChDiagnosticAids->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChDiagnosticAids=$ChDiagnosticAids->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -46,20 +45,20 @@ class ChDiagnosticAidsController extends Controller
     }
 
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -67,33 +66,15 @@ class ChDiagnosticAidsController extends Controller
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
-            $ChDiagnosticAids = new ChDiagnosticAids;
-
-            if (isset($request->aids)) {
-                foreach ($request->aids as $element) {
-                    if ($element == 'RADIOGRAFIA') {
-                        $ChDiagnosticAids->scan = $element;
-                    } else if ($element == 'ESPIROMETRIA') {
-                        $ChDiagnosticAids->spirometry = $element;
-                    } else if ($element == 'GASES ARTERIALES') {
-                        $ChDiagnosticAids->gases = $element;
-                    } else if ($element == 'POLISOMNOGRAFIA') {
-                        $ChDiagnosticAids->polysomnography = $element;
-                    } else if ($element == 'OTRO') {
-                        $ChDiagnosticAids->other = $element;
-                    } else if ($element == 'NINGUNO') {
-                        $ChDiagnosticAids->none = $element;
-                    } 
-                }
-            }
-            
-        $ChDiagnosticAids->observation = $request->observation; 
-        $ChDiagnosticAids->type_record_id = $request->type_record_id; 
-        $ChDiagnosticAids->ch_record_id = $request->ch_record_id; 
+        $ChDiagnosticAids = new ChDiagnosticAids;
+        $ChDiagnosticAids->paraclinical = $request->paraclinical;
+        $ChDiagnosticAids->observation = $request->observation;
+        $ChDiagnosticAids->type_record_id = $request->type_record_id;
+        $ChDiagnosticAids->ch_record_id = $request->ch_record_id;
         $ChDiagnosticAids->save();
 
         return response()->json([
@@ -101,7 +82,6 @@ class ChDiagnosticAidsController extends Controller
             'message' => 'Ayudas Diagnósticas asociadas al paciente exitosamente',
             'data' => ['ch_diagnostic_aids' => $ChDiagnosticAids->toArray()]
         ]);
-
     }
     /**
      * Display the specified resource.
@@ -129,15 +109,11 @@ class ChDiagnosticAidsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChDiagnosticAids = ChDiagnosticAids::find($id);  
-        $ChDiagnosticAids->scan = $request->scan; 
-        $ChDiagnosticAids->spirometry = $request->spirometry; 
-        $ChDiagnosticAids->gases = $request->gases; 
-        $ChDiagnosticAids->polysomnography = $request->polysomnography; 
-        $ChDiagnosticAids->other = $request->other; 
-        $ChDiagnosticAids->observation = $request->observation; 
-        $ChDiagnosticAids->type_record_id = $request->type_record_id; 
-        $ChDiagnosticAids->ch_record_id = $request->ch_record_id; 
+        $ChDiagnosticAids = ChDiagnosticAids::find($id);
+        $ChDiagnosticAids->paraclinical = $request->paraclinical;
+        $ChDiagnosticAids->observation = $request->observation;
+        $ChDiagnosticAids->type_record_id = $request->type_record_id;
+        $ChDiagnosticAids->ch_record_id = $request->ch_record_id;
         $ChDiagnosticAids->save();
 
         return response()->json([
