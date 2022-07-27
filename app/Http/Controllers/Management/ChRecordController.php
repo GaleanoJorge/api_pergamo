@@ -23,13 +23,20 @@ use App\Models\BillingPad;
 use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ChReasonConsultation;
-use App\Models\ChNursingEntry;
 use App\Models\ChEValorationOT;
 use App\Models\ChOstomies;
 use App\Models\ChAp;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChDietsEvo;
 use App\Models\ChVitalSigns;
+use App\Models\ChScaleNorton;
+use App\Models\ChScaleGlasgow;
+use App\Models\ChScaleNews;
+use App\Models\ChNursingProcedure;
+
+use App\Models\ChPosition;
+
+
 
 
 use App\Models\ChSystemExam;
@@ -191,6 +198,9 @@ class ChRecordController extends Controller
             $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency' )->where('ch_record_id', $id)->get()->toArray();
             $ChVitalSignsEvo = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
             'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
+            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
+            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->get()->toArray();
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -222,6 +232,9 @@ class ChRecordController extends Controller
                 'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'ChDietsEvo' => $ChDietsEvo,
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
+                'ChScaleNorton' => $ChScaleNorton,
+                'ChScaleGlasgow' => $ChScaleGlasgow,
+                'ChScaleNews' => $ChScaleNews,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -249,8 +262,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
-            $ChnursingEntry = ChNursingEntry::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExam = ChPhysicalExam::with('ñ')->where('ch_record_id', $id)->get()->toArray();
+            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -266,8 +278,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
-                'chnursingentry' => $ChnursingEntry,
-                'chphysicalexam' => $ChPhysicalExam,
+                'ChPosition' => $ChPosition,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
