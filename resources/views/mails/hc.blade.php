@@ -355,7 +355,8 @@
 
         <hr/>
 
-        @if(count($chbackground) > 0)
+        @if(count($chbackground) > 0  || count($ChEvoSoap) > 0 || count($ChPhysicalExamEvo) > 0 
+         || count($ChVitalSignsEvo) > 0 || count($ChDiagnosisEvo) > 0)
         <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
             <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ANTECEDENTES</span>
             <span style=display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
@@ -420,9 +421,127 @@
 
         @foreach($ChVitalSignsEvo as $ch)
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-            <span style="font-family:Calibri; font-size:9pt">{{$ch['cardiac_frequency']}}</span>
+            <span style="font-family:Calibri; font-size:9pt"><b> FRECUENCIA CARDIACA: </b>{{$ch['cardiac_frequency']}}
+                                                             <b> - FRECUENCIA RESPIRATORIA: </b>{{$ch['respiratory_frequency']}}
+                                                             <b> - TEMPERATURA: </b>{{$ch['temperature']}}</span>
         </p>
         @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> VIA DE TOMA: </b>{{$ch['ch_vital_temperature']['name']}}
+                                                             <b> - SATURACION DE OXIGENO: </b>{{$ch['oxigen_saturation']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> TALLA: </b>{{$ch['size']}}
+                                                             <b> - PESO: </b>{{$ch['weight']}}
+                                                             <b> - I.M.C: </b>{{$ch['body_mass_index']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> TENSIÓN ARTERIAL SISTÓLICA: </b>{{$ch['pressure_systolic']}}
+                                                             <b> - TENSIÓN ARTERIAL DIASTÓLICA: </b>{{$ch['pressure_diastolic']}}
+                                                             <b> - MEDIA: </b>{{$ch['pressure_half']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ESTADO NEUROLÓGICO: </b>{{$ch['ch_vital_neurological']['name']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}}
+                                                             <b> - T.PUPILAR DERECHO: </b>{{$ch['pupil_size_right']}}
+                                                             <b> - R.LUZ IZQUIERDO: </b>{{$ch['left_reaction']}}
+                                                             <b> - R.LUZ IZQUIERDO: </b>{{$ch['right_reaction']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ESTADO HIDRATACIÓN: </b>{{$ch['ch_vital_hydration']['name']}}</span>
+        </p>
+        @endforeach
+
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> PUPILAS: </b></span>
+        </p>
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}}</span>
+        </p>
+        @endforeach
+
+        
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> OTROS:</span>
+        </p>
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> PULSO: </b>{{$ch['pulse']}}
+                                                         <b> PVC: </b>{{$ch['venous_pressure']}}
+                                                         <b> PRESIÓN INTRACANEANA: </b>{{$ch['intracranial_pressure']}}
+                                                         <b> PPC: </b>{{$ch['cerebral_perfusion_pressure']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> PRESIÓN INTRAABDOMINAL: </b>{{$ch['intra_abdominal']}}
+                                                         <b> GLUCOMETRIA: </b>{{$ch['glucometry']}}
+                                                         <b> OBSERVACIÓN DE GLUCOMETRIA: </b>{{$ch['observations_glucometry']}}</span>
+        </p>
+        @endforeach
+
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> PRESIÓN ART PULMONAR:</span>
+        </p>
+        
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> SISTOLICA: </b>{{$ch['pulmonary_systolic']}}
+                                                         <b> DIASTOLICA: </b>{{$ch['pulmonary_diastolic']}}
+                                                         <b> MEDIA: </b>{{$ch['pulmonary_half']}}</span>
+        </p>
+        @endforeach
+
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> PEDIATRÍA - PERÍMETRO:</span>
+        </p>
+        
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> CEFÁLICO: </b>{{$ch['head_circunference']}}
+                                                         <b> ABDOMINAL: </b>{{$ch['abdominal_perimeter']}}
+                                                         <b> TORACICO: </b>{{$ch['chest_perimeter']}}</span>
+        </p>
+        @endforeach
+
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ¿TIENE OXIGENO ?:</span>
+        </p>
+        
+
+        @foreach($ChVitalSignsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+        <span style="font-family:Calibri; font-size:9pt"><b> MODO VENTILATORIO: </b>{{$ch['ch_vital_ventilated']}}
+                                                         <b> TIPO DE OXIGENO: </b>{{$ch['oxygen_type']}}
+                                                         <b> LITROS POR MINUTOS: </b>{{$ch['liters_per_minute']}}</span>
+        </p>
+        @endforeach
+
         @endisset 
 
         <hr/>
@@ -441,6 +560,198 @@
         @endisset 
         
         <hr/>
+
+        @if(count($ChOstomies) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> OSTOMIAS </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChOstomies as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> - OSTOMIA: </b> {{$ch['ostomy']['name']}} <b> - OBSERVACIÓN : </b> {{$ch['observation']}} </span>
+        </p>
+        @endforeach
+        @endisset
+        
+        <hr/>
+
+        @if(count($ChAp) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> AP </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+    
+
+        @foreach($ChAp as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> - ANALISIS: </b> {{$ch['analisys']}} <b> - PLAN : </b> {{$ch['plan']}} </span>
+        </p>
+        @endforeach
+        @endisset
+
+        <hr/>
+
+        @if(count($ChRecommendationsEvo) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> RECOMENDACIONES </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChRecommendationsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> - RECOMENDACION: </b> {{$ch['recommendations_evo']['name']}} <b> - DESCRIPCION : </b> {{$ch['patient_family_education']}} </span>
+        </p>
+        @endforeach
+        @endisset
+
+        <hr/>
+
+        @if(count($ChDietsEvo) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> DIETA RECOMENDADA </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChDietsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> - ORAL: </b> {{$ch['diet_consistency']['name']}} <b> - ENTERAL : </b> {{$ch['enterally_diet']['name']}} </span>
+        </p>
+        @endforeach
+
+        @foreach($ChDietsEvo as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> OBSERVACIONES: </b> {{$ch['observation']}}</span>
+        </p>
+        @endforeach
+        @endisset
+
+        <hr/>
+
+        @if(count($ChEvoSoap) > 0 || count($ChPhysicalExamEvo) > 0 || count($ChVitalSignsEvo) > 0 || count($ChDiagnosisEvo) > 0 )         
+        <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+            ESCALAS<br>
+        </p>
+        @endisset
+
+        <hr/>
+
+        
+        @if(count($ChScaleNorton) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> ESCALA DE NORTON </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChScaleNorton as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ESTADO FISICO GENERAL: </b>{{$ch['physical_detail']}}
+                                                             <b> - ESTADO MENTAL: </b>{{$ch['mind_detail']}}
+                                                             <b> - MOVILIDAD: </b>{{$ch['mobility_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNorton as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ACTIVIDAD: </b>{{$ch['activity_detail']}}
+                                                             <b> - INCONTINENCIA: </b>{{$ch['incontinence_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNorton as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> TOTAL: </b>{{$ch['total']}}<b> / </b>{{$ch['risk']}}</span>
+        </p>
+        @endforeach
+
+        @endisset
+
+        <hr/>
+
+        @if(count($ChScaleGlasgow) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> ESCALA DE GLASGOW </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChScaleGlasgow as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> RESPUESTA MOTORA: </b>{{$ch['motor_detail']}}
+                                                             <b> - RESPUESTA VERBAL: </b>{{$ch['verbal_detail']}}
+                                                             <b> - APERTURA OCULAR: </b>{{$ch['ocular_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleGlasgow as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> TOTAL: </b>{{$ch['total']}} / 15</span>
+        </p>
+        @endforeach
+
+        @endisset
+
+        <hr/>
+
+        @if(count($ChScaleNews) > 0)
+        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> ESCALA NEWS </b> </span>
+            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+
+        
+
+        @foreach($ChScaleNews as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> FRECUENCIA RESPIRATORIA: </b>{{$ch['p_one_detail']}}
+                                                             <b> - SATURACIÓN DE OXIGENO (SP02): </b>{{$ch['p_two_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNews as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> SP02 EN CASO DE EPOC: </b>{{$ch['p_three_detail']}}
+                                                             <b> - FRECUENCIA CARDIACA: </b>{{$ch['p_four_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNews as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> TEMPERATURA: </b>{{$ch['p_five_detail']}}
+                                                             <b> - TENSION ARTERIAL SISTOLICA: </b>{{$ch['p_six_value']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNews as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> ¿OXIGENO SUPLEMENTARIO?: </b>{{$ch['p_seven_detail']}}
+                                                             <b> - NIVEL DE CONCIENCIA: </b>{{$ch['p_eight_detail']}}</span>
+        </p>
+        @endforeach
+
+        @foreach($ChScaleNews as $ch)
+        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            <span style="font-family:Calibri; font-size:9pt"><b> CALIFICACION: </b>{{$ch['qualification']}}<b> / </b>{{$ch['risk']}}<b> / </b>{{$ch['response']}}</span>
+        </p>
+        @endforeach
+
+        @endisset
+
+        <hr/>
+
+
+
+
         
                     
         @if($firm != null)
@@ -471,13 +782,19 @@
         @endisset
 
         <!-- Enfermeria -->
+
+        <hr/>
+
         @if($chrecord[0]['ch_type_id'] == 2 ) 
-        @if(count($chnursingentry) > 0 || count($chphysicalexam) > 0) 
+        @if(count($ChNursingEntry) > 0 || count($chphysicalexam) > 0) 
         <p style="margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
             INGRESO<br>
         </p>
+
+        <hr/>
+
         @endisset
-        @if(count($chnursingentry) > 0) 
+        @if(count($ChNursingEntry) > 0) 
         <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
             <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">NOTA DE INGRESO</span>
             <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
@@ -487,10 +804,10 @@
             <span style="font-family:Calibri; font-size:9pt">DIAGNOSTICO CUTANEO:</span>
         </p>
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-            <span style="font-family:Calibri; font-size:9pt">POSICIÓN: {{$chnursingentry[0]['patient_position']['name']}}</span>
+            <span style="font-family:Calibri; font-size:9pt">POSICIÓN: {{$ChNursingEntry[0]['patient_position']['name']}}</span>
         </p>
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-            <span style="font-family:Calibri; font-size:9pt">CUERO CABELLUDO: {{$chnursingentry[0]['hair_revision']}}</span>
+            <span style="font-family:Calibri; font-size:9pt">CUERO CABELLUDO: {{$ChNursingEntry[0]['hair_revision']}}</span>
         </p>
         @endisset
         @if(count($chphysicalexam) > 0) 
