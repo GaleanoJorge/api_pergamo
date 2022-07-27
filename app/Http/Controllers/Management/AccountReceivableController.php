@@ -254,8 +254,13 @@ class AccountReceivableController extends Controller
             ->leftJoin('tariff', 'tariff.id', 'bill_user_activity.tariff_id')
             ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
             ->where('bill_user_activity.account_receivable_id', $id)
+            ->where('bill_user_activity.status', 'APROBADO')
             ->groupBy('services_briefcase.id')
             ->get()->toArray();
+
+        for ($i = 0; $i < count($Activities); $i++) {
+            $Activities[$i]['amount'] = $this->currencyTransform($Activities[$i]['amount']);
+        }
 
         if (!$FinancialData) {
             return response()->json([
@@ -288,7 +293,7 @@ class AccountReceivableController extends Controller
         $consecutive = $AccountReceivable->id;
         $gross_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->gross_value_activities));
         $net_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->net_value_activities));
-        $letter_value = $this->fillCharacters($this->NumToLetters($AccountReceivable->net_value_activities));
+        $letter_value = $this->NumToLetters($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
         $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
         $account_number = $FinancialData['account_number'];
@@ -328,6 +333,7 @@ class AccountReceivableController extends Controller
             'email' => $email,
             'generate_date' => $generate_date,
             'nombre_completo' => $nombre_completo,
+            'Activities' => $Activities,
         ])->render();
 
         $dompdf = new PDF();
@@ -468,8 +474,25 @@ class AccountReceivableController extends Controller
         }
     }
 
-    public function NumToLetters(int $value): string
+    public function NumToLetters(int $value)
     {
-        return NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+        $lengt = 45;
+        $res[0] = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+        if (strlen($res[0]) > $lengt) {
+            $prov = substr($res[0], $lengt);
+            $pos = strpos($prov, " ");
+            $prov = substr($prov, $pos + 1);
+            $res[0] = substr($res[0], 0, $lengt + $pos);
+            if (strlen($prov) > $lengt) {
+                $prov2 = substr($prov, $lengt);
+                $pos = strpos($prov2, " ");
+                $prov2 = substr($prov2, $pos + 1);
+                $res[1] = substr($prov, 0, $lengt + $pos);
+                $res[2] = $prov2;
+            } else {
+                $res[1] = $prov;
+            }
+        }
+        return $res;
     }
 }
