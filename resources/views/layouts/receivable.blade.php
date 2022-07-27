@@ -4,6 +4,9 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="generator" content="Aspose.Words for .NET 17.1.0.0" />
     <title>
     </title>
 
@@ -435,10 +438,13 @@
 </head>
 
 <body>
-    <div >
-        <div >
-            <div >
+    <div>
+        <div>
+            <div>
 
+                {{-- <div class="stl_01" style="left:11.76em;top:2.062em;">
+                    <img src="C:\xampp\htdocs\api-pergamo\storage\app\public\file\4g0mIiA9FmotRKJbpHsW4y0t1yenaSpNULkRN41D.jpg" width="142" height="59" alt="" style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
+                </div> --}}
                 <div class="stl_01" style="left:11.76em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0.0006em;">DOCUMENTO SOPORTE EN ADQUISICIONES EFECTUADAS A NO &nbsp;</span>
                 </div>
@@ -575,32 +581,32 @@
 
                 <div class="stl_01" style="left:0em;top:16.562em;"><span class="stl_19 stl_08 stl_30"
                         style="word-spacing:-0.0011em;">Nombres y Apellidos: &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:16.562em;"><span class="stl_19 stl_08 stl_30"
+                <div class="stl_01" style="left:8em;top:16.562em;"><span class="stl_19 stl_08 stl_30"
                         style="word-spacing:-0.0011em;">{{ $full_name }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:17.792em;"><span class="stl_19 stl_08 stl_31">Profesión:
                         &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:17.792em;"><span
+                <div class="stl_01" style="left:8em;top:17.792em;"><span
                         class="stl_19 stl_08 stl_31">{{ $role }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:19.182em;"><span class="stl_19 stl_08 stl_33">Identificación:
                         &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:19.182em;"><span
+                <div class="stl_01" style="left:8em;top:19.182em;"><span
                         class="stl_19 stl_08 stl_33">{{ $doc_type }} {{ $doc_number }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:20.572em;"><span class="stl_19 stl_08 stl_34">Dirección:
                         &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:20.572em;"><span
+                <div class="stl_01" style="left:8em;top:20.572em;"><span
                         class="stl_19 stl_08 stl_34">{{ $address }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:21.902em;"><span class="stl_19 stl_08 stl_35">Teléfono:
                         &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:21.902em;"><span
+                <div class="stl_01" style="left:8em;top:21.902em;"><span
                         class="stl_19 stl_08 stl_35">{{ $phone }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:23.322em;"><span class="stl_19 stl_08 stl_36">Correo:
                         &nbsp;</span></div>
-                <div class="stl_01" style="left:9em;top:23.322em;"><span
+                <div class="stl_01" style="left:8em;top:23.322em;"><span
                         class="stl_19 stl_08 stl_36">{{ $email }} &nbsp;</span></div>
 
 
@@ -621,16 +627,34 @@
                 </div>
 
 
-                <div class="stl_01" style="left:2.29em;top:25.912em;"><span class="stl_07 stl_08 stl_21"
+                <div class="stl_01" style="left:0em;top:25.912em;"><span class="stl_07 stl_08 stl_21"
                         style="word-spacing:0.0058em;">N° Actividades &nbsp;</span></div>
 
-                <div class="stl_01" style="left:23.7576em;top:25.912em;"><span class="stl_07 stl_08 stl_37">Detalle &nbsp;</span></div>
+                <div class="stl_01" style="left:22em;top:25.912em;"><span class="stl_07 stl_08 stl_37">Detalle
+                        &nbsp;</span></div>
 
-                <div class="stl_01" style="left:40.96em;top:25.952em;"><span class="stl_07 stl_08 stl_38"
+                <div class="stl_01" style="left:40em;top:25.952em;"><span class="stl_07 stl_08 stl_38"
                         style="word-spacing:-0.0033em;">Valor Total &nbsp;</span></div>
 
 
 
+
+
+
+                @if ($Activities != null)
+                    @for ($i = 0; $i < count($Activities); $i++)
+                        <div class="stl_01" style="left:2.5em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_21"
+                                style="word-spacing:0.0058em;">{{ $Activities[$i]['quantity'] }} &nbsp;</span></div>
+
+                        <div class="stl_01" style="left:6em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_37">{{ $Activities[$i]['name'] }} &nbsp;</span></div>
+
+                        <div class="stl_01" style="left:40em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_38"
+                                style="word-spacing:-0.0033em;">{{ $Activities[$i]['amount'] }} &nbsp;</span></div>
+                    @endfor
+                @endisset
 
 
 
@@ -647,7 +671,8 @@
 					border-color: black;">
                 </div>
 
-                <div class="stl_01" style="left:29.75em;top:41.792em;"><span class="stl_07 stl_08 stl_10">TOTAL &nbsp;</span></div>
+                <div class="stl_01" style="left:29.75em;top:41.792em;"><span class="stl_07 stl_08 stl_10">TOTAL
+                        &nbsp;</span></div>
 
                 <div class="stl_01" style="left:37em;top:41.792em;"><span
                         class="stl_19 stl_08 stl_39">{{ $gross_value }}</span></div>
@@ -708,9 +733,16 @@
 
 
                 <div class="stl_01" style="left:0em;top:42.302em;"><span class="stl_19 stl_08 stl_40"
-                        style="word-spacing:0.0038em;">Son: {{ $letter_value }} &nbsp;</span></div>
+                        style="word-spacing:0.0038em;">Son: &nbsp;</span></div>
 
-                <div class="stl_01" style="left:0em;top:44.952em;"><span class="stl_19 stl_08 stl_41">FIRMA: &nbsp;</span></div>
+                @for ($i = 0; $i < count($letter_value); $i++)
+                    <div class="stl_01" style="left:2em;top:{{($i) + 42.302}}em;"><span class="stl_19 stl_08 stl_40"
+                            style="word-spacing:0.0038em;">{{ $letter_value[$i] }} &nbsp;</span></div>
+                @endfor
+
+
+                <div class="stl_01" style="left:0em;top:46em;"><span class="stl_19 stl_08 stl_41">FIRMA:
+                        &nbsp;</span></div>
 
 
 
@@ -720,25 +752,30 @@
 
 
                 <div class="stl_01" style="left:0em;top:50.502em;"><span class="stl_19 stl_08 stl_39"
-                        style="word-spacing:0.058em;">Para efectos de la aplicación de la tabla de retención en la fuente establecida en el artículo 383 del Estatuto Tributario, la &nbsp;</span></div>
+                        style="word-spacing:0.058em;">Para efectos de la aplicación de la tabla de retención en la
+                        fuente establecida en el artículo 383 del Estatuto Tributario, la &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:51.552em;"><span class="stl_19 stl_08 stl_18"
-                        style="word-spacing:0.2129em;">cual se le aplica a los pagos o abonos en cuenta por concepto de ingresos por honorarios y por compensación por &nbsp;</span></div>
+                        style="word-spacing:0.2129em;">cual se le aplica a los pagos o abonos en cuenta por
+                        concepto de ingresos por honorarios y por compensación por &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:52.622em;"><span class="stl_19 stl_08 stl_13"
-                        style="word-spacing:0.0117em;">servicios personales, </span><span class="stl_07 stl_08 stl_45"
-                        style="word-spacing:0.0139em;">“NO he contratado o vinculado más de un trabajador asociado a mi actividad económica por al &nbsp;</span></div>
+                        style="word-spacing:0.0117em;">servicios personales, </span><span
+                        class="stl_07 stl_08 stl_45" style="word-spacing:0.0139em;">“NO he contratado o vinculado
+                        más de un trabajador asociado a mi actividad económica por al &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:53.692em;"><span class="stl_07 stl_08 stl_46"
-                        style="word-spacing:0.0008em;">menos noventa (90) días continuos o discontinuos”. (Parágrafo 2 art.383 E.T.) &nbsp;</span></div>
+                        style="word-spacing:0.0008em;">menos noventa (90) días continuos o discontinuos”.
+                        (Parágrafo 2 art.383 E.T.) &nbsp;</span></div>
 
                 <div class="stl_01" style="left:0em;top:58.822em;"><span class="stl_07 stl_08 stl_46"
-                        style="word-spacing:0.0008em;">Documento generado {{$generate_date}} por Pérgamo Usuario: {{$nombre_completo}} &nbsp;</span></div>
+                        style="word-spacing:0.0008em;">Documento generado {{ $generate_date }} por Pérgamo
+                        Usuario: {{ $nombre_completo }} &nbsp;</span></div>
 
                 <!-- <div class="stl_01" style="left:0em;top:58.822em;"><span class="stl_19 stl_08 stl_24" style="word-spacing:0.0076em;">CUFE: (Espacio codigo CUFE entregado por la DIAN) &nbsp;</span></div> -->
-            </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>
