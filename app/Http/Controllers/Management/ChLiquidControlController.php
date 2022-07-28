@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChLiquidControlRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class ChLiquidControlController extends Controller
 {
@@ -80,23 +81,21 @@ class ChLiquidControlController extends Controller
     {
 
         $ChLiquidControl = ChLiquidControl::select(
-            // 'ch_liquid_control.id AS liquid_id',
-            // 'ch_liquid_control.ch_record_id AS liquid_record_id',
-            // 'ch_vital_signs.*',
-            // 'ch_vital_signs.ch_record_id AS vital_record_id',
+            // 'ch_liquid_control.id AS id_liquid',
             'ch_liquid_control.*',
-        )
-            ->where('ch_record_id', $id)
-            // ->leftjoin('ch_record','ch_liquid_control.ch_record_id','ch_record.id')
-            // ->leftjoin('ch_vital_signs', 'ch_liquid_control.liquid_record_id','=', 'ch_vital_signs.vital_record_id')
-            // ->group
-            ->orderBy('clock','DESC')
+
+            // 'ch_vital_signs.weight AS weight',
+            DB::raw('CONCAT_WS(" ",ch_vital_signs.weight) AS weight'),
+            )
+            ->leftJoin('ch_vital_signs', 'ch_liquid_control.ch_record_id','=', 'ch_vital_signs.ch_record_id')
+            ->where('ch_liquid_control.ch_record_id', $id)
+            ->orderBy('clock', 'ASC')
             ->with(
                 'ch_route_fluid',
                 'ch_type_fluid',
                 // 'signs'
             );
-        
+
 
         if ($request->query("pagination", true) == "false") {
             $ChLiquidControl = $ChLiquidControl->get()->toArray();
