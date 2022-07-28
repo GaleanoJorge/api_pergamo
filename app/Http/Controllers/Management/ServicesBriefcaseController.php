@@ -74,7 +74,11 @@ class ServicesBriefcaseController extends Controller
                     'manual_price.manual',
                     'manual_price.manual',
                     'manual_price.insume.measure_supplies_measure',
-                );
+                )  ->where('manual_price.procedure_id', '!=', 'null')
+                ->where('procedure.procedure_type_id', '!=', '3')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.manual');
+
+
+              
         } else if ($request->type == 2) {
             $ServicesBriefcase
                 ->where('manual_price.product_id', '!=', 'null')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.product.drug_concentration', 'manual_price.manual');
