@@ -25,7 +25,6 @@ class PharmacyLotRequest extends FormRequest
     {
         return [
             'subtotal' => '',
-            'vat' => '',
             'total' => '',
             'receipt_date' => '',
             'pharmacy_stock_id' => '',
