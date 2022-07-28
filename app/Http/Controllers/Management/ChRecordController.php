@@ -17,7 +17,6 @@ use App\Models\AccountReceivable;
 use App\Models\Admissions;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
-use App\Models\ChPhysicalExam;
 use App\Models\Base\ServicesBriefcase;
 use App\Models\BillingPad;
 use App\Models\Patient;
@@ -32,9 +31,12 @@ use App\Models\ChVitalSigns;
 use App\Models\ChScaleNorton;
 use App\Models\ChScaleGlasgow;
 use App\Models\ChScaleNews;
-use App\Models\ChNursingProcedure;
+use App\Models\ChPhysicalExam;
 
 use App\Models\ChPosition;
+use App\Models\ChHairValoration;
+ 
+
 
 
 
@@ -263,6 +265,19 @@ class ChRecordController extends Controller
 
 
             $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
+            $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
+            $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSignsNE = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            
+            
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -279,6 +294,17 @@ class ChRecordController extends Controller
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
                 'ChPosition' => $ChPosition,
+                'ChHairValoration' => $ChHairValoration,
+                'ChOstomies' => $ChOstomies,
+                'ChPhysicalExam' => $ChPhysicalExam,
+                'ChVitalSigns' => $ChVitalSigns,
+                'ChPositionNE' => $ChPositionNE,
+                'ChHairValorationNE' => $ChHairValorationNE,
+                'ChOstomiesNE' => $ChOstomiesNE,
+                'ChPhysicalExamNE' => $ChPhysicalExamNE,
+                'ChVitalSignsNE' => $ChVitalSignsNE,
+                                
+
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
