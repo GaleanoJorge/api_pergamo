@@ -373,7 +373,7 @@ class AdmissionsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        if ($request->medical_date == true) {
+        if ($request->medical_date=='0000-00-00 00:00:00') {
             $Admissions = Admissions::find($id);
             $Admissions->discharge_date = Carbon::now();
             $Admissions->save();
@@ -386,6 +386,11 @@ class AdmissionsController extends Controller
         } else if ($request->reversion == true) {
             $Admissions = Admissions::find($id);
             $Admissions->medical_date = '0000-00-00 00:00:00';
+            $Admissions->save();
+        }else if ($request->user_medical_id){
+            $Admissions = Admissions::find($id);
+            $Admissions->medical_date = Carbon::now();
+            $Admissions->user_medical_id = $request->user_medical_id;
             $Admissions->save();
         } else {
             $Admissions = Admissions::find($id);
