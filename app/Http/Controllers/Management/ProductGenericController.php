@@ -21,7 +21,7 @@ class ProductGenericController extends Controller
         $ProductGeneric = ProductGeneric::select('product_generic.*')
             ->with(
                 'drug_concentration'
-            );
+            )->orderBy('description', 'asc');
 
         if($request->_sort){
             $ProductGeneric->orderBy($request->_sort, $request->_order);
