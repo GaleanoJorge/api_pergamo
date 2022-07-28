@@ -987,7 +987,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('billing_stock_request', 'Management\BillingStockRequestController');
-    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
+    Route::apiResource('user_pharmacy_stock', 'Management\UserPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
@@ -995,10 +995,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
-    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
-
+    
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
 
@@ -1078,6 +1078,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
+    
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
