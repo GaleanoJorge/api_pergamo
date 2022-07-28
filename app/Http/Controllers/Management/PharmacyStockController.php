@@ -6,6 +6,7 @@ use App\Models\PharmacyStock;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\UserPharmacyStock;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -52,12 +53,21 @@ class PharmacyStockController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+
+
         $PharmacyStock = new PharmacyStock;
         $PharmacyStock->name = $request->name;
         $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
-        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
+
+
+        foreach ($request->user_id as $user) {
+            $UserPharmacyStock = new UserPharmacyStock;
+            $UserPharmacyStock->user_id = $user;
+            $UserPharmacyStock->pharmacy_stock_id = $PharmacyStock->id;
+            $UserPharmacyStock->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -96,7 +106,6 @@ class PharmacyStockController extends Controller
         $PharmacyStock->name = $request->name;
         $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
-        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([

@@ -27,7 +27,7 @@ class ProductGenericController extends Controller
                 'administration_route',
                 'product_presentation',
                 'nom_product',
-            );
+            )->orderBy('description', 'asc');
 
         if($request->_sort){
             $ProductGeneric->orderBy($request->_sort, $request->_order);

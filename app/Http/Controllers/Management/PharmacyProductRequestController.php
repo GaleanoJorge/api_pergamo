@@ -49,7 +49,8 @@ class PharmacyProductRequestController extends Controller
                 'services_briefcase.briefcase',
                 'services_briefcase.manual_price',
                 'user_request_pad',
-            )->groupBy('pharmacy_product_request.id');
+            )->WhereNotNull('own_pharmacy_stock_id')
+            ->groupBy('pharmacy_product_request.id');
 
         if ($request->_sort) {
             $PharmacyProductRequest->orderBy($request->_sort, $request->_order);

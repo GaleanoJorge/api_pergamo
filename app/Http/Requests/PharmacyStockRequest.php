@@ -27,7 +27,6 @@ class PharmacyStockRequest extends FormRequest
             'name' => '',
             'type_pharmacy_stock_id' => '',
             'campus_id' => '',
-            'permission_pharmacy_stock_id' => '',
         ];
     }
 }
