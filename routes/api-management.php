@@ -1019,7 +1019,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_r_n_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNValorationOTController@getByRecord');
 
     Route::apiResource('ch_e_m_s_assessment_o_t', 'Management\ChEMSAssessmentOTController');
-    Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');  
+    Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');
     Route::apiResource('ch_r_n_therapeutic_obj_o_t', 'Management\ChRNTherapeuticObjOTController');
     Route::get('ch_r_n_therapeutic_obj_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNTherapeuticObjOTController@getByRecord');
 
@@ -1051,8 +1051,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\FixedNomProductController@getSubcategoryByCategory'
     );
 
-    Route::get('FixedNomProduct/byGroup/{fixed_type_id}',
-        'Management\FixedNomProductController@getCategoryByGroup');
+    Route::get(
+        'FixedNomProduct/byGroup/{fixed_type_id}',
+        'Management\FixedNomProductController@getCategoryByGroup'
+    );
 
 
 
@@ -1326,7 +1328,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
     Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
     Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
-    
+
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
     Route::apiResource('reason_exit', 'Management\ReasonExitController');
@@ -1494,4 +1496,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Aplicaciones
     Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
+
+    //Aplicaciones indiviuales medicamentos
+    Route::get('pharmacy_product_request_for_use', 'Management\PharmacyProductRequestController@forUse');
+    //Aplicaciones indiviuales insumos
+    Route::get('pharmacy_product_request_for_use/insume', 'Management\PharmacyProductRequestController@forUse');
 });
