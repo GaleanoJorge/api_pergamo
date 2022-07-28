@@ -273,6 +273,7 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->user_request_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+            $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
         } else {
             $ManagementPlan->save();
