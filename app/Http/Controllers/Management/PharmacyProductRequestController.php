@@ -385,7 +385,7 @@ class PharmacyProductRequestController extends Controller
                         }
 
                         for ($i = 0; $i < $element->amount; $i++) {
-                            for ($j = 0; $j < $quantity->dose; $j++) {
+                            for ($j = 0; $j < $quantity->dose ? $quantity->dose : 1 ; $j++) {
                                 $assistanceSupplies = new AssistanceSupplies;
                                 $assistanceSupplies->user_incharge_id =  $user_id;
                                 $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest->id;
