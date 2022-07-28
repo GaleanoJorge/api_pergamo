@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\AssignedManagementPlan;
 use App\Models\AssistanceSupplies;
+use App\Models\ChRecord;
+use App\Models\ManagementPlan;
 use App\Models\PharmacyLot;
 use App\Models\PharmacyLotStock;
 use App\Models\PharmacyProductRequest;
@@ -27,9 +30,9 @@ class PharmacyProductRequestController extends Controller
     public function index(Request $request): JsonResponse
     {
         $PharmacyProductRequest = PharmacyProductRequest::select(
-            'pharmacy_product_request.*', 
+            'pharmacy_product_request.*',
             DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada')
-            )
+        )
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->with(
                 'product_generic',
@@ -118,6 +121,129 @@ class PharmacyProductRequestController extends Controller
         ]);
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function forUse(Request $request): JsonResponse
+    {
+        $arreglo=[];
+        $PharmacyProductRequest = PharmacyProductRequest::select(
+            'pharmacy_product_request.*',
+            DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'),
+            DB::raw('COUNT(assistance_supplies.supplies_status_id = 1) AS created'),
+            DB::raw('                
+                SUM(
+                    IF( assistance_supplies.supplies_status_id = 1, 
+                        1,0 
+                    )
+                ) AS disponibles'),
+            DB::raw('
+                SUM(
+                    IF( assistance_supplies.supplies_status_id = 3, 
+                       1,0 
+                    )
+               ) AS dañadas'),
+            DB::raw('                
+               SUM(
+                   IF( assistance_supplies.supplies_status_id = 2, 
+                       1,0 
+                   )
+               ) AS Usadas'),
+        )
+            ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
+            ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+            ->with(
+                'management_plan',
+                'product_generic',
+                'product_supplies',
+                'own_pharmacy_stock',
+                'request_pharmacy_stock',
+                'request_pharmacy_stock.campus',
+                'own_pharmacy_stock.campus',
+                'pharmacy_request_shipping',
+                'pharmacy_request_shipping.pharmacy_lot_stock',
+                'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
+                'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
+                'user_request'
+            )->groupBy('pharmacy_product_request.id');
+
+        if ($request->user) {
+            $PharmacyProductRequest->where('pharmacy_product_request.user_request_id', $request->user_id);
+        }
+
+        if ($request->patient) {
+            $ch_record = ChRecord::find($request->patient)->first();
+            $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id)->first();
+            if($request->product){
+                $PharmacyProductRequest
+                    ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id);
+                    // ->where('SUM(IF( assistance_supplies.supplies_status_id = 1, 1,0 )) ', '!=', '0');
+    
+
+                } else {
+                    $management = ManagementPlan::find($assigned->management_plan_id)->first();
+                    $PharmacyProductRequest
+                    ->where('admissions_id',$management->admissions_id)
+                    ->whereNotNull('product_supplies_id');
+      
+            }
+        }
+
+        // if ($request->patient) {
+        //     $ch_record = ChRecord::find($request->patient)->first();
+        //     $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id)->first();
+
+        //     $PharmacyProductRequest->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id);
+        // }
+
+        if ($request->_sort) {
+            $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->product == "true") {
+            //medicamento  product_generic_id
+            $PharmacyProductRequest->whereNotNull('product_generic_id')->whereNull('product_supplies_id');
+        } else if ($request->product == "false") {
+            // insumo product_supplies_id
+            $PharmacyProductRequest->whereNull('product_generic_id')->whereNotNull('product_supplies_id');
+        }
+
+        if ($request->search) {
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $PharmacyProductRequest = $PharmacyProductRequest->paginate($per_page, '*', 'page', $page);
+        }
+
+        foreach ($PharmacyProductRequest as $item) {
+            if($item['disponibles']==0){
+
+            }else{
+                array_push($arreglo, $item);
+            }
+
+
+        }
+
+
+        return response()->json([
+
+            'status' => true,
+            'message' => 'Producto solicitado obtenidos exitosamente',
+            'data' => ['pharmacy_product_request' => $arreglo]
+        ]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -251,15 +377,15 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
                         $PharmacyRequestShipping->amount =  $element->amount;
                         $PharmacyRequestShipping->save();
-                        
-                        if($PharmacyProductRequest->product_generic_id){
+
+                        if ($PharmacyProductRequest->product_generic_id) {
                             $quantity = ProductGeneric::find($PharmacyProductRequest->product_generic_id);
                         } else {
                             $quantity = ProductSupplies::find($PharmacyProductRequest->product_supplies_id);
                         }
 
                         for ($i = 0; $i < $element->amount; $i++) {
-                            for($j = 0; $j < $quantity->dose; $j++ ){
+                            for ($j = 0; $j < $quantity->dose; $j++) {
                                 $assistanceSupplies = new AssistanceSupplies;
                                 $assistanceSupplies->user_incharge_id =  $user_id;
                                 $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest->id;
