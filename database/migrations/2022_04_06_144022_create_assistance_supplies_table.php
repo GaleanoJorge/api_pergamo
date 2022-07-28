@@ -21,6 +21,7 @@ class CreateAssistanceSuppliesTable extends Migration
             $table->unsignedBigInteger('ch_record_id')->nullable();
             $table->unsignedBigInteger('supplies_status_id');
             $table->string('observation')->nullable();
+            $table->time('application_hour')->nullable();
             $table->timestamps();
 
             
