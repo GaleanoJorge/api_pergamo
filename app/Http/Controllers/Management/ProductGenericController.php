@@ -20,7 +20,13 @@ class ProductGenericController extends Controller
     {
         $ProductGeneric = ProductGeneric::select('product_generic.*')
             ->with(
-                'drug_concentration'
+                'drug_concentration',
+                'measurement_units',
+                'product_dose',
+                'multidose_concentration',
+                'administration_route',
+                'product_presentation',
+                'nom_product',
             );
 
         if($request->_sort){
