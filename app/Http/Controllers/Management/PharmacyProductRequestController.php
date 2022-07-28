@@ -59,13 +59,6 @@ class PharmacyProductRequestController extends Controller
         if ($request->pharmacy_stock_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.pharmacy_stock_id', $request->pharmacy_stock_id);
         }
-        // if ($request->valor) {
-        //     $PharmacyProductRequest->where(function ($query) use ($request) {
-        //     if ($request->valor == 0) {
-        //         $query->where('pharmacy_product_request.own_pharmacy_stock_id', '>', 0);
-        //     }
-        // });
-        // }
         if ($request->product_generic_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.product_generic_id', $request->product_generic_id);
         }
