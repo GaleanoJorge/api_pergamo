@@ -847,7 +847,7 @@ class UserController extends Controller
 
                 if ($request->isTH) {
                     $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
-                    $HumanTalentRequest->status = 'Aprobado';
+                    $HumanTalentRequest->status = 'Aprobada TH';
                     $HumanTalentRequest->save();
                 }
 
@@ -991,6 +991,12 @@ class UserController extends Controller
                     $userCampus->campus_id = $item->campus_id;
                     $userCampus->save();
                 }
+            }
+
+            if ($request->isTH) {
+                $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
+                $HumanTalentRequest->status = 'Aprobada TH';
+                $HumanTalentRequest->save();
             }
 
             $RoleType = Role::where('id', $role)->get()->toArray();
