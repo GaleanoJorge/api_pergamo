@@ -16,20 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property string $murmur
- * @property string $obs_murmur
- * @property string $crepits 
- * @property string $obs_crepits
- * @property string $rales
- * @property string $obs_rales 	
- * @property string $stridor 	
- * @property string $obs_stridor
- * @property string $pleural
- * @property string $obs_pleural 
- * @property string $roncus
- * @property string $obs_roncus
- * @property string $wheezing 	
- * @property string $obs_wheezing 	
+ * @property string $auscultation
+ * @property string $observation
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

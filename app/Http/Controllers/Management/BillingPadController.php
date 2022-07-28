@@ -33,7 +33,13 @@ class BillingPadController extends Controller
     public function index(Request $request): JsonResponse
     {
         $BillingPad = BillingPad::select()
-            ->with('billing_pad_status', 'admissions');
+            ->with(
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+                'admissions',
+                'billing_pad_pgp',
+            );
 
         if ($request->_sort) {
             $BillingPad->orderBy($request->_sort, $request->_order);
@@ -708,7 +714,7 @@ class BillingPadController extends Controller
         $billingInfo = $this->getBillingPadInformation($id);
 
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
-            ->where('billing_pad_prefix_id', $billingInfo[0]['billing_prefix_id'])
+            ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
             ->where('expiracy_date', '>', Carbon::now())
             ->get()->first();
@@ -716,7 +722,7 @@ class BillingPadController extends Controller
         if (!$BillingPadConsecutive) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas',
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: ' . $billingInfo[0]['campus_billing_pad_prefix'],
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -750,7 +756,7 @@ class BillingPadController extends Controller
         $BillingPad->total_value = $total_value;
         $BillingPad->consecutive = $consecutive;
         $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['billing_prefix_id'];
+        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix'];
         $BillingPad->save();
         $this->generateBillingDat($id);
 

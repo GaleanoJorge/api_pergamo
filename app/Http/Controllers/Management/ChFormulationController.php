@@ -53,7 +53,7 @@ class ChFormulationController extends Controller
      */
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
-        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('service_briefcase','service_briefcase.product','service_briefcase.product.product_generic','administration_route','hourly_frequency','services_briefcase','product_dose')
+        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('service_briefcase','service_briefcase.product','service_briefcase.product.product_generic','administration_route','hourly_frequency')
             ->get()->toArray();
         
 
@@ -77,7 +77,6 @@ class ChFormulationController extends Controller
         $ChFormulation->dose = $request->dose; 
         $ChFormulation->observation = $request->observation; 
         $ChFormulation->number_mipres = $request->number_mipres; 
-        $ChFormulation->product_dose_id = $request->product_dose_id;
         $ChFormulation->type_record_id = $request->type_record_id; 
         $ChFormulation->ch_record_id = $request->ch_record_id; 
 
@@ -128,7 +127,6 @@ class ChFormulationController extends Controller
         $ChFormulation->dose = $request->dose; 
         $ChFormulation->observation = $request->observation; 
         $ChFormulation->number_mipres = $request->number_mipres;
-        $ChFormulation->product_dose_id = $request->product_dose_id;
         $ChFormulation->type_record_id = $request->type_record_id; 
         $ChFormulation->ch_record_id = $request->ch_record_id;    
         $ChFormulation->save();

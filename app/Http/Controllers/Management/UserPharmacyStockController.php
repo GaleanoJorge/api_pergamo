@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\PermissionPharmacyStock;
+use App\Models\UserPharmacyStock;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 
-class PermissionPharmacyStockController extends Controller
+class UserPharmacyStockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,30 +18,30 @@ class PermissionPharmacyStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PermissionPharmacyStock = PermissionPharmacyStock::select();
+        $UserPharmacyStock = UserPharmacyStock::select();
 
         if ($request->_sort) {
-            $PermissionPharmacyStock->orderBy($request->_sort, $request->_order);
+            $UserPharmacyStock->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $PermissionPharmacyStock->where('status', 'like', '%' . $request->search . '%');
+            $UserPharmacyStock->where('status', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $PermissionPharmacyStock = $PermissionPharmacyStock->get()->toArray();
+            $UserPharmacyStock = $UserPharmacyStock->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $PermissionPharmacyStock = $PermissionPharmacyStock->paginate($per_page, '*', 'page', $page);
+            $UserPharmacyStock = $UserPharmacyStock->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia obtenidos exitosamente',
-            'data' => ['permission_pharmacy_stock' => $PermissionPharmacyStock]
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
 
@@ -53,46 +53,45 @@ class PermissionPharmacyStockController extends Controller
      */
     public function byadmission(Request $request, int $id): JsonResponse
     {
-        $PermissionPharmacyStock = PermissionPharmacyStock::where('admissions_id', $id);
+        $UserPharmacyStock = UserPharmacyStock::where('admissions_id', $id);
 
         if ($request->_sort) {
-            $PermissionPharmacyStock->orderBy($request->_sort, $request->_order);
+            $UserPharmacyStock->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $PermissionPharmacyStock->where('status', 'like', '%' . $request->search . '%');
+            $UserPharmacyStock->where('status', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $PermissionPharmacyStock = $PermissionPharmacyStock->get()->toArray();
+            $UserPharmacyStock = $UserPharmacyStock->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $PermissionPharmacyStock = $PermissionPharmacyStock->paginate($per_page, '*', 'page', $page);
+            $UserPharmacyStock = $UserPharmacyStock->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia obtenidos exitosamente',
-            'data' => ['permission_pharmacy_stock' => $PermissionPharmacyStock]
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $PermissionPharmacyStock = new PermissionPharmacyStock;
-        $PermissionPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PermissionPharmacyStock->permission_id = $request->permission_id;
-        $PermissionPharmacyStock->user_id = $request->user_id;
-        $PermissionPharmacyStock->save();
+        $UserPharmacyStock = new UserPharmacyStock;
+        $UserPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
+        $UserPharmacyStock->user_id = $request->user_id;
+        $UserPharmacyStock->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia asociado al en farmacia exitosamente',
-            'data' => ['permission_pharmacy_stock' => $PermissionPharmacyStock->toArray()]
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock->toArray()]
         ]);
     }
 
@@ -104,13 +103,13 @@ class PermissionPharmacyStockController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $PermissionPharmacyStock = PermissionPharmacyStock::where('id', $id)
+        $UserPharmacyStock = UserPharmacyStock::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia obtenido exitosamente',
-            'data' => ['permission_pharmacy_stock' => $PermissionPharmacyStock]
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
 
@@ -122,19 +121,18 @@ class PermissionPharmacyStockController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $PermissionPharmacyStock = PermissionPharmacyStock::find($id);
-        $PermissionPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $PermissionPharmacyStock->permission_id = $request->permission_id;
-        $PermissionPharmacyStock->user_id = $request->user_id;
+        $UserPharmacyStock = UserPharmacyStock::find($id);
+        $UserPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
+        $UserPharmacyStock->user_id = $request->user_id;
 
 
 
-        $PermissionPharmacyStock->save();
+        $UserPharmacyStock->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia actualizado exitosamente',
-            'data' => ['permission_pharmacy_stock' => $PermissionPharmacyStock]
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
 
@@ -147,8 +145,8 @@ class PermissionPharmacyStockController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $PermissionPharmacyStock = PermissionPharmacyStock::find($id);
-            $PermissionPharmacyStock->delete();
+            $UserPharmacyStock = UserPharmacyStock::find($id);
+            $UserPharmacyStock->delete();
 
             return response()->json([
                 'status' => true,

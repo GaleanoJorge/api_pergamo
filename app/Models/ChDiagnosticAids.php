@@ -8,12 +8,7 @@ use App\Models\Base\ChDiagnosticAids as BaseChDiagnosticAids;
 class ChDiagnosticAids extends BaseChDiagnosticAids
 {
   protected $fillable = [
-    'scan',
-    'spirometry',
-    'gases',
-    'polysomnography',
-    'other',
-    'none',
+    'paraclinical',
     'observation',
     'type_record_id',
     'ch_record_id',

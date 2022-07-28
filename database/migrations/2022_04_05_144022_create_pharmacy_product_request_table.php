@@ -27,11 +27,16 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('own_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('request_pharmacy_stock_id')->nullable();
+            $table->unsignedBigInteger('user_request_pad_id')->nullable();
             $table->timestamps();
 
 
             $table->index('user_request_id');
             $table->foreign('user_request_id')->references('id')
+                ->on('users');
+            
+            $table->index('user_request_pad_id');
+            $table->foreign('user_request_pad_id')->references('id')
                 ->on('users');
 
             $table->index('product_supplies_id');

@@ -17,19 +17,28 @@ use App\Models\AccountReceivable;
 use App\Models\Admissions;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
-use App\Models\ChPhysicalExam;
 use App\Models\Base\ServicesBriefcase;
 use App\Models\BillingPad;
 use App\Models\Patient;
 use App\Models\Location;
 use App\Models\ChReasonConsultation;
-use App\Models\ChNursingEntry;
 use App\Models\ChEValorationOT;
-use App\Models\ChVitalSigns;
 use App\Models\ChOstomies;
 use App\Models\ChAp;
 use App\Models\ChRecommendationsEvo;
-use App\Models\ChInability;
+use App\Models\ChDietsEvo;
+use App\Models\ChVitalSigns;
+use App\Models\ChScaleNorton;
+use App\Models\ChScaleGlasgow;
+use App\Models\ChScaleNews;
+use App\Models\ChPhysicalExam;
+
+use App\Models\ChPosition;
+use App\Models\ChHairValoration;
+ 
+
+
+
 
 
 use App\Models\ChSystemExam;
@@ -184,12 +193,16 @@ class ChRecordController extends Controller
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->get()->toArray();
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChVitalSignsEvo = ChVitalSigns::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChAp = ChAp::where('ch_record_id', $id)->get()->toArray();
             $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->get()->toArray();
-            $ChInability = ChInability::with('ch_contingency_code','diagnosis','ch_type_inability','ch_type_procedure' )->where('ch_record_id', $id)->get()->toArray();
+            $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency' )->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
+            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
+            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->get()->toArray();
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -215,12 +228,15 @@ class ChRecordController extends Controller
                 'chbackground' => $ChBackground,
                 'ChEvoSoap' => $ChEvoSoap,
                 'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
-                'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChDiagnosisEvo' => $ChDiagnosisEvo,
                 'ChOstomies' => $ChOstomies,
                 'ChAp' => $ChAp,
                 'ChRecommendationsEvo' => $ChRecommendationsEvo,
-                'ChInability' => $ChInability,
+                'ChDietsEvo' => $ChDietsEvo,
+                'ChVitalSignsEvo' => $ChVitalSignsEvo,
+                'ChScaleNorton' => $ChScaleNorton,
+                'ChScaleGlasgow' => $ChScaleGlasgow,
+                'ChScaleNews' => $ChScaleNews,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -248,8 +264,20 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
-            $ChnursingEntry = ChNursingEntry::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExam = ChPhysicalExam::with('ñ')->where('ch_record_id', $id)->get()->toArray();
+            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
+            $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
+            $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
+            $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSignsNE = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
+            'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            
+            
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -265,8 +293,18 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
-                'chnursingentry' => $ChnursingEntry,
-                'chphysicalexam' => $ChPhysicalExam,
+                'ChPosition' => $ChPosition,
+                'ChHairValoration' => $ChHairValoration,
+                'ChOstomies' => $ChOstomies,
+                'ChPhysicalExam' => $ChPhysicalExam,
+                'ChVitalSigns' => $ChVitalSigns,
+                'ChPositionNE' => $ChPositionNE,
+                'ChHairValorationNE' => $ChHairValorationNE,
+                'ChOstomiesNE' => $ChOstomiesNE,
+                'ChPhysicalExamNE' => $ChPhysicalExamNE,
+                'ChVitalSignsNE' => $ChVitalSignsNE,
+                                
+
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),

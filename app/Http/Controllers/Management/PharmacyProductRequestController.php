@@ -45,8 +45,15 @@ class PharmacyProductRequestController extends Controller
                 'pharmacy_request_shipping.pharmacy_lot_stock',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
-                'user_request'
-            )->groupBy('pharmacy_product_request.id');
+                'user_request',
+                'admissions',
+                'admissions.patients',
+                'services_briefcase',
+                'services_briefcase.briefcase',
+                'services_briefcase.manual_price',
+                'user_request_pad',
+            )->WhereNotNull('own_pharmacy_stock_id')
+            ->groupBy('pharmacy_product_request.id');
 
         if ($request->_sort) {
             $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
@@ -79,6 +86,11 @@ class PharmacyProductRequestController extends Controller
         if ($request->status) {
             $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
         }
+
+        if ($request->admissions_id) {
+            $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);
+        }
+
 
 
         if ($request->user_id) {
@@ -272,10 +284,13 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
         $PharmacyProductRequest->user_request_id = $request->user_request_id;
+        $PharmacyProductRequest->admissions_id = $request->admissions_id;
+        $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
         $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
+        $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
 
         return response()->json([
@@ -315,11 +330,14 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->request_amount = $request->request_amount;
         $PharmacyProductRequest->status = $request->status;
         $PharmacyProductRequest->observation = $request->observation;
+        $PharmacyProductRequest->admissions_id = $request->admissions_id;
+        $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
         $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
         $PharmacyProductRequest->user_request_id = $request->user_request_id;
         $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
+        $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
 
         return response()->json([
@@ -425,6 +443,9 @@ class PharmacyProductRequestController extends Controller
             $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
             $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
             $PharmacyProductRequest->user_request_id = $request->user_request_id;
+            $PharmacyProductRequest->admissions_id = $request->admissions_id;
+            $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
+            $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
             $PharmacyProductRequest->save();
 
             $PharmacyRequestShipping = new PharmacyRequestShipping;

@@ -1,0 +1,272 @@
+[
+    {
+        "fixed_code_id": "1",
+        "name": "PROPIEDAD PLANTA Y EQUIPO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "2",
+        "name": "PROPIEDAD PLANTA Y EQUIPO AL MODELO DEL  COSTO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "3",
+        "name": "TERRENOS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "4",
+        "name": "CONSTRUCCIONES EN CURSO-CONSTRUCCIONES Y EDIFICACIONES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "5",
+        "name": "CONSTRUCCIONES EN CURSO- PLANTAS Y REDES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "6",
+        "name": "CONSTRUCCIONES EN CURSO- OTRAS CONSTRUCCIONES EN CURSO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "7",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-MAQUINARIA Y EQUIPO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "8",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-EQUIPO DE OFICINA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "9",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "10",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-EQUIPO MÉDICO-CIENTÍFICO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "11",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-DOTACIÓN DE CLÍNICAS Y RESTAURANTES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "12",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-EQUIPO DE TRANSPORTE",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "13",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-PLANTAS Y REDES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "14",
+        "name": "MAQUINARIA Y EQUIPO EN MONTAJE-OTRAS MAQUINARIAS, PLANTAS Y EQUIPO EN MONTAJE",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "15",
+        "name": "CONSTRUCCIONES Y EDIFICACIONES-EDIFICIOS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "16",
+        "name": "CONSTRUCCIONES Y EDIFICACIONES-OFICINAS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "17",
+        "name": "CONSTRUCCIONES Y EDIFICACIONES-CLÍNICAS Y HOSPITALES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "18",
+        "name": "CONSTRUCCIONES Y EDIFICACIONES-OTRAS CONSTRUCCIONES Y EDIFICACIONES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "19",
+        "name": "MAQUINARIA Y EQUIPO- EQUIPO DE RECREACIÓN Y DEPORTE",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "20",
+        "name": "MAQUINARIA Y EQUIPO- EQUIPO DE ENSEÑANZA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "21",
+        "name": "MAQUINARIA Y EQUIPO- ARMAMENTO DE VIGILANCIA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "22",
+        "name": "EQUIPO DE OFICINA-MUEBLES Y ENSERES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "23",
+        "name": "EQUIPO DE OFICINA-EQUIPOS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "24",
+        "name": "EQUIPO DE OFICINA-OTROS EQUIPOS DE OFICINA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "25",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-EQUIPOS DE PROCESAMIENTOS DE DATOS",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "26",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-EQUIPOS DE TELECOMUNICACIONES",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "27",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-EQUIPOS DE RADIO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "28",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-SATÉLITES Y ANTENAS",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "29",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-LÍNEAS TELEFÓNICAS",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "30",
+        "name": "EQUIPO DE COMPUTACIÓN Y COMUNICACIÓN-OTROS EQUIPOS DE COMPUTACIÓN Y COMUNICACIÓN",
+        "fixed_type_id": "1"
+    },
+    {
+        "fixed_code_id": "31",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-EQUIPO DE LABORATORIO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "32",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-EQUIPO DE URGENCIAS",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "33",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-HOSPITALIZACIÓN",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "34",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-EQUIPO DE QUIRÓFANOS Y SALAS DE PARTO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "35",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-EQUIPO DE APOYO DIAGNÓSTICO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "36",
+        "name": "EQUIPO MÉDICO CIENTÍFICO-EQUIPO DE APOYO TERAPÉUTICO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "37",
+        "name": "EQUIPO MÉDICO CIENTÍFICO- SERVICIOS AMBULATORIOS",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "38",
+        "name": "OTROS EQUIPOS MÉDICOS CIENTÍFICO",
+        "fixed_type_id": "2"
+    },
+    {
+        "fixed_code_id": "39",
+        "name": "DOTACIÓN DE CLÍNICAS Y RESTAURANTES-MOBILIARIO Y EQUIPO DE CLÍNICAS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "40",
+        "name": "DOTACIÓN DE CLÍNICAS Y RESTAURANTES-MAQUINARIA Y EQUIPO DE RESTAURANTE Y CAFETERÍA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "41",
+        "name": "DOTACIÓN DE CLÍNICAS Y RESTAURANTES-MAQUINARIA Y EQUIPO DE CALDERAS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "42",
+        "name": "DOTACIÓN DE CLÍNICAS Y RESTAURANTES-MAQUINARIA Y EQUIPO DE LAVANDERÍA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "43",
+        "name": "DOTACIÓN DE CLÍNICAS Y RESTAURANTES-OTROS DOTACIÓN DE CLÍNICAS Y RESTAURANTES",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "44",
+        "name": "EQUIPO DE TRANSPORTE TERRESTRE-AUTOS, CAMIONETAS Y CAMPEROS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "45",
+        "name": "EQUIPO DE TRANSPORTE TERRESTRE-AMBULANCIAS",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "46",
+        "name": "OTRO EQUIPO DE TRANSPORTE TERRESTRE",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "47",
+        "name": "PLANTAS Y REDES-PLANTAS DE GENERACIÓN HIDRÁULICA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "48",
+        "name": "PLANTAS Y REDES-PLANTAS DE GENERACIÓN TÉRMICA",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "49",
+        "name": "PLANTAS Y REDES-OTRAS PLANTAS Y REDES",
+        "fixed_type_id": "4"
+    },
+    {
+        "fixed_code_id": "50",
+        "name": "PROPIEDADES DE INVERSIÓN (TERRENOS) AL COSTO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "51",
+        "name": "PROPIEDADES DE INVERSIÓN (EDIFICACIONES) AL COSTO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "52",
+        "name": "PROPIEDADES DE INVERSIÓN (TERRENOS CON USO INDETERMINADO) AL COSTO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "53",
+        "name": "PROPIEDADES DE INVERSIÓN (EDIFICACIONES CON USO INDETERMINADO) AL COSTO",
+        "fixed_type_id": "3"
+    },
+    {
+        "fixed_code_id": "54",
+        "name": "MEJORAS EN PROPIEDAD AJENA",
+        "fixed_type_id": "3"
+    }
+]

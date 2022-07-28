@@ -18,7 +18,16 @@ class ProductGenericController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProductGeneric = ProductGeneric::select();
+        $ProductGeneric = ProductGeneric::select('product_generic.*')
+            ->with(
+                'drug_concentration',
+                'measurement_units',
+                'product_dose',
+                'multidose_concentration',
+                'administration_route',
+                'product_presentation',
+                'nom_product',
+            )->orderBy('description', 'asc');
 
         if($request->_sort){
             $ProductGeneric->orderBy($request->_sort, $request->_order);
