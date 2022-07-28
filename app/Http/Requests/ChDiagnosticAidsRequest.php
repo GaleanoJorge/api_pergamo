@@ -24,12 +24,7 @@ class ChDiagnosticAidsRequest extends FormRequest
     public function rules()
     {
         return [
-            'scan' => '',
-            'spirometry' => '',
-            'gases' => '',
-            'polysomnography' => '',
-            'other' => '',
-            'none' => '',
+            'paraclinical' => '',
             'observation' => '',
             'type_record_id' => '',
             'ch_record_id' => ''

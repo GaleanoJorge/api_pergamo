@@ -20,7 +20,9 @@ class ManualController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Manual = Manual::with('status');
+        $Manual = Manual::select('manual.*')
+            ->orderBy('name', 'ASC')
+            ->with('status');
 
         if ($request->_sort) {
             $Manual->orderBy($request->_sort, $request->_order);
@@ -140,7 +142,7 @@ class ManualController extends Controller
             $newMP->homologous_id = $MPB['homologous_id'];
             $newMP->save();
 
-            if($MPB['manual_procedure_type_id'] == 3) {
+            if ($MPB['manual_procedure_type_id'] == 3) {
                 $ProcedurePackage = ProcedurePackage::where('procedure_package_id', $MPB['id'])
                     ->get()->toArray();
                 foreach ($ProcedurePackage as $element) {
@@ -151,8 +153,6 @@ class ManualController extends Controller
                     $newPPG->save();
                 }
             }
-
-            
         }
 
         return response()->json([

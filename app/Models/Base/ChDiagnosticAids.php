@@ -16,13 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * Class Bed
  * 
  * @property int $id 
- * @property string $scan
- * @property string $spirometry
- * @property string $gases 
- * @property string $polysomnography
- * @property string $other
- * @property string $none
- * @property string $observation 	
+ * @property string $paraclinical
+ * @property string $observation	
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

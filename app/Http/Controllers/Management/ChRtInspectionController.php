@@ -58,7 +58,7 @@ class ChRtInspectionController extends Controller
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
         $ChRtInspection = ChRtInspection::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->with('diagnosis','ch_background','ch_gynecologists') ->get()->toArray();
+        ->with('type_record', 'ch_record') ->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Inspección obtenida exitosamente',

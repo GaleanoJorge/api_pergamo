@@ -7,7 +7,10 @@
 namespace App\Models\Base;
 
 use App\Models\Admissions;
+use App\Models\BillingPadConsecutive;
+use App\Models\BillingPadPrefix;
 use App\Models\BillingPadStatus;
+use App\Models\BillingPadPgp;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $total_value
  * @property Date $validation_date
+ * @property BigInteger $billing_pad_consecutive_id
+ * @property BigInteger $billing_pad_prefix_id
  * @property BigInteger $billing_pad_status_id
  * @property BigInteger $admissions_id
  * @property BigInteger $billing_pad_pgp_id
@@ -31,6 +36,14 @@ class BillingPad extends Model
 	protected $table = 'billing_pad';
 
 	
+	public function billing_pad_consecutive()
+	{
+		return $this->belongsTo(BillingPadConsecutive::class);
+	}
+	public function billing_pad_prefix()
+	{
+		return $this->belongsTo(BillingPadPrefix::class);
+	}
 	public function billing_pad_status()
 	{
 		return $this->belongsTo(BillingPadStatus::class);
@@ -41,6 +54,6 @@ class BillingPad extends Model
 	}
 	public function billing_pad_pgp()
 	{
-		return $this->belongsTo(ModelsBillingPadPgp::class);
+		return $this->belongsTo(BillingPadPgp::class);
 	}
 }

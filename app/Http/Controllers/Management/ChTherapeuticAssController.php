@@ -85,7 +85,7 @@ class ChTherapeuticAssController extends Controller
             ->where('ch_ass_mode_id', $request->ch_ass_mode_id)
             ->where('ch_ass_cough_id', $request->ch_ass_cough_id)
             ->where('ch_ass_chest_type_id', $request->ch_ass_chest_type_id)
-            ->where('ch_ass_symmetry_id', $request->ch_ass_symmetry_id)
+            ->where('ch_ass_chest_symmetry_id', $request->ch_ass_chest_symmetry_id)
             ->first();
 
         $ChTherapeuticAss = new ChTherapeuticAss;
@@ -96,7 +96,7 @@ class ChTherapeuticAssController extends Controller
         $ChTherapeuticAss->ch_ass_mode_id = $request->ch_ass_mode_id;
         $ChTherapeuticAss->ch_ass_cough_id = $request->ch_ass_cough_id;
         $ChTherapeuticAss->ch_ass_chest_type_id = $request->ch_ass_chest_type_id;
-        $ChTherapeuticAss->ch_ass_symmetry_id = $request->ch_ass_symmetry_id;
+        $ChTherapeuticAss->ch_ass_chest_symmetry_id = $request->ch_ass_chest_symmetry_id;
         $ChTherapeuticAss->type_record_id = $request->type_record_id;
         $ChTherapeuticAss->ch_record_id = $request->ch_record_id;
         $ChTherapeuticAss->save();
@@ -170,7 +170,7 @@ class ChTherapeuticAssController extends Controller
         $ChTherapeuticAss->ch_ass_mode = $request->ch_ass_mode;
         $ChTherapeuticAss->ch_ass_cough = $request->ch_ass_cough;
         $ChTherapeuticAss->ch_ass_chest_type = $request->ch_ass_chest_type;
-        $ChTherapeuticAss->ch_ass_symmetry = $request->ch_ass_symmetry;
+        $ChTherapeuticAss->ch_ass_chest_symmetry_id = $request->ch_ass_chest_symmetry_id;
         $ChTherapeuticAss->type_record_id = $request->type_record_id;
         $ChTherapeuticAss->ch_record_id = $request->ch_record_id;
         $ChTherapeuticAss->save();

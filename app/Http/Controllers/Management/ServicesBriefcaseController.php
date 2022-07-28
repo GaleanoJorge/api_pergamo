@@ -52,43 +52,39 @@ class ServicesBriefcaseController extends Controller
      */
     public function getByBriefcase(Request $request, int $briefcaseId): JsonResponse
     {
+        $ServicesBriefcase = ServicesBriefcase::select(
+            'services_briefcase.*',
+            'services_briefcase.value',
+            'services_briefcase.factor'
+        )
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+            ->leftjoin('procedure', 'manual_price.procedure_id', 'procedure.id')
+            ->leftjoin('product', 'manual_price.product_id', 'product.id')
+            ->leftjoin('product_supplies', 'manual_price.supplies_id', 'product_supplies.id')
+            ->where('briefcase_id', $briefcaseId);
         if ($request->type == 1) {
-            $ServicesBriefcase = ServicesBriefcase::select('services_briefcase.*', 'services_briefcase.value', 'services_briefcase.factor')
-
-                ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-                ->leftjoin('procedure', 'manual_price.procedure_id', 'procedure.id')
-                ->leftjoin('product', 'manual_price.product_id', 'product.id')
-                //->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')
-                ->where('briefcase_id', $briefcaseId)
-                ->where('manual_price.procedure_id', '!=', 'null')
-                ->where('procedure.procedure_type_id', '!=', '3')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.manual');
+            $ServicesBriefcase
+                // ->where('manual_price.procedure_id', '!=', 'null')
+                // ->where('procedure.procedure_type_id', '!=', '3')
+                ->with(
+                    'briefcase', 
+                    'manual_price.procedure.procedure_category', 
+                    'manual_price.product', 
+                    'manual_price.product.measurement_units', 
+                    'manual_price.manual',
+                    'manual_price.manual',
+                    'manual_price.insume.measure_supplies_measure',
+                );
         } else if ($request->type == 2) {
-            $ServicesBriefcase = ServicesBriefcase::select('services_briefcase.*', 'services_briefcase.value', 'services_briefcase.factor')
-
-                ->leftjoin('manual_price', 'services_briefcase.manual_price_id', '=', 'manual_price.id')
-                ->leftjoin('procedure', 'manual_price.procedure_id', '=', 'procedure.id')
-                ->leftjoin('product', 'manual_price.product_id', '=', 'product.id')
-                //->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')
-                ->where('briefcase_id', $briefcaseId)->where('manual_price.product_id', '!=', 'null')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.product.drug_concentration', 'manual_price.manual');
+            $ServicesBriefcase
+                ->where('manual_price.product_id', '!=', 'null')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.product.drug_concentration', 'manual_price.manual');
         } else {
-            $ServicesBriefcase = ServicesBriefcase::select('services_briefcase.*', 'services_briefcase.value', 'services_briefcase.factor')
-
-                ->leftjoin('manual_price', 'services_briefcase.manual_price_id', '=', 'manual_price.id')
-                ->leftjoin('procedure', 'manual_price.procedure_id', '=', 'procedure.id')
-                ->leftjoin('product', 'manual_price.product_id', '=', 'product.id')
-                //->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')
-                ->where('briefcase_id', $briefcaseId)->where('manual_price.procedure_id', '!=', 'null')
+            $ServicesBriefcase 
+                ->where('manual_price.procedure_id', '!=', 'null')
                 ->where('procedure.procedure_type_id', '!=', '3')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.manual');
         }
 
         if ($request->search) {
-            // $ServicesBriefcase
-            // // ->join('manual_price', 'services_briefcase.manual_price_id', '=', 'manual_price.id')
-            // // ->join('procedure', 'manual_price.procedure_id', '=', 'procedure.id')
-            // //->join('product', 'manual_price.product_id', '=', 'product.id')
-            // // ->join('procedure_type', 'procedure.procedure_type_id', '=', 'procedure_type.id')
-            // ->where('procedure.name', 'like', '%' . $request->search . '%')
-            // ->Orwhere('procedure.code', 'like', '%' . $request->search . '%');
             $ServicesBriefcase->where(function ($query) use ($request) {
                 $query->where('procedure.name', 'like', '%' . $request->search . '%')
                     ->orWhere('procedure.code', 'like', '%' . $request->search . '%')

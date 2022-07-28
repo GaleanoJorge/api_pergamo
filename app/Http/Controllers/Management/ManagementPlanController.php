@@ -271,9 +271,12 @@ class ManagementPlanController extends Controller
             $quantity =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'])) * $request->number_doses;
             $PharmacyProductRequest->request_amount =$quantity;
             $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            $ManagementPlan->save();
+            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->save();
+        } else {
+            $ManagementPlan->save();
         }
-        $ManagementPlan->save();
 
         if ($request->isnewrequest == 1) {
             $HumanTalentRequest = new HumanTalentRequest;

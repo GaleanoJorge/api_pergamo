@@ -24,7 +24,7 @@ class AssistanceSuppliesRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_incharge_id' => 'required',
+            'user_incharge_id' => '',
             'pharmacy_product_request_id' => '',
             'ch_record_id' => 'required',
             'supplies_status_id' => 'required',

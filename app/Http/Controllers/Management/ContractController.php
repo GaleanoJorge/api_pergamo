@@ -19,10 +19,14 @@ class ContractController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->company_id) {
-            $Contract = Contract::with('contract_status', 'company')->where('company_id', $request->company_id)->where('contract_status_id',1);
+            $Contract = Contract::select('contract.*')
+                ->orderBy('name', 'asc')
+                ->with('contract_status', 'company')->where('company_id', $request->company_id)->where('contract_status_id', 1);
         } else {
 
-            $Contract = Contract::with('contract_status', 'company');
+            $Contract = Contract::select('contract.*')
+                ->orderBy('name', 'asc')
+                ->with('contract_status', 'company');
         }
 
         if ($request->_sort) {

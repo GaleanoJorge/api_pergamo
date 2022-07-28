@@ -13,11 +13,10 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class PermissionPharmacyStock
+ * Class UserPharmacyStock
  * 
  * @property int $id 
  * @property BigInteger $pharmacy_stock_id
- * @property BigInteger $permission_id
  * @property BigInteger $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -25,17 +24,13 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class PermissionPharmacyStock extends Model
+class UserPharmacyStock extends Model
 {
-	protected $table = 'permission_pharmacy_stock';
+	protected $table = 'user_pharmacy_stock';
 
 	public function pharmacy()
 	{
 		return $this->belongsTo(PharmacyStock::class);
-	}
-	public function permission()
-	{
-		return $this->belongsTo(Permission::class);
 	}
 	public function user()
 	{

@@ -11,7 +11,6 @@ use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
 use App\Models\Product;
-use App\Models\ProductDose;
 use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
@@ -32,7 +31,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $dose
  * @property string $observation
  * @property Integer $number_mipres
- * @property unsignedBigInteger $product_dose_id
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
  * @property Carbon $created_at
@@ -45,10 +43,15 @@ class ChFormulation extends Model
 {
 	protected $table = 'ch_formulation';
 
-	public function product_id()
+	public function product_generic()
 	{
 		return $this->belongsTo(Product::class,'product_generic_id');
 	}
+
+	// public function product_id()
+	// {
+	// 	return $this->belongsTo(Product::class,'product_generic_id');
+	// }
 	public function service_briefcase()
 	{
 		return $this->belongsTo(ServicesBriefcase::class);
@@ -61,10 +64,6 @@ class ChFormulation extends Model
 	{
 		return $this->belongsTo(HourlyFrequency::class);
 	}
-	public function product_dose()
-	{
-		return $this->belongsTo(ProductDose::class);
-	}
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);
@@ -74,5 +73,4 @@ class ChFormulation extends Model
 		return $this->belongsTo(ChRecord::class);
 	}
 
-	
 }
