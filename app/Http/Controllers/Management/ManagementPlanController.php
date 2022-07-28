@@ -267,12 +267,17 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->services_briefcase_id = $request->product_id;
 
             $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            $quantity = ($request->dosage_administer * $request->number_doses) / $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
+            $value = (double) $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
+            // $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']
+            $quantity = ($request->dosage_administer * $request->number_doses) / $value;
             $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);
             $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            $ManagementPlan->save();
+            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->save();
+        } else {
+            $ManagementPlan->save();
         }
-        $ManagementPlan->save();
 
         if ($request->isnewrequest == 1) {
             $HumanTalentRequest = new HumanTalentRequest;
