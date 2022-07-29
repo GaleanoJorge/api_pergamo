@@ -35,7 +35,11 @@ use App\Models\ChPhysicalExam;
 
 use App\Models\ChPosition;
 use App\Models\ChHairValoration;
- 
+use App\Models\ChNursingProcedure;
+use App\Models\ChCarePlan;
+use App\Models\ChLiquidControl;
+use App\Models\ChSkinValoration;
+
 
 
 
@@ -276,6 +280,10 @@ class ChRecordController extends Controller
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
             $ChVitalSignsNE = ChVitalSigns::with('ch_vital_hydration','ch_vital_ventilated','ch_vital_temperature',
             'ch_vital_neurological','oxygen_type','liters_per_minute','parameters_signs')->where('ch_record_id', $id)->get()->toArray();
+            $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->get()->toArray();
+            $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
+            $ChLiquidControl = ChLiquidControl::with('ch_route_fluid','ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
+            $ChSkinValoration = ChSkinValoration::with('body_region','skin_status','diagnosis')->where('ch_record_id', $id)->get()->toArray();                                 
             
             
 
@@ -303,6 +311,11 @@ class ChRecordController extends Controller
                 'ChOstomiesNE' => $ChOstomiesNE,
                 'ChPhysicalExamNE' => $ChPhysicalExamNE,
                 'ChVitalSignsNE' => $ChVitalSignsNE,
+                'ChNursingProcedure' => $ChNursingProcedure,
+                'ChCarePlan' => $ChCarePlan,
+                'ChLiquidControl' => $ChLiquidControl,
+                'ChSkinValoration' => $ChSkinValoration,
+                
                                 
 
                 'firm' => $imagenComoBase64,
