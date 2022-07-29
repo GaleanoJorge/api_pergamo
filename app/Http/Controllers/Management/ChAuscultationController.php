@@ -54,7 +54,7 @@ class ChAuscultationController extends Controller
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
         $ChAuscultation = ChAuscultation::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('diagnosis', 'ch_background', 'ch_gynecologists')->get()->toArray();
+            ->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Auscultacion obtenido exitosamente',
@@ -65,34 +65,8 @@ class ChAuscultationController extends Controller
     public function store(Request $request): JsonResponse
     {
         $ChAuscultation = new ChAuscultation;
-
-        if (isset($request->aus)) {
-            foreach ($request->aus as $element) {
-                if ($element == 'MURMULLO VESICULAR CONSERVADO') {
-                    $ChAuscultation->murmur = $element;
-                } else if ($element == 'CREPITOS') {
-                    $ChAuscultation->crepits = $element;
-                } else if ($element == 'ESTERTORES') {
-                    $ChAuscultation->rales = $element;
-                } else if ($element == 'ESTRIDOR LARINGEO') {
-                    $ChAuscultation->stridor = $element;
-                } else if ($element == 'FROTE PLEURAL') {
-                    $ChAuscultation->pleural = $element;
-                } else if ($element == 'RONCUS') {
-                    $ChAuscultation->roncus = $element;
-                } else if ($element == 'SIBILANCIAS') {
-                    $ChAuscultation->wheezing = $element;
-                }
-            }
-        }
-
-        $ChAuscultation->obs_murmur = $request->obs_murmur;
-        $ChAuscultation->obs_crepits = $request->obs_crepits;
-        $ChAuscultation->obs_rales = $request->obs_rales;
-        $ChAuscultation->obs_stridor = $request->obs_stridor;
-        $ChAuscultation->obs_pleural = $request->obs_pleural;
-        $ChAuscultation->obs_roncus = $request->obs_roncus;
-        $ChAuscultation->obs_wheezing = $request->obs_wheezing;
+        $ChAuscultation->auscultation = $request->auscultation;
+        $ChAuscultation->observation = $request->observation;
         $ChAuscultation->type_record_id = $request->type_record_id;
         $ChAuscultation->ch_record_id = $request->ch_record_id;
         $ChAuscultation->save();
@@ -137,13 +111,7 @@ class ChAuscultationController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChAuscultation = ChAuscultation::find($id);
-        $ChAuscultation->murmur = $request->murmur;
-        $ChAuscultation->crepits = $request->crepits;
-        $ChAuscultation->rales = $request->rales;
-        $ChAuscultation->stridor = $request->stridor;
-        $ChAuscultation->pleural = $request->pleural;
-        $ChAuscultation->roncus = $request->roncus;
-        $ChAuscultation->wheezing = $request->wheezing;
+        $ChAuscultation->auscultation = $request->auscultation;
         $ChAuscultation->observation = $request->observation;
         $ChAuscultation->type_record_id = $request->type_record_id;
         $ChAuscultation->ch_record_id = $request->ch_record_id;

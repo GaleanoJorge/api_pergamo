@@ -27,6 +27,7 @@ class PharmacyLotStockController extends Controller
             ->leftJoin('product', 'billing_stock.product_id', 'product.id')
             ->leftJoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
             ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')
+            ->leftJoin('pharmacy_stock', 'pharmacy_lot.pharmacy_stock_id', 'pharmacy_stock.id')
             ->with(
                 'pharmacy_lot',
                 'billing_stock',
@@ -42,8 +43,11 @@ class PharmacyLotStockController extends Controller
         if ($request->_sort) {
             $PharmacyLotStock->orderBy($request->_sort, $request->_order);
         }
-        if ($request->pharmacy_stock_id) {
+        if ($request->pharmacy_stock_id!="null") {
             $PharmacyLotStock->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id);
+        }
+        if ($request->campus_id) {
+            $PharmacyLotStock->where('pharmacy_stock.campus_id', $request->campus_id);
         }
         if ($request->product_generic_id) {
             $PharmacyLotStock->where('product.product_generic_id', $request->product_generic_id);
@@ -56,11 +60,11 @@ class PharmacyLotStockController extends Controller
         } else if ($request->product == "false") {
             $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
         }
-        // if ($request->product1 == "true") {
-        //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
-        // } else if ($request->product1 == "false") {
-        //     $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
-        // }
+        if ($request->product1 == "true") {
+            $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
+        } else if ($request->product1 == "false") {
+            $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
+        }
 
         if ($request->search) {
             $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');
@@ -87,8 +91,9 @@ class PharmacyLotStockController extends Controller
     public function getPharmacyByUserId(Request $request, int $id): JsonResponse
     {
         $parmacy = PharmacyStock::select('pharmacy_stock.*')
-            ->leftJoin('permission_pharmacy_stock', 'pharmacy_stock.permission_pharmacy_stock_id', '=', 'permission_pharmacy_stock.id')
-            ->where('permission_pharmacy_stock.user_id', $id)
+            ->leftJoin('pharmacy_lot', 'pharmacy_stock.id', '=', 'pharmacy_lot.pharmacy_stock_id')
+            ->leftJoin('user_pharmacy_stock', 'pharmacy_stock.id', '=', 'user_pharmacy_stock.pharmacy_stock_id')
+            ->where('user_pharmacy_stock.user_id', $id)
             ->get()->toArray();
 
         return response()->json([

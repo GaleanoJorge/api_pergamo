@@ -16,7 +16,7 @@ class CreateChNursingProcedureTable extends Migration
         Schema::create('ch_nursing_procedure', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('nursing_procedure_id');
-            $table->longText('observation');
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

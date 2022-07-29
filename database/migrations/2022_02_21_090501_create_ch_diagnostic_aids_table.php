@@ -15,12 +15,7 @@
         {
             Schema::create('ch_diagnostic_aids', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('scan')->nullable();
-                $table->string('spirometry')->nullable();
-                $table->string('gases')->nullable();
-                $table->string('polysomnography')->nullable();
-                $table->string('other')->nullable();
-                $table->string('none')->nullable();
+                $table->string('paraclinical');
                 $table->string('observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

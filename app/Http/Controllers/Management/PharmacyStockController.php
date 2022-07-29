@@ -6,6 +6,7 @@ use App\Models\PharmacyStock;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\UserPharmacyStock;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -45,23 +46,32 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento obtenidos exitosamente',
+            'message' => 'Tipo de establecimiento obtenidos exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
 
     public function store(Request $request): JsonResponse
     {
+
+
         $PharmacyStock = new PharmacyStock;
         $PharmacyStock->name = $request->name;
         $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
-        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
+
+
+        foreach ($request->user_id as $user) {
+            $UserPharmacyStock = new UserPharmacyStock;
+            $UserPharmacyStock->user_id = $user;
+            $UserPharmacyStock->pharmacy_stock_id = $PharmacyStock->id;
+            $UserPharmacyStock->save();
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento asociado al en farmacia exitosamente',
+            'message' => 'Tipo de establecimiento asociado al en farmacia exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock->toArray()]
         ]);
     }
@@ -79,7 +89,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento obtenido exitosamente',
+            'message' => 'Tipo de establecimiento obtenido exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -96,12 +106,11 @@ class PharmacyStockController extends Controller
         $PharmacyStock->name = $request->name;
         $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
-        $PharmacyStock->permission_pharmacy_stock_id = $request->permission_pharmacy_stock_id;
         $PharmacyStock->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento actualizado exitosamente',
+            'message' => 'Tipo de establecimiento actualizado exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -120,12 +129,12 @@ class PharmacyStockController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Typo de establecimiento eliminado exitosamente'
+                'message' => 'Tipo de establecimiento eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Typo de establecimiento en uso, no es posible eliminarlo'
+                'message' => 'Tipo de establecimiento en uso, no es posible eliminarlo'
             ], 423);
         }
     }

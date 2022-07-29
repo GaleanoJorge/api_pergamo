@@ -23,5 +23,10 @@
         "id": "5",
         "name": "FACTURADA",
         "code": "cod5"
+    },
+    {   
+        "id": "6",
+        "name": "EMITIDA ERRADA",
+        "code": "cod6"
     }
 ]

@@ -55,7 +55,18 @@ class ServicesBriefcaseController extends Controller
         $ServicesBriefcase = ServicesBriefcase::select(
             'services_briefcase.*',
             'services_briefcase.value',
-            'services_briefcase.factor'
+            'services_briefcase.factor',
+        )->with(
+            'briefcase',
+            'manual_price',
+            'manual_price.procedure',
+            'manual_price.procedure.procedure_category',
+            'manual_price.product',
+            'manual_price.product.measurement_units',
+            'manual_price.product.drug_concentration',
+            'manual_price.product.multidose_concentration',
+            'manual_price.manual',
+            'manual_price.insume.measure_supplies_measure',
         )
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->leftjoin('procedure', 'manual_price.procedure_id', 'procedure.id')
@@ -66,22 +77,15 @@ class ServicesBriefcaseController extends Controller
             $ServicesBriefcase
                 // ->where('manual_price.procedure_id', '!=', 'null')
                 // ->where('procedure.procedure_type_id', '!=', '3')
-                ->with(
-                    'briefcase', 
-                    'manual_price.procedure.procedure_category', 
-                    'manual_price.product', 
-                    'manual_price.product.measurement_units', 
-                    'manual_price.manual',
-                    'manual_price.manual',
-                    'manual_price.insume.measure_supplies_measure',
-                );
+                ->where('manual_price.procedure_id', '!=', 'null')
+                ->where('procedure.procedure_type_id', '!=', '3');
         } else if ($request->type == 2) {
             $ServicesBriefcase
-                ->where('manual_price.product_id', '!=', 'null')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.product.drug_concentration', 'manual_price.manual');
+                ->where('manual_price.product_id', '!=', 'null');
         } else {
-            $ServicesBriefcase 
+            $ServicesBriefcase
                 ->where('manual_price.procedure_id', '!=', 'null')
-                ->where('procedure.procedure_type_id', '!=', '3')->with('briefcase', 'manual_price.procedure.procedure_category', 'manual_price.product', 'manual_price.product.measurement_units', 'manual_price.manual');
+                ->where('procedure.procedure_type_id', '!=', '3');
         }
 
         if ($request->search) {

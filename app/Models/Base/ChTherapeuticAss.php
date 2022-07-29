@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $ch_ass_mode_id
  * @property BigInteger $ch_ass_cough_id
  * @property BigInteger $ch_ass_chest_type_id
- * @property BigInteger $ch_ass_symmetry_id 
+ * @property BigInteger $ch_ass_chest_symmetry_id 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at

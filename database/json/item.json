@@ -1117,15 +1117,24 @@
     },
     {
         "id": "174",
-        "item_parent_id": "169",
-        "name": "Ing farmacia lote",
-        "code": "pharmacy-lot",
-        "route": "/pages/setting/pharmacy-lot",
-        "icon": "",
+        "item_parent_id": null,
+        "name": "Farmacia",
+        "code": null,
+        "route": null,
+        "icon": "shopping-bag-outline",
         "show_menu": "1"
     },
     {
         "id": "176",
+        "item_parent_id": "174",
+        "name": "Ing farmacia lote",
+        "code": "pharmacy-lot",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "177",
         "item_parent_id": "169",
         "name": "Crear farmacias",
         "code": "pharmacy-stock",
@@ -1134,29 +1143,29 @@
         "show_menu": "1"
     },
     {
-        "id": "177",
-        "item_parent_id": "169",
+        "id": "178",
+        "item_parent_id": "174",
         "name": "Solicitar medicamentos",
         "code": "pharmacy-product-request",
-        "route": "/pages/setting/pharmacy-product-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "178",
-        "item_parent_id": "169",
-        "name": "Inventario medicamentos",
-        "code": "pharmacy-inventory",
-        "route": "/pages/setting/pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-product-request",
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "179",
-        "item_parent_id": "169",
+        "item_parent_id": "174",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "182",
+        "item_parent_id": "174",
         "name": "Solicitudes de medicamentos",
         "code": "pharmacy-request",
-        "route": "/pages/setting/pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
         "show_menu": "1"
     },
@@ -1175,15 +1184,6 @@
         "name": "Frecuencia Horaria",
         "code": "hourly-frequency",
         "route": "/pages/setting/hourly-frequency",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "182",
-        "item_parent_id": "169",
-        "name": "Actualizar Max-Min stock",
-        "code": "pharmacy-update-max-min",
-        "route": "/pages/setting/pharmacy-update-max-min",
         "icon": "",
         "show_menu": "1"
     },
@@ -1422,11 +1422,11 @@
         "show_menu": "1"
     },
     {
-        "id": "210",
-        "item_parent_id": "169",
+        "id": "219",
+        "item_parent_id": "174",
         "name": "Solicitar a compras",
         "code": "billing-request-pharmacy",
-        "route": "/pages/setting/billing-request-pharmacy",
+        "route": "/pages/pharmacy/billing-request-pharmacy",
         "icon": "",
         "show_menu": "1"
     },

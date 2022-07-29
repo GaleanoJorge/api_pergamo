@@ -26,8 +26,8 @@ class ChOxigenRequest extends FormRequest
         return [
             'oxygen_type_id' => 'required',
             'liters_per_minute_id' => 'required',
-            'type_record_id' => '',
-            'ch_record_id' => '',
+            'type_record_id' => 'required',
+            'ch_record_id' => 'required',
 
         ];
     }

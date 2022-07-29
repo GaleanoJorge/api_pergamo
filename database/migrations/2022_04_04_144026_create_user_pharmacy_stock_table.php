@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermissionPharmacyStockTable extends Migration
+class CreateUserPharmacyStockTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePermissionPharmacyStockTable extends Migration
      */
     public function up()
     {
-        Schema::create('permission_pharmacy_stock', function (Blueprint $table) {
+        Schema::create('user_pharmacy_stock', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedSmallInteger('permission_id');
+            $table->unsignedBigInteger('pharmacy_stock_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-           $table->index('permission_id');
-            $table->foreign('permission_id')->references('id')
-                ->on('permission');
+           $table->index('pharmacy_stock_id');
+            $table->foreign('pharmacy_stock_id')->references('id')
+                ->on('pharmacy_stock');
 
             $table->index('user_id');
             $table->foreign('user_id')->references('id')
@@ -36,6 +36,6 @@ class CreatePermissionPharmacyStockTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permission_pharmacy_stock');
+        Schema::dropIfExists('user_pharmacy_stock');
     }
 }
