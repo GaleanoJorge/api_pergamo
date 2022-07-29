@@ -52,7 +52,8 @@ class PharmacyProductRequestController extends Controller
                 'services_briefcase.briefcase',
                 'services_briefcase.manual_price',
                 'user_request_pad',
-            )->WhereNotNull('own_pharmacy_stock_id')
+            )
+            ->WhereNotNull('own_pharmacy_stock_id')
             ->groupBy('pharmacy_product_request.id');
 
         if ($request->_sort) {
@@ -83,9 +84,9 @@ class PharmacyProductRequestController extends Controller
             });
         }
 
-        if ($request->status) {
-            $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
-        }
+        // if ($request->status) {
+        //     $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
+        // }
 
         if ($request->admissions_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);

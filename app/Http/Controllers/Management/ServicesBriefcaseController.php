@@ -64,8 +64,8 @@ class ServicesBriefcaseController extends Controller
             ->where('briefcase_id', $briefcaseId);
         if ($request->type == 1) {
             $ServicesBriefcase
-                // ->where('manual_price.procedure_id', '!=', 'null')
-                // ->where('procedure.procedure_type_id', '!=', '3')
+                ->where('manual_price.procedure_id', '!=', 'null')
+                ->where('procedure.procedure_type_id', '!=', '3')
                 ->with(
                     'briefcase', 
                     'manual_price.procedure.procedure_category', 
