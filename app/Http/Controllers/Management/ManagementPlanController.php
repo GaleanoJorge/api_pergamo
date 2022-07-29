@@ -268,9 +268,15 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->services_briefcase_id = $request->product_id;
 
             $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            $quantity =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'])) * $request->number_doses;
+            if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+            } else {
+                $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+            }
+
+            $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
             $PharmacyProductRequest->request_amount =$quantity;
-            $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->status = 'PATIENT';

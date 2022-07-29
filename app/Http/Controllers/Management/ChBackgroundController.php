@@ -59,6 +59,7 @@ class ChBackgroundController extends Controller
             ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
             ->where('admissions.patient_id', $patient_id)
             ->where('ch_background.ch_type_background_id', 1)
+            ->whereNotNull('ch_background.observation')
         ;
 
         if($request->query("pagination", true)=="false"){
