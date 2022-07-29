@@ -276,7 +276,7 @@ class ManagementPlanController extends Controller
 
             $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
             $PharmacyProductRequest->request_amount =$quantity;
-            $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->status = 'PATIENT';
