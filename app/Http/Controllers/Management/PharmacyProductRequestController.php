@@ -207,7 +207,7 @@ class PharmacyProductRequestController extends Controller
         if ($request->patient) {
             $ch_record = ChRecord::find($request->patient)->first();
             $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id)->first();
-            if($request->product){
+            if(!$request->product){
                 $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                 ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                     ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id)
