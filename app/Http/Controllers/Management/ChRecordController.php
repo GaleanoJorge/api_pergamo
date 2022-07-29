@@ -596,7 +596,7 @@ class ChRecordController extends Controller
 
         $ChRecord->status = $request->status;
         $ChRecord->date_finish = Carbon::now();
-        // $ChRecord->save();
+        $ChRecord->save();
 
         $mes = Carbon::now()->month;
 
