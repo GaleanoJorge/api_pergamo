@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ChFailedController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -22,42 +22,18 @@ class ChFailedController extends Controller
     {
         $ChFailed = ChFailed::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ChFailed->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $ChFailed->where('name','like','%' . $request->search. '%');
+            $ChFailed->where('name', 'like', '%' . $request->search . '%');
         }
         
-        if($request->query("pagination", true)=="false"){
-            $ChFailed=$ChFailed->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChFailed=$ChFailed->paginate($per_page,'*','page',$page); 
-        }     
+        if ($request->ch_record_id) {
+            $ChFailed->where('ch_record_id', $request->ch_record_id);
+        }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Visita Fallida  obtenidos exitosamente',
-            'data' => ['ch_failed' => $ChFailed]
-        ]);
-    }
-    
-     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @param  int  $type_record_id
-     * @return JsonResponse
-     */
-    public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
-    {
-        $ChFailed = ChFailed::where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id)->with('ch_reason',);
-        
         if ($request->query("pagination", true) == "false") {
             $ChFailed = $ChFailed->get()->toArray();
         } else {
@@ -66,7 +42,36 @@ class ChFailedController extends Controller
 
             $ChFailed = $ChFailed->paginate($per_page, '*', 'page', $page);
         }
-        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Visita Fallida  obtenidos exitosamente',
+            'data' => ['ch_failed' => $ChFailed]
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
+    {
+        $ChFailed = ChFailed::where('ch_record_id', $id)
+            ->where('type_record_id', $type_record_id)->with('ch_reason',)
+            ->orderBy('ch_failed.id', 'ASC');
+
+        if ($request->query("pagination", true) == "false") {
+            $ChFailed = $ChFailed->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChFailed = $ChFailed->paginate($per_page, '*', 'page', $page);
+        }
+
 
         return response()->json([
             'status' => true,
@@ -82,10 +87,10 @@ class ChFailedController extends Controller
         if ($request->file('file_evidence')) {
             $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
             $ChFailed->file_evidence = $path;
-        }       
-        $ChFailed->ch_reason_id = $request->ch_reason_id;  
-        $ChFailed->type_record_id = $request->type_record_id; 
-        $ChFailed->ch_record_id = $request->ch_record_id; 
+        }
+        $ChFailed->ch_reason_id = $request->ch_reason_id;
+        $ChFailed->type_record_id = $request->type_record_id;
+        $ChFailed->ch_record_id = $request->ch_record_id;
 
         $ChFailed->save();
 
@@ -123,15 +128,15 @@ class ChFailedController extends Controller
      */
     public function update(ChFailedRequest $request, int $id): JsonResponse
     {
-        $ChFailed = ChFailed ::find($id);
-        $ChFailed->descriptions = $request->descriptions;   
+        $ChFailed = ChFailed::find($id);
+        $ChFailed->descriptions = $request->descriptions;
         if ($request->file('file_evidence')) {
             $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
             $ChFailed->file_evidence = $path;
-        }     
-        $ChFailed->ch_reason_id = $request->ch_reason_id; 
-        $ChFailed->type_record_id = $request->type_record_id; 
-        $ChFailed->ch_record_id = $request->ch_record_id;    
+        }
+        $ChFailed->ch_reason_id = $request->ch_reason_id;
+        $ChFailed->type_record_id = $request->type_record_id;
+        $ChFailed->ch_record_id = $request->ch_record_id;
         $ChFailed->save();
 
         return response()->json([
