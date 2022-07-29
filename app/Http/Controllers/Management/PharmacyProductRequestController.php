@@ -205,14 +205,13 @@ class PharmacyProductRequestController extends Controller
         // }
 
         if ($request->patient) {
-            $ch_record = ChRecord::find($request->patient)->first();
-            $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id)->first();
+            $ch_record = ChRecord::find($request->patient);
+            $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id);
             if($request->product){
                 $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                 ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                     ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id)
                     ->whereNotNull('manual_price.product_id');
-                    // ->where('SUM(IF( assistance_supplies.supplies_status_id = 1, 1,0 )) ', '!=', '0');
     
 
                 } else {
