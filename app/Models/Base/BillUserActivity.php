@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property bigInteger $user_id
  * @property bigInteger $account_receivable_id
+ * @property bigInteger $assigned_management_plan_id
  * @property bigInteger $procedure_id
  * @property string $observation
  * @property Carbon $created_at
