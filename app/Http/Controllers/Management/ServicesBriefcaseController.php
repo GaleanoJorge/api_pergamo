@@ -74,11 +74,7 @@ class ServicesBriefcaseController extends Controller
             ->leftjoin('product_supplies', 'manual_price.supplies_id', 'product_supplies.id')
             ->where('briefcase_id', $briefcaseId);
         if ($request->type == 1) {
-            $ServicesBriefcase
-                // ->where('manual_price.procedure_id', '!=', 'null')
-                // ->where('procedure.procedure_type_id', '!=', '3')
-                ->where('manual_price.procedure_id', '!=', 'null')
-                ->where('procedure.procedure_type_id', '!=', '3');
+
         } else if ($request->type == 2) {
             $ServicesBriefcase
                 ->where('manual_price.product_id', '!=', 'null');
