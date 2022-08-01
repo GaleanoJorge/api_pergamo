@@ -273,6 +273,7 @@ class ManualPriceController extends Controller
                 // $ManualPrice->procedure_id = $request->procedure_id;
                 // $ManualPrice->product_id = null;
                 $ManualPrice->value = $request->value;
+                $ManualPrice->patient_id = $request->patient_id;
                 $ManualPrice->price_type_id = $request->price_type_id;
                 $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
                 $ManualPrice->homologous_id = $request->homologous_id;
@@ -376,6 +377,7 @@ class ManualPriceController extends Controller
             $ManualPrice->value = $request->value;
             $ManualPrice->price_type_id = $request->price_type_id;
             $ManualPrice->name = $request->name;
+            $ManualPrice->patient_id = $request->patient_id;
             $ManualPrice->own_code = $request->code_atc;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->code_atc;
@@ -396,6 +398,7 @@ class ManualPriceController extends Controller
             $ManualPrice->value = $request->value;
             $ManualPrice->price_type_id = $request->price_type_id;
             $ManualPrice->name = $request->name;
+            $ManualPrice->patient_id = $request->patient_id;
             $ManualPrice->own_code = $request->code_atc;
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->code_atc;
