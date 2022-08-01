@@ -43,7 +43,7 @@ class CreateManualPriceTable extends Migration
                 ->on('manual');
                 
             $table->foreign('patient_id')->references('id')
-            ->on('patient');
+            ->on('patients');
             $table->foreign('procedure_id')->references('id')
                 ->on('procedure');
             $table->foreign('price_type_id')->references('id')

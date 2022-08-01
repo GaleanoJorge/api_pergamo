@@ -20,7 +20,9 @@ class HumanTalentRequestController extends Controller
         $HumanTalentRequest = HumanTalentRequest::select('human_talent_request.*', 'role.name', 'role.id as role_id')->with('admissions.patients.locality', 'admissions.patients.residence', 'management_plan')
             ->leftJoin('management_plan', 'management_plan.id', 'human_talent_request.management_plan_id')
             ->leftJoin('role_attention', 'role_attention.type_of_attention_id', 'management_plan.type_of_attention_id')
-            ->leftJoin('role', 'role.id', 'role_attention.role_id');
+            ->leftJoin('role', 'role.id', 'role_attention.role_id')
+            ->orderBy('human_talent_request.id', 'DESC')
+            ;
 
 
         if ($request->_sort) {
@@ -36,7 +38,9 @@ class HumanTalentRequestController extends Controller
                 $HumanTalentRequest->where(function ($query) use ($request) {
                     $query->where('status', 'Creada')
                         ->orWhere('status', 'Rechazada PAD')
-                        ->orWhere('status', 'Rechazada TH');
+                        ->orWhere('status', 'Aprobada PAD')
+                        ->orWhere('status', 'Rechazada TH')
+                        ->orWhere('status', 'Aprobada TH');
                 });
             } else if ($request->role_id == 24) { // th
                 $HumanTalentRequest->where(function ($query) use ($request) {
