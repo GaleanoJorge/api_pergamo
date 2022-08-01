@@ -26,9 +26,9 @@ class AdmissionsController extends Controller
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             );
         if ($request->admissions_id) {
-            $Admissions->with('patients')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+            $Admissions->with('patients','regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
         } else {
-            $Admissions->with('patients')->orderBy('created_at', 'desc');
+            $Admissions->with('patients','regime')->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -75,6 +75,7 @@ class AdmissionsController extends Controller
             ->with(
                 'patients',
                 'briefcase',
+                'regime',
                 'campus',
                 'contract',
                 'contract.company',
@@ -110,6 +111,7 @@ class AdmissionsController extends Controller
                 'campus',
                 'contract',
                 'location',
+                'regime',
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
@@ -211,6 +213,7 @@ class AdmissionsController extends Controller
             ->with(
                 'status',
                 'gender',
+                'regime',
                 'identification_type',
                 'residence_municipality',
                 'residence',
@@ -296,6 +299,7 @@ class AdmissionsController extends Controller
         $Admissions->contract_id = $request->contract_id;
         $Admissions->briefcase_id = $request->briefcase_id;
         $Admissions->procedure_id = $request->procedure_id;
+        $Admissions->regime_id = $request->regime_id;
         $Admissions->patient_id = $request->patient_id;
         $Admissions->entry_date = Carbon::now();
         $Admissions->save();
@@ -341,7 +345,7 @@ class AdmissionsController extends Controller
         ]);
     }else{
         return response()->json([
-            'status' => true,
+            'status' => false,
             'message' => 'Ya se creo una admisión con el mismo programa',
         ]);
     }
