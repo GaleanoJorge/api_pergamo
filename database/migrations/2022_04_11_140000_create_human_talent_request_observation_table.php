@@ -16,6 +16,7 @@
             Schema::create('human_talent_request_observation', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');
+                $table->integer('category');
                 $table->timestamps();
 
             });

@@ -89,8 +89,8 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
-                DB::raw("1 AS show_file"),
+                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
+                DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')

@@ -312,7 +312,7 @@ class BillingPadController extends Controller
             $billing_pad_pgp = BillingPadPgp::where('id', $request->billing_pad_pgp_id)->get()->first();
             $BillingPad = BillingPad::where('billing_pad_pgp_id', $request->billing_pad_pgp_id)
                 ->where('admissions_id', $admission_id)
-                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->startOfMonth(), Carbon::parse($billing_pad_pgp->validation_date)->endOfMonth()])
+                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->startOfMonth(), Carbon::createFromFormat('Y-m-d', $billing_pad_pgp->validation_date)->endOfMonth()])
                 ->get()->first();
         }
         $eventos = Authorization::select('authorization.*')

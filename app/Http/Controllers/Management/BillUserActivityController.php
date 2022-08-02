@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BillUserActivityRequest;
 use Illuminate\Database\QueryException;
 use App\Models\AccountReceivable;
+use App\Models\Base\AssignedManagementPlan;
 use App\Models\Tariff;
+use Carbon\Carbon;
 
 class BillUserActivityController extends Controller
 {
@@ -137,6 +139,10 @@ class BillUserActivityController extends Controller
             $AccountReceivable = AccountReceivable::find($BillUserActivity->account_receivable_id);
             $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
             $AccountReceivable->save();
+        } else if ($request->status == 'RECHAZADO') {
+            $AssignedManagementPlan = AssignedManagementPlan::find($BillUserActivity->assigned_management_plan_id);
+            $AssignedManagementPlan->redo = 0 + Carbon::now()->addHours(48)->format('YmdHis');
+            $AssignedManagementPlan->save();
         }
 
         return response()->json([
