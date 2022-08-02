@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $right
- * @property string $leftt
+ * @property string $left
 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 

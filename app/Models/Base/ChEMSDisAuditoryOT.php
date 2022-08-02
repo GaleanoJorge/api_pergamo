@@ -12,7 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ChEMSDisAuditorylOT
+ * Class ChEMSDisAuditoryOT
  * 
  * @property int $id
  * @property string $sound_sources
@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class ChEMSDisAuditorylOT extends Model
+class ChEMSDisAuditoryOT extends Model
 {
 	protected $table = 'ch_e_m_s_dis_auditory_o_t';
 

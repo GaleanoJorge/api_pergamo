@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\ChEMSDisAuditorylOT as BaseChEMSDisAuditorylOT;
+use App\Models\Base\ChEMSDisAuditoryOT as BaseChEMSDisAuditoryOT;
 
-class ChEMSDisAuditorylOT extends BaseChEMSDisAuditorylOT
+class ChEMSDisAuditoryOT extends BaseChEMSDisAuditoryOT
 {
   protected $fillable = [
     'sound_sources',
