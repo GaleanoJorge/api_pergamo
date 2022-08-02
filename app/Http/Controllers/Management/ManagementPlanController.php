@@ -194,6 +194,10 @@ class ManagementPlanController extends Controller
                 ->groupBy('management_plan.id');
         }
 
+        if ($request->admission_id) {
+            $ManagementPlan->where('admissions_id', $request->admission_id);
+        }
+
         if ($request->_sort) {
             $ManagementPlan->orderBy($request->_sort, $request->_order);
         }
