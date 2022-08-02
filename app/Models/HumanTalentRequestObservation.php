@@ -9,6 +9,7 @@ class HumanTalentRequestObservation extends BaseHumanTalentRequestObservation
 {
 	protected $fillable = [
 		'name',
+		'category',
 	];
 
 }
