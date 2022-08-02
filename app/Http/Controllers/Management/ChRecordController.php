@@ -750,6 +750,7 @@ class ChRecordController extends Controller
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->tariff_id = $valuetariff[0]['id'];
                 $billActivity->ch_record_id = $id;
@@ -759,6 +760,7 @@ class ChRecordController extends Controller
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $validate[0]['id'];
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->tariff_id = $valuetariff[0]['id'];
                 $billActivity->ch_record_id = $id;
@@ -796,6 +798,14 @@ class ChRecordController extends Controller
                 $AuthBillingPad->authorization_id = $Authorization->id;
                 $AuthBillingPad->value = $ServicesBriefcase->value;
                 $AuthBillingPad->save();
+            }
+        } else {
+            $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+            if ($billActivity) {
+                if ($billActivity->status == 'RECHAZADO') {
+                    $billActivity->status = 'REENVIADO';
+                    $billActivity->save();
+                }
             }
         }
 

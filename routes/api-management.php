@@ -797,6 +797,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Portafolio de servicios
     Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
+    Route::apiResource('human_talent_request_observation', 'Management\HumanTalentRequestObservationController');
     //Portafolio de servicios por contrato
     Route::get(
         'ServiceBriefcase/PackageByBriefcase/{briefcaseId}',

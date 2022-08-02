@@ -14,6 +14,7 @@ class Admissions extends BaseAdmissions
     'program_id',
     'pavilion_id',
     'flat_id',
+    'regimen_id',
     'bed_id',
     'contract_id',
     'patient_data_id',

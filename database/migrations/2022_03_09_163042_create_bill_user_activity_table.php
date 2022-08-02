@@ -20,6 +20,7 @@ class CreateBillUserActivityTable extends Migration
             $table->unsignedBigInteger('ch_record_id');
             $table->unsignedBigInteger('account_receivable_id');
             $table->unsignedBigInteger('tariff_id');
+            $table->unsignedBigInteger('assigned_management_plan_id');
             $table->string('status');
             $table->string('observation');
             $table->timestamps();
@@ -27,6 +28,10 @@ class CreateBillUserActivityTable extends Migration
             $table->index('account_receivable_id');
             $table->foreign('account_receivable_id')->references('id')
                 ->on('account_receivable');
+
+            $table->index('assigned_management_plan_id');
+            $table->foreign('assigned_management_plan_id')->references('id')
+                ->on('assigned_management_plan');
 
             $table->index('tariff_id');
             $table->foreign('tariff_id')->references('id')

@@ -246,6 +246,12 @@ class SourceRetentionController extends Controller
             $i++;
         }
 
+        $AR = AccountReceivable::find($request->account_receivable_id);
+        if($AR->status_bill_id == 5) {
+            $AR->status_bill_id = 6;
+            $AR->save();
+        } 
+
         return response()->json([
             'status' => true,
             'message' => 'Retención en la fuente creado exitosamente',

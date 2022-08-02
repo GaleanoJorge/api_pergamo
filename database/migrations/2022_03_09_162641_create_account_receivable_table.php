@@ -16,6 +16,7 @@ class CreateAccountReceivableTable extends Migration
         Schema::create('account_receivable', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('file_payment')->nullable();
+            $table->string('observation')->nullable();
             $table->double('gross_value_activities')->nullable();
             $table->double('net_value_activities')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
