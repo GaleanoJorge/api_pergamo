@@ -39,6 +39,28 @@ use App\Models\ChNursingProcedure;
 use App\Models\ChCarePlan;
 use App\Models\ChLiquidControl;
 use App\Models\ChSkinValoration;
+use App\Models\ChScaleJhDownton;
+use App\Models\ChScaleBraden;
+
+use App\Models\ChEOccHistoryOT;
+use App\Models\ChEPastOT;
+use App\Models\ChEDailyActivitiesOT;
+use App\Models\ChEMSFunPatOT;
+use App\Models\ChEMSIntPatOT;
+use App\Models\ChEMSMovPatOT;
+use App\Models\ChEMSThermalOT;
+use App\Models\ChEMSDisAuditoryOT;
+use App\Models\ChEMSDisTactileOT;
+use App\Models\ChEMSAcuityOT;
+use App\Models\ChEMSComponentOT;
+use App\Models\ChEMSTestOT;
+use App\Models\ChEMSCommunicationOT;
+use App\Models\ChEMSAssessmentOT;
+use App\Models\ChEMSWeeklyOT;
+use App\Models\ChRNMaterialsOT;
+
+
+
 
 
 
@@ -186,6 +208,7 @@ class ChRecordController extends Controller
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
 
+        //medicina general
         ///////////////////////////////////////////////////////////////////////////////////////
 
         if ($ChRecord[0]['ch_type_id'] == 1) {
@@ -271,6 +294,7 @@ class ChRecordController extends Controller
 
             Storage::disk('public')->put($name, $file);
 
+            // enfermeria
             //////////////////////////////////////////////////////////
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
@@ -297,9 +321,13 @@ class ChRecordController extends Controller
             $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->get()->toArray();
             $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
             $ChLiquidControl = ChLiquidControl::with('ch_route_fluid','ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
-            $ChSkinValoration = ChSkinValoration::with('body_region','skin_status','diagnosis')->where('ch_record_id', $id)->get()->toArray();                                 
-            
-            
+            $ChSkinValoration = ChSkinValoration::with('body_region','skin_status','diagnosis')->where('ch_record_id', $id)->get()->toArray();  
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();   
+            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();  
+            $ChScaleJhDownton = ChScaleJhDownton::where('ch_record_id', $id)->get()->toArray(); 
+            $ChScaleBraden = ChScaleBraden::where('ch_record_id', $id)->get()->toArray();
+                                   
+                      
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -329,6 +357,12 @@ class ChRecordController extends Controller
                 'ChCarePlan' => $ChCarePlan,
                 'ChLiquidControl' => $ChLiquidControl,
                 'ChSkinValoration' => $ChSkinValoration,
+                'ChScaleNorton' => $ChScaleNorton,
+                'ChScaleGlasgow' => $ChScaleGlasgow,
+                'ChScaleJhDownton' => $ChScaleJhDownton,
+                'ChScaleBraden' => $ChScaleBraden,
+                
+                
                 
                                 
 
@@ -360,6 +394,46 @@ class ChRecordController extends Controller
 
 
             $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )->where('ch_record_id', $id)->get()->toArray();
+            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->get()->toArray();
+
+            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChVitalSignsNT = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )->where('ch_record_id', $id)->get()->toArray();          
+            $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->get()->toArray();
+            $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->get()->toArray();  
+            $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->get()->toArray();
+            
+
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -376,6 +450,31 @@ class ChRecordController extends Controller
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
                 'chevalorationot' => $ChEValorationOT,
+                'ChVitalSigns' => $ChVitalSigns,
+                'ChEOccHistoryOT' => $ChEOccHistoryOT, 
+                'ChEPastOT' => $ChEPastOT,
+                'ChEDailyActivitiesOT' => $ChEDailyActivitiesOT,
+                'ChEMSFunPatOT' => $ChEMSFunPatOT,
+                'ChEMSIntPatOT' => $ChEMSIntPatOT,
+                'ChEMSMovPatOT' => $ChEMSMovPatOT,
+                'ChEMSThermalOT' => $ChEMSThermalOT,
+                'ChEMSDisAuditoryOT' => $ChEMSDisAuditoryOT,
+                'ChEMSDisTactileOT' => $ChEMSDisTactileOT,
+                'ChEMSAcuityOT' => $ChEMSAcuityOT,
+                'ChEMSComponentOT' => $ChEMSComponentOT,
+                'ChEMSTestOT' => $ChEMSTestOT,
+                'ChEMSCommunicationOT' => $ChEMSCommunicationOT,
+                'ChEMSAssessmentOT' => $ChEMSAssessmentOT,
+                'ChEMSWeeklyOT' => $ChEMSWeeklyOT,
+                'ChEValorationOTNT' => $ChEValorationOTNT,
+                'ChVitalSignsNT' => $ChVitalSignsNT,  
+                'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT, 
+                'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT, 
+                'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT, 
+                  
+                           
+                              
+                
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
