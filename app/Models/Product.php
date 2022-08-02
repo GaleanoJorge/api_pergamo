@@ -30,5 +30,6 @@ protected $fillable = [
 	'packing_id',  
 	'refrigeration',  
 	'useful_life',  
+	'code_cum',  
 	];
 }

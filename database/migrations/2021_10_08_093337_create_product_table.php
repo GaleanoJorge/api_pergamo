@@ -36,6 +36,7 @@ class CreateProductTable extends Migration
             $table->string('unit_packing');
             $table->string('refrigeration');
             $table->string('useful_life');
+            $table->string('code_cum');
             $table->date('date_cum');
             $table->timestamps();
 
