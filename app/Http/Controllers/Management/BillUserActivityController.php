@@ -54,6 +54,7 @@ class BillUserActivityController extends Controller
         $BillUserActivity = new BillUserActivity;
         $BillUserActivity->num_activity = $request->num_activity;
         $BillUserActivity->user_id = $request->user_id;
+        $BillUserActivity->assigned_management_plan_id = $request->assigned_management_plan_id;
         $BillUserActivity->full_value = $request->full_value;
         $BillUserActivity->account_receivable_id = $request->account_receivable_id;
         $BillUserActivity->observation = $request->observation;

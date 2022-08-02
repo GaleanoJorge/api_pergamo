@@ -43,7 +43,7 @@ class PharmacyLotStockController extends Controller
         if ($request->_sort) {
             $PharmacyLotStock->orderBy($request->_sort, $request->_order);
         }
-        if ($request->pharmacy_stock_id) {
+        if ($request->pharmacy_stock_id!="null") {
             $PharmacyLotStock->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id);
         }
         if ($request->campus_id) {
@@ -60,11 +60,11 @@ class PharmacyLotStockController extends Controller
         } else if ($request->product == "false") {
             $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
         }
-        // if ($request->product1 == "true") {
-        //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
-        // } else if ($request->product1 == "false") {
-        //     $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
-        // }
+        if ($request->product1 == "true") {
+            $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
+        } else if ($request->product1 == "false") {
+            $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
+        }
 
         if ($request->search) {
             $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');

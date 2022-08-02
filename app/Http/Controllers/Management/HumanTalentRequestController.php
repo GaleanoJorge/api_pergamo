@@ -10,37 +10,56 @@ use Illuminate\Database\QueryException;
 
 class HumanTalentRequestController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $HumanTalentRequest = HumanTalentRequest::select('human_talent_request.*','role.name','role.id as role_id')->with('admissions.patients.locality','admissions.patients.residence','management_plan')
-        ->leftJoin('management_plan','management_plan.id','human_talent_request.management_plan_id')
-        ->leftJoin('role_attention','role_attention.type_of_attention_id','management_plan.type_of_attention_id')
-        ->leftJoin('role','role.id','role_attention.role_id');
-        
+        $HumanTalentRequest = HumanTalentRequest::select('human_talent_request.*', 'role.name', 'role.id as role_id')->with('admissions.patients.locality', 'admissions.patients.residence', 'management_plan')
+            ->leftJoin('management_plan', 'management_plan.id', 'human_talent_request.management_plan_id')
+            ->leftJoin('role_attention', 'role_attention.type_of_attention_id', 'management_plan.type_of_attention_id')
+            ->leftJoin('role', 'role.id', 'role_attention.role_id')
+            ->orderBy('human_talent_request.id', 'DESC')
+            ;
 
-        if($request->_sort){
+
+        if ($request->_sort) {
             $HumanTalentRequest->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $HumanTalentRequest->where('name','like','%' . $request->search. '%');
+            $HumanTalentRequest->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $HumanTalentRequest=$HumanTalentRequest->get()->toArray();    
+
+        if ($request->role_id) {
+            if ($request->role_id == 23) { // pad
+                $HumanTalentRequest->where(function ($query) use ($request) {
+                    $query->where('status', 'Creada')
+                        ->orWhere('status', 'Rechazada PAD')
+                        ->orWhere('status', 'Aprobada PAD')
+                        ->orWhere('status', 'Rechazada TH')
+                        ->orWhere('status', 'Aprobada TH');
+                });
+            } else if ($request->role_id == 24) { // th
+                $HumanTalentRequest->where(function ($query) use ($request) {
+                    $query->where('status', 'Aprobada PAD')
+                        ->orWhere('status', 'Aprobada TH')
+                        ->orWhere('status', 'Rechazada TH');
+                });
+            }
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $HumanTalentRequest=$HumanTalentRequest->paginate($per_page,'*','page',$page); 
-        } 
-        
+
+        if ($request->query("pagination", true) == "false") {
+            $HumanTalentRequest = $HumanTalentRequest->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $HumanTalentRequest = $HumanTalentRequest->paginate($per_page, '*', 'page', $page);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'Personal obtenidos exitosamente',
@@ -53,7 +72,7 @@ class HumanTalentRequestController extends Controller
         $HumanTalentRequest = new HumanTalentRequest;
         $HumanTalentRequest->name = $request->name;
         $HumanTalentRequest->code = $request->code;
-        
+
         $HumanTalentRequest->save();
 
         return response()->json([
@@ -92,12 +111,12 @@ class HumanTalentRequestController extends Controller
         $HumanTalentRequest = HumanTalentRequest::find($id);
         $HumanTalentRequest->observation = $request->observation;
         $HumanTalentRequest->status = $request->status;
-        
+
         $HumanTalentRequest->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Personal actualizado exitosamente',
+            'message' => 'Petición actualizada exitosamente',
             'data' => ['human_talent_request' => $HumanTalentRequest]
         ]);
     }

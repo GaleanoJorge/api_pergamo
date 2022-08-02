@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Cast\Double;
 
 class ManagementPlanController extends Controller
 {
@@ -193,6 +194,10 @@ class ManagementPlanController extends Controller
                 ->groupBy('management_plan.id');
         }
 
+        if ($request->admission_id) {
+            $ManagementPlan->where('admissions_id', $request->admission_id);
+        }
+
         if ($request->_sort) {
             $ManagementPlan->orderBy($request->_sort, $request->_order);
         }
@@ -267,13 +272,18 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->services_briefcase_id = $request->product_id;
 
             $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            $value = (double) $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
-            // $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']
-            $quantity = ($request->dosage_administer * $request->number_doses) / $value;
-            $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);
-            $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+            } else {
+                $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+            }
+
+            $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+            $PharmacyProductRequest->request_amount =$quantity;
+            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+            $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
         } else {
             $ManagementPlan->save();
@@ -604,7 +614,7 @@ class ManagementPlanController extends Controller
             ->where('admissions.id', $request->admissions_id)
             ->first();
 
-        
+
 
         $Authorization = new Authorization;
         $Authorization->services_briefcase_id = $ManagementPlan->procedure_id;
@@ -626,6 +636,48 @@ class ManagementPlanController extends Controller
         $Authorization->save();
 
         return $Authorization;
+    }
+
+
+    public function getConcentration($value)
+    {
+        $rr = 0;
+        if (str_contains($value, '/')) {
+            $spl = explode('/', $value);
+            $num = $spl[0];
+            $den = +$spl[1];
+            $rr = $this->numWithPlus($num) / $den;
+        } else {
+            $rr = $this->numWithPlus($value);
+        }
+        return $rr;
+    }
+
+    public function numWithPlus($num)
+    {
+        if (str_contains($num, '(') || str_contains($num, ')')) {
+            $num = substr($num, 1, -1);
+            //   $num = $num.slice($num.length - 1, $num.length);
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            }
+        } else {
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            } else {
+                return $num;
+            }
+        }
     }
 
     /** 

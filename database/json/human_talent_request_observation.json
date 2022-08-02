@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1",
+        "name": "CREACIÓN DE USUARIO"
+    },
+    {
+        "id": "2",
+        "name": "EDITAR USUARIO"
+    },
+    {
+        "id": "3",
+        "name": "HABILITAR USUARIO"
+    },
+    {
+        "id": "4",
+        "name": "INHABILITAR USUARIO"
+    }
+]

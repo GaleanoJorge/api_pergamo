@@ -45,17 +45,13 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
-        if ($request->gloss_ambit_id) {
-            $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
-        }
         if ($request->status_bill_id) {
-            $AccountReceivable->where('status_bill_id', $request->status_bill_id);
-        }
-        if ($request->campus_id) {
-            $AccountReceivable->where('campus_id', $request->campus_id);
+            $AccountReceivable->where('account_receivable.status_bill_id', $request->status_bill_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -118,7 +114,9 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
@@ -146,6 +144,7 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = new AccountReceivable;
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
@@ -188,11 +187,17 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = AccountReceivable::find($id);
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
         $AccountReceivable->minimum_salary_id = $request->minimum_salary_id;
+
+        if ($request->status_bill_id == 2) {
+            $AccountReceivable->observation = null;
+        }
+
         $AccountReceivable->save();
 
         return response()->json([
@@ -216,6 +221,9 @@ class AccountReceivableController extends Controller
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('account_receivable', $request->file('file'));
             $AccountReceivable->file_payment = $path;
+            if ($AccountReceivable->status_bill_id == 5) {
+                $AccountReceivable->status_bill_id = 6;
+            }
         }
         $AccountReceivable->save();
 

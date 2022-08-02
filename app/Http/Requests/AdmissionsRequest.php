@@ -30,6 +30,7 @@ class AdmissionsRequest extends FormRequest
             'program_id' => 'required',
             'contract_id' => 'required',
             'patient_id' => 'required',
+            'regime_id' => 'required',
             
             
             
