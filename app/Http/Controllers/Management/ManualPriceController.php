@@ -81,7 +81,7 @@ class ManualPriceController extends Controller
         $ServicesBriefcase = ServicesBriefcase::where('briefcase_id', '=', $briefcaseId)->pluck('manual_price_id')->toArray();
         $ManualPrice = ManualPrice::whereNotIn('id', $ServicesBriefcase)
             ->orderBy('name', 'ASC')
-            ->with('procedure', 'product', 'price_type', 'manual');
+            ->with('procedure', 'product', 'price_type', 'manual','patient');
 
         if ($request->search) {
             $ManualPrice->where(function ($query) use ($request) {
@@ -150,7 +150,7 @@ class ManualPriceController extends Controller
     {
         $ManualPrice = ManualPrice::where('manual_id', $manualId)
             ->orderBy('name', 'asc')
-            ->with('procedure', 'price_type');
+            ->with('procedure', 'price_type','patient');
         if ($request->search) {
             $ManualPrice->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('id', 'like', '%' . $request->search . '%')
@@ -185,7 +185,7 @@ class ManualPriceController extends Controller
     {
         $ManualPrice = ManualPrice::where('manual_id', $manualId)
             ->orderBy('name', 'asc')
-            ->with('product', 'price_type');
+            ->with('product', 'price_type','patient');
         if ($request->search) {
             $ManualPrice->where('value', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -217,7 +217,7 @@ class ManualPriceController extends Controller
     {
         $ManualPrice = ManualPrice::where('manual_id', $manualId)
             ->orderBy('name', 'asc')
-            ->with('insume', 'price_type');
+            ->with('insume', 'price_type','patient');
         if ($request->search) {
             $ManualPrice->where('value', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');

@@ -18,7 +18,7 @@ class ServicesBriefcaseController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ServicesBriefcase = ServicesBriefcase::select();
+        $ServicesBriefcase = ServicesBriefcase::with('manual_price.patient');
 
         if ($request->_sort) {
             $ServicesBriefcase->orderBy($request->_sort, $request->_order);
@@ -67,6 +67,7 @@ class ServicesBriefcaseController extends Controller
             'manual_price.product.multidose_concentration',
             'manual_price.manual',
             'manual_price.insume.measure_supplies_measure',
+            'manual_price.patient',
         )
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->leftjoin('procedure', 'manual_price.procedure_id', 'procedure.id')
@@ -76,9 +77,18 @@ class ServicesBriefcaseController extends Controller
         if ($request->type == 1) {
 
         } else if ($request->type == 2) {
-            $ServicesBriefcase
+         
+                $ServicesBriefcase->where(function ($query) use ($request) {
+                    $query->whereNull('manual_price.patient_id')
+                        ->orWhere('manual_price.patient_id',  $request->patient);
+                });         
+                $ServicesBriefcase
                 ->where('manual_price.product_id', '!=', 'null');
         } else {
+            $ServicesBriefcase->where(function ($query) use ($request) {
+                $query->whereNull('manual_price.patient_id')
+                    ->orWhere('manual_price.patient_id',  $request->patient);
+            });         
             $ServicesBriefcase
                 ->where('manual_price.procedure_id', '!=', 'null')
                 ->where('procedure.procedure_type_id', '!=', '3');
