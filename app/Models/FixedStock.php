@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\FixedTypeRole as BaseFixedTypeRole;
+use App\Models\Base\FixedStock as BaseFixedStock;
 
-class FixedTypeRole extends BaseFixedTypeRole
+class FixedStock extends BaseFixedStock
 {
 	protected $fillable = [
 		'fixed_type_id',
-		'role_id',
+		'campus_id',
 	];
 }

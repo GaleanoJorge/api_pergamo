@@ -22,6 +22,8 @@ class BillingController extends Controller
         $Billing = Billing::select('billing.*')
         ->with('company', 'pharmacy_stock');
 
+ 
+
         if ($request->_sort) {
             $Billing->orderBy($request->_sort, $request->_order);
         }

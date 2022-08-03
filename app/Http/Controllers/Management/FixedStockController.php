@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\FixedTypeRole;
+use App\Models\FixedStock;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BedRequest;
+use App\Models\UsersFixedStock;
 use Illuminate\Database\QueryException;
 
-class FixedTypeRoleRoleController extends Controller
+class FixedStockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,45 +19,52 @@ class FixedTypeRoleRoleController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedTypeRole = FixedTypeRole::select();
+        $FixedStock = FixedStock::with('campus', 'fixed_type');
 
         if ($request->_sort) {
-            $FixedTypeRole->orderBy($request->_sort, $request->_order);
+            $FixedStock->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $FixedTypeRole->where('name', 'like', '%' . $request->search . '%');
+            $FixedStock->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $FixedTypeRole = $FixedTypeRole->get()->toArray();
+            $FixedStock = $FixedStock->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $FixedTypeRole = $FixedTypeRole->paginate($per_page, '*', 'page', $page);
+            $FixedStock = $FixedStock->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Tipo obtenidos exitosamente',
-            'data' => ['fixed_type_role' => $FixedTypeRole]
+            'data' => ['fixed_stock' => $FixedStock]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        $FixedTypeRole = new FixedTypeRole;
-        $FixedTypeRole->fixed_type_id = $request->fixed_type_id;
-        $FixedTypeRole->role_id = $request->role_id;
-        $FixedTypeRole->save();
+        $FixedStock = new FixedStock;
+        $FixedStock->fixed_type_id = $request->fixed_type_id;
+        $FixedStock->campus_id = $request->campus_id;
+        $FixedStock->save();
+
+        foreach ($request->user_id as $user) {
+            $UsersFixedStock = new UsersFixedStock;
+            $UsersFixedStock->user_id = $user;
+            $UsersFixedStock->fixed_stock_id = $FixedStock->id;
+            $UsersFixedStock->save();
+        }
 
         return response()->json([
             'status' => true,
             'message' => 'Tipo asociado exitosamente',
-            'data' => ['fixed_type_role' => $FixedTypeRole->toArray()]
+            'data' => ['fixed_stock' => $FixedStock->toArray()]
         ]);
     }
 
@@ -68,13 +76,13 @@ class FixedTypeRoleRoleController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $FixedTypeRole = FixedTypeRole::where('id', $id)
+        $FixedStock = FixedStock::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Tipo obtenido exitosamente',
-            'data' => ['fixed_type_role' => $FixedTypeRole]
+            'data' => ['fixed_stock' => $FixedStock]
         ]);
     }
 
@@ -86,15 +94,15 @@ class FixedTypeRoleRoleController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $FixedTypeRole = FixedTypeRole::find($id);
-        $FixedTypeRole->fixed_type_id = $request->fixed_type_id;
-        $FixedTypeRole->role_id = $request->role_id;
-        $FixedTypeRole->save();
+        $FixedStock = FixedStock::find($id);
+        $FixedStock->fixed_type_id = $request->fixed_type_id;
+        $FixedStock->campus_id = $request->campus_id;
+        $FixedStock->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Tipo actualizado exitosamente',
-            'data' => ['fixed_type_role' => $FixedTypeRole]
+            'data' => ['fixed_stock' => $FixedStock]
         ]);
     }
 
@@ -107,8 +115,8 @@ class FixedTypeRoleRoleController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $FixedTypeRole = FixedTypeRole::find($id);
-            $FixedTypeRole->delete();
+            $FixedStock = FixedStock::find($id);
+            $FixedStock->delete();
 
             return response()->json([
                 'status' => true,

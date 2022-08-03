@@ -30,6 +30,11 @@ class FixedLoanController extends Controller
             )
             ->leftJoin('fixed_add', 'fixed_add.id', 'fixed_loan.fixed_add_id');
 
+            if ($request->user_role_id) {
+                $FixedLoan->where('fixed_add.responsible_user_id', $request->user_role_id);
+            }
+
+            
         if ($request->_sort) {
             $FixedLoan->orderBy($request->_sort, $request->_order);
         }

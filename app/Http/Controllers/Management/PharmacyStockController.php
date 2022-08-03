@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Management;
 
 use App\Models\PharmacyStock;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\UserPharmacyStock;
+use App\Http\Requests\PharmacyStockRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Carbon\Carbon;
 
 class PharmacyStockController extends Controller
 {
@@ -20,7 +19,18 @@ class PharmacyStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $PharmacyStock = PharmacyStock::with('campus','type_pharmacy_stock');
+        $PharmacyStock = PharmacyStock::select('pharmacy_stock.*')->with(
+            'campus',
+            'type_pharmacy_stock',
+            'user_pharmacy_stock.user',
+            'services_pharmacy_stock.scope_of_attention',
+            // 'services_pharmacy_stock.scope_of_attention.admission_route',
+            // 'scope_of_attention.admissions_route'
+        );
+
+        if($request->type==1){
+            $PharmacyStock->where('type_pharmacy_stock_id',1);
+        }
 
         if ($request->_sort) {
             $PharmacyStock->orderBy($request->_sort, $request->_order);
@@ -51,23 +61,13 @@ class PharmacyStockController extends Controller
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(PharmacyStockRequest $request): JsonResponse
     {
-
-
         $PharmacyStock = new PharmacyStock;
         $PharmacyStock->name = $request->name;
         $PharmacyStock->type_pharmacy_stock_id = $request->type_pharmacy_stock_id;
         $PharmacyStock->campus_id = $request->campus_id;
         $PharmacyStock->save();
-
-
-        foreach ($request->user_id as $user) {
-            $UserPharmacyStock = new UserPharmacyStock;
-            $UserPharmacyStock->user_id = $user;
-            $UserPharmacyStock->pharmacy_stock_id = $PharmacyStock->id;
-            $UserPharmacyStock->save();
-        }
 
         return response()->json([
             'status' => true,
@@ -97,10 +97,12 @@ class PharmacyStockController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param  PharmacyStockRequest  $request
+
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(PharmacyStockRequest $request, int $id): JsonResponse
     {
         $PharmacyStock = PharmacyStock::find($id);
         $PharmacyStock->name = $request->name;

@@ -40,6 +40,10 @@ class PharmacyLotStockController extends Controller
 
             );
 
+            if($request->islot==true){
+                $PharmacyLotStock->groupby('pharmacy_lot_id');
+            }
+
         if ($request->_sort) {
             $PharmacyLotStock->orderBy($request->_sort, $request->_order);
         }

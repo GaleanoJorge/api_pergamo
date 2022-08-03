@@ -292,21 +292,21 @@ class PharmacyProductRequestController extends Controller
                             }
                         }
 
-                        $NewParmacyLot = new PharmacyLot;
-                        $NewParmacyLot->subtotal = $LastPharmacyLot->subtotal;
-                        $NewParmacyLot->vat = $LastPharmacyLot->vat;
-                        $NewParmacyLot->total = $LastPharmacyLot->total;
-                        $NewParmacyLot->receipt_date = $LastPharmacyLot->receipt_date;
-                        $NewParmacyLot->pharmacy_stock_id = $request->own_pharmacy_stock_id;
-                        $NewParmacyLot->save();
+                        // $NewParmacyLot = new PharmacyLot;
+                        // $NewParmacyLot->subtotal = $LastPharmacyLot->subtotal;
+                        // $NewParmacyLot->vat = $LastPharmacyLot->vat;
+                        // $NewParmacyLot->total = $LastPharmacyLot->total;
+                        // $NewParmacyLot->receipt_date = $LastPharmacyLot->receipt_date;
+                        // $NewParmacyLot->pharmacy_stock_id = $request->own_pharmacy_stock_id;
+                        // $NewParmacyLot->save();
 
                         $NewPharmacyLotStock = new PharmacyLotStock;
                         $NewPharmacyLotStock->lot = $PharmacyLotStock->lot;
-                        $NewPharmacyLotStock->amount_total = $PharmacyLotStock->amount_total;
+                        $NewPharmacyLotStock->amount_total =  $element->amount - $element->amount_damaged;
                         $NewPharmacyLotStock->sample = $PharmacyLotStock->sample;
-                        $NewPharmacyLotStock->actual_amount = $element->amount;
+                        $NewPharmacyLotStock->actual_amount = $NewPharmacyLotStock->amount_total;
                         $NewPharmacyLotStock->expiration_date = $PharmacyLotStock->expiration_date;
-                        $NewPharmacyLotStock->pharmacy_lot_id = $NewParmacyLot->id;
+                        $NewPharmacyLotStock->pharmacy_lot_id = $LastPharmacyLot->id;
                         $NewPharmacyLotStock->billing_stock_id = $PharmacyLotStock->billing_stock_id;
                         $NewPharmacyLotStock->save();
                     }

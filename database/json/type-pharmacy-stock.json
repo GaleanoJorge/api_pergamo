@@ -1,8 +1,11 @@
 [
     {
-        "name": "BODEGA"
+        "name": "ALMACEN PRINCIPAL"
     },
     {
         "name": "FARMACIA"
+    },
+    {
+        "name": "BODEGA"
     }
 ]  

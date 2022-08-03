@@ -83,10 +83,16 @@ class UserPharmacyStockController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $UserPharmacyStock = new UserPharmacyStock;
-        $UserPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
-        $UserPharmacyStock->user_id = $request->user_id;
-        $UserPharmacyStock->save();
+        // $UserPharmacyStockDelete = UserPharmacyStock::where('pharmacy_stock_id', $request->pharmacy_stock_id)->get();
+        // $UserPharmacyStockDelete->delete();
+
+        $users = json_decode($request->users);
+        foreach ($users as $user) {
+            $UserPharmacyStock = new UserPharmacyStock;
+            $UserPharmacyStock->pharmacy_stock_id = $request->pharmacy_stock_id;
+            $UserPharmacyStock->user_id = $user;
+            $UserPharmacyStock->save();
+        }
 
         return response()->json([
             'status' => true,

@@ -18,7 +18,7 @@ class FixedClasificationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedClasification = FixedClasification::with('fixed_code');
+        $FixedClasification = FixedClasification::with('fixed_code')->orderBy('name', 'asc');;
 
         if ($request->_sort) {
             $FixedClasification->orderBy($request->_sort, $request->_order);
