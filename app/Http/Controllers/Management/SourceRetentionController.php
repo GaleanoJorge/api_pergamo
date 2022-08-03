@@ -248,7 +248,7 @@ class SourceRetentionController extends Controller
 
         $AR = AccountReceivable::find($request->account_receivable_id);
         if($AR->status_bill_id == 5) {
-            $AR->status_bill_id == 6;
+            $AR->status_bill_id = 6;
             $AR->save();
         } 
 

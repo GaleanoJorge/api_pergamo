@@ -279,7 +279,7 @@ class ManagementPlanController extends Controller
             }
 
             $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
-            $PharmacyProductRequest->request_amount =$quantity;
+            $PharmacyProductRequest->request_amount = $quantity;
             $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
@@ -408,6 +408,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement = new AssignedManagementPlan;
                     $assignedManagement->start_date = $start;
                     $assignedManagement->finish_date =  $finish;
+                    $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -472,6 +473,7 @@ class ManagementPlanController extends Controller
 
                 $assignedManagement = new AssignedManagementPlan;
                 $assignedManagement->start_date = $now;
+                $assignedManagement->redo =  '00000000000000';
                 $assignedManagement->finish_date =  $finish;
                 $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
@@ -502,6 +504,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->start_hour = $now->format('H:i:s');
                     $assignedManagement->finish_date =  $now->format('Y-m-d');
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
+                    $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -784,6 +787,7 @@ class ManagementPlanController extends Controller
             }
 
             $assignedManagement = new AssignedManagementPlan;
+            $assignedManagement->redo =  '00000000000000';
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
             $assignedManagement->user_id = $request->assigned_user_id;
