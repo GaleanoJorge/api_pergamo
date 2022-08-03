@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\Procedure;
+use App\Models\Patient;
 use App\Models\ProductGeneric;
 use App\Models\Manual;
 use App\Models\PriceType;
@@ -74,5 +75,9 @@ class ManualPrice extends Model
 	public function manual()
 	{
 		return $this->belongsTo(Manual::class);
+	}
+	public function patient()
+	{
+		return $this->belongsTo(Patient::class,'patient_id');
 	}
 }
