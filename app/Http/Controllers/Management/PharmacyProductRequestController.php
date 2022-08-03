@@ -96,9 +96,9 @@ class PharmacyProductRequestController extends Controller
             });
         }
 
-        if ($request->status) {
-            $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
-        }
+        // if ($request->status) {
+        //     $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
+        // }
 
         if ($request->admissions_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);
