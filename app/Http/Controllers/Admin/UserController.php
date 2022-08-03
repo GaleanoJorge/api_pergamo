@@ -1275,7 +1275,7 @@ class UserController extends Controller
                 // $assistance->specialty = $request->specialty;
 
                 if ($request->firm_file!="null") {
-                    $image = $request->get('firm');  // your base64 encoded
+                    $image = $request->get('firm_file');  // your base64 encoded
                     $image = str_replace('data:image/png;base64,', '', $image);
                     $image = str_replace(' ', '+', $image);
                     $random = Str::random(10);
