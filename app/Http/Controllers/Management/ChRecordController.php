@@ -579,11 +579,7 @@ class ChRecordController extends Controller
                 }
             case (7): {
                     // TERAPIA FÍSICA
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []]
-                    ]);
+                    $ChRecord->ch_type_id = 7;
                     break;
                 }
             case (8): {
