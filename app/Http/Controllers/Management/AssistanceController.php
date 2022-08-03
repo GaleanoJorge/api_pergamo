@@ -24,24 +24,25 @@ class AssistanceController extends Controller
         $endDate = Carbon::now()->endOfMonth()->format('Ymd');
 
         $Assistance = Assistance::with('user', 'special_field')
-        ->leftJoin('users', 'users.id', '=', 'assistance.user_id')
-        ->leftJoin('user_role', 'user_role.user_id', '=', 'assistance.user_id')
-        ->leftJoin('location_capacity', 'location_capacity.assistance_id', '=', 'assistance.id')
-        ->leftJoin('role', 'role.id', '=', 'user_role.role_id')
-        ->select(
-            'assistance.*',
-            DB::raw(
-                "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_quantity,0),0)) AS total1"
-            ),
-            DB::raw(
-                "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_actual_capacity,0),0)) AS total2"
-            ),
-            DB::raw(
-                "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_attended,0),0)) AS total3"
-            ),
-            'role.name as role_name',
-        );
-        
+            ->leftJoin('users', 'users.id', '=', 'assistance.user_id')
+            ->leftJoin('user_role', 'user_role.user_id', '=', 'assistance.user_id')
+            ->leftJoin('location_capacity', 'location_capacity.assistance_id', '=', 'assistance.id')
+            ->leftJoin('role', 'role.id', '=', 'user_role.role_id')
+            ->select(
+                'assistance.*',
+                DB::raw(
+                    "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_quantity,0),0)) AS total1"
+                ),
+                DB::raw(
+                    "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_actual_capacity,0),0)) AS total2"
+                ),
+                DB::raw(
+                    "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_attended,0),0)) AS total3"
+                ),
+                'role.name as role_name',
+            )
+            ->groupBy('assistance.id');
+
         if ($request->_sort) {
             $Assistance->orderBy($request->_sort, $request->_order);
         }

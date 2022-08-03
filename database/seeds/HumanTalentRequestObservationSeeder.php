@@ -17,6 +17,7 @@ class HumanTalentRequestObservationSeeder extends Seeder
         foreach (json_decode($data) as $row) {
             HumanTalentRequestObservation::create([
                 'name' =>  $row->name,
+                'category' =>  $row->category,
             ]);
         }
     }

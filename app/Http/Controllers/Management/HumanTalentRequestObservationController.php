@@ -28,6 +28,10 @@ class HumanTalentRequestObservationController extends Controller
             $HumanTalentRequestObservation->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->category) {
+            $HumanTalentRequestObservation->where('category', $request->category);
+        }
+
         if ($request->query("pagination", true) == "false") {
             $HumanTalentRequestObservation = $HumanTalentRequestObservation->get()->toArray();
         } else {
@@ -48,6 +52,7 @@ class HumanTalentRequestObservationController extends Controller
     {
         $HumanTalentRequestObservation = new HumanTalentRequestObservation;
         $HumanTalentRequestObservation->name = $request->name;
+        $HumanTalentRequestObservation->category = $request->category;
 
         $HumanTalentRequestObservation->save();
 
@@ -86,6 +91,7 @@ class HumanTalentRequestObservationController extends Controller
     {
         $HumanTalentRequestObservation = HumanTalentRequestObservation::find($id);
         $HumanTalentRequestObservation->name = $request->name;
+        $HumanTalentRequestObservation->category = $request->category;
 
         $HumanTalentRequestObservation->save();
 

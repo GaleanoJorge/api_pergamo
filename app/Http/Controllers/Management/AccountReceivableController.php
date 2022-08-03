@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\Assistance;
 use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
@@ -89,8 +90,8 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
-                DB::raw("1 AS show_file"),
+                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
+                DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
@@ -250,6 +251,7 @@ class AccountReceivableController extends Controller
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
+        $Assistance = Assistance::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
         $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
 
@@ -309,6 +311,7 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
+        $sign = $Assistance->file_firm;
         $nombre_completo = $UserDownload->nombre_completo;
 
         $generate_date = Carbon::now()->format('d-m-Y H:i:s');
@@ -339,6 +342,7 @@ class AccountReceivableController extends Controller
             'address' => $address,
             'phone' => $phone,
             'email' => $email,
+            'sign' => $sign,
             'generate_date' => $generate_date,
             'nombre_completo' => $nombre_completo,
             'Activities' => $Activities,

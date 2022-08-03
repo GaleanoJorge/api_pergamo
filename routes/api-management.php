@@ -1049,7 +1049,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_int_pat_o_t', 'Management\ChEMSIntPatOTController');
     Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSmovPatOTController');
     Route::apiResource('ch_e_m_s_thermal_o_t', 'Management\ChEMSThermalOTController');
-    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditorylOTController');
+    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditoryOTController');
     Route::apiResource('ch_e_m_s_dis_tactile_o_t', 'Management\ChEMSDisTactileOTController');
     Route::apiResource('ch_e_m_s_acuity_o_t', 'Management\ChEMSAcuityOTController');
     Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');

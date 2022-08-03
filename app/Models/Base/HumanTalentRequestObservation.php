@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class HumanTalentRequestObservation
  * 
  * @property int $id
+ * @property int $category
  * @property string $name
  * @property Carbon $created_at
  * @property Carbon $updated_at
