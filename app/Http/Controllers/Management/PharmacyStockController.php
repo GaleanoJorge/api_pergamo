@@ -56,7 +56,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento obtenidos exitosamente',
+            'message' => 'Tipo de establecimiento obtenidos exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -71,7 +71,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento asociado al en farmacia exitosamente',
+            'message' => 'Tipo de establecimiento asociado al en farmacia exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock->toArray()]
         ]);
     }
@@ -89,7 +89,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento obtenido exitosamente',
+            'message' => 'Tipo de establecimiento obtenido exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -112,7 +112,7 @@ class PharmacyStockController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Typo de establecimiento actualizado exitosamente',
+            'message' => 'Tipo de establecimiento actualizado exitosamente',
             'data' => ['pharmacy_stock' => $PharmacyStock]
         ]);
     }
@@ -131,12 +131,12 @@ class PharmacyStockController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Typo de establecimiento eliminado exitosamente'
+                'message' => 'Tipo de establecimiento eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Typo de establecimiento en uso, no es posible eliminarlo'
+                'message' => 'Tipo de establecimiento en uso, no es posible eliminarlo'
             ], 423);
         }
     }

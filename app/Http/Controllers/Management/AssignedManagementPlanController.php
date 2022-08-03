@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AssignedManagementPlanController extends Controller
 {
@@ -53,16 +55,20 @@ class AssignedManagementPlanController extends Controller
      */
     public function indexPacientByManagement(Request $request, int $managementId, int $userId): JsonResponse
     {
-        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+        $dateNow = Carbon::now()->format('YmdHis');
+        $assigned_management_plan = AssignedManagementPlan::select(
+            'assigned_management_plan.*',
+            DB::raw('IF(' . $dateNow . ' <= assigned_management_plan.redo,1,0) AS allow_redo')
+        )
             ->with('user', 'management_plan');
         if ($userId == 0) {
             $assigned_management_plan->where('management_plan_id', $managementId);
         } else {
-            if($request->patient){
-                $assigned_management_plan->leftJoin('management_plan','management_plan.id','assigned_management_plan.management_plan_id')->where('user_id', $userId)
-                ->where('management_plan.admissions_id',$request->patient);
-            }else{
-            $assigned_management_plan->where('user_id', $userId);
+            if ($request->patient) {
+                $assigned_management_plan->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')->where('user_id', $userId)
+                    ->where('management_plan.admissions_id', $request->patient);
+            } else {
+                $assigned_management_plan->where('user_id', $userId);
             }
         }
 
@@ -103,6 +109,7 @@ class AssignedManagementPlanController extends Controller
         $AssignedManagementPlan->start_date = $request->start_date;
         $AssignedManagementPlan->finish_date = $request->finish_date;
         $AssignedManagementPlan->user_id = $request->user_id;
+        $AssignedManagementPlan->redo = $request->redo;
         $AssignedManagementPlan->execution_date = $request->execution_date;
         $AssignedManagementPlan->management_plan_id = $request->management_plan_id;
         $AssignedManagementPlan->save();
@@ -143,13 +150,14 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
-        if($request->type_of_attention_id==17){
-        $AssignedManagementPlan->start_date = $request->start_date;
-        $AssignedManagementPlan->finish_date = $request->start_date;
-        $AssignedManagementPlan->user_id = $request->user_id;
-        $AssignedManagementPlan->start_hour = $request->start_hour;
-        $AssignedManagementPlan->finish_hour = $request->finish_hour;
-        }else{
+        if ($request->type_of_attention_id == 17) {
+            $AssignedManagementPlan->start_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->start_date;
+            $AssignedManagementPlan->user_id = $request->user_id;
+            $AssignedManagementPlan->redo = $request->redo;
+            $AssignedManagementPlan->start_hour = $request->start_hour;
+            $AssignedManagementPlan->finish_hour = $request->finish_hour;
+        } else {
             $AssignedManagementPlan->start_date = $request->start_date;
             $AssignedManagementPlan->finish_date = $request->finish_date;
             $AssignedManagementPlan->user_id = $request->user_id;

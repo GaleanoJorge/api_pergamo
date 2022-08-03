@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\Assistance;
 use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
@@ -45,17 +46,13 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
-        if ($request->gloss_ambit_id) {
-            $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
-        }
         if ($request->status_bill_id) {
-            $AccountReceivable->where('status_bill_id', $request->status_bill_id);
-        }
-        if ($request->campus_id) {
-            $AccountReceivable->where('campus_id', $request->campus_id);
+            $AccountReceivable->where('account_receivable.status_bill_id', $request->status_bill_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -93,8 +90,8 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
-                DB::raw("1 AS show_file"),
+                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
+                DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
@@ -118,7 +115,9 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
@@ -146,6 +145,7 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = new AccountReceivable;
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
@@ -188,11 +188,17 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = AccountReceivable::find($id);
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
         $AccountReceivable->minimum_salary_id = $request->minimum_salary_id;
+
+        if ($request->status_bill_id == 2) {
+            $AccountReceivable->observation = null;
+        }
+
         $AccountReceivable->save();
 
         return response()->json([
@@ -216,6 +222,9 @@ class AccountReceivableController extends Controller
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('account_receivable', $request->file('file'));
             $AccountReceivable->file_payment = $path;
+            if ($AccountReceivable->status_bill_id == 5) {
+                $AccountReceivable->status_bill_id = 6;
+            }
         }
         $AccountReceivable->save();
 
@@ -242,6 +251,7 @@ class AccountReceivableController extends Controller
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
+        $Assistance = Assistance::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
         $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
 
@@ -301,6 +311,7 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
+        $sign = $Assistance->file_firm;
         $nombre_completo = $UserDownload->nombre_completo;
 
         $generate_date = Carbon::now()->format('d-m-Y H:i:s');
@@ -331,6 +342,7 @@ class AccountReceivableController extends Controller
             'address' => $address,
             'phone' => $phone,
             'email' => $email,
+            'sign' => $sign,
             'generate_date' => $generate_date,
             'nombre_completo' => $nombre_completo,
             'Activities' => $Activities,

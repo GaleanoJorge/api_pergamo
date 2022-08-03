@@ -21,9 +21,15 @@ class CreateAuthorizationTable extends Migration
             $table->string('auth_number')->nullable();
             $table->unsignedBigInteger('authorized_amount')->nullable();
             $table->string('observation')->nullable();
+            $table->boolean('copay')->nullable();
+            $table->integer('copay_value')->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->unsignedBigInteger('auth_package_id')->nullable();
             $table->unsignedBigInteger('manual_price_id')->nullable();
+            $table->unsignedBigInteger('application_id')->nullable();
+            $table->unsignedBigInteger('procedure_id')->nullable();
+            $table->unsignedBigInteger('supplies_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->string('file_auth')->nullable();
             $table->timestamps();
 
@@ -46,6 +52,22 @@ class CreateAuthorizationTable extends Migration
             $table->index('manual_price_id');
             $table->foreign('manual_price_id')->references('id')
                 ->on('manual_price');
+
+            $table->index('supplies_id');
+            $table->foreign('supplies_id')->references('id')
+                ->on('product_supplies');
+
+            $table->index('product_id');
+            $table->foreign('product_id')->references('id')
+                ->on('product');
+
+            $table->index('procedure_id');
+            $table->foreign('procedure_id')->references('id')
+                ->on('procedure');
+
+            $table->index('application_id');
+            $table->foreign('application_id')->references('id')
+                ->on('assistance_supplies');
 
             $table->index('assigned_management_plan_id');
             $table->foreign('assigned_management_plan_id')->references('id')

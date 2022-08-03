@@ -797,6 +797,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Portafolio de servicios
     Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
+    Route::apiResource('human_talent_request_observation', 'Management\HumanTalentRequestObservationController');
     //Portafolio de servicios por contrato
     Route::get(
         'ServiceBriefcase/PackageByBriefcase/{briefcaseId}',
@@ -1048,7 +1049,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_int_pat_o_t', 'Management\ChEMSIntPatOTController');
     Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSmovPatOTController');
     Route::apiResource('ch_e_m_s_thermal_o_t', 'Management\ChEMSThermalOTController');
-    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditorylOTController');
+    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditoryOTController');
     Route::apiResource('ch_e_m_s_dis_tactile_o_t', 'Management\ChEMSDisTactileOTController');
     Route::apiResource('ch_e_m_s_acuity_o_t', 'Management\ChEMSAcuityOTController');
     Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');
@@ -1061,8 +1062,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\FixedNomProductController@getSubcategoryByCategory'
     );
 
-    Route::get('FixedNomProduct/byGroup/{fixed_type_id}',
-        'Management\FixedNomProductController@getCategoryByGroup');
+    Route::get(
+        'FixedNomProduct/byGroup/{fixed_type_id}',
+        'Management\FixedNomProductController@getCategoryByGroup'
+    );
 
 
 
@@ -1338,7 +1341,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
     Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
     Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
-    
+
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
     Route::apiResource('reason_exit', 'Management\ReasonExitController');
@@ -1506,4 +1509,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Aplicaciones
     Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
+
+    //Aplicaciones indiviuales medicamentos
+    Route::get('pharmacy_product_request_for_use', 'Management\PharmacyProductRequestController@forUse');
+    //Aplicaciones indiviuales insumos
+    Route::get('pharmacy_product_request_for_use/insume', 'Management\PharmacyProductRequestController@forUse');
 });

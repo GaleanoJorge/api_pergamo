@@ -16,20 +16,21 @@ class CreatePharmacyProductRequestTable extends Migration
     {
         Schema::create('pharmacy_product_request', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('request_amount')->nullable();
             $table->string('status')->nullable();
             $table->string('observation')->nullable();
-            $table->unsignedBigInteger('services_briefcase_id')->nullable();
-            $table->unsignedBigInteger('user_request_id')->nullable();
+            $table->integer('request_amount')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
-            $table->unsignedBigInteger('product_generic_id')->nullable()->nullable();
-            $table->unsignedBigInteger('product_supplies_id')->nullable()->nullable();
+            $table->unsignedBigInteger('user_request_id')->nullable();
+            $table->unsignedBigInteger('product_generic_id')->nullable();
+            $table->unsignedBigInteger('management_plan_id')->nullable();
+            $table->unsignedBigInteger('product_supplies_id')->nullable();
+            $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('own_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('request_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('user_request_pad_id')->nullable();
             $table->timestamps();
 
-            
+
             $table->index('user_request_id');
             $table->foreign('user_request_id')->references('id')
                 ->on('users');
@@ -53,10 +54,14 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->index('services_briefcase_id');
             $table->foreign('services_briefcase_id')->references('id')
                 ->on('services_briefcase');
-            
+
             $table->index('admissions_id');
             $table->foreign('admissions_id')->references('id')
                 ->on('admissions');
+
+            $table->index('management_plan_id');
+            $table->foreign('management_plan_id')->references('id')
+                ->on('management_plan');
 
             $table->index('request_pharmacy_stock_id');
             $table->foreign('request_pharmacy_stock_id')->references('id')

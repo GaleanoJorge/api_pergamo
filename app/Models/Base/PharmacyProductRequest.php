@@ -11,6 +11,7 @@ use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use App\Models\User;
 use App\Models\Admissions;
+use App\Models\ManagementPlan;
 use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -76,6 +77,10 @@ class PharmacyProductRequest extends Model
 	public function user_request()
 	{
 		return $this->belongsTo(User::class, 'user_request_id');
+	}
+	public function management_plan()
+	{
+		return $this->belongsTo(ManagementPlan::class, 'management_plan_id');
 	}
 	public function user_request_pad()
 	{

@@ -10,6 +10,7 @@ class AssignedManagementPlan extends BaseAssignedManagementPlan
 		'start_date',
 		'finish_date',
 		'user_id',
+		'redo',
 		'execution_date',
 		'management_plan_id'
 	];

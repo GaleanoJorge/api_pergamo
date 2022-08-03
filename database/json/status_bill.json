@@ -1,14 +1,26 @@
 [
     {
+        "id": 1,
         "name": "CREADA"
     },
     {
+        "id": 2,
         "name": "APROBADA"
     },
     {
+        "id": 3,
         "name": "PAGADA"
     },
     {
+        "id": 4,
         "name": "ANULADA"
+    },
+    {
+        "id": 5,
+        "name": "RECHAZADA"
+    },
+    {
+        "id": 6,
+        "name": "REENVIADA"
     }
 ]

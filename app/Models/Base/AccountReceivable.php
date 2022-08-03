@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $file_payment
+ * @property string $observation
  * @property bigInteger $user_id
  * @property bigInteger $gloss_ambit_id
  * @property bigInteger $status_bill_id
