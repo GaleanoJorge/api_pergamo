@@ -59,7 +59,7 @@ class CreateAuthorizationTable extends Migration
 
             $table->index('product_id');
             $table->foreign('product_id')->references('id')
-                ->on('product');
+                ->on('product_generic');
 
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')

@@ -41,22 +41,17 @@
     },
     {
         "id": "1",
-        "name": "OBSERVACIPON CTA SERVICIO 1",
+        "name": "Anotación o inconsistencias inadecuadas en las evoluciones",
         "category": 3
     },
     {
         "id": "2",
-        "name": "OBSERVACIPON CTA SERVICIO 2",
+        "name": "La planilla de firmas no es visible o cuenta con tachones y enmendaduras",
         "category": 3
     },
     {
         "id": "3",
-        "name": "OBSERVACIPON CTA SERVICIO 3",
-        "category": 3
-    },
-    {
-        "id": "4",
-        "name": "OBSERVACIPON CTA SERVICIO 4",
+        "name": "La planilla de firmas no corresponde al paciente indicado",
         "category": 3
     }
 ]

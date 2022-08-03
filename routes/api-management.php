@@ -976,6 +976,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('ch_reason_consultation', 'Management\ChReasonConsultationController');
     Route::apiResource('ch_record', 'Management\ChRecordController');
+    Route::post('ch_record/update/{id}', 'Management\ChRecordController@update');
     Route::apiResource('ch_review_system', 'Management\ChReviewSystemController');
 
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');

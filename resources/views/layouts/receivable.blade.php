@@ -440,7 +440,7 @@
             <div>
 
                 <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59" alt="" style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
-                
+                                
                 <div class="stl_01" style="left:11.76em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0.0006em;">DOCUMENTO SOPORTE EN ADQUISICIONES EFECTUADAS A NO &nbsp;</span>
                 </div>
@@ -739,6 +739,11 @@
 
                 <div class="stl_01" style="left:0em;top:46em;"><span class="stl_19 stl_08 stl_41">FIRMA:
                         &nbsp;</span></div>
+
+
+                <div class="stl_01" style="left:6em;top:47em;">
+                    <img src="data:image/png;base64,{{$sign}}" width="142" height="59" alt="" style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
+                </div>
 
 
 

@@ -696,6 +696,10 @@ class ChRecordController extends Controller
             ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
+        if ($request->file('firm_file')) {
+            $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
+            $ChRecord->firm_file = $path;
+        }    
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
