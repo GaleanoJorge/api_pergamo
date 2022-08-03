@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\Assistance;
 use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
@@ -250,6 +251,7 @@ class AccountReceivableController extends Controller
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
+        $Assistance = Assistance::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
         $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
 
@@ -309,6 +311,7 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
+        $sign = $Assistance->file_firm;
         $nombre_completo = $UserDownload->nombre_completo;
 
         $generate_date = Carbon::now()->format('d-m-Y H:i:s');
@@ -339,6 +342,7 @@ class AccountReceivableController extends Controller
             'address' => $address,
             'phone' => $phone,
             'email' => $email,
+            'sign' => $sign,
             'generate_date' => $generate_date,
             'nombre_completo' => $nombre_completo,
             'Activities' => $Activities,
