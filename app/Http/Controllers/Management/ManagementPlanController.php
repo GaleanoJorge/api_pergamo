@@ -27,7 +27,8 @@ class ManagementPlanController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->management_id) {
-            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention');
+            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention','service_briefcase',
+            'service_briefcase.manual_price','procedure','procedure.manual_price');
         } else {
             $ManagementPlan = ManagementPlan::select();
         }

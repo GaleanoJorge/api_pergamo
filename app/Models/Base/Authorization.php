@@ -7,10 +7,14 @@
 namespace App\Models\Base;
 
 use App\Models\AssignedManagementPlan;
+use App\Models\AssistanceSupplies;
+use App\Models\Authorization as ModelsAuthorization;
 use App\Models\AuthStatus;
 use App\Models\ManagementPlan;
 use App\Models\ManualPrice;
 use App\Models\Procedure;
+use App\Models\ProductGeneric;
+use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,20 +33,40 @@ use Illuminate\Database\Eloquent\Model;
 class Authorization extends Model
 {
 	protected $table = 'authorization';
-
-	public function users()
+	
+	public function services_briefcase()
 	{
-		return $this->belongsTo(User::class, 'user_id', 'id');
+		return $this->belongsTo(ServicesBriefcase::class, 'services_briefcase_id', 'id');
+	}
+	
+	public function admissions()
+	{
+		return $this->belongsTo(Admissions::class);
+	}
+	
+	public function auth_status()
+	{
+		return $this->belongsTo(AuthStatus::class);
+	}
+	
+	public function auth_package()
+	{
+		return $this->hasMany(ModelsAuthorization::class, 'id', 'auth_package_id');
 	}
 
-	public function location()
+	public function manual_price()
 	{
-		return $this->hasMany(Location::class);
+		return $this->belongsTo(ManualPrice::class, 'manual_price_id', 'id');
+	}
+	
+	public function supplies()
+	{
+		return $this->belongsTo(ProductSupplies::class, 'supplies_id', 'id');
 	}
 
-	public function identification_type()
+	public function product()
 	{
-		return $this->belongsTo(IdentificationType::class);
+		return $this->belongsTo(ProductGeneric::class, 'product_id', 'id');
 	}
 
 	public function procedure()
@@ -50,29 +74,13 @@ class Authorization extends Model
 		return $this->belongsTo(Procedure::class, 'procedure_id', 'id');
 	}
 
-	public function auth_status()
+	public function applications()
 	{
-		return $this->belongsTo(AuthStatus::class);
+		return $this->belongsTo(AssistanceSupplies::class, 'application_id', 'id');
 	}
 
-	public function admissions()
-	{
-		return $this->belongsTo(Admissions::class);
-	}
-	public function management_plan()
-	{
-		return $this->hasMany(ManagementPlan::class, 'authorization_id');
-	}
-	public function services_briefcase()
-	{
-		return $this->belongsTo(ServicesBriefcase::class, 'services_briefcase_id', 'id');
-	}
 	public function assigned_management_plan()
 	{
 		return $this->belongsTo(AssignedManagementPlan::class, 'assigned_management_plan_id', 'id');
-	}
-	public function manual_price()
-	{
-		return $this->belongsTo(ManualPrice::class, 'manual_price_id', 'id');
 	}
 }

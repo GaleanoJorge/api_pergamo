@@ -79,36 +79,23 @@ class AuthorizationController extends Controller
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                 DB::raw('DATE(authorization.created_at) as date'),
             )
-            ->wherenull('auth_package_id');
+            ->wherenull('auth_package_id')
+            ->with(
+                'admissions',
+                'assigned_management_plan',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'auth_status',
+            );
 
         if ($statusId == 0) {
             $Authorization
                 // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-                ->where('auth_status_id', '<', 3)
-                ->with(
-                    'admissions',
-                    'assigned_management_plan',
-                    'identification_type',
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'auth_status',
-                    'residence_municipality',
-                    'residence'
-                );
+                ->where('auth_status_id', '<', 3);
         } else {
             $Authorization
                 // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-                ->where('auth_status_id', $statusId)
-                ->with(
-                    'admissions',
-                    'assigned_management_plan',
-                    'identification_type',
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'auth_status',
-                    'residence_municipality',
-                    'residence'
-                );
+                ->where('auth_status_id', $statusId);
         }
 
 
@@ -194,30 +181,18 @@ class AuthorizationController extends Controller
                 'patients.neighborhood_or_residence_id',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
-            ->with('assigned_management_plan');
+            ->with(
+                'assigned_management_plan',
+                'admissions',
+                'services_briefcase',
+                'auth_status',
+            );
 
         if ($statusId == 0) {
             $Authorization->where('auth_status_id', 3)
-                ->orwhere('auth_status_id', 4)
-                ->with(
-                    'admissions',
-                    'identification_type',
-                    'services_briefcase',
-                    'auth_status',
-                    'residence_municipality',
-                    'residence'
-                );
+                ->orwhere('auth_status_id', 4);
         } else {
-            $Authorization->where('auth_status_id', $statusId)
-                ->with(
-                    'admissions',
-                    'briefcase',
-                    'identification_type',
-                    'services_briefcase',
-                    'auth_status',
-                    'residence_municipality',
-                    'residence'
-                );
+            $Authorization->where('auth_status_id', $statusId);
         }
         // if ($type == 1) {
         // } else {
