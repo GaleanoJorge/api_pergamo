@@ -80,7 +80,7 @@ class ChSwConditionHousingController extends Controller
                 } else if ($element == 'Alcantarillado') {
                     $ChSwConditionHousing->sewerage = $element;
                 } else if ($element == 'Gas') {
-                    $ChSwConditionHousing->home = $element;
+                    $ChSwConditionHousing->gas = $element;
                 } else if ($element == 'Luz') {
                     $ChSwConditionHousing->light = $element;
                 }else if ($element == 'Telefono') {
