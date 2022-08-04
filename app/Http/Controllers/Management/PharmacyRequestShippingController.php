@@ -89,6 +89,7 @@ class PharmacyRequestShippingController extends Controller
         $PharmacyRequestShipping->amount = $request->amount;
         $PharmacyRequestShipping->amount_damaged = $request->amount_damaged;
         $PharmacyRequestShipping->amount_provition = $request->amount_provition;
+        $PharmacyRequestShipping->amount_operation = $request->amount_operation;
         $PharmacyRequestShipping->pharmacy_product_request_id = $request->pharmacy_product_request_id;
         $PharmacyRequestShipping->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
         $PharmacyRequestShipping->save();
@@ -130,6 +131,7 @@ class PharmacyRequestShippingController extends Controller
         $PharmacyRequestShipping->amount = $request->amount;
         $PharmacyRequestShipping->amount_damaged = $request->amount_damaged;
         $PharmacyRequestShipping->amount_provition = $request->amount_provition;
+        $PharmacyRequestShipping->amount_operation = $request->amount_operation;
         $PharmacyRequestShipping->pharmacy_product_request_id = $request->pharmacy_product_request_id;
         $PharmacyRequestShipping->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
         $PharmacyRequestShipping->save();

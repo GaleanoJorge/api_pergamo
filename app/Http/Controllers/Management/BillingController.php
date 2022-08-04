@@ -9,6 +9,8 @@ use App\Models\BillingStock;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 class BillingController extends Controller
 {
@@ -19,8 +21,15 @@ class BillingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Billing = Billing::select('billing.*')
-        ->with('company', 'pharmacy_stock');
+        $Billing = Billing::select('billing.*',
+        DB::raw(
+            "SUM(billing_stock.amount_provitional)"
+        ),
+        )->with('company','pharmacy_stock')->leftJoin('billing_stock','billing_stock.billing_id', 'billing.id')->groupBy('billing.id');
+
+            
+
+            
 
         if ($request->_sort) {
             $Billing->orderBy($request->_sort, $request->_order);
@@ -31,7 +40,7 @@ class BillingController extends Controller
         }
 
         if ($request->type_billing_evidence_id) {
-            $Billing->where('type_billing_evidence_id', $request->type_billing_evidence_id);
+            $Billing->where('type_billing_evidence_id', $request->type_billing_evidence_id)->where('amount_provitional','!=',0);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -158,14 +167,14 @@ class BillingController extends Controller
                 $BillingStockDelete = BillingStock::where('id', $element['id']);
                 $BillingStockDelete->delete();
             }
-            
+
             $Billing = Billing::find($id);
             $Billing->delete();
 
             return response()->json([
                 'status' => true,
                 'message' => 'Orden de compra eliminada exitosamente'
-            ]);  
+            ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,

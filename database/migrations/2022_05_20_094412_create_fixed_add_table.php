@@ -15,14 +15,17 @@ class CreateFixedAddTable extends Migration
     {
         Schema::create('fixed_add', function (Blueprint $table) {
             $table->BigIncrements('id');
-            $table->unsignedBigInteger('fixed_assets_id')->nullable();
-            $table->unsignedBigInteger('fixed_nom_product_id')->nullable();
-            $table->unsignedBigInteger('fixed_accessories_id')->nullable();
-            $table->unsignedBigInteger('fixed_location_campus_id')->nullable();
-            $table->unsignedBigInteger('responsible_user_id');
             $table->string('request_amount')->nullable();
             $table->string('status');
             $table->string('observation')->nullable();
+            $table->unsignedBigInteger('responsible_user_id')->nullable();
+            $table->unsignedBigInteger('admissions_id')->nullable();
+            $table->unsignedBigInteger('fixed_assets_id')->nullable();
+            $table->unsignedBigInteger('fixed_accessories_id')->nullable();
+            $table->unsignedBigInteger('fixed_nom_product_id')->nullable();
+            $table->unsignedBigInteger('fixed_location_campus_id')->nullable();
+            $table->unsignedBigInteger('own_fixed_user_id')->nullable();
+            $table->unsignedBigInteger('request_fixed_user_id')->nullable();
             $table->timestamps();
 
             $table->index('fixed_assets_id');
@@ -44,6 +47,19 @@ class CreateFixedAddTable extends Migration
             $table->foreign('fixed_nom_product_id')->references('id')
                 ->on('fixed_nom_product');
 
+            $table->index('admissions_id');
+            $table->foreign('admissions_id')->references('id')
+                ->on('admissions');
+
+
+
+            $table->index('own_fixed_user_id');
+            $table->foreign('own_fixed_user_id')->references('id')
+                ->on('user_role');
+
+            $table->index('request_fixed_user_id');
+            $table->foreign('request_fixed_user_id')->references('id')
+                ->on('user_role');
         });
     }
 

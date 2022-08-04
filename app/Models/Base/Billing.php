@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\BillingStock;
 use App\Models\Company;
 use App\Models\PharmacyStock;
 use App\Models\TypeBillingEvidence;
@@ -40,5 +41,9 @@ class Billing extends Model
 	public function pharmacy_stock()
 	{
 		return $this->belongsTo(PharmacyStock::class);
+	}
+	public function billing_stock()
+	{
+		return $this->hasMany(BillingStock::class);
 	}
 }

@@ -36,6 +36,7 @@ class ProductRequest extends FormRequest
             'packing_id' => 'required',
             'refrigeration' => 'required',
             'useful_life' => 'required',
+            'code_cum' => 'required',
         ];
     }
 }

@@ -1001,6 +1001,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('billing_stock_request', 'Management\BillingStockRequestController');
     Route::apiResource('user_pharmacy_stock', 'Management\UserPharmacyStockController');
+    Route::apiResource('services_pharmacy_stock', 'Management\ServicesPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
@@ -1090,14 +1091,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'FixedClasification/byGroup/{fixed_type_id}',
         'Management\FixedClasificationController@getCategoryByGroup'
     );
+    Route::apiResource('fixed_type', 'Management\FixedTypeController');
+    Route::apiResource('fixed_stock', 'Management\FixedStockController');
+    Route::apiResource('users_fixed_stock', 'Management\UsersFixedStockController');
+   
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
     Route::apiResource('fixed_loan', 'Management\FixedLoanController');
     Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
-    Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
-    Route::apiResource('fixed_type', 'Management\FixedTypeController');
-    Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
     
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
