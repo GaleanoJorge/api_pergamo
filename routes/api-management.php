@@ -99,6 +99,56 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Ch Trabajo Social
     Route::apiResource('ch_sw_family', 'Management\ChSwFamilyController');
     Route::get('ch_sw_family/by_record/{id}/{type_record_id}', 'Management\ChSwFamilyController@getByRecord');
+    Route::apiResource('ch_sw_nursing', 'Management\ChSwNursingController');
+    Route::get('ch_sw_nursing/by_record/{id}/{type_record_id}', 'Management\ChSwNursingController@getByRecord');
+    Route::apiResource('ch_sw_occupational_history', 'Management\ChSwOccupationalHistoryController');
+    Route::get('ch_sw_occupational_history/by_record/{id}/{type_record_id}', 'Management\ChSwOccupationalHistoryController@getByRecord');
+    Route::apiResource('ch_sw_family_dynamics', 'Management\ChSwFamilyDynamicsController');
+    Route::get('ch_sw_family_dynamics/by_record/{id}/{type_record_id}', 'Management\ChSwFamilyDynamicsController@getByRecord');
+    Route::apiResource('ch_sw_risk_factors', 'Management\ChSwRiskFactorsController');
+    Route::get('ch_sw_risk_factors/by_record/{id}/{type_record_id}', 'Management\ChSwRiskFactorsController@getByRecord');
+    Route::apiResource('ch_sw_housing_aspect', 'Management\ChSwHousingAspectController');
+    Route::get('ch_sw_housing_aspect/by_record/{id}/{type_record_id}', 'Management\ChSwHousingAspectController@getByRecord');
+    Route::apiResource('ch_sw_condition_housing', 'Management\ChSwConditionHousingController');
+    Route::get('ch_sw_condition_housing/by_record/{id}/{type_record_id}', 'Management\ChSwConditionHousingController@getByRecord');
+    Route::apiResource('ch_sw_hygiene_housing', 'Management\ChSwHygieneHousingController');
+    Route::get('ch_sw_hygiene_housing/by_record/{id}/{type_record_id}', 'Management\ChSwHygieneHousingController@getByRecord');
+    Route::apiResource('ch_sw_income', 'Management\ChSwIncomeController');
+    Route::get('ch_sw_income/by_record/{id}/{type_record_id}', 'Management\ChSwIncomeController@getByRecord');
+    Route::apiResource('ch_sw_expenses', 'Management\ChSwExpensesController');
+    Route::get('ch_sw_expenses/by_record/{id}/{type_record_id}', 'Management\ChSwExpensesController@getByRecord');
+    Route::apiResource('ch_sw_economic_aspects', 'Management\ChSwEconomicAspectsController');
+    Route::get('ch_sw_economic_aspects/by_record/{id}/{type_record_id}', 'Management\ChSwEconomicAspectsController@getByRecord');
+    Route::apiResource('ch_sw_armed_conflict', 'Management\ChSwArmedConflictController');
+    Route::get('ch_sw_armed_conflict/by_record/{id}/{type_record_id}', 'Management\ChSwArmedConflictController@getByRecord');
+    Route::apiResource('ch_sw_support_network', 'Management\ChSwSupportNetworkController');
+    Route::get('ch_sw_support_network/by_record/{id}/{type_record_id}', 'Management\ChSwSupportNetworkController@getByRecord');
+
+
+    Route::apiResource('ch_sw_activities', 'Management\ChSwActivitiesController');
+    Route::get('ch_sw_activities/by_record/{id}/{type_record_id}', 'Management\ChSwActivitiesController@getByRecord');
+    Route::apiResource('ch_sw_occupation', 'Management\ChSwOccupationController');
+    Route::get('ch_sw_occupation/by_record/{id}/{type_record_id}', 'Management\ChSwOccupationController@getByRecord');
+    Route::apiResource('ch_sw_seniority', 'Management\ChSwSeniorityController');
+    Route::get('ch_sw_seniority/by_record/{id}/{type_record_id}', 'Management\ChSwSeniorityController@getByRecord');
+    Route::apiResource('ch_sw_hours', 'Management\ChSwHoursController');
+    Route::get('ch_sw_hours/by_record/{id}/{type_record_id}', 'Management\ChSwHoursController@getByRecord');
+    Route::apiResource('ch_sw_turn', 'Management\ChSwTurnController');
+    Route::get('ch_sw_turn/by_record/{id}/{type_record_id}', 'Management\ChSwTurnController@getByRecord');
+    Route::apiResource('ch_sw_activity', 'Management\ChSwActivityController');
+    Route::get('ch_sw_activity/by_record/{id}/{type_record_id}', 'Management\ChSwActivityController@getByRecord');
+    Route::apiResource('ch_sw_communications', 'Management\ChSwCommunicationsController');
+    Route::get('ch_sw_communications/by_record/{id}/{type_record_id}', 'Management\ChSwCommunicationsController@getByRecord');
+    Route::apiResource('ch_sw_expression', 'Management\ChSwExpressionController');
+    Route::get('ch_sw_expression/by_record/{id}/{type_record_id}', 'Management\ChSwExpressionController@getByRecord');
+    Route::apiResource('ch_sw_housing', 'Management\ChSwHousingController');
+    Route::get('ch_sw_housing/by_record/{id}/{type_record_id}', 'Management\ChSwHousingController@getByRecord');
+    Route::apiResource('ch_sw_housing_type', 'Management\ChSwHousingTypeController');
+    Route::get('ch_sw_housing_type/by_record/{id}/{type_record_id}', 'Management\ChSwHousingTypeController@getByRecord');
+    Route::apiResource('ch_sw_services', 'Management\ChSwServicesController');
+    Route::get('ch_sw_services/by_record/{id}/{type_record_id}', 'Management\ChSwServicesController@getByRecord');
+    Route::apiResource('ch_sw_network', 'Management\ChSwNetworkController');
+    Route::get('ch_sw_network/by_record/{id}/{type_record_id}', 'Management\ChSwNetworkController@getByRecord');
 
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');

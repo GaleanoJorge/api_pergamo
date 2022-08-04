@@ -570,11 +570,7 @@ class ChRecordController extends Controller
                 }
             case (6): {
                     // TRABAJO SOCIAL
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []]
-                    ]);
+                    $ChRecord->ch_type_id = 7;
                     break;
                 }
             case (7): {

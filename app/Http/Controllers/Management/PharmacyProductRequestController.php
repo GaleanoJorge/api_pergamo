@@ -54,7 +54,6 @@ class PharmacyProductRequestController extends Controller
                 'services_briefcase.manual_price',
                 'user_request_pad',
             )
-
             ->groupBy('pharmacy_product_request.id');
 
             if($request->status=="PATIENT"){
