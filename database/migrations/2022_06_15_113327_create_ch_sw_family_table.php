@@ -16,9 +16,9 @@ class CreateChSwFamilyTable extends Migration
         Schema::create('ch_sw_family', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('firstname');
-            $table->string('middlefirstname');
+            $table->string('middlefirstname')->nullable();
             $table->string('lastname');
-            $table->string('middlelastname');
+            $table->string('middlelastname')->nullable();
             $table->string('range_age');
             $table->integer('identification');
             $table->bigInteger('phone');
