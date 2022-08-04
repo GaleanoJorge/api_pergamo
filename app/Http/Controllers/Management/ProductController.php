@@ -70,6 +70,7 @@ class ProductController extends Controller
         $Product->packing_id = $request->packing_id;
         $Product->refrigeration = $request->refrigeration;
         $Product->useful_life = $request->useful_life;
+        $Product->code_cum = $request->code_cum;
         $Product->save();
 
         return response()->json([
@@ -129,6 +130,7 @@ class ProductController extends Controller
         $Product->packing_id = $request->packing_id;
         $Product->refrigeration = $request->refrigeration;
         $Product->useful_life = $request->useful_life;
+        $Product->code_cum = $request->code_cum;
         $Product->save();
 
         return response()->json([

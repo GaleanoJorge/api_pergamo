@@ -18,5 +18,13 @@
     {
         "id": 5,
         "name": "terapia respiratoria"
+    },
+    {
+        "id": 6,
+        "name": "terapia ocupacional"
+    },
+    {
+        "id": 7,
+        "name": "Trabajo Social"
     }
 ]

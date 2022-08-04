@@ -15,8 +15,8 @@ class CreateChFormulationTable extends Migration
     {
         Schema::create('ch_formulation', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('product_generic_id');
-            $table->unsignedBigInteger('services_briefcase_id');
+            $table->unsignedBigInteger('product_generic_id')->nullable();
+            $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('administration_route_id');
             $table->unsignedBigInteger('hourly_frequency_id');
             $table->boolean('medical_formula')->nullable();
@@ -24,15 +24,14 @@ class CreateChFormulationTable extends Migration
             $table->string('outpatient_formulation')->nullable();
             $table->string('dose');
             $table->string('observation');
-            $table->Integer('number_mipres');
-            $table->unsignedBigInteger('product_dose_id')->nullable();
+            $table->Integer('number_mipres')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
             $table->index('product_generic_id');
             $table->foreign('product_generic_id') ->references('id')
-                ->on('product');
+                ->on('product_generic');
 
             $table->index('services_briefcase_id');
             $table->foreign('services_briefcase_id') ->references('id')
@@ -45,10 +44,6 @@ class CreateChFormulationTable extends Migration
             $table->index('hourly_frequency_id');
             $table->foreign('hourly_frequency_id')->references('id')
                 ->on('hourly_frequency');
-
-            $table->index('product_dose_id');
-            $table->foreign('product_dose_id')->references('id')
-                ->on('product_dose');
 
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')

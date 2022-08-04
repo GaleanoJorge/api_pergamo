@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
+use App\Actions\Transform\NumerosEnLetras;
 use App\Models\AccountReceivable;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AccountReceivableRequest;
+use App\Models\Assistance;
+use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
 use App\Models\MinimumSalary;
@@ -17,6 +20,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Dompdf\Dompdf as PDF;
 
 class AccountReceivableController extends Controller
@@ -42,17 +46,13 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
-        if ($request->gloss_ambit_id) {
-            $AccountReceivable->where('gloss_ambit_id', $request->gloss_ambit_id);
-        }
         if ($request->status_bill_id) {
-            $AccountReceivable->where('status_bill_id', $request->status_bill_id);
-        }
-        if ($request->campus_id) {
-            $AccountReceivable->where('campus_id', $request->campus_id);
+            $AccountReceivable->where('account_receivable.status_bill_id', $request->status_bill_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -90,12 +90,12 @@ class AccountReceivableController extends Controller
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
-                DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"),
+                // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
+                DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
-            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
-            ;
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
 
         if ($user_id != 0) {
             $AccountReceivable->groupBy('account_receivable.id');
@@ -115,7 +115,9 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
@@ -143,6 +145,7 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = new AccountReceivable;
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
@@ -185,11 +188,17 @@ class AccountReceivableController extends Controller
     {
         $AccountReceivable = AccountReceivable::find($id);
         $AccountReceivable->file_payment = $request->file_payment;
+        $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;
         $AccountReceivable->minimum_salary_id = $request->minimum_salary_id;
+
+        if ($request->status_bill_id == 2) {
+            $AccountReceivable->observation = null;
+        }
+
         $AccountReceivable->save();
 
         return response()->json([
@@ -213,6 +222,9 @@ class AccountReceivableController extends Controller
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('account_receivable', $request->file('file'));
             $AccountReceivable->file_payment = $path;
+            if ($AccountReceivable->status_bill_id == 5) {
+                $AccountReceivable->status_bill_id = 6;
+            }
         }
         $AccountReceivable->save();
 
@@ -228,14 +240,37 @@ class AccountReceivableController extends Controller
      * 
      * @param  int  $id
      */
-    public function generatePdf(int $id): JsonResponse
+    public function generatePdf(Request $request, int $id): JsonResponse
     {
+        $UserDownload = User::select(
+            'users.*',
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+        )
+            ->where('id', $request->user_id)->get()->first();
         $AccountReceivable = AccountReceivable::where('id', $id)->first();
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
+        $Assistance = Assistance::where('user_id', $User->id)->first();
         $Role = Role::where('id', $UserRole->role_id)->first();
         $FinancialData = FinancialData::with('bank', 'account_type')->where('user_id', $User->id)->first();
+
+        $Activities = BillUserActivity::select(
+            'manual_price.name AS name',
+            DB::raw('COUNT(bill_user_activity.id) AS quantity'),
+            DB::raw('SUM(tariff.amount) AS amount'),
+        )
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'bill_user_activity.procedure_id')
+            ->leftJoin('tariff', 'tariff.id', 'bill_user_activity.tariff_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->where('bill_user_activity.account_receivable_id', $id)
+            ->where('bill_user_activity.status', 'APROBADO')
+            ->groupBy('services_briefcase.id')
+            ->get()->toArray();
+
+        for ($i = 0; $i < count($Activities); $i++) {
+            $Activities[$i]['amount'] = $this->currencyTransform($Activities[$i]['amount']);
+        }
 
         if (!$FinancialData) {
             return response()->json([
@@ -247,19 +282,28 @@ class AccountReceivableController extends Controller
             $FinancialData = $FinancialData->toArray();
         }
 
-        $formatterES = 'valor';
         $LastDayOfMonthFromAccount = Carbon::parse($AccountReceivable->created_at)->endOfMonth()->day;
         $AccountYear = Carbon::parse($AccountReceivable->created_at)->year;
         $AccountMonth = $this->getMonthString(Carbon::parse($AccountReceivable->created_at)->month);
 
+        $ExpiracyDate = Carbon::parse($AccountReceivable->created_at)->endOfMonth()->addDays(90);
+        $ExpiracyDay = $ExpiracyDate->day;
+        $ExpiracyDateYear = $ExpiracyDate->year;
+        $ExpiracyDateMonth = $this->getMonthString($ExpiracyDate->month);
+
         $full_name = strtoupper($User->firstname . ' ' . $User->middlefirstname . ' ' . $User->lastname . ' ' . $User->middlelastname);
         $rut_number = $FinancialData['rut'];
-        $doc_type = strtoupper($IdentificationType->name);
+        $doc_type = strtoupper($IdentificationType->code);
         $doc_number = $User->identification;
         if (!$AccountReceivable->net_value_activities) {
             $AccountReceivable->net_value_activities = 0;
         }
-        $net_value = $this->getNetValue($AccountReceivable->net_value_activities);
+        $retCalculator = app('App\Http\Controllers\Management\SourceRetentionController')->getByAccountReceivableId($request, $id);
+        $retCalculator = json_decode($retCalculator->content(), true)['data']['source_retention'];
+        $consecutive = $AccountReceivable->id;
+        $gross_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->gross_value_activities));
+        $net_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->net_value_activities));
+        $letter_value = $this->NumToLetters($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
         $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
         $account_number = $FinancialData['account_number'];
@@ -267,19 +311,30 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
+        $sign = $Assistance->file_firm;
+        $nombre_completo = $UserDownload->nombre_completo;
+
+        $generate_date = Carbon::now()->format('d-m-Y H:i:s');
 
         $html = view('layouts.receivable', [
+            'consecutive' => $consecutive,
             'AccountYear' => $AccountYear,
             'AccountMonth' => $AccountMonth,
             'day' => $LastDayOfMonthFromAccount,
             'month' => $AccountMonth,
             'year' => $AccountYear,
+            'ExpiracyDay' => $ExpiracyDay,
+            'ExpiracyDateYear' => $ExpiracyDateYear,
+            'ExpiracyDateMonth' => $ExpiracyDateMonth,
             'full_name' => $full_name,
             'rut_number' => $rut_number,
             'doc_type' => $doc_type,
             'doc_number' => $doc_number,
+            'gross_value' => $gross_value,
+            'ica_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Rete_ica'])),
+            'source_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Retencion_por_aplicar'])),
             'net_value' => $net_value,
-            'formatterES' => $formatterES,
+            'letter_value' => $letter_value,
             'account_type' => $account_type,
             'bank' => $bank,
             'account_number' => $account_number,
@@ -287,6 +342,10 @@ class AccountReceivableController extends Controller
             'address' => $address,
             'phone' => $phone,
             'email' => $email,
+            'sign' => $sign,
+            'generate_date' => $generate_date,
+            'nombre_completo' => $nombre_completo,
+            'Activities' => $Activities,
         ])->render();
 
         $dompdf = new PDF();
@@ -307,34 +366,54 @@ class AccountReceivableController extends Controller
         ]);
     }
 
-    private function getNetValue(int $value): string
+    public function fillCharacters(string $value): string
+    {
+        $Response = $value;
+        while (Str::length($Response) < 16) {
+            $Response = '_' . $Response;
+        }
+
+        return $Response;
+    }
+
+    private function currencyTransform($value): string
     {
         $millions = '';
+        $millionsNum = 0;
         $thousands = '';
+        $thousandsNum = 0;
         $hundreds = '';
+        $hundredsNum = 0;
         if ($value >= 1000000) {
             $millions = floor($value / 1000000) . '.';
+            $millionsNum = floor($value / 1000000);
             $thousands = floor(($value / 1000) - (floor($value / 1000000) * 1000)) . '.';
+            $thousandsNum = floor(($value / 1000) - (floor($value / 1000000) * 1000));
         } else {
-            $thousands = floor($value / 1000) . '.';
+            if (floor($value / 1000) > 0) {
+                $thousands = floor($value / 1000) . '.';
+            }
+            $thousandsNum = floor($value / 1000);
         }
-        $hundreds = ($value - (floor($value / 1000) * 1000));
+        $hundreds = ($value - (floor($value / 1000) * 1000)) . '';
+        $hundredsNum = ($value - (floor($value / 1000) * 1000));
 
-        if ($millions != '') {
-            if ($thousands < 100 && $thousands >= 10) {
+        if ($millionsNum > 0) {
+            if ($thousandsNum < 100 && $thousandsNum >= 10) {
                 $thousands = '0' . $thousands;
-            } elseif ($thousands < 10 && $thousands >= 0) {
+            } else if ($thousandsNum < 10 && $thousandsNum >= 0) {
                 $thousands = '00' . $thousands;
             }
         }
-
-        if ($hundreds < 100 && $hundreds >= 10) {
-            $hundreds = '0' . $hundreds;
-        } elseif ($hundreds < 10 && $hundreds >= 0) {
-            $hundreds = '00' . $hundreds;
+        if ($thousandsNum > 0 || $millionsNum > 0) {
+            if ($hundredsNum < 100 && $hundredsNum >= 10) {
+                $hundreds = '0' . $hundreds;
+            } else if ($hundredsNum < 10 && $hundredsNum >= 0) {
+                $hundreds = '00' . $hundreds;
+            }
         }
 
-        $Response = $millions . $thousands . $hundreds;
+        $Response = '$' . $millions . $thousands . $hundreds . '.00';
 
         return $Response;
     }
@@ -405,5 +484,27 @@ class AccountReceivableController extends Controller
                 'message' => 'Cuenta de cobro esta en uso, no es posible eliminarlo'
             ], 423);
         }
+    }
+
+    public function NumToLetters(int $value)
+    {
+        $lengt = 45;
+        $res[0] = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+        if (strlen($res[0]) > $lengt) {
+            $prov = substr($res[0], $lengt);
+            $pos = strpos($prov, " ");
+            $prov = substr($prov, $pos + 1);
+            $res[0] = substr($res[0], 0, $lengt + $pos);
+            if (strlen($prov) > $lengt) {
+                $prov2 = substr($prov, $lengt);
+                $pos = strpos($prov2, " ");
+                $prov2 = substr($prov2, $pos + 1);
+                $res[1] = substr($prov, 0, $lengt + $pos);
+                $res[2] = $prov2;
+            } else {
+                $res[1] = $prov;
+            }
+        }
+        return $res;
     }
 }

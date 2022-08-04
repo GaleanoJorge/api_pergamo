@@ -18,7 +18,7 @@ class FixedClasificationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedClasification = FixedClasification::with('fixed_code');
+        $FixedClasification = FixedClasification::with('fixed_code')->orderBy('name', 'asc');;
 
         if ($request->_sort) {
             $FixedClasification->orderBy($request->_sort, $request->_order);
@@ -46,16 +46,36 @@ class FixedClasificationController extends Controller
     }
 
 
+            /**
+     * Display a listing of the resource
+     *
+     * @param integer $fixed_type_id
+     * @return JsonResponse
+     */
+    public function getCategoryByGroup(int $fixed_type_id): JsonResponse
+    {
+        $FixedClasification = FixedClasification::where('fixed_type_id', $fixed_type_id)
+            ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Categoria del insumo obtenidos exitosamente',
+            'data' => ['fixed_clasification' => $FixedClasification]
+        ]);
+    }
+
+
     public function store(Request $request): JsonResponse
     {
         $FixedClasification = new FixedClasification;
         $FixedClasification->name = $request->name;
         $FixedClasification->fixed_code_id = $request->fixed_code_id;
+        $FixedClasification->fixed_type_id = $request->fixed_type_id;
         $FixedClasification->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Clasificación asociado al paciente exitosamente',
+            'message' => 'Clasificación asociado exitosamente',
             'data' => ['fixed_clasification' => $FixedClasification->toArray()]
         ]);
     }
@@ -89,6 +109,7 @@ class FixedClasificationController extends Controller
         $FixedClasification = FixedClasification::find($id);
         $FixedClasification->name = $request->name;
         $FixedClasification->fixed_code_id = $request->fixed_code_id;
+        $FixedClasification->fixed_type_id = $request->fixed_type_id;
         $FixedClasification->save();
 
         return response()->json([

@@ -18,7 +18,16 @@ class ProductGenericController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProductGeneric = ProductGeneric::select();
+        $ProductGeneric = ProductGeneric::select('product_generic.*')
+            ->with(
+                'drug_concentration',
+                'measurement_units',
+                'product_dose',
+                'multidose_concentration',
+                'administration_route',
+                'product_presentation',
+                'nom_product',
+            )->orderBy('description', 'asc');
 
         if($request->_sort){
             $ProductGeneric->orderBy($request->_sort, $request->_order);
@@ -62,6 +71,7 @@ class ProductGenericController extends Controller
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
+        $ProductGeneric->multidose_concentration_id = $request->multidose_concentration_id;
         $ProductGeneric->save();
 
         return response()->json([
@@ -113,6 +123,7 @@ class ProductGenericController extends Controller
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
+        $ProductGeneric->multidose_concentration_id = $request->multidose_concentration_id;
         $ProductGeneric->save();
 
         return response()->json([

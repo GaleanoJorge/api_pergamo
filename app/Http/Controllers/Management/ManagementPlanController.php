@@ -20,13 +20,15 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Cast\Double;
 
 class ManagementPlanController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
         if ($request->management_id) {
-            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention');
+            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention','service_briefcase',
+            'service_briefcase.manual_price','procedure','procedure.manual_price');
         } else {
             $ManagementPlan = ManagementPlan::select();
         }
@@ -114,12 +116,12 @@ class ManagementPlanController extends Controller
     }
 
 
-    public function getByPatient(Request $request, int $id,int $userId): JsonResponse
+    public function getByPatient(Request $request, int $id, int $userId): JsonResponse
     {
-        if($userId==0){
-        $ManagementPlan = ManagementPlan::select(
-            'management_plan.*',
-            DB::raw('
+        if ($userId == 0) {
+            $ManagementPlan = ManagementPlan::select(
+                'management_plan.*',
+                DB::raw('
                         IF(COUNT(assigned_management_plan.execution_date) > 0, 
                             SUM(
                                 CASE assigned_management_plan.execution_date 
@@ -127,25 +129,33 @@ class ManagementPlanController extends Controller
                                     ELSE 0 
                                 END), 
                             -1) AS not_executed'),
-            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
-            DB::raw('
+                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+                DB::raw('
                          
                             SUM(
                                 IF( CURDATE() > assigned_management_plan.finish_date , 
                                    1,0 
                             )
                            ) AS incumplidas'),
-        )
-            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
-            'admissions.location.admission_route',
-            'admissions.location.scope_of_attention',
-            'admissions.location.program', 'assigned_user')
-            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-            ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
-            ->where('admissions.patient_id', $id)
-            ->groupBy('management_plan.id');
-
-        }else{
+            )
+                ->with(
+                    'authorization',
+                    'type_of_attention',
+                    'frequency',
+                    'specialty',
+                    'admissions',
+                    'admissions.briefcase',
+                    'admissions.location',
+                    'admissions.location.admission_route',
+                    'admissions.location.scope_of_attention',
+                    'admissions.location.program',
+                    'assigned_user'
+                )
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+                ->where('admissions.patient_id', $id)
+                ->groupBy('management_plan.id');
+        } else {
             $ManagementPlan = ManagementPlan::select(
                 'management_plan.*',
                 DB::raw('
@@ -165,15 +175,28 @@ class ManagementPlanController extends Controller
                                 )
                                ) AS incumplidas'),
             )
-                ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase','admissions.location',
-                'admissions.location.admission_route',
-                'admissions.location.scope_of_attention',
-                'admissions.location.program', 'assigned_user')
+                ->with(
+                    'authorization',
+                    'type_of_attention',
+                    'frequency',
+                    'specialty',
+                    'admissions',
+                    'admissions.briefcase',
+                    'admissions.location',
+                    'admissions.location.admission_route',
+                    'admissions.location.scope_of_attention',
+                    'admissions.location.program',
+                    'assigned_user'
+                )
                 ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
                 ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
                 ->where('admissions.patient_id', $id)
-                ->where('management_plan.assigned_user_id',$userId)
+                ->where('management_plan.assigned_user_id', $userId)
                 ->groupBy('management_plan.id');
+        }
+
+        if ($request->admission_id) {
+            $ManagementPlan->where('admissions_id', $request->admission_id);
         }
 
         if ($request->_sort) {
@@ -250,12 +273,22 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->services_briefcase_id = $request->product_id;
 
             $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            $quantity = ($request->dosage_administer * $request->number_doses) / $ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value'];
-            $PharmacyProductRequest->request_amount = round($quantity, PHP_ROUND_HALF_UP);
-            $PharmacyProductRequest->user_request_id = Auth::user()->id;
+            if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+            } else {
+                $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+            }
+
+            $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+            $PharmacyProductRequest->request_amount = $quantity;
+            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
+            $ManagementPlan->save();
+            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+            $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
+        } else {
+            $ManagementPlan->save();
         }
-        $ManagementPlan->save();
 
         if ($request->isnewrequest == 1) {
             $HumanTalentRequest = new HumanTalentRequest;
@@ -376,6 +409,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement = new AssignedManagementPlan;
                     $assignedManagement->start_date = $start;
                     $assignedManagement->finish_date =  $finish;
+                    $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -440,6 +474,7 @@ class ManagementPlanController extends Controller
 
                 $assignedManagement = new AssignedManagementPlan;
                 $assignedManagement->start_date = $now;
+                $assignedManagement->redo =  '00000000000000';
                 $assignedManagement->finish_date =  $finish;
                 $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
@@ -470,6 +505,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->start_hour = $now->format('H:i:s');
                     $assignedManagement->finish_date =  $now->format('Y-m-d');
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
+                    $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -574,7 +610,7 @@ class ManagementPlanController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function createAuth($request, AssignedManagementPlan $assignedManagement): Authorization
+    public function createAuth($request, AssignedManagementPlan $assignedManagement, ManagementPlan $ManagementPlan): Authorization
     {
         $TypeContract = TypeContract::select('type_contract.*')
             ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
@@ -582,24 +618,73 @@ class ManagementPlanController extends Controller
             ->where('admissions.id', $request->admissions_id)
             ->first();
 
+
+
         $Authorization = new Authorization;
-        $Authorization->services_briefcase_id = $request->procedure_id;
+        $Authorization->services_briefcase_id = $ManagementPlan->procedure_id;
         $Authorization->assigned_management_plan_id = $assignedManagement->id;
         $Authorization->admissions_id = $request->admissions_id;
         if ($TypeContract->id == 5) {
             $Authorization->auth_status_id =  3;
         } else {
-            if ($request->type_auth == 1) {
+            $briefcase = ServicesBriefcase::find($ManagementPlan->procedure_id)
+                ->leftJoin('briefcase', 'briefcase.id', 'services_briefcase.briefcase_id')
+                ->first();
+            if ($briefcase->type_auth == 1) {
                 $Authorization->auth_status_id =  2;
             } else {
                 $Authorization->auth_status_id =  1;
             }
         }
 
+        $Authorization->save();
+
         return $Authorization;
     }
 
-    /**
+
+    public function getConcentration($value)
+    {
+        $rr = 0;
+        if (str_contains($value, '/')) {
+            $spl = explode('/', $value);
+            $num = $spl[0];
+            $den = +$spl[1];
+            $rr = $this->numWithPlus($num) / $den;
+        } else {
+            $rr = $this->numWithPlus($value);
+        }
+        return $rr;
+    }
+
+    public function numWithPlus($num)
+    {
+        if (str_contains($num, '(') || str_contains($num, ')')) {
+            $num = substr($num, 1, -1);
+            //   $num = $num.slice($num.length - 1, $num.length);
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            }
+        } else {
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            } else {
+                return $num;
+            }
+        }
+    }
+
+    /** 
      * Display the specified resource.
      *
      * @param integer $id
@@ -703,11 +788,14 @@ class ManagementPlanController extends Controller
             }
 
             $assignedManagement = new AssignedManagementPlan;
+            $assignedManagement->redo =  '00000000000000';
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
             $assignedManagement->user_id = $request->assigned_user_id;
             $assignedManagement->management_plan_id = $id;
             $assignedManagement->save();
+
+            $this->createAuth($request, $assignedManagement, $ManagementPlan);
         }
 
         if ($error == 0) {

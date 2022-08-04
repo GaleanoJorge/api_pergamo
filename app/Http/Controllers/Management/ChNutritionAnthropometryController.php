@@ -73,6 +73,7 @@ class ChNutritionAnthropometryController extends Controller
             $ChNutritionAnthropometry->estimated_size = $request->estimated_size;
             $ChNutritionAnthropometry->type_record_id = $request->type_record_id;
             $ChNutritionAnthropometry->ch_record_id = $request->ch_record_id;
+            $ChNutritionAnthropometry->total_energy_expenditure = $request->total_energy_expenditure;
             $ChNutritionAnthropometry->save();
 
             return response()->json([
@@ -83,7 +84,7 @@ class ChNutritionAnthropometryController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación',
+                'message' => 'Ya cuenta con un registro',
                 'data' => ['ch_nutrition_anthropometry' => []]
             ]);
         }
@@ -128,6 +129,7 @@ class ChNutritionAnthropometryController extends Controller
         $ChNutritionAnthropometry->classification = $request->classification;
         $ChNutritionAnthropometry->estimated_weight = $request->estimated_weight;
         $ChNutritionAnthropometry->estimated_size = $request->estimated_size;
+        $ChNutritionAnthropometry->total_energy_expenditure = $request->total_energy_expenditure;
         // $ChNutritionAnthropometry->type_record_id = $request->type_record_id; 
         // $ChNutritionAnthropometry->ch_record_id = $request->ch_record_id; 
         $ChNutritionAnthropometry->save();

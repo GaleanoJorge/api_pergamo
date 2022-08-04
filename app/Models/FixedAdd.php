@@ -15,5 +15,9 @@ class FixedAdd extends BaseFixedAdd
 		'observation',
 		'request_amount',
 		'status',
+		'admissions_id',
+		'own_fixed_user_id',
+		'fixed_nom_product_id',
+		'request_fixed_user_id',
 	];
 }

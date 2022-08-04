@@ -25,9 +25,9 @@ class ChLiquidControlRequest extends FormRequest
     {
         return [
             'clock' => 'required',
-            'ch_route_fluid_id' => '',
-            'ch_type_fluid_id' => '',
-            'delivered_volume' => '',
+            'ch_route_fluid_id' => 'required',
+            'ch_type_fluid_id' => 'required',
+            'delivered_volume' => 'required',
             'bag_number' => '',
             'type_record_id' => '',
             'ch_record_id' => '',

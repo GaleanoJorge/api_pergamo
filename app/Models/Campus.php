@@ -10,6 +10,7 @@ class Campus extends BaseCampus
 		'name',
 		'address',
 		'enable_code',
+		'billing_pad_prefix_id',
 		'region_id',
 		'municipality_id',
 	];

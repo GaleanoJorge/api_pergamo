@@ -11,6 +11,7 @@ class PharmacyRequestShipping extends BasePharmacyRequestShipping
     'amount',
     'amount_damaged',
     'amount_provition',
+    'amount_operation',
     'pharmacy_product_request_id',
     'pharmacy_lot_stock_id',
   ];

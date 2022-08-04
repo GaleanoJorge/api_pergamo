@@ -7,10 +7,13 @@
 namespace App\Models\Base;
 
 use App\Models\Campus;
-use App\Models\PermissionPharmacyStock;
+use App\Models\ServicesPharmacyStock;
 use App\Models\TypePharmacyStock;
+use App\Models\UserPharmacyStock;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use PDO;
+use Phar;
 
 /**
  * Class PharmacyStock
@@ -19,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property BigInteger $type_pharmacy_stock_id
  * @property BigInteger $campus_id
- * @property BigInteger $permission_pharmacy_stock_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -34,13 +36,18 @@ class PharmacyStock extends Model
 	{
 		return $this->belongsTo(Campus::class);
 	}
-	public function permission_pharmacy_stock()
-	{
-		return $this->belongsTo(PermissionPharmacyStock::class);
-	}
 	public function type_pharmacy_stock()
 	{
 		return $this->belongsTo(TypePharmacyStock::class);
 	}
 
+	public function services_pharmacy_stock()
+	{
+		return $this->hasMany(ServicesPharmacyStock::class, 'pharmacy_stock_id');
+	}
+
+	public function user_pharmacy_stock()
+	{
+		return $this->hasMany(UserPharmacyStock::class, 'pharmacy_stock_id');
+	}
 }

@@ -29,7 +29,7 @@ class BillingStockController extends Controller
             $BillingStock->where('amount', 'like', '%' . $request->search . '%');
         }
         if ($request->billing_id) {
-            $BillingStock->where('billing_id', $request->billing_id);
+            $BillingStock->where('billing_id', $request->billing_id)->where('amount_provitional','!=',0);
         }
         if ($request->product_id) {
             $BillingStock->where('product_id', $request->product_id);
@@ -80,7 +80,7 @@ class BillingStockController extends Controller
                 $BillingStock->amount = $element1->amount;
                 $BillingStock->amount_unit = $element1->amount_unit;
                 $BillingStock->iva = $element1->iva;
-                $BillingStock->amount_provitional = $element->amount;
+                $BillingStock->amount_provitional = $element1->amount;
                 $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
                 $BillingStock->billing_id = $request->billing_id;
                 $BillingStock->product_id = null;

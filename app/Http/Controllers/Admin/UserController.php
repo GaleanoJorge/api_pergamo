@@ -778,7 +778,7 @@ class UserController extends Controller
     {
 
         DB::beginTransaction();
-        $validate = User::Where('identification', $request->identification);
+        $validate = User::Where('identification', $request->identification)->first();
         $validate_wrong_user = UserChange::Join('users', 'users.id', 'user_change.wrong_user_id')->Where('users.identification', $request->identification);
         if ($validate) {
             if ($validate_wrong_user) {
@@ -847,7 +847,7 @@ class UserController extends Controller
 
                 if ($request->isTH) {
                     $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
-                    $HumanTalentRequest->status = 'Aprobado';
+                    $HumanTalentRequest->status = 'Aprobada TH';
                     $HumanTalentRequest->save();
                 }
 
@@ -864,14 +864,14 @@ class UserController extends Controller
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->specialty = $request->specialty;
 
-                    if ($request->firm) {
+                    if ($request->firm_file) {
                         $image = $request->get('firm');  // your base64 encoded
                         $image = str_replace('data:image/png;base64,', '', $image);
                         $image = str_replace(' ', '+', $image);
                         $random = Str::random(10);
                         $imagePath = 'firmas/' . $random . '.png';
                         Storage::disk('public')->put($imagePath, base64_decode($image));
-
+    
                         $assistance->file_firm = $imagePath;
                     }
                     $assistance->save();
@@ -982,6 +982,23 @@ class UserController extends Controller
             $THLog->talent_human_action_id = 1;
             $THLog->save();
 
+            if ($request->campus_id) {
+                $arraycampus = json_decode($request->campus_id);
+
+                foreach ($arraycampus as $item) {
+                    $userCampus = new UserCampus;
+                    $userCampus->user_id = $user->id;
+                    $userCampus->campus_id = $item->campus_id;
+                    $userCampus->save();
+                }
+            }
+
+            if ($request->isTH) {
+                $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
+                $HumanTalentRequest->status = 'Aprobada TH';
+                $HumanTalentRequest->save();
+            }
+
             $RoleType = Role::where('id', $role)->get()->toArray();
             if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
                 $assistance = new Assistance;
@@ -1009,7 +1026,8 @@ class UserController extends Controller
 
                 $id = Assistance::latest('id')->first();
 
-                foreach ($request->localities_id as $item) {
+
+                foreach (json_decode($request->localities_id) as $item) {
                     $BaseLocationCapacity = new BaseLocationCapacity();
                     $BaseLocationCapacity->locality_id = $item->locality_id;
                     $BaseLocationCapacity->assistance_id = $id->id;
@@ -1156,8 +1174,28 @@ class UserController extends Controller
         $user->academic_level_id = $request->academic_level_id;
         $user->identification_type_id = $request->identification_type_id;
         $user->birthplace_municipality_id = $request->birthplace_municipality_id;
+        $user->birthplace_country_id = $request->birthplace_country_id;
+        $user->birthplace_region_id = $request->birthplace_region_id;
+        $user->locality_id = $request->locality_id;
+        $user->residence_id = $request->residence_id;
+        $user->residence_region_id = $request->residence_region_id;
+        $user->residence_municipality_id = $request->residence_municipality_id;
+        $user->residence_address = $request->residence_address;
+        $user->residence_country_id = $request->residence_country_id;
+        $user->study_level_status_id = $request->study_level_status_id;
+        $user->activities_id = $request->activities_id;
+        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+        $user->select_rh_id = $request->select_RH_id;
+        $user->marital_status_id = $request->marital_status_id;
+        $user->population_group_id = $request->population_group_id;
         $user->username = $request->username;
+        $user->is_disability = $request->is_disability;
+        $user->disability = $request->disability;
+        $user->gender_type = $request->gender_type;
         $user->email = $request->email;
+        if($request->password!=""){
+        $user->password = Hash::make($request->password);
+        }
         $user->firstname = $request->firstname;
         $user->middlefirstname = $request->middlefirstname;
         $user->lastname = $request->lastname;
@@ -1165,12 +1203,9 @@ class UserController extends Controller
         $user->identification = $request->identification;
         $user->birthday = $request->birthday;
         $user->phone = $request->phone;
+        $user->age = $request->age;
         $user->landline = $request->landline;
         $user->ethnicity_id = $request->ethnicity_id;
-        $user->is_disability = $request->is_disability;
-        $user->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
-        $user->age = $request->age;
-
         if ($request->campus_id) {
             $deleteusers = UserCampus::where('user_id', $id);
             $deleteusers->delete();
@@ -1188,12 +1223,6 @@ class UserController extends Controller
             $path = Storage::disk('public')->put('file', $request->file('file'));
             $user->file = $path;
         }
-        $user->activities_id = $request->activities_id;
-        $user->disability = $request->disability;
-        $user->residence_address = $request->residence_address;
-        $user->residence_country_id = $request->residence_country_id;
-        $user->locality_id = $request->locality_id;
-        $user->residence_id = $request->residence_id;
         $role = intval($request->role_id);
         if ($request->gender_id == 3) {
             $user->gender_type = $request->gender_type;
@@ -1212,26 +1241,51 @@ class UserController extends Controller
         $RoleType = Role::where('id', $role)->get()->toArray();
         if ($RoleType && $RoleType[0]['role_type_id'] == 2) {
             $assistance_id = Assistance::select('id')->where('user_id', $id)->get()->toArray();
-            $assistance = Assistance::find($assistance_id[0]['id']);
-            $assistance->medical_record = $request->medical_record;
-            $assistance->contract_type_id = $request->contract_type_id;
-            $assistance->cost_center_id = $request->cost_center_id;
-            // $assistance->type_professional_id = $request->type_professional_id;
-            $assistance->PAD_service = $request->PAD_service;
-            $assistance->attends_external_consultation = $request->attends_external_consultation;
-            $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+            if (count($assistance_id) > 0) {
+                $assistance = Assistance::find($assistance_id[0]['id']);
+                $assistance->medical_record = $request->medical_record;
+                $assistance->contract_type_id = $request->contract_type_id;
+                $assistance->cost_center_id = $request->cost_center_id;
+                // $assistance->type_professional_id = $request->type_professional_id;
+                $assistance->PAD_service = $request->PAD_service;
+                $assistance->attends_external_consultation = $request->attends_external_consultation;
+                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
-            if ($request->firm_file) {
-                $image = $request->get('firm_file');  // your base64 encoded
-                $image = str_replace('data:image/png;base64,', '', $image);
-                $image = str_replace(' ', '+', $image);
-                $random = Str::random(10);
-                $imagePath = 'firmas/' . $random . '.png';
-                Storage::disk('public')->put($imagePath, base64_decode($image));
+                if ($request->firm_file!="null") {
+                    $image = $request->get('firm_file');  // your base64 encoded
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $random = Str::random(10);
+                    $imagePath = 'firmas/' . $random . '.png';
+                    Storage::disk('public')->put($imagePath, base64_decode($image));
 
-                $assistance->file_firm = $imagePath;
+                    $assistance->file_firm = $imagePath;
+                }
+                $assistance->save();
+            } else {
+                $assistance = new Assistance;
+                $assistance->user_id = $user->id;
+
+                $assistance->medical_record = $request->medical_record;
+                $assistance->contract_type_id = $request->contract_type_id;
+                $assistance->cost_center_id = $request->cost_center_id;
+                $assistance->PAD_service = $request->PAD_service;
+                $assistance->attends_external_consultation = $request->attends_external_consultation;
+                $assistance->serve_multiple_patients = $request->serve_multiple_patients;
+                // $assistance->specialty = $request->specialty;
+
+                if ($request->firm_file!="null") {
+                    $image = $request->get('firm_file');  // your base64 encoded
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $random = Str::random(10);
+                    $imagePath = 'firmas/' . $random . '.png';
+                    Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                    $assistance->file_firm = $imagePath;
+                }
+                $assistance->save();
             }
-            $assistance->save();
 
             $id = Assistance::latest('id')->first();
 

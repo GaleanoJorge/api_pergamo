@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\BillingStock;
 use App\Models\PharmacyLot;
+use App\Models\PharmacyStock;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property date $expiration_date
  * @property BigInteger $pharmacy_lot_id
  * @property BigInteger $billing_stock_id
+ * @property BigInteger $pharmacy_stock_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -37,9 +39,15 @@ class PharmacyLotStock extends Model
 		return $this->belongsTo(PharmacyLot::class);
 	}
 	
+
+	public function pharmacy_stock()
+	{
+		return $this->belongsTo(PharmacyStock::class);
+	}
+	
 	public function billing_stock()
 	{
-		return $this->belongsTo(BillingStock::class);
+		return $this->belongsTo(BillingStock::class,'billing_stock_id');
 	}
 	
 }

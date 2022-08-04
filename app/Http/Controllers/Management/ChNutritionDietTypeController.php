@@ -71,7 +71,7 @@ class ChNutritionDietTypeController extends Controller
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya tiene observación',
+                'message' => 'Ya cuenta con un registro',
                 'data' => []
             ]);
         }

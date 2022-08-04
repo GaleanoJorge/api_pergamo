@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AdmissionRoute;
 use App\Models\Campus;
+use App\Models\TypeBriefcase;
 use App\Models\Location;
 use App\Models\User;
 use App\Models\Program;
@@ -32,6 +33,7 @@ use App\Models\ScopeOfAttention;
  * @property BigInteger $contract_id
  * @property BigInteger $user_id
  * @property BigInteger $briefcase_id
+ * @property BigInteger $regime_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -87,5 +89,8 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Gender::class);
 	}
-
+	public function regime()
+	{
+		return $this->belongsTo(TypeBriefcase::class,'regime_id');
+	}
 }

@@ -25,11 +25,11 @@ class FixedAssetsRequest extends FormRequest
     {
         return [
             'fixed_clasification_id' => 'required',
-            'fixed_type_role_id' => 'required',
+            'fixed_type_id' => 'required',
             'fixed_property_id' => 'required',
             'campus_id' => 'required',
-            'amount' => 'required',
-            'description' => 'required',
+            'amount_total' => 'required',
+            'fixed_nom_product_id' => 'required',
             'detail_description' => 'required',
             'color' => 'required',
             'fixed_condition_id' => 'required',

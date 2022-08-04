@@ -8,10 +8,12 @@ namespace App\Models\Base;
 
 use Carbon\Carbon;
 use App\Models\Procedure;
+use App\Models\Patient;
 use App\Models\ProductGeneric;
 use App\Models\Manual;
 use App\Models\PriceType;
 use App\Models\ProcedureType;
+use App\Models\ProductSupplies;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $price_type_id
  * @property int $manual_procedure_type_id
  * @property string homologous_id
+ * @property string description
  * @property int $value
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -47,6 +50,7 @@ class ManualPrice extends Model
 		'price_type_id' => 'int',
 		'manual_procedure_type_id' => 'int',
 		'homologous_id' => 'string',
+		'description' => 'string',
 	];
 
 	public function procedure()
@@ -59,6 +63,11 @@ class ManualPrice extends Model
 		return $this->belongsTo(ProductGeneric::class);
 	}
 
+	public function insume()
+	{
+		return $this->belongsTo(ProductSupplies::class,'supplies_id');
+	}
+
 	public function price_type()
 	{
 		return $this->belongsTo(PriceType::class);
@@ -66,5 +75,9 @@ class ManualPrice extends Model
 	public function manual()
 	{
 		return $this->belongsTo(Manual::class);
+	}
+	public function patient()
+	{
+		return $this->belongsTo(Patient::class,'patient_id');
 	}
 }

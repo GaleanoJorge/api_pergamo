@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBillingPadConsecutiveTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('billing_pad_consecutive', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('resolution');
+            $table->bigInteger('initial_consecutive');
+            $table->bigInteger('final_consecutive');
+            $table->bigInteger('actual_consecutive')->nullable();
+            $table->date('expiracy_date')->nullable();
+            $table->unsignedTinyInteger('status_id');
+            $table->unsignedBigInteger('billing_pad_prefix_id')->nullable();
+            $table->timestamps();
+
+            $table->index('billing_pad_prefix_id');
+            $table->foreign('billing_pad_prefix_id')->references('id')
+                ->on('billing_pad_prefix');
+
+            $table->index('status_id');
+            $table->foreign('status_id')->references('id')
+                ->on('status');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('billing_pad_consecutive');
+    }
+}

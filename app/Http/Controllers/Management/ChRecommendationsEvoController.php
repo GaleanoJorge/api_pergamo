@@ -94,7 +94,8 @@ class ChRecommendationsEvoController extends Controller
         $ChRecommendationsEvo = new ChRecommendationsEvo();
         $ChRecommendationsEvo->recommendations_evo_id =
         $request->recommendations_evo_id;
-        $ChRecommendationsEvo->patient_family_education = $request->patient_family_education;
+        $ChRecommendationsEvo->patient_family_education = $request->patient_family_education; 
+        $ChRecommendationsEvo->observations = $request->observations; 
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();
@@ -138,6 +139,7 @@ class ChRecommendationsEvoController extends Controller
         $ChRecommendationsEvo = ChRecommendationsEvo::find($id);
         $ChRecommendationsEvo->recommendations_evo_id = $request->recommendations_evo_id;
         $ChRecommendationsEvo->patient_family_education = $request->patient_family_education;
+        $ChRecommendationsEvo->observations = $request->observations; 
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();

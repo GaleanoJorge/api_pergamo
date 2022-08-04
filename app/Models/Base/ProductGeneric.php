@@ -6,12 +6,15 @@
 
 namespace App\Models\Base;
 
+use App\Models\AdministrationRoute;
 use App\Models\ProductDose;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MeasurementUnits;
+use App\Models\MultidoseConcentration;
+use App\Models\NomProduct;
 use App\Models\ProductConcentration;
-
+use App\Models\ProductPresentation;
 
 /**
  * Class ProductGeneric
@@ -36,6 +39,7 @@ use App\Models\ProductConcentration;
  * @property int $maximum_stock
  * @property int $consignment
  * @property BigInteger $product_dose_id
+ * @property BigInteger $multidose_concentration_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -63,5 +67,23 @@ class ProductGeneric extends Model
 	public function product_dose()
 	{
 		return $this->belongsTo(ProductDose::class);
+	}
+	public function multidose_concentration()
+	{
+		return $this->belongsTo(MultidoseConcentration::class);
+	}
+	public function administration_route()
+	{
+		return $this->belongsTo(AdministrationRoute::class);
+	}
+
+	public function product_presentation()
+	{
+		return $this->belongsTo(ProductPresentation::class);
+	}
+
+	public function nom_product()
+	{
+		return $this->belongsTo(NomProduct::class);
 	}
 }

@@ -15,8 +15,9 @@ class CreateChRecommendationsEvoTable extends Migration
     {
         Schema::create('ch_recommendations_evo', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('recommendations_evo_id');
+            $table->unsignedBigInteger('recommendations_evo_id')->nullable();
             $table->string('patient_family_education')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

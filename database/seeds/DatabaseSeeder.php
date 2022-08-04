@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(RoleSeeder::class);
                 $this->call(UserSeeder::class);
                 $this->call(UserRole2Seeder::class);
+                $this->call(BillingPadPrefixSeeder::class);
                 //$this->call(UserOriginSeeder::class);
                 $this->call(CampusSeeder::class);
                 $this->call(UserCampusSeeder::class);
@@ -196,10 +197,19 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedAreaCampusSeeder::class);
                 $this->call(FixedCodeSeeder::class);
                 $this->call(FixedPropertySeeder::class);
-                $this->call(FixedConditionSeeder::class);
-                $this->call(SuppliesMeasureSeeder::class);
+                $this->call(FixedConditionSeeder::class);       
                 $this->call(StorageConditionsSeeder::class);
+                $this->call(SuppliesMeasureSeeder::class);
+                // BillingPad
                 $this->call(InvimaStatusSeeder::class);
+                $this->call(FixedTypeSeeder::class);
+                $this->call(BiomedicalClassificationSeeder::class);
+                $this->call(RiskSeeder::class);
+                $this->call(MultidoseConcentrationSeeder::class);
+                $this->call(ProductGenericSeeder::class);
+                $this->call(ProductSuppliesSeeder::class);
+                $this->call(FixedClasificationSeeder::class);
+                $this->call(PatientsSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
@@ -248,6 +258,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChTypeInabilitySeeder::class);
                 $this->call(ChContingencyCodeSeeder::class);
                 $this->call(ChReasonSeeder::class);
+                $this->call(HourlyFrequencySeeder::class);
+                
                 
                 
                 //Semillas HC SocialWork
@@ -267,6 +279,9 @@ class DatabaseSeeder extends Seeder
                 
                 //Semillas talento humano
                 $this->call(TalentHumanActionSeeder::class);
+                $this->call(HumanTalentRequestObservationSeeder::class);
+                //
+                $this->call(SuppliesStatusSeeder::class);
           
 
 

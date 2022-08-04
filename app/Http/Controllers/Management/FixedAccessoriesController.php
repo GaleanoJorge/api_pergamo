@@ -18,7 +18,7 @@ class FixedAccessoriesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAccessories = FixedAccessories::with('campus');
+        $FixedAccessories = FixedAccessories::with('campus', 'fixed_type');
 
         if ($request->_sort) {
             $FixedAccessories->orderBy($request->_sort, $request->_order);
@@ -40,24 +40,45 @@ class FixedAccessoriesController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Accesorios de act. fijoss obtenidos exitosamente',
+            'message' => 'Accesorios de act. fijos obtenidos exitosamente',
             'data' => ['fixed_accessories' => $FixedAccessories]
         ]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPharmacyByUserId(Request $request, int $id): JsonResponse
+    {
+        $parmacy = FixedAccessories::select('fixed_accessories.*')
+            ->leftJoin('fixed_permission_type', 'fixed_accessories.fixed_permission_type_id', '=', 'fixed_permission_type.id')
+            ->where('fixed_permission_type.user_id', $id)
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'lotes por usuario obtenidas exitosamente',
+            'data' => ['pharmacy_lot_stock' => $parmacy]
+        ]);
+    }
+
 
 
     public function store(Request $request): JsonResponse
     {
         $FixedAccessories = new FixedAccessories;
         $FixedAccessories->name = $request->name;
-        $FixedAccessories->amount = $request->amount;
+        $FixedAccessories->amount_total = $request->amount_total;
+        $FixedAccessories->actual_amount = $request->amount_total;
         $FixedAccessories->campus_id = $request->campus_id;
-        $FixedAccessories->fixed_type_role_id = $request->fixed_type_role_id;
+        $FixedAccessories->fixed_type_id = $request->fixed_type_id;
         $FixedAccessories->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Accesorios de act. fijos asociado al paciente exitosamente',
+            'message' => 'Accesorios de act. fijos asociado exitosamente',
             'data' => ['fixed_accessories' => $FixedAccessories->toArray()]
         ]);
     }
@@ -90,9 +111,10 @@ class FixedAccessoriesController extends Controller
     {
         $FixedAccessories = FixedAccessories::find($id);
         $FixedAccessories->name = $request->name;
-        $FixedAccessories->amount = $request->amount;
+        $FixedAccessories->amount_total = $request->amount_total;
+        $FixedAccessories->actual_amount = $request->amount_total;
         $FixedAccessories->campus_id = $request->campus_id;
-        $FixedAccessories->fixed_type_role_id = $request->fixed_type_role_id;
+        $FixedAccessories->fixed_type_id = $request->fixed_type_id;
         $FixedAccessories->save();
 
         return response()->json([
@@ -101,6 +123,48 @@ class FixedAccessoriesController extends Controller
             'data' => ['fixed_accessories' => $FixedAccessories]
         ]);
     }
+
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $i
+     * @return JsonResponse
+     */
+    public function updateInventoryByLot(Request $request, int $id): JsonResponse
+    {
+        $FixedAccessories = FixedAccessories::find($id);
+        $FixedAccessories->actual_amount = $FixedAccessories->amount - $request->actual_amount;
+        $FixedAccessories->save();
+        $PharmacyReceptorInventory = FixedAccessories::select('fixed_accessories.*');
+        // ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id)->where('pharmacy_lot_stock_id', $request->pharmacy_lot_stock_id)->first();
+        if ($PharmacyReceptorInventory) {
+            $PharmacyReceptorInventory->actual_amount = $PharmacyReceptorInventory->actual_amount + $request->amount;
+            $PharmacyReceptorInventory->save();
+        } else {
+            $PharmacyReceptorInventory = new FixedAccessories;
+            $FixedAccessories->name = $request->name;
+            $FixedAccessories->amount_total = $request->amount_total;
+            $FixedAccessories->actual_amount = $request->amount_total;
+            $FixedAccessories->campus_id = $request->campus_id;
+            $FixedAccessories->fixed_type_id = $request->fixed_type_id;
+            $PharmacyReceptorInventory->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Inventario lote actualizado exitosamente',
+            'data' => ['fixed_accessories' => $PharmacyReceptorInventory]
+        ]);
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Inventario lote actualizado exitosamente',
+        //     'data' => ['billing_stock_id' => $PharmacyReceptorInventory]
+        // ]);
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

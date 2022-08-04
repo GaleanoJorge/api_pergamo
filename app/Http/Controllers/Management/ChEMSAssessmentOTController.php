@@ -20,7 +20,7 @@ class ChEMSAssessmentOTController extends Controller
         $ChEMSAssessmentOT = ChEMSAssessmentOT::select();
 
         if ($request->ch_record_id) {
-            $ChEMSAssessmentOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 3);
+            $ChEMSAssessmentOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
         }
 
         if ($request->_sort) {

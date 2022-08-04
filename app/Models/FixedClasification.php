@@ -10,5 +10,6 @@ class FixedClasification extends BaseFixedClasification
 protected $fillable = [
 	'name',
 	'fixed_code_id',
+	'fixed_type_id',
 	];
 }

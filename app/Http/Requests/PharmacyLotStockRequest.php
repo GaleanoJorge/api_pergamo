@@ -31,6 +31,7 @@ class PharmacyLotStockRequest extends FormRequest
             'expiration_date' => '',
             'pharmacy_lot_id' => '',
             'billing_stock_id' => '',
+            'pharmacy_stock_id' => '',
         ];
     }
 }

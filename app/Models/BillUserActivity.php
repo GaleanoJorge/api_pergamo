@@ -11,6 +11,7 @@ class BillUserActivity extends BaseBillUserActivity
       'procedure_id',
       'admissions_id',
       'ch_record_id',
+      'assigned_management_plan_id',
       'account_receivable_id',
       'tariff_id',
       'status',

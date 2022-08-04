@@ -30,14 +30,13 @@ class ProductRequest extends FormRequest
             'invima_registration' => 'required',
             'invima_status_id' => 'required',
             'storage_conditions_id' => 'required',
-            'high_price' => 'required',
             'indications' => 'required',
-            'contraindications' => 'required',
             'applications' => 'required',
             'unit_packing' => 'required',
             'packing_id' => 'required',
             'refrigeration' => 'required',
             'useful_life' => 'required',
+            'code_cum' => 'required',
         ];
     }
 }

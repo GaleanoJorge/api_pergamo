@@ -16,7 +16,7 @@ class CreatePharmacyLotTable extends Migration
         Schema::create('pharmacy_lot', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('subtotal');
-            $table->string('vat');
+            $table->string('vat')->nullable();
             $table->string('total');
             $table->date('receipt_date');
             $table->unsignedBigInteger('pharmacy_stock_id');

@@ -1117,15 +1117,24 @@
     },
     {
         "id": "174",
-        "item_parent_id": "169",
-        "name": "Ing farmacia lote",
-        "code": "pharmacy-lot",
-        "route": "/pages/setting/pharmacy-lot",
-        "icon": "",
+        "item_parent_id": null,
+        "name": "Farmacia",
+        "code": null,
+        "route": null,
+        "icon": "shopping-bag-outline",
         "show_menu": "1"
     },
     {
         "id": "176",
+        "item_parent_id": "174",
+        "name": "Recepción tecnica",
+        "code": "pharmacy-lot",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "177",
         "item_parent_id": "169",
         "name": "Crear farmacias",
         "code": "pharmacy-stock",
@@ -1134,29 +1143,29 @@
         "show_menu": "1"
     },
     {
-        "id": "177",
-        "item_parent_id": "169",
+        "id": "178",
+        "item_parent_id": "174",
         "name": "Solicitar medicamentos",
         "code": "pharmacy-product-request",
-        "route": "/pages/setting/pharmacy-product-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "178",
-        "item_parent_id": "169",
-        "name": "Inventario medicamentos",
-        "code": "pharmacy-inventory",
-        "route": "/pages/setting/pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-product-request",
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "179",
-        "item_parent_id": "169",
-        "name": "Solicitudes de medicamentos",
+        "item_parent_id": "174",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "182",
+        "item_parent_id": "174",
+        "name": "Dispensación",
         "code": "pharmacy-request",
-        "route": "/pages/setting/pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
         "show_menu": "1"
     },
@@ -1175,15 +1184,6 @@
         "name": "Frecuencia Horaria",
         "code": "hourly-frequency",
         "route": "/pages/setting/hourly-frequency",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "182",
-        "item_parent_id": "169",
-        "name": "Actualizar Max-Min stock",
-        "code": "pharmacy-update-max-min",
-        "route": "/pages/setting/pharmacy-update-max-min",
         "icon": "",
         "show_menu": "1"
     },
@@ -1254,8 +1254,8 @@
         "id": "191",
         "item_parent_id": "102",
         "name": "Permisos Act fijos",
-        "code": "fixed-permission",
-        "route": "/pages/setting/fixed-permission",
+        "code": "fixed-stock",
+        "route": "/pages/setting/fixed-stock",
         "icon": "",
         "show_menu": "1"
     },
@@ -1422,11 +1422,11 @@
         "show_menu": "1"
     },
     {
-        "id": "210",
-        "item_parent_id": "169",
+        "id": "219",
+        "item_parent_id": "174",
         "name": "Solicitar a compras",
         "code": "billing-request-pharmacy",
-        "route": "/pages/setting/billing-request-pharmacy",
+        "route": "/pages/pharmacy/billing-request-pharmacy",
         "icon": "",
         "show_menu": "1"
     },
@@ -1436,6 +1436,69 @@
         "name": "Rentabilidad",
         "code": "rentability",
         "route": "/pages/setting/tc-rentability",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "212",
+        "item_parent_id": "66",
+        "name": "Mi inventario",
+        "code": "assistance-stock",
+        "route": "/pages/setting/assistance-stock",
+        "icon": null,
+        "show_menu": "1"
+    },
+    {
+        "id": "213",
+        "item_parent_id": "102",
+        "name": "Descripción del activo",
+        "code": "fixed-nom-product",
+        "route": "/pages/setting/fixed-nom-product",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "214",
+        "item_parent_id": "66",
+        "name": "Facturación",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "215",
+        "item_parent_id": "214",
+        "name": "Prefijos de facturación",
+        "code": "billing-pad-prefix",
+        "route": "/pages/setting/billing-pad-prefix",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "216",
+        "item_parent_id": "214",
+        "name": "Consecutivos de facturación",
+        "code": "billing-pad-consecutive",
+        "route": "/pages/setting/billing-pad-consecutive",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "217",
+        "item_parent_id": null,
+        "name": "Agendamiento Telemedicina",
+        "code": "telemedicine",
+        "route": "/pages/telemedicine/telemedicine",
+        "icon": "phone-call-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "218",
+        "item_parent_id": "183",
+        "name": "Recaudo",
+        "code": "collection",
+        "route": "/pages/setting/tc-collection",
         "icon": "",
         "show_menu": "1"
     }

@@ -545,6 +545,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'ManualPrice/ProcedureByManual2/{manualId}',
         'Management\ManualPriceController@getByManual2'
     );
+    Route::get(
+        'ManualPrice/ProcedureByManual3/{manualId}',
+        'Management\ManualPriceController@getByManual3'
+    );
 
     //Tipo de precio que uilizan las tarifas en salud UVR y Valor 
     Route::apiResource('price_type', 'Management\PriceTypeController');
@@ -802,6 +806,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
+    Route::apiResource('consents_informed', 'Management\ConsentsInformedController');
+    Route::apiResource('type_consents', 'Management\TypeConsentsController');
     Route::apiResource('assigned_management_plan', 'Management\AssignedManagementPlanController');
 
 
@@ -817,6 +823,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Portafolio de servicios
     Route::get('management_plan_by_admissions/{id}', 'Management\ManagementPlanController@getByAdmission');
+    Route::get('consents_informed_by_admissions/{id}', 'Management\ConsentsInformedController@getByAdmission');
 
     Route::get('management_plan_by_patient/{id}/{userId}', 'Management\ManagementPlanController@getByPatient');
 
@@ -840,6 +847,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Portafolio de servicios
     Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
+    Route::apiResource('human_talent_request_observation', 'Management\HumanTalentRequestObservationController');
     //Portafolio de servicios por contrato
     Route::get(
         'ServiceBriefcase/PackageByBriefcase/{briefcaseId}',
@@ -1018,6 +1026,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('ch_reason_consultation', 'Management\ChReasonConsultationController');
     Route::apiResource('ch_record', 'Management\ChRecordController');
+    Route::post('ch_record/update/{id}', 'Management\ChRecordController@update');
     Route::apiResource('ch_review_system', 'Management\ChReviewSystemController');
 
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
@@ -1041,7 +1050,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing', 'Management\BillingController');
     Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('billing_stock_request', 'Management\BillingStockRequestController');
-    Route::apiResource('permission_pharmacy_stock', 'Management\PermissionPharmacyStockController');
+    Route::apiResource('user_pharmacy_stock', 'Management\UserPharmacyStockController');
+    Route::apiResource('services_pharmacy_stock', 'Management\ServicesPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
@@ -1049,13 +1059,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
-    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
-
+    
+    Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
 
+    Route::apiResource('multidose_concentration', 'Management\MultidoseConcentrationController');
     Route::apiResource('nom_product', 'Management\NomProductController');
     Route::apiResource('supplies_measure', 'Management\SuppliesMeasureController');
     Route::get(
@@ -1077,6 +1088,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
     Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
+    Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSWeeklyOTController@getByRecord');
+    Route::apiResource('ch_r_n_weekly_o_t', 'Management\ChRNWeeklyOTController');
+    Route::get('ch_r_n_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNWeeklyOTController@getByRecord');
+
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::apiResource('ch_e_past_o_t', 'Management\ChEPastOTController');
     Route::apiResource('ch_e_daily_activities_o_t', 'Management\ChEDailyActivitiesOTController');
@@ -1084,13 +1100,24 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_int_pat_o_t', 'Management\ChEMSIntPatOTController');
     Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSmovPatOTController');
     Route::apiResource('ch_e_m_s_thermal_o_t', 'Management\ChEMSThermalOTController');
-    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditorylOTController');
+    Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditoryOTController');
     Route::apiResource('ch_e_m_s_dis_tactile_o_t', 'Management\ChEMSDisTactileOTController');
     Route::apiResource('ch_e_m_s_acuity_o_t', 'Management\ChEMSAcuityOTController');
     Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');
     Route::apiResource('ch_e_m_s_test_o_t', 'Management\ChEMSTestOTController');
     Route::apiResource('ch_e_m_s_communication_o_t', 'Management\ChEMSCommunicationOTController');
     Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
+    Route::apiResource('fixed_nom_product', 'Management\FixedNomProductController');
+    Route::get(
+        'FixedNomProduct/byCategory/{fixed_clasification_id}',
+        'Management\FixedNomProductController@getSubcategoryByCategory'
+    );
+
+    Route::get(
+        'FixedNomProduct/byGroup/{fixed_type_id}',
+        'Management\FixedNomProductController@getCategoryByGroup'
+    );
+
 
 
     Route::apiResource('nom_supplies', 'Management\NomSuppliesController');
@@ -1101,21 +1128,34 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Activos fijos
     Route::apiResource('fixed_accessories', 'Management\FixedAccessoriesController');
+
+    Route::post('fixed_accessories/updateInventoryByLot/{lot_id}', 'Management\FixedAccessoriesController@updateInventoryByLot');
+    Route::get('fixed_accessories/pharmacies/{user_id}', 'Management\FixedAccessoriesController@getPharmacyByUserId');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
     Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    Route::post('fixed_assets/updateInventoryByLot/{lot_id}', 'Management\FixedAssetsController@updateInventoryByLot');
+    Route::get('fixed_assets/pharmacies/{user_id}', 'Management\FixedAssetsController@getPharmacyByUserId');
+
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
+    Route::get(
+        'FixedClasification/byGroup/{fixed_type_id}',
+        'Management\FixedClasificationController@getCategoryByGroup'
+    );
+    Route::apiResource('fixed_type', 'Management\FixedTypeController');
+    Route::apiResource('fixed_stock', 'Management\FixedStockController');
+    Route::apiResource('users_fixed_stock', 'Management\UsersFixedStockController');
+   
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
     Route::apiResource('fixed_loan', 'Management\FixedLoanController');
     Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
-    Route::apiResource('fixed_permission_type', 'Management\FixedPermissionTypeController');
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
-    Route::apiResource('fixed_type', 'Management\FixedTypeController');
-    Route::apiResource('fixed_type_role', 'Management\FixedTypeRoleController');
+    
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
 
+    Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
 
 
 
@@ -1320,10 +1360,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
     Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
+    Route::apiResource('collection_tc', 'Management\CollectionTcController');
     Route::post('billing_tc/file', 'Management\BillingTcController@import');
     Route::post('radication_tc/file', 'Management\RadicationTcController@import');
     Route::post('human_talent_tc/file', 'Management\HumanTalentTcController@import');
     Route::post('rentability_tc/file', 'Management\RentabilityTcController@import');
+    Route::post('collection_tc/file', 'Management\CollectionTcController@import');
 
     //Campos nuevos de Signos Vitales
     Route::apiResource('oxygen_type', 'Management\OxygenTypeController');
@@ -1341,12 +1383,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
+    Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
     Route::put('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{id}', 'Management\BillingPadController@generateBillingDat');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
+    Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
+    Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
 
     //Tabla de salida de paciente.
     Route::apiResource('ch_patient_exit', 'Management\ChPatientExitController');
@@ -1469,8 +1514,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('nursing_type_physical', 'Management\NursingTypePhysicalController');
 
     //Historia clinica de enfermeria
-    //ruta entrada clinica
-    Route::apiResource('ch_nursing_entry', 'Management\ChNursingEntryController');
+
+    //ruta position
+    Route::apiResource('ch_position', 'Management\ChPositionController');
+    Route::get('ch_position/by_record/{record_id}/{type_record}', 'Management\ChPositionController@getByRecord');
+
+    //ruta valoracion de cabello
+    Route::apiResource('ch_oxigen', 'Management\ChOxigenController');
+    Route::get('ch_oxigen/by_record/{record_id}/{type_record}', 'Management\ChOxigenController@getByRecord');
+
+    //ruta valoracion de cabello
+    Route::apiResource('ch_hair_valoration', 'Management\ChHairValorationController');
+    Route::get('ch_hair_valoration/by_record/{record_id}/{type_record}', 'Management\ChHairValorationController@getByRecord');
+
     //ruta nota de enfermeria
     Route::apiResource('ch_notes_description', 'Management\ChNotesDescriptionController');
     Route::get('ch_notes_description/by_record/{record_id}/{type_record}', 'Management\ChNotesDescriptionController@getByRecord');
@@ -1498,4 +1554,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_background/getAlergicsByPatient/{patient_id}', 'Management\ChBackgroundController@getAlergicsByPatient');
     Route::get('ch_background/getByPatient/{patient_id}', 'Management\ChBackgroundController@getByPatient');
     Route::get('ch_nutrition_interpretation/getAllInterpretetations/{patient_id}', 'Management\ChNutritionInterpretationController@getAllInterpretetations');
+
+    //supplies status
+    Route::apiResource('supplies_status', 'Management\SuppliesStatusController');
+
+    //Aplicaciones
+    Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
+
+    //Aplicaciones indiviuales medicamentos
+    Route::get('pharmacy_product_request_for_use', 'Management\PharmacyProductRequestController@forUse');
+    //Aplicaciones indiviuales insumos
+    Route::get('pharmacy_product_request_for_use/insume', 'Management\PharmacyProductRequestController@forUse');
 });

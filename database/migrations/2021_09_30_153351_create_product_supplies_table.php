@@ -20,10 +20,10 @@ class CreateProductSuppliesTable extends Migration
                         $table->string('stature')->nullable();
                         $table->unsignedBigInteger('size_supplies_measure_id')->nullable();
                         $table->unsignedBigInteger('measure_supplies_measure_id')->nullable();
-                        $table->Integer('minimum_stock');
-                        $table->Integer('maximum_stock');
+                        $table->Integer('minimum_stock')->nullable();
+                        $table->Integer('maximum_stock')->nullable();
                         $table->string('description');
-                        $table->unsignedBigInteger('product_dose_id');
+                        $table->unsignedBigInteger('product_dose_id')->nullable();
                         $table->string('dose')->nullable();
 
                         $table->timestamps();
