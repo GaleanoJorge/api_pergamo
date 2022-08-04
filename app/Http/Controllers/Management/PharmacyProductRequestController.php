@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\AssistanceSupplies;
 use App\Models\ChRecord;
@@ -53,7 +54,7 @@ class PharmacyProductRequestController extends Controller
                 'services_briefcase.manual_price',
                 'user_request_pad',
             )
-            
+
             ->groupBy('pharmacy_product_request.id');
 
             if($request->status=="PATIENT"){
@@ -158,7 +159,7 @@ class PharmacyProductRequestController extends Controller
      */
     public function forUse(Request $request): JsonResponse
     {
-        $arreglo=[];
+        $arreglo = [];
         $PharmacyProductRequest = PharmacyProductRequest::select(
             'pharmacy_product_request.*',
             // DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada'),
@@ -184,8 +185,16 @@ class PharmacyProductRequestController extends Controller
         )
             // ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
-           
+
             ->with(
+                'product_generic',
+                'product_supplies',
+                'admissions',
+                'admissions.patients',
+                'services_briefcase',
+                'services_briefcase.briefcase',
+                'services_briefcase.manual_price',
+                'user_request_pad',
                 'management_plan',
                 'own_pharmacy_stock',
                 'request_pharmacy_stock',
@@ -203,26 +212,54 @@ class PharmacyProductRequestController extends Controller
         // if ($request->user) {
         //     $PharmacyProductRequest->where('pharmacy_product_request.user_request_id', $request->user_id);
         // }
-
+        
+        //desde historia clinica
         if ($request->patient) {
             $ch_record = ChRecord::find($request->patient);
             $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id);
-            if($request->product){
+            if ($request->product) {
                 $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-                ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+                    ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                     ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id)
                     ->whereNotNull('manual_price.product_id');
-    
-
-                } else {
-
-                    $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+            } else {
+                $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                     ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-                    ->where('admissions_id',$ch_record->admissions_id)
+                    ->where('pharmacy_product_request.admissions_id', $ch_record->admissions_id)
                     ->whereNotNull('manual_price.supplies_id');
-
-      
             }
+        }
+
+        //
+        if ($request->type == '1') {
+
+            // $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
+            //     ->select(
+            //         'admissions.*',
+            //         DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            //     )
+            //     ->where('patients.id', $request->user_id)
+            //     ->where('discharge_date', '0000-00-00 00:00:00')->orderBy('created_at', 'desc')->get()->toArray();
+            $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->where('status', 'ENVIADO')
+            ->whereNotNull('manual_price.product_id');
+            // foreach ($EnabledAdmissions as $item) {
+                $PharmacyProductRequest->where(function ($query) use ($request) {
+                    $query->Where('admissions_id', $request->admissions);
+                });
+            // }
+        } else if($request->type == '2'){
+
+            $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+;
+            // foreach ($EnabledAdmissions as $item) {
+                $PharmacyProductRequest->where(function ($query) use ($request) {
+                    $query->where('status', 'ENVIADO')
+                    ->Where('admissions_id', $request->admissions)
+                    ->whereNotNull('manual_price.supplies_id');
+                });
         }
 
         // if ($request->patient) {
@@ -250,25 +287,21 @@ class PharmacyProductRequestController extends Controller
             });
         }
 
-        if ($request->query("pagination", true) == "false") {
-            $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $PharmacyProductRequest = $PharmacyProductRequest->paginate($per_page, '*', 'page', $page);
-        }
-
+        // if ($request->query("pagination", true) == "false") {
+        //     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+        // } else {
+        //     $page = $request->query("current_page", 1);
+        //     $per_page = $request->query("per_page", 10);
+            
+        //     $PharmacyProductRequest = $PharmacyProductRequest->paginate($per_page, '*', 'page', $page);
+        // }
+        $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
         foreach ($PharmacyProductRequest as $item) {
-            if($item['disponibles']==0){
-
-            }else{
-                array_push($arreglo, $item);
+            if ($item['disponibles'] == 0) {
+            } else {
+                array_push($arreglo,$item);
             }
-
-
         }
-
 
         return response()->json([
 
@@ -301,12 +334,14 @@ class PharmacyProductRequestController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if($request->record_id){
-            $admissions_id=ChRecord::find($request->record_id);
-            $admissions_id= $admissions_id->admissions_id;
-        }else{
-            $admissions_id=$request->admissions_id;
+        if ($request->record_id) {
+            $admissions_id = ChRecord::find($request->record_id);
+            $admissions_id = $admissions_id->admissions_id;
+        } else {
+            $admissions_id = $request->admissions_id;
         }
+
+
         $PharmacyProductRequest = new PharmacyProductRequest;
         $PharmacyProductRequest->request_amount = $request->request_amount;
         $PharmacyProductRequest->status = $request->status;
@@ -388,15 +423,15 @@ class PharmacyProductRequestController extends Controller
         if ($id != -1) {
             $PharmacyProductRequest = PharmacyProductRequest::find($id);
 
-         $status_ant=$PharmacyProductRequest->status;
+            $status_ant = $PharmacyProductRequest->status;
             if ($PharmacyProductRequest) {
                 if ($request->status == "ENVIADO") {
                     $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
                     $PharmacyProductRequest->status = $request->status;
                     $PharmacyProductRequest->save();
 
-                    if($status_ant=="PATIENT"){
-                        $PharmacyProductRequest2 = PharmacyProductRequest::with('services_briefcase','services_briefcase.manual_price')->where("id",$id)->first();
+                    if ($status_ant == "PATIENT") {
+                        $PharmacyProductRequest2 = PharmacyProductRequest::with('services_briefcase', 'services_briefcase.manual_price')->where("id", $id)->first();
                         if ($PharmacyProductRequest2->services_briefcase->manual_price->product_id) {
                             $quantity = ProductGeneric::find($PharmacyProductRequest2->services_briefcase->manual_price->product_id);
                         } else {
@@ -404,23 +439,22 @@ class PharmacyProductRequestController extends Controller
                         }
                         $elements = json_decode($request->pharmacy_lot_stock_id);
                         foreach ($elements as $element) {
-                        for ($i = 0; $i < $element->amount; $i++) {
-                            if($quantity->product_dose_id == 2){
-                                $cantidad=$quantity->dose;
-                            }else{
-                                $cantidad=1;
-                            }
-                            for ($j = 0; $j < $cantidad ; $j++) {
-                                $assistanceSupplies = new AssistanceSupplies;
-                                $assistanceSupplies->user_incharge_id =  $user_id;
-                                $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest2->id;
-                                $assistanceSupplies->supplies_status_id = 1;
-                                $assistanceSupplies->save();
+                            for ($i = 0; $i < $element->amount; $i++) {
+                                if ($quantity->product_dose_id == 2) {
+                                    $cantidad = $quantity->dose;
+                                } else {
+                                    $cantidad = 1;
+                                }
+                                for ($j = 0; $j < $cantidad; $j++) {
+                                    $assistanceSupplies = new AssistanceSupplies;
+                                    $assistanceSupplies->user_incharge_id =  $user_id;
+                                    $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest2->id;
+                                    $assistanceSupplies->supplies_status_id = 1;
+                                    $assistanceSupplies->save();
+                                }
                             }
                         }
                     }
-
-                }
 
                     $elements = json_decode($request->pharmacy_lot_stock_id);
                     foreach ($elements as $element) {
