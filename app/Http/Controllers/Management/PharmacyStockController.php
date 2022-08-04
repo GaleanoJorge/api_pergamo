@@ -24,12 +24,12 @@ class PharmacyStockController extends Controller
             'type_pharmacy_stock',
             'user_pharmacy_stock.user',
             'services_pharmacy_stock.scope_of_attention',
-            // 'services_pharmacy_stock.scope_of_attention.admission_route',
-            // 'scope_of_attention.admissions_route'
         );
 
         if($request->type==1){
             $PharmacyStock->where('type_pharmacy_stock_id',1);
+        }else if($request->type==2){
+            $PharmacyStock->where('type_pharmacy_stock_id',2);
         }
 
         if ($request->_sort) {
