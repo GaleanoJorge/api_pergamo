@@ -77,7 +77,11 @@ class ServicesBriefcaseController extends Controller
         } else if ($request->type == 2) {
             $ServicesBriefcase
                 ->where('manual_price.product_id', '!=', 'null');
-        } else {
+        } else if ($request->type == 3) {
+            $ServicesBriefcase
+                ->whereNotNull('manual_price.supplies_id');
+        } 
+        else {
             $ServicesBriefcase
                 ->where('manual_price.procedure_id', '!=', 'null')
                 ->where('procedure.procedure_type_id', '!=', '3');
