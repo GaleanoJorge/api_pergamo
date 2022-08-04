@@ -16,8 +16,9 @@ class CreateFixedAccessoriesTable extends Migration
         Schema::create('fixed_accessories', function (Blueprint $table) {
             $table->BigIncrements('id');
             $table->string('name');
+            $table->string('status')->nullable();
             $table->integer('amount_total');
-            $table->integer('actual_amount');
+            $table->integer('actual_amount')->nullable();
             $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('fixed_type_id');
             $table->timestamps();

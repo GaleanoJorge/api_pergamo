@@ -70,6 +70,7 @@ class FixedAccessoriesController extends Controller
     {
         $FixedAccessories = new FixedAccessories;
         $FixedAccessories->name = $request->name;
+        $FixedAccessories->status = $request->status;
         $FixedAccessories->amount_total = $request->amount_total;
         $FixedAccessories->actual_amount = $request->amount_total;
         $FixedAccessories->campus_id = $request->campus_id;
@@ -111,6 +112,7 @@ class FixedAccessoriesController extends Controller
     {
         $FixedAccessories = FixedAccessories::find($id);
         $FixedAccessories->name = $request->name;
+        $FixedAccessories->status = $request->status;
         $FixedAccessories->amount_total = $request->amount_total;
         $FixedAccessories->actual_amount = $request->amount_total;
         $FixedAccessories->campus_id = $request->campus_id;
@@ -145,6 +147,7 @@ class FixedAccessoriesController extends Controller
         } else {
             $PharmacyReceptorInventory = new FixedAccessories;
             $FixedAccessories->name = $request->name;
+            $FixedAccessories->status = $request->status;
             $FixedAccessories->amount_total = $request->amount_total;
             $FixedAccessories->actual_amount = $request->amount_total;
             $FixedAccessories->campus_id = $request->campus_id;

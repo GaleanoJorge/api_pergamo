@@ -11,7 +11,9 @@ use App\Models\FixedAccessories;
 use App\Models\FixedAssets;
 use App\Models\FixedLocationCampus;
 use App\Models\FixedNomProduct;
-use App\Models\UserRole;
+use App\Models\ManagementPlan;
+use App\Models\ServicesBriefcase;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -20,17 +22,18 @@ use Illuminate\Database\Eloquent\Model;
  * Class FixedAdd
  * 
  * @property int $id
- * @property BigInteger $admissions_id
- * @property BigInteger $own_fixed_user_id
- * @property BigInteger $request_fixed_user_id
- * @property BigInteger $fixed_assets_id
- * @property BigInteger $fixed_accessories_id
- * @property BigInteger $fixed_location_campus_id
- * @property BigInteger $fixed_nom_product_id
- * @property BigInteger $responsible_user_id
+ * @property string $status
  * @property string $observation
  * @property string $request_amount
- * @property string $status
+ * @property BigInteger $admissions_id
+ * @property BigInteger $responsible_user_id
+ * @property BigInteger $fixed_assets_id
+ * @property BigInteger $management_plan_id
+ * @property BigInteger $fixed_accessories_id
+ * @property BigInteger $fixed_nom_product_id
+ * @property BigInteger $fixed_location_campus_id
+ * @property BigInteger $own_fixed_user_id
+ * @property BigInteger $request_fixed_user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -58,7 +61,7 @@ class FixedAdd extends Model
 
 	public function responsible_user()
 	{
-		return $this->belongsTo(UserRole::class);
+		return $this->belongsTo(User::class);
 	}
 
 	public function fixed_nom_product()
@@ -73,11 +76,21 @@ class FixedAdd extends Model
 
 	public function own_fixed_user()
 	{
-		return $this->belongsTo(UserRole::class);
+		return $this->belongsTo(User::class);
 	}
 
 	public function request_fixed_user()
 	{
-		return $this->belongsTo(UserRole::class);
+		return $this->belongsTo(User::class);
+	}
+
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
+	}
+
+	public function management_plan()
+	{
+		return $this->belongsTo(ManagementPlan::class, 'management_plan_id');
 	}
 }

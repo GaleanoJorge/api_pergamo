@@ -122,12 +122,13 @@ class FixedAddController extends Controller
     public function store(Request $request): JsonResponse
     {
         $FixedAdd = new FixedAdd;
-        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->status = $request->status;
         $FixedAdd->observation = $request->observation;
-        $FixedAdd->responsible_user_id = $request->responsible_user_id;
+        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->admissions_id = $request->admissions_id;
+        $FixedAdd->responsible_user_id = $request->responsible_user_id;
         $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+        $FixedAdd->management_plan_id = $request->management_plan_id;
         $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
@@ -169,12 +170,13 @@ class FixedAddController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $FixedAdd = FixedAdd::find($id);
-        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->status = $request->status;
         $FixedAdd->observation = $request->observation;
-        $FixedAdd->responsible_user_id = $request->responsible_user_id;
+        $FixedAdd->request_amount = $request->request_amount;
         $FixedAdd->admissions_id = $request->admissions_id;
+        $FixedAdd->responsible_user_id = $request->responsible_user_id;
         $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+        $FixedAdd->management_plan_id = $request->management_plan_id;
         $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
         $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
@@ -276,12 +278,13 @@ class FixedAddController extends Controller
             }
         } else {
             $FixedAdd = new FixedAdd;
-            $FixedAdd->request_amount = $request->amount_provition;
             $FixedAdd->status = $request->status;
-            $FixedAdd->observation = '';
-            $FixedAdd->responsible_user_id = $request->responsible_user_id;
+            $FixedAdd->observation = $request->observation;
+            $FixedAdd->request_amount = $request->request_amount;
             $FixedAdd->admissions_id = $request->admissions_id;
+            $FixedAdd->responsible_user_id = $request->responsible_user_id;
             $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+            $FixedAdd->management_plan_id = $request->management_plan_id;
             $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
             $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
             $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
