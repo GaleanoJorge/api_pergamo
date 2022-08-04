@@ -19,7 +19,7 @@ class CreateChSwNursingTable extends Migration
             $table->string('middlefirstname')->nullable();
             $table->string('lastname')->nullable();
             $table->string('middlelastname')->nullable();
-            $table->boolean('service')->nullable();
+            $table->boolean('service');
             $table->bigInteger('phone')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
