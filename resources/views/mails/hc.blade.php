@@ -82,11 +82,14 @@
                         <span style="font-family:Calibri"> <b> Estado Civil: </b> </span>
                     </p>
                 </td>
+                @if($chrecord[0]['admissions']['patients']['marital_status']) 
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                         <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
                     </p>
                 </td>
+                @endisset        
+
             </tr>
             <tr style="height:12.7pt">
                 <td style="width:79.75pt; vertical-align:top">
@@ -841,31 +844,7 @@
 
         
                     
-        @if($firm != null)
-        <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
-        <span style="height:0pt;">
-        
-            <img src="data:image/png;base64,{{$firm}}" width="250" height="100" alt="" style=""/></span>
-            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-        </p>
-        @endisset
-        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
-            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-        </p>
-        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">{{$chrecord[0]['user']['user_role'][0]['role']['name']}}</span>
-            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-        </p>
-        @if(count($chrecord[0]['user']['assistance']) > 0)
-        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
-            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-        </p>
-        
-        
 
-        @endisset      
         @endisset
 
         <!-- Enfermeria -->
@@ -3324,7 +3303,6 @@
 
         @endisset
 
-        @endisset
 
         @if(count($ChEMSFunPatOT) > 0) 
 
@@ -4299,9 +4277,36 @@
         @endisset
 
 
+        @endisset
+
+
+        
+        
+        @if($firm != null)
+        <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
+        <span style="height:0pt;">
+        
+            <img src="data:image/png;base64,{{$firm}}" width="250" height="100" alt="" style=""/></span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+        @endisset
+        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">{{$chrecord[0]['user']['user_role'][0]['role']['name']}}</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+        @if(count($chrecord[0]['user']['assistance']) > 0)
+        <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
         
         
 
+        @endisset      
 
 
 

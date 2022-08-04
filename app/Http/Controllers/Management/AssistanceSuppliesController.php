@@ -164,7 +164,6 @@ class AssistanceSuppliesController extends Controller
                     $register_insume->application_id = $AssistanceSupplies->id;
                     $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
                     $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
-                    $register_insume->supplies_id = $AssistanceSupplies->id;
 
                     $register_insume->save();
                 } else {
@@ -177,7 +176,7 @@ class AssistanceSuppliesController extends Controller
                             $compare = ChRecord::find($item['ch_record_id']);
                             if ($compare->assigned_management_plan_id == $compare2->assigned_management_plan_id) {
                                 return response()->json([
-                                    'status' => true,
+                                    'status' => false,
                                     'message' => 'Ya cuenta con aplicación',
                                 ]);
                             } else {
@@ -196,7 +195,6 @@ class AssistanceSuppliesController extends Controller
                                 $register_insume->application_id = $AssistanceSupplies->id;
                                 $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
                                 $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
-                                $register_insume->supplies_id = $AssistanceSupplies->id;
 
                                 $register_insume->save();
                             }

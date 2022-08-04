@@ -299,7 +299,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
-            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
             $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
@@ -312,7 +312,7 @@ class ChRecordController extends Controller
                 'liters_per_minute',
                 'parameters_signs'
             )->where('ch_record_id', $id)->get()->toArray();
-            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
             $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
