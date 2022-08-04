@@ -69,19 +69,25 @@ class AuthorizationController extends Controller
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
-                'briefcase.type_auth',
-                'patients.identification_type_id',
-                'patients.identification',
-                'patients.email',
-                'patients.residence_address',
-                'patients.residence_municipality_id',
-                'patients.neighborhood_or_residence_id',
+                // 'briefcase.type_auth',
+                // 'patients.identification_type_id',
+                // 'patients.identification',
+                // 'patients.email',
+                // 'patients.residence_address',
+                // 'patients.residence_municipality_id',
+                // 'patients.neighborhood_or_residence_id',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                 DB::raw('DATE(authorization.created_at) as date'),
             )
             ->wherenull('auth_package_id')
             ->with(
                 'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.status',
+                'admissions.patients.gender',
+                'admissions.patients.inability',
+                'admissions.patients.academic_level',
                 'assigned_management_plan',
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -89,9 +95,13 @@ class AuthorizationController extends Controller
             );
 
         if ($statusId == 0) {
-            $Authorization
-                // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-                ->where('auth_status_id', '<', 3);
+            // $Authorization
+            //     // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
+            //     ->where('auth_status_id', '<', 3);
+            $Authorization->where(function ($query) use ($request) {
+                    $query->where('auth_status_id', '<', 3)
+                        ->orWhereNotNull('application_id');
+                });
         } else {
             $Authorization
                 // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
