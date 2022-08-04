@@ -19,7 +19,11 @@ class FixedStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedStock = FixedStock::with('campus', 'fixed_type');
+        $FixedStock = FixedStock::select('fixed_stock.*')->with(
+            'campus',
+            'fixed_type',
+            'users_fixed_stock.user'
+        );
 
         if ($request->_sort) {
             $FixedStock->orderBy($request->_sort, $request->_order);
@@ -28,6 +32,11 @@ class FixedStockController extends Controller
         if ($request->search) {
             $FixedStock->where('name', 'like', '%' . $request->search . '%');
         }
+
+        if ($request->not_fixed) {
+            $FixedStock->where('id', '!=', $request->not_fixed);
+        }
+
 
         if ($request->query("pagination", true) == "false") {
             $FixedStock = $FixedStock->get()->toArray();
@@ -53,13 +62,6 @@ class FixedStockController extends Controller
         $FixedStock->fixed_type_id = $request->fixed_type_id;
         $FixedStock->campus_id = $request->campus_id;
         $FixedStock->save();
-
-        foreach ($request->user_id as $user) {
-            $UsersFixedStock = new UsersFixedStock;
-            $UsersFixedStock->user_id = $user;
-            $UsersFixedStock->fixed_stock_id = $FixedStock->id;
-            $UsersFixedStock->save();
-        }
 
         return response()->json([
             'status' => true,
