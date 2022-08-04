@@ -432,6 +432,7 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping->pharmacy_product_request_id =  $PharmacyProductRequest->id;
                         $PharmacyRequestShipping->pharmacy_lot_stock_id =  $PharmacyLotStock->id;
                         $PharmacyRequestShipping->amount_damaged =  0;
+                        $PharmacyRequestShipping->amount_operation =  0;
                         $PharmacyRequestShipping->amount =  0;
                         $PharmacyRequestShipping->amount_provition =  $element->amount;
                         $PharmacyRequestShipping->save();
@@ -452,6 +453,7 @@ class PharmacyProductRequestController extends Controller
                         // $PharmacyRequestShipping->amount = $element->amount  - $element->amount_provition ;
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
                         $PharmacyRequestShipping->amount =  $element->amount;
+                        // $PharmacyRequestShipping->amount_operation =  $element->amount - $element->amount_damaged;
                         $PharmacyRequestShipping->save();
 
                         if ($PharmacyProductRequest->product_generic_id) {
@@ -486,6 +488,7 @@ class PharmacyProductRequestController extends Controller
                         $NewPharmacyLotStock->expiration_date = $PharmacyLotStock->expiration_date;
                         $NewPharmacyLotStock->pharmacy_lot_id = $LastPharmacyLot->id;
                         $NewPharmacyLotStock->billing_stock_id = $PharmacyLotStock->billing_stock_id;
+                        $NewPharmacyLotStock->pharmacy_stock_id = $PharmacyProductRequest->own_pharmacy_stock_id;
                         $NewPharmacyLotStock->save();
                     }
                 }
@@ -511,6 +514,7 @@ class PharmacyProductRequestController extends Controller
             $PharmacyRequestShipping->pharmacy_lot_stock_id =  $request->pharmacy_lot_stock_id;
             $PharmacyRequestShipping->amount_damaged =  0;
             $PharmacyRequestShipping->amount =  0;
+            $PharmacyRequestShipping->amount_operation =  0;
             $PharmacyRequestShipping->amount_provition =  $request->amount_provition;
             $PharmacyRequestShipping->save();
 
