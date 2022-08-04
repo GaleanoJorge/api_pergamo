@@ -36,6 +36,7 @@ use App\Models\ProductGeneric;
  * @property string $unit_packing
  * @property string $refrigeration
  * @property string $useful_life
+ * @property string $code_cum
  * @property BigInteger $packing_id
  * @property BigInteger $product_generic_id
  * @property date $date_cum

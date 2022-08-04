@@ -466,6 +466,7 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping->pharmacy_product_request_id =  $PharmacyProductRequest->id;
                         $PharmacyRequestShipping->pharmacy_lot_stock_id =  $PharmacyLotStock->id;
                         $PharmacyRequestShipping->amount_damaged =  0;
+                        $PharmacyRequestShipping->amount_operation =  0;
                         $PharmacyRequestShipping->amount =  0;
                         $PharmacyRequestShipping->amount_provition =  $element->amount;
                         $PharmacyRequestShipping->save();
@@ -486,24 +487,42 @@ class PharmacyProductRequestController extends Controller
                         // $PharmacyRequestShipping->amount = $element->amount  - $element->amount_provition ;
                         $PharmacyRequestShipping->amount_damaged =  $element->amount_damaged;
                         $PharmacyRequestShipping->amount =  $element->amount;
+                        // $PharmacyRequestShipping->amount_operation =  $element->amount - $element->amount_damaged;
                         $PharmacyRequestShipping->save();
 
-                        $NewParmacyLot = new PharmacyLot;
-                        $NewParmacyLot->subtotal = $LastPharmacyLot->subtotal;
-                        $NewParmacyLot->vat = $LastPharmacyLot->vat;
-                        $NewParmacyLot->total = $LastPharmacyLot->total;
-                        $NewParmacyLot->receipt_date = $LastPharmacyLot->receipt_date;
-                        $NewParmacyLot->pharmacy_stock_id = $request->own_pharmacy_stock_id;
-                        $NewParmacyLot->save();
+                        if ($PharmacyProductRequest->product_generic_id) {
+                            $quantity = ProductGeneric::find($PharmacyProductRequest->product_generic_id);
+                        } else {
+                            $quantity = ProductSupplies::find($PharmacyProductRequest->product_supplies_id);
+                        }
+
+                        for ($i = 0; $i < $element->amount; $i++) {
+                            for ($j = 0; $j < $quantity->dose; $j++) {
+                                $assistanceSupplies = new AssistanceSupplies;
+                                $assistanceSupplies->user_incharge_id =  $user_id;
+                                $assistanceSupplies->pharmacy_product_request_id =  $PharmacyProductRequest->id;
+                                $assistanceSupplies->supplies_status_id = 1;
+                                $assistanceSupplies->save();
+                            }
+                        }
+
+                        // $NewParmacyLot = new PharmacyLot;
+                        // $NewParmacyLot->subtotal = $LastPharmacyLot->subtotal;
+                        // $NewParmacyLot->vat = $LastPharmacyLot->vat;
+                        // $NewParmacyLot->total = $LastPharmacyLot->total;
+                        // $NewParmacyLot->receipt_date = $LastPharmacyLot->receipt_date;
+                        // $NewParmacyLot->pharmacy_stock_id = $request->own_pharmacy_stock_id;
+                        // $NewParmacyLot->save();
 
                         $NewPharmacyLotStock = new PharmacyLotStock;
                         $NewPharmacyLotStock->lot = $PharmacyLotStock->lot;
-                        $NewPharmacyLotStock->amount_total = $PharmacyLotStock->amount_total;
+                        $NewPharmacyLotStock->amount_total =  $element->amount - $element->amount_damaged;
                         $NewPharmacyLotStock->sample = $PharmacyLotStock->sample;
-                        $NewPharmacyLotStock->actual_amount = $element->amount;
+                        $NewPharmacyLotStock->actual_amount = $NewPharmacyLotStock->amount_total;
                         $NewPharmacyLotStock->expiration_date = $PharmacyLotStock->expiration_date;
-                        $NewPharmacyLotStock->pharmacy_lot_id = $NewParmacyLot->id;
+                        $NewPharmacyLotStock->pharmacy_lot_id = $LastPharmacyLot->id;
                         $NewPharmacyLotStock->billing_stock_id = $PharmacyLotStock->billing_stock_id;
+                        $NewPharmacyLotStock->pharmacy_stock_id = $PharmacyProductRequest->own_pharmacy_stock_id;
                         $NewPharmacyLotStock->save();
                     }
                 }
@@ -529,6 +548,7 @@ class PharmacyProductRequestController extends Controller
             $PharmacyRequestShipping->pharmacy_lot_stock_id =  $request->pharmacy_lot_stock_id;
             $PharmacyRequestShipping->amount_damaged =  0;
             $PharmacyRequestShipping->amount =  0;
+            $PharmacyRequestShipping->amount_operation =  0;
             $PharmacyRequestShipping->amount_provition =  $request->amount_provition;
             $PharmacyRequestShipping->save();
 

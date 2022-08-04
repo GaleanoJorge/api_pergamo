@@ -71,7 +71,7 @@ class ManagementPlan extends Model
 	}
 	public function procedure()
 	{
-		return $this->belongsTo(Procedure::class, 'procedure_id');
+		return $this->belongsTo(ServicesBriefcase::class, 'procedure_id');
 	}
 	public function briefcase()
 	{

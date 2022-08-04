@@ -41,7 +41,7 @@ class PatientRequest extends FormRequest
             'activities_id' =>'required',
             'age' => 'required',
             'phone' => 'nullable|numeric',
-            'identification' => ['required', Rule::unique('patients')->ignore($this->patient)->where('identification_type_id', $this->identification_type_id)]
+            //'identification' => ['required', Rule::unique('patients')->ignore($this->patient)->where('identification_type_id', $this->identification_type_id)]
         ];
     }
 

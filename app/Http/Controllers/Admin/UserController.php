@@ -1193,7 +1193,9 @@ class UserController extends Controller
         $user->disability = $request->disability;
         $user->gender_type = $request->gender_type;
         $user->email = $request->email;
+        if($request->password!=""){
         $user->password = Hash::make($request->password);
+        }
         $user->firstname = $request->firstname;
         $user->middlefirstname = $request->middlefirstname;
         $user->lastname = $request->lastname;
@@ -1249,7 +1251,7 @@ class UserController extends Controller
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
-                if ($request->firm_file) {
+                if ($request->firm_file!="null") {
                     $image = $request->get('firm_file');  // your base64 encoded
                     $image = str_replace('data:image/png;base64,', '', $image);
                     $image = str_replace(' ', '+', $image);
@@ -1272,8 +1274,8 @@ class UserController extends Controller
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->specialty = $request->specialty;
 
-                if ($request->firm_file) {
-                    $image = $request->get('firm');  // your base64 encoded
+                if ($request->firm_file!="null") {
+                    $image = $request->get('firm_file');  // your base64 encoded
                     $image = str_replace('data:image/png;base64,', '', $image);
                     $image = str_replace(' ', '+', $image);
                     $random = Str::random(10);

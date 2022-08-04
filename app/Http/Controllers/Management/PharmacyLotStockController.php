@@ -40,11 +40,15 @@ class PharmacyLotStockController extends Controller
 
             );
 
+        if ($request->islot == true) {
+            $PharmacyLotStock->groupby('pharmacy_lot_id');
+        }
+
         if ($request->_sort) {
             $PharmacyLotStock->orderBy($request->_sort, $request->_order);
         }
-        if ($request->pharmacy_stock_id!="null") {
-            $PharmacyLotStock->where('pharmacy_lot.pharmacy_stock_id', $request->pharmacy_stock_id);
+        if ($request->pharmacy_stock_id) {
+            $PharmacyLotStock->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id);
         }
         if ($request->campus_id) {
             $PharmacyLotStock->where('pharmacy_stock.campus_id', $request->campus_id);
@@ -156,6 +160,7 @@ class PharmacyLotStockController extends Controller
             $PharmacyLotStock->expiration_date = $element->expiration_date;
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
             $PharmacyLotStock->billing_stock_id = $element->billing_stock_id;
+            $PharmacyLotStock->pharmacy_stock_id = $request->pharmacy_stock_id;
             $PharmacyLotStock->save();
 
             $BillingStock = BillingStock::find($element->billing_stock_id);
@@ -204,6 +209,7 @@ class PharmacyLotStockController extends Controller
         $PharmacyLotStock->expiration_date = $request->expiration_date;
         $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
         $PharmacyLotStock->billing_stock_id = $request->billing_stock_id;
+        $PharmacyLotStock->pharmacy_stock_id = $request->pharmacy_stock_id;
         $PharmacyLotStock->save();
 
         return response()->json([
@@ -233,11 +239,12 @@ class PharmacyLotStockController extends Controller
             $PharmacyReceptorInventory = new PharmacyLotStock;
             $PharmacyLotStock->lot = $request->lot;
             $PharmacyLotStock->amount_total = $request->amount_total;
-            $PharmacyLotStock->sample = $request->sample;
+            $PharmacyLotStock->sample = $request->amount_total * 0.1;
             $PharmacyLotStock->actual_amount = $request->actual_amount;
             $PharmacyLotStock->expiration_date = $request->expiration_date;
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
             $PharmacyLotStock->billing_stock_id = $request->billing_stock_id;
+            $PharmacyLotStock->pharmacy_stock_id = $request->pharmacy_stock_id;
             $PharmacyReceptorInventory->save();
         }
 

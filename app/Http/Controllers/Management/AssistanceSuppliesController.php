@@ -161,6 +161,7 @@ class AssistanceSuppliesController extends Controller
                     $register_insume->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
                     $register_insume->admissions_id = $PharmacyProductRequest->admissions_id;
                     $register_insume->auth_status_id = 3;
+                    $register_insume->application_id = $AssistanceSupplies->id;
                     $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
                     $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
                     $register_insume->supplies_id = $AssistanceSupplies->id;
@@ -192,12 +193,12 @@ class AssistanceSuppliesController extends Controller
                                 $register_insume->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
                                 $register_insume->admissions_id = $PharmacyProductRequest->admissions_id;
                                 $register_insume->auth_status_id = 3;
+                                $register_insume->application_id = $AssistanceSupplies->id;
                                 $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
                                 $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
                                 $register_insume->supplies_id = $AssistanceSupplies->id;
-            
-                                $register_insume->save();
 
+                                $register_insume->save();
                             }
                         }
                     } else {
@@ -240,9 +241,9 @@ class AssistanceSuppliesController extends Controller
 
                 $AssistanceSupplies->save();
 
-                    // $ch_record = ChRecord::find($request->ch_record_id);
+                // $ch_record = ChRecord::find($request->ch_record_id);
 
-                    // $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
+                // $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
 
                 // $register_insume = new Authorization;
 

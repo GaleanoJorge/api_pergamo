@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property number $amount
  * @property number $amount_damaged
  * @property number $amount_provition
+ * @property number $amount_operation
  * @property BigInteger $pharmacy_product_request_id
  * @property BigInteger $pharmacy_lot_stock_id
  * @property Carbon $created_at

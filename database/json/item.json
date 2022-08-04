@@ -1127,7 +1127,7 @@
     {
         "id": "176",
         "item_parent_id": "174",
-        "name": "Ing farmacia lote",
+        "name": "Recepción tecnica",
         "code": "pharmacy-lot",
         "route": "/pages/pharmacy/pharmacy-lot",
         "icon": "",
@@ -1163,7 +1163,7 @@
     {
         "id": "182",
         "item_parent_id": "174",
-        "name": "Solicitudes de medicamentos",
+        "name": "Dispensación",
         "code": "pharmacy-request",
         "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
@@ -1254,8 +1254,8 @@
         "id": "191",
         "item_parent_id": "102",
         "name": "Permisos Act fijos",
-        "code": "fixed-permission",
-        "route": "/pages/setting/fixed-permission",
+        "code": "fixed-stock",
+        "route": "/pages/setting/fixed-stock",
         "icon": "",
         "show_menu": "1"
     },
