@@ -89,9 +89,10 @@ class AuthorizationController extends Controller
             );
 
         if ($statusId == 0) {
-            $Authorization
-                // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-                ->where('auth_status_id', '<', 3);
+            $Authorization->where(function ($query) use ($request){
+                $query->where('auth_status_id', '<', 3)
+                        ->orWhereNotNull('application_id');
+            });
         } else {
             $Authorization
                 // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
