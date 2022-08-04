@@ -795,14 +795,15 @@ class BillingPadController extends Controller
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
-        $AlreadyBilling = []; // COSAS FACTURADAS
+        // $AlreadyBilling = []; // COSAS FACTURADAS
         foreach ($eventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
-                array_push($Authorizations, $Authorization);
-            } else {
-                array_push($AlreadyBilling, $Authorization);
-            }
+            array_push($Authorizations, $Authorization);
+            // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     array_push($Authorizations, $Authorization);
+            // } else {
+            //     array_push($AlreadyBilling, $Authorization);
+            // }
         }
 
 
@@ -837,12 +838,13 @@ class BillingPadController extends Controller
             ->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
-                array_push($Authorizations, $Authorization);
-            } else {
-                array_push($AlreadyBilling, $Authorization);
-            }
+            array_push($Authorizations, $Authorization);
+            // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     array_push($Authorizations, $Authorization);
+            // } else {
+            //     array_push($AlreadyBilling, $Authorization);
+            // }
         }
 
 
@@ -875,12 +877,13 @@ class BillingPadController extends Controller
             ->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
-                array_push($Authorizations, $Authorization);
-            } else {
-                array_push($AlreadyBilling, $Authorization);
-            }
+            array_push($Authorizations, $Authorization);
+            // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     array_push($Authorizations, $Authorization);
+            // } else {
+            //     array_push($AlreadyBilling, $Authorization);
+            // }
         }
 
 
@@ -1192,11 +1195,12 @@ class BillingPadController extends Controller
         }
 
         foreach ($result_packages as $result_package) {
-            if ($hasPackages) {
-                array_push($Authorizations, $result_package);
-            } else {
-                array_push($AlreadyBilling, $result_package);
-            }
+            array_push($Authorizations, $result_package);
+            // if ($hasPackages) {
+            //     array_push($Authorizations, $result_package);
+            // } else {
+            //     array_push($AlreadyBilling, $result_package);
+            // }
         }
 
         return response()->json([
@@ -1204,7 +1208,7 @@ class BillingPadController extends Controller
             'message' => 'procedimientos autorizados obtenidos exitosamente',
             'data' => [
                 'billing_pad' => $Authorizations,
-                'already_billing' => $AlreadyBilling,
+                // 'already_billing' => $AlreadyBilling,
             ]
         ]);
     }
