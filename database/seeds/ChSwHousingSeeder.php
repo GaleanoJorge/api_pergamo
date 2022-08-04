@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\ChSwHousingType;
+use App\Models\ChSwHousing;
 use Illuminate\Database\Seeder;
 
 class ChSwHousingSeeder extends Seeder
@@ -15,7 +15,7 @@ class ChSwHousingSeeder extends Seeder
         $data = file_get_contents(database_path('json/ch_sw_housing.json'));
 
         foreach (json_decode($data) as $row) {
-            ChSwHousingType::create([
+            ChSwHousing::create([
                 'name' =>  $row->name,
             ]);
         }
