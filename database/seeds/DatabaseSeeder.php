@@ -142,6 +142,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(AuthStatusSeeder::class);
                 
                 $this->call(TypeBillingEvidenceSeeder::class);
+
+
+                //Antecedentes Gyneco
                 $this->call(ChExamGynecologistsSeeder::class);
                 $this->call(ChFlowGynecologistsSeeder::class);
                 $this->call(ChPlanningGynecologistsSeeder::class);
@@ -247,6 +250,18 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChReasonSeeder::class);
                 
                 
+                //Semillas HC SocialWork
+                $this->call(ChSwActivitiesSeeder::class);
+                $this->call(ChSwSenioritySeeder::class);
+                $this->call(ChSwOccupationSeeder::class);
+                $this->call(ChSwHoursSeeder::class);
+                $this->call(ChSwTurnSeeder::class);
+                $this->call(ChSwCommunicationsSeeder::class);
+                $this->call(ChSwExpressionSeeder::class);
+                $this->call(ChSwHousingSeeder::class);
+                $this->call(ChSwHousingTypeSeeder::class);
+                $this->call(ChSwServicesSeeder::class);
+                $this->call(ChSwNetworkSeeder::class);
                 
                 
                 
