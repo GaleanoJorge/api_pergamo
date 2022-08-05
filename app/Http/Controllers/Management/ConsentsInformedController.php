@@ -10,13 +10,17 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Dompdf\Dompdf as PDF;
+use Dompdf\Options;
+use Illuminate\Support\Facades\Storage;
+
 
 class ConsentsInformedController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-      
-        $ConsentsInformed = ConsentsInformed::with('admissions','assigned_user','type_consents');
+
+        $ConsentsInformed = ConsentsInformed::with('admissions', 'assigned_user', 'type_consents', 'relationship');
 
         if ($request->_sort) {
             $ConsentsInformed->orderBy($request->_sort, $request->_order);
@@ -45,7 +49,7 @@ class ConsentsInformedController extends Controller
     public function getByAdmission(Request $request, int $id): JsonResponse
     {
 
-        $ConsentsInformed = ConsentsInformed::with('admissions','assigned_user','type_consents')->where('admissions_id',$id);
+        $ConsentsInformed = ConsentsInformed::with('admissions', 'assigned_user', 'relationship', 'type_consents')->where('admissions_id', $id);
 
 
         if ($request->_sort) {
@@ -76,7 +80,180 @@ class ConsentsInformedController extends Controller
     }
 
 
-   
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewCI(Request $request, int $id)
+    {
+
+        $ConsentsInformed = ConsentsInformed::with(
+            'type_consents',
+            'relationship',
+            'admissions',
+            'admissions.patients',
+            'admissions.patients.identification_type', 
+            'assigned_user',
+            'assigned_user.assistance', 
+            // 'assigned_user.assistance.medical_record', 
+            // 'user_role.role',
+            
+        )
+            ->where('id', $request->id)->get()->toArray();
+
+
+        $imagenComoBase64 = null;
+
+
+        $today = Carbon::now();
+
+
+        if (count($ConsentsInformed[0]['assigned_user']['assistance']) > 0) {
+            $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['assigned_user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenAssistence = base64_encode($contenidoBinario);
+        }
+        if ($ConsentsInformed[0]['firm_patient']) {
+            $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenPatient = base64_encode($contenidoBinario);
+        }
+        if ($ConsentsInformed[0]['firm_responsible']) {
+            $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenResponsible = base64_encode($contenidoBinario);
+        }
+
+        if ($ConsentsInformed[0]['type_consents_id'] == 1) {
+
+            $html = view('mails.ciPsicologia', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 2) {
+
+            $html = view('mails.ciProcedimientosg', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+                
+            ])->render();
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 3) {
+
+        $html = view('mails.ciAltavoluntaria', [
+            'consentsinformed' => $ConsentsInformed,
+            'firmpatient' => $imagenComoBase64,
+            'firmassistance' => $imagenComoBase64,
+            'firmresponsible' => $imagenComoBase64,
+            'today' => $today,
+        ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 4) {
+
+            $html = view('mails.ciTeleterapia', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 5) {
+
+            $html = view('mails.ciTerapiaL', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 6) {
+
+            $html = view('mails.ciTerapiaR', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 7) {
+
+            $html = view('mails.ciTerapiaF', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
+
+            $html = view('mails.ciTerapiaO', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
+
+            $html = view('mails.ciDisentimientoPAD', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
+
+            $html = view('mails.ciRAudiovisual', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
+
+            $html = view('mails.ciCompromisoPad', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenComoBase64,
+                'firmassistance' => $imagenComoBase64,
+                'firmresponsible' => $imagenComoBase64,
+                'today' => $today,
+            ])->render();
+        }
+
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4','horizontal');
+        $dompdf->render();
+        //$this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'prueba.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+    }
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -88,7 +265,7 @@ class ConsentsInformedController extends Controller
 
         $ConsentsInformed = new ConsentsInformed;
         $ConsentsInformed->admissions_id = $request->admissions_id;
-        $ConsentsInformed->firm_patiend = $request->firm_patiend;
+        $ConsentsInformed->firm_patient = $request->firm_patient;
         $ConsentsInformed->firm_responsible = $request->firm_responsible;
         $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
         $ConsentsInformed->type_consents_id = $request->type_consents_id;
@@ -96,17 +273,23 @@ class ConsentsInformedController extends Controller
         $ConsentsInformed->parent_responsible = $request->parent_responsible;
         $ConsentsInformed->identification_responsible = $request->identification_responsible;
 
-      
+        $ConsentsInformed->relationship_id = $request->relationship_id;
+        $ConsentsInformed->observations = $request->observations;
+        $ConsentsInformed->because_patient = $request->because_patient;
+        $ConsentsInformed->because_carer = $request->because_carer;
+        $ConsentsInformed->number_contact = $request->number_contact;
+        $ConsentsInformed->confirmation = $request->confirmation;
+        $ConsentsInformed->dissent = $request->dissent;
+
+
         $ConsentsInformed->save();
 
-     
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Concentimiento creado exitosamente',
-                    'data' => ['consents_informed' => $ConsentsInformed->toArray()]
-                ]);
-            
-        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Concentimiento creado exitosamente',
+            'data' => ['consents_informed' => $ConsentsInformed->toArray()]
+        ]);
     }
 
 
@@ -138,19 +321,32 @@ class ConsentsInformedController extends Controller
     {
         $ConsentsInformed = ConsentsInformed::find($id);
         $ConsentsInformed->admissions_id = $request->admissions_id;
-        $ConsentsInformed->firm_patiend = $request->firm_patiend;
+        $ConsentsInformed->firm_patient = $request->firm_patient;
         $ConsentsInformed->firm_responsible = $request->firm_responsible;
         $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
         $ConsentsInformed->type_consents_id = $request->type_consents_id;
+        $ConsentsInformed->name_responsible = $request->name_responsible;
+        $ConsentsInformed->parent_responsible = $request->parent_responsible;
+        $ConsentsInformed->identification_responsible = $request->identification_responsible;
+        $ConsentsInformed->parent_responsible = $request->parent_responsible;
+
+
+
+        $ConsentsInformed->relationship_id = $request->relationship_id;
+        $ConsentsInformed->observations = $request->observations;
+        $ConsentsInformed->because_patient = $request->because_patient;
+        $ConsentsInformed->because_carer = $request->because_carer;
+        $ConsentsInformed->number_contact = $request->number_contact;
+        $ConsentsInformed->confirmation = $request->confirmation;
+        $ConsentsInformed->dissent = $request->dissent;
         $ConsentsInformed->save();
 
-       
-            return response()->json([
-                'status' => true,
-                'message' => 'Concentimiento actualizado exitosamente',
-                'data' => ['consents_informed' => $ConsentsInformed->toArray()]
-            ]);
-        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Concentimiento actualizado exitosamente',
+            'data' => ['consents_informed' => $ConsentsInformed->toArray()]
+        ]);
     }
 
     /**

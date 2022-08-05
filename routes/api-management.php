@@ -813,6 +813,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
 
+//Visualización pdf consentimientos informados
+    Route::get('viewCI/{id}', 'Management\ConsentsInformedController@ViewCI');
+
+
     Route::get('assigned_management_plan/{managementId}/{userId}', 'Management\AssignedManagementPlanController@indexPacientByManagement');
     //Tener acompañante y/o responsable por paciente
     // Route::get('Policy/FileByContract/{contractId}',

@@ -24,14 +24,14 @@ class CreateChFormulationTable extends Migration
             $table->string('outpatient_formulation')->nullable();
             $table->string('dose');
             $table->string('observation');
-            $table->Integer('number_mipres')->nullable();
+            $table->Integer('number_mipres')->nullable()->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
 
             $table->index('product_generic_id');
             $table->foreign('product_generic_id') ->references('id')
-                ->on('product_generic');
+                ->on('product');
 
             $table->index('services_briefcase_id');
             $table->foreign('services_briefcase_id') ->references('id')

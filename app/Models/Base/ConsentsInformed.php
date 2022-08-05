@@ -9,6 +9,8 @@ namespace App\Models\Base;
 use Carbon\Carbon;
 use App\Models\TypeConsents;
 use App\Models\Admissions;
+use App\Models\ChDiagnosis;
+use App\Models\Relationship;
 use App\Models\User;
 use App\Models\ServicesBriefcase;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,10 +21,24 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property int $admissions_id
- * @property string $firm_patiend
+ * @property string $firm_patient
  * @property string $firm_responsible
  * @property int $assigned_user_id
  * @property int $type_consents_id
+ * @property BigInteger $relationship_id
+ * @property string $observations
+ * @property string $because_patient
+ * @property string $because_carer
+ * @property string $number_contact
+ * @property string $confirmation
+ * @property string $dissent
+ * @property string $identification_responsible
+ * @property string $name_responsible 
+ * @property string $parent_responsible 
+ * 
+ * 
+ * 
+
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -45,6 +61,15 @@ class ConsentsInformed extends Model
 	{
 		return $this->belongsTo(TypeConsents::class,'type_consents_id');
 	}
+	public function relationship()
+	{
+		return $this->belongsTo(Relationship::class);
+	}
+	public function ch_diagnosis()
+	{
+		return $this->belongsTo(ChDiagnosis::class);
+	}
+
 	}
 	// public function role_attention()
 	// {
