@@ -27,8 +27,6 @@ class FixedAccessoriesRequest extends FormRequest
             //
             'name' => 'required',
             'amount_total' => 'required',
-            'fixed_role_id' => 'required',
-            'campus_id' => 'required',
         ];
     }
 }

@@ -48,11 +48,13 @@ class UsersFixedStockController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $UsersFixedStock = new UsersFixedStock;
-        $UsersFixedStock->fixed_stock_id = $request->fixed_stock_id;
-        $UsersFixedStock->user_id = $request->user_id;
-        $UsersFixedStock->save();
-
+        $users = json_decode($request->users);
+        foreach ($users as $user) {
+            $UsersFixedStock = new UsersFixedStock;
+            $UsersFixedStock->fixed_stock_id = $request->fixed_stock_id;
+            $UsersFixedStock->user_id = $user;
+            $UsersFixedStock->save();
+        }
         return response()->json([
             'status' => true,
             'message' => 'Tipo asociado exitosamente',

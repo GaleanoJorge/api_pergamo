@@ -654,11 +654,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['supplies_id']);
+                if ($AuthPacked['product_id']) {
+                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['product_id']);
+                } else if ($AuthPacked['supplies_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
@@ -1116,11 +1116,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['supplies_id']);
+                if ($AuthPacked['product_id']) {
+                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['product_id']);
+                } else if ($AuthPacked['supplies_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
@@ -1461,11 +1461,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['supplies_id']);
+                if ($AuthPacked['product_id']) {
+                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['product_id']);
+                } else if ($AuthPacked['supplies_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
@@ -1584,7 +1584,7 @@ class BillingPadController extends Controller
         $BillingPad->total_value = $total_value;
         $BillingPad->consecutive = $consecutive;
         $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix'];
+        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
         $BillingPad->save();
         $this->generateBillingDat($id);
 
