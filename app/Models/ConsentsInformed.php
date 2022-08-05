@@ -8,7 +8,7 @@ class ConsentsInformed extends BaseConsentsInformed
 {
 	protected $fillable = [
 		'admissions_id',
-		'firm_patiend',
+		'firm_patient',
 		'firm_responsible',
 		'assigned_user_id',
 		'type_consents_id',
