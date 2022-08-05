@@ -17,6 +17,9 @@ class Authorization extends BaseAuthorization
 		'auth_status_id',
 		'auth_package_id',
 		'manual_price_id',
+		'application_id',
+		'product_id',
+		'supplies_id'
 	];
 
 	public function residence_municipality()
