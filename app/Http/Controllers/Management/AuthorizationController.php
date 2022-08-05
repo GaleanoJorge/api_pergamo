@@ -97,11 +97,10 @@ class AuthorizationController extends Controller
         if ($statusId == 0) {
             $Authorization->where(function ($query) use ($request){
                 $query->where('auth_status_id', '<', 3)
-                        ->orWhereNotNull('application_id');
+                    ->orWhereNotNull('application_id');
             });
         } else {
             $Authorization
-                // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
                 ->where('auth_status_id', $statusId);
         }
 
@@ -109,20 +108,34 @@ class AuthorizationController extends Controller
         if ($request->eps_id != 'null' && isset($request->eps_id)) {
             $Authorization
                 ->leftjoin('contract', 'briefcase.contract_id', 'contract.id')
-                ->where('company_id', $request->eps_id);
+                ->where('contract.company_id', $request->eps_id);
+        }
+
+        if ($request->contract_id != 'null' && isset($request->contract_id)) {
+            $Authorization
+                ->where('contract.id', $request->contract_id);
+        }
+
+        if ($request->briefcase_id != 'null' && isset($request->briefcase_id)) {
+            $Authorization
+                ->where('briefcase.id', $request->briefcase_id);
+        }
+
+        if ($request->admissions_id != 'null' && isset($request->admissions_id)) {
+            $Authorization
+                ->where('admissions.id', $request->admissions_id);
         }
 
         if ($request->initial_date != 'null' && isset($request->initial_date)) {
             $init_date = Carbon::parse($request->initial_date);
 
             $Authorization
-                ->where('authorization.created_at', '>', $init_date);
+                ->where('authorization.created_at', '>=', $init_date);
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
-            $finish_date = new DateTime($request->final_date);
-            $Authorization
-                ->where('authorization.created_at', '<=', $finish_date);
+            $finish_date = new DateTime($request->final_date.'T23:59:59.9');
+            $Authorization->where('authorization.created_at', '<=', $finish_date);
         }
 
         if ($request->_sort) {
@@ -138,6 +151,7 @@ class AuthorizationController extends Controller
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
@@ -146,19 +160,11 @@ class AuthorizationController extends Controller
             $Authorization = $Authorization->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $per_page = $request->query("per_page", 30);
 
             $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
         }
 
-        // if ($type == 1) {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Historico de autorizciones obtenido exitosamente',
-        //         'data' => ['authorization' => $Authorization]
-        //     ]);
-        // } else {
-        // }
         return response()->json([
             'status' => true,
             'message' => 'Autorizaciones obtenidas exitosamente',
