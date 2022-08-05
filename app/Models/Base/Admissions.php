@@ -22,6 +22,7 @@ use App\Models\Briefcase;
 use App\Models\Contract;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
+use App\Models\Procedure;
 use App\Models\ScopeOfAttention;
 
 
@@ -92,5 +93,9 @@ class Admissions extends Model
 	public function regime()
 	{
 		return $this->belongsTo(TypeBriefcase::class,'regime_id');
+	}
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class,'procedure_id');
 	}
 }
