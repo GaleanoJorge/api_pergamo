@@ -161,6 +161,13 @@ class AdmissionsController extends Controller
                 'patients.neighborhood_or_residence_id',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
+            ->with(
+                'patients',
+                'regime',
+                'location',
+                'location.scope_of_attention',
+                'location.program',
+                )
             ->where('briefcase_id', $briefcase_id)
             ->where('discharge_date', '0000-00-00 00:00:00')
             ->orderBy('created_at', 'desc')->get()->toArray();
@@ -180,7 +187,7 @@ class AdmissionsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Admisiones por paciente obtenidos exitosamente',
+            'message' => 'Admisiones por portafolio-paciente obtenidos exitosamente',
             'data' => ['admissions' => $Admissions]
         ]);
     }
