@@ -1807,6 +1807,7 @@ class BillingPadController extends Controller
         $first_date = (count($sortDates) > 0 ? $sortDates[0] : '');
         $last_date = (count($sortDates) > 0 ? $sortDates[count($sortDates) - 1] : '');
         $now_date = Carbon::now();
+        $year = Carbon::now()->year;
 
         // FACTURAS NO PGP
 
@@ -1847,7 +1848,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
         $file = $file_no_pgp;
 
-        $name = 'billings_pad/billings_pad.dat';
+        $name = '900900122-7_' . $year . '_' . $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . '_.dat';
 
         Storage::disk('public')->put($name, $file);
 
