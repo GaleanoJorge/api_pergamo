@@ -69,13 +69,6 @@ class AuthorizationController extends Controller
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
-                // 'briefcase.type_auth',
-                // 'patients.identification_type_id',
-                // 'patients.identification',
-                // 'patients.email',
-                // 'patients.residence_address',
-                // 'patients.residence_municipality_id',
-                // 'patients.neighborhood_or_residence_id',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                 DB::raw('DATE(authorization.created_at) as date'),
             )
@@ -88,6 +81,9 @@ class AuthorizationController extends Controller
                 'admissions.patients.gender',
                 'admissions.patients.inability',
                 'admissions.patients.academic_level',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.neighborhood_or_residence',
+                'admissions.patients.residence',
                 'assigned_management_plan',
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -97,32 +93,49 @@ class AuthorizationController extends Controller
         if ($statusId == 0) {
             $Authorization->where(function ($query) use ($request){
                 $query->where('auth_status_id', '<', 3)
-                        ->orWhereNotNull('application_id');
+                    ->orWhereNotNull('application_id');
             });
         } else {
             $Authorization
-                // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
                 ->where('auth_status_id', $statusId);
+                $Authorization->where(function ($query) use ($request){
+                    $query->where('auth_status_id', '<', 3)
+                        ->orWhereNotNull('application_id');
+                });
         }
 
 
         if ($request->eps_id != 'null' && isset($request->eps_id)) {
             $Authorization
                 ->leftjoin('contract', 'briefcase.contract_id', 'contract.id')
-                ->where('company_id', $request->eps_id);
+                ->where('contract.company_id', $request->eps_id);
+        }
+
+        if ($request->contract_id != 'null' && isset($request->contract_id)) {
+            $Authorization
+                ->where('contract.id', $request->contract_id);
+        }
+
+        if ($request->briefcase_id != 'null' && isset($request->briefcase_id)) {
+            $Authorization
+                ->where('briefcase.id', $request->briefcase_id);
+        }
+
+        if ($request->admissions_id != 'null' && isset($request->admissions_id)) {
+            $Authorization
+                ->where('admissions.id', $request->admissions_id);
         }
 
         if ($request->initial_date != 'null' && isset($request->initial_date)) {
             $init_date = Carbon::parse($request->initial_date);
 
             $Authorization
-                ->where('authorization.created_at', '>', $init_date);
+                ->where('authorization.created_at', '>=', $init_date);
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
-            $finish_date = new DateTime($request->final_date);
-            $Authorization
-                ->where('authorization.created_at', '<=', $finish_date);
+            $finish_date = new DateTime($request->final_date.'T23:59:59.9');
+            $Authorization->where('authorization.created_at', '<=', $finish_date);
         }
 
         if ($request->_sort) {
@@ -138,6 +151,7 @@ class AuthorizationController extends Controller
                     ->orWhere('lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
@@ -146,19 +160,11 @@ class AuthorizationController extends Controller
             $Authorization = $Authorization->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+            $per_page = $request->query("per_page", 30);
 
             $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
         }
 
-        // if ($type == 1) {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Historico de autorizciones obtenido exitosamente',
-        //         'data' => ['authorization' => $Authorization]
-        //     ]);
-        // } else {
-        // }
         return response()->json([
             'status' => true,
             'message' => 'Autorizaciones obtenidas exitosamente',
@@ -179,59 +185,39 @@ class AuthorizationController extends Controller
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->select(
                 'authorization.*',
-                'briefcase.type_auth',
-                'patients.identification_type_id',
-                'patients.identification',
-                'patients.email',
-                'patients.residence_address',
-                'patients.residence_municipality_id',
-                'patients.neighborhood_or_residence_id',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('DATE(authorization.created_at) as date'),
             )
             ->with(
-                'assigned_management_plan',
                 'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.status',
+                'admissions.patients.gender',
+                'admissions.patients.inability',
+                'admissions.patients.academic_level',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.neighborhood_or_residence',
+                'admissions.patients.residence',
+                'assigned_management_plan',
                 'services_briefcase',
+                'services_briefcase.manual_price',
                 'auth_status',
             );
 
         if ($statusId == 0) {
-            $Authorization->where('auth_status_id', 3)
-                ->orwhere('auth_status_id', 4);
+            // $Authorization->where('auth_status_id', 3)
+            //     ->orwhere('auth_status_id', 4);
+                $Authorization->where(function ($query) use ($request){
+                    $query->where('auth_status_id', '>=', 3)
+                        ->WhereNotNull('auth_number');
+                });
         } else {
-            $Authorization->where('auth_status_id', $statusId);
+            $Authorization->where(function ($query) use ($request, $statusId){
+                $query->where('auth_status_id', '=', $statusId)
+                    ->WhereNotNull('auth_number');
+            });
         }
-        // if ($type == 1) {
-        // } else {
-        // if ($statusId == 0) {
-        //     $Authorization
-        //         // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-        //         ->where('auth_status_id', '<', 3)
-        //         ->with(
-        //             'admissions',
-        //             'management_plan',
-        //             'identification_type',
-        //             'services_briefcase',
-        //             'services_briefcase.manual_price',
-        //             'auth_status',
-        //             'residence_municipality',
-        //             'residence'
-        //         );
-        // } else {
-        //     $Authorization
-        //         // ->leftjoin('management_plan', 'management_plan.authorization_id', 'authorization.id')
-        //         ->where('auth_status_id', $statusId)
-        //         ->with(
-        //             'admissions',
-        //             'identification_type',
-        //             'services_briefcase',
-        //             'services_briefcase.manual_price',
-        //             'auth_status',
-        //             'residence_municipality',
-        //             'residence'
-        //         );
-        // }
-        // }
 
         if ($request->eps_id) {
             $Authorization
@@ -269,14 +255,6 @@ class AuthorizationController extends Controller
             'message' => 'Historico de autorizciones obtenido exitosamente',
             'data' => ['authorization' => $Authorization]
         ]);
-        // if ($type == 1) {
-        // } else {
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'Autorizaciones obtenidas exitosamente',
-        //         'data' => ['authorization' => $Authorization]
-        //     ]);
-        // }
     }
 
     /**
