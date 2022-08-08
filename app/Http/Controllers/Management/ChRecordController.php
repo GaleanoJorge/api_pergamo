@@ -764,14 +764,16 @@ class ChRecordController extends Controller
             };
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
-            $LocationCapacity = LocationCapacity::where('locality_id', $locality)
-                ->where('assistance_id', $assistance->id)
-                ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-                ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-                ->first();
-            if ($LocationCapacity) {
-                $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                $LocationCapacity->save();
+            if($assistance){
+                $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+                    ->where('assistance_id', $assistance->id)
+                    ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+                    ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+                    ->first();
+                    if ($LocationCapacity) {
+                        $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                        $LocationCapacity->save();
+                    }
             }
 
             $TypeContract = TypeContract::select('type_contract.*')
@@ -818,7 +820,7 @@ class ChRecordController extends Controller
         $valuetariff = Tariff::where('pad_risk_id', $tariff)
             ->where('phone_consult', $ManagementPlan->phone_consult)
             ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('status_id', 0)
+            ->where('status_id', 1)
             ->where('failed', 0)
             ->where('program_id', $Location->program_id);
         // definir cuando la atención es fallida
