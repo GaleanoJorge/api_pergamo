@@ -1103,7 +1103,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
-    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
+    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getFixedByUserId');
 
     Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
 
