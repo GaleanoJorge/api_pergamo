@@ -299,7 +299,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
 
-            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
             $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
@@ -312,7 +312,7 @@ class ChRecordController extends Controller
                 'liters_per_minute',
                 'parameters_signs'
             )->where('ch_record_id', $id)->get()->toArray();
-            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
             $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
@@ -570,20 +570,12 @@ class ChRecordController extends Controller
                 }
             case (6): {
                     // TRABAJO SOCIAL
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []]
-                    ]);
+                    $ChRecord->ch_type_id = 7;
                     break;
                 }
             case (7): {
                     // TERAPIA FÍSICA
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []]
-                    ]);
+                    $ChRecord->ch_type_id = 7;
                     break;
                 }
             case (8): {
@@ -772,14 +764,16 @@ class ChRecordController extends Controller
             };
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
-            $LocationCapacity = LocationCapacity::where('locality_id', $locality)
-                ->where('assistance_id', $assistance->id)
-                ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-                ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-                ->first();
-            if ($LocationCapacity) {
-                $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                $LocationCapacity->save();
+            if($assistance){
+                $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+                    ->where('assistance_id', $assistance->id)
+                    ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+                    ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+                    ->first();
+                    if ($LocationCapacity) {
+                        $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                        $LocationCapacity->save();
+                    }
             }
 
             $TypeContract = TypeContract::select('type_contract.*')
@@ -826,7 +820,7 @@ class ChRecordController extends Controller
         $valuetariff = Tariff::where('pad_risk_id', $tariff)
             ->where('phone_consult', $ManagementPlan->phone_consult)
             ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('status_id', 0)
+            ->where('status_id', 1)
             ->where('failed', 0)
             ->where('program_id', $Location->program_id);
         // definir cuando la atención es fallida
