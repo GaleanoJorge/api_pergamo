@@ -59,6 +59,7 @@ class PharmacyProductRequestController extends Controller
             ->groupBy('pharmacy_product_request.id');
 
         if ($request->status == "PATIENT") {
+            $PharmacyProductRequest->where('pharmacy_product_request.status', "PATIENT");
         } else {
             $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
         }
@@ -149,7 +150,7 @@ class PharmacyProductRequestController extends Controller
                             });
                     });
             });
-        } else {
+        } else if ($request->product == 2) {
 
             // insumo product_supplies_id
             // $PharmacyProductRequest->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
@@ -166,8 +167,23 @@ class PharmacyProductRequestController extends Controller
                             });
                     });
             });
+        } else {
 
-
+            // insumo product_supplies_id
+            // $PharmacyProductRequest->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->whereNull('pharmacy_product_request.product_generic_id')
+                    ->whereNotNull('pharmacy_product_request.product_supplies_id')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->whereNull('pharmacy_product_request.product_generic_id')
+                            ->whereNull('pharmacy_product_request.product_supplies_id')
+                            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
+                            ->Where(function ($q) use ($request) {
+                                $q->whereNotNull('manual_price.product_id')
+                                    ->orWhereNotNull('manual_price.supplies_id');
+                            });
+                    });
+            });
         }
 
         if ($request->search) {
