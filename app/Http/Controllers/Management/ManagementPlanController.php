@@ -275,6 +275,7 @@ class ManagementPlanController extends Controller
   
 
             $PharmacyServices=ServicesPharmacyStock::where('scope_of_attention_id',$admissions[0]['scope_of_attention_id'])->get()->toArray();
+            if($PharmacyServices){
             $pharmacy= $PharmacyServices[0]['pharmacy_stock_id'];
 
             $PharmacyProductRequest = new PharmacyProductRequest;
@@ -296,6 +297,12 @@ class ManagementPlanController extends Controller
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+            ], 423);
+        }
         } else {
             $ManagementPlan->save();
         }
