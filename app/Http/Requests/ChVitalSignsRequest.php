@@ -51,6 +51,7 @@ class ChVitalSignsRequest extends FormRequest
             'pupil_size_right',
             'left_reaction',
             'pupil_size_left',
+            'has_oxigen',
             'ch_vital_hydration_id',
             'ch_vital_ventilated_id',
             'ch_vital_temperature_id',

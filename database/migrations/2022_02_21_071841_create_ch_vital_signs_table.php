@@ -48,6 +48,7 @@ class CreateChVitalSignsTable extends Migration
             $table->string('fixed_lazy_reaction')->nullable();
             $table->string('miotic_size')->nullable();
             $table->string('observations_glucometry')->nullable();
+            $table->boolean('has_oxigen');
             $table->unsignedBigInteger('ch_vital_hydration_id')->nullable();
             $table->unsignedBigInteger('ch_vital_ventilated_id')->nullable();
             $table->unsignedBigInteger('ch_vital_temperature_id');
