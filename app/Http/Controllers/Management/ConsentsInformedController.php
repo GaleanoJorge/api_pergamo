@@ -115,16 +115,16 @@ class ConsentsInformedController extends Controller
             $contenidoBinario = file_get_contents($rutaImagen);
             $imagenAssistence = base64_encode($contenidoBinario);
         }
-        if ($ConsentsInformed[0]['firm_patient']) {
-            $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
-            $contenidoBinario = file_get_contents($rutaImagen);
-            $imagenPatient = base64_encode($contenidoBinario);
-        }
-        if ($ConsentsInformed[0]['firm_responsible']) {
-            $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
-            $contenidoBinario = file_get_contents($rutaImagen);
-            $imagenResponsible = base64_encode($contenidoBinario);
-        }
+        // if ($ConsentsInformed[0]['firm_patient']) {
+        //     $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
+        //     $contenidoBinario = file_get_contents($rutaImagen);
+        //     $imagenPatient = base64_encode($contenidoBinario);
+        // }
+        // if ($ConsentsInformed[0]['firm_responsible']) {
+        //     $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
+        //     $contenidoBinario = file_get_contents($rutaImagen);
+        //     $imagenResponsible = base64_encode($contenidoBinario);
+        // }
 
         if ($ConsentsInformed[0]['type_consents_id'] == 1) {
 
@@ -191,14 +191,15 @@ class ConsentsInformedController extends Controller
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
-
-            $html = view('mails.ciTerapiaO', [
-                'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
-                'today' => $today,
-            ])->render();
+    
+                $html = view('mails.ciTerapiaO', [
+                    'consentsinformed' => $ConsentsInformed,
+                    'firmpatient' => $imagenComoBase64,
+                    'firmassistance' => $imagenComoBase64,
+                    'firmresponsible' => $imagenComoBase64,
+                    'today' => $today,
+                ])->render();
+           
         }else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
 
             $html = view('mails.ciDisentimientoPAD', [

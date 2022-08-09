@@ -179,8 +179,12 @@
 				<div class="stl_01" style="top: 16.7985em; left:3.1em;"><span class="stl_11 stl_12" style="word-spacing:0.06em;">médico tratante de HEALTH &amp; LIFE IPS; acepto voluntariamente el registro fotográfico y/o audiovisual que &nbsp;</span></div>
 				<div class="stl_01" style="top: 17.8385em; left:3.1em;"><span class="stl_11 stl_12" style="word-spacing:0.17em;">me fue solicitado para fines únicamente</span><span class="stl_11 stl_12" style="word-spacing:0.13em;">&nbsp;de manejo de IPS a</span><span class="stl_11 stl_12" style="word-spacing:0.16em;">&nbsp;EPS protegiendo los datos</span><span class="stl_11 stl_12" style="word-spacing:0.2em;">&nbsp;personales</span><span class="stl_11 stl_12" style="word-spacing:0.13em;">&nbsp;de &nbsp;</span></div>
 				<div class="stl_01" style="top: 18.8785em; left:3.1em;"><span class="stl_11 stl_12" style="word-spacing:0.05em;">acuerdo a la normatividad legal vigente regulada por la ley 1581 de 2012. &nbsp;</span></div>
+				
+				@if(isset($consentsinformed[0]['firm_patient']))
 				<div class="stl_01" style="top: 23.031em; left:3.55em;"><span class="stl_11">Firma: &nbsp;</span></div>
 				<div class="stl_01" style="top: 23.031em; left:13.4617em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['firm_patient']}} &nbsp;</span></span></div>
+				@endisset
+
 				<div class="stl_01" style="top: 24.311em; left:13.4617em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 25.591em; left:13.4617em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['admissions']['patients'] ['identification']}} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 23.031em; left:26.7758em;"><span class="stl_11">Firma: &nbsp;</span></div>
@@ -194,16 +198,26 @@
 				<div class="stl_01" style="top: 25.711em; left:35.4358em;"><span class="stl_11 stl_08">___________6_______<span class="stl_12">__ &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 26.991em; left:26.7758em;"><span class="stl_11">Cargo: &nbsp;</span></div>
 				<div class="stl_01" style="top: 27.111em; left:35.4358em;"><span class="stl_11 stl_08">_____________7_____<span class="stl_12">__ &nbsp;</span></span></div>
+				
+				@if(isset($consentsinformed[0]['firm_responsible']))
 				<div class="stl_01" style="top: 28.151em; left:3.55em;"><span class="stl_11">Firma: &nbsp;</span></div>
-
 				<div class="stl_01" style="top: 28.391em; left:13.9217em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['firm_responsible']}} &nbsp;</span></span></div>
+				@endisset
+
+				@if(isset($consentsinformed[0]['relationship']))
 				<div class="stl_01" style="top: 30.071em; left:13.9217em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['relationship'] ['name']}} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 29.431em; left:3.55em;"><span class="stl_11">Parentesco: &nbsp;</span></div>
+				@endisset
+
+				@if(isset($consentsinformed[0]['name_responsible']))
 				<div class="stl_01" style="top: 31.101em; left:3.55em;"><span class="stl_11" style="word-spacing:-0.02em;">Nombre de &nbsp;</span></div>
 				<div class="stl_01" style="top: 32.141em; left:3.55em;"><span class="stl_11 stl_08" style="word-spacing:0.89em;">cuidador/responsable: <span class="stl_12">&nbsp;</span>{{$consentsinformed[0]['name_responsible']}}</span></div>
-				<div class="stl_01" style="top: 33.181em; left:3.55em;"><span class="stl_11">Documento: &nbsp;</span></div>
+				@endisset
 
+				@if(isset($consentsinformed[0]['identification_responsible']))
+				<div class="stl_01" style="top: 33.181em; left:3.55em;"><span class="stl_11">Documento: &nbsp;</span></div>
 				<div class="stl_01" style="top: 33.421em; left:13.9217em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['identification_responsible']}} &nbsp;</span></span></div>
+				@endisset
 				<div class="stl_01" style="top: 62.6239em; left:2.07em;"><span class="stl_14 stl_08" style="word-spacing:0.74em;">CÓDIGO: F-PAD-1<span class="stl_12">7 &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 63.3839em; left:2.07em;"><span class="stl_14 stl_12" style="word-spacing:0.07em;">ELABORO: ANDREA VIVAS GONZÁLEZ &nbsp;</span></div>
 				<div class="stl_01" style="top: 64.1359em; left:2.07em;"><span class="stl_14 stl_12" style="word-spacing:1.09em;">CARGO: GESTOR</span><span class="stl_14 stl_12" style="word-spacing:0.06em;">&nbsp;AUDITORA</span><span class="stl_14 stl_12" style="word-spacing:0.02em;">&nbsp;PAD &nbsp;</span></div>
