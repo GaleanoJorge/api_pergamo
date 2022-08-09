@@ -260,6 +260,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChReasonSeeder::class);
                 $this->call(HourlyFrequencySeeder::class);
                 
+                //Semillas  Consentimiento informado
+                $this->call(TypeConsentsSeeder::class);
                 
                 
                 //Semillas HC SocialWork

@@ -849,7 +849,7 @@ class PatientController extends Controller
      * @param integer $id
      * @return JsonResponse
      */
-    public function update(PatientRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
 
 
