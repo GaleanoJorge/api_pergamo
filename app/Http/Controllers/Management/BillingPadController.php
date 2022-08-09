@@ -1823,7 +1823,7 @@ A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $
 2;1;;;;
 ;;;
 
-SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';04;12;01;;;;;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
         ];
 
@@ -1871,6 +1871,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'patients.residence_address AS residence_address',
                 'patients.email AS email',
                 'patients.phone AS phone',
+                'type_briefcase.code AS regimen_code',
+                'coverage.code AS coverage_code',
                 'campus.address AS patient_admission_address',
                 'campus.enable_code AS patient_admission_enable_code',
                 'campus.billing_pad_prefix_id AS campus_billing_pad_prefix_id',
@@ -1895,8 +1897,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             ->leftJoin('billing_pad_prefix AS PF', 'PF.id', 'billing_pad.billing_pad_prefix_id')
             ->leftJoin('billing_pad_consecutive', 'billing_pad_consecutive.id', 'billing_pad.billing_pad_consecutive_id')
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
+            ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
             ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
+            ->leftJoin('coverage', 'coverage.id', 'briefcase.coverage_id')
             ->leftJoin('region', 'region.id', 'campus.region_id')
             ->leftJoin('municipality', 'municipality.id', 'campus.municipality_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
