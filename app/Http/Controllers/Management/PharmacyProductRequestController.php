@@ -427,7 +427,7 @@ class PharmacyProductRequestController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Producto solicitado asociado al de factura exitosamente',
+            'message' => 'Producto solicitado exitosamente',
             'data' => ['pharmacy_product_request' => $PharmacyProductRequest->toArray()]
         ]);
     }

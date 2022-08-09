@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
+
 
 require('ManagementPlanController.php');
 
@@ -360,6 +362,39 @@ class AuthorizationController extends Controller
             'status' => true,
             'message' => 'Estados de glosas creados exitosamente',
             'data' => ['authorization' => $Authorization->toArray()]
+        ]);
+    }
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function saveGroup(AuthorizationRequest $request): JsonResponse
+    {
+
+        $auth_array = json_decode($request->authorizations);
+        $i = 0;
+        foreach($auth_array as $item){
+            $Auth = Authorization::find($item->id);
+            
+            $Auth->observation = $request->observation;
+            $Auth->auth_number = $request->auth_number;
+            $Auth->copay = $request->copay ? true : false;
+            $Auth->observation = $request->copay_value;
+            if ($request->file('file')) {
+                $path = Storage::disk('public')->put('file', $request->file('file'));
+                $Auth->file_auth = $path;
+            } 
+            $Auth->save();
+            $i++;
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $i.' autorizaciones actualizadas exitosamente',
+            // 'data' => ['authorization' => $Authorization->toArray()]
         ]);
     }
 
