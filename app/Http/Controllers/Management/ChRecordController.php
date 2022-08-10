@@ -750,7 +750,7 @@ class ChRecordController extends Controller
         $patient = Patient::find($user_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
 
-        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id);
+        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -838,11 +838,14 @@ class ChRecordController extends Controller
         ]);
     }
 
-    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id)
+    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
     {
         $extra_dose = 0;
         if ($ManagementPlan->type_of_attention_id == 17) {
             $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                ->whereNull('assigned_management_plan.redo')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
                 ->where('management_plan.admissions_id', $admissions_id)
                 ->where('management_plan.type_of_attention_id', 17)
                 ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
@@ -852,11 +855,10 @@ class ChRecordController extends Controller
             if (count($assigned_validation) > 0) {
                 foreach ($assigned_validation as $element) {
                     $offset = 3;
-                    $start_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date'] . ' ' . $element['start_hour']);
-                    $finish_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date'] . ' ' . $element['finish_hour']);
+                    $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
                     $inidiat_time = Carbon::now()->subHours($offset);
                     $final_time = Carbon::now()->addHours($offset);
-                    if ($start_hour->gt($inidiat_time) && $finish_hour->lt($final_time)) {
+                    if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
                         array_push($validate, $element);
                     }
                 }
