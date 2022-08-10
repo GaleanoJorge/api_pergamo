@@ -90,20 +90,28 @@ class AuthorizationController extends Controller
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
             );
 
         if ($statusId == 0) {
-            $Authorization->where(function ($query) use ($request){
-                $query->where('auth_status_id', '<', 3)
-                    ->orWhereNotNull('application_id');
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3);
+                // ->WhereNull('auth_number');
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('application_id')
+                        ->where('auth_status_id', '<=', 3)
+                        ->WhereNull('auth_number');
+                });
             });
         } else {
             $Authorization
                 ->where('auth_status_id', $statusId);
-                $Authorization->where(function ($query) use ($request){
-                    $query->where('auth_status_id', '<', 3)
-                        ->orWhereNotNull('application_id');
-                });
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3)
+                    ->orWhereNotNull('application_id');
+            });
         }
 
 
@@ -136,7 +144,7 @@ class AuthorizationController extends Controller
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
-            $finish_date = new DateTime($request->final_date.'T23:59:59.9');
+            $finish_date = new DateTime($request->final_date . 'T23:59:59.9');
             $Authorization->where('authorization.created_at', '<=', $finish_date);
         }
 
@@ -210,12 +218,12 @@ class AuthorizationController extends Controller
         if ($statusId == 0) {
             // $Authorization->where('auth_status_id', 3)
             //     ->orwhere('auth_status_id', 4);
-                $Authorization->where(function ($query) use ($request){
-                    $query->where('auth_status_id', '>=', 3)
-                        ->WhereNotNull('auth_number');
-                });
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '>=', 3)
+                    ->WhereNotNull('auth_number');
+            });
         } else {
-            $Authorization->where(function ($query) use ($request, $statusId){
+            $Authorization->where(function ($query) use ($request, $statusId) {
                 $query->where('auth_status_id', '=', $statusId)
                     ->WhereNotNull('auth_number');
             });
@@ -365,7 +373,7 @@ class AuthorizationController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -376,24 +384,25 @@ class AuthorizationController extends Controller
 
         $auth_array = json_decode($request->authorizations);
         $i = 0;
-        foreach($auth_array as $item){
+        foreach ($auth_array as $item) {
             $Auth = Authorization::find($item->id);
-            
+
             $Auth->observation = $request->observation;
             $Auth->auth_number = $request->auth_number;
-            $Auth->copay = $request->copay ? true : false;
-            $Auth->observation = $request->copay_value;
+            $Auth->auth_status_id = 3;
+            $Auth->copay = $request->copay;
+            $Auth->copay_value = $request->copay_value;
             if ($request->file('file')) {
                 $path = Storage::disk('public')->put('file', $request->file('file'));
                 $Auth->file_auth = $path;
-            } 
+            }
             $Auth->save();
             $i++;
         }
 
         return response()->json([
             'status' => true,
-            'message' => $i.' autorizaciones actualizadas exitosamente',
+            'message' => $i . ' autorizaciones actualizadas exitosamente',
             // 'data' => ['authorization' => $Authorization->toArray()]
         ]);
     }
@@ -426,22 +435,14 @@ class AuthorizationController extends Controller
     {
         $Authorization = Authorization::find($id);
 
-        if ($request->auth_number && $request->authorized_amount) {
-            // autorizado por pre
-            $Authorization->auth_number = $request->auth_number;
-            $Authorization->authorized_amount = $request->authorized_amount;
-            $Authorization->auth_status_id = 3;
-        } else if ($request->auth_number) {
-            // autorizado por post
-            $Authorization->auth_number = $request->auth_number;
-            $Authorization->auth_status_id = 3;
-        } else if ($request->observation) {
-
-            $Authorization->observation = $request->observation;
-            $Authorization->auth_status_id = 4;
-        } else {
-
-            $Authorization->auth_status_id = $request->auth_status_id;
+        $Authorization->auth_number = $request->auth_number;
+        $Authorization->auth_status_id = $request->auth_status_id;
+        $Authorization->observation = $request->observation;
+        $Authorization->copay = $request->copay;
+        $Authorization->copay_value = $request->copay_value;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $Authorization->file_auth = $path;
         }
 
         $Authorization->save();
