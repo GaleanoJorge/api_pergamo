@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\AssignedManagementPlan;
 use Carbon\Carbon;
 use App\Models\ServicesBriefcase;
 use App\Models\Tariff;
@@ -39,6 +40,11 @@ class BillUserActivity extends Model
 	public function tariff()
 	{
 		return $this->belongsTo(Tariff::class,'tariff_id');
+
+	}
+	public function assigned_management_plan()
+	{
+		return $this->belongsTo(AssignedManagementPlan::class,'assigned_management_plan_id');
 
 	}
 	

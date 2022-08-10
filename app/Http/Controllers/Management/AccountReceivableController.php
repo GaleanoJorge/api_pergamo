@@ -310,7 +310,12 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
-        $sign = $Assistance->file_firm;
+        $sign = "";
+        if ($Assistance->file_firm) {
+            $rutaImagen = storage_path('app/public/' . $Assistance->file_firm);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $sign = base64_encode($contenidoBinario);
+        }
         $nombre_completo = $UserDownload->nombre_completo;
 
         $generate_date = Carbon::now()->format('d-m-Y H:i:s');
