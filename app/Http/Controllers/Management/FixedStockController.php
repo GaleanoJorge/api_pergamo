@@ -22,7 +22,8 @@ class FixedStockController extends Controller
         $FixedStock = FixedStock::select('fixed_stock.*')->with(
             'campus',
             'fixed_type',
-            'users_fixed_stock.user'
+            'users_fixed_stock.user',
+            'services_fixed_stock.scope_of_attention',
         );
 
         if ($request->_sort) {

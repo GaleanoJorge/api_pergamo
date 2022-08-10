@@ -19,7 +19,13 @@ class FixedAssetsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAssets = FixedAssets::with('fixed_clasification', 'campus', 'fixed_nom_product');
+        $FixedAssets = FixedAssets::with(
+            'fixed_clasification',
+            'fixed_stock',
+            'fixed_stock.campus',
+            'fixed_stock.fixed_type',
+            'fixed_nom_product'
+        );
 
         if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);
@@ -28,9 +34,6 @@ class FixedAssetsController extends Controller
             $FixedAssets->where('name', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->actual_amount) {
-            $FixedAssets->where('fixed_assets.actual_amount', $request->actual_amount);
-        }
         if ($request->fixed_stock_id) {
             $FixedAssets->where('fixed_assets.fixed_stock_id', $request->fixed_stock_id);
         }
@@ -50,7 +53,7 @@ class FixedAssetsController extends Controller
             'data' => ['fixed_assets' => $FixedAssets]
         ]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -58,8 +61,15 @@ class FixedAssetsController extends Controller
      */
     public function getFixedByUserId(Request $request, int $id): JsonResponse
     {
-        $parmacy = FixedAssets::select('fixed_stock.*')
-            ->leftJoin('fixed_assets', 'fixed_stock.id', '=', 'fixed_assets.fixed_stock_id')
+        $fixed = FixedAssets::select('fixed_assets.*')
+            ->with(
+                'fixed_clasification',
+                'fixed_stock',
+                'fixed_stock.campus',
+                'fixed_stock.fixed_type',
+                'fixed_nom_product'
+            )
+            ->leftJoin('fixed_stock', 'fixed_stock.id', '=', 'fixed_assets.fixed_stock_id')
             ->leftJoin('users_fixed_stock', 'fixed_stock.id', '=', 'users_fixed_stock.fixed_stock_id')
             ->where('users_fixed_stock.user_id', $id)
             ->get()->toArray();
@@ -67,7 +77,35 @@ class FixedAssetsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'lotes por usuario obtenidas exitosamente',
-            'data' => ['fixed_assets' => $parmacy]
+            'data' => ['fixed_assets' => $fixed]
+        ]);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getFixedId(Request $request, int $id): JsonResponse
+    {
+        $fixed = FixedAssets::select('fixed_assets.*')
+            ->with(
+                'fixed_clasification',
+                'fixed_stock',
+                'fixed_stock.campus',
+                'fixed_stock.fixed_type',
+                'fixed_nom_product'
+            )
+            ->leftJoin('fixed_stock', 'fixed_stock.id', '=', 'fixed_assets.fixed_stock_id')
+            // ->leftJoin('users_fixed_stock', 'fixed_stock.id', 'users_fixed_stock.fixed_stock_id')
+            ->where('fixed_stock.id', $id)
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'lotes por usuario obtenidas exitosamente',
+            'data' => ['fixed_assets' => $fixed]
         ]);
     }
 
@@ -76,14 +114,12 @@ class FixedAssetsController extends Controller
         $FixedAssets = new FixedAssets;
         $FixedAssets->fixed_clasification_id = $request->fixed_clasification_id;
         $FixedAssets->fixed_type_id = $request->fixed_type_id;
+        $FixedAssets->fixed_stock_id = $request->fixed_stock_id;
         $FixedAssets->fixed_property_id = $request->fixed_property_id;
         $FixedAssets->obs_property = $request->obs_property;
         $FixedAssets->plaque = $request->plaque;
         $FixedAssets->company_id = $request->company_id;
-        $FixedAssets->campus_id = $request->campus_id;
-        $FixedAssets->status = $request->status;
-        $FixedAssets->amount_total = $request->amount_total;
-        $FixedAssets->actual_amount = $request->actual_amount;
+        $FixedAssets->status_prod = $request->status_prod;
         $FixedAssets->model = $request->model;
         $FixedAssets->mark = $request->mark;
         $FixedAssets->serial = $request->serial;
@@ -163,13 +199,11 @@ class FixedAssetsController extends Controller
         $FixedAssets = FixedAssets::find($id);
         $FixedAssets->fixed_clasification_id = $request->fixed_clasification_id;
         $FixedAssets->fixed_type_id = $request->fixed_type_id;
+        $FixedAssets->fixed_stock_id = $request->fixed_stock_id;
         $FixedAssets->fixed_property_id = $request->fixed_property_id;
         $FixedAssets->obs_property = $request->obs_property;
         $FixedAssets->plaque = $request->plaque;
-        $FixedAssets->campus_id = $request->campus_id;
-        $FixedAssets->status = $request->status;
-        $FixedAssets->amount_total = $request->amount_total;
-        $FixedAssets->actual_amount = $request->actual_amount;
+        $FixedAssets->status_prod = $request->status_prod;
         $FixedAssets->company_id = $request->company_id;
         $FixedAssets->model = $request->model;
         $FixedAssets->mark = $request->mark;
@@ -219,7 +253,7 @@ class FixedAssetsController extends Controller
         ]);
     }
 
-   
+
 
     /**
      * Remove the specified resource from storage.

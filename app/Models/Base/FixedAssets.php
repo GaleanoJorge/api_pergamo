@@ -13,6 +13,7 @@ use App\Models\FixedClasification;
 use App\Models\FixedCondition;
 use App\Models\FixedNomProduct;
 use App\Models\FixedProperty;
+use App\Models\FixedStock;
 use App\Models\FixedType;
 use App\Models\Frequency;
 use App\Models\Risk;
@@ -27,14 +28,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property BigInteger $fixed_clasification_id
  * @property BigInteger $fixed_type_id
+ * @property BigInteger $fixed_stock_id
  * @property BigInteger $fixed_property_id
  * @property BigInteger $company_id
- * @property BigInteger $campus_id
  * @property string $obs_property
  * @property string $plaque
- * @property string $status
- * @property integer $amount_total
- * @property integer $actual_amount
+ * @property string $status_prod
  * @property string $model
  * @property string $mark
  * @property string $serial
@@ -96,6 +95,10 @@ class FixedAssets extends Model
 	{
 		return $this->belongsTo(FixedType::class);
 	}
+	public function fixed_stock()
+	{
+		return $this->belongsTo(FixedStock::class);
+	}
 	public function fixed_property()
 	{
 		return $this->belongsTo(FixedProperty::class);
@@ -107,10 +110,6 @@ class FixedAssets extends Model
 	public function company()
 	{
 		return $this->belongsTo(Company::class);
-	}
-	public function campus()
-	{
-		return $this->belongsTo(Campus::class);
 	}
 	public function clasification_risk()
 	{
