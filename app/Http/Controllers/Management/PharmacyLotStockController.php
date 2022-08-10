@@ -38,7 +38,7 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product_supplies_com.factory',
                 'billing_stock.product_supplies_com.product_supplies'
 
-            );
+            )->orderBy('expiration_date', 'asc');
 
         if ($request->islot == true) {
             $PharmacyLotStock->groupby('pharmacy_lot_id');

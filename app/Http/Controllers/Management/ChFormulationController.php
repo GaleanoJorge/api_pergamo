@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class ChFormulationController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,22 +20,22 @@ class ChFormulationController extends Controller
     {
         $ChFormulation = ChFormulation::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ChFormulation->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $ChFormulation->where('name','like','%' . $request->search. '%');
+            $ChFormulation->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ChFormulation=$ChFormulation->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChFormulation=$ChFormulation->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $ChFormulation = $ChFormulation->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChFormulation = $ChFormulation->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -43,19 +43,27 @@ class ChFormulationController extends Controller
             'data' => ['ch_formulation' => $ChFormulation]
         ]);
     }
-    
-     /**
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        $ChFormulation = ChFormulation::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('service_briefcase','service_briefcase.product','service_briefcase.product.product_generic','administration_route','hourly_frequency')
+        $ChFormulation = ChFormulation::where('ch_record_id', $id)
+            ->where('type_record_id', $type_record_id)
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'administration_route',
+                'hourly_frequency',
+                'product_generic',
+            )
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -64,21 +72,21 @@ class ChFormulationController extends Controller
         ]);
     }
 
-    public function store(ChFormulationRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $ChFormulation = new ChFormulation;
-        $ChFormulation->product_generic_id = $request->product_generic_id;   
-        $ChFormulation->administration_route_id = $request->administration_route_id; 
-        $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
-        $ChFormulation->services_briefcase_id = $request->services_briefcase_id;  
-        $ChFormulation->medical_formula = $request->medical_formula; 
-        $ChFormulation->treatment_days = $request->treatment_days; 
-        $ChFormulation->outpatient_formulation = $request->outpatient_formulation; 
-        $ChFormulation->dose = $request->dose; 
-        $ChFormulation->observation = $request->observation; 
-        $ChFormulation->number_mipres = $request->number_mipres; 
-        $ChFormulation->type_record_id = $request->type_record_id; 
-        $ChFormulation->ch_record_id = $request->ch_record_id; 
+        $ChFormulation->product_generic_id = $request->product_generic_id;
+        $ChFormulation->administration_route_id = $request->administration_route_id;
+        $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
+        $ChFormulation->medical_formula = $request->medical_formula;
+        $ChFormulation->treatment_days = $request->treatment_days;
+        $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+        $ChFormulation->dose = $request->dose;
+        $ChFormulation->observation = $request->observation;
+        $ChFormulation->number_mipres = $request->number_mipres;
+        $ChFormulation->type_record_id = $request->type_record_id;
+        $ChFormulation->ch_record_id = $request->ch_record_id;
 
         $ChFormulation->save();
 
@@ -116,19 +124,19 @@ class ChFormulationController extends Controller
      */
     public function update(ChFormulationRequest $request, int $id): JsonResponse
     {
-        $ChFormulation = ChFormulation ::find($id);
-        $ChFormulation->product_generic_id = $request->product_generic_id;   
-        $ChFormulation->administration_route_id = $request->administration_route_id; 
-        $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id; 
-        $ChFormulation->medical_formula = $request->medical_formula; 
+        $ChFormulation = ChFormulation::find($id);
+        $ChFormulation->product_generic_id = $request->product_generic_id;
+        $ChFormulation->administration_route_id = $request->administration_route_id;
+        $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id;
+        $ChFormulation->medical_formula = $request->medical_formula;
         $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
-        $ChFormulation->treatment_days = $request->treatment_days; 
-        $ChFormulation->outpatient_formulation = $request->outpatient_formulation; 
-        $ChFormulation->dose = $request->dose; 
-        $ChFormulation->observation = $request->observation; 
+        $ChFormulation->treatment_days = $request->treatment_days;
+        $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+        $ChFormulation->dose = $request->dose;
+        $ChFormulation->observation = $request->observation;
         $ChFormulation->number_mipres = $request->number_mipres;
-        $ChFormulation->type_record_id = $request->type_record_id; 
-        $ChFormulation->ch_record_id = $request->ch_record_id;    
+        $ChFormulation->type_record_id = $request->type_record_id;
+        $ChFormulation->ch_record_id = $request->ch_record_id;
         $ChFormulation->save();
 
         return response()->json([

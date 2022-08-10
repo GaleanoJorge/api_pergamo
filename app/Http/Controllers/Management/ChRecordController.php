@@ -312,7 +312,7 @@ class ChRecordController extends Controller
                 'ChAp' => $ChAp,
                 'ChRecommendations' => $ChRecommendations,
                 'ChDiets' => $ChDiets,
-                
+
                 'ChBackground' => $ChBackground,
 
                 'ChEvoSoap' => $ChEvoSoap,
@@ -787,23 +787,8 @@ class ChRecordController extends Controller
         $locality = Patient::find($user_id)->locality_id;
         $patient = Patient::find($user_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-        if ($request->is_failed) {
-            $valuetariff = Tariff::where('failed', 1)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('pad_risk_id', $tariff)
-                ->where('status_id', 1)->get()->toArray();
-        } else {
-            $valuetariff = Tariff::where('admissions_id', $admissions->id)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('phone_consult', $ManagementPlan->phone_consult)
-                ->where('failed', 0)
-                ->where('status_id', 1);
-            $valuetariff = $valuetariff->get()->toArray();
-            if (count($valuetariff) == 0) {
-                $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request);
-            }
-        }
 
+        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -840,14 +825,16 @@ class ChRecordController extends Controller
             };
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
-            $LocationCapacity = LocationCapacity::where('locality_id', $locality)
-                ->where('assistance_id', $assistance->id)
-                ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-                ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-                ->first();
-            if ($LocationCapacity) {
-                $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                $LocationCapacity->save();
+            if ($assistance) {
+                $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+                    ->where('assistance_id', $assistance->id)
+                    ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+                    ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+                    ->first();
+                if ($LocationCapacity) {
+                    $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                    $LocationCapacity->save();
+                }
             }
 
             $TypeContract = TypeContract::select('type_contract.*')
@@ -889,37 +876,75 @@ class ChRecordController extends Controller
         ]);
     }
 
-    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request)
+    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
     {
-        $valuetariff = Tariff::where('pad_risk_id', $tariff)
-            ->where('phone_consult', $ManagementPlan->phone_consult)
-            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('status_id', 0)
-            ->where('failed', 0)
-            ->where('program_id', $Location->program_id);
-        // definir cuando la atención es fallida
+        $extra_dose = 0;
+        if ($ManagementPlan->type_of_attention_id == 17) {
+            $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                ->whereNull('assigned_management_plan.redo')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                ->where('management_plan.admissions_id', $admissions_id)
+                ->where('management_plan.type_of_attention_id', 17)
+                ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                ->get()->toArray();
+            $validate = array();
+
+            if (count($assigned_validation) > 0) {
+                foreach ($assigned_validation as $element) {
+                    $offset = 3;
+                    $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                    $inidiat_time = Carbon::now()->subHours($offset);
+                    $final_time = Carbon::now()->addHours($offset);
+                    if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                        array_push($validate, $element);
+                    }
+                }
+            }
+            if (count($validate) > 0) {
+                $extra_dose = 1;
+            }
+        }
         if ($request->is_failed) {
-            if ($request->is_failed == true) {
-                $valuetariff->where('failed', 1);
-            } else {
-                $valuetariff->where('failed', 0);
+            $valuetariff = Tariff::where('failed', 1)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('pad_risk_id', $tariff)
+                ->where('status_id', 1)->get()->toArray();
+        } else {
+            $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('phone_consult', $ManagementPlan->phone_consult)
+                ->where('failed', 0)
+                ->where('status_id', 1);
+            $valuetariff = $valuetariff->get()->toArray();
+            if (count($valuetariff) == 0) {
+                $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                    ->where('phone_consult', $ManagementPlan->phone_consult)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('status_id', 1)
+                    ->where('failed', 0)
+                    ->where('program_id', $Location->program_id);
+                // definir cuando la atención es fallida
+                if ($request->is_failed) {
+                    if ($request->is_failed == true) {
+                        $valuetariff->where('failed', 1);
+                    } else {
+                        $valuetariff->where('failed', 0);
+                    }
+                } else {
+                    $valuetariff->where('failed', 0);
+                }
+                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                    if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
+                        $valuetariff->where('quantity', $ManagementPlan->quantity);
+                    }
+                } else {
+                    $valuetariff->whereNull('quantity');
+                }
+                $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff = $valuetariff->get()->toArray();
             }
-        } else {
-            $valuetariff->where('failed', 0);
         }
-        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-            if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
-                $valuetariff->where('quantity', $ManagementPlan->quantity);
-            }
-        } else {
-            $valuetariff->whereNull('quantity');
-        }
-        if ($request->extra_dose) {
-            $valuetariff->where('extra_dose', $request->extra_dose);
-        } else {
-            $valuetariff->where('extra_dose', 0);
-        }
-        $valuetariff = $valuetariff->get()->toArray();
 
         return $valuetariff;
     }

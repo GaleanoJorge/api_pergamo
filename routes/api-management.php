@@ -1377,6 +1377,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
     //Autorizaciones
     Route::apiResource('authorization', 'Management\AuthorizationController');
+    Route::post('authorization/Massive', 'Management\AuthorizationController@saveGroup');
     Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
     Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');

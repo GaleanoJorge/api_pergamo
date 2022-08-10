@@ -35,6 +35,8 @@ class PharmacyProductRequestController extends Controller
             DB::raw('SUM(pharmacy_request_shipping.amount_provition) AS cantidad_enviada')
         )
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
             ->with(
                 'product_generic',
                 'product_supplies',
@@ -56,11 +58,25 @@ class PharmacyProductRequestController extends Controller
             )
             ->groupBy('pharmacy_product_request.id');
 
-            if($request->status=="PATIENT"){
+        if ($request->status == "PATIENT") {
+            $PharmacyProductRequest->where('pharmacy_product_request.status', "PATIENT");
+        } else {
+            $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
+        }
 
-            }else{
-                $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
-            }
+        if ($request->status == "ENVIADO") {
+            // $PharmacyProductRequest->Where('request_pharmacy_stock_id');
+            // $PharmacyProductRequest->where('status',"DEVUELTO");
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->where('pharmacy_product_request.status', "ENVIADO")
+                    ->whereNotNull('pharmacy_product_request.request_pharmacy_stock_id');
+            });
+            // $PharmacyProductRequest->orWhere('status',"DEVUELTO");
+            $PharmacyProductRequest->orWhere(function ($query) use ($request) {
+                $query->where('pharmacy_product_request.status', "DEVUELTO")
+                    ->whereNull('pharmacy_product_request.request_pharmacy_stock_id');
+            });
+        }
 
         if ($request->_sort) {
             $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
@@ -102,11 +118,11 @@ class PharmacyProductRequestController extends Controller
 
         if ($request->admissions_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);
-        } 
-        if($request->record_id){
+        }
+        if ($request->record_id) {
             $admissions_id = ChRecord::find($request->record_id);
-            $admissions=$admissions_id->admissions_id;
-            $PharmacyProductRequest->where('admissions_id', $admissions);
+            $admissions = $admissions_id->admissions_id;
+            $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $admissions);
         }
 
 
@@ -115,16 +131,59 @@ class PharmacyProductRequestController extends Controller
         }
 
 
-        if ($request->status) {
-            $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
-        }
+        // if ($request->status) {
+        //     $PharmacyProductRequest->where('pharmacy_product_request.status', $request->status);
 
-        if ($request->product == "true") {
+        if ($request->product == 1) {
             //medicamento  product_generic_id
-            $PharmacyProductRequest->whereNotNull('product_generic_id')->whereNull('product_supplies_id');
-        } else if ($request->product == "false") {
+            // $PharmacyProductRequest->whereNotNull('pharmacy_product_request.product_generic_id')->whereNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->whereNotNull('pharmacy_product_request.product_generic_id')
+                    ->whereNull('pharmacy_product_request.product_supplies_id')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->whereNull('pharmacy_product_request.product_generic_id')
+                            ->whereNull('pharmacy_product_request.product_supplies_id')
+                            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
+                            ->Where(function ($q) use ($request) {
+                                $q->whereNotNull('manual_price.product_id')
+                                    ->whereNull('manual_price.supplies_id');
+                            });
+                    });
+            });
+        } else if ($request->product == 2) {
+
             // insumo product_supplies_id
-            $PharmacyProductRequest->whereNull('product_generic_id')->whereNotNull('product_supplies_id');
+            // $PharmacyProductRequest->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->whereNull('pharmacy_product_request.product_generic_id')
+                    ->whereNotNull('pharmacy_product_request.product_supplies_id')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->whereNull('pharmacy_product_request.product_generic_id')
+                            ->whereNull('pharmacy_product_request.product_supplies_id')
+                            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
+                            ->Where(function ($q) use ($request) {
+                                $q->whereNull('manual_price.product_id')
+                                    ->whereNotNull('manual_price.supplies_id');
+                            });
+                    });
+            });
+        } else {
+
+            // insumo product_supplies_id
+            // $PharmacyProductRequest->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->whereNull('pharmacy_product_request.product_generic_id')
+                    ->whereNotNull('pharmacy_product_request.product_supplies_id')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->whereNull('pharmacy_product_request.product_generic_id')
+                            ->whereNull('pharmacy_product_request.product_supplies_id')
+                            ->whereNotNull('pharmacy_product_request.services_briefcase_id')
+                            ->Where(function ($q) use ($request) {
+                                $q->whereNotNull('manual_price.product_id')
+                                    ->orWhereNotNull('manual_price.supplies_id');
+                            });
+                    });
+            });
         }
 
         if ($request->search) {
@@ -211,7 +270,7 @@ class PharmacyProductRequestController extends Controller
         // if ($request->user) {
         //     $PharmacyProductRequest->where('pharmacy_product_request.user_request_id', $request->user_id);
         // }
-        
+
         //desde historia clinica
         if ($request->patient) {
             $ch_record = ChRecord::find($request->patient);
@@ -240,25 +299,24 @@ class PharmacyProductRequestController extends Controller
             //     ->where('patients.id', $request->user_id)
             //     ->where('discharge_date', '0000-00-00 00:00:00')->orderBy('created_at', 'desc')->get()->toArray();
             $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-            ->where('status', 'ENVIADO')
-            ->whereNotNull('manual_price.product_id');
+                ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+                ->where('status', 'ENVIADO')
+                ->whereNotNull('manual_price.product_id');
             // foreach ($EnabledAdmissions as $item) {
-                $PharmacyProductRequest->where(function ($query) use ($request) {
-                    $query->Where('admissions_id', $request->admissions);
-                });
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->Where('admissions_id', $request->admissions);
+            });
             // }
-        } else if($request->type == '2'){
+        } else if ($request->type == '2') {
 
             $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-;
+                ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id');
             // foreach ($EnabledAdmissions as $item) {
-                $PharmacyProductRequest->where(function ($query) use ($request) {
-                    $query->where('status', 'ENVIADO')
+            $PharmacyProductRequest->where(function ($query) use ($request) {
+                $query->where('status', 'ENVIADO')
                     ->Where('admissions_id', $request->admissions)
                     ->whereNotNull('manual_price.supplies_id');
-                });
+            });
         }
 
         // if ($request->patient) {
@@ -291,14 +349,14 @@ class PharmacyProductRequestController extends Controller
         // } else {
         //     $page = $request->query("current_page", 1);
         //     $per_page = $request->query("per_page", 10);
-            
+
         //     $PharmacyProductRequest = $PharmacyProductRequest->paginate($per_page, '*', 'page', $page);
         // }
         $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
         foreach ($PharmacyProductRequest as $item) {
             if ($item['disponibles'] == 0) {
             } else {
-                array_push($arreglo,$item);
+                array_push($arreglo, $item);
             }
         }
 
@@ -354,10 +412,22 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
+        if ($request->status == "DEVUELTO") {
+            $supplies = AssistanceSupplies::select('assistance_supplies.*')
+                ->where('supplies_status_id', 1)
+                ->where('pharmacy_product_request_id', $request->pharmacy_request)->get()->toArray();
+            for ($i = 0; $i < $request->request_amount; $i++)
+
+                $AssistanceSupplies = AssistanceSupplies::find($supplies[$i]['id']);
+
+            $AssistanceSupplies->supplies_status_id = 4;
+
+            $AssistanceSupplies->save();
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Producto solicitado asociado al de factura exitosamente',
+            'message' => 'Producto solicitado exitosamente',
             'data' => ['pharmacy_product_request' => $PharmacyProductRequest->toArray()]
         ]);
     }
