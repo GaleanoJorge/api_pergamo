@@ -96,7 +96,13 @@ class BillUserActivityController extends Controller
      */
     public function getByAccountReceivable(Request $request, int $id): JsonResponse
     {
-        $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)->with('procedure', 'procedure.manual_price', 'tariff');
+        $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)
+            ->with(
+                'procedure',
+                'procedure.manual_price',
+                'tariff',
+                'assigned_management_plan',
+            );
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
         }
