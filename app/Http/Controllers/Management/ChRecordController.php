@@ -28,9 +28,24 @@ use App\Models\ChAp;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChDietsEvo;
 use App\Models\ChVitalSigns;
+
 use App\Models\ChScaleNorton;
+use App\Models\ChScaleFac;
 use App\Models\ChScaleGlasgow;
+use App\Models\ChScaleBarthel;
+use App\Models\ChScaleRedCross;
+use App\Models\ChScaleBraden;
+use App\Models\ChScaleKarnofsky;
+use App\Models\ChScaleEcog;
+use App\Models\ChScalePediatricNutrition;
+use App\Models\ChScaleScreening;
+use App\Models\ChScalePayette;
+use App\Models\ChScaleFragility;
 use App\Models\ChScaleNews;
+use App\Models\ChScaleZarit;
+
+use App\Models\ChFormulation;
+
 use App\Models\ChPhysicalExam;
 
 use App\Models\ChPosition;
@@ -40,7 +55,7 @@ use App\Models\ChCarePlan;
 use App\Models\ChLiquidControl;
 use App\Models\ChSkinValoration;
 use App\Models\ChScaleJhDownton;
-use App\Models\ChScaleBraden;
+
 
 use App\Models\ChEOccHistoryOT;
 use App\Models\ChEPastOT;
@@ -58,14 +73,6 @@ use App\Models\ChEMSCommunicationOT;
 use App\Models\ChEMSAssessmentOT;
 use App\Models\ChEMSWeeklyOT;
 use App\Models\ChRNMaterialsOT;
-
-
-
-
-
-
-
-
 
 use App\Models\ChSystemExam;
 use App\Models\ManagementPlan;
@@ -213,7 +220,7 @@ class ChRecordController extends Controller
 
         if ($ChRecord[0]['ch_type_id'] == 1) {
             //Ingreso
-            $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $id)->get()->toArray();
+            $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
@@ -232,7 +239,7 @@ class ChRecordController extends Controller
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             $ChDiets = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
 
-          
+            //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
 
             //Evolución
@@ -255,10 +262,29 @@ class ChRecordController extends Controller
             $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
 
-
-            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
-            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
-            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->get()->toArray();
+            //Escalas
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleFac = ChScaleFac::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleBarthel = ChScaleBarthel::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleRedCross = ChScaleRedCross::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleBraden = ChScaleBraden::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleKarnofsky = ChScaleKarnofsky::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleEcog = ChScaleEcog::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScalePediatricNutrition = ChScalePediatricNutrition::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleScreening = ChScaleScreening::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScalePayette = ChScalePayette::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleFragility = ChScaleFragility::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleZarit = ChScaleZarit::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            
+            //Formulación   
+            $ChFormulation = ChFormulation::with(
+                'product_generic',
+                'administration_route',
+                'hourly_frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 5)->get()->toArray();
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -298,10 +324,22 @@ class ChRecordController extends Controller
                 'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'ChDietsEvo' => $ChDietsEvo,
 
-
                 'ChScaleNorton' => $ChScaleNorton,
+                'ChScaleFac' => $ChScaleFac,
                 'ChScaleGlasgow' => $ChScaleGlasgow,
+                'ChScaleBarthel' => $ChScaleBarthel,
+                'ChScaleRedCross' => $ChScaleRedCross,
+                'ChScaleBraden' => $ChScaleBraden,
+                'ChScaleKarnofsky' => $ChScaleKarnofsky,
+                'ChScaleEcog' => $ChScaleEcog,
+                'ChScalePediatricNutrition' => $ChScalePediatricNutrition,
+                'ChScaleScreening' => $ChScaleScreening,
+                'ChScalePayette' => $ChScalePayette,
+                'ChScaleFragility' => $ChScaleFragility,
                 'ChScaleNews' => $ChScaleNews,
+                'ChScaleZarit' => $ChScaleZarit,
+                
+                'ChFormulation' => $ChFormulation,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
