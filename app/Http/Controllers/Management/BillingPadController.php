@@ -39,6 +39,8 @@ class BillingPadController extends Controller
                 'billing_pad_status',
                 'admissions',
                 'billing_pad_pgp',
+                'admissions',
+                'admissions.patients',
             );
 
         if ($request->_sort) {
@@ -48,8 +50,14 @@ class BillingPadController extends Controller
             $BillingPad->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->id) {
+            $BillingPad->where('id', $request->id);
+        }
+
         if ($request->admission_id) {
-            $BillingPad->where('admissions_id', $request->admission_id);
+            if ($request->admission_id != 0) {
+                $BillingPad->where('admissions_id', $request->admission_id);
+            }
         }
 
         if ($request->descendente) {
