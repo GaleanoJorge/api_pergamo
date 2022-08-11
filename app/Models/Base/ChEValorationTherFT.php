@@ -5,7 +5,6 @@
  */
 
 namespace App\Models\Base;
-use App\Models\Diagnosis;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
 
@@ -16,8 +15,12 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChBackground
  * 
  * @property int $id
- * @property string $patient_state
- * @property unsignedBigInteger ch_diagnosis_id 
+ * @property string $illness
+ * @property string $sports
+ * @property string $obsertations
+ * @property string $days_number
+ * @property string $minutes_number
+ * 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 
  * @property Carbon $created_at
@@ -26,14 +29,10 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class ChEValorationFT extends Model
+class ChEValorationTherFT extends Model
 {
-	protected $table = 'ch_e_valoration_f_t';
+	protected $table = 'ch_e_valoration_ther_f_t';
 
-	public function ch_diagnosis()
-	{
-		return $this->belongsTo(Diagnosis::class);
-	}
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);

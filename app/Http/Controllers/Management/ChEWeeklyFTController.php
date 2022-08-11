@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\ChEValorationFT;
+use App\Models\ChEWeeklyFT;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
-class ChEValorationFTController extends Controller
+class ChEWeeklyFTController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,35 +17,34 @@ class ChEValorationFTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::select();
-
+        $ChEWeeklyFT = ChEWeeklyFT::select();
 
         if ($request->ch_record_id) {
-            $ChEValorationFT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+            $ChEWeeklyFT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
         }
 
         if ($request->_sort) {
-            $ChEValorationFT->orderBy($request->_sort, $request->_order);
+            $ChEWeeklyFT->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $ChEValorationFT->where('name', 'like', '%' . $request->search . '%');
+            $ChEWeeklyFT->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $ChEValorationFT = $ChEValorationFT->get()->toArray();
+            $ChEWeeklyFT = $ChEWeeklyFT->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $ChEValorationFT = $ChEValorationFT->paginate($per_page, '*', 'page', $page);
+            $ChEWeeklyFT = $ChEWeeklyFT->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_weekly_f_t' => $ChEWeeklyFT]
         ]);
     }
 
@@ -59,44 +58,42 @@ class ChEValorationFTController extends Controller
      */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-
-
-        $ChEValorationFT = ChEValorationFT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('ch_diagnosis')->get()->toArray();
-
-
+        $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_weekly_f_t' => $ChEWeeklyFT]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        // $validate=ChEValorationFT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
-        // if(!$validate){
-        $ChEValorationFT = new ChEValorationFT;
-        $ChEValorationFT->patient_state = $request->patient_state;
-        $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
-        $ChEValorationFT->type_record_id = $request->type_record_id;
-        $ChEValorationFT->ch_record_id = $request->ch_record_id;
-        $ChEValorationFT->save();
+        //$validate = ChEWeeklyFT::where('ch_record_id', $request->ch_record_id)->where('type_record_id', $request->type_record_id);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Valoracion asociados al paciente exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT->toArray()]
-        ]);
-        // }else{
-        //     return response()->json([
+        //if (!$validate) {
+            $ChEWeeklyFT = new ChEWeeklyFT;
+            $ChEWeeklyFT->monthly_sessions = $request->monthly_sessions;
+            $ChEWeeklyFT->weekly_intensity = $request->weekly_intensity;
+            $ChEWeeklyFT->recommendations = $request->recommendations;
+
+            $ChEWeeklyFT->type_record_id = $request->type_record_id;
+            $ChEWeeklyFT->ch_record_id = $request->ch_record_id;
+            $ChEWeeklyFT->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Valoracion asociados al paciente exitosamente',
+                'data' => ['ch_e_weekly_f_t' => $ChEWeeklyFT->toArray()]
+            ]);
+          
+        // } else {
+        //      return response()->json([
         //         'status' => false,
-        //         'message' => 'Ya tiene observación'
+        //          'message' => 'Ya tiene observación'
         //     ], 423);
-        // }
+        //  }
     }
-
 
     /**
      * Display the specified resource.
@@ -106,13 +103,13 @@ class ChEValorationFTController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::where('id', $id)
+        $ChEWeeklyFT = ChEWeeklyFT::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenido exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_weekly_f_t' => $ChEWeeklyFT]
         ]);
     }
 
@@ -124,17 +121,19 @@ class ChEValorationFTController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::find($id);
-        $ChEValorationFT->patient_state = $request->patient_state;
-        $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
-        $ChEValorationFT->type_record_id = $request->type_record_id;
-        $ChEValorationFT->ch_record_id = $request->ch_record_id;
-        $ChEValorationFT->save();
+        $ChEWeeklyFT = ChEWeeklyFT::find($id);
+        $ChEWeeklyFT->monthly_sessions = $request->monthly_sessions;
+        $ChEWeeklyFT->weekly_intensity = $request->weekly_intensity;
+        $ChEWeeklyFT->recommendations = $request->recommendations;
+
+        $ChEWeeklyFT->type_record_id = $request->type_record_id;
+        $ChEWeeklyFT->ch_record_id = $request->ch_record_id;
+        $ChEWeeklyFT->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion actualizado exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_weekly_f_t' => $ChEWeeklyFT]
         ]);
     }
 
@@ -147,8 +146,8 @@ class ChEValorationFTController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $ChEValorationFT = ChEValorationFT::find($id);
-            $ChEValorationFT->delete();
+            $ChEWeeklyFT = ChEWeeklyFT::find($id);
+            $ChEWeeklyFT->delete();
 
             return response()->json([
                 'status' => true,

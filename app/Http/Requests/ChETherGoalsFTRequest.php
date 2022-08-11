@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ChEMSAssessmentOTRequest extends FormRequest
+class ChETherGoalsFTRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class ChEMSAssessmentOTRequest extends FormRequest
     public function rules()
     {
         return [
-            'occupational_con' => '', 
             'check1_hold' => '',
             'check2_improve' => '',
             'check3_structure' => '',
