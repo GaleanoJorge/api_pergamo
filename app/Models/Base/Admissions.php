@@ -66,6 +66,11 @@ class Admissions extends Model
 		return $this->hasMany(Location::class);
 	}
 
+	public function locationUnique()
+	{
+		return $this->belongsTo(Location::class, 'id', 'admissions_id');
+	}
+
 	public function pac_monitoring()
 	{
 		return $this->hasMany(PacMonitoring::class);
