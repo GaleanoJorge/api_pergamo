@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id 
  * @property string $name
+ * @property string $status
  * @property integer $amount_total
  * @property integer $actual_amount
  * @property BigInteger $fixed_type_id

@@ -137,6 +137,7 @@ class ChVitalSignsController extends Controller
         // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
         // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
+        $ChVitalSigns->has_oxigen = $request->has_oxigen; 
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry; 
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
@@ -232,6 +233,7 @@ class ChVitalSignsController extends Controller
         // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
         // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
+        $ChVitalSigns->has_oxigen = $request->has_oxigen; 
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;

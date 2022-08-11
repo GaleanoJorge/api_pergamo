@@ -7,10 +7,13 @@
 namespace App\Models\Base;
 
 use App\Models\Campus;
+use App\Models\ServicesPharmacyStock;
 use App\Models\TypePharmacyStock;
-use App\Models\User;
+use App\Models\UserPharmacyStock;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use PDO;
+use Phar;
 
 /**
  * Class PharmacyStock
@@ -38,4 +41,13 @@ class PharmacyStock extends Model
 		return $this->belongsTo(TypePharmacyStock::class);
 	}
 
+	public function services_pharmacy_stock()
+	{
+		return $this->hasMany(ServicesPharmacyStock::class, 'pharmacy_stock_id');
+	}
+
+	public function user_pharmacy_stock()
+	{
+		return $this->hasMany(UserPharmacyStock::class, 'pharmacy_stock_id');
+	}
 }

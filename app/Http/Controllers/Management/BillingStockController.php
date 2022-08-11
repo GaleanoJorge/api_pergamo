@@ -29,7 +29,7 @@ class BillingStockController extends Controller
             $BillingStock->where('amount', 'like', '%' . $request->search . '%');
         }
         if ($request->billing_id) {
-            $BillingStock->where('billing_id', $request->billing_id);
+            $BillingStock->where('billing_id', $request->billing_id)->where('amount_provitional','!=',0);
         }
         if ($request->product_id) {
             $BillingStock->where('product_id', $request->product_id);

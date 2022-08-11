@@ -7,11 +7,15 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceSuppliesRequest;
+use App\Models\AssignedManagementPlan;
 use App\Models\Assistance;
 use App\Models\Authorization;
+use App\Models\ChReason;
 use App\Models\ChRecord;
+use App\Models\ManagementPlan;
 use App\Models\PharmacyProductRequest;
 use App\Models\PharmacyRequestShipping;
+use App\Models\Product;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
 use Illuminate\Database\QueryException;
@@ -135,132 +139,162 @@ class AssistanceSuppliesController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(AssistanceSuppliesRequest $request, int $id): JsonResponse
+    public function update(AssistanceSuppliesRequest $request, int $PharmacyProductRequest_id): JsonResponse
     {
-        if ($request->supplies_status_id == 2) {
-            $supplies = AssistanceSupplies::select('assistance_supplies.*')
-                ->where('supplies_status_id', '1')
-                ->where('pharmacy_product_request_id', $id)->first();
-            if ($supplies->count() > 0) {
 
-                $AssistanceSupplies =  AssistanceSupplies::find($supplies->id);
+        global $aplicated;
+        $aplicated = 0;
 
-                $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
+        $supplies = AssistanceSupplies::select('assistance_supplies.*')
+            ->where('supplies_status_id', 1)
+            ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get()->toArray();
 
-                if ($PharmacyProductRequest->product_supplies_id) {
+        if (sizeof($supplies) > 0) {
+            // $supplies->first();
+            if ($request->supplies_status_id == 2) {
+                //cproducto o insumo
+                $PharmacyProductRequest = PharmacyProductRequest::select('pharmacy_product_request.*', 'manual_price.supplies_id AS supplies_id', 'manual_price.product_id AS product_id')
+                    ->leftjoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                    ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                    ->where('pharmacy_product_request.id', $PharmacyProductRequest_id)->get()->toArray();
 
-                    $AssistanceSupplies->ch_record_id = $request->ch_record_id;
+                $ch_record = ChRecord::find($request->ch_record_id);
 
-                    $ch_record = ChRecord::find($request->ch_record_id);
+                if ($PharmacyProductRequest[0]['product_id'] != null) {
 
-                    $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
+                    $applicated = AssistanceSupplies::select('assistance_supplies.*')
+                        ->where('supplies_status_id', 2)
+                        ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get();
 
-                    $register_insume = new Authorization;
+                    $product =  Product::select('product.*' , 'product_concentration.value AS value')
+                        ->leftjoin('product_generic','product.product_generic_id','product_generic.id')
+                        ->leftjoin('product_concentration','product_generic.drug_concentration_id','product_concentration.id')
+                        ->where('product.id',$request->product_comercial)->get()->toArray();
 
-                    $register_insume->services_briefcase_id = $PharmacyProductRequest->services_briefcase_id;
-                    $register_insume->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
-                    $register_insume->admissions_id = $PharmacyProductRequest->admissions_id;
-                    $register_insume->auth_status_id = 3;
-                    $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
-                    $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
-                    $register_insume->supplies_id = $AssistanceSupplies->id;
+                    $management_plan = ManagementPlan::select('management_plan.*', 'management_plan.dosage_administer AS dosage_administer')
+                        ->leftjoin('assigned_management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                        ->leftjoin('ch_record', 'assigned_management_plan.id', 'ch_record.assigned_management_plan_id')
+                        ->where('ch_record.id', $request->ch_record_id)->get()->toArray();
 
-                    $register_insume->save();
-                } else {
-                    $validate = AssistanceSupplies::select('assistance_supplies.*')
-                        ->where('supplies_status_id', '2')
-                        ->where('pharmacy_product_request_id', $id)->get()->toArray();
-                    if (sizeof($validate) > 0) {
-                        $compare2 = ChRecord::find($request->ch_record_id);
-                        foreach ($validate as $item) {
-                            $compare = ChRecord::find($item['ch_record_id']);
-                            if ($compare->assigned_management_plan_id == $compare2->assigned_management_plan_id) {
-                                return response()->json([
-                                    'status' => true,
-                                    'message' => 'Ya cuenta con aplicación',
-                                ]);
-                            } else {
-                                $AssistanceSupplies->ch_record_id = $request->ch_record_id;
+                    $product_dose = intval($product[0]['value']);
+                    $management_plan_dose = intval($management_plan[0]['dosage_administer']);
 
-                                $ch_record = ChRecord::find($request->ch_record_id);
-
-                                $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
-
-                                $register_insume = new Authorization;
-
-                                $register_insume->services_briefcase_id = $PharmacyProductRequest->services_briefcase_id;
-                                $register_insume->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
-                                $register_insume->admissions_id = $PharmacyProductRequest->admissions_id;
-                                $register_insume->auth_status_id = 3;
-                                $register_insume->product_id = $PharmacyProductRequest->product_generic_id;
-                                $register_insume->supplies_id = $PharmacyProductRequest->product_supplies_id;
-                                $register_insume->supplies_id = $AssistanceSupplies->id;
-            
-                                $register_insume->save();
-
-                            }
+                    foreach ($applicated as $item) {
+                        $compare = ChRecord::find($item->ch_record_id);
+                        if ($ch_record->assigned_management_plan_id == $compare->assigned_management_plan_id) {
+                            $aplicated++;
                         }
-                    } else {
-                        $AssistanceSupplies->ch_record_id = $request->ch_record_id;
                     }
+
+                    
+                    $value = $product_dose*$aplicated;
+                    if ($value >= $management_plan_dose) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya cuenta con aplicación',
+                        ]);
+                    } else {
+
+                        $AssistanceSupplies = AssistanceSupplies::find($supplies[0]['id']);
+
+                        $AssistanceSupplies->observation = $request->observation;
+                        $AssistanceSupplies->application_hour = $request->clock;
+                        $AssistanceSupplies->ch_record_id = $request->ch_record_id;
+                        $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
+                        $AssistanceSupplies->user_incharge_id = $request->user_incharge_id;
+
+                        $auth = new Authorization;
+
+                        $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                        $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
+                        $auth->admissions_id = $ch_record->admissions_id;
+                        $auth->auth_status_id = 3;
+                        $auth->application_id = $AssistanceSupplies->id;
+                        $auth->product_com_id =  $request->product_comercial;
+                        $auth->supplies_com_id = $request->insume_comercial;
+
+                        $auth->save();
+
+                        $AssistanceSupplies->save();
+                    }
+
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Producto aplicado exitosamente',
+                        'data' => ['assistance_supplies' => $AssistanceSupplies]
+                    ]);
+                } else {
+
+                    $AssistanceSupplies = AssistanceSupplies::find($supplies[0]['id']);
+
+                    $AssistanceSupplies->observation = $request->observation;
+                    $AssistanceSupplies->application_hour = $request->application_hour;
+                    $AssistanceSupplies->ch_record_id = $request->ch_record_id;
+                    $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
+                    $AssistanceSupplies->user_incharge_id = $request->user_incharge_id;
+
+                    $auth = new Authorization;
+
+                    $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                    $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
+                    $auth->admissions_id = $PharmacyProductRequest[0]['admissions_id'];
+                    $auth->auth_status_id = 3;
+                    $auth->application_id = $AssistanceSupplies->id;
+                    $auth->product_com_id = $request->product_comercial;
+                    $auth->supplies_com_id = $request->insume_comercial;
+
+                    $auth->save();
+
+                    $AssistanceSupplies->save();
+
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Insumo usado exitosamente',
+                        'data' => ['assistance_supplies' => $AssistanceSupplies]
+                    ]);
                 }
-
-                $AssistanceSupplies->user_incharge_id = Auth::user()->id;
-                $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
-                $AssistanceSupplies->application_hour = $request->clock;
-                $AssistanceSupplies->observation = $request->observation;
-
-                $AssistanceSupplies->save();
-
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Producto aplicado exitosamente',
-                    'data' => ['assistance_supplies' => $AssistanceSupplies]
-                ]);
-            } else {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'No se encuentra stock para registrar',
-                    // 'data' => ['assistance_supplies' => $AssistanceSupplies]
-                ]);
+            } else if ($request->supplies_status_id == 3) {
             }
         } else {
-            $supplies = AssistanceSupplies::select('assistance_supplies.*')
-                ->where('supplies_status_id', '1')
-                ->where('pharmacy_product_request_id', $id)->first();
-            if ($supplies->count() > 0) {
-
-                $AssistanceSupplies =  AssistanceSupplies::find($supplies->id);
-
-                $AssistanceSupplies->ch_record_id = $request->ch_record_id;
-                $AssistanceSupplies->user_incharge_id = Auth::user()->id;
-                $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
-                $AssistanceSupplies->application_hour = $request->clock;
-                $AssistanceSupplies->observation = $request->observation;
-
-                $AssistanceSupplies->save();
-
-                    // $ch_record = ChRecord::find($request->ch_record_id);
-
-                    // $PharmacyProductRequest = PharmacyProductRequest::find($AssistanceSupplies->pharmacy_product_request_id);
-
-                // $register_insume = new Authorization;
-
-                // $register_insume->services_briefcase_id = $ch_record->assigned_management_plan_id;
-                // $register_insume->admissions_id = $PharmacyProductRequest->admissions_id;
-
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Suministros reportado como dañado exitosamente',
-                    'data' => ['assistance_supplies' => $AssistanceSupplies]
-                ]);
-            }
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => 'Acción invalida',
-                // 'data' => ['assistance_supplies' => $AssistanceSupplies]
             ]);
         }
+
+
+        // if ($request->supplies_status_id == 2) {
+        // } else if ($request->supplies_status_id == 3) {
+        //     $supplies = AssistanceSupplies::select('assistance_supplies.*')
+        //         ->where('supplies_status_id', 1)
+        //         ->where('pharmacy_product_request_id', $PharmacyProductRequest_id);
+        //     if ($supplies->count() > 0) {
+
+        //         $supplies->first();
+
+        //         $AssistanceSupplies =  AssistanceSupplies::find($supplies->id);
+
+        //         $AssistanceSupplies->ch_record_id = $request->ch_record_id;
+        //         $AssistanceSupplies->user_incharge_id = Auth::user()->id;
+        //         $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
+        //         $AssistanceSupplies->application_hour = $request->clock;
+        //         $AssistanceSupplies->observation = $request->observation;
+
+        //         $AssistanceSupplies->save();
+
+        //         return response()->json([
+        //             'status' => true,
+        //             'message' => 'Suministros reportado como dañado exitosamente',
+        //             'data' => ['assistance_supplies' => $AssistanceSupplies]
+        //         ]);
+        //     }
+        //     return response()->json([
+        //         'status' => true,
+        //         'message' => 'Acción invalida',
+        //         // 'data' => ['assistance_supplies' => $AssistanceSupplies]
+        //     ]);
+        // }
     }
 
     /**

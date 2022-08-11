@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FixedTypeRoleRequest extends FormRequest
+class ChSwActivityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class FixedTypeRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'fixed_type_id' => 'required',
-            'role_id' => 'required',
+            'name' => '',
         ];
     }
 }

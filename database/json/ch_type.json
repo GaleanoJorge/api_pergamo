@@ -24,6 +24,10 @@
         "name": "terapia ocupacional"
     },
     {
+        "id": 8,
+        "name": "Trabajo Social"
+    },
+    {
         "id": 7,
         "name": "terapia fisica"
     }

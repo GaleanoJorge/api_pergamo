@@ -41,6 +41,7 @@ class ChVitalSigns extends BaseChVitalSigns
     'fixed_lazy_reaction',
     'miotic_size',
     'observations_glucometry',
+    'has_oxigen',
     'ch_vital_hydration_id',
     'ch_vital_ventilated_id',
     'ch_vital_temperature_id',

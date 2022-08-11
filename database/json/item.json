@@ -1127,7 +1127,7 @@
     {
         "id": "176",
         "item_parent_id": "174",
-        "name": "Ing farmacia lote",
+        "name": "Recepción tecnica",
         "code": "pharmacy-lot",
         "route": "/pages/pharmacy/pharmacy-lot",
         "icon": "",
@@ -1163,7 +1163,7 @@
     {
         "id": "182",
         "item_parent_id": "174",
-        "name": "Solicitudes de medicamentos",
+        "name": "Dispensación",
         "code": "pharmacy-request",
         "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
@@ -1253,24 +1253,6 @@
     {
         "id": "191",
         "item_parent_id": "102",
-        "name": "Permisos Act fijos",
-        "code": "fixed-permission",
-        "route": "/pages/setting/fixed-permission",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "192",
-        "item_parent_id": "102",
-        "name": "Tipo de Activo",
-        "code": "fixed-type",
-        "route": "/pages/setting/fixed-type",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "193",
-        "item_parent_id": "102",
         "name": "Cod. Clasificación",
         "code": "fixed-code",
         "route": "/pages/setting/fixed-code",
@@ -1278,7 +1260,7 @@
         "show_menu": "1"
     },
     {
-        "id": "194",
+        "id": "192",
         "item_parent_id": "102",
         "name": "Clasificación",
         "code": "fixed-clasification",
@@ -1286,8 +1268,9 @@
         "icon": "",
         "show_menu": "1"
     },
+    
     {
-        "id": "195",
+        "id": "193",
         "item_parent_id": "102",
         "name": "Condición del Activo",
         "code": "fixed-condition",
@@ -1296,7 +1279,7 @@
         "show_menu": "1"
     },
     {
-        "id": "196",
+        "id": "194",
         "item_parent_id": "102",
         "name": "Tipos de propiedad",
         "code": "fixed-property",
@@ -1305,7 +1288,7 @@
         "show_menu": "1"
     },
     {
-        "id": "197",
+        "id": "195",
         "item_parent_id": "102",
         "name": "Area/Servicio",
         "code": "fixed-area-campus",
@@ -1314,7 +1297,7 @@
         "show_menu": "1"
     },
     {
-        "id": "198",
+        "id": "196",
         "item_parent_id": "102",
         "name": "Ubicacion",
         "code": "fixed-location-campus",
@@ -1322,10 +1305,31 @@
         "icon": "",
         "show_menu": "1"
     },
+
+
+
+    {
+        "id": "197",
+        "item_parent_id": "102",
+        "name": "Tipo de Activo",
+        "code": "fixed-type",
+        "route": "/pages/setting/fixed-type",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "198",
+        "item_parent_id": "102",
+        "name": "Permisos Tipo de Activo",
+        "code": "fixed-stock",
+        "route": "/pages/setting/fixed-stock",
+        "icon": "",
+        "show_menu": "1"
+    },
     {
         "id": "199",
         "item_parent_id": "102",
-        "name": "Accesorios",
+        "name": "Crear Accesorios",
         "code": "fixed-accessories",
         "route": "/pages/setting/fixed-accessories",
         "icon": "",
@@ -1334,6 +1338,15 @@
     {
         "id": "200",
         "item_parent_id": "102",
+        "name": "Descripción del activo",
+        "code": "fixed-nom-product",
+        "route": "/pages/setting/fixed-nom-product",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "201",
+        "item_parent_id": "102",
         "name": "Crear Activos",
         "code": "fixed-assets",
         "route": "/pages/setting/fixed-assets",
@@ -1341,7 +1354,7 @@
         "show_menu": "1"
     },
     {
-        "id": "201",
+        "id": "202",
         "item_parent_id": "102",
         "name": "Inventario general",
         "code": "fixed-inventary",
@@ -1350,20 +1363,11 @@
         "show_menu": "1"
     },
     {
-        "id": "202",
-        "item_parent_id": "102",
-        "name": "Solicitar activos fijos",
-        "code": "fixed-request",
-        "route": "/pages/setting/fixed-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "203",
         "item_parent_id": "102",
-        "name": "Solicitudes de activos",
-        "code": "fixed-access-requests",
-        "route": "/pages/setting/fixed-access-requests",
+        "name": "Solicitar activo fijo",
+        "code": "fixed-request",
+        "route": "/pages/setting/fixed-request",
         "icon": "",
         "show_menu": "1"
     },
@@ -1451,15 +1455,15 @@
     {
         "id": "213",
         "item_parent_id": "102",
-        "name": "Descripción del activo",
-        "code": "fixed-nom-product",
-        "route": "/pages/setting/fixed-nom-product",
+        "name": "Solicitudes de activos",
+        "code": "fixed-access-requests",
+        "route": "/pages/setting/fixed-access-requests",
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "214",
-        "item_parent_id": "66",
+        "item_parent_id": "67",
         "name": "Facturación",
         "code": null,
         "route": null,

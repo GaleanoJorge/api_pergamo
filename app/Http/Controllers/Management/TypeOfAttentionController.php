@@ -17,7 +17,8 @@ class TypeOfAttentionController extends Controller
     public function index(Request $request): JsonResponse
     {
 
-        $TypeOfAttention = TypeOfAttention::select();
+        $TypeOfAttention = TypeOfAttention::select()
+        ->orderBy('name', 'asc');
 
         if ($request->_sort) {
             $TypeOfAttention->orderBy($request->_sort, $request->_order);

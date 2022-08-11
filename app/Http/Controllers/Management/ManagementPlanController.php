@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ManagementPlan;
+use App\Models\Admissions;
+use App\Models\ServicesPharmacyStock;
 use App\Models\PharmacyProductRequest;
 use App\Models\ServicesBriefcase;
 use App\Models\HumanTalentRequest;
@@ -268,6 +270,14 @@ class ManagementPlanController extends Controller
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
+            $admissions= Admissions::where('admissions.id',$request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location','location.admissions_id','admissions.id')->get()->toArray();
+
+  
+
+            $PharmacyServices=ServicesPharmacyStock::where('scope_of_attention_id',$admissions[0]['scope_of_attention_id'])->get()->toArray();
+            if($PharmacyServices){
+            $pharmacy= $PharmacyServices[0]['pharmacy_stock_id'];
+
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->admissions_id = $request->admissions_id;
             $PharmacyProductRequest->services_briefcase_id = $request->product_id;
@@ -281,11 +291,18 @@ class ManagementPlanController extends Controller
 
             $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
             $PharmacyProductRequest->request_amount = $quantity;
+            $PharmacyProductRequest->own_pharmacy_stock_id =$pharmacy;
             $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
             $ManagementPlan->save();
             $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
             $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+            ], 423);
+        }
         } else {
             $ManagementPlan->save();
         }
