@@ -28,9 +28,31 @@ use App\Models\ChAp;
 use App\Models\ChRecommendationsEvo;
 use App\Models\ChDietsEvo;
 use App\Models\ChVitalSigns;
+
 use App\Models\ChScaleNorton;
+use App\Models\ChScaleFac;
 use App\Models\ChScaleGlasgow;
+use App\Models\ChScaleBarthel;
+use App\Models\ChScaleRedCross;
+use App\Models\ChScaleBraden;
+use App\Models\ChScaleKarnofsky;
+use App\Models\ChScaleEcog;
+use App\Models\ChScalePediatricNutrition;
+use App\Models\ChScaleScreening;
+use App\Models\ChScalePayette;
+use App\Models\ChScaleFragility;
 use App\Models\ChScaleNews;
+use App\Models\ChScaleZarit;
+
+use App\Models\ChFormulation;
+use App\Models\ChMedicalOrders;
+use App\Models\ChInterconsultation;
+use App\Models\ManagementPlan;
+use App\Models\ChInability;
+use App\Models\ChMedicalCertificate;
+use App\Models\ChFailed;
+use App\Models\ChPatientExit;
+
 use App\Models\ChPhysicalExam;
 use App\Models\ChOxigen;
 
@@ -41,7 +63,7 @@ use App\Models\ChCarePlan;
 use App\Models\ChLiquidControl;
 use App\Models\ChSkinValoration;
 use App\Models\ChScaleJhDownton;
-use App\Models\ChScaleBraden;
+
 
 use App\Models\ChEOccHistoryOT;
 use App\Models\ChEPastOT;
@@ -60,16 +82,7 @@ use App\Models\ChEMSAssessmentOT;
 use App\Models\ChEMSWeeklyOT;
 use App\Models\ChRNMaterialsOT;
 
-
-
-
-
-
-
-
-
 use App\Models\ChSystemExam;
-use App\Models\ManagementPlan;
 use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\ChDiagnosis;
@@ -214,7 +227,7 @@ class ChRecordController extends Controller
 
         if ($ChRecord[0]['ch_type_id'] == 1) {
             //Ingreso
-            $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $id)->get()->toArray();
+            $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
@@ -233,7 +246,7 @@ class ChRecordController extends Controller
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             $ChDiets = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
 
-          
+            //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
 
             //Evolución
@@ -256,10 +269,79 @@ class ChRecordController extends Controller
             $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
 
+            //Escalas
+            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleFac = ChScaleFac::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleBarthel = ChScaleBarthel::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleRedCross = ChScaleRedCross::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleBraden = ChScaleBraden::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleKarnofsky = ChScaleKarnofsky::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleEcog = ChScaleEcog::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScalePediatricNutrition = ChScalePediatricNutrition::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleScreening = ChScaleScreening::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScalePayette = ChScalePayette::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleFragility = ChScaleFragility::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleZarit = ChScaleZarit::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            
+            //Formulación   
+            $ChFormulation = ChFormulation::with(
+                'product_generic',
+                'product_generic.measurement_units',
+                'product_generic.multidose_concentration',
+                'administration_route',
+                'hourly_frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 5)->get()->toArray();
 
-            $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
-            $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
-            $ChScaleNews = ChScaleNews::where('ch_record_id', $id)->get()->toArray();
+            //Ordenes Médicas
+                $ChMedicalOrders = ChMedicalOrders::with(
+                'procedure',
+                'frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Interconsulta
+                $ChInterconsultation = ChInterconsultation::with(
+                'specialty',
+                'frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Interconsulta
+                $ManagementPlan = ManagementPlan::with(
+                'type_of_attention',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'frequency'
+                );
+                // ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Incapacidad
+                $ChInability = ChInability::with(
+                'ch_contingency_code',
+                'ch_type_inability',
+                'ch_type_procedure',
+                'diagnosis'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 7)->get()->toArray();
+            //Certificado
+                $ChMedicalCertificate = ChMedicalCertificate::where('ch_record_id', $id)->where('type_record_id', 8)->get()->toArray();
+            //Fallida
+                $ChFailed = ChFailed::
+                with(
+                    'ch_reason'
+                )
+                ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
+            //Salida
+                $ChPatientExit = ChPatientExit::
+                with(
+                    'diagnosis',
+                    'ch_diagnosis',
+                    'reason_exit'
+                )
+                ->where('ch_record_id', $id)->where('type_record_id', 10)->get()->toArray();
+
+
+
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -287,7 +369,7 @@ class ChRecordController extends Controller
                 'ChAp' => $ChAp,
                 'ChRecommendations' => $ChRecommendations,
                 'ChDiets' => $ChDiets,
-                
+
                 'ChBackground' => $ChBackground,
 
                 'ChEvoSoap' => $ChEvoSoap,
@@ -299,10 +381,30 @@ class ChRecordController extends Controller
                 'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'ChDietsEvo' => $ChDietsEvo,
 
-
                 'ChScaleNorton' => $ChScaleNorton,
+                'ChScaleFac' => $ChScaleFac,
                 'ChScaleGlasgow' => $ChScaleGlasgow,
+                'ChScaleBarthel' => $ChScaleBarthel,
+                'ChScaleRedCross' => $ChScaleRedCross,
+                'ChScaleBraden' => $ChScaleBraden,
+                'ChScaleKarnofsky' => $ChScaleKarnofsky,
+                'ChScaleEcog' => $ChScaleEcog,
+                'ChScalePediatricNutrition' => $ChScalePediatricNutrition,
+                'ChScaleScreening' => $ChScaleScreening,
+                'ChScalePayette' => $ChScalePayette,
+                'ChScaleFragility' => $ChScaleFragility,
                 'ChScaleNews' => $ChScaleNews,
+                'ChScaleZarit' => $ChScaleZarit,
+                
+                'ChFormulation' => $ChFormulation,
+                
+                'ChMedicalOrders' => $ChMedicalOrders,
+                'ChInterconsultation' => $ChInterconsultation,
+                'ManagementPlan' => $ManagementPlan,
+                'ChInability' => $ChInability,
+                'ChMedicalCertificate' => $ChMedicalCertificate,
+                'ChFailed' => $ChFailed,
+                'ChPatientExit' => $ChPatientExit,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -757,23 +859,8 @@ class ChRecordController extends Controller
         $locality = Patient::find($user_id)->locality_id;
         $patient = Patient::find($user_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-        if ($request->is_failed) {
-            $valuetariff = Tariff::where('failed', 1)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('pad_risk_id', $tariff)
-                ->where('status_id', 1)->get()->toArray();
-        } else {
-            $valuetariff = Tariff::where('admissions_id', $admissions->id)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('phone_consult', $ManagementPlan->phone_consult)
-                ->where('failed', 0)
-                ->where('status_id', 1);
-            $valuetariff = $valuetariff->get()->toArray();
-            if (count($valuetariff) == 0) {
-                $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request);
-            }
-        }
 
+        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
 
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
@@ -810,16 +897,16 @@ class ChRecordController extends Controller
             };
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
-            if($assistance){
+            if ($assistance) {
                 $LocationCapacity = LocationCapacity::where('locality_id', $locality)
                     ->where('assistance_id', $assistance->id)
                     ->where('validation_date', '>=', Carbon::now()->startOfMonth())
                     ->where('validation_date', '<=', Carbon::now()->endOfMonth())
                     ->first();
-                    if ($LocationCapacity) {
-                        $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                        $LocationCapacity->save();
-                    }
+                if ($LocationCapacity) {
+                    $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                    $LocationCapacity->save();
+                }
             }
 
             $TypeContract = TypeContract::select('type_contract.*')
@@ -861,37 +948,75 @@ class ChRecordController extends Controller
         ]);
     }
 
-    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request)
+    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
     {
-        $valuetariff = Tariff::where('pad_risk_id', $tariff)
-            ->where('phone_consult', $ManagementPlan->phone_consult)
-            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-            ->where('status_id', 1)
-            ->where('failed', 0)
-            ->where('program_id', $Location->program_id);
-        // definir cuando la atención es fallida
+        $extra_dose = 0;
+        if ($ManagementPlan->type_of_attention_id == 17) {
+            $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                ->whereNull('assigned_management_plan.redo')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                ->where('management_plan.admissions_id', $admissions_id)
+                ->where('management_plan.type_of_attention_id', 17)
+                ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                ->get()->toArray();
+            $validate = array();
+
+            if (count($assigned_validation) > 0) {
+                foreach ($assigned_validation as $element) {
+                    $offset = 3;
+                    $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                    $inidiat_time = Carbon::now()->subHours($offset);
+                    $final_time = Carbon::now()->addHours($offset);
+                    if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                        array_push($validate, $element);
+                    }
+                }
+            }
+            if (count($validate) > 0) {
+                $extra_dose = 1;
+            }
+        }
         if ($request->is_failed) {
-            if ($request->is_failed == true) {
-                $valuetariff->where('failed', 1);
-            } else {
-                $valuetariff->where('failed', 0);
+            $valuetariff = Tariff::where('failed', 1)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('pad_risk_id', $tariff)
+                ->where('status_id', 1)->get()->toArray();
+        } else {
+            $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('phone_consult', $ManagementPlan->phone_consult)
+                ->where('failed', 0)
+                ->where('status_id', 1);
+            $valuetariff = $valuetariff->get()->toArray();
+            if (count($valuetariff) == 0) {
+                $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                    ->where('phone_consult', $ManagementPlan->phone_consult)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('status_id', 1)
+                    ->where('failed', 0)
+                    ->where('program_id', $Location->program_id);
+                // definir cuando la atención es fallida
+                if ($request->is_failed) {
+                    if ($request->is_failed == true) {
+                        $valuetariff->where('failed', 1);
+                    } else {
+                        $valuetariff->where('failed', 0);
+                    }
+                } else {
+                    $valuetariff->where('failed', 0);
+                }
+                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                    if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
+                        $valuetariff->where('quantity', $ManagementPlan->quantity);
+                    }
+                } else {
+                    $valuetariff->whereNull('quantity');
+                }
+                $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff = $valuetariff->get()->toArray();
             }
-        } else {
-            $valuetariff->where('failed', 0);
         }
-        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-            if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
-                $valuetariff->where('quantity', $ManagementPlan->quantity);
-            }
-        } else {
-            $valuetariff->whereNull('quantity');
-        }
-        if ($request->extra_dose) {
-            $valuetariff->where('extra_dose', $request->extra_dose);
-        } else {
-            $valuetariff->where('extra_dose', 0);
-        }
-        $valuetariff = $valuetariff->get()->toArray();
 
         return $valuetariff;
     }
