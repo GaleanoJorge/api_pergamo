@@ -210,8 +210,8 @@ class AssistanceSuppliesController extends Controller
                         $auth->admissions_id = $ch_record->admissions_id;
                         $auth->auth_status_id = 3;
                         $auth->application_id = $AssistanceSupplies->id;
-                        $auth->product_com_id = $PharmacyProductRequest[0]['product_id'];
-                        $auth->supplies_com_id = $PharmacyProductRequest[0]['supplies_id'];
+                        $auth->product_com_id =  $request->product_comercial;
+                        $auth->supplies_com_id = $request->insume_comercial;
 
                         $auth->save();
 
@@ -241,8 +241,8 @@ class AssistanceSuppliesController extends Controller
                     $auth->admissions_id = $PharmacyProductRequest[0]['admissions_id'];
                     $auth->auth_status_id = 3;
                     $auth->application_id = $AssistanceSupplies->id;
-                    $auth->product_com_id = $PharmacyProductRequest[0]['product_id'];
-                    $auth->supplies_com_id = $PharmacyProductRequest[0]['supplies_id'];
+                    $auth->product_com_id = $request->product_comercial;
+                    $auth->supplies_com_id = $request->insume_comercial;
 
                     $auth->save();
 

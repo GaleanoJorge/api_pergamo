@@ -331,8 +331,8 @@ class BillingPadController extends Controller
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
-            ->whereNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -370,8 +370,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_id')
-            ->whereNotNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNotNull('authorization.product_com_id')
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -408,8 +408,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNotNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNotNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -446,8 +446,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
@@ -484,8 +484,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -512,8 +512,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -542,8 +542,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -566,8 +566,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -588,8 +588,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -610,8 +610,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -654,11 +654,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
+                if ($AuthPacked['product_com_id']) {
+                    $ProcedurePackages->where('procedure_package.product_com_id', $AuthPacked['product_com_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
+                } else if ($AuthPacked['supplies_com_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
@@ -785,8 +785,8 @@ class BillingPadController extends Controller
             )
             ->where('authorization.admissions_id', $admission_id)
             // ->where('authorization.auth_status_id', 3)
-            ->whereNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -828,8 +828,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_id')
-            ->whereNotNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNotNull('authorization.product_com_id')
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -867,8 +867,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNotNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNotNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -906,8 +906,8 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             // ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
@@ -944,8 +944,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -972,8 +972,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -1002,8 +1002,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -1028,8 +1028,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -1050,8 +1050,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -1072,8 +1072,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00')
@@ -1116,11 +1116,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
+                if ($AuthPacked['product_com_id']) {
+                    $ProcedurePackages->where('procedure_package.product_com_id', $AuthPacked['product_com_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
+                } else if ($AuthPacked['supplies_com_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
@@ -1245,8 +1245,8 @@ class BillingPadController extends Controller
         } else if ($request->route == 2) {
         }
         $Authorizationspackages->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_id')
-            ->whereNull('authorization.product_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
@@ -1273,8 +1273,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
@@ -1304,8 +1304,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             if ($request->route == 1) {
@@ -1337,8 +1337,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             if ($request->route == 1) {
@@ -1364,8 +1364,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
@@ -1389,8 +1389,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_id')
-                ->whereNotNull('authorization.product_id')
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
                 $AuthsresponseMed->whereNotNull('authorization.application_id')
@@ -1414,8 +1414,8 @@ class BillingPadController extends Controller
                 )
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_id')
-                ->whereNull('authorization.product_id')
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
                 $AuthsresponseSupp->whereNotNull('authorization.application_id')
@@ -1461,11 +1461,11 @@ class BillingPadController extends Controller
                 //
 
 
-                if ($AuthPacked['product_id']) {
-                    $ProcedurePackages->where('procedure_package.product_id', $AuthPacked['product_id']);
+                if ($AuthPacked['product_com_id']) {
+                    $ProcedurePackages->where('procedure_package.product_com_id', $AuthPacked['product_com_id']);
                     $type_validator = 1;
-                } else if ($AuthPacked['supplies_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_id', $AuthPacked['supplies_id']);
+                } else if ($AuthPacked['supplies_com_id']) {
+                    $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
