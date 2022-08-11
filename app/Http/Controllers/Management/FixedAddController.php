@@ -21,25 +21,20 @@ class FixedAddController extends Controller
     public function index(Request $request): JsonResponse
     {
         $FixedAdd = FixedAdd::with(
-                'fixed_assets',
-                'fixed_assets.fixed_type',
-                'fixed_assets.fixed_clasification',
-                'fixed_location_campus',
-                'fixed_location_campus.campus',
-                'fixed_location_campus.flat',
-                'responsible_user',
-                'responsible_user.user',
-                'fixed_accessories',
-                'fixed_accessories.fixed_type',
-                'fixed_nom_product',
-                'admissions',
-                'admissions.patients',
-            )
-            // ->select('fixed_add.*', DB::raw('SUM(fixed_loan.amount_provition) AS cantidad_enviada'))
-            // ->leftJoin('fixed_loan', 'fixed_loan.fixed_add_id', 'fixed_add.id')
-            // ->groupBy('fixed_add.id')
-        ;
-
+            'fixed_assets',
+            'fixed_assets.fixed_type',
+            'fixed_assets.fixed_clasification',
+            'fixed_location_campus',
+            'fixed_location_campus.campus',
+            'fixed_location_campus.flat',
+            'responsible_user',
+            'responsible_user.user',
+            'fixed_accessories',
+            'fixed_accessories.fixed_type',
+            'fixed_nom_product',
+            'admissions',
+            'admissions.patients'
+        );
 
         if ($request->_sort) {
             $FixedAdd->orderBy($request->_sort, $request->_order);
@@ -57,14 +52,6 @@ class FixedAddController extends Controller
         }
         if ($request->fixed_accessories_id) {
             $FixedAdd->where('fixed_add.fixed_accessories_id', $request->fixed_accessories_id);
-        }
-
-        if ($request->cantidad) {
-            $FixedAdd->where(function ($query) use ($request) {
-                if ($request->cantidad == 0) {
-                    $query->where('fixed_loan.amount_provition', '>', 0);
-                }
-            });
         }
 
         if ($request->insum == "true") {
@@ -213,30 +200,12 @@ class FixedAddController extends Controller
                         $FixedAssets = FixedAssets::find($element->fixed_assets_id);
                         $FixedAssets->actual_amount = $FixedAssets->actual_amount - $element->amount;
                         $FixedAssets->save();
-
-                        $FixedLoan = new FixedLoan;
-                        $FixedLoan->fixed_add_id =  $FixedAdd->id;
-                        $FixedLoan->fixed_assets_id = $request->fixed_assets_id;;
-                        $FixedLoan->fixed_accessories_id =  null;
-                        $FixedLoan->amount_damaged =  0;
-                        $FixedLoan->amount =  0;
-                        $FixedLoan->amount_provition =  $element->amount;
-                        $FixedLoan->save();
                     }
                     $elements = json_decode($request->fixed_accessories_id);
                     foreach ($elements as $element) {
                         $FixedAccessories = FixedAccessories::find($element->fixed_accessories_id);
                         $FixedAccessories->actual_amount = $FixedAccessories->actual_amount - $element->amount;
                         $FixedAccessories->save();
-
-                        $FixedLoan = new FixedLoan;
-                        $FixedLoan->fixed_add_id =  $FixedAdd->id;
-                        $FixedLoan->fixed_accessories_id =  $FixedAccessories->id;
-                        $FixedLoan->fixed_assets_id =  null;
-                        $FixedLoan->amount_damaged =  0;
-                        $FixedLoan->amount =  0;
-                        $FixedLoan->amount_provition =  $element->amount;
-                        $FixedLoan->save();
                     }
                 }
 
@@ -247,33 +216,13 @@ class FixedAddController extends Controller
                     $FixedAdd->observation = $request->observation;
                     $FixedAdd->save();
 
-                    $elements = json_decode($request->fixed_assets_id);
-                    foreach ($elements as $element) {
-                        $FixedAssets = FixedAssets::find($element->fixed_assets_id);
-                        $FixedLoan = FixedLoan::find($element->fixed_loan_id);
-                        $FixedLoan->amount_damaged =  $element->amount_damaged;
-                        $FixedLoan->amount =  $element->amount;
-                        $FixedLoan->save();
-                    }
-
-                    $elements = json_decode($request->fixed_accessories_id);
-                    foreach ($elements as $element) {
-                        $FixedAccessories = FixedAccessories::find($element->fixed_accessories_id);
-                        $FixedLoan = FixedLoan::find($element->fixed_loan_id);
-                        $FixedLoan->amount_damaged =  $element->amount_damaged;
-                        $FixedLoan->amount =  $element->amount;
-                        $FixedLoan->save();
-
-
-
-                        $NewPharmacyLotStock = new FixedAccessories;
-                        $FixedAccessories->name = $FixedAccessories->name;
-                        $FixedAccessories->amount = $FixedAccessories->amount;
-                        $FixedAccessories->actual_amount = $element->amount;
-                        $FixedAccessories->campus_id = $FixedAccessories->campus_id;
-                        $FixedAccessories->fixed_type_id = $FixedAccessories->fixed_type_id;
-                        $NewPharmacyLotStock->save();
-                    }
+                    $NewPharmacyLotStock = new FixedAccessories;
+                    $FixedAccessories->name = $FixedAccessories->name;
+                    $FixedAccessories->amount = $FixedAccessories->amount;
+                    $FixedAccessories->actual_amount = $element->amount;
+                    $FixedAccessories->campus_id = $FixedAccessories->campus_id;
+                    $FixedAccessories->fixed_type_id = $FixedAccessories->fixed_type_id;
+                    $NewPharmacyLotStock->save();
                 }
             }
         } else {
@@ -291,29 +240,6 @@ class FixedAddController extends Controller
             $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
             $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
             $FixedAdd->save();
-
-            // if ($request->fixed_accessories_id >= 1) {
-            //     $FixedLoan = new FixedLoan;
-            //     $FixedLoan->fixed_add_id =  $FixedAdd->id;
-            //     $FixedLoan->fixed_assets_id =  null;
-            //     $FixedLoan->fixed_accessories_id =  $request->fixed_accessories_id;
-            //     $FixedLoan->amount_damaged =  0;
-            //     $FixedLoan->amount =  0;
-            //     $FixedLoan->amount_provition =  $request->amount_provition;
-            //     $FixedLoan->save();
-
-            //     $FixedAccessories = FixedAccessories::find($request->fixed_accessories_id);
-            //     $FixedAccessories->actual_amount = $FixedAccessories->actual_amount - $request->amount_provition;
-            //     $FixedAccessories->save();
-            // } else {
-            $FixedLoan = new FixedLoan;
-            $FixedLoan->fixed_add_id =  $FixedAdd->id;
-            $FixedLoan->fixed_assets_id =  $request->fixed_assets_id;
-            $FixedLoan->fixed_accessories_id = null;
-            $FixedLoan->amount_damaged =  0;
-            $FixedLoan->amount =  0;
-            $FixedLoan->amount_provition =  $request->amount_provition;
-            $FixedLoan->save();
 
             $FixedAssets = FixedAssets::find($request->fixed_assets_id);
             $FixedAssets->actual_amount = $FixedAssets->actual_amount - $request->amount_provition;

@@ -28,9 +28,9 @@ class CreateProductTable extends Migration
             $table->Integer('regulated_drug');
             $table->Integer('high_price')->nullable();
             $table->string('maximum_dose')->nullable();
-            $table->string('indications');
+            $table->string('indications')->nullable();
             $table->string('contraindications')->nullable();
-            $table->string('applications');
+            $table->string('applications')->nullable()  ;
             $table->string('value_circular')->nullable();
             $table->string('circular')->nullable();
             $table->string('unit_packing');

@@ -23,8 +23,8 @@ class CreateChFormulationTable extends Migration
             $table->Integer('treatment_days');
             $table->string('outpatient_formulation')->nullable();
             $table->string('dose');
-            $table->string('observation');
-            $table->Integer('number_mipres')->nullable()->nullable();
+            $table->string('observation')->nullable();
+            $table->Integer('number_mipres')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

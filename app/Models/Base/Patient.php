@@ -24,6 +24,7 @@ use App\Models\Inability;
 use App\Models\Log;
 use App\Models\LogLogin;
 use App\Models\Municipality;
+use App\Models\NeighborhoodOrResidence;
 use App\Models\Origin;
 use App\Models\ReasonConsultation;
 use App\Models\Role;
@@ -269,17 +270,8 @@ class Patient extends Model
 		->withTimestamps();
 	}
 
-	// public function pac_monitoring()
-	// {
-	// 	return $this->belongsToMany(User::class,'pac_monitoring')
-	// 	->withPivot('user_id')
-	// 	->withTimestamps();
-	// }
-	
-	// public function reason_consultation()
-	// {
-	// 	return $this->belongsToMany(User::class,'reason_consultation')
-	// 	->withPivot('user_id')
-	// 	->withTimestamps();
-	// }
+	public function neighborhood_or_residence()
+	{
+		return $this->belongsTo(NeighborhoodOrResidence::class,'neighborhood_or_residence_id');
+	}
 }
