@@ -21,7 +21,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-use stdClass;
+use Dompdf\Dompdf as PDF;
+use Dompdf\Options;
 
 class BillingPadController extends Controller
 {
@@ -1898,8 +1899,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'billing_pad.billing_pad_prefix_id AS billing_prefix_id',
                 'billing_pad.total_value AS billing_total_value',
                 'billing_pad.consecutive AS billing_consecutive',
+                'contract.name AS contract_name',
+                'program.name AS program_name',
             )
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
             ->leftJoin('billing_pad_prefix AS PF', 'PF.id', 'billing_pad.billing_pad_prefix_id')
             ->leftJoin('billing_pad_consecutive', 'billing_pad_consecutive.id', 'billing_pad.billing_pad_consecutive_id')
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
@@ -1969,5 +1974,53 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         }
 
         return $res;
+    }
+
+    public function generateBillingPdf(Request $request, int $id): JsonResponse
+    {
+        $BillingPad = $this->getBillingPadInformation($id);
+
+        $html = view('layouts.billing', [
+            'billing_type' => $request->billing_type,
+            'identification' => $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'],
+            'patient_name' => $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']),
+            'patient_phone' => $BillingPad[0]['phone'],
+            'patient_address' => $BillingPad[0]['residence_address'],
+            'contract_name' => $BillingPad[0]['contract_name'],
+            'program_name' => $BillingPad[0]['program_name'],
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'vertical');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'cuenta_cobro/factura.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro generada exitosamente',
+            'res' => 'Cuenta de cobro generada exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+    }
+
+    private function injectPageCount(PDF $dompdf): void
+    {
+        /** @var CPDF $canvas */
+        $canvas = $dompdf->getCanvas();
+        $pdf = $canvas->get_cpdf();
+
+        foreach ($pdf->objects as &$o) {
+            if ($o['t'] === 'contents') {
+                $o['c'] = str_replace('DOMPDF_PAGE_COUNT_PLACEHOLDER', $canvas->get_page_count(), $o['c']);
+            }
+        }
     }
 }
