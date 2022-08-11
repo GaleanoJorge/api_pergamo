@@ -45,6 +45,13 @@ use App\Models\ChScaleNews;
 use App\Models\ChScaleZarit;
 
 use App\Models\ChFormulation;
+use App\Models\ChMedicalOrders;
+use App\Models\ChInterconsultation;
+use App\Models\ManagementPlan;
+use App\Models\ChInability;
+use App\Models\ChMedicalCertificate;
+use App\Models\ChFailed;
+use App\Models\ChPatientExit;
 
 use App\Models\ChPhysicalExam;
 
@@ -75,7 +82,6 @@ use App\Models\ChEMSWeeklyOT;
 use App\Models\ChRNMaterialsOT;
 
 use App\Models\ChSystemExam;
-use App\Models\ManagementPlan;
 use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\ChDiagnosis;
@@ -281,10 +287,60 @@ class ChRecordController extends Controller
             //Formulación   
             $ChFormulation = ChFormulation::with(
                 'product_generic',
+                'product_generic.measurement_units',
+                'product_generic.multidose_concentration',
                 'administration_route',
                 'hourly_frequency'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 5)->get()->toArray();
+
+            //Ordenes Médicas
+                $ChMedicalOrders = ChMedicalOrders::with(
+                'procedure',
+                'frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Interconsulta
+                $ChInterconsultation = ChInterconsultation::with(
+                'specialty',
+                'frequency'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Interconsulta
+                $ManagementPlan = ManagementPlan::with(
+                'type_of_attention',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'frequency'
+                );
+                // ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
+            //Incapacidad
+                $ChInability = ChInability::with(
+                'ch_contingency_code',
+                'ch_type_inability',
+                'ch_type_procedure',
+                'diagnosis'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 7)->get()->toArray();
+            //Certificado
+                $ChMedicalCertificate = ChMedicalCertificate::where('ch_record_id', $id)->where('type_record_id', 8)->get()->toArray();
+            //Fallida
+                $ChFailed = ChFailed::
+                with(
+                    'ch_reason'
+                )
+                ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
+            //Salida
+                $ChPatientExit = ChPatientExit::
+                with(
+                    'diagnosis',
+                    'ch_diagnosis',
+                    'reason_exit'
+                )
+                ->where('ch_record_id', $id)->where('type_record_id', 10)->get()->toArray();
+
+
+
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -340,6 +396,14 @@ class ChRecordController extends Controller
                 'ChScaleZarit' => $ChScaleZarit,
                 
                 'ChFormulation' => $ChFormulation,
+                
+                'ChMedicalOrders' => $ChMedicalOrders,
+                'ChInterconsultation' => $ChInterconsultation,
+                'ManagementPlan' => $ManagementPlan,
+                'ChInability' => $ChInability,
+                'ChMedicalCertificate' => $ChMedicalCertificate,
+                'ChFailed' => $ChFailed,
+                'ChPatientExit' => $ChPatientExit,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
