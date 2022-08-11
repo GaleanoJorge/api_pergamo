@@ -117,6 +117,18 @@ class ChRecordController extends Controller
 
         if ($request->query("pagination", true) == "false") {
             $ChRecord = $ChRecord->get()->toArray();
+            if ($request->record_id) {
+                $validate = ChRecord::select()
+                    ->where('admissions_id', $ChRecord[0]['admissions_id'])
+                    ->where('ch_type_id', $ChRecord[0]['ch_type_id'])
+                    ->where('status', 'CERRADO')
+                    ->get()->toArray();
+                if (count($validate) > 0) {
+                    $ChRecord[0]['has_input'] = true;
+                } else {
+                    $ChRecord[0]['has_input'] = false;
+                }
+            }
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);

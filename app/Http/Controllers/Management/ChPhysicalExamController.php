@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChPhysicalExam;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -52,12 +53,22 @@ class ChPhysicalExamController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChPhysicalExam = ChPhysicalExam::where('ch_record_id', $id)->where('type_record_id', $type_record_id)->with('type_ch_physical_exam')
             ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')
+                ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
 
         return response()->json([
@@ -71,9 +82,9 @@ class ChPhysicalExamController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validate = ChPhysicalExam::select('ch_physical_exam.*')->where('ch_record_id', $request->ch_record_id)
-                ->where('type_record_id', $request->type_record_id)
-                ->where('type_ch_physical_exam_id', $request->type_ch_physical_exam_id)
-                ->get()->toArray();
+            ->where('type_record_id', $request->type_record_id)
+            ->where('type_ch_physical_exam_id', $request->type_ch_physical_exam_id)
+            ->get()->toArray();
         // ('ch_record_id', $request->ch_record_id)->where('type_ch_physical_exam_id',$request->type_ch_physical_exam_id)->first();
         if (sizeof($validate) == 0) {
             $ChPhysicalExam = new ChPhysicalExam;
