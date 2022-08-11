@@ -32,6 +32,7 @@ use App\Models\ChScaleNorton;
 use App\Models\ChScaleGlasgow;
 use App\Models\ChScaleNews;
 use App\Models\ChPhysicalExam;
+use App\Models\ChOxigen;
 
 use App\Models\ChPosition;
 use App\Models\ChHairValoration;
@@ -325,15 +326,15 @@ class ChRecordController extends Controller
 
             Storage::disk('public')->put($name, $file);
 
-            // enfermeria
-            //////////////////////////////////////////////////////////
+            // Efermeria
+
         } else if ($ChRecord[0]['ch_type_id'] == 2) {
 
-
+            // INGRESO
             $ChPosition = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
-            $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValoration = ChHairValoration::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -342,11 +343,13 @@ class ChRecordController extends Controller
                 'oxygen_type',
                 'liters_per_minute',
                 'parameters_signs'
-            )->where('ch_record_id', $id)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+
+                // NOTA DE ENFERMERIA
             $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->get()->toArray();
-            $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->get()->toArray();
-            $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->get()->toArray();
+            $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChVitalSignsNE = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -356,9 +359,12 @@ class ChRecordController extends Controller
                 'liters_per_minute',
                 'parameters_signs'
             )->where('ch_record_id', $id)->get()->toArray();
-            $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->get()->toArray();
+            $ChOxigenNE = ChOxigen::with('oxygen_type', 'liters_per_minute')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
             $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
+               
+            // VALORACIÓN EN LA PIEL
             $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $id)->get()->toArray();
             $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
             $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
@@ -381,6 +387,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.hc', [
                 'chrecord' => $ChRecord,
+
                 'ChPosition' => $ChPosition,
                 'ChHairValoration' => $ChHairValoration,
                 'ChOstomies' => $ChOstomies,
@@ -399,6 +406,7 @@ class ChRecordController extends Controller
                 'ChScaleGlasgow' => $ChScaleGlasgow,
                 'ChScaleJhDownton' => $ChScaleJhDownton,
                 'ChScaleBraden' => $ChScaleBraden,
+                'ChOxigenNE' => $ChOxigenNE,
 
 
 
