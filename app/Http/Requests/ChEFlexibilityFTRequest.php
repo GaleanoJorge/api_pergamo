@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class  ChEValorationOTRequest extends FormRequest
+class  ChEFlexibilityFTRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,19 @@ class  ChEValorationOTRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_state' => '',
-            'ch_diagnosis_id' => '',
+            'head' => '',
+            'trunk' => '',
+            'sup_right' => '',
+            'sup_left' => '',
+            'inf_right' => '',
+            'inf_left' => '',
+            'observation' => '',
 
             'type_record_id' => '',
             'ch_record_id' => ''
+
+        
+
         ];
     }
 }

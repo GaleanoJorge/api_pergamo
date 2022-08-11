@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\ChEValorationFT;
+use App\Models\ChEBalanceFT;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
-class ChEValorationFTController extends Controller
+class ChEBalanceFTController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,35 +17,35 @@ class ChEValorationFTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::select();
+        $ChEBalanceFT = ChEBalanceFT::select();
 
 
         if ($request->ch_record_id) {
-            $ChEValorationFT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+            $ChEBalanceFT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
         }
 
         if ($request->_sort) {
-            $ChEValorationFT->orderBy($request->_sort, $request->_order);
+            $ChEBalanceFT->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $ChEValorationFT->where('name', 'like', '%' . $request->search . '%');
+            $ChEBalanceFT->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $ChEValorationFT = $ChEValorationFT->get()->toArray();
+            $ChEBalanceFT = $ChEBalanceFT->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $ChEValorationFT = $ChEValorationFT->paginate($per_page, '*', 'page', $page);
+            $ChEBalanceFT = $ChEBalanceFT->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_balance_f_t' => $ChEBalanceFT]
         ]);
     }
 
@@ -61,33 +61,36 @@ class ChEValorationFTController extends Controller
     {
 
 
-        $ChEValorationFT = ChEValorationFT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('ch_diagnosis')->get()->toArray();
+        $ChEBalanceFT = ChEBalanceFT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+            ->get()->toArray();
+            
 
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_balance_f_t' => $ChEBalanceFT]
         ]);
     }
 
 
     public function store(Request $request): JsonResponse
     {
-        // $validate=ChEValorationFT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
+        // $validate=ChEBalanceFT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
         // if(!$validate){
-        $ChEValorationFT = new ChEValorationFT;
-        $ChEValorationFT->patient_state = $request->patient_state;
-        $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
-        $ChEValorationFT->type_record_id = $request->type_record_id;
-        $ChEValorationFT->ch_record_id = $request->ch_record_id;
-        $ChEValorationFT->save();
+        $ChEBalanceFT = new ChEBalanceFT;
+        $ChEBalanceFT->static = $request->static;
+        $ChEBalanceFT->dinamic = $request->dinamic;
+        $ChEBalanceFT->observation = $request->observation;
+
+        $ChEBalanceFT->type_record_id = $request->type_record_id;
+        $ChEBalanceFT->ch_record_id = $request->ch_record_id;
+        $ChEBalanceFT->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion asociados al paciente exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT->toArray()]
+            'data' => ['ch_e_balance_f_t' => $ChEBalanceFT->toArray()]
         ]);
         // }else{
         //     return response()->json([
@@ -106,13 +109,13 @@ class ChEValorationFTController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::where('id', $id)
+        $ChEBalanceFT = ChEBalanceFT::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenido exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_balance_f_t' => $ChEBalanceFT]
         ]);
     }
 
@@ -124,17 +127,19 @@ class ChEValorationFTController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChEValorationFT = ChEValorationFT::find($id);
-        $ChEValorationFT->patient_state = $request->patient_state;
-        $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
-        $ChEValorationFT->type_record_id = $request->type_record_id;
-        $ChEValorationFT->ch_record_id = $request->ch_record_id;
-        $ChEValorationFT->save();
+        $ChEBalanceFT = new ChEBalanceFT;
+        $ChEBalanceFT->static = $request->static;
+        $ChEBalanceFT->dinamic = $request->dinamic;
+        $ChEBalanceFT->observation = $request->observation;
+        
+        $ChEBalanceFT->type_record_id = $request->type_record_id;
+        $ChEBalanceFT->ch_record_id = $request->ch_record_id;
+        $ChEBalanceFT->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion actualizado exitosamente',
-            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
+            'data' => ['ch_e_balance_f_t' => $ChEBalanceFT]
         ]);
     }
 
@@ -147,8 +152,8 @@ class ChEValorationFTController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $ChEValorationFT = ChEValorationFT::find($id);
-            $ChEValorationFT->delete();
+            $ChEBalanceFT = ChEBalanceFT::find($id);
+            $ChEBalanceFT->delete();
 
             return response()->json([
                 'status' => true,

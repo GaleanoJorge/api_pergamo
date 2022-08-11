@@ -443,7 +443,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 6) {
 
 
-            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -452,24 +452,24 @@ class ChRecordController extends Controller
                 'oxygen_type',
                 'liters_per_minute',
                 'parameters_signs'
-            )->where('ch_record_id', $id)->get()->toArray();
-            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
-            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChVitalSignsNT = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
