@@ -931,6 +931,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::delete('destroyCoordinator/{id}', 'Management\UserRoleController@destroyCoordinator');
     Route::post('storeFormer', 'Management\UserRoleController@storeFormer');
     Route::delete('destroyFormer/{id}', 'Management\UserRoleController@destroyFormer');
+    Route::post('storePackage', 'Management\UserRoleController@updateRoles');
 
     //AssistanceSession
     Route::apiResource('assistanceSession', 'Management\AssistanceSessionController');
