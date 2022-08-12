@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChDietsEvo;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -17,7 +18,7 @@ class ChDietsEvoController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChDietsEvo = ChDietsEvo::with('enterally_diet','diet_consistency'); /// Cargar 
+        $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency'); /// Cargar 
 
         if ($request->_sort) {
             $ChDietsEvo->orderBy($request->_sort, $request->_order);
@@ -44,20 +45,41 @@ class ChDietsEvoController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency', 'type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
-        
+
+
+        $ChDietsEvo = ChDietsEvo::with(
+            'enterally_diet',
+            'diet_consistency',
+            'type_record',
+            'ch_record'
+        )
+            ->where('ch_record_id', $id)->where('type_record_id', $type_record_id);
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChDietsEvo = ChDietsEvo::with(
+                    'enterally_diet',
+                    'diet_consistency',
+                    'type_record',
+                    'ch_record'
+                )
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
+                ;
+            }
+        }
+
         if ($request->query("pagination", true) == "false") {
             $ChDietsEvo = $ChDietsEvo->get()->toArray();
         } else {
@@ -66,14 +88,14 @@ class ChDietsEvoController extends Controller
 
             $ChDietsEvo = $ChDietsEvo->paginate($per_page, '*', 'page', $page);
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Dieta Asociada  al paciente exitosamente',
             'data' => ['ch_diets_evo' => $ChDietsEvo]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {

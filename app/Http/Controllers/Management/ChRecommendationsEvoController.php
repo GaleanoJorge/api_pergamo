@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChRecommendationsEvo;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -69,6 +70,21 @@ class ChRecommendationsEvoController extends Controller
             ->where('ch_record_id', $id)
             ->where('type_record_id', $type_record_id);
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChRecommendationsEvo = ChRecommendationsEvo::with(
+                    'recommendations_evo',
+                    'type_record',
+                    'ch_record'
+                )
+                ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
+            ;
+            }
+        }
+
         if ($request->query('pagination', true) == 'false') {
             $ChRecommendationsEvo = $ChRecommendationsEvo->get()->toArray();
         } else {
@@ -93,9 +109,9 @@ class ChRecommendationsEvoController extends Controller
     {
         $ChRecommendationsEvo = new ChRecommendationsEvo();
         $ChRecommendationsEvo->recommendations_evo_id =
-        $request->recommendations_evo_id;
-        $ChRecommendationsEvo->patient_family_education = $request->patient_family_education; 
-        $ChRecommendationsEvo->observations = $request->observations; 
+            $request->recommendations_evo_id;
+        $ChRecommendationsEvo->patient_family_education = $request->patient_family_education;
+        $ChRecommendationsEvo->observations = $request->observations;
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();
@@ -139,7 +155,7 @@ class ChRecommendationsEvoController extends Controller
         $ChRecommendationsEvo = ChRecommendationsEvo::find($id);
         $ChRecommendationsEvo->recommendations_evo_id = $request->recommendations_evo_id;
         $ChRecommendationsEvo->patient_family_education = $request->patient_family_education;
-        $ChRecommendationsEvo->observations = $request->observations; 
+        $ChRecommendationsEvo->observations = $request->observations;
         $ChRecommendationsEvo->type_record_id = $request->type_record_id;
         $ChRecommendationsEvo->ch_record_id = $request->ch_record_id;
         $ChRecommendationsEvo->save();

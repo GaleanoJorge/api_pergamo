@@ -2790,6 +2790,46 @@
         "permission_id": "4"
     },
     {
+        "item_id": "190",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "190",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "190",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "190",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "210",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "210",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "210",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "210",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
         "item_id": "191",
         "role_id": "1",
         "permission_id": "1"

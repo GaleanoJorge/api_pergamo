@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChBackground
  * 
  * @property int $id
- * @property string $recomendations
+ * @property string $patient_state
  * @property unsignedBigInteger ch_diagnosis_id 
  * @property unsignedBigInteger type_record_id 
  * @property unsignedBigInteger ch_record_id 

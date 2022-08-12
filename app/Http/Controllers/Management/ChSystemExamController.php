@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChSystemExam;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; 
+use App\Models\ChRecord;
+use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class ChSystemExamController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -19,23 +20,22 @@ class ChSystemExamController extends Controller
     {
         $ChSystemExam = ChSystemExam::with('type_ch_system_exam');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $ChSystemExam->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $ChSystemExam->where('name','like','%' . $request->search. '%');
+            $ChSystemExam->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ChSystemExam=$ChSystemExam->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $ChSystemExam = $ChSystemExam->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChSystemExam = $ChSystemExam->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ChSystemExam=$ChSystemExam->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -46,20 +46,34 @@ class ChSystemExamController extends Controller
     }
 
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChSystemExam = ChSystemExam::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-        ->with('type_ch_system_exam')->get()->toArray();
-        
+
+
+        $ChSystemExam = ChSystemExam::select('ch_system_exam.*')
+            ->with('type_ch_system_exam')
+            ->where('ch_record_id', $id)
+            ->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSystemExam = ChSystemExam::select('ch_system_exam.*')
+                    ->with('type_ch_system_exam')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
 
         return response()->json([
             'status' => true,
@@ -67,31 +81,31 @@ class ChSystemExamController extends Controller
             'data' => ['ch_system_exam' => $ChSystemExam]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
-        $validate=ChSystemExam::where('ch_record_id', $request->ch_record_id)->where('type_ch_system_exam_id',$request->type_ch_system_exam_id)->first();
-        if(!$validate){
-        $ChSystemExam = new ChSystemExam; 
-        $ChSystemExam->revision = $request->revision; 
-        $ChSystemExam->observation = $request->observation; 
-        $ChSystemExam->type_ch_system_exam_id = $request->type_ch_system_exam_id; 
-        $ChSystemExam->type_record_id = $request->type_record_id; 
-        $ChSystemExam->ch_record_id = $request->ch_record_id; 
-        $ChSystemExam->save();
+        $validate = ChSystemExam::where('ch_record_id', $request->ch_record_id)->where('type_ch_system_exam_id', $request->type_ch_system_exam_id)->first();
+        if (!$validate) {
+            $ChSystemExam = new ChSystemExam;
+            $ChSystemExam->revision = $request->revision;
+            $ChSystemExam->observation = $request->observation;
+            $ChSystemExam->type_ch_system_exam_id = $request->type_ch_system_exam_id;
+            $ChSystemExam->type_record_id = $request->type_record_id;
+            $ChSystemExam->ch_record_id = $request->ch_record_id;
+            $ChSystemExam->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Revisión Por  Sistema asociado al paciente exitosamente',
-            'data' => ['ch_system_exam' => $ChSystemExam->toArray()]
-        ]);
-    }else{
-        return response()->json([
-            'status' => false,
-            'message' => 'Ya tiene observación'
-        ], 423);
-    }
+            return response()->json([
+                'status' => true,
+                'message' => 'Revisión Por  Sistema asociado al paciente exitosamente',
+                'data' => ['ch_system_exam' => $ChSystemExam->toArray()]
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya tiene observación'
+            ], 423);
+        }
     }
 
     /**
@@ -120,12 +134,12 @@ class ChSystemExamController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChSystemExam = ChSystemExam::find($id);  
-        $ChSystemExam->revision = $request->revision; 
-        $ChSystemExam->observation = $request->observation; 
-        $ChSystemExam->type_ch_system_exam_id = $request->type_ch_system_exam_id; 
-        $ChSystemExam->type_record_id = $request->type_record_id; 
-        $ChSystemExam->ch_record_id = $request->ch_record_id; 
+        $ChSystemExam = ChSystemExam::find($id);
+        $ChSystemExam->revision = $request->revision;
+        $ChSystemExam->observation = $request->observation;
+        $ChSystemExam->type_ch_system_exam_id = $request->type_ch_system_exam_id;
+        $ChSystemExam->type_record_id = $request->type_record_id;
+        $ChSystemExam->ch_record_id = $request->ch_record_id;
         $ChSystemExam->save();
 
         return response()->json([
