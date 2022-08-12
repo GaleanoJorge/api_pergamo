@@ -59,14 +59,14 @@ class Authorization extends Model
 		return $this->belongsTo(ManualPrice::class, 'manual_price_id', 'id');
 	}
 	
-	public function supplies()
+	public function supplies_com()
 	{
-		return $this->belongsTo(ProductSupplies::class, 'supplies_id', 'id');
+		return $this->belongsTo(ProductSuppliesCom::class, 'supplies_com_id', 'id');
 	}
 
-	public function product()
+	public function product_com()
 	{
-		return $this->belongsTo(ProductGeneric::class, 'product_id', 'id');
+		return $this->belongsTo(Product::class, 'product_com_id', 'id');
 	}
 
 	public function procedure()

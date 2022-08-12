@@ -330,9 +330,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -368,9 +371,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -406,9 +412,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -445,8 +454,11 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -484,8 +496,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -512,8 +527,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -542,8 +560,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -566,8 +587,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -588,8 +612,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -610,8 +637,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -784,9 +814,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -826,9 +859,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -865,9 +901,12 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -905,8 +944,11 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -944,8 +986,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -972,8 +1017,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1002,8 +1050,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1028,8 +1079,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1050,8 +1104,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1072,8 +1129,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1241,8 +1301,11 @@ class BillingPadController extends Controller
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
@@ -1273,8 +1336,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1304,8 +1370,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1337,8 +1406,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1364,8 +1436,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1389,8 +1464,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1414,8 +1492,11 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
@@ -1737,6 +1818,8 @@ class BillingPadController extends Controller
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
                     'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
                     'assigned_management_plan.user',
@@ -1772,10 +1855,12 @@ class BillingPadController extends Controller
                     ->with(
                         'services_briefcase',
                         'services_briefcase.manual_price',
+                        'product_com',
+                        'supplies_com',
                         'services_briefcase.manual_price.procedure',
                         'assigned_management_plan',
-                        'assigned_management_plan.user',
                         'assigned_management_plan.management_plan',
+                        'assigned_management_plan.user',
                         'assigned_management_plan.management_plan.service_briefcase',
                         'assigned_management_plan.management_plan.procedure',
                         'manual_price',
@@ -1925,9 +2010,73 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
     }
 
+    public function NumToLettersBill(int $value)
+    {
+        $lengt = 45;
+        $res[0] = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+        if (strlen($res[0]) > $lengt) {
+            $prov = substr($res[0], $lengt);
+            $pos = strpos($prov, " ");
+            $prov = substr($prov, $pos + 1);
+            $res[0] = substr($res[0], 0, $lengt + $pos);
+            if (strlen($prov) > $lengt) {
+                $prov2 = substr($prov, $lengt);
+                $pos = strpos($prov2, " ");
+                $prov2 = substr($prov2, $pos + 1);
+                $res[1] = substr($prov, 0, $lengt + $pos);
+                $res[2] = $prov2;
+            } else {
+                $res[1] = $prov;
+            }
+        }
+        return $res;
+    }
+
     public function nameBuilder($fn, $sn, $ln, $sln): string
     {
         return $fn . ' ' . '' . $sn . ($sn ? ' ' : '') . '' . $ln . '' . ($sln ? ' ' : '') . $sln;
+    }
+
+    private function currencyTransform($value): string
+    {
+        $millions = '';
+        $millionsNum = 0;
+        $thousands = '';
+        $thousandsNum = 0;
+        $hundreds = '';
+        $hundredsNum = 0;
+        if ($value >= 1000000) {
+            $millions = floor($value / 1000000) . '.';
+            $millionsNum = floor($value / 1000000);
+            $thousands = floor(($value / 1000) - (floor($value / 1000000) * 1000)) . '.';
+            $thousandsNum = floor(($value / 1000) - (floor($value / 1000000) * 1000));
+        } else {
+            if (floor($value / 1000) > 0) {
+                $thousands = floor($value / 1000) . '.';
+            }
+            $thousandsNum = floor($value / 1000);
+        }
+        $hundreds = ($value - (floor($value / 1000) * 1000)) . '';
+        $hundredsNum = ($value - (floor($value / 1000) * 1000));
+
+        if ($millionsNum > 0) {
+            if ($thousandsNum < 100 && $thousandsNum >= 10) {
+                $thousands = '0' . $thousands;
+            } else if ($thousandsNum < 10 && $thousandsNum >= 0) {
+                $thousands = '00' . $thousands;
+            }
+        }
+        if ($thousandsNum > 0 || $millionsNum > 0) {
+            if ($hundredsNum < 100 && $hundredsNum >= 10) {
+                $hundreds = '0' . $hundreds;
+            } else if ($hundredsNum < 10 && $hundredsNum >= 0) {
+                $hundreds = '00' . $hundreds;
+            }
+        }
+
+        $Response = '$' . $millions . $thousands . $hundreds . '.00';
+
+        return $Response;
     }
 
     public function getDocTipe(string $internal_code): string
@@ -1979,6 +2128,34 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function generateBillingPdf(Request $request, int $id): JsonResponse
     {
         $BillingPad = $this->getBillingPadInformation($id);
+        $selected_procedures = json_decode($request->selected_procedures, true);
+        $assistance_name = '';
+        $services_date = array();
+        $total_value = 0;
+        $i = 0;
+        foreach ($selected_procedures as $element) {
+            $total_value += $element['services_briefcase']['value'];
+            $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
+                $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
+                $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
+                $selected_procedures[$i]['product_com']['code_cum'] : null));
+            $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
+            $A = $element['assigned_management_plan']['execution_date'];
+            $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+            if ($assistance_name == '') {
+                $assistance_name = $b;
+            }
+            array_push($services_date, $A);
+            $i++;
+        }
+        $letter_value = $this->NumToLettersBill($total_value);
+        $currency_value = $this->currencyTransform($total_value);
+        $cero = $this->currencyTransform(0);
+        $collection = collect($services_date);
+        $sortDates = $collection->sort()->toArray();
+        $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
+        $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
+        $generate_date  = Carbon::now();
 
         $html = view('layouts.billing', [
             'billing_type' => $request->billing_type,
@@ -1988,6 +2165,14 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'patient_address' => $BillingPad[0]['residence_address'],
             'contract_name' => $BillingPad[0]['contract_name'],
             'program_name' => $BillingPad[0]['program_name'],
+            'selected_procedures' => $selected_procedures,
+            'assistance_name' => $assistance_name,
+            'first_date' => $first_date,
+            'last_date' => $last_date,
+            'letter_value' => $letter_value,
+            'currency_value' => $currency_value,
+            'cero' => $cero,
+            'generate_date' => $generate_date,
         ])->render();
 
         $options = new Options();
