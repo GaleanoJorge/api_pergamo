@@ -42,6 +42,12 @@ class BillingPadController extends Controller
                 'billing_pad_pgp',
                 'admissions',
                 'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.gender',
+                'admissions.patients.admissions',
+                'admissions.patients.admissions.briefcase',
+                'admissions.patients.admissions.contract',
+                'admissions.patients.admissions.contract.company',
             );
 
         if ($request->_sort) {
@@ -246,6 +252,8 @@ class BillingPadController extends Controller
             )
             ->with(
                 'patients',
+                'patients.identification_type',
+                'patients.gender',
                 'briefcase',
                 'campus',
                 'contract',
@@ -313,6 +321,20 @@ class BillingPadController extends Controller
      * @return JsonResponse
      */
     public function getAuthorizedProcedures(Request $request, int $admission_id): JsonResponse
+    {
+        $respose = $this->arraySupport($request,  $admission_id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'procedimientos autorizados obtenidos exitosamente',
+            'data' => [
+                'billing_pad' =>  $respose['billing_pad'],
+                'already_billing' => $respose['already_billing'],
+            ]
+        ]);
+    }
+
+    public function arraySupport(Request $request, int $admission_id)
     {
         if ($request->billing_id) {
             $billing_id = $request->billing_id;
@@ -799,14 +821,10 @@ class BillingPadController extends Controller
             }
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'procedimientos autorizados obtenidos exitosamente',
-            'data' => [
-                'billing_pad' => $Authorizations,
-                'already_billing' => $AlreadyBilling,
-            ]
-        ]);
+        return [
+            'billing_pad' => $Authorizations,
+            'already_billing' => $AlreadyBilling,
+        ];
     }
 
     /**
@@ -830,7 +848,7 @@ class BillingPadController extends Controller
         }
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN PROCEDIMIENTOS Y POR EVENTO (NO PAQUETIZADAS)
-        $eventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status')
+        $eventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -857,6 +875,7 @@ class BillingPadController extends Controller
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
@@ -878,7 +897,7 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN MEDICAMENTOS Y POR EVENTO (NO PAQUETIZADAS)
-        $MedicamentosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status')
+        $MedicamentosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -905,6 +924,7 @@ class BillingPadController extends Controller
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
             ->get()->toArray();
 
@@ -923,7 +943,7 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN INSUMOS Y POR EVENTO (NO PAQUETIZADAS)
-        $InsumosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status')
+        $InsumosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -950,6 +970,7 @@ class BillingPadController extends Controller
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
             ->get()->toArray();
 
@@ -969,7 +990,7 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
-        $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status')
+        $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -993,6 +1014,7 @@ class BillingPadController extends Controller
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->get()->toArray();
 
@@ -1987,8 +2009,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
     public function getBillingPadInformation(int $billing_id): array
     {
-        return BillingPad::find($billing_id)
+        $respose = array();
+        $a = BillingPad::find($billing_id)
             ->select(
+                'billing_pad.id AS billing_pad_id',
                 'patients.firstname AS firstname',
                 'patients.middlefirstname AS middlefirstname',
                 'patients.lastname AS lastname',
@@ -2034,6 +2058,13 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
             ->get()->toArray();
+
+        foreach ($a as $e) {
+            if ($e['billing_pad_id'] == $billing_id) {
+                array_push($respose, $e);
+            }
+        }
+        return $respose;
     }
 
 
@@ -2160,7 +2191,16 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function generateBillingPdf(Request $request, int $id): JsonResponse
     {
         $BillingPad = $this->getBillingPadInformation($id);
-        $selected_procedures = json_decode($request->selected_procedures, true);
+        if ($request->selected_procedures) {
+            $selected_procedures = json_decode($request->selected_procedures, true);
+        } else if ($request->admission_id) {
+            $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Error en id de admisión',
+            ]);
+        }
         $assistance_name = '';
         $services_date = array();
         $view_services = array();
@@ -2238,6 +2278,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
         $generate_date  = Carbon::now();
 
+        $consecutive = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
+
         $html = view('layouts.billing', [
             'billing_type' => $request->billing_type,
             'identification' => $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'],
@@ -2246,6 +2288,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'patient_address' => $BillingPad[0]['residence_address'],
             'contract_name' => $BillingPad[0]['contract_name'],
             'program_name' => $BillingPad[0]['program_name'],
+            'billing_resolution' => $BillingPad[0]['billing_resolution'],
             'selected_procedures' => $sort_view_services,
             'assistance_name' => $assistance_name,
             'first_date' => $first_date,
@@ -2254,6 +2297,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'currency_value' => $currency_value,
             'cero' => $cero,
             'generate_date' => $generate_date,
+            'consecutive' => $consecutive,
         ])->render();
 
         $options = new Options();
@@ -2272,7 +2316,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return response()->json([
             'status' => true,
             'message' => 'Cuenta de cobro generada exitosamente',
-            'res' => 'Cuenta de cobro generada exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
     }

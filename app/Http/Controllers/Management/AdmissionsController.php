@@ -24,6 +24,22 @@ class AdmissionsController extends Controller
             ->select(
                 'admissions.*',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            )->with(
+                'patients',
+                'patients.identification_type',
+                'patients.gender',
+                'patients.admissions',
+                'patients.admissions.briefcase',
+                'patients.admissions.contract',
+                'patients.admissions.contract.company',
+                'briefcase',
+                'campus',
+                'contract',
+                'contract.company',
+                'location',
+                'location.admission_route',
+                'location.scope_of_attention',
+                'location.program',
             );
         if ($request->admissions_id) {
             $Admissions->with('patients','regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);

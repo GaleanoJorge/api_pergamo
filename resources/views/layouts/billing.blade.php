@@ -447,6 +447,15 @@
                         style="word-spacing:0.0006em;">{{ $billing_type }} &nbsp;</span>
                 </div>
 
+                @if ($consecutive != null)
+                    <div class="stl_01" style="left:12em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
+                            style="word-spacing:0.0006em;">CONSECUTIVO: {{ $consecutive }} &nbsp;</span>
+                    </div>
+                    <div class="stl_01" style="left:12em;top:3.062em;"><span class="stl_07 stl_08 stl_10"
+                            style="word-spacing:0.0006em;">RESOLUCIÓN: {{ $billing_resolution }} &nbsp;</span>
+                    </div>
+                @endisset
+
                 {{-- <div class="stl_01" style="left:19.71em;top:3.132em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0em;">OBLIGADOS A FACTURAR &nbsp;</span></div> --}}
 
@@ -517,18 +526,18 @@
 
                 <div class="stl_01" style="left:25.3em;top:9.0852em;"><span class="stl_19 stl_08 stl_20"
                         style="word-spacing:-0.0022em;">Doctor: &nbsp;</span></div>
-                <div class="stl_01" style="left:35em;top:9.0852em;"><span class="stl_19 stl_08 stl_20"
+                <div class="stl_01" style="left:32em;top:9.0852em;"><span class="stl_19 stl_08 stl_20"
                         style="word-spacing:-0.0022em;">{{ $assistance_name }} &nbsp;</span></div>
 
                 <div class="stl_01" style="left:25.3em;top:10.562em;"><span class="stl_19 stl_08 stl_28"
                         style="word-spacing:0.0053em;">Fecha inicial: &nbsp;</span></div>
-                <div class="stl_01" style="left:35em;top:10.562em;"><span class="stl_19 stl_08 stl_28"
+                <div class="stl_01" style="left:32em;top:10.562em;"><span class="stl_19 stl_08 stl_28"
                         style="word-spacing:0.0053em;">{{ $first_date }}
                         &nbsp;</span></div>
 
                 <div class="stl_01" style="left:25.3em;top:12.302em;"><span class="stl_19 stl_08 stl_29"
                         style="word-spacing:0.0049em;">Fecha final: &nbsp;</span></div>
-                <div class="stl_01" style="left:35em;top:12.302em;"><span class="stl_19 stl_08 stl_29"
+                <div class="stl_01" style="left:32em;top:12.302em;"><span class="stl_19 stl_08 stl_29"
                         style="word-spacing:0.0049em;">{{ $last_date }}
                         &nbsp;</span></div>
 
