@@ -21,7 +21,7 @@
         }
 
         .tablehc tr:nth-child(even) {
-            background-color: #dddddd;
+            background-color: #eeecec;
         }
     </STYLE>
 </head>
@@ -1113,6 +1113,2692 @@
         </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Enfermeria -->
     <div>
         @if($chrecord[0]['ch_type_id'] == 2 )
@@ -1143,11 +3829,12 @@
                         <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> POSICIÓN</b></span>
                         <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                     </p>
+                  
                     @foreach($ChPosition as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                            <b>@if(isset($ch['patient_position'])) POSICIÓN: </b> {{$ch['patient_position']['name']}} @endisset
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['patient_position'])) POSICIÓN: </b> {{$ch['patient_position']['name']}} @endisset <br/>
                             <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
                     </p>
                     @endforeach
@@ -1168,8 +3855,8 @@
                                 @foreach($ChHairValoration as $ch)
                                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                     <span style="font-family:Calibri; font-size:9pt">
-                                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                                        <b>@if(isset($ch['hair_revision'])) CUERO CABELLUDO: </b> {{$ch['hair_revision']}} @endisset
+                                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                                        <b>@if(isset($ch['hair_revision'])) CUERO CABELLUDO: </b> {{$ch['hair_revision']}} @endisset <br/>
                                         <b>@if(isset($ch['observation'])) OBSERVACIÓN: </b> {{$ch['observation']}} @endisset
                                     </span>
                                 </p>
@@ -1195,8 +3882,8 @@
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
                             <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                            <b>@if(isset($ch['ostomy'])) OSTOMIA: </b> {{$ch['ostomy']['name']}} @endisset
-                            <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
+                            <b>@if(isset($ch['ostomy'])) OSTOMIA: </b> {{$ch['ostomy']['name']}} @endisset <br/>
+                            <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span> <br/>
                     </p>
                     @endforeach
 
@@ -1209,11 +3896,11 @@
                     @if(count($ChPhysicalExam) > 0)
 
                     <hr />
-                        
-                    <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
-                            RX FÍSICO<br>
-                        </p>
 
+                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> RX FÍSICO </b> </span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
 
 
                             <table class="tablehc">
@@ -1273,183 +3960,363 @@
                 </div>
         
             <!-- Rx Signos Vitales-->
+            <div>
+                @if(count($ChVitalSigns) > 0)
+                @foreach($ChVitalSigns as $ch)
+
+                <hr />
+
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+                <br>
+            
+                <!-- Requeridos-->
                 <div>
-
-                                    @if(count($ChVitalSigns) > 0)
-                                    @foreach($ChVitalSigns as $ch)
-
-                                    <hr />
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
                                     </p>
-
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['created_at']))FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b> @if(isset($ch['clock']))HORA REGISTRO: </b>{{substr($ch['clock'],0,10) }} @endisset</span>
                                     </p>
-
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt"><b> @if(isset($ch['clock'])) HORA REGISTRO: </b>{{$ch['clock']}} @endisset</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br/>
+                                </td>
+                            </tr>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b> @if(isset($ch['cardiac_frequency'])) FRECUENCIA CARDIACA: </b>{{$ch['cardiac_frequency']}} @endisset
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b> @if(isset($ch['cardiac_frequency'])) FRECUENCIA CARDIACA: </b>{{$ch['cardiac_frequency']}} @endisset
-                                            <b> @if(isset($ch['respiratory_frequency'])) FRECUENCIA RESPIRATORIA: </b>{{$ch['respiratory_frequency']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b> @if(isset($ch['respiratory_frequency'])) FRECUENCIA RESPIRATORIA: </b>{{$ch['respiratory_frequency']}} @endisset</span>
+                                                    
                                     </p>
+                                </td>
+                            </tr>
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['temperature'])) TEMPERATURA: </b>{{$ch['temperature']}} @endisset
-                                            <b>@if(isset($ch['ch_vital_temperature'])) VIA DE TOMA: </b>{{$ch['ch_vital_temperature']['name']}} @endisset</span>
+                        <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['temperature'])) TEMPERATURA: </b>{{$ch['temperature']}} @endisset
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['oxigen_saturation'])) SATURACIÓN DE OXIGENO: </b>{{$ch['oxigen_saturation']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b>@if(isset($ch['ch_vital_temperature'])) VIA DE TOMA: </b>{{$ch['ch_vital_temperature']['name']}} @endisset</span>
+                                        <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>                                    
                                     </p>
+                                </td>
+                            </tr>
+                        
+                            <tr style="height:11.95pt">
+                                <td>
+                                    <br/>
+                                </td>
+                            </tr>
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['size'])) TALLA: </b>{{$ch['size']}} @endisset
-                                            <b>@if(isset($ch['weight'])) PESO: </b>{{$ch['weight']}} @endisset
-                                            <b>@if(isset($ch['body_mass_index'])) I.M.C: </b>{{$ch['body_mass_index']}} @endisset</span>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['oxigen_saturation'])) SATURACIÓN DE OXIGENO: </b>{{$ch['oxigen_saturation']}} @endisset</span>
                                     </p>
+                                </td>
+                            </tr>
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pressure_systolic'])) TENSIÓN ARTERIAL SISTÓLICA: </b>{{$ch['pressure_systolic']}} @endisset
-                                            <b>@if(isset($ch['pressure_diastolic'])) TENSIÓN ARTERIAL DIASTÓLICA: </b>{{$ch['pressure_diastolic']}} @endisset
-                                            <b>@if(isset($ch['pressure_half'])) MEDIA: </b>{{$ch['pressure_half']}} @endisset</span>
+                            <tr style="height:11.95pt">
+                                <td>
+                                    <br/>
+                                </td>
+                            </tr>
+
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['size'])) TALLA: </b>{{$ch['size']}} @endisset</span>
                                     </p>
-
-                                    @if (isset($ch['ch_vital_neurological']) || isset($ch['ch_vital_hydration']) ||
-                                    isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
-                                    isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) ||
-                                    isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
-                                    isset($ch['intra_abdominal']) || isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']) ||
-                                    isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']) )
-
-                                    <hr />
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_neurological'])) ESTADO NEUROLÓGICO: </b>{{$ch['ch_vital_neurological']['name']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['weight'])) PESO: </b>{{$ch['weight']}} @endisset</span>
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_hydration'])) ESTADO DE HIDRATACIÓN: </b>{{$ch['ch_vital_hydration']['name']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['body_mass_index'])) I.M.C: </b>{{$ch['body_mass_index']}} @endisset</span>
                                     </p>
+                                </td>
+                            </tr>
 
-                                    @if(isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
-                                    isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) )
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PUPILAS </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['pressure_systolic'])) TENSIÓN ARTERIAL SISTÓLICA: </b>{{$ch['pressure_systolic']}} @endisset
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pupil_size_left'])) T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}} @endisset
-                                            <b>@if(isset($ch['pupil_size_right'])) T.PUPILAR DERECHO: </b>{{$ch['pupil_size_right']}} @endisset
-                                            <b>@if(isset($ch['left_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['left_reaction']}} @endisset
-                                            <b>@if(isset($ch['right_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['right_reaction']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b>@if(isset($ch['pressure_diastolic'])) TENSIÓN ARTERIAL DIASTÓLICA: </b>{{$ch['pressure_diastolic']}} @endisset
                                     </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['pressure_half'])) MEDIA: </b>{{$ch['pressure_half']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
+                        </table> 
+                </div>                         
+                
+                <!-- Otros-->
+                <div>
+                        @if (isset($ch['ch_vital_neurological']) || isset($ch['ch_vital_hydration']) || 
+                        isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
+                        isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) ||
+                        isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
+                        isset($ch['intra_abdominal']) || isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']) ||
+                        isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']) )
+
+                        <br/>
+
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_vital_neurological'])) ESTADO NEUROLÓGICO: </b>{{$ch['ch_vital_neurological']['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                                <tr style="height:11.95pt">
+                                <td style="width:200pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_vital_hydration'])) ESTADO DE HIDRATACIÓN: </b>{{$ch['ch_vital_hydration']['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>   
+                        </table>
+
+                        @if(isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
+                        isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) )
+                        <br/>
+                        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PUPILAS </b> </span>
+                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        </p>
+
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['pupil_size_left'])) T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}} @endisset </span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">  <b>@if(isset($ch['pupil_size_right'])) T.PUPILAR DERECHO: </b>{{$ch['pupil_size_right']}} @endisset </span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['left_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['left_reaction']}} @endisset </span>  
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b>@if(isset($ch['right_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['right_reaction']}} @endisset</span>
+                                                    
+                                    </p>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <br/>
+                                </td>
+                            </tr>
+
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> 
                                             <b>@if(isset($ch['mydriatic'])) </b> {{$ch['mydriatic']}} @endisset
                                             <b>@if(isset($ch['normal'])) </b> {{$ch['normal']}} @endisset
                                             <b>@if(isset($ch['lazy_reaction_light'])) </b> {{$ch['lazy_reaction_light']}} @endisset
                                             <b>@if(isset($ch['fixed_lazy_reaction'])) </b> {{$ch['fixed_lazy_reaction']}} @endisset
                                             <b>@if(isset($ch['miotic_size'])) </b> {{$ch['miotic_size']}} @endisset</span>
+                                </td>
+                            </tr>
+                        </table> 
+                        @endisset
+
+                    
+                        @if(isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
+                        isset($ch['intra_abdominal']))
+
+                        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> OTROS  SIGNOS VIALES</b> </span>
+                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        </p>
+
+                        <br/>
+
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['pulse'])) PULSO: </b>{{$ch['pulse']}} @endisset </span>
                                     </p>
-                                    @endisset
-
-                                    @if(isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
-                                    isset($ch['intra_abdominal']))
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> OTROS </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['venous_pressure'])) PVC: </b>{{$ch['venous_pressure']}} @endisset </span>
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pulse'])) PULSO: </b>{{$ch['pulse']}} @endisset
-                                            <b>@if(isset($ch['venous_pressure'])) PVC: </b>{{$ch['venous_pressure']}} @endisset
-                                            <b>@if(isset($ch['intracranial_pressure'])) PRESIÓN INTRACANEANA: </b>{{$ch['intracranial_pressure']}} @endisset
-                                            <b>@if(isset($ch['cerebral_perfusion_pressure'])) PPC: </b>{{$ch['cerebral_perfusion_pressure']}} @endisset
-                                            <b>@if(isset($ch['intra_abdominal'])) PRESIÓN INTRAABDOMINAL: </b>{{$ch['intra_abdominal']}} @endisset </span>
-                                        </span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b>@if(isset($ch['cerebral_perfusion_pressure'])) PPC: </b>{{$ch['cerebral_perfusion_pressure']}} @endisset </span> 
                                     </p>
-                                    @endisset
-
-                                    @if(isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']))
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PRESIÓN ART PULMONAR </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                                </td>
+                            </tr>
+                                                        
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['intracranial_pressure'])) PRESIÓN INTRACANEANA: </b>{{$ch['intracranial_pressure']}} @endisset </span>
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pulmonary_systolic'])) SISTÓLICA: </b>{{$ch['pulmonary_systolic']}} @endisset
-                                            <b>@if(isset($ch['pulmonary_diastolic'])) DIASTÓLICA: </b>{{$ch['pulmonary_diastolic']}} @endisset
-                                            <b>@if(isset($ch['pulmonary_half'])) MEDIA: </b>{{$ch['pulmonary_half']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['intra_abdominal'])) PRESIÓN INTRAABDOMINAL: </b>{{$ch['intra_abdominal']}} @endisset </span>
+                                                    
                                     </p>
-                                    @endisset
+                                </td>
+                            </tr>
+                        
+                        </table> 
 
-                                    @if(isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']))
+                        @endisset
 
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PEDIATRÍA - PERÍMETRO </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        @if(isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']))
+
+
+                        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PRESIÓN ART PULMONAR </b> </span>
+                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        </p>
+                        <br/>
+
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['pulmonary_systolic'])) SISTÓLICA: </b>{{$ch['pulmonary_systolic']}} @endisset 
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['head_circunference'])) CEFÁLICO: </b>{{$ch['head_circunference']}} @endisset
-                                            <b>@if(isset($ch['abdominal_perimeter'])) ABDOMINAL: </b>{{$ch['abdominal_perimeter']}} @endisset
-                                            <b>@if(isset($ch['chest_perimeter'])) TORÁCICO: </b>{{$ch['chest_perimeter']}} @endisset</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['pulmonary_diastolic'])) DIASTÓLICA: </b>{{$ch['pulmonary_diastolic']}} @endisset
                                     </p>
-                                    @endisset
-
-                                    @endisset
-
-
-                                    @if(($ch['has_oxigen']) == 1 )
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>TIENE OXIGENO</b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['pulmonary_half'])) MEDIA: </b>{{$ch['pulmonary_half']}} @endisset</span></span>
                                     </p>
+                                </td>
+                            </tr>
 
+                        </table>
+                        @endisset
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_ventilated'])) MODO VENTILATORIO: </b>{{$ch['ch_vital_ventilated'] ['name']}} @endisset
-                                            <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b>{{$ch['oxygen_type'] ['name']}} @endisset</span>
+                        @if(isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']))
+
+                        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PEDIATRÍA - PERÍMETRO </b> </span>
+                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        </p>         
+
+                        <br/>
+
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['head_circunference'])) CEFÁLICO: </b>{{$ch['head_circunference']}} @endisset
                                     </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['liters_per_minute'])) LITROS POR MINUTO: </b>{{$ch['liters_per_minute'] ['name']}} @endisset
-                                            <b>@if(isset($ch['parameters_signs'])) PARAMETROS: </b>{{$ch['parameters_signs'] ['name']}} @endisset</span>
-
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['abdominal_perimeter'])) ABDOMINAL: </b>{{$ch['abdominal_perimeter']}} @endisset
                                     </p>
-                                    @endisset
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">  <b>@if(isset($ch['chest_perimeter'])) TORÁCICO: </b>{{$ch['chest_perimeter']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        @endisset
+
+                        @endisset
+
+            
+                        @if(($ch['has_oxigen']) == 1 )
+
+                        <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>TIENE OXÍGENO </b> </span>
+                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        </p>                         
+                        <br/>
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['ch_vital_ventilated'])) MODO VENTILATORIO: </b>{{$ch['ch_vital_ventilated'] ['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b>{{$ch['oxygen_type'] ['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['liters_per_minute'])) LITROS POR MINUTO: </b>{{$ch['liters_per_minute'] ['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"> <b>@if(isset($ch['parameters_signs'])) PARAMETROS: </b>{{$ch['parameters_signs'] ['name']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>                           
+                        @endisset
 
 
-                                    @endforeach
-                                    @endisset
+                        @endforeach
+                        @endisset
 
                 </div>
+            </div>
     
         <!-- NOTA ENFERMERÍA -->
             <div>
@@ -1480,8 +4347,8 @@
                     @foreach($ChPositionNE as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                            <b>@if(isset($ch['patient_position'])) POSICIÓN: </b> {{$ch['patient_position']['name']}} @endisset
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['patient_position'])) POSICIÓN: </b> {{$ch['patient_position']['name']}} @endisset <br/>
                             <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
                     </p>
                     @endforeach
@@ -1502,8 +4369,8 @@
                                 @foreach($ChHairValorationNE as $ch)
                                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                     <span style="font-family:Calibri; font-size:9pt">
-                                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                                        <b>@if(isset($ch['hair_revision'])) CUERO CABELLUDO: </b> {{$ch['hair_revision']}} @endisset
+                                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                                        <b>@if(isset($ch['hair_revision'])) CUERO CABELLUDO: </b> {{$ch['hair_revision']}} @endisset <br/>
                                         <b>@if(isset($ch['observation'])) OBSERVACIÓN: </b> {{$ch['observation']}} @endisset
                                     </span>
                                 </p>
@@ -1524,260 +4391,451 @@
                     @foreach($ChOxigenNE as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                            <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b> {{$ch['oxygen_type']['name']}} @endisset
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b> {{$ch['oxygen_type']['name']}} @endisset <br/>
                             <b>@if(isset($ch['liters_per_minute'])) LITROS POR MINUTO: </b> {{$ch['liters_per_minute']['name']}} @endisset</span>
                     </p>
                     @endforeach
                     @endisset
                 </div> 
-            <!-- Rx Físico -->
-                <div>
 
-                    @if(count($ChPhysicalExamNE) > 0)
+                <!-- Unidad Del Paciente   -->
+                <div>
+                    @if(count($ChNotesDescription) > 0)
 
                     <hr />
-                        
-                    <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
-                            RX FÍSICO<br>
-                        </p>
 
-
-
-                            <table class="tablehc">
-
-                                <tr>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt"> FECHA</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">TIPO</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">REVISIÓN</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</span></th>
-
-                                </tr>
-                                @foreach($ChPhysicalExamNE as $ch)
-                                <tr>
-
-                                    @if(isset($ch['created_at']))
-                                    <td>
-
-                                       <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['type_ch_physical_exam']))
-                                    <td>
-
-                                        <span style="font-family:Calibri; font-size:9pt">{{$ch['type_ch_physical_exam']['name']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['revision']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt">{{$ch['revision']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['description']))
-                                    <td>
-
-                                        <span style="font-family:Calibri; font-size:9pt">{{$ch['description']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                </tr>
-                                @endforeach
-
-                            </table>
+                    <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> UNIDAD DEL PACIENTE</b></span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+                    @foreach($ChNotesDescription as $ch)
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['patient_position']))POSICIÓN ACTUAL: </b> {{$ch['patient_position']['name']}} @endisset <br/>
+                            <b>@if(isset($ch['patient_dry'])) UNIDAD: </b> {{$ch['patient_dry']}} @endisset <br/>
+                            <b>@if(isset($ch['unit_arrangement'])) BAÑAR: </b> {{$ch['unit_arrangement']}} @endisset</span>
+                    </p>
+                    @endforeach
                     @endisset
+                </div> 
+            <!-- Rx Físico -->
+            <div>
 
-                </div>
+                @if(count($ChPhysicalExamNE) > 0)
+
+                <hr />
+
+                    <p style="text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> REVISIÓN FÍSICO </b> </span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+
+                        
+                        <table class="tablehc">
+
+                            <tr>
+                                <th><span style="font-family:Calibri; font-size:9pt">FECHA</span></th>
+                                <th><span style="font-family:Calibri; font-size:9pt">TIPO</span></th>
+                                <th><span style="font-family:Calibri; font-size:9pt">REVISIÓN</span></th>
+                                <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</span></th>
+                            </tr>
+
+                            @foreach($ChPhysicalExamNE as $ch)
+                            <tr>
+                            
+                                @if(isset($ch['created_at']))
+                                <td>
+                                    <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                </td>
+                                @endisset
+
+                                @if(isset($ch['type_ch_physical_exam']))
+                                <td>
+                                    <span style="font-family:Calibri; font-size:9pt">{{$ch['type_ch_physical_exam']['name']}}</span>
+                                </td>
+                                @endisset
+
+                                @if(isset($ch['revision']))
+                                <td>
+                                    <span style="font-family:Calibri; font-size:9pt">{{$ch['revision']}}</span>
+                                </td>
+                                @endisset
+
+                                @if(isset($ch['description']))
+                                <td>
+                                    <span style="font-family:Calibri; font-size:9pt">{{$ch['description']}}</span>
+                                </td>
+                                @endisset
+                            
+                            </tr>
+                            @endforeach
+
+                        </table>
+                @endisset
+
+            </div>
             <!-- Rx Signos Vitales-->
-                <div>
+        <div>
+                @if(count($ChVitalSigns) > 0)
+                @foreach($ChVitalSigns as $ch)
 
-                                    @if(count($ChVitalSignsNE) > 0)
-                                    @foreach($ChVitalSignsNE as $ch)
+                <hr />
 
-                                    <hr />
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+                <br>
+            <!-- Requeridos-->
+            <div>
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b> @if(isset($ch['clock']))HORA REGISTRO: </b>{{substr($ch['clock'],0,10) }} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b> @if(isset($ch['cardiac_frequency'])) FRECUENCIA CARDIACA: </b>{{$ch['cardiac_frequency']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b> @if(isset($ch['respiratory_frequency'])) FRECUENCIA RESPIRATORIA: </b>{{$ch['respiratory_frequency']}} @endisset</span>
+                                              
+                            </p>
+                        </td>
+                    </tr>
 
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
+                   <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['temperature'])) TEMPERATURA: </b>{{$ch['temperature']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b>@if(isset($ch['ch_vital_temperature'])) VIA DE TOMA: </b>{{$ch['ch_vital_temperature']['name']}} @endisset</span>
+                                <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>                                    
+                            </p>
+                        </td>
+                    </tr>
+                   
+                    <tr style="height:11.95pt">
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                   <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['oxigen_saturation'])) SATURACIÓN DE OXIGENO: </b>{{$ch['oxigen_saturation']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr style="height:11.95pt">
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['size'])) TALLA: </b>{{$ch['size']}} @endisset</span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['weight'])) PESO: </b>{{$ch['weight']}} @endisset</span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['body_mass_index'])) I.M.C: </b>{{$ch['body_mass_index']}} @endisset</span>
+                             </p>
+                        </td>
+                    </tr>
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['pressure_systolic'])) TENSIÓN ARTERIAL SISTÓLICA: </b>{{$ch['pressure_systolic']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b>@if(isset($ch['pressure_diastolic'])) TENSIÓN ARTERIAL DIASTÓLICA: </b>{{$ch['pressure_diastolic']}} @endisset
+                             </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['pressure_half'])) MEDIA: </b>{{$ch['pressure_half']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table> 
+            </div>                         
+        </div> 
+        <!-- Otros-->
+        <div>
+                @if (isset($ch['ch_vital_neurological']) || isset($ch['ch_vital_hydration']) || 
+                isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
+                isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) ||
+                isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
+                isset($ch['intra_abdominal']) || isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']) ||
+                isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']) )
+
+                <br/>
+
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_vital_neurological'])) ESTADO NEUROLÓGICO: </b>{{$ch['ch_vital_neurological']['name']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+                        <tr style="height:11.95pt">
+                        <td style="width:200pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_vital_hydration'])) ESTADO DE HIDRATACIÓN: </b>{{$ch['ch_vital_hydration']['name']}} @endisset</span>
+                            </p>
+                        </td>
+                     </tr>   
+                </table>
+
+                @if(isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
+                isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) )
+                <br/>
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PUPILAS </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['pupil_size_left'])) T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}} @endisset </span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri">  <b>@if(isset($ch['pupil_size_right'])) T.PUPILAR DERECHO: </b>{{$ch['pupil_size_right']}} @endisset </span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['left_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['left_reaction']}} @endisset </span>  
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b>@if(isset($ch['right_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['right_reaction']}} @endisset</span>
+                                            
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <br/>
+                        </td>
+                    </tr>
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> 
+                                    <b>@if(isset($ch['mydriatic'])) </b> {{$ch['mydriatic']}} @endisset
+                                    <b>@if(isset($ch['normal'])) </b> {{$ch['normal']}} @endisset
+                                    <b>@if(isset($ch['lazy_reaction_light'])) </b> {{$ch['lazy_reaction_light']}} @endisset
+                                    <b>@if(isset($ch['fixed_lazy_reaction'])) </b> {{$ch['fixed_lazy_reaction']}} @endisset
+                                    <b>@if(isset($ch['miotic_size'])) </b> {{$ch['miotic_size']}} @endisset</span>
+                        </td>
+                    </tr>
+                </table> 
+                @endisset
+
+               
+                @if(isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
+                isset($ch['intra_abdominal']))
+
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> OTROS  SIGNOS VIALES</b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+
+                <br/>
+
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['pulse'])) PULSO: </b>{{$ch['pulse']}} @endisset </span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['venous_pressure'])) PVC: </b>{{$ch['venous_pressure']}} @endisset </span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"><b>@if(isset($ch['cerebral_perfusion_pressure'])) PPC: </b>{{$ch['cerebral_perfusion_pressure']}} @endisset </span> 
+                            </p>
+                        </td>
+                    </tr>
+                                                   
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['intracranial_pressure'])) PRESIÓN INTRACANEANA: </b>{{$ch['intracranial_pressure']}} @endisset </span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['intra_abdominal'])) PRESIÓN INTRAABDOMINAL: </b>{{$ch['intra_abdominal']}} @endisset </span>
+                                            
+                            </p>
+                        </td>
+                    </tr>
+                   
+                </table> 
+
+                @endisset
+
+                @if(isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']))
 
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['created_at']))FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
-                                    </p>
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PRESIÓN ART PULMONAR </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+                <br/>
+
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['pulmonary_systolic'])) SISTÓLICA: </b>{{$ch['pulmonary_systolic']}} @endisset 
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['pulmonary_diastolic'])) DIASTÓLICA: </b>{{$ch['pulmonary_diastolic']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['pulmonary_half'])) MEDIA: </b>{{$ch['pulmonary_half']}} @endisset</span></span>
+                             </p>
+                        </td>
+                    </tr>
+
+                </table>
+                @endisset
+
+                @if(isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']))
+
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> PEDIATRÍA - PERÍMETRO </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>         
+
+                <br/>
+
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['head_circunference'])) CEFÁLICO: </b>{{$ch['head_circunference']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['abdominal_perimeter'])) ABDOMINAL: </b>{{$ch['abdominal_perimeter']}} @endisset
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri">  <b>@if(isset($ch['chest_perimeter'])) TORÁCICO: </b>{{$ch['chest_perimeter']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                @endisset
+
+                @endisset
+
+      
+                @if(($ch['has_oxigen']) == 1 )
+
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>TIENE OXÍGENO </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>                         
+                 <br/>
+                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt"> <b>@if(isset($ch['ch_vital_ventilated'])) MODO VENTILATORIO: </b>{{$ch['ch_vital_ventilated'] ['name']}} @endisset</span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b>{{$ch['oxygen_type'] ['name']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:11.95pt">
+                        <td style="width:79.75pt; vertical-align:top">
+                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:8pt">  <b>@if(isset($ch['liters_per_minute'])) LITROS POR MINUTO: </b>{{$ch['liters_per_minute'] ['name']}} @endisset</span>
+                            </p>
+                        </td>
+                        <td style="width:106pt; vertical-align:top">
+                            <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                <span style="font-family:Calibri"> <b>@if(isset($ch['parameters_signs'])) PARAMETROS: </b>{{$ch['parameters_signs'] ['name']}} @endisset</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>                           
+                @endisset
 
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt"><b> @if(isset($ch['clock'])) HORA REGISTRO: </b>{{$ch['clock']}} @endisset</span>
-                                    </p>
+                @endforeach
+                @endisset
 
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b> @if(isset($ch['cardiac_frequency'])) FRECUENCIA CARDIACA: </b>{{$ch['cardiac_frequency']}} @endisset
-                                            <b> @if(isset($ch['respiratory_frequency'])) FRECUENCIA RESPIRATORIA: </b>{{$ch['respiratory_frequency']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['temperature'])) TEMPERATURA: </b>{{$ch['temperature']}} @endisset
-                                            <b>@if(isset($ch['ch_vital_temperature'])) VIA DE TOMA: </b>{{$ch['ch_vital_temperature']['name']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['oxigen_saturation'])) SATURACIÓN DE OXIGENO: </b>{{$ch['oxigen_saturation']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['size'])) TALLA: </b>{{$ch['size']}} @endisset
-                                            <b>@if(isset($ch['weight'])) PESO: </b>{{$ch['weight']}} @endisset
-                                            <b>@if(isset($ch['body_mass_index'])) I.M.C: </b>{{$ch['body_mass_index']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pressure_systolic'])) TENSIÓN ARTERIAL SISTÓLICA: </b>{{$ch['pressure_systolic']}} @endisset
-                                            <b>@if(isset($ch['pressure_diastolic'])) TENSIÓN ARTERIAL DIASTÓLICA: </b>{{$ch['pressure_diastolic']}} @endisset
-                                            <b>@if(isset($ch['pressure_half'])) MEDIA: </b>{{$ch['pressure_half']}} @endisset</span>
-                                    </p>
-
-                                    @if (isset($ch['ch_vital_neurological']) || isset($ch['ch_vital_hydration']) ||
-                                    isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
-                                    isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) ||
-                                    isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
-                                    isset($ch['intra_abdominal']) || isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']) ||
-                                    isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']) )
-
-                                    <hr />
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_neurological'])) ESTADO NEUROLÓGICO: </b>{{$ch['ch_vital_neurological']['name']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_hydration'])) ESTADO DE HIDRATACIÓN: </b>{{$ch['ch_vital_hydration']['name']}} @endisset</span>
-                                    </p>
-
-                                    @if(isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
-                                    isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) )
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PUPILAS </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pupil_size_left'])) T.PUPILAR IZQUIERDO: </b>{{$ch['pupil_size_left']}} @endisset
-                                            <b>@if(isset($ch['pupil_size_right'])) T.PUPILAR DERECHO: </b>{{$ch['pupil_size_right']}} @endisset
-                                            <b>@if(isset($ch['left_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['left_reaction']}} @endisset
-                                            <b>@if(isset($ch['right_reaction'])) R.LUZ IZQUIERDO: </b>{{$ch['right_reaction']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['mydriatic'])) </b> {{$ch['mydriatic']}} @endisset
-                                            <b>@if(isset($ch['normal'])) </b> {{$ch['normal']}} @endisset
-                                            <b>@if(isset($ch['lazy_reaction_light'])) </b> {{$ch['lazy_reaction_light']}} @endisset
-                                            <b>@if(isset($ch['fixed_lazy_reaction'])) </b> {{$ch['fixed_lazy_reaction']}} @endisset
-                                            <b>@if(isset($ch['miotic_size'])) </b> {{$ch['miotic_size']}} @endisset</span>
-                                    </p>
-                                    @endisset
-
-                                    @if(isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
-                                    isset($ch['intra_abdominal']))
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> OTROS </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pulse'])) PULSO: </b>{{$ch['pulse']}} @endisset
-                                            <b>@if(isset($ch['venous_pressure'])) PVC: </b>{{$ch['venous_pressure']}} @endisset
-                                            <b>@if(isset($ch['intracranial_pressure'])) PRESIÓN INTRACANEANA: </b>{{$ch['intracranial_pressure']}} @endisset
-                                            <b>@if(isset($ch['cerebral_perfusion_pressure'])) PPC: </b>{{$ch['cerebral_perfusion_pressure']}} @endisset
-                                            <b>@if(isset($ch['intra_abdominal'])) PRESIÓN INTRAABDOMINAL: </b>{{$ch['intra_abdominal']}} @endisset </span>
-                                        </span>
-                                    </p>
-                                    @endisset
-
-                                    @if(isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']))
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PRESIÓN ART PULMONAR </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['pulmonary_systolic'])) SISTÓLICA: </b>{{$ch['pulmonary_systolic']}} @endisset
-                                            <b>@if(isset($ch['pulmonary_diastolic'])) DIASTÓLICA: </b>{{$ch['pulmonary_diastolic']}} @endisset
-                                            <b>@if(isset($ch['pulmonary_half'])) MEDIA: </b>{{$ch['pulmonary_half']}} @endisset</span>
-                                    </p>
-                                    @endisset
-
-                                    @if(isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']))
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b> PEDIATRÍA - PERÍMETRO </b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['head_circunference'])) CEFÁLICO: </b>{{$ch['head_circunference']}} @endisset
-                                            <b>@if(isset($ch['abdominal_perimeter'])) ABDOMINAL: </b>{{$ch['abdominal_perimeter']}} @endisset
-                                            <b>@if(isset($ch['chest_perimeter'])) TORÁCICO: </b>{{$ch['chest_perimeter']}} @endisset</span>
-                                    </p>
-                                    @endisset
-
-                                    @endisset
-
-
-                                    @if(($ch['has_oxigen']) == 1 )
-
-                                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                        <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>TIENE OXIGENO</b> </span>
-                                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                                    </p>
-
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['ch_vital_ventilated'])) MODO VENTILATORIO: </b>{{$ch['ch_vital_ventilated'] ['name']}} @endisset
-                                            <b>@if(isset($ch['oxygen_type'])) TIPO DE OXÍGENO: </b>{{$ch['oxygen_type'] ['name']}} @endisset</span>
-                                    </p>
-
-                                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:9pt">
-                                            <b>@if(isset($ch['liters_per_minute'])) LITROS POR MINUTO: </b>{{$ch['liters_per_minute'] ['name']}} @endisset
-                                            <b>@if(isset($ch['parameters_signs'])) PARAMETROS: </b>{{$ch['parameters_signs'] ['name']}} @endisset</span>
-
-                                    </p>
-                                    @endisset
-
-
-                                    @endforeach
-                                    @endisset
-
-                </div>
-            <!-- Procedimientos de enfermeria           -->
+        </div>
+    </div>
+  
+            
+     <!-- Procedimientos de enfermeria           -->
                 <div>
                         @if(count($ChNursingProcedure) > 0)
 
@@ -1829,7 +4887,7 @@
                         </table>
                         
                         @endisset
-                </div> 
+            </div> 
              <!-- Plan de Cuidados          -->
                 <div>
                         @if(count($ChCarePlan) > 0)
@@ -1865,7 +4923,7 @@
                                         @if(isset($ch['nursing_care_plan']))
                                         <td>
 
-                                        <span style="font-family:Calibri; font-size:9pt">    {{$ch['nursing_care_plan']['description']}} </span>
+                                        <span style="font-family:Calibri; font-size:9pt">{{$ch['nursing_care_plan']['description']}} </span>
 
                                         </td>
                                         @endisset
@@ -1888,17 +4946,22 @@
 
                                     <tr>
 
-                                        <th><span style="font-family:Calibri; font-size:9pt">FLUIDO</th>
+
+                                        <th><span style="font-family:Calibri; font-size:9pt">HORA DEL EVENTO</th>
+                                            
+                                
 
                                         <th><span style="font-family:Calibri; font-size:9pt">ELEMENTO</th>
 
                                         <th><span style="font-family:Calibri; font-size:9pt">TIPO DE FLUIDO</th>
 
                                         <th><span style="font-family:Calibri; font-size:9pt">CANTIDAD (CC)</th>
+
+                                        @if(isset($ChRecord[0]['specific_name']))
                                         
                                         <th><span style="font-family:Calibri; font-size:9pt">ADICIONAL</th>
 
-                                        <th><span style="font-family:Calibri; font-size:9pt">HORA DEL EVENTO</th>
+                                         @endisset
 
 
 
@@ -1908,19 +4971,29 @@
                                     @foreach($ChLiquidControl as $ch)
                                     <tr>
 
-                                        @if(isset($ch['ch_type_fluid']))
+                                        @if(isset($ch['clock']))
                                         <td>
 
-                                        <span style="font-family:Calibri; font-size:9pt">    {{$ch['ch_type_fluid']['name']}} </span>
+                                        <span style="font-family:Calibri; font-size:9pt">    {{$ch['clock']}} </span>
 
                                         </td>
                                         @endisset
+
+                                        @if(isset($ch['ch_route_fluid']))
+                                        <td>
+
+                                        <span style="font-family:Calibri; font-size:9pt">    {{$ch['ch_route_fluid']['name']}} </span>
+
+                                        </td>
+                                        @endisset
+
                                         @if(isset($ch['ch_type_fluid']))
                                         <td>
 
                                         <span style="font-family:Calibri; font-size:9pt"> {{$ch['ch_type_fluid']['name']}} </span>
 
                                         </td>
+
                                         @endisset
                                         @if(isset($ch['delivered_volume']))
                                         <td>
@@ -1929,6 +5002,10 @@
 
                                         </td>
                                         @endisset
+
+                                        @if(isset($ChRecord[0]['specific_name']))
+
+
                                         @if(isset($ch['specific_name']))
                                         <td>
 
@@ -1936,158 +5013,424 @@
 
                                         </td>
                                         @endisset
-                                        @if(isset($ch['ch_liquid_control']))
-                                        <td>
-
-                                        <span style="font-family:Calibri; font-size:9pt">    {{$ch['clock']}} </span>
-
-                                        </td>
                                         @endisset
+
+
+                                        
+
+                                    </tr>
                                     @endforeach
                         </table>
                     @endisset
                 </div> 
-        <!-- VALORACIÓN DE LA PIEL -->
-       <div>
-                    <hr />
-                    <!-- Validación Ingreso -->
-                    <div>
-                        @if(count($ChSkinValoration) > 0  )
 
-                        <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
-                            VALORACIÓN DE LA PIEL<br>
-                        </p>
-                        @endisset
-                    </div>
-        </div> 
-        <!-- <div>
-          
+             <!-- VALORACIÓN DE LA PIEL -->
+             <div>
+                <hr />
+                <!-- Validación Ingreso -->
+                <div>
+                    @if(count($ChSkinValoration) > 0  )
 
+                    <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
+                        VALORACIÓN DE LA PIEL<br>
+                    </p>
+                    @endisset
+                </div>
+        </div>
+
+        <!-- Descripción Nota -->
+            <!-- VALORACIÓN DE LA PIEL -->
+            <div>
+                @if(count($ChSkinValoration) > 0)
+
+                <hr />
+
+               
+                @foreach($ChSkinValoration as $ch)
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>  {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                        
+                        
+                        <b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b> {{$ch['diagnosis']['name']}} @endisset <br/>
+                        <b>@if(isset($ch['body_region'])) ZONA EXAMINADA: </b>  {{$ch['body_region']['name']}} @endisset <br/>
+                        <b>@if(isset($ch['skin_status'])) ESTADO DE LA PIEL: </b>  {{$ch['skin_status'] ['name']}} @endisset <br/>
+
+
+                    
+                        <b>@if(isset($ch['exudate'])) EXUDADO: </b> {{$ch['exudate']}} @endisset <br/>
+                        
+                       
+                        <b>@if(isset($ch['concentrated'])) TIPO DE EXUDADO: </b> {{$ch['concentrated']}} @endisset <br/>
+                        
+                        
+                        <b>@if(isset($ch['infection_sign'])) SIGNOS DE INFECCIÓN: </b> {{$ch['infection_sign']}} @endisset <br/>
+                        
+                        <b>@if(isset($ch['surrounding_skin'])) PIEL CIRCUNDANTE: </b> {{$ch['surrounding_skin']}} @endisset
+                        
+                    </span>
+                </p>
+                @endforeach
+                @endisset
+            </div>  
+       
+
+
+            <!-- ESCALAS -->
+            <div>
+                        
+                <!-- Validación Escalas -->
+                <div>
+                    @if(count($ChScaleNorton) > 0  || count($ChScaleGlasgow) > 0 || count($ChScaleBraden) > 0 || count($ChScaleJhDownton) > 0 )
+
+                    <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                        ESCALAS<br>
+                    </p>
+                    @endisset
+                </div>
+
+                <!-- Norton -->
+                <div>
+                    @if(count($ChScaleNorton) > 0)
 
                     <hr />
 
                     <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> VALORACIÓN DE LA PEIL </b> </span>
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ESCALA NORTON</span>
                         <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                     </p>
 
-                    @foreach($ChSkinValoration as $ch)
+                    <table class="tablehc">
+                        <tr>
+                            <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">ESTADO FÍSICO GENERAL</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">ESTADO MENTAL </th>
+                            <th><span style="font-family:Calibri; font-size:9pt">MOVILIDAD</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">ACTIVIDAD</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">INCONTINENCIA</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">TOTAL</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">RIESGO</th>
+                        </tr>
+
+                        @foreach($ChScaleNorton as $ch)
+                        <tr>                        
+                        @if(isset($ch['created_at']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['physical_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['physical_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['mind_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['mind_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['mobility_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['mobility_detail']}}</span>
+                            </td>
+                            @endisset
+
+                            @if(isset($ch['activity_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['activity_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['incontinence_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['incontinence_detail']}}</span>
+                            </td>
+
+                            @endisset    
+                            @if(isset($ch['total']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['total']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['risk']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['risk']}}</span>
+                            </td>
+                            @endisset
+                        
+                        </tr>
+                        @endforeach
+
+                    </table>
+
+                    @endisset
+                </div>
+
+                <!-- Glasgow -->
+                <div>
+                    @if(count($ChScaleGlasgow) > 0)
+
+                    <hr />
+
+                    <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ESCALA GLASGOW</span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+
+                    <table class="tablehc">
+                        <tr>
+                            <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">RESPUESTA MOTORA</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">RESPUESTA VERBAL</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">APERTURA OCULAR</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">PUNTAJE</th>
+                        </tr>
+
+                        @foreach($ChScaleGlasgow as $ch)
+                        <tr>                        
+                           @if(isset($ch['created_at']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            </td>
+                            @endisset
+
+                          @if(isset($ch['ocular_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['ocular_detail']}}</span>
+                            </td>
+                            @endisset
+
+                         @if(isset($ch['verbal_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['verbal_detail']}}</span>
+                            </td>
+                            @endisset
+
+                          @if(isset($ch['motor_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['motor_detail']}}</span>
+                            </td>
+                            @endisset
+
+                           @if(isset($ch['total']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['total']}} </span>
+                            </td>
+                            @endisset
+                                                
+                        </tr>
+                        @endforeach
+
+                    </table>
+
+                    @endisset
+                </div>
+
+
+                <!-- Jh Downton -->
+                <div>
+                    @if(count($ChScaleJhDownton) > 0)
+
+                    <hr />
+
+                    <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ESCALA JH DOWTON</span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+
+                    <table class="tablehc">
+                        <tr>
+                            <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">MEDICACIÓN</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">DÉFICIT SENSORIALES </th>
+                            <th><span style="font-family:Calibri; font-size:9pt">DEAMBULACIÓN</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">ESTADO MENTAL</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">CAÍDAS PREVIAS</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">TOTAL</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">RIESGO</th>
+                        </tr>
+
+                        @foreach($ChScaleJhDownton as $ch)
+                        <tr>                        
+                        @if(isset($ch['created_at']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['falls_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['falls_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['medication_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['medication_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['deficiency_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['deficiency_detail']}}</span>
+                            </td>
+                            @endisset
+
+                            @if(isset($ch['mental_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['mental_detail']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['wandering_detail']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['wandering_detail']}}</span>
+                            </td>
+
+                            @endisset    
+                            @if(isset($ch['total']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['total']}}</span>
+                            </td>
+                            @endisset
+
+                        @if(isset($ch['risk']))
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['risk']}}</span>
+                            </td>
+                            @endisset
+                        
+                        </tr>
+                        @endforeach
+
+                    </table>
+
+                    @endisset
+                </div>
+
+                <!-- Braden -->
+                <div>
+                    @if(count($ChScaleBraden) > 0)
+
+                    <hr />
+
+                    <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ESCALA BRADEN</span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+
+                    @foreach($ChScaleBraden as $ch)
+
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset
-                            <b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b>{{$ch['diagnosis']['name']}} @endisset
-                    </p>   
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    </p>
+                    <br/>
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['sensory_detail'])) PERCEPCIÓN SENSORIAL: </b>@endisset</span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['sensory_detail'])){{$ch['sensory_detail']}} @endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['humidity_detail'])) EXPOSICIÓN A LA HUMEDAD: </b>  @endisset</span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['humidity_detail'])){{$ch['humidity_detail']}} @endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt"> <b>@if(isset($ch['activity_detail'])) ACTIVIDAD: </b> @endisset </span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['activity_detail'])){{$ch['activity_detail']}} @endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt">  <b>@if(isset($ch['mobility_detail'])) MOVILIDAD: </b> @endisset  </span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri"> @if(isset($ch['mobility_detail'])) {{$ch['mobility_detail']}} @endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['nutrition_detail'])) NUTRICIÓN: </b>  @endisset   </span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['nutrition_detail'])) {{$ch['nutrition_detail']}} @endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                        
+                            <td style="width:80pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['lesion_detail'])) ROCE Y PELIGRO DE LESIONES: </b> @endisset </span>
+                                                
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['lesion_detail'])) {{$ch['lesion_detail']}} @endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>                    
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['total'])) TOTAL: </b> {{$ch['total']}} @endisset
+                            <b>@if(isset($ch['risk'])) RIESGO: </b> {{$ch['risk']}} @endisset</span>
+                    </p>
+
                     @endforeach
 
+                    @endisset
+                </div>
 
-        </div> -->
-        <table class="tablehc">
 
-                                <tr>
 
-                                    <th><span style="font-family:Calibri; font-size:9pt">DIAGNÓSTICO</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">ZONA EXAMINADA</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">ESTADO DE LA PIEL</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">EXUDADO</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">TIPO DE EXUDADO </span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">SIGNOS DE INFECCIÓN</span></th>
-
-                                    <th><span style="font-family:Calibri; font-size:9pt">PIEL CIRCUNDANTE</span></th>
-
-                                </tr>
-                                @foreach($ChSkinValoration as $ch)
-                                <tr>
-
-                                    @if(isset($ch['created_at']))
-                                    <td>
-
-                                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['body_region']))
-                                    <td>
-
-                                        <span style="font-family:Calibri; font-size:9pt">{{$ch['body_region']['name']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['skin_status']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt">{{$ch['skin_status']['name']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['pressure_ulcers']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['pressure_ulcers']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                    @if(isset($ch['exudate']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['exudate']}}</span>
-
-                                    </td>
-                                    @endisset
-                                    
-                                    @if(isset($ch['concentrated']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['concentrated']}}</span>
-
-                                    </td>
-                                    @endisset
-                                    
-                                    @if(isset($ch['infection_sign']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['infection_sign']}}</span>
-
-                                    </td>
-                                    @endisset
-                                    
-                                    @if(isset($ch['surrounding_skin']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['surrounding_skin']}}</span>
-
-                                    </td>
-                                    @endisse
-                                    
-                                    t@if(isset($ch['surrounding_skin']))
-                                    <td>
-
-                                    <span style="font-family:Calibri; font-size:9pt"> {{$ch['surrounding_skin']}}</span>
-
-                                    </td>
-                                    @endisset
-
-                                </tr>
-                                @endforeach
-
-                            </table>
-
-        @endisset
+    @endisset
     </div>
+
+
+
+
     
-    </div>
-
-
-
-
 
 </body>
 

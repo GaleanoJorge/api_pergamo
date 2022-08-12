@@ -32,12 +32,14 @@ use App\Models\ChScaleNorton;
 use App\Models\ChScaleGlasgow;
 use App\Models\ChScaleNews;
 use App\Models\ChPhysicalExam;
-use App\Models\ChOxigen;
+use App\Models\ChOxigen; 
+
 
 use App\Models\ChPosition;
 use App\Models\ChHairValoration;
 use App\Models\ChNursingProcedure;
 use App\Models\ChCarePlan;
+use App\Models\ChNotesDescription;
 use App\Models\ChLiquidControl;
 use App\Models\ChSkinValoration;
 use App\Models\ChScaleJhDownton;
@@ -363,9 +365,11 @@ class ChRecordController extends Controller
             $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
             $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
-               
+            $ChNotesDescription = ChNotesDescription::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
             // VALORACIÓN EN LA PIEL
             $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $id)->get()->toArray();
+
+            // ESCALAS
             $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->get()->toArray();
             $ChScaleGlasgow = ChScaleGlasgow::where('ch_record_id', $id)->get()->toArray();
             $ChScaleJhDownton = ChScaleJhDownton::where('ch_record_id', $id)->get()->toArray();
@@ -407,6 +411,7 @@ class ChRecordController extends Controller
                 'ChScaleJhDownton' => $ChScaleJhDownton,
                 'ChScaleBraden' => $ChScaleBraden,
                 'ChOxigenNE' => $ChOxigenNE,
+                'ChNotesDescription'=> $ChNotesDescription,
 
 
 
