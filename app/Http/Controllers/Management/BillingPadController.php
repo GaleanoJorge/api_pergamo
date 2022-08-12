@@ -1662,7 +1662,7 @@ class BillingPadController extends Controller
             $total_value += $AuthBillingPad->value;
         }
 
-        $consecutive = ($BillingPadConsecutive->consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->consecutive + 1);
+        $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
         if ($consecutive == $BillingPadConsecutive->final_consecutive) {
             $BillingPadConsecutive->stats_id = 2;
         }
