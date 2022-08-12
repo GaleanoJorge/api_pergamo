@@ -55,6 +55,11 @@ use App\Models\ChPatientExit;
 
 use App\Models\ChPhysicalExam;
 
+use App\Models\ChRespiratoryTherapy;
+use App\Models\ChOxygenTherapy;
+use App\Models\ChAssSigns;
+
+
 use App\Models\ChPosition;
 use App\Models\ChHairValoration;
 use App\Models\ChNursingProcedure;
@@ -306,13 +311,13 @@ class ChRecordController extends Controller
                 'frequency'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
-            //Interconsulta
+            //Plan de manejo
                 $ManagementPlan = ManagementPlan::with(
                 'type_of_attention',
-                'services_briefcase',
-                'services_briefcase.manual_price',
-                'frequency'
-                );
+                'frequency',
+                'service_briefcase',
+                'service_briefcase.manual_price',
+                )->get()->toArray();
                 // ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Incapacidad
                 $ChInability = ChInability::with(
@@ -333,13 +338,13 @@ class ChRecordController extends Controller
             //Salida
                 $ChPatientExit = ChPatientExit::
                 with(
-                    'diagnosis',
+                    'death_diagnosis',
                     'ch_diagnosis',
+                    'exit_diagnosis',
+                    'relations_diagnosis',
                     'reason_exit'
                 )
                 ->where('ch_record_id', $id)->where('type_record_id', 10)->get()->toArray();
-
-
 
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
@@ -638,10 +643,67 @@ class ChRecordController extends Controller
             Storage::disk('public')->put($name, $file);
 
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Terapia Respiratoria
+            //////////////////////////////////////////////////////////
+        } else if ($ChRecord[0]['ch_type_id'] == 5) {
+            //Ingreso
+            $ChRespiratoryTherapy = ChRespiratoryTherapy::with('diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+           
+            $ChVitalSigns = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChAssSigns = ChAssSigns::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.hc', [
+            'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
+            'ChBackground' => $ChBackground,
+            'ChVitalSigns' => $ChVitalSigns,
+            'ChOxygenTherapy' => $ChOxygenTherapy,
+            'ChAssSigns' => $ChAssSigns,
+
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+            //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+            //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+            //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'prueba.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
         }
-
-
 
 
 
