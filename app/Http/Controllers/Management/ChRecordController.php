@@ -730,10 +730,22 @@ class ChRecordController extends Controller
             ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
-        if ($request->file('firm_file')) {
-            $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
-            $ChRecord->firm_file = $path;
+
+        if ($request->firm_file != "null") {
+            $image = $request->get('firm_file');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $random = Str::random(10);
+            $imagePath = 'firmas/' . $random . '.png';
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+
+            $ChRecord->firm_file = $imagePath;
         }
+
+        // if ($request->file('firm_file')) {
+        //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
+        //     $ChRecord->firm_file = $path;
+        // }
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
