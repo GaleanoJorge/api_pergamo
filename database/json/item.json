@@ -1125,18 +1125,9 @@
         "show_menu": "1"
     },
     {
-        "id": "176",
-        "item_parent_id": "174",
-        "name": "Recepción tecnica",
-        "code": "pharmacy-lot",
-        "route": "/pages/pharmacy/pharmacy-lot",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "177",
         "item_parent_id": "169",
-        "name": "Crear farmacias",
+        "name": "Sucursales de almacenamiento",
         "code": "pharmacy-stock",
         "route": "/pages/setting/pharmacy-stock",
         "icon": "",
@@ -1154,7 +1145,7 @@
     {
         "id": "179",
         "item_parent_id": "174",
-        "name": "Inventario medicamentos",
+        "name": "Inventario suministros",
         "code": "pharmacy-inventory",
         "route": "/pages/pharmacy/pharmacy-inventory",
         "icon": "",
@@ -1268,7 +1259,6 @@
         "icon": "",
         "show_menu": "1"
     },
-    
     {
         "id": "193",
         "item_parent_id": "102",
@@ -1305,9 +1295,6 @@
         "icon": "",
         "show_menu": "1"
     },
-
-
-
     {
         "id": "197",
         "item_parent_id": "102",
@@ -1426,15 +1413,6 @@
         "show_menu": "1"
     },
     {
-        "id": "219",
-        "item_parent_id": "174",
-        "name": "Solicitar a compras",
-        "code": "billing-request-pharmacy",
-        "route": "/pages/pharmacy/billing-request-pharmacy",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "211",
         "item_parent_id": "183",
         "name": "Rentabilidad",
@@ -1503,6 +1481,51 @@
         "name": "Recaudo",
         "code": "collection",
         "route": "/pages/setting/tc-collection",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "219",
+        "item_parent_id": null,
+        "name": "Almacen",
+        "code": null,
+        "route": null,
+        "icon": "shopping-bag-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "220",
+        "item_parent_id": "219",
+        "name": "Recepción tecnica",
+        "code": "pharmacy-lot",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "221",
+        "item_parent_id": "219",
+        "name": "Inventario suministros",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "222",
+        "item_parent_id": "219",
+        "name": "Dispensación",
+        "code": "pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "223",
+        "item_parent_id": "219",
+        "name": "Solicitar a compras",
+        "code": "billing-request-pharmacy",
+        "route": "/pages/pharmacy/billing-request-pharmacy",
         "icon": "",
         "show_menu": "1"
     }
