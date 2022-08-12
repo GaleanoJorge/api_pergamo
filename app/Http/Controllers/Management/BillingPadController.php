@@ -2131,26 +2131,75 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $selected_procedures = json_decode($request->selected_procedures, true);
         $assistance_name = '';
         $services_date = array();
+        $view_services = array();
         $total_value = 0;
         $i = 0;
         foreach ($selected_procedures as $element) {
             $total_value += $element['services_briefcase']['value'];
             $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
                 $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
-                $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
-                $selected_procedures[$i]['product_com']['code_cum'] : null));
-            $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
+                    $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
+                        $selected_procedures[$i]['product_com']['code_cum'] : null));
+            // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
+            $selected_procedures[$i]['services_briefcase']['value'] = $element['services_briefcase']['value'];
             $A = $element['assigned_management_plan']['execution_date'];
             $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
             if ($assistance_name == '') {
                 $assistance_name = $b;
             }
+            if (count($view_services) > 0) {
+                $exist = false;
+                foreach ($view_services as $e) {
+                    if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
+                        $exist = true;
+                    }
+                }
+                if ($exist) {
+                    $j = 0;
+                    foreach ($view_services as $e) {
+                        if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
+                            $view_services[$j]['amount'] ++;
+                            $view_services[$j]['value'] += $selected_procedures[$i]['services_briefcase']['value'];
+                        }
+                        $j++;
+                    }
+                } else {
+                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                    $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
+                    $a['amount'] = 1;
+                    $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
+                    $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                    array_push($view_services, $a);
+                }
+            } else {
+                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
+                $a['amount'] = 1;
+                $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
+                $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                array_push($view_services, $a);
+            }
+
             array_push($services_date, $A);
             $i++;
         }
+
+        if (count($view_services) > 0) {
+            $j = 0;
+            foreach ($view_services as $e) {
+                $view_services[$j]['val_und'] = $this->currencyTransform($e['val_und']);
+                $view_services[$j]['value'] = $this->currencyTransform($e['value']);
+                $j++;
+            }
+        }
+
         $letter_value = $this->NumToLettersBill($total_value);
         $currency_value = $this->currencyTransform($total_value);
         $cero = $this->currencyTransform(0);
+
+        $collection_services = collect($view_services);
+        $sort_view_services = $collection_services->sort()->toArray();
+
         $collection = collect($services_date);
         $sortDates = $collection->sort()->toArray();
         $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
@@ -2165,7 +2214,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'patient_address' => $BillingPad[0]['residence_address'],
             'contract_name' => $BillingPad[0]['contract_name'],
             'program_name' => $BillingPad[0]['program_name'],
-            'selected_procedures' => $selected_procedures,
+            'selected_procedures' => $sort_view_services,
             'assistance_name' => $assistance_name,
             'first_date' => $first_date,
             'last_date' => $last_date,

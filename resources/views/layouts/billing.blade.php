@@ -439,9 +439,11 @@
         <div>
             <div>
 
-                <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59" alt="" style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
-                                
-                <div class="stl_01" style="left:11.76em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
+                <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59"
+                    alt=""
+                    style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
+
+                <div class="stl_01" style="left:38em;top:2.062em;"><span class="stl_07 stl_08 stl_10"
                         style="word-spacing:0.0006em;">{{ $billing_type }} &nbsp;</span>
                 </div>
 
@@ -626,10 +628,16 @@
                 <div class="stl_01" style="left:0em;top:25.912em;"><span class="stl_07 stl_08 stl_21"
                         style="word-spacing:0.0058em;">CODIGO &nbsp;</span></div>
 
-                <div class="stl_01" style="left:22em;top:25.912em;"><span class="stl_07 stl_08 stl_37">CONCEPTO
+                <div class="stl_01" style="left:15em;top:25.912em;"><span class="stl_07 stl_08 stl_37">CONCEPTO
                         &nbsp;</span></div>
 
-                <div class="stl_01" style="left:40em;top:25.952em;"><span class="stl_07 stl_08 stl_38"
+                <div class="stl_01" style="left:32em;top:25.912em;"><span class="stl_07 stl_08 stl_37">UND.
+                        &nbsp;</span></div>
+
+                <div class="stl_01" style="left:35em;top:25.912em;"><span class="stl_07 stl_08 stl_37">VAL. UND.
+                        &nbsp;</span></div>
+
+                <div class="stl_01" style="left:41em;top:25.952em;"><span class="stl_07 stl_08 stl_38"
                         style="word-spacing:-0.0033em;">PRECIO &nbsp;</span></div>
 
 
@@ -639,16 +647,29 @@
 
                 @if ($selected_procedures != null)
                     @for ($i = 0; $i < count($selected_procedures); $i++)
-                        <div class="stl_01" style="left:1em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:0.3em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_21"
-                                style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] }} &nbsp;</span></div>
+                                style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['code'] }} &nbsp;</span>
+                        </div>
 
-                        <div class="stl_01" style="left:6em;top:{{ $i + 1 + 26.5 }}em;"><span
-                                class="stl_07 stl_08 stl_37">{{ $selected_procedures[$i]['services_briefcase']['manual_price']['name'] }} &nbsp;</span></div>
+                        <div class="stl_01" style="left:33em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_21"
+                                style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span>
+                        </div>
+                        
+                        <div class="stl_01" style="left:35em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_21"
+                                style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span>
+                        </div>
+
+                        <div class="stl_01" style="left:4em;top:{{ $i + 1 + 26.5 }}em;"><span
+                                class="stl_07 stl_08 stl_37">{{ $selected_procedures[$i]['service'] }} &nbsp;</span>
+                        </div>
 
                         <div class="stl_01" style="left:40em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_38"
-                                style="word-spacing:-0.0033em;">{{ $selected_procedures[$i]['services_briefcase']['value'] }} &nbsp;</span></div>
+                                style="word-spacing:-0.0033em;">{{ $selected_procedures[$i]['value'] }} &nbsp;</span>
+                        </div>
                     @endfor
                 @endisset
 
@@ -732,8 +753,9 @@
                         style="word-spacing:0.0038em;">Son: &nbsp;</span></div>
 
                 @for ($i = 0; $i < count($letter_value); $i++)
-                    <div class="stl_01" style="left:2em;top:{{($i) + 42.302}}em;"><span class="stl_19 stl_08 stl_40"
-                            style="word-spacing:0.0038em;">{{ $letter_value[$i] }} &nbsp;</span></div>
+                    <div class="stl_01" style="left:2em;top:{{ $i + 42.302 }}em;"><span
+                            class="stl_19 stl_08 stl_40" style="word-spacing:0.0038em;">{{ $letter_value[$i] }}
+                            &nbsp;</span></div>
                 @endfor
 
 
@@ -771,7 +793,7 @@
 
                 <div class="stl_01" style="left:0em;top:58.822em;"><span class="stl_07 stl_08 stl_46"
                         style="word-spacing:0.0008em;">Documento generado {{ $generate_date }} por Pérgamo
-                         &nbsp;</span></div>
+                        &nbsp;</span></div>
 
                 <!-- <div class="stl_01" style="left:0em;top:58.822em;"><span class="stl_19 stl_08 stl_24" style="word-spacing:0.0076em;">CUFE: (Espacio codigo CUFE entregado por la DIAN) &nbsp;</span></div> -->
         </div>
