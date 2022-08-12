@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChVitalSigns;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -50,13 +51,45 @@ class ChVitalSignsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function byrecord(Request $request, int $id,int $type_record_id = null): JsonResponse
+    public function byrecord(Request $request, int $id, int $type_record_id = null): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological', 'oxygen_type', 'liters_per_minute','parameters_signs', 'type_record','ch_record')
-        ->where('ch_record_id', $id);
-        
-        if($type_record_id){
-            $ChVitalSigns->where('type_record_id',$type_record_id);
+        $ChVitalSigns = ChVitalSigns::with(
+            'ch_vital_hydration',
+            'ch_vital_ventilated',
+            'ch_vital_temperature',
+            'ch_vital_neurological',
+            'oxygen_type',
+            'liters_per_minute',
+            'parameters_signs',
+            'type_record',
+            'ch_record'
+        )
+            ->where('ch_record_id', $id);
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChVitalSigns = ChVitalSigns::select('ch_vital_signs.*')
+                    ->with(
+                        'ch_vital_hydration',
+                        'ch_vital_ventilated',
+                        'ch_vital_temperature',
+                        'ch_vital_neurological',
+                        'oxygen_type',
+                        'liters_per_minute',
+                        'parameters_signs',
+                        'type_record',
+                        'ch_record'
+                    )
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
+                ;
+            }
+        }
+
+        if ($type_record_id) {
+            $ChVitalSigns->where('type_record_id', $type_record_id);
         }
 
         if ($request->_sort) {
@@ -67,7 +100,7 @@ class ChVitalSignsController extends Controller
             $ChVitalSigns->where('status', 'like', '%' . $request->search . '%');
         }
 
-        
+
         if ($request->query("pagination", true) == "false") {
             $ChVitalSigns = $ChVitalSigns->get()->toArray();
         } else {
@@ -92,17 +125,17 @@ class ChVitalSignsController extends Controller
         if (isset($request->pupil)) {
             $dtalist = json_decode($request->pupil);
             foreach ($dtalist as $element) {
-                if ($element->label == 'MINDRIÁTICA' && $element->isChecked==true) {
+                if ($element->label == 'MINDRIÁTICA' && $element->isChecked == true) {
                     $ChVitalSigns->mydriatic = $element->label;
-                } else if ($element->label == 'NORMAL' && $element->isChecked==true) {
+                } else if ($element->label == 'NORMAL' && $element->isChecked == true) {
                     $ChVitalSigns->normal = $element->label;
-                } else if ($element->label == 'REACCIÓN PERESOZA ( A LA LUZ)'&& $element->isChecked==true) {
+                } else if ($element->label == 'REACCIÓN PERESOZA ( A LA LUZ)' && $element->isChecked == true) {
                     $ChVitalSigns->lazy_reaction_light = $element->label;
-                } else if ($element->label == 'REACCIÓN PERESOZA'&& $element->isChecked==true) {
+                } else if ($element->label == 'REACCIÓN PERESOZA' && $element->isChecked == true) {
                     $ChVitalSigns->fixed_lazy_reaction = $element->label;
-                } else if ($element->label == 'TAMAÑO MIÓTICA'&& $element->isChecked==true) {
+                } else if ($element->label == 'TAMAÑO MIÓTICA' && $element->isChecked == true) {
                     $ChVitalSigns->miotic_size = $element->label;
-                } 
+                }
             }
         }
         $ChVitalSigns->clock =  $request->clock;
@@ -131,14 +164,14 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->right_reaction = $request->right_reaction;
         $ChVitalSigns->pupil_size_right = $request->pupil_size_right;
         $ChVitalSigns->left_reaction = $request->left_reaction;
-        $ChVitalSigns->pupil_size_left = $request->pupil_size_left; 
+        $ChVitalSigns->pupil_size_left = $request->pupil_size_left;
         // $ChVitalSigns->mydriatic =  $request->mydriatic;
         // $ChVitalSigns->normal =  $request->normal;
         // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
         // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
-        $ChVitalSigns->has_oxigen = $request->has_oxigen; 
-        $ChVitalSigns->observations_glucometry = $request->observations_glucometry; 
+        $ChVitalSigns->has_oxigen = $request->has_oxigen;
+        $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
@@ -149,7 +182,7 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns->type_record_id = $request->type_record_id;
         $ChVitalSigns->ch_record_id = $request->ch_record_id;
         $ChVitalSigns->save();
-        
+
 
         return response()->json([
             'status' => true,
@@ -233,7 +266,7 @@ class ChVitalSignsController extends Controller
         // $ChVitalSigns->lazy_reaction_light =  $request->lazy_reaction_light;
         // $ChVitalSigns->fixed_lazy_reaction =  $request->fixed_lazy_reaction;
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
-        $ChVitalSigns->has_oxigen = $request->has_oxigen; 
+        $ChVitalSigns->has_oxigen = $request->has_oxigen;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;

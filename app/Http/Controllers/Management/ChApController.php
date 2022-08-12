@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChAp;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -44,20 +45,28 @@ class ChApController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChAp = ChAp::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $ChAp = ChAp::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChAp = ChAp::select('ch_ap.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
@@ -65,7 +74,7 @@ class ChApController extends Controller
             'data' => ['ch_ap' => $ChAp]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
