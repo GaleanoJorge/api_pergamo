@@ -1066,7 +1066,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
-    
+
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
@@ -1223,8 +1223,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_accessories/pharmacies/{user_id}', 'Management\FixedAccessoriesController@getPharmacyByUserId');
     Route::apiResource('fixed_area_campus', 'Management\FixedAreaCampusController');
     Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
-    Route::post('fixed_assets/updateInventoryByLot/{lot_id}', 'Management\FixedAssetsController@updateInventoryByLot');
-    Route::get('fixed_assets/pharmacies/{user_id}', 'Management\FixedAssetsController@getPharmacyByUserId');
+    Route::get('fixed_assets/byUser/{user_id}', 'Management\FixedAssetsController@getFixedByUserId');
+    Route::get('fixed_assets/{id}', 'Management\FixedAssetsController@getFixedId');
+    Route::apiResource('services_fixed_stock', 'Management\ServicesFixedStockController');
 
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
@@ -1234,16 +1235,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_stock', 'Management\FixedStockController');
     Route::apiResource('users_fixed_stock', 'Management\UsersFixedStockController');
-   
+
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
     Route::apiResource('fixed_loan', 'Management\FixedLoanController');
     Route::apiResource('fixed_location_campus', 'Management\FixedLocationCampusController');
     Route::apiResource('fixed_property', 'Management\FixedPropertyController');
-    
+
     Route::apiResource('fixed_add', 'Management\FixedAddController');
     Route::post('fixed_add/updateInventoryByLot/{lot_id}', 'Management\FixedAddController@updateInventoryByLot');
-    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getPharmacyByUserId');
+    Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getFixedByUserId');
 
     Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
 

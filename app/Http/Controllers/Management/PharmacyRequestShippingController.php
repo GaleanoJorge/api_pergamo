@@ -31,6 +31,8 @@ class PharmacyRequestShippingController extends Controller
                 'pharmacy_lot_stock.billing_stock',
                 'pharmacy_lot_stock.billing_stock.product',
                 'pharmacy_lot_stock.billing_stock.product_supplies_com',
+                'user_responsible',
+                //'user_request.users'
             )
             ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'pharmacy_request_shipping.pharmacy_product_request_id');
 
@@ -38,11 +40,11 @@ class PharmacyRequestShippingController extends Controller
             $PharmacyRequestShipping->where('pharmacy_product_request.user_request_id', $request->user_id);
         }
 
-        
+
         if ($request->status) {
             $PharmacyRequestShipping->where('pharmacy_product_request.status', $request->status);
         }
-        
+
         if ($request->_sort) {
             $PharmacyRequestShipping->orderBy($request->_sort, $request->_order);
         }
@@ -57,24 +59,14 @@ class PharmacyRequestShippingController extends Controller
 
         if ($request->product1 == "true") {
             //medicamento  product_generic_id
-            $PharmacyRequestShipping->whereNotNull('pharmacy_product_request.product_generic_id')->whereNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyRequestShipping->whereNotNull('pharmacy_product_request.product_generic_id')->whereNull('pharmacy_product_request.product_supplies_id')
+            ->orderBy('created_at', 'desc')->first();
+            $PharmacyRequestShipping = $PharmacyRequestShipping->get()->toArray();
         } else if ($request->product1 == "false") {
             // insumo product_supplies_id
             $PharmacyRequestShipping->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
-        }
-
-
-
-
-        if ($request->query("pagination", true) == "false") {
             $PharmacyRequestShipping = $PharmacyRequestShipping->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
-
-            $PharmacyRequestShipping = $PharmacyRequestShipping->paginate($per_page, '*', 'page', $page);
         }
-
 
         return response()->json([
             'status' => true,
@@ -89,11 +81,12 @@ class PharmacyRequestShippingController extends Controller
         $PharmacyRequestShipping->amount = $request->amount;
         $PharmacyRequestShipping->amount_damaged = $request->amount_damaged;
         $PharmacyRequestShipping->amount_provition = $request->amount_provition;
-        $PharmacyRequestShipping->amount_operation = $request->amount_operation;
+        $PharmacyRequestShipping->amount_operation = $request->amount_provition;
+        $PharmacyRequestShipping->user_responsible_id = $request->user_responsible_id;
         $PharmacyRequestShipping->pharmacy_product_request_id = $request->pharmacy_product_request_id;
         $PharmacyRequestShipping->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
         $PharmacyRequestShipping->save();
-
+        
         return response()->json([
             'status' => true,
             'message' => 'Medicamento a enviar asociado al en farmacia exitosamente',
@@ -132,6 +125,7 @@ class PharmacyRequestShippingController extends Controller
         $PharmacyRequestShipping->amount_damaged = $request->amount_damaged;
         $PharmacyRequestShipping->amount_provition = $request->amount_provition;
         $PharmacyRequestShipping->amount_operation = $request->amount_operation;
+        $PharmacyRequestShipping->user_responsible_id = $request->user_responsible_id;
         $PharmacyRequestShipping->pharmacy_product_request_id = $request->pharmacy_product_request_id;
         $PharmacyRequestShipping->pharmacy_lot_stock_id = $request->pharmacy_lot_stock_id;
         $PharmacyRequestShipping->save();

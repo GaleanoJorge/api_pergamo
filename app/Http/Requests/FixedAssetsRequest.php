@@ -26,9 +26,8 @@ class FixedAssetsRequest extends FormRequest
         return [
             'fixed_clasification_id' => 'required',
             'fixed_type_id' => 'required',
+            'fixed_stock_id' => 'required',
             'fixed_property_id' => 'required',
-            'campus_id' => 'required',
-            'amount_total' => 'required',
             'fixed_nom_product_id' => 'required',
             'detail_description' => 'required',
             'color' => 'required',

@@ -24,6 +24,7 @@ class FixedAddController extends Controller
             'fixed_assets',
             'fixed_assets.fixed_type',
             'fixed_assets.fixed_clasification',
+            'fixed_assets.fixed_stock',
             'fixed_location_campus',
             'fixed_location_campus.campus',
             'fixed_location_campus.flat',
@@ -33,7 +34,11 @@ class FixedAddController extends Controller
             'fixed_accessories.fixed_type',
             'fixed_nom_product',
             'admissions',
-            'admissions.patients'
+            'admissions.patients',
+            'own_fixed_user_id',
+            'own_fixed_user_id.campus',
+            'request_fixed_user_id',
+            'request_fixed_user_id.campus',
         );
 
         if ($request->_sort) {
@@ -63,6 +68,7 @@ class FixedAddController extends Controller
         if ($request->status) {
             $FixedAdd->where('fixed_add.status', $request->status);
         }
+
         if ($request->user_role_id) {
             $FixedAdd->where('fixed_add.responsible_user_id', $request->user_role_id);
         }
@@ -191,35 +197,35 @@ class FixedAddController extends Controller
             $FixedAdd = FixedAdd::find($id);
             if ($FixedAdd) {
                 if ($request->status == "ENVIADO") {
-                    $FixedAdd->request_amount = $FixedAdd->request_amount - $request->amount;
+                    $FixedAdd->request_amount = $FixedAdd->amount_total - $request->request_amount;
                     $FixedAdd->status = $request->status;
                     $FixedAdd->save();
 
                     $elements = json_decode($request->fixed_assets_id);
                     foreach ($elements as $element) {
                         $FixedAssets = FixedAssets::find($element->fixed_assets_id);
-                        $FixedAssets->actual_amount = $FixedAssets->actual_amount - $element->amount;
+                        $FixedAssets->actual_amount = $FixedAssets->actual_amount - $element->actual_amount;
                         $FixedAssets->save();
                     }
                     $elements = json_decode($request->fixed_accessories_id);
                     foreach ($elements as $element) {
                         $FixedAccessories = FixedAccessories::find($element->fixed_accessories_id);
-                        $FixedAccessories->actual_amount = $FixedAccessories->actual_amount - $element->amount;
+                        $FixedAccessories->actual_amount = $FixedAccessories->actual_amount - $element->actual_amount;
                         $FixedAccessories->save();
                     }
                 }
 
 
                 if ($request->status == "ACEPTADO") {
-                    $FixedAdd->request_amount = $FixedAdd->request_amount - $request->amount;
+                    $FixedAdd->request_amount = $FixedAdd->request_amount - $request->actual_amount;
                     $FixedAdd->status = $request->status;
                     $FixedAdd->observation = $request->observation;
                     $FixedAdd->save();
 
                     $NewPharmacyLotStock = new FixedAccessories;
                     $FixedAccessories->name = $FixedAccessories->name;
-                    $FixedAccessories->amount = $FixedAccessories->amount;
-                    $FixedAccessories->actual_amount = $element->amount;
+                    $FixedAccessories->request_amount = $FixedAccessories->request_amount;
+                    $FixedAccessories->actual_amount = $element->actual_amount;
                     $FixedAccessories->campus_id = $FixedAccessories->campus_id;
                     $FixedAccessories->fixed_type_id = $FixedAccessories->fixed_type_id;
                     $NewPharmacyLotStock->save();
@@ -242,7 +248,8 @@ class FixedAddController extends Controller
             $FixedAdd->save();
 
             $FixedAssets = FixedAssets::find($request->fixed_assets_id);
-            $FixedAssets->actual_amount = $FixedAssets->actual_amount - $request->amount_provition;
+            $FixedAssets->amount_total = $FixedAdd->amount_total - $request->request_amount;
+            //$FixedAssets->status = $request->status;
             $FixedAssets->save();
         }
         return response()->json([

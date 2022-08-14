@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\Campus;
 use App\Models\FixedType;
+use App\Models\ServicesFixedStock;
 use App\Models\UsersFixedStock;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -40,5 +41,10 @@ class FixedStock extends Model
 	public function users_fixed_stock()
 	{
 		return $this->hasMany(UsersFixedStock::class, 'fixed_stock_id');
+	}
+
+	public function services_fixed_stock()
+	{
+		return $this->hasMany(ServicesFixedStock::class, 'fixed_stock_id');
 	}
 }
