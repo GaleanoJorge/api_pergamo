@@ -90,20 +90,28 @@ class AuthorizationController extends Controller
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
             );
 
         if ($statusId == 0) {
-            $Authorization->where(function ($query) use ($request){
-                $query->where('auth_status_id', '<', 3)
-                    ->orWhereNotNull('application_id');
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3);
+                // ->WhereNull('auth_number');
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('application_id')
+                        ->where('auth_status_id', '<=', 3)
+                        ->WhereNull('auth_number');
+                });
             });
         } else {
             $Authorization
                 ->where('auth_status_id', $statusId);
-                $Authorization->where(function ($query) use ($request){
-                    $query->where('auth_status_id', '<', 3)
-                        ->orWhereNotNull('application_id');
-                });
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3)
+                    ->orWhereNotNull('application_id');
+            });
         }
 
 
@@ -136,7 +144,7 @@ class AuthorizationController extends Controller
         }
 
         if ($request->final_date != 'null' && isset($request->final_date)) {
-            $finish_date = new DateTime($request->final_date.'T23:59:59.9');
+            $finish_date = new DateTime($request->final_date . 'T23:59:59.9');
             $Authorization->where('authorization.created_at', '<=', $finish_date);
         }
 
@@ -210,12 +218,12 @@ class AuthorizationController extends Controller
         if ($statusId == 0) {
             // $Authorization->where('auth_status_id', 3)
             //     ->orwhere('auth_status_id', 4);
-                $Authorization->where(function ($query) use ($request){
-                    $query->where('auth_status_id', '>=', 3)
-                        ->WhereNotNull('auth_number');
-                });
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '>=', 3)
+                    ->WhereNotNull('auth_number');
+            });
         } else {
-            $Authorization->where(function ($query) use ($request, $statusId){
+            $Authorization->where(function ($query) use ($request, $statusId) {
                 $query->where('auth_status_id', '=', $statusId)
                     ->WhereNotNull('auth_number');
             });
@@ -267,43 +275,82 @@ class AuthorizationController extends Controller
      */
     public function GetByAdmissions(Request $request, int $admissionsId): JsonResponse
     {
-        $Authorization = Authorization::where('admissions_id', $admissionsId)
-            ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
+        // $Authorization = Authorization::where('admissions_id', $admissionsId)
+        //     ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
+        //     ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
+        //     ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
+        //     ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+        //     ->select(
+        //         'authorization.*',
+        //         'briefcase.type_auth',
+        //         'patients.identification_type_id',
+        //         'patients.identification',
+        //         'patients.email',
+        //         'patients.residence_address',
+        //         'patients.residence_municipality_id',
+        //         'patients.neighborhood_or_residence_id',
+        //         DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        //     )
+        //     ->with(
+        //         'admissions',
+        //         'assigned_management_plan',
+        //         'identification_type',
+        //         'services_briefcase',
+        //         'services_briefcase.manual_price',
+        //         'auth_status',
+        //         'residence_municipality',
+        //         'residence'
+        //     )
+
+        $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
-                'briefcase.type_auth',
-                'patients.identification_type_id',
-                'patients.identification',
-                'patients.email',
-                'patients.residence_address',
-                'patients.residence_municipality_id',
-                'patients.neighborhood_or_residence_id',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('DATE(authorization.created_at) as date'),
             )
+            // ->wherenull('auth_package_id')
             ->with(
                 'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.status',
+                'admissions.patients.gender',
+                'admissions.patients.inability',
+                'admissions.patients.academic_level',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.neighborhood_or_residence',
+                'admissions.patients.residence',
                 'assigned_management_plan',
-                'identification_type',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
-                'residence_municipality',
-                'residence'
-            )
-            ->where('auth_status_id', '<', 3);
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+            );
+        // ->where('auth_status_id', '<', 3);
 
 
         if ($request->edit) {
-            $Authorization
-                ->where(function ($query) use ($request) {
-                    $query->where('auth_package_id', $request->id)
-                        ->orWhere('auth_package_id', null)
-                        ->whereNotNull('authorization.assigned_management_plan_id');
+
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_package_id', $request->id)
+                    ->orWhere('auth_package_id', null)
+                    ->whereNotNull('authorization.assigned_management_plan_id');
+                $query->where(function ($que) use ($request) {
+                    $que->where('auth_status_id', '<', 3);
+                    $que->orWhere(function ($q) use ($request) {
+                        $q->WherenotNull('application_id')
+                            ->where('auth_status_id', '<=', 3)
+                            ->WhereNull('auth_number');
+                    });
                 });
-        };
+            });
+        }
 
         if ($request->view) {
             $Authorization->where('auth_package_id', $request->id);
@@ -365,7 +412,7 @@ class AuthorizationController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -376,24 +423,25 @@ class AuthorizationController extends Controller
 
         $auth_array = json_decode($request->authorizations);
         $i = 0;
-        foreach($auth_array as $item){
+        foreach ($auth_array as $item) {
             $Auth = Authorization::find($item->id);
-            
+
             $Auth->observation = $request->observation;
             $Auth->auth_number = $request->auth_number;
-            $Auth->copay = $request->copay ? true : false;
-            $Auth->observation = $request->copay_value;
+            $Auth->auth_status_id = 3;
+            $Auth->copay = $request->copay;
+            $Auth->copay_value = $request->copay_value;
             if ($request->file('file')) {
                 $path = Storage::disk('public')->put('file', $request->file('file'));
                 $Auth->file_auth = $path;
-            } 
+            }
             $Auth->save();
             $i++;
         }
 
         return response()->json([
             'status' => true,
-            'message' => $i.' autorizaciones actualizadas exitosamente',
+            'message' => $i . ' autorizaciones actualizadas exitosamente',
             // 'data' => ['authorization' => $Authorization->toArray()]
         ]);
     }
@@ -426,22 +474,21 @@ class AuthorizationController extends Controller
     {
         $Authorization = Authorization::find($id);
 
-        if ($request->auth_number && $request->authorized_amount) {
-            // autorizado por pre
+        if($request->auth_status_id){            
             $Authorization->auth_number = $request->auth_number;
-            $Authorization->authorized_amount = $request->authorized_amount;
-            $Authorization->auth_status_id = 3;
-        } else if ($request->auth_number) {
-            // autorizado por post
-            $Authorization->auth_number = $request->auth_number;
-            $Authorization->auth_status_id = 3;
-        } else if ($request->observation) {
-
-            $Authorization->observation = $request->observation;
-            $Authorization->auth_status_id = 4;
-        } else {
-
             $Authorization->auth_status_id = $request->auth_status_id;
+            $Authorization->observation = $request->observation;
+            $Authorization->copay = $request->copay;
+            $Authorization->copay_value = $request->copay_value;
+        } else {
+            $Authorization->auth_number = $request->auth_number;
+            $Authorization->observation = $request->observation;
+            $Authorization->copay = $request->copay;
+            $Authorization->copay_value = $request->copay_value;
+        }
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $Authorization->file_auth = $path;
         }
 
         $Authorization->save();

@@ -289,6 +289,7 @@ class AdmissionsController extends Controller
     public function store(AdmissionsRequest $request): JsonResponse
     {
         $count=0;
+        global $Admission;
         $admissions=Admissions::where('patient_id',$request->patient_id)->get()->toArray();
         foreach($admissions as $admission){
             $nowlocation= Location::where('admissions_id',$admission['id'])->where('program_id',$request->program_id)->get()->toArray();
@@ -323,6 +324,10 @@ class AdmissionsController extends Controller
         $Location->entry_date = Carbon::now();
         $Location->save();
 
+        if($Location->admission_route_id == 2){
+            $Admission = Admissions::where('id',$Admissions->id)->with('locationUnique')->first();
+        }
+
         if ($Admissions->procedure_id) {
             $Authorization = new  Authorization;
             $Authorization->services_briefcase_id =  $Admissions->procedure_id;
@@ -348,7 +353,8 @@ class AdmissionsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Admisión creado exitosamente',
-            'data' => ['admissions' => $Admissions->toArray()]
+            'data' => ['admissions' => $Admissions->toArray()],
+            'dataAux' => ['aux' =>  $Admission ? $Admission->toArray() : null]
         ]);
     }else{
         return response()->json([
