@@ -95,6 +95,10 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Gender::class);
 	}
+	public function program()
+	{
+		return $this->belongsTo(Program::class);
+	}
 	public function regime()
 	{
 		return $this->belongsTo(TypeBriefcase::class,'regime_id');

@@ -24,6 +24,22 @@ class AdmissionsController extends Controller
             ->select(
                 'admissions.*',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            )->with(
+                'patients',
+                'patients.identification_type',
+                'patients.gender',
+                'patients.admissions',
+                'patients.admissions.briefcase',
+                'patients.admissions.contract',
+                'patients.admissions.contract.company',
+                'briefcase',
+                'campus',
+                'contract',
+                'contract.company',
+                'location',
+                'location.admission_route',
+                'location.scope_of_attention',
+                'location.program',
             );
         if ($request->admissions_id) {
             $Admissions->with('patients','regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
@@ -104,7 +120,26 @@ class AdmissionsController extends Controller
      */
     public function getByPacient(Request $request, int $pacientId): JsonResponse
     {
-        $Admissions = Admissions::where('patient_id', $pacientId)
+        $Admissions = Admissions::select(
+            'admissions.*',
+            DB::raw('
+                    IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                        SUM(
+                            CASE assigned_management_plan.execution_date 
+                                WHEN "0000-00-00 00:00:00" THEN 1 
+                                ELSE 0 
+                            END), 
+                        -1) AS not_executed'),
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+                         
+                            SUM(
+                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                                   1,0 
+                            )
+                           ) AS incumplidas'),
+        )
+        ->where('patient_id', $pacientId)
             ->with(
                 'patients',
                 'briefcase',
@@ -118,7 +153,11 @@ class AdmissionsController extends Controller
                 'location.flat',
                 'location.pavilion',
                 'location.bed',
-            )->orderBy('created_at', 'desc');
+            )
+            ->leftJoin('management_plan','management_plan.admissions_id','admissions.id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->groupBy('admissions.id')
+            ->orderBy('created_at', 'desc');
 
         if ($request->search) {
             $Admissions->where('name', 'like', '%' . $request->search . '%')
