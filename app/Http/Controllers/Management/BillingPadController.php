@@ -248,7 +248,8 @@ class BillingPadController extends Controller
         $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('SUM(IF(billing_pad.billing_pad_status_id=1,1,0)) AS created_billings')
             )
             ->with(
                 'patients',
@@ -264,7 +265,10 @@ class BillingPadController extends Controller
                 'location.program',
             )
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
-            ->leftJoin('briefcase', 'briefcase.contract_id', 'contract.id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
             ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
             ->groupBy('admissions.id');
         if ($request->pgp == "true") {
@@ -277,7 +281,9 @@ class BillingPadController extends Controller
         } else {
             $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
             if ($request->briefcase_id) {
-                $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
+                if ($request->briefcase_id != 0) {
+                    $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
+                }
             }
             $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
         }
@@ -293,7 +299,11 @@ class BillingPadController extends Controller
                     ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('contract.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('program.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('company.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('briefcase.name', 'like', '%' . $request->search . '%');
             });
         }
 
