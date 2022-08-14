@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\SwallowingDisordersTl as BaseSwallowingDisordersTl;
+use App\Models\Base\SwallowingDisordersTI as BaseSwallowingDisordersTI;
 
-class SwallowingDisordersTl extends BaseSwallowingDisordersTl
+class SwallowingDisordersTI extends BaseSwallowingDisordersTI
 {
   protected $fillable = [
     'solid_dysphagia',
