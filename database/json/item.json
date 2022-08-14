@@ -1125,6 +1125,36 @@
         "show_menu": "1"
     },
     {
+        "id": "176",
+        "item_parent_id": "174",
+        "name": "Inventario de suministros",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "178",
+        "item_parent_id": "174",
+        "name": "Movimientos",
+        "code": "pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "179",
+        "item_parent_id": "174",
+        "name": "Movimientos pacientes",
+        "code": "pharmacy-request-patients",
+        "route": "/pages/pharmacy/pharmacy-request-patients",
+        "icon": "",
+        "show_menu": "1"
+    }
+    
+    
+    ,
+    {
         "id": "177",
         "item_parent_id": "169",
         "name": "Sucursales de almacenamiento",
@@ -1134,29 +1164,11 @@
         "show_menu": "1"
     },
     {
-        "id": "178",
-        "item_parent_id": "174",
-        "name": "Solicitar medicamentos",
-        "code": "pharmacy-product-request",
-        "route": "/pages/pharmacy/pharmacy-product-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "179",
-        "item_parent_id": "174",
-        "name": "Inventario suministros",
-        "code": "pharmacy-inventory",
-        "route": "/pages/pharmacy/pharmacy-inventory",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "182",
         "item_parent_id": "174",
-        "name": "Dispensación",
-        "code": "pharmacy-request",
-        "route": "/pages/pharmacy/pharmacy-request",
+        "name": "Solicitar suministros",
+        "code": "pharmacy-product-request",
+        "route": "/pages/pharmacy/pharmacy-product-request",
         "icon": "",
         "show_menu": "1"
     },
@@ -1514,7 +1526,7 @@
     {
         "id": "222",
         "item_parent_id": "219",
-        "name": "Dispensación",
+        "name": "Movimientos",
         "code": "pharmacy-request",
         "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
