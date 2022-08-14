@@ -153,13 +153,4 @@
         "role_type_id": 1,
         "sga_origin_fk": 5
     }
-
-    ,
-    {
-        "id": 24,
-        "name": "TH GESTOR",
-        "status_id": 1,
-        "role_type_id": 1,
-        "sga_origin_fk": 5
-    }
 ]

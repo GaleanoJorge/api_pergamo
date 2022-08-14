@@ -1134,20 +1134,30 @@
         "show_menu": "1"
     },
     {
+        "id": "177",
+        "item_parent_id": "169",
+        "name": "Sucursales de almacenamiento",
+        "code": "pharmacy-stock",
+        "route": "/pages/setting/pharmacy-stock",
+        "icon": "",
+        "show_menu": "1"
+    }
+    ,
+    {
         "id": "178",
         "item_parent_id": "174",
-        "name": "Solicitar medicamentos",
-        "code": "pharmacy-product-request",
-        "route": "/pages/pharmacy/pharmacy-product-request",
+        "name": "Movimientos",
+        "code": "pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "179",
         "item_parent_id": "174",
-        "name": "Inventario medicamentos",
-        "code": "pharmacy-inventory",
-        "route": "/pages/pharmacy/pharmacy-inventory",
+        "name": "Movimientos pacientes",
+        "code": "pharmacy-request-patients",
+        "route": "/pages/pharmacy/pharmacy-request-patients",
         "icon": "",
         "show_menu": "1"
     },
