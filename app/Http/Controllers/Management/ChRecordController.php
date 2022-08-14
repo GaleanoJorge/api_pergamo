@@ -117,6 +117,18 @@ class ChRecordController extends Controller
 
         if ($request->query("pagination", true) == "false") {
             $ChRecord = $ChRecord->get()->toArray();
+            if ($request->record_id) {
+                $validate = ChRecord::select()
+                    ->where('admissions_id', $ChRecord[0]['admissions_id'])
+                    ->where('ch_type_id', $ChRecord[0]['ch_type_id'])
+                    ->where('status', 'CERRADO')
+                    ->get()->toArray();
+                if (count($validate) > 0) {
+                    $ChRecord[0]['has_input'] = true;
+                } else {
+                    $ChRecord[0]['has_input'] = false;
+                }
+            }
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
@@ -431,7 +443,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 6) {
 
 
-            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -440,24 +452,24 @@ class ChRecordController extends Controller
                 'oxygen_type',
                 'liters_per_minute',
                 'parameters_signs'
-            )->where('ch_record_id', $id)->get()->toArray();
-            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->get()->toArray();
-            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->get()->toArray();
+            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
-            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->get()->toArray();
+            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChVitalSignsNT = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -730,10 +742,22 @@ class ChRecordController extends Controller
             ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
-        if ($request->file('firm_file')) {
-            $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
-            $ChRecord->firm_file = $path;
+
+        if ($request->firm_file != "null") {
+            $image = $request->get('firm_file');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $random = Str::random(10);
+            $imagePath = 'firmas/' . $random . '.png';
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+
+            $ChRecord->firm_file = $imagePath;
         }
+
+        // if ($request->file('firm_file')) {
+        //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
+        //     $ChRecord->firm_file = $path;
+        // }
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 

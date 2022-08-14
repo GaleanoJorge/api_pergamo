@@ -133,7 +133,7 @@ class Patient extends Model
 
     public function residence()
     {
-        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id','neighborhood_or_residence');
     }
 
 

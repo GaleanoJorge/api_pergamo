@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChOstomies;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -17,7 +18,7 @@ class ChOstomiesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChOstomies = ChOstomies::with('ostomy','type_record', 'ch_record');
+        $ChOstomies = ChOstomies::with('ostomy', 'type_record', 'ch_record');
 
         if ($request->_sort) {
             $ChOstomies->orderBy($request->_sort, $request->_order);
@@ -44,20 +45,31 @@ class ChOstomiesController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChOstomies = ChOstomies::with('ostomy','type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
-        
+
+
+        $ChOstomies = ChOstomies::with('ostomy', 'type_record', 'ch_record')
+            ->where('ch_record_id', $id)->where('type_record_id', $type_record_id);
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChOstomies = ChOstomies::with('ostomy', 'type_record', 'ch_record')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
+                ;
+            }
+        }
+
         if ($request->query("pagination", true) == "false") {
             $ChOstomies = $ChOstomies->get()->toArray();
         } else {
@@ -66,14 +78,14 @@ class ChOstomiesController extends Controller
 
             $ChOstomies = $ChOstomies->paginate($per_page, '*', 'page', $page);
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Ostomías Asociada  al paciente exitosamente',
             'data' => ['ch_ostomies' => $ChOstomies]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
@@ -82,7 +94,7 @@ class ChOstomiesController extends Controller
         $ChOstomies->observation = $request->observation;
         $ChOstomies->type_record_id = $request->type_record_id;
         $ChOstomies->ch_record_id = $request->ch_record_id;
-        
+
         $ChOstomies->save();
 
         return response()->json([
@@ -123,7 +135,7 @@ class ChOstomiesController extends Controller
         $ChOstomies->observation = $request->observation;
         $ChOstomies->type_record_id = $request->type_record_id;
         $ChOstomies->ch_record_id = $request->ch_record_id;
-        
+
         $ChOstomies->save();
 
         return response()->json([

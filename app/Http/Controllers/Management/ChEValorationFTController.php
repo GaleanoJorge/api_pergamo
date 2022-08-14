@@ -45,7 +45,7 @@ class ChEValorationFTController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_o_t' => $ChEValorationFT]
+            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
         ]);
     }
 
@@ -62,13 +62,13 @@ class ChEValorationFTController extends Controller
 
 
         $ChEValorationFT = ChEValorationFT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('diagnosis')->get()->toArray();
+            ->with('ch_diagnosis')->get()->toArray();
 
 
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenidos exitosamente',
-            'data' => ['ch_e_valoration_o_t' => $ChEValorationFT]
+            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
         ]);
     }
 
@@ -78,7 +78,7 @@ class ChEValorationFTController extends Controller
         // $validate=ChEValorationFT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
         // if(!$validate){
         $ChEValorationFT = new ChEValorationFT;
-        $ChEValorationFT->recomendations = $request->recomendations;
+        $ChEValorationFT->patient_state = $request->patient_state;
         $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
         $ChEValorationFT->type_record_id = $request->type_record_id;
         $ChEValorationFT->ch_record_id = $request->ch_record_id;
@@ -87,7 +87,7 @@ class ChEValorationFTController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Valoracion asociados al paciente exitosamente',
-            'data' => ['ch_e_valoration_o_t' => $ChEValorationFT->toArray()]
+            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT->toArray()]
         ]);
         // }else{
         //     return response()->json([
@@ -112,7 +112,7 @@ class ChEValorationFTController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Valoracion obtenido exitosamente',
-            'data' => ['ch_e_valoration_o_t' => $ChEValorationFT]
+            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
         ]);
     }
 
@@ -125,7 +125,7 @@ class ChEValorationFTController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChEValorationFT = ChEValorationFT::find($id);
-        $ChEValorationFT->recommendations = $request->recommendations;
+        $ChEValorationFT->patient_state = $request->patient_state;
         $ChEValorationFT->ch_diagnosis_id = $request->ch_diagnosis_id;
         $ChEValorationFT->type_record_id = $request->type_record_id;
         $ChEValorationFT->ch_record_id = $request->ch_record_id;
@@ -134,7 +134,7 @@ class ChEValorationFTController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Valoracion actualizado exitosamente',
-            'data' => ['ch_e_valoration_o_t' => $ChEValorationFT]
+            'data' => ['ch_e_valoration_f_t' => $ChEValorationFT]
         ]);
     }
 

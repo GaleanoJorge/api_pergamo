@@ -1136,30 +1136,18 @@
     {
         "id": "178",
         "item_parent_id": "174",
-        "name": "Movimientos",
-        "code": "pharmacy-request",
-        "route": "/pages/pharmacy/pharmacy-request",
+        "name": "Solicitar medicamentos",
+        "code": "pharmacy-product-request",
+        "route": "/pages/pharmacy/pharmacy-product-request",
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "179",
         "item_parent_id": "174",
-        "name": "Movimientos pacientes",
-        "code": "pharmacy-request-patients",
-        "route": "/pages/pharmacy/pharmacy-request-patients",
-        "icon": "",
-        "show_menu": "1"
-    }
-    
-    
-    ,
-    {
-        "id": "177",
-        "item_parent_id": "169",
-        "name": "Sucursales de almacenamiento",
-        "code": "pharmacy-stock",
-        "route": "/pages/setting/pharmacy-stock",
+        "name": "Inventario medicamentos",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
         "icon": "",
         "show_menu": "1"
     },
@@ -1249,8 +1237,26 @@
         "item_parent_id": null,
         "name": "Facturación",
         "code": "billing-pad",
-        "route": "/pages/billing-pad/list",
+        "route": null,
         "icon": "pricetags-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "190",
+        "item_parent_id": "189",
+        "name": "Por contrato",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "210",
+        "item_parent_id": "189",
+        "name": "Por paciente",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/billing-pad-by-patient/0",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1367,24 +1373,6 @@
         "name": "Solicitar activo fijo",
         "code": "fixed-request",
         "route": "/pages/setting/fixed-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "208",
-        "item_parent_id": "91",
-        "name": "Insumo generico",
-        "code": "product-supplies",
-        "route": "/pages/setting/product-supplies",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "209",
-        "item_parent_id": "89",
-        "name": "Insumo comercial",
-        "code": "supplies-comm",
-        "route": "/pages/setting/supplies-comm",
         "icon": "",
         "show_menu": "1"
     },
