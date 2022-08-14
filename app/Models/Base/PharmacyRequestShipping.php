@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\PharmacyLotStock;
 use App\Models\PharmacyProductRequest;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property number $amount_operation
  * @property BigInteger $pharmacy_product_request_id
  * @property BigInteger $pharmacy_lot_stock_id
+ * @property BigInteger $user_responsible_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -40,5 +42,10 @@ class PharmacyRequestShipping extends Model
 	public function pharmacy_product_request()
 	{
 		return $this->belongsTo(PharmacyProductRequest::class);
+	}
+
+	public function user_responsible()
+	{
+		return $this->belongsTo(User::class);
 	}
 }

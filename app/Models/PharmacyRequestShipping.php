@@ -14,5 +14,6 @@ class PharmacyRequestShipping extends BasePharmacyRequestShipping
     'amount_operation',
     'pharmacy_product_request_id',
     'pharmacy_lot_stock_id',
+    'user_responsible_id',
   ];
 }
