@@ -363,7 +363,7 @@ class ChRecordController extends Controller
 
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -496,7 +496,7 @@ class ChRecordController extends Controller
 
 
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -605,7 +605,7 @@ class ChRecordController extends Controller
 
 
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -688,7 +688,7 @@ class ChRecordController extends Controller
             $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChAssSigns = ChAssSigns::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
