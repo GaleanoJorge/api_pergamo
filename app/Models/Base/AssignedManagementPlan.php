@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $start_date
  * @property Carbon $finish_date
  * @property int $user_id
+ * @property boolean $approved
  * @property date $redo
  * @property Carbon $execution_date
  * @property int $management_plan_id

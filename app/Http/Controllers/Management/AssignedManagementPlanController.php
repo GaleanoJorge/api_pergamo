@@ -110,6 +110,7 @@ class AssignedManagementPlanController extends Controller
         $AssignedManagementPlan->finish_date = $request->finish_date;
         $AssignedManagementPlan->user_id = $request->user_id;
         $AssignedManagementPlan->redo = $request->redo;
+        $AssignedManagementPlan->approved = $request->approved;
         $AssignedManagementPlan->execution_date = $request->execution_date;
         $AssignedManagementPlan->management_plan_id = $request->management_plan_id;
         $AssignedManagementPlan->save();
@@ -155,6 +156,7 @@ class AssignedManagementPlanController extends Controller
             $AssignedManagementPlan->finish_date = $request->start_date;
             $AssignedManagementPlan->user_id = $request->user_id;
             $AssignedManagementPlan->redo = $request->redo;
+            $AssignedManagementPlan->approved = $request->approved;
             $AssignedManagementPlan->start_hour = $request->start_hour;
             $AssignedManagementPlan->finish_hour = $request->finish_hour;
         } else {
