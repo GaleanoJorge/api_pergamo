@@ -118,7 +118,26 @@ class UserPharmacyStockController extends Controller
             'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
+    
 
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function getByUser(int $id): JsonResponse
+    {
+        $UserPharmacyStock = UserPharmacyStock::where('user_id', $id)->with('pharmacy')
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Permiso en farmacia obtenido exitosamente',
+            'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
+        ]);
+    }
     /**
      * Update the specified resource in storage.
      *

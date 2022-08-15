@@ -30,7 +30,7 @@ class UserPharmacyStock extends Model
 
 	public function pharmacy()
 	{
-		return $this->belongsTo(PharmacyStock::class);
+		return $this->belongsTo(PharmacyStock::class,'pharmacy_stock_id');
 	}
 	public function user()
 	{
