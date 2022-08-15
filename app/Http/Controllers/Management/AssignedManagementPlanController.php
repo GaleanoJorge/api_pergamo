@@ -155,8 +155,6 @@ class AssignedManagementPlanController extends Controller
             $AssignedManagementPlan->start_date = $request->start_date;
             $AssignedManagementPlan->finish_date = $request->start_date;
             $AssignedManagementPlan->user_id = $request->user_id;
-            $AssignedManagementPlan->redo = $request->redo;
-            $AssignedManagementPlan->approved = $request->approved;
             $AssignedManagementPlan->start_hour = $request->start_hour;
             $AssignedManagementPlan->finish_hour = $request->finish_hour;
         } else {
