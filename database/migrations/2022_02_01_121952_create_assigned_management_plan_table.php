@@ -19,6 +19,7 @@ class CreateAssignedManagementPlanTable extends Migration
             $table->time('start_hour');
             $table->date('finish_date');
             $table->time('finish_hour');
+            $table->boolean('approved');
             $table->bigInteger('redo')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->dateTime('execution_date');

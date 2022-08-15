@@ -248,7 +248,8 @@ class BillingPadController extends Controller
         $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('SUM(IF(billing_pad.billing_pad_status_id=1,1,0)) AS created_billings')
             )
             ->with(
                 'patients',
@@ -264,7 +265,10 @@ class BillingPadController extends Controller
                 'location.program',
             )
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
-            ->leftJoin('briefcase', 'briefcase.contract_id', 'contract.id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
             ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
             ->groupBy('admissions.id');
         if ($request->pgp == "true") {
@@ -277,7 +281,9 @@ class BillingPadController extends Controller
         } else {
             $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
             if ($request->briefcase_id) {
-                $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
+                if ($request->briefcase_id != 0) {
+                    $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
+                }
             }
             $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
         }
@@ -293,7 +299,11 @@ class BillingPadController extends Controller
                     ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('contract.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('program.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('company.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('briefcase.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -371,7 +381,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
         if ($request->show) {
             $eventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -417,7 +427,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
         if ($request->show) {
             $MedicamentosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -463,7 +473,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
         if ($request->show) {
             $InsumosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -555,7 +565,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -586,7 +596,7 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -619,7 +629,7 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -645,7 +655,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -670,7 +680,7 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -695,7 +705,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -871,7 +881,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
@@ -920,7 +930,7 @@ class BillingPadController extends Controller
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
@@ -966,7 +976,7 @@ class BillingPadController extends Controller
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
@@ -1057,7 +1067,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -1088,7 +1098,7 @@ class BillingPadController extends Controller
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -1121,7 +1131,7 @@ class BillingPadController extends Controller
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
@@ -1149,7 +1159,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -1174,7 +1184,7 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -1199,7 +1209,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
@@ -1408,7 +1418,7 @@ class BillingPadController extends Controller
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             if ($request->route == 1) {
-                $AuthsPackedProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                $AuthsPackedProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsPackedProc->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
@@ -1442,7 +1452,7 @@ class BillingPadController extends Controller
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             if ($request->route == 1) {
                 $AuthsPackedMed->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsPackedMed->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
@@ -1478,7 +1488,7 @@ class BillingPadController extends Controller
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             if ($request->route == 1) {
                 $AuthsPackedSupp->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsPackedSupp->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
@@ -1507,7 +1517,7 @@ class BillingPadController extends Controller
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
-                $AuthsresponseProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                $AuthsresponseProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsresponseProc->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
@@ -1535,7 +1545,7 @@ class BillingPadController extends Controller
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
                 $AuthsresponseMed->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsresponseMed->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
@@ -1563,7 +1573,7 @@ class BillingPadController extends Controller
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
                 $AuthsresponseSupp->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
             } else if ($request->route == 2) {
             }
             $AuthsresponseSupp->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);

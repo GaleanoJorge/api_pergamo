@@ -29,8 +29,13 @@ class ManagementPlanController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->management_id) {
-            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention','service_briefcase',
-            'service_briefcase.manual_price','procedure','procedure.manual_price');
+            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with(
+                'type_of_attention',
+                'service_briefcase',
+                'service_briefcase.manual_price',
+                'procedure',
+                'procedure.manual_price'
+            );
         } else {
             $ManagementPlan = ManagementPlan::select();
         }
@@ -270,41 +275,41 @@ class ManagementPlanController extends Controller
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
-            $admissions= Admissions::where('admissions.id',$request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location','location.admissions_id','admissions.id')->get()->toArray();
+            $admissions = Admissions::where('admissions.id', $request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location', 'location.admissions_id', 'admissions.id')->get()->toArray();
 
-  
 
-            $PharmacyServices=ServicesPharmacyStock::where('scope_of_attention_id',$admissions[0]['scope_of_attention_id'])
-                                    ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id','pharmacy_stock.id')
-                                    ->where('campus_id',$admissions[0]['campus_id'])->get()->toArray();
-            if($PharmacyServices){
-            $pharmacy= $PharmacyServices[0]['pharmacy_stock_id'];
 
-            $PharmacyProductRequest = new PharmacyProductRequest;
-            $PharmacyProductRequest->admissions_id = $request->admissions_id;
-            $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+            $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
+                ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
+                ->where('campus_id', $admissions[0]['campus_id'])->get()->toArray();
+            if ($PharmacyServices) {
+                $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
 
-            $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
-                $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+                $PharmacyProductRequest = new PharmacyProductRequest;
+                $PharmacyProductRequest->admissions_id = $request->admissions_id;
+                $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+
+                $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
+                if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                    $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+                } else {
+                    $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                }
+
+                $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+                $PharmacyProductRequest->request_amount = $quantity;
+                $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy;
+                $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
+                $ManagementPlan->save();
+                $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+                $PharmacyProductRequest->status = 'PATIENT';
+                $PharmacyProductRequest->save();
             } else {
-                $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+                ], 423);
             }
-
-            $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
-            $PharmacyProductRequest->request_amount = $quantity;
-            $PharmacyProductRequest->own_pharmacy_stock_id =$pharmacy;
-            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
-            $ManagementPlan->save();
-            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
-            $PharmacyProductRequest->status = 'PATIENT';
-            $PharmacyProductRequest->save();
-        }else{
-            return response()->json([
-                'status' => false,
-                'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
-            ], 423);
-        }
         } else {
             $ManagementPlan->save();
         }
@@ -429,6 +434,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->start_date = $start;
                     $assignedManagement->finish_date =  $finish;
                     $assignedManagement->redo =  '00000000000000';
+                    $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -494,6 +500,7 @@ class ManagementPlanController extends Controller
                 $assignedManagement = new AssignedManagementPlan;
                 $assignedManagement->start_date = $now;
                 $assignedManagement->redo =  '00000000000000';
+                $assignedManagement->approved =  false;
                 $assignedManagement->finish_date =  $finish;
                 $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
@@ -525,6 +532,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_date =  $now->format('Y-m-d');
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
                     $assignedManagement->redo =  '00000000000000';
+                    $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -808,6 +816,7 @@ class ManagementPlanController extends Controller
 
             $assignedManagement = new AssignedManagementPlan;
             $assignedManagement->redo =  '00000000000000';
+            $assignedManagement->approved =  false;
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
             $assignedManagement->user_id = $request->assigned_user_id;

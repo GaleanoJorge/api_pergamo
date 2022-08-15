@@ -23,7 +23,11 @@ class AssistanceController extends Controller
         $startDate = Carbon::now()->startOfMonth()->format('Ymd');
         $endDate = Carbon::now()->endOfMonth()->format('Ymd');
 
-        $Assistance = Assistance::with('user', 'special_field')
+        $Assistance = Assistance::with(
+            'user',
+            'user.identification_type',
+            'special_field'
+        )
             ->leftJoin('users', 'users.id', '=', 'assistance.user_id')
             ->leftJoin('user_role', 'user_role.user_id', '=', 'assistance.user_id')
             ->leftJoin('location_capacity', 'location_capacity.assistance_id', '=', 'assistance.id')
@@ -56,7 +60,13 @@ class AssistanceController extends Controller
         }
 
         if ($request->search) {
-            $Assistance->where('name', 'like', '%' . $request->search . '%');
+            $Assistance->where(function($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {

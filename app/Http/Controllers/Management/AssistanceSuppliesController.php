@@ -7,19 +7,12 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceSuppliesRequest;
-use App\Models\AssignedManagementPlan;
-use App\Models\Assistance;
 use App\Models\Authorization;
-use App\Models\ChReason;
 use App\Models\ChRecord;
 use App\Models\ManagementPlan;
 use App\Models\PharmacyProductRequest;
-use App\Models\PharmacyRequestShipping;
 use App\Models\Product;
-use App\Models\ProductGeneric;
-use App\Models\ProductSupplies;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Auth;
 
 
 class AssistanceSuppliesController extends Controller
