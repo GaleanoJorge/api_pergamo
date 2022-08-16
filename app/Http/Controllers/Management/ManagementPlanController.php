@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ManagementPlan;
+use App\Models\Admissions;
+use App\Models\ServicesPharmacyStock;
 use App\Models\PharmacyProductRequest;
 use App\Models\ServicesBriefcase;
 use App\Models\HumanTalentRequest;
@@ -27,8 +29,13 @@ class ManagementPlanController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->management_id) {
-            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with('type_of_attention','service_briefcase',
-            'service_briefcase.manual_price','procedure','procedure.manual_price');
+            $ManagementPlan = ManagementPlan::where('id', $request->management_id)->with(
+                'type_of_attention',
+                'service_briefcase',
+                'service_briefcase.manual_price',
+                'procedure',
+                'procedure.manual_price'
+            );
         } else {
             $ManagementPlan = ManagementPlan::select();
         }
@@ -70,7 +77,7 @@ class ManagementPlanController extends Controller
                         IF(COUNT(assigned_management_plan.execution_date) > 0, 
                             SUM(
                                 CASE assigned_management_plan.execution_date 
-                                    WHEN "0000-00-00" THEN 1 
+                                    WHEN "0000-00-00 00:00:00" THEN 1 
                                     ELSE 0 
                                 END), 
                             -1) AS not_executed'),
@@ -78,7 +85,7 @@ class ManagementPlanController extends Controller
             DB::raw('
                          
                             SUM(
-                                IF( CURDATE() > assigned_management_plan.finish_date , 
+                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
                                    1,0 
                             )
                            ) AS incumplidas'),
@@ -125,7 +132,7 @@ class ManagementPlanController extends Controller
                         IF(COUNT(assigned_management_plan.execution_date) > 0, 
                             SUM(
                                 CASE assigned_management_plan.execution_date 
-                                    WHEN "0000-00-00" THEN 1 
+                                    WHEN "0000-00-00 00:00:00" THEN 1 
                                     ELSE 0 
                                 END), 
                             -1) AS not_executed'),
@@ -133,7 +140,7 @@ class ManagementPlanController extends Controller
                 DB::raw('
                          
                             SUM(
-                                IF( CURDATE() > assigned_management_plan.finish_date , 
+                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
                                    1,0 
                             )
                            ) AS incumplidas'),
@@ -162,18 +169,18 @@ class ManagementPlanController extends Controller
                             IF(COUNT(assigned_management_plan.execution_date) > 0, 
                                 SUM(
                                     CASE assigned_management_plan.execution_date 
-                                        WHEN "0000-00-00" THEN 1 
+                                        WHEN "0000-00-00 00:00:00" THEN 1 
                                         ELSE 0 
                                     END), 
                                 -1) AS not_executed'),
                 DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
                 DB::raw('
-                             
-                                SUM(
-                                    IF( CURDATE() > assigned_management_plan.finish_date , 
-                                       1,0 
-                                )
-                               ) AS incumplidas'),
+                         
+                            SUM(
+                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                                   1,0 
+                            )
+                           ) AS incumplidas'),
             )
                 ->with(
                     'authorization',
@@ -268,24 +275,41 @@ class ManagementPlanController extends Controller
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
-            $PharmacyProductRequest = new PharmacyProductRequest;
-            $PharmacyProductRequest->admissions_id = $request->admissions_id;
-            $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+            $admissions = Admissions::where('admissions.id', $request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location', 'location.admissions_id', 'admissions.id')->get()->toArray();
 
-            $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-            if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
-                $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+
+
+            $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
+                ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
+                ->get()->toArray();
+            if ($PharmacyServices) {
+                $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
+
+                $PharmacyProductRequest = new PharmacyProductRequest;
+                $PharmacyProductRequest->admissions_id = $request->admissions_id;
+                $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+
+                $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
+                if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                    $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+                } else {
+                    $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                }
+
+                $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+                $PharmacyProductRequest->request_amount = $quantity;
+                $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy;
+                $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
+                $ManagementPlan->save();
+                $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+                $PharmacyProductRequest->status = 'PATIENT';
+                $PharmacyProductRequest->save();
             } else {
-                $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+                ], 423);
             }
-
-            $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
-            $PharmacyProductRequest->request_amount = $quantity;
-            $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
-            $ManagementPlan->save();
-            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
-            $PharmacyProductRequest->status = 'PATIENT';
-            $PharmacyProductRequest->save();
         } else {
             $ManagementPlan->save();
         }
@@ -410,6 +434,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->start_date = $start;
                     $assignedManagement->finish_date =  $finish;
                     $assignedManagement->redo =  '00000000000000';
+                    $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -475,6 +500,7 @@ class ManagementPlanController extends Controller
                 $assignedManagement = new AssignedManagementPlan;
                 $assignedManagement->start_date = $now;
                 $assignedManagement->redo =  '00000000000000';
+                $assignedManagement->approved =  false;
                 $assignedManagement->finish_date =  $finish;
                 $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
@@ -506,6 +532,7 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_date =  $now->format('Y-m-d');
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
                     $assignedManagement->redo =  '00000000000000';
+                    $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
@@ -789,6 +816,7 @@ class ManagementPlanController extends Controller
 
             $assignedManagement = new AssignedManagementPlan;
             $assignedManagement->redo =  '00000000000000';
+            $assignedManagement->approved =  false;
             $assignedManagement->start_date = $start;
             $assignedManagement->finish_date =  $finish;
             $assignedManagement->user_id = $request->assigned_user_id;

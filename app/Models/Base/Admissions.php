@@ -22,6 +22,7 @@ use App\Models\Briefcase;
 use App\Models\Contract;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
+use App\Models\Procedure;
 use App\Models\ScopeOfAttention;
 
 
@@ -65,6 +66,11 @@ class Admissions extends Model
 		return $this->hasMany(Location::class);
 	}
 
+	public function locationUnique()
+	{
+		return $this->belongsTo(Location::class, 'id', 'admissions_id');
+	}
+
 	public function pac_monitoring()
 	{
 		return $this->hasMany(PacMonitoring::class);
@@ -89,8 +95,16 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(Gender::class);
 	}
+	public function program()
+	{
+		return $this->belongsTo(Program::class);
+	}
 	public function regime()
 	{
 		return $this->belongsTo(TypeBriefcase::class,'regime_id');
+	}
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class,'procedure_id');
 	}
 }

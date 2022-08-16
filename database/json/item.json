@@ -1127,45 +1127,46 @@
     {
         "id": "176",
         "item_parent_id": "174",
-        "name": "Recepción tecnica",
-        "code": "pharmacy-lot",
-        "route": "/pages/pharmacy/pharmacy-lot",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "177",
-        "item_parent_id": "169",
-        "name": "Crear farmacias",
-        "code": "pharmacy-stock",
-        "route": "/pages/setting/pharmacy-stock",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "178",
-        "item_parent_id": "174",
-        "name": "Solicitar medicamentos",
-        "code": "pharmacy-product-request",
-        "route": "/pages/pharmacy/pharmacy-product-request",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "179",
-        "item_parent_id": "174",
-        "name": "Inventario medicamentos",
+        "name": "Inventario de suministros",
         "code": "pharmacy-inventory",
         "route": "/pages/pharmacy/pharmacy-inventory",
         "icon": "",
         "show_menu": "1"
     },
     {
-        "id": "182",
+        "id": "177",
+        "item_parent_id": "169",
+        "name": "Sucursales de almacenamiento",
+        "code": "pharmacy-stock",
+        "route": "/pages/setting/pharmacy-stock",
+        "icon": "",
+        "show_menu": "1"
+    }
+    ,
+    {
+        "id": "178",
         "item_parent_id": "174",
-        "name": "Dispensación",
+        "name": "Movimientos",
         "code": "pharmacy-request",
         "route": "/pages/pharmacy/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "179",
+        "item_parent_id": "174",
+        "name": "Movimientos pacientes",
+        "code": "pharmacy-request-patients",
+        "route": "/pages/pharmacy/pharmacy-request-patients",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "182",
+        "item_parent_id": "174",
+        "name": "Solicitar suministros",
+        "code": "pharmacy-product-request",
+        "route": "/pages/pharmacy/pharmacy-product-request",
         "icon": "",
         "show_menu": "1"
     },
@@ -1246,8 +1247,26 @@
         "item_parent_id": null,
         "name": "Facturación",
         "code": "billing-pad",
-        "route": "/pages/billing-pad/list",
+        "route": null,
         "icon": "pricetags-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "190",
+        "item_parent_id": "189",
+        "name": "Por contrato",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "210",
+        "item_parent_id": "189",
+        "name": "Por paciente",
+        "code": "billing-pad",
+        "route": "/pages/billing-pad/billing-pad-by-patient/0",
+        "icon": "",
         "show_menu": "1"
     },
     {
@@ -1268,7 +1287,6 @@
         "icon": "",
         "show_menu": "1"
     },
-    
     {
         "id": "193",
         "item_parent_id": "102",
@@ -1305,9 +1323,6 @@
         "icon": "",
         "show_menu": "1"
     },
-
-
-
     {
         "id": "197",
         "item_parent_id": "102",
@@ -1372,24 +1387,6 @@
         "show_menu": "1"
     },
     {
-        "id": "208",
-        "item_parent_id": "91",
-        "name": "Insumo generico",
-        "code": "product-supplies",
-        "route": "/pages/setting/product-supplies",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "209",
-        "item_parent_id": "89",
-        "name": "Insumo comercial",
-        "code": "supplies-comm",
-        "route": "/pages/setting/supplies-comm",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "204",
         "item_parent_id": "67",
         "name": "Variables Macroeconómicas",
@@ -1425,12 +1422,22 @@
         "icon": "",
         "show_menu": "1"
     },
+    
     {
-        "id": "219",
-        "item_parent_id": "174",
-        "name": "Solicitar a compras",
-        "code": "billing-request-pharmacy",
-        "route": "/pages/pharmacy/billing-request-pharmacy",
+        "id": "208",
+        "item_parent_id": "91",
+        "name": "Insumo generico",
+        "code": "product-supplies",
+        "route": "/pages/setting/product-supplies",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "209",
+        "item_parent_id": "89",
+        "name": "Insumo comercial",
+        "code": "supplies-comm",
+        "route": "/pages/setting/supplies-comm",
         "icon": "",
         "show_menu": "1"
     },
@@ -1463,7 +1470,7 @@
     },
     {
         "id": "214",
-        "item_parent_id": "66",
+        "item_parent_id": "67",
         "name": "Facturación",
         "code": null,
         "route": null,
@@ -1503,6 +1510,51 @@
         "name": "Recaudo",
         "code": "collection",
         "route": "/pages/setting/tc-collection",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "219",
+        "item_parent_id": null,
+        "name": "Almacen",
+        "code": null,
+        "route": null,
+        "icon": "shopping-bag-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "220",
+        "item_parent_id": "219",
+        "name": "Recepción tecnica",
+        "code": "pharmacy-lot",
+        "route": "/pages/pharmacy/pharmacy-lot",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "221",
+        "item_parent_id": "219",
+        "name": "Inventario suministros",
+        "code": "pharmacy-inventory",
+        "route": "/pages/pharmacy/pharmacy-inventory",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "222",
+        "item_parent_id": "219",
+        "name": "Movimientos",
+        "code": "pharmacy-request",
+        "route": "/pages/pharmacy/pharmacy-request",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "223",
+        "item_parent_id": "219",
+        "name": "Solicitar a compras",
+        "code": "billing-request-pharmacy",
+        "route": "/pages/pharmacy/billing-request-pharmacy",
         "icon": "",
         "show_menu": "1"
     }

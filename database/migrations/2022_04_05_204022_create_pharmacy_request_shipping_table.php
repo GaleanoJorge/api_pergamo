@@ -20,9 +20,14 @@ class CreatePharmacyRequestShippingTable extends Migration
             $table->integer('amount_damaged')->nullable();
             $table->integer('amount_provition')->nullable();
             $table->integer('amount_operation')->nullable();
+            $table->unsignedBigInteger('user_responsible_id')->nullable();
             $table->unsignedBigInteger('pharmacy_product_request_id');
             $table->unsignedBigInteger('pharmacy_lot_stock_id');
             $table->timestamps();
+
+            $table->index('user_responsible_id');
+            $table->foreign('user_responsible_id')->references('id')
+                ->on('users');
 
             $table->index('pharmacy_lot_stock_id');
             $table->foreign('pharmacy_lot_stock_id')->references('id')

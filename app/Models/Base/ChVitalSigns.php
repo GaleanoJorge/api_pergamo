@@ -54,6 +54,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $fixed_lazy_reaction
  * @property string $miotic_size
  * @property string $observations_glucometry
+ * @property boolean $has_oxigen
  * @property BigInteger $ch_vital_hydration_id
  * @property BigInteger $ch_vital_ventilated_id
  * @property BigInteger $ch_vital_temperature_id

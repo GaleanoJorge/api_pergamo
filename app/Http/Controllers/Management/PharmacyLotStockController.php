@@ -38,7 +38,7 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product_supplies_com.factory',
                 'billing_stock.product_supplies_com.product_supplies'
 
-            );
+            )->orderBy('expiration_date', 'asc');
 
         if ($request->islot == true) {
             $PharmacyLotStock->groupby('pharmacy_lot_id');
@@ -64,11 +64,11 @@ class PharmacyLotStockController extends Controller
         } else if ($request->product == "false") {
             $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
         }
-        if ($request->product1 == "true") {
-            $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
-        } else if ($request->product1 == "false") {
-            $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
-        }
+        // if ($request->product1 == "true") {
+        //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
+        // } else if ($request->product1 == "false") {
+        //     $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
+        // }
 
         if ($request->search) {
             $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');

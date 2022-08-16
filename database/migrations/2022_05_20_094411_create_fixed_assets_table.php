@@ -17,21 +17,19 @@ class CreateFixedAssetsTable extends Migration
             $table->BigIncrements('id');
             $table->unsignedBigInteger('fixed_clasification_id');
             $table->unsignedBigInteger('fixed_type_id');
+            $table->unsignedBigInteger('fixed_stock_id');
             $table->unsignedBigInteger('fixed_property_id');
             $table->string('obs_property')->nullable();
             $table->string('plaque')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
-            $table->integer('amount_total');
-            $table->integer('actual_amount')->nullable();
             $table->string('model')->nullable();
             $table->string('mark');
             $table->string('serial')->nullable();
             $table->unsignedBigInteger('fixed_nom_product_id');
             $table->string('detail_description');
             $table->string('color');
-            $table->string('status')->nullable();
+            $table->string('status_prod')->nullable();
             $table->unsignedBigInteger('fixed_condition_id');
-            $table->unsignedBigInteger('campus_id');
 
 
             $table->string('calibration_certificate')->nullable();
@@ -78,10 +76,14 @@ class CreateFixedAssetsTable extends Migration
             $table->index('company_id');
             $table->foreign('company_id')->references('id')
                 ->on('company');
-
+                
             $table->index('fixed_type_id');
             $table->foreign('fixed_type_id')->references('id')
                 ->on('fixed_type');
+
+            $table->index('fixed_stock_id');
+            $table->foreign('fixed_stock_id')->references('id')
+                ->on('fixed_stock');
 
             $table->index('fixed_property_id');
             $table->foreign('fixed_property_id')->references('id')
@@ -90,10 +92,6 @@ class CreateFixedAssetsTable extends Migration
             $table->index('fixed_condition_id');
             $table->foreign('fixed_condition_id')->references('id')
                 ->on('fixed_condition');
-
-            $table->index('campus_id');
-            $table->foreign('campus_id')->references('id')
-                ->on('campus');
 
             $table->index('clasification_risk_id');
             $table->foreign('clasification_risk_id')->references('id')

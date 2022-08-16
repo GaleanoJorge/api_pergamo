@@ -89,9 +89,6 @@ class ChScaleFragilityController extends Controller
         $ChScaleFragility->q_five_title = $request->q_five_title;
         $ChScaleFragility->q_five_value = $request->q_five_value;
         $ChScaleFragility->q_five_detail = $request->q_five_detail;
-        $ChScaleFragility->q_six_title = $request->q_six_title;
-        $ChScaleFragility->q_six_value = $request->q_six_value;
-        $ChScaleFragility->q_six_detail = $request->q_six_detail;
         $ChScaleFragility->total = $request->total;
         $ChScaleFragility->classification = $request->classification;
         $ChScaleFragility->type_record_id = $request->type_record_id;
@@ -148,9 +145,6 @@ class ChScaleFragilityController extends Controller
         $ChScaleFragility->q_five_title = $request->q_five_title;
         $ChScaleFragility->q_five_value = $request->q_five_value;
         $ChScaleFragility->q_five_detail = $request->q_five_detail;
-        $ChScaleFragility->q_six_title = $request->q_six_title;
-        $ChScaleFragility->q_six_value = $request->q_six_value;
-        $ChScaleFragility->q_six_detail = $request->q_six_detail;
         $ChScaleFragility->total = $request->total;
         $ChScaleFragility->classification = $request->classification;
         $ChScaleFragility->type_record_id = $request->type_record_id;

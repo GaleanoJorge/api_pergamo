@@ -32,9 +32,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $q_five_title
  * @property int $q_five_value
  * @property string $q_five_detail
- * @property string $q_six_title
- * @property int $q_six_value
- * @property string $q_six_detail
  * @property int $total
  * @property string $classification
  * @property Carbon $created_at

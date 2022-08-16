@@ -10,11 +10,9 @@ use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
-use App\Models\Product;
 use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 /**
  * Class ChFormulation
@@ -45,14 +43,14 @@ class ChFormulation extends Model
 
 	public function product_generic()
 	{
-		return $this->belongsTo(Product::class,'product_generic_id');
+		return $this->belongsTo(ProductGeneric::class,'product_generic_id');
 	}
 
 	// public function product_id()
 	// {
 	// 	return $this->belongsTo(Product::class,'product_generic_id');
 	// }
-	public function service_briefcase()
+	public function services_briefcase()
 	{
 		return $this->belongsTo(ServicesBriefcase::class);
 	}

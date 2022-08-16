@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContractRequest;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\DB;
 class ContractController extends Controller
 {
     /**
@@ -18,35 +18,36 @@ class ContractController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        if ($request->company_id) {
-            $Contract = Contract::select('contract.*')
-                ->orderBy('name', 'asc')
-                ->with('contract_status', 'company')->where('company_id', $request->company_id)->where('contract_status_id', 1);
-        } else {
-
-            $Contract = Contract::select('contract.*')
-                ->orderBy('name', 'asc')
-                ->with('contract_status', 'company');
-        }
+        $Contract = Contract::select('contract.*', DB::raw('SUM(IF(billing_pad.billing_pad_status_id=1,1,0)) AS created_billings'))
+            ->with('contract_status', 'company')
+            ->leftJoin('briefcase','briefcase.contract_id','contract.id')
+            ->leftJoin('admissions','admissions.briefcase_id','briefcase.id')
+            ->leftJoin('billing_pad','billing_pad.admissions_id','admissions.id')
+            ->groupBy('contract.id')
+            ->orderBy('contract.name', 'asc');
 
         if ($request->_sort) {
             $Contract->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->company_id) {
+            $Contract->where('contract.company_id', $request->company_id)->where('contract_status_id', 1);
+        }
+
         if ($request->search) {
-            $Contract->where('name', 'like', '%' . $request->search . '%');
+            $Contract->where('contract.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->id) {
-            $Contract->where('id', $request->id);
+            $Contract->where('contract.id', $request->id);
         }
 
         if ($request->type_contract_id) {
-            $Contract->where('type_contract_id', $request->type_contract_id);
+            $Contract->where('contract.type_contract_id', $request->type_contract_id);
         }
 
         if ($request->pgp) {
-            $Contract->where('type_contract_id', $request->pgp, 5);
+            $Contract->where('contract.type_contract_id', $request->pgp, 5);
         }
 
         if ($request->query("pagination", true) == "false") {

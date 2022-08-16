@@ -30,9 +30,6 @@
                 $table->string('q_five_title');
                 $table->Integer('q_five_value');
                 $table->string('q_five_detail');
-                $table->string('q_six_title');
-                $table->Integer('q_six_value');
-                $table->string('q_six_detail');
                 $table->Integer('total');
                 $table->string('classification');
                 $table->unsignedBigInteger('type_record_id');

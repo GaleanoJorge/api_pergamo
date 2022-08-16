@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChDiagnosis;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -52,10 +53,26 @@ class ChDiagnosisController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        $ChDiagnosis = ChDiagnosis::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->get()->toArray();
+        $ChDiagnosis = ChDiagnosis::where('ch_record_id', $id)
+            ->with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')
+            ->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChDiagnosis = ChDiagnosis::with(
+                    'diagnosis',
+                    'ch_diagnosis_class',
+                    'ch_diagnosis_type'
+                )
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
         return response()->json([
             'status' => true,
             'message' => 'Diagnóstico obtenido exitosamente',

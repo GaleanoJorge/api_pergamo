@@ -8,15 +8,18 @@ class Authorization extends BaseAuthorization
 {
 	protected $fillable = [
 		'auth_number',
-		'observation',
-		'file_auth',
+		'supplies_id',
+		'admissions_id',
+		'auth_status_id',
 		'services_briefcase_id',
 		'assigned_management_plan_id',
-		'admissions_id',
 		'authorized_amount',
-		'auth_status_id',
 		'auth_package_id',
 		'manual_price_id',
+		'application_id',
+		'product_id',
+		'observation',
+		'file_auth',
 	];
 
 	public function residence_municipality()

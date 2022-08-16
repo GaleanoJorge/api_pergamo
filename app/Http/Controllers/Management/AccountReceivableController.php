@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Dompdf\Dompdf as PDF;
+use Dompdf\Options;
 
 class AccountReceivableController extends Controller
 {
@@ -47,8 +48,7 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
-                    ;
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%');
             });
         }
         if ($request->status_bill_id) {
@@ -116,8 +116,7 @@ class AccountReceivableController extends Controller
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
-                    ;
+                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -311,7 +310,12 @@ class AccountReceivableController extends Controller
         $address = strtoupper($User->residence_address);
         $phone = $User->phone;
         $email = $User->email;
-        $sign = $Assistance->file_firm;
+        $sign = "";
+        if ($Assistance->file_firm) {
+            $rutaImagen = storage_path('app/public/' . $Assistance->file_firm);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $sign = base64_encode($contenidoBinario);
+        }
         $nombre_completo = $UserDownload->nombre_completo;
 
         $generate_date = Carbon::now()->format('d-m-Y H:i:s');
@@ -348,7 +352,9 @@ class AccountReceivableController extends Controller
             'Activities' => $Activities,
         ])->render();
 
-        $dompdf = new PDF();
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('Carta', 'vertical');
         $dompdf->render();

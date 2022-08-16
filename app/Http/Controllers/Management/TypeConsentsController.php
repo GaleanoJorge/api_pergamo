@@ -55,7 +55,7 @@ class TypeConsentsController extends Controller
 
         $TypeConsents = new TypeConsents;
         $TypeConsents->name = $request->admissions_id;
-        $TypeConsents->file = $request->firm_patiend;
+        $TypeConsents->file = $request->firm_patient;
 
       
         $TypeConsents->save();
@@ -99,7 +99,7 @@ class TypeConsentsController extends Controller
     {
         $TypeConsents = TypeConsents::find($id);
         $TypeConsents->name = $request->admissions_id;
-        $TypeConsents->file = $request->firm_patiend;
+        $TypeConsents->file = $request->firm_patient;
         $TypeConsents->save();
 
        
