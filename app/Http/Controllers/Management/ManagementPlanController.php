@@ -281,7 +281,7 @@ class ManagementPlanController extends Controller
 
             $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
                 ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
-                ->where('campus_id', $admissions[0]['campus_id'])->get()->toArray();
+                ->get()->toArray();
             if ($PharmacyServices) {
                 $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
 
