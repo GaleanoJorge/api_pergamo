@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\AssistanceSupplies;
-use App\Models\Base\ServicesBriefcase;
+use App\Models\ServicesBriefcase;
 use App\Models\ChRecord;
 use App\Models\ManagementPlan;
 use App\Models\PharmacyLot;
@@ -429,7 +429,9 @@ class PharmacyProductRequestController extends Controller
             $admissions_id = $request->admissions_id;
         }
 
-        $product= ServicesBriefcase::select('manual_price.product_id')->where('services_briefcase.id',$request->services_briefcase_id)->leftJoin('manual_price','manual_price.id','services_briefcase.manual_price_id')->get()->first();
+        if ($request->services_briefcase_id) {
+            $product= ServicesBriefcase::select('manual_price.*')->where('services_briefcase.id',$request->services_briefcase_id)->leftJoin('manual_price','manual_price.id','services_briefcase.manual_price_id')->get()->first();
+        }
 
         $PharmacyProductRequest = new PharmacyProductRequest;
         $PharmacyProductRequest->request_amount = $request->request_amount;
@@ -438,7 +440,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->user_request_id = $request->user_request_id;
         $PharmacyProductRequest->admissions_id = $admissions_id;
         $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
-        $PharmacyProductRequest->product_generic_id = $product->product_id;
+        $PharmacyProductRequest->product_generic_id = $request->services_briefcase_id ? $product->product_id : $request->product_generic_id;
         $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
