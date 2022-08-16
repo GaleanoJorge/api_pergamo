@@ -1056,6 +1056,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('billing_stock', 'Management\BillingStockController');
     Route::apiResource('billing_stock_request', 'Management\BillingStockRequestController');
     Route::apiResource('user_pharmacy_stock', 'Management\UserPharmacyStockController');
+    Route::get('user_pharmacy_stock/byuser/{id}', 'Management\UserPharmacyStockController@getByUser');
+
     Route::apiResource('services_pharmacy_stock', 'Management\ServicesPharmacyStockController');
     Route::apiResource('type_pharmacy_stock', 'Management\TypePharmacyStockController');
     Route::apiResource('pharmacy_stock', 'Management\PharmacyStockController');

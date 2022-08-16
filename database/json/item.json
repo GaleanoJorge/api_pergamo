@@ -1422,6 +1422,25 @@
         "icon": "",
         "show_menu": "1"
     },
+    
+    {
+        "id": "208",
+        "item_parent_id": "91",
+        "name": "Insumo generico",
+        "code": "product-supplies",
+        "route": "/pages/setting/product-supplies",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "209",
+        "item_parent_id": "89",
+        "name": "Insumo comercial",
+        "code": "supplies-comm",
+        "route": "/pages/setting/supplies-comm",
+        "icon": "",
+        "show_menu": "1"
+    },
     {
         "id": "211",
         "item_parent_id": "183",
