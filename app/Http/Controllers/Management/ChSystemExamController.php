@@ -69,7 +69,7 @@ class ChSystemExamController extends Controller
                 $ChSystemExam = ChSystemExam::select('ch_system_exam.*')
                     ->with('type_ch_system_exam')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
-                ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                ->leftJoin('ch_record', 'ch_record.id', 'ch_system_exam.ch_record_id') //
                 ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }
         }
