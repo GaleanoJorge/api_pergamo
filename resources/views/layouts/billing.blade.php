@@ -656,12 +656,12 @@
 
                 @if ($selected_procedures != null)
                     @for ($i = 0; $i < count($selected_procedures); $i++)
-                        <div class="stl_01" style="left:0.3em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:0em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_21"
                                 style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['code'] }} &nbsp;</span>
                         </div>
 
-                        <div class="stl_01" style="left:33em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:34em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_21"
                                 style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span>
                         </div>
@@ -689,7 +689,7 @@
                 <div class="stl_01"
                     style="
 					left: 28.5em;
-					top: 41em;
+					top: 48em;
 					height: 8.3em;
 					width: 17.5em;
 					border-style: solid;
@@ -697,10 +697,10 @@
 					border-color: black;">
                 </div>
 
-                <div class="stl_01" style="left:29.75em;top:41.792em;"><span class="stl_07 stl_08 stl_10">TOTAL
+                <div class="stl_01" style="left:29.75em;top:48.792em;"><span class="stl_07 stl_08 stl_10">TOTAL
                         &nbsp;</span></div>
 
-                <div class="stl_01" style="left:37em;top:41.792em;"><span
+                <div class="stl_01" style="left:37em;top:48.792em;"><span
                         class="stl_19 stl_08 stl_39">{{ $currency_value }}</span></div>
                 <!-- ---------------------------------------- -->
 
@@ -737,11 +737,11 @@
                 <!-- ---------------------------------------- -->
 
 
-                <div class="stl_01" style="left:29.75em;top:48.042em;"><span class="stl_07 stl_08 stl_44"
+                <div class="stl_01" style="left:29.75em;top:55.042em;"><span class="stl_07 stl_08 stl_44"
                         style="word-spacing:0.0079em;">TOTAL A PAGAR &nbsp;</span></div>
 
 
-                <div class="stl_01" style="left:37em;top:48.042em;"><span
+                <div class="stl_01" style="left:37em;top:55.042em;"><span
                         class="stl_19 stl_08 stl_39">{{ $currency_value }}</span></div>
 
                 <!-- ---------------------------------------- -->
@@ -749,7 +749,7 @@
                 <div class="stl_01"
                     style="
 					left: -1em;
-					top: 41em;
+					top: 48em;
 					height: 8.3em;
 					width: 29.5em;
 					border-style: solid;
@@ -758,11 +758,11 @@
                 </div>
 
 
-                <div class="stl_01" style="left:0em;top:42.302em;"><span class="stl_19 stl_08 stl_40"
+                <div class="stl_01" style="left:0em;top:49.302em;"><span class="stl_19 stl_08 stl_40"
                         style="word-spacing:0.0038em;">Son: &nbsp;</span></div>
 
                 @for ($i = 0; $i < count($letter_value); $i++)
-                    <div class="stl_01" style="left:2em;top:{{ $i + 42.302 }}em;"><span
+                    <div class="stl_01" style="left:2em;top:{{ $i + 49.302 }}em;"><span
                             class="stl_19 stl_08 stl_40" style="word-spacing:0.0038em;">{{ $letter_value[$i] }}
                             &nbsp;</span></div>
                 @endfor
