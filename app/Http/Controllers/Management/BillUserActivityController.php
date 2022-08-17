@@ -102,6 +102,10 @@ class BillUserActivityController extends Controller
                 'procedure.manual_price',
                 'tariff',
                 'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.admissions',
+                'assigned_management_plan.management_plan.admissions.patients',
+                'assigned_management_plan.management_plan.admissions.patients.identification_type',
             );
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);

@@ -84,7 +84,12 @@ class AccountReceivableController extends Controller
         $LastDayMonth = Carbon::now()->endOfMonth()->format('Ymd');
         // $ancualDate = Carbon::parse('2022-06-01 14:44:40')->format('Ymd');
         $ancualDate = Carbon::now()->format('Ymd');
-        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
+        $AccountReceivable = AccountReceivable::with(
+            'user',
+            'user.identification_type',
+            'status_bill',
+            'minimum_salary'
+        )
             ->select(
                 'account_receivable.*',
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),

@@ -33,7 +33,7 @@ class BillingPadController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingPad = BillingPad::select()
+        $BillingPad = BillingPad::select('billing_pad.*')
             ->with(
                 'billing_pad_consecutive',
                 'billing_pad_prefix',
@@ -48,31 +48,38 @@ class BillingPadController extends Controller
                 'admissions.patients.admissions.briefcase',
                 'admissions.patients.admissions.contract',
                 'admissions.patients.admissions.contract.company',
-            );
+            )
+            ->leftJoin('billing_pad_prefix','billing_pad_prefix.id','billing_pad.billing_pad_prefix_id')
+            ->groupBy('billing_pad.id')
+            ;
 
         if ($request->_sort) {
             $BillingPad->orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $BillingPad->where('name', 'like', '%' . $request->search . '%');
+            $BillingPad->where(function($query) use($request) {
+                $query->where('billing_pad.consecutive', 'like', '%' . $request->search . '%')
+                ->orWhere('billing_pad_prefix.name', 'like', '%' . $request->search . '%')
+                ;
+            });
         }
 
         if ($request->id) {
-            $BillingPad->where('id', $request->id);
+            $BillingPad->where('billing_pad.id', $request->id);
         }
 
         if ($request->admission_id) {
             if ($request->admission_id != 0) {
-                $BillingPad->where('admissions_id', $request->admission_id);
+                $BillingPad->where('billing_pad.admissions_id', $request->admission_id);
             }
         }
 
         if ($request->descendente) {
-            $BillingPad->orderBy('id', 'desc');
+            $BillingPad->orderBy('billing_pad.id', 'desc');
         }
 
         if ($request->billing_pad_status_id) {
-            $BillingPad->where('billing_pad_status_id', $request->billing_pad_status_id);
+            $BillingPad->where('billing_pad.billing_pad_status_id', $request->billing_pad_status_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -1717,10 +1724,10 @@ class BillingPadController extends Controller
             $AuthBillingPad = new AuthBillingPad;
             $AuthBillingPad->billing_pad_id = $id;
             $AuthBillingPad->authorization_id = $conponent->id;
-            if ($conponent->manual_price) {
-                $AuthBillingPad->value = $conponent->manual_price->value;
-            } else {
+            if ($conponent->services_briefcase) {
                 $AuthBillingPad->value = $conponent->services_briefcase->value;
+            } else {
+                $AuthBillingPad->value = $conponent->manual_price->value;
             }
             $AuthBillingPad->save();
             $total_value += $AuthBillingPad->value;
