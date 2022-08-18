@@ -30,8 +30,6 @@ class ProductRequest extends FormRequest
             'invima_registration' => 'required',
             'invima_status_id' => 'required',
             'storage_conditions_id' => 'required',
-            'indications' => 'required',
-            'applications' => 'required',
             'unit_packing' => 'required',
             'packing_id' => 'required',
             'refrigeration' => 'required',
