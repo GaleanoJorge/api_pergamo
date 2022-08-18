@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $measure
  * @property string $description
  * @property string $stature
+ * @property string $code_gmdn
  * @property integer $minimum_stock
  * @property integer $maximum_stock
  * @property BigInteger $product_dose_id

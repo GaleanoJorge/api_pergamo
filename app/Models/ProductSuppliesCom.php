@@ -16,8 +16,7 @@ class ProductSuppliesCom extends BaseProductSuppliesCom
 		'sanitary_registration_id',
 		'packing_id',
 		'unit_packing',
-		'code_cum_file',
-		'code_cum_consecutive',
+		'code_udi',
 		'useful_life',
 		'date_cum',
 	];
