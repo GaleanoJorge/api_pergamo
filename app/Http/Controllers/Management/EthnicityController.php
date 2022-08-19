@@ -57,6 +57,27 @@ class EthnicityController extends Controller
             'data' => ['ethicity' => $Ethnicity->toArray()]
         ]);
     }
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {
+        
+       
+        $Ethnicity = Ethnicity::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+            ->get()->toArray();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Etnia obtenidas exitosamente',
+            'data' => ['ethicity' => $Ethnicity]
+        ]);
+    }
 
     /**
      * Display the specified resource.
