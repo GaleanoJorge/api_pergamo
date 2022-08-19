@@ -27,7 +27,14 @@ class CreateFixedAddTable extends Migration
             $table->unsignedBigInteger('fixed_location_campus_id')->nullable();
             $table->unsignedBigInteger('own_fixed_user_id')->nullable();
             $table->unsignedBigInteger('request_fixed_user_id')->nullable();
+            $table->unsignedBigInteger('procedure_id')->nullable();
+
             $table->timestamps();
+
+            $table->index('procedure_id');
+            $table->foreign('procedure_id')->references('id')
+            ->on('services_briefcase');
+
 
             $table->index('fixed_assets_id');
             $table->foreign('fixed_assets_id')->references('id')

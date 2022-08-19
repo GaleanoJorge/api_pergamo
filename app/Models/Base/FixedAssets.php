@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $color
  * @property BigInteger $fixed_condition_id 
  * @property string $calibration_certificate
+ * @property string $accessories
  * @property string $health_register
  * @property string $warranty
  * @property string $cv

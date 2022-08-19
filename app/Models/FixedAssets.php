@@ -55,5 +55,6 @@ class FixedAssets extends BaseFixedAssets
 		'guide',
 		'periodicity_frequency_id',
 		'calibration_frequency_id',
+		'accessories',
 	];
 }
