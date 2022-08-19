@@ -178,14 +178,21 @@ class ManagementPlanController extends Controller
         $ManagementPlan = ManagementPlan::select(
             'management_plan.*',
             DB::raw('
-                    IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                        SUM(
-                            CASE assigned_management_plan.execution_date 
-                                WHEN "0000-00-00 00:00:00" THEN 1 
-                                ELSE 0 
-                            END), 
-                        -1) AS not_executed'),
+            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                    CASE assigned_management_plan.execution_date 
+                        WHEN "0000-00-00 00:00:00" THEN 1 
+                        ELSE 0 
+                    END), 
+                -1) AS not_executed'),
             DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+             
+                SUM(
+                    IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                       1,0 
+                )
+               ) AS incumplidas'),
             DB::raw($consulta . ' AS ingreso'),
         )
             ->with(
