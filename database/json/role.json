@@ -113,7 +113,7 @@
     },
     {
         "id": 17,
-        "name": "ADMIN_TH",
+        "name": "TH - DIRECTOR",
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
@@ -141,14 +141,168 @@
     },
     {
         "id": 23,
-        "name": "PAD GESTOR",
+        "name": "PAD - GESTOR",
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 24,
-        "name": "TH GESTOR",
+        "name": "TH - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 25,
+        "name": "TH - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 26,
+        "name": "PAD - GESTOR PHD",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 27,
+        "name": "PAD - ANALISTA ADMIN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 28,
+        "name": "PAD - CORDINADOR NACIONAL",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 29,
+        "name": "PAD - JEFE DE PLANEACIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 30,
+        "name": "PAD - DIRECCIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 31,
+        "name": "PAD - JEFE DE PLANEACIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 32,
+        "name": "PAD - CORDINADOR CONVENIOS",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 33,
+        "name": "FAC - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 34,
+        "name": "FAC - CONSULTA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 35,
+        "name": "FAC - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 36,
+        "name": "AUT - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 37,
+        "name": "AUT - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 38,
+        "name": "AUT - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 39,
+        "name": "AF - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 40,
+        "name": "AF - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 41,
+        "name": "AF - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 42,
+        "name": "FAR - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 43,
+        "name": "FAR - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 44,
+        "name": "FAR - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 45,
+        "name": "FAR - REGENTE",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 46,
+        "name": "FAR - AUX FARMACIA",
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
