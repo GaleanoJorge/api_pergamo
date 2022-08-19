@@ -1614,6 +1614,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_position', 'Management\ChPositionController');
     Route::get('ch_position/by_record/{record_id}/{type_record}', 'Management\ChPositionController@getByRecord');
 
+    //nota de enfermería
+    Route::apiResource('ch_nursing_note', 'Management\ChNursingNoteController');
+    Route::get('ch_nursing_note/by_record/{record_id}/{type_record}', 'Management\ChNursingNoteController@getByRecord');
+
     //ruta valoracion de cabello
     Route::apiResource('ch_oxigen', 'Management\ChOxigenController');
     Route::get('ch_oxigen/by_record/{record_id}/{type_record}', 'Management\ChOxigenController@getByRecord');
