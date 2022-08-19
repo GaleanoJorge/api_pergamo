@@ -32,6 +32,7 @@ class CreateFixedAssetsTable extends Migration
             $table->unsignedBigInteger('fixed_condition_id');
 
 
+            $table->string('accessories')->nullable();
             $table->string('calibration_certificate')->nullable();
             $table->string('health_register')->nullable();
             $table->string('warranty')->nullable();
