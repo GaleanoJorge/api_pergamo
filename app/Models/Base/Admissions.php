@@ -20,6 +20,7 @@ use App\Models\Flat;
 use App\Models\Bed;
 use App\Models\Briefcase;
 use App\Models\Contract;
+use App\Models\ManagementPlan;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
 use App\Models\Procedure;
@@ -106,5 +107,13 @@ class Admissions extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(Procedure::class,'procedure_id');
+	}
+
+	public function management_plan()
+	{
+		return $this->hasMany(ManagementPlan::class);
+		// return $this->belongsToMany(ManagementPlan::class,'management_plan')
+		// ->withPivot('admissions_id')
+		// ->withTimestamps();
 	}
 }

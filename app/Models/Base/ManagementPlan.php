@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Models\TypeOfAttention;
 use App\Models\Frequency;
 use App\Models\Admissions;
+use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\Briefcase;
 use App\Models\Procedure;
@@ -82,6 +83,14 @@ class ManagementPlan extends Model
 		'id',
 		'id'
 	);
+	}
+
+	public function assigned_management_plan()
+	{
+		return $this->hasMany(AssignedManagementPlan::class);
+		// return $this->belongsToMany(AssignedManagementPlan::class,'assigned_management_plan')
+		// ->withPivot('management_plan_id')
+		// ->withTimestamps();
 	}
 	// public function role_attention()
 	// {

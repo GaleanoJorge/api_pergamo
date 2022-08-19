@@ -435,23 +435,40 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
-                'admissions.location',
+                'admissions.management_plan',
+                'admissions.management_plan.assigned_management_plan',
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions.campus',
+                'admissions.location',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
                 'admissions.location.flat',
                 'admissions.location.pavilion',
                 'admissions.location.bed'
-            )->orderBy('admissions.entry_date', 'DESC')->groupBy('patients.id');
+            )->groupBy('patients.id');
 
         if ($request->userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
             $patients->where('management_plan.assigned_user_id', $userId);
+
+            $patients->where(function ($query) {
+                $query->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00")
+                    ->orWhere('assigned_management_plan.redo', '>=', Carbon::now()->format('YmdHis'))
+                    ->when('assigned_management_plan.start_hour != "00:00:00"', function ($q) {
+                        $q->where('assigned_management_plan.start_hour', '<=', Carbon::now()->format('H:i:s'))
+                            ->where('assigned_management_plan.finish_hour', '>=', Carbon::now()->format('H:i:s'))
+                            ->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00");
+                    });
+            });
+            $patients->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'));
+            $patients->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'));
+            $patients->orderBy('assigned_management_plan.finish_date', 'ASC');
+            $patients->orderBy('assigned_management_plan.start_hour', 'ASC');
         } else {
             $management = null;
+            $patients->orderBy('admissions.entry_date', 'DESC');
         }
 
         if ($request->semaphore == 1) {
@@ -516,6 +533,11 @@ class PatientController extends Controller
                     $q->where('assigned_management_plan.finish_date', '<', Carbon::now());
                 });
             });
+            // $patients->whereNotNull('management_plan.id');
+            // $patients->whereNotNull('assigned_management_plan.id');
+            // $patients->whereNotNull('assigned_management_plan.user_id');
+            // $patients->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+            // $patients->where('assigned_management_plan.finish_date', '<', Carbon::now());
         } else if ($request->semaphore == 7) {
             //Proyección creada
             $patients->when($consulta . '= 6', function ($query) {

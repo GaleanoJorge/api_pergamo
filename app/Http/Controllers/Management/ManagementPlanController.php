@@ -200,6 +200,7 @@ class ManagementPlanController extends Controller
                 'type_of_attention',
                 'frequency',
                 'specialty',
+                'assigned_management_plan',
                 'admissions',
                 'admissions.briefcase',
                 'admissions.location',

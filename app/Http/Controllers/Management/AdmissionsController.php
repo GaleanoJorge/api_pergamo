@@ -198,6 +198,8 @@ class AdmissionsController extends Controller
                 'contract',
                 'location',
                 'regime',
+                'management_plan',
+                'management_plan.assigned_management_plan',
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
