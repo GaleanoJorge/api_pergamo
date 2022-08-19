@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SwallowingDisordersTl
+ * Class SwallowingDisordersTL
  * 
  * @property int $id
  * @property string $solid_dysphagia
@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class SwallowingDisordersTI extends Model
+class SwallowingDisordersTL extends Model
 {
 	protected $table = 'swallowing_disorders_tl';
 

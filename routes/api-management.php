@@ -1553,8 +1553,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('speech_tl', 'Management\SpeechTlController');
     Route::get('speech_tl/by_record/{id}/{type_record_id}', 'Management\SpeechTlController@getByRecord');
 
-    Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersTlController');
-    Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersTlController@getByRecord');
+    Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersTLController');
+    Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersTLController@getByRecord');
 
     Route::apiResource('therapeutic_goals_tl', 'Management\TherapeuticGoalsTlController');
     Route::get('therapeutic_goals_tl/by_record/{id}/{type_record_id}', 'Management\TherapeuticGoalsTlController@getByRecord');
