@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\SwallowingDisordersTI;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\SwallowingDisordersTL;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
-class SwallowingDisordersTIController extends Controller
+class SwallowingDisordersTLController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,30 +17,30 @@ class SwallowingDisordersTIController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $SwallowingDisordersTI = SwallowingDisordersTI::select();
+        $SwallowingDisordersTL = SwallowingDisordersTL::select();
 
         if ($request->_sort) {
-            $SwallowingDisordersTI->orderBy($request->_sort, $request->_order);
+            $SwallowingDisordersTL->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $SwallowingDisordersTI->where('name', 'like', '%' . $request->search . '%');
+            $SwallowingDisordersTL->where('name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
-            $SwallowingDisordersTI = $SwallowingDisordersTI->get()->toArray();
+            $SwallowingDisordersTL = $SwallowingDisordersTL->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $SwallowingDisordersTI = $SwallowingDisordersTI->paginate($per_page, '*', 'page', $page);
+            $SwallowingDisordersTL = $SwallowingDisordersTL->paginate($per_page, '*', 'page', $page);
         }
 
 
         return response()->json([
             'status' => true,
             'message' => 'Alteraciones en la Deglución obtenidos exitosamente',
-            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTI]
+            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL]
         ]);
     }
 
@@ -55,36 +55,36 @@ class SwallowingDisordersTIController extends Controller
     {
         
        
-        $SwallowingDisordersTI = SwallowingDisordersTI::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $SwallowingDisordersTL = SwallowingDisordersTL::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 
         return response()->json([
             'status' => true,
             'message' => 'Alteraciones en la Deglución asociado al paciente exitosamente',
-            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTI]
+            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL]
         ]);
     }
     
 
     public function store(Request $request): JsonResponse
     {
-        $SwallowingDisordersTI = new SwallowingDisordersTI;
-        $SwallowingDisordersTI->solid_dysphagia = $request->solid_dysphagia;
-        $SwallowingDisordersTI->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
-        $SwallowingDisordersTI->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
-        $SwallowingDisordersTI->nasogastric_tube = $request->nasogastric_tube;
-        $SwallowingDisordersTI->gastrostomy = $request->gastrostomy;
-        $SwallowingDisordersTI->nothing_orally = $request->nothing_orally;
-        $SwallowingDisordersTI->observations = $request->observations;
-        $SwallowingDisordersTI->type_record_id = $request->type_record_id;
-        $SwallowingDisordersTI->ch_record_id = $request->ch_record_id;
-        $SwallowingDisordersTI->save();
+        $SwallowingDisordersTL = new SwallowingDisordersTL;
+        $SwallowingDisordersTL->solid_dysphagia = $request->solid_dysphagia;
+        $SwallowingDisordersTL->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
+        $SwallowingDisordersTL->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
+        $SwallowingDisordersTL->nasogastric_tube = $request->nasogastric_tube;
+        $SwallowingDisordersTL->gastrostomy = $request->gastrostomy;
+        $SwallowingDisordersTL->nothing_orally = $request->nothing_orally;
+        $SwallowingDisordersTL->observations = $request->observations;
+        $SwallowingDisordersTL->type_record_id = $request->type_record_id;
+        $SwallowingDisordersTL->ch_record_id = $request->ch_record_id;
+        $SwallowingDisordersTL->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Alteraciones en la Deglución asociado al paciente exitosamente',
-            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTI->toArray()]
+            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL->toArray()]
         ]);
     }
 
@@ -96,13 +96,13 @@ class SwallowingDisordersTIController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $SwallowingDisordersTI = SwallowingDisordersTI::where('id', $id)
+        $SwallowingDisordersTL = SwallowingDisordersTL::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Alteraciones en la Deglución obtenido exitosamente',
-            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTI]
+            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL]
         ]);
     }
 
@@ -114,22 +114,22 @@ class SwallowingDisordersTIController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $SwallowingDisordersTI = SwallowingDisordersTI::find($id);
-        $SwallowingDisordersTI->solid_dysphagia = $request->solid_dysphagia;
-        $SwallowingDisordersTI->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
-        $SwallowingDisordersTI->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
-        $SwallowingDisordersTI->nasogastric_tube = $request->nasogastric_tube;
-        $SwallowingDisordersTI->gastrostomy = $request->gastrostomy;
-        $SwallowingDisordersTI->nothing_orally = $request->nothing_orally;
-        $SwallowingDisordersTI->observations = $request->observations;
-        $SwallowingDisordersTI->type_record_id = $request->type_record_id;
-        $SwallowingDisordersTI->ch_record_id = $request->ch_record_id;
-        $SwallowingDisordersTI->save();
+        $SwallowingDisordersTL = SwallowingDisordersTL::find($id);
+        $SwallowingDisordersTL->solid_dysphagia = $request->solid_dysphagia;
+        $SwallowingDisordersTL->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
+        $SwallowingDisordersTL->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
+        $SwallowingDisordersTL->nasogastric_tube = $request->nasogastric_tube;
+        $SwallowingDisordersTL->gastrostomy = $request->gastrostomy;
+        $SwallowingDisordersTL->nothing_orally = $request->nothing_orally;
+        $SwallowingDisordersTL->observations = $request->observations;
+        $SwallowingDisordersTL->type_record_id = $request->type_record_id;
+        $SwallowingDisordersTL->ch_record_id = $request->ch_record_id;
+        $SwallowingDisordersTL->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Alteraciones en la Deglución actualizado exitosamente',
-            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTI]
+            'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL]
         ]);
     }
 
@@ -142,8 +142,8 @@ class SwallowingDisordersTIController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $SwallowingDisordersTI = SwallowingDisordersTI::find($id);
-            $SwallowingDisordersTI->delete();
+            $SwallowingDisordersTL = SwallowingDisordersTL::find($id);
+            $SwallowingDisordersTL->delete();
 
             return response()->json([
                 'status' => true,
