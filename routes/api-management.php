@@ -716,6 +716,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Discapacidad del usuario
     Route::apiResource('inability', 'Management\InabilityController');
+    Route::get('inability/by_record/{id}/{type_record_id}', 'Management\InabilityController@getByRecord');
 
     //Atención Especial
     Route::apiResource('special_attention', 'Management\SpecialAttentionController');
@@ -917,6 +918,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('competitionByCourse', 'Management\CourseCompetitionController@indexCompetitionByCourse');
 
     Route::apiResource('ethnicity', 'Management\EthnicityController');
+    Route::get('ethnicity/by_record/{id}/{type_record_id}', 'Management\EthnicityController@getByCategory');
 
     //CategoryApproval
     Route::apiResource('categoryApproval', 'Management\CategoryApprovalController');
