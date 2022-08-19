@@ -68,6 +68,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
 use App\Models\RoleAttention;
 use App\Models\TalentHumanLog;
+use App\Models\UserAgreement;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -727,7 +728,9 @@ class UserController extends Controller
             'academic_level',
             'identification_type',
             'user_role',
-            'user_role.role'
+            'user_role.role',
+            'user_agreement',
+            'user_agreement.campus',
         )
             ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
             ->orderBy('users.id', 'asc');;
@@ -735,9 +738,10 @@ class UserController extends Controller
         if ($roleId > 0) {
             $users->Join('user_role', 'users.id', 'user_role.user_id');
             $users = $users->where('user_role.role_id', $roleId);
-        }else if($roleId < 0){
+        } else if ($roleId < 0) {
             $users->select(
-                'users.*','assistance.id as assistance_id',
+                'users.*',
+                'assistance.id as assistance_id',
                 DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
             )->with(
                 'status',
@@ -758,7 +762,7 @@ class UserController extends Controller
         if ($request->search) {
             if (str_contains($request->search, ' ')) {
                 $spl = explode(' ', $request->search);
-                foreach($spl as $element) {
+                foreach ($spl as $element) {
                     $users->where('users.identification', 'like', '%' . $element . '%')
                         ->orWhere('users.email', 'like', '%' . $element . '%')
                         ->orWhere('users.firstname', 'like', '%' . $element . '%')
@@ -872,6 +876,16 @@ class UserController extends Controller
                     }
                 }
 
+                if($request->company_id){
+                    $arraycompany = json_decode($request->company_id);
+        
+                    foreach($arraycompany as $company){
+                        $user_agreement = new UserAgreement;
+                        $user_agreement->user_id = $user->id;
+                        $user_agreement->company_id = $company->company_id;
+                        $user_agreement->save();
+                    }
+                }
 
                 if ($request->isTH) {
                     $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
@@ -1021,6 +1035,17 @@ class UserController extends Controller
                 }
             }
 
+            if($request->company_id){
+                $arraycompany = json_decode($request->company_id);
+    
+                foreach($arraycompany as $company){
+                    $user_agreement = new UserAgreement;
+                    $user_agreement->user_id = $user->id;
+                    $user_agreement->company_id = $company->company_id;
+                    $user_agreement->save();
+                }
+            }
+
             if ($request->isTH) {
                 $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
                 $HumanTalentRequest->status = 'Aprobada TH';
@@ -1128,9 +1153,6 @@ class UserController extends Controller
             // 'data2' => ['assitance' => $assistance]
         ]);
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -1245,6 +1267,20 @@ class UserController extends Controller
                 $userCampus->user_id = $id;
                 $userCampus->campus_id = $item->campus_id;
                 $userCampus->save();
+            }
+        }
+        
+        if($request->company_id){
+            $delete_company = UserAgreement::select('user_agreement.*')
+                ->where('user_id', $id);
+            $delete_company->delete();
+            $arraycompany = json_decode($request->company_id);
+
+            foreach($arraycompany as $company){
+                $user_agreement = new UserAgreement;
+                $user_agreement->user_id = $id;
+                $user_agreement->company_id = $company->company_id;
+                $user_agreement->save();
             }
         }
         if ($request->file('file')) {
@@ -1461,6 +1497,8 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
+                'user_agreement',
+                'user_agreement.campus',
                 // 'admissions',
                 // 'admissions.location',
                 // 'admissions.contract',
