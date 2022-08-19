@@ -96,6 +96,52 @@ class AssignedManagementPlanController extends Controller
         ]);
     }
 
+    public function getByUserPatient(Request $request, int $user_id, int $patient_id)
+    {
+        $assigned_management_plan = AssignedManagementPlan::select(
+            'assigned_management_plan.*',
+        )
+            ->with(
+                'user',
+                'management_plan',
+                'management_plan.type_of_attention',
+            )
+            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+            ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('users', 'users.id', 'assigned_management_plan.user_id')
+            ->where('users.id', $user_id)
+            ->where('patients.id', $patient_id)
+            ->where(function ($query) {
+                $query->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00")
+                    ->orWhere('assigned_management_plan.redo', '>=', Carbon::now()->format('YmdHis'))
+                    ->when('assigned_management_plan.start_hour != "00:00:00"', function ($q) {
+                        $q->where('assigned_management_plan.start_hour', '<=', Carbon::now()->format('H:i:s'))
+                            ->where('assigned_management_plan.finish_hour', '>=', Carbon::now()->format('H:i:s'))
+                            ->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00");
+                    });
+            })
+            ->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'))
+            ->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'))
+            ->orderBy('assigned_management_plan.finish_date', 'ASC')
+            ->orderBy('assigned_management_plan.start_hour', 'ASC');
+
+        if ($request->query("pagination", true) == "false") {
+            $assigned_management_plan = $assigned_management_plan->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $assigned_management_plan = $assigned_management_plan->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Plan de manejo asignado exitosamente',
+            'data' => ['assigned_management_plan' => $assigned_management_plan]
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.

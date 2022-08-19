@@ -814,6 +814,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('consents_informed', 'Management\ConsentsInformedController');
     Route::apiResource('type_consents', 'Management\TypeConsentsController');
     Route::apiResource('assigned_management_plan', 'Management\AssignedManagementPlanController');
+    Route::get('assigned_management_plan/getByUserPatient/{user_id}/{patient_id}', 'Management\AssignedManagementPlanController@getByUserPatient');
 
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
