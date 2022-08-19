@@ -19,6 +19,8 @@ class CreatePharmacyLotTable extends Migration
             $table->string('vat')->nullable();
             $table->string('total');
             $table->date('receipt_date');
+            $table->date('date_invoice');
+            $table->string('num_invoice');
             $table->unsignedBigInteger('pharmacy_stock_id');
             $table->timestamps();
 

@@ -32,9 +32,6 @@ class ProductGenericRequest extends FormRequest
             'pbs_type_id'=> 'required',
             'nom_product_id'=> 'required',
             'administration_route_id',
-            'special_controller_medicine',
-            'code_atc',
-            'product_dose_id',
         ];
     }
 }

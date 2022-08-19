@@ -22,8 +22,7 @@ use App\Models\ProductSupplies;
  * @property string $invima_registration
  * @property int $invima_status_id
  * @property int $sanitary_registration_id
- * @property string $code_cum_file
- * @property int $code_cum_consecutive
+ * @property string $code_udi
  * @property string $unit_packing
  * @property string $useful_life
  * @property BigInteger $packing_id

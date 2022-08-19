@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $subtotal
  * @property string $vat
  * @property string $total
+ * @property string $num_invoice
+ * @property date $date_invoice
  * @property date $receipt_date
  * @property BigInteger $pharmacy_stock_id
  * @property Carbon $created_at
