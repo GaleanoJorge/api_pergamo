@@ -20,18 +20,18 @@ class AdmissionsController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $Admissions = Admissions::Leftjoin('Admissions', 'admissions.patient_id', 'Admissions.id')
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                DB::raw('CONCAT_WS(" ",Admissions.lastname,Admissions.middlelastname,Admissions.firstname,Admissions.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )->with(
-                'Admissions',
-                'Admissions.identification_type',
-                'Admissions.gender',
-                'Admissions.admissions',
-                'Admissions.admissions.briefcase',
-                'Admissions.admissions.contract',
-                'Admissions.admissions.contract.company',
+                'patients',
+                'patients.identification_type',
+                'patients.gender',
+                'patients.admissions',
+                'patients.admissions.briefcase',
+                'patients.admissions.contract',
+                'patients.admissions.contract.company',
                 'briefcase',
                 'campus',
                 'contract',
@@ -42,9 +42,9 @@ class AdmissionsController extends Controller
                 'location.program',
             );
         if ($request->admissions_id) {
-            $Admissions->with('Admissions', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
         } else {
-            $Admissions->with('Admissions', 'regime')->orderBy('created_at', 'desc');
+            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -83,13 +83,13 @@ class AdmissionsController extends Controller
      */
     public function getActive(Request $request, int $id): JsonResponse
     {
-        $EnabledAdmissions =  Admissions::Leftjoin('Admissions', 'admissions.patient_id', 'Admissions.id')
+        $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                DB::raw('CONCAT_WS(" ",Admissions.lastname,Admissions.middlelastname,Admissions.firstname,Admissions.middlefirstname) AS nombre_completo')
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
             ->with(
-                'Admissions',
+                'patients',
                 'briefcase',
                 'regime',
                 'campus',
@@ -192,6 +192,7 @@ class AdmissionsController extends Controller
         )
             ->where('patient_id', $pacientId)
             ->with(
+                'patients',
                 'briefcase',
                 'campus',
                 'contract',
@@ -294,7 +295,7 @@ class AdmissionsController extends Controller
                 });
             });
         }
-        
+
         if ($request->query("pagination", true) === "false") {
             $Admissions = $Admissions->get()->toArray();
         } else {
@@ -321,19 +322,19 @@ class AdmissionsController extends Controller
      */
     public function getByBriefcase(Request $request, int $briefcase_id): JsonResponse
     {
-        $Admissions = Admissions::Leftjoin('Admissions', 'admissions.patient_id', 'Admissions.id')
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                'Admissions.identification_type_id',
-                'Admissions.identification',
-                'Admissions.email',
-                'Admissions.residence_address',
-                'Admissions.residence_municipality_id',
-                'Admissions.neighborhood_or_residence_id',
-                DB::raw('CONCAT_WS(" ",Admissions.lastname,Admissions.middlelastname,Admissions.firstname,Admissions.middlefirstname) AS nombre_completo')
+                'patients.identification_type_id',
+                'patients.identification',
+                'patients.email',
+                'patients.residence_address',
+                'patients.residence_municipality_id',
+                'patients.neighborhood_or_residence_id',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
             ->with(
-                'Admissions',
+                'patients',
                 'regime',
                 'location',
                 'location.scope_of_attention',
@@ -371,16 +372,16 @@ class AdmissionsController extends Controller
      */
     public function ByPac(Request $request, int $roleId): JsonResponse
     {
-        $Admissions = Admissions::Leftjoin('Admissions', 'admissions.patient_id', 'Admissions.id')
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->select(
                 'admissions.*',
-                'Admissions.identification_type_id',
-                'Admissions.identification',
-                'Admissions.email',
-                'Admissions.residence_address',
-                'Admissions.residence_municipality_id',
-                'Admissions.neighborhood_or_residence_id',
-                DB::raw('CONCAT_WS(" ",Admissions.lastname,Admissions.middlelastname,Admissions.firstname,Admissions.middlefirstname) AS nombre_completo')
+                'patients.identification_type_id',
+                'patients.identification',
+                'patients.email',
+                'patients.residence_address',
+                'patients.residence_municipality_id',
+                'patients.neighborhood_or_residence_id',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
             )
             ->LeftJoin('location', 'location.admissions_id', 'admissions.id')
             // ->Join('pac_monitoring', 'pac_monitoring.admissions_id', 'admissions.id')
