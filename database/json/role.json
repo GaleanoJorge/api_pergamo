@@ -197,7 +197,7 @@
     },
     {
         "id": 31,
-        "name": "PAD - JEFE DE PLANEACIÓN",
+        "name": "PAD - JEFE BUSQUEDA ACTIVA",
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
@@ -303,6 +303,13 @@
     {
         "id": 46,
         "name": "FAR - AUX FARMACIA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 47,
+        "name": "PAD - GESTOR BUSQUEDA ACTIVA",
         "status_id": 1,
         "role_type_id": 1,
         "sga_origin_fk": 5
