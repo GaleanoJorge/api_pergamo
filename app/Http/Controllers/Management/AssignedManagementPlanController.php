@@ -124,7 +124,8 @@ class AssignedManagementPlanController extends Controller
             ->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'))
             ->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'))
             ->orderBy('assigned_management_plan.finish_date', 'ASC')
-            ->orderBy('assigned_management_plan.start_hour', 'ASC');
+            ->orderBy('assigned_management_plan.start_hour', 'ASC')
+            ->groupBy('assigned_management_plan.id');
 
         if ($request->query("pagination", true) == "false") {
             $assigned_management_plan = $assigned_management_plan->get()->toArray();
