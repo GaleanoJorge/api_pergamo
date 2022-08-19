@@ -804,6 +804,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //frecuencia para plan de manejo PAD
     Route::apiResource('frequency', 'Management\FrequencyController');
 
+
+    Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
+    Route::apiResource('medical_citation', 'Management\MedicalCitationController');
+
+
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
     Route::apiResource('consents_informed', 'Management\ConsentsInformedController');
@@ -813,7 +818,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
 
-//Visualización pdf consentimientos informados
+    //Visualización pdf consentimientos informados
     Route::get('viewCI/{id}', 'Management\ConsentsInformedController@ViewCI');
 
 
@@ -1120,54 +1125,54 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\FixedNomProductController@getSubcategoryByCategory'
     );
 
-        //Histgoria Clinica Terapia fisica
-        Route::apiResource('ch_e_valoration_f_t', 'Management\ChEValorationFTController');
-        Route::get('ch_e_valoration_f_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationFTController@getByRecord');
+    //Histgoria Clinica Terapia fisica
+    Route::apiResource('ch_e_valoration_f_t', 'Management\ChEValorationFTController');
+    Route::get('ch_e_valoration_f_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationFTController@getByRecord');
 
-        Route::apiResource('ch_e_valoration_ther_f_t', 'Management\ChEValorationTherFTController');
-        Route::get('ch_e_valoration_ther_f_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationTherFTController@getByRecord');
+    Route::apiResource('ch_e_valoration_ther_f_t', 'Management\ChEValorationTherFTController');
+    Route::get('ch_e_valoration_ther_f_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationTherFTController@getByRecord');
 
-        Route::apiResource('ch_e_pain_f_t', 'Management\ChEPainFTController');
-        Route::get('ch_e_pain_f_t/by_record/{id}/{type_record_id}', 'Management\ChEPainFTController@getByRecord');
+    Route::apiResource('ch_e_pain_f_t', 'Management\ChEPainFTController');
+    Route::get('ch_e_pain_f_t/by_record/{id}/{type_record_id}', 'Management\ChEPainFTController@getByRecord');
 
-        Route::apiResource('ch_e_sys_integumentary_f_t', 'Management\ChESysIntegumentaryFTController');
-        Route::get('ch_e_sys_integumentary_f_t/by_record/{id}/{type_record_id}', 'Management\ChESysIntegumentaryFTController@getByRecord');
+    Route::apiResource('ch_e_sys_integumentary_f_t', 'Management\ChESysIntegumentaryFTController');
+    Route::get('ch_e_sys_integumentary_f_t/by_record/{id}/{type_record_id}', 'Management\ChESysIntegumentaryFTController@getByRecord');
 
-        Route::apiResource('ch_e_sys_musculoskeletal_f_t', 'Management\ChESysMusculoskeletalFTController');
-        Route::get('ch_e_sys_musculoskeletal_f_t/by_record/{id}/{type_record_id}', 'Management\ChESysMusculoskeletalFTController@getByRecord');
+    Route::apiResource('ch_e_sys_musculoskeletal_f_t', 'Management\ChESysMusculoskeletalFTController');
+    Route::get('ch_e_sys_musculoskeletal_f_t/by_record/{id}/{type_record_id}', 'Management\ChESysMusculoskeletalFTController@getByRecord');
 
-        Route::apiResource('ch_e_muscular_strength_f_t', 'Management\ChEMuscularStrengthFTController');
-        Route::get('ch_e_muscular_strength_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMuscularStrengthFTController@getByRecord');
+    Route::apiResource('ch_e_muscular_strength_f_t', 'Management\ChEMuscularStrengthFTController');
+    Route::get('ch_e_muscular_strength_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMuscularStrengthFTController@getByRecord');
 
-        Route::apiResource('ch_e_sensibility_f_t', 'Management\ChESensibilityFTController');
-        Route::get('ch_e_sensibility_f_t/by_record/{id}/{type_record_id}', 'Management\ChESensibilityFTController@getByRecord');
+    Route::apiResource('ch_e_sensibility_f_t', 'Management\ChESensibilityFTController');
+    Route::get('ch_e_sensibility_f_t/by_record/{id}/{type_record_id}', 'Management\ChESensibilityFTController@getByRecord');
 
-        Route::apiResource('ch_e_muscular_tone_f_t', 'Management\ChEMuscularToneFTController');
-        Route::get('ch_e_muscular_tone_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMuscularToneFTController@getByRecord');
+    Route::apiResource('ch_e_muscular_tone_f_t', 'Management\ChEMuscularToneFTController');
+    Route::get('ch_e_muscular_tone_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMuscularToneFTController@getByRecord');
 
-        Route::apiResource('ch_e_reflection_f_t', 'Management\ChEReflectionFTController');
-        Route::get('ch_e_reflection_f_t/by_record/{id}/{type_record_id}', 'Management\ChEReflectionFTController@getByRecord');
+    Route::apiResource('ch_e_reflection_f_t', 'Management\ChEReflectionFTController');
+    Route::get('ch_e_reflection_f_t/by_record/{id}/{type_record_id}', 'Management\ChEReflectionFTController@getByRecord');
 
-        Route::apiResource('ch_e_flexibility_f_t', 'Management\ChEFlexibilityFTController');
-        Route::get('ch_e_flexibility_f_t/by_record/{id}/{type_record_id}', 'Management\ChEFlexibilityFTController@getByRecord');
+    Route::apiResource('ch_e_flexibility_f_t', 'Management\ChEFlexibilityFTController');
+    Route::get('ch_e_flexibility_f_t/by_record/{id}/{type_record_id}', 'Management\ChEFlexibilityFTController@getByRecord');
 
-        Route::apiResource('ch_e_balance_f_t', 'Management\ChEBalanceFTController');
-        Route::get('ch_e_balance_f_t/by_record/{id}/{type_record_id}', 'Management\ChEBalanceFTController@getByRecord');
+    Route::apiResource('ch_e_balance_f_t', 'Management\ChEBalanceFTController');
+    Route::get('ch_e_balance_f_t/by_record/{id}/{type_record_id}', 'Management\ChEBalanceFTController@getByRecord');
 
-        Route::apiResource('ch_e_position_f_t', 'Management\ChEPositionFTController');
-        Route::get('ch_e_position_f_t/by_record/{id}/{type_record_id}', 'Management\ChEPositionFTController@getByRecord');
-        
-        Route::apiResource('ch_e_march_f_t', 'Management\ChEMarchFTController');
-        Route::get('ch_e_march_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMarchFTController@getByRecord');
+    Route::apiResource('ch_e_position_f_t', 'Management\ChEPositionFTController');
+    Route::get('ch_e_position_f_t/by_record/{id}/{type_record_id}', 'Management\ChEPositionFTController@getByRecord');
 
-        Route::apiResource('ch_e_diagnosis_f_t', 'Management\ChEDiagnosisFTController');
-        Route::get('ch_e_diagnosis_f_t/by_record/{id}/{type_record_id}', 'Management\ChEDiagnosisFTController@getByRecord');
+    Route::apiResource('ch_e_march_f_t', 'Management\ChEMarchFTController');
+    Route::get('ch_e_march_f_t/by_record/{id}/{type_record_id}', 'Management\ChEMarchFTController@getByRecord');
 
-        Route::apiResource('ch_e_ther_goals_f_t', 'Management\ChETherGoalsFTController');
-        Route::get('ch_e_ther_goals_f_t/by_record/{id}/{type_record_id}', 'Management\ChETherGoalsFTController@getByRecord');
+    Route::apiResource('ch_e_diagnosis_f_t', 'Management\ChEDiagnosisFTController');
+    Route::get('ch_e_diagnosis_f_t/by_record/{id}/{type_record_id}', 'Management\ChEDiagnosisFTController@getByRecord');
 
-        Route::apiResource('ch_e_weekly_f_t', 'Management\ChEWeeklyFTController');
-        Route::get('ch_e_weekly_f_t/by_record/{id}/{type_record_id}', 'Management\ChEWeeklyFTController@getByRecord');
+    Route::apiResource('ch_e_ther_goals_f_t', 'Management\ChETherGoalsFTController');
+    Route::get('ch_e_ther_goals_f_t/by_record/{id}/{type_record_id}', 'Management\ChETherGoalsFTController@getByRecord');
+
+    Route::apiResource('ch_e_weekly_f_t', 'Management\ChEWeeklyFTController');
+    Route::get('ch_e_weekly_f_t/by_record/{id}/{type_record_id}', 'Management\ChEWeeklyFTController@getByRecord');
 
 
     Route::get(
@@ -1629,4 +1634,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('pharmacy_product_request_for_use', 'Management\PharmacyProductRequestController@forUse');
     //Aplicaciones indiviuales insumos
     Route::get('pharmacy_product_request_for_use/insume', 'Management\PharmacyProductRequestController@forUse');
+
+
+    //Usuarios en convenio
+    Route::apiResource('user_agreement', 'Management\UserAgreementController');
+    Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
 });

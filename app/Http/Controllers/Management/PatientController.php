@@ -557,6 +557,18 @@ class PatientController extends Controller
             });
         }
 
+        if($request->campus && isset($request->campus) && $request->campus != 'null'){
+            $patients->where('admissions.campus_id', $request->campus);
+            // var_dump($insu = "monda'");
+        }
+
+        if($request->eps && isset($request->eps) && $request->eps != 'null'){
+            $patients->leftjoin('contract','admissions.contract_id', 'contract.id')
+                ->where('contract.company_id', $request->eps);
+        }
+    
+
+
         if ($request->_sort) {
             $patients->orderBy($request->_sort, $request->_order);
         }

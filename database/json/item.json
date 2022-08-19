@@ -1500,7 +1500,7 @@
         "item_parent_id": null,
         "name": "Agendamiento Telemedicina",
         "code": "telemedicine",
-        "route": "/pages/telemedicine/telemedicine",
+        "route": "/pages/telemedicine/list",
         "icon": "phone-call-outline",
         "show_menu": "1"
     },
@@ -1556,6 +1556,15 @@
         "code": "billing-request-pharmacy",
         "route": "/pages/pharmacy/billing-request-pharmacy",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "224",
+        "item_parent_id": null,
+        "name": "Consulta externa",
+        "code": "medical-diary",
+        "route": "/pages/setting/medical-diary",
+        "icon": "book-open-outline",
         "show_menu": "1"
     }
 ]
