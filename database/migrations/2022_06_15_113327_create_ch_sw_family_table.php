@@ -22,8 +22,8 @@ class CreateChSwFamilyTable extends Migration
             $table->string('range_age');
             $table->integer('identification');
             $table->bigInteger('phone');
-            $table->bigInteger('landline');
-            $table->string('email');
+            $table->bigInteger('landline')->nullable();
+            $table->string('email')->nullable();;
             $table->string('residence_address')->nullable();
             $table->boolean('is_disability')->nullable();
             $table->string('carer')->nullable();
