@@ -1270,7 +1270,7 @@ class UserController extends Controller
             }
         }
         
-        if($request->company_id){
+        if($request->company_id != "null"){
             $delete_company = UserAgreement::select('user_agreement.*')
                 ->where('user_id', $id);
             $delete_company->delete();
@@ -1509,7 +1509,9 @@ class UserController extends Controller
                 // 'admissions.location.flat',
                 // 'admissions.location.pavilion',
                 // 'admissions.location.bed',
-                'assistance'
+                'assistance',
+                'assistance.special_field',
+                
             )->get()->toArray();
 
 
