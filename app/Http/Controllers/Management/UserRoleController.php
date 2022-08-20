@@ -116,7 +116,7 @@ class UserRoleController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Asociados roles al personal',
+            'message' => 'Roles asociados al personal',
             'data' => $userRole->toArray(),
         ]);
     }
