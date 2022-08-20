@@ -33,9 +33,9 @@ class CreateProductTable extends Migration
             $table->string('applications')->nullable()  ;
             $table->string('value_circular')->nullable();
             $table->string('circular')->nullable();
-            $table->string('unit_packing');
-            $table->string('refrigeration');
-            $table->string('useful_life');
+            $table->string('unit_packing')->nullable();
+            $table->string('refrigeration')->nullable();
+            $table->string('useful_life')->nullable();
             $table->string('code_cum');
             $table->date('date_cum');
             $table->timestamps();
