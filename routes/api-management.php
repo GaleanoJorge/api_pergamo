@@ -1391,8 +1391,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('account_receivable/byUser/{id}', 'Management\AccountReceivableController@getByUser');
     Route::post('account_receivable_file/{id}', 'Management\AccountReceivableController@saveFile');
     Route::get('account_receivable/generate_file/{id}', 'Management\AccountReceivableController@generatePdf');
+    Route::get('account_receivable/getPatientsServices/{id}', 'Management\AccountReceivableController@getPatientsServices');
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
+    Route::get('bill_user_activity/getByPatient/{Id}', 'Management\BillUserActivityController@getByPatient');
 
 
     Route::apiResource('user_activity', 'Management\UserActivityController');

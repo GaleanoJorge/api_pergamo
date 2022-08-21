@@ -2528,8 +2528,7 @@
         "item_id": "176",
         "role_id": "1",
         "permission_id": "4"
-    }
-    ,
+    },
     {
         "item_id": "177",
         "role_id": "1",
@@ -3487,6 +3486,46 @@
     },
     {
         "item_id": "224",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "225",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "225",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "225",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "225",
+        "role_id": "1",
+        "permission_id": "4"
+    },
+    {
+        "item_id": "226",
+        "role_id": "1",
+        "permission_id": "1"
+    },
+    {
+        "item_id": "226",
+        "role_id": "1",
+        "permission_id": "2"
+    },
+    {
+        "item_id": "226",
+        "role_id": "1",
+        "permission_id": "3"
+    },
+    {
+        "item_id": "226",
         "role_id": "1",
         "permission_id": "4"
     }
