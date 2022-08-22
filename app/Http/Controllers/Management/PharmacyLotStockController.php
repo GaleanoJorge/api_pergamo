@@ -25,7 +25,9 @@ class PharmacyLotStockController extends Controller
         $PharmacyLotStock = PharmacyLotStock::select('pharmacy_lot_stock.*')
             ->leftJoin('billing_stock', 'pharmacy_lot_stock.billing_stock_id', 'billing_stock.id')
             ->leftJoin('product', 'billing_stock.product_id', 'product.id')
+            ->leftJoin('factory', 'product.factory_id', 'factory.id')
             ->leftJoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
+            ->leftJoin('factory AS fc', 'product_supplies_com.factory_id', 'fc.id')
             ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')
             ->leftJoin('pharmacy_stock', 'pharmacy_lot.pharmacy_stock_id', 'pharmacy_stock.id')
             ->with(
@@ -38,7 +40,7 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product_supplies_com.factory',
                 'billing_stock.product_supplies_com.product_supplies'
 
-            )->orderBy('expiration_date', 'asc');
+            )->orderBy('expiration_date', 'asc')->groupBy('pharmacy_lot_stock.id');
 
         if ($request->islot == true) {
             $PharmacyLotStock->groupby('pharmacy_lot_id');
@@ -71,7 +73,12 @@ class PharmacyLotStockController extends Controller
         // }
 
         if ($request->search) {
-            $PharmacyLotStock->where('name', 'like', '%' . $request->search . '%');
+            $PharmacyLotStock->where(function ($query) use ($request) {
+                $query->Where('product.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('factory.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('fc.name', 'like', '%' . $request->search . '%');
+            });
         }
         if ($request->query("pagination", true) == "false") {
             $PharmacyLotStock = $PharmacyLotStock->get()->toArray();
@@ -155,7 +162,7 @@ class PharmacyLotStockController extends Controller
             $PharmacyLotStock = new PharmacyLotStock;
             $PharmacyLotStock->lot = $element->lot;
             $PharmacyLotStock->amount_total = $element->amount_total;
-            $PharmacyLotStock->sample = $element->amount_total * 0.1;
+            $PharmacyLotStock->sample = floor($element->amount_total * 0.1);
             $PharmacyLotStock->actual_amount = $element->amount_total;
             $PharmacyLotStock->expiration_date = $element->expiration_date;
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;
@@ -239,7 +246,7 @@ class PharmacyLotStockController extends Controller
             $PharmacyReceptorInventory = new PharmacyLotStock;
             $PharmacyLotStock->lot = $request->lot;
             $PharmacyLotStock->amount_total = $request->amount_total;
-            $PharmacyLotStock->sample = $request->amount_total * 0.1;
+            $PharmacyLotStock->sample = floor($request->amount_total * 0.1);
             $PharmacyLotStock->actual_amount = $request->actual_amount;
             $PharmacyLotStock->expiration_date = $request->expiration_date;
             $PharmacyLotStock->pharmacy_lot_id = $request->pharmacy_lot_id;

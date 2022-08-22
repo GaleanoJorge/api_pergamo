@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChOxygenTherapyTable extends Migration
+class CreateChNursingNoteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateChOxygenTherapyTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_oxygen_therapy', function (Blueprint $table) {
+        Schema::create('ch_nursing_note', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('revision');
             $table->string('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
-         
+
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                 ->on('type_record');
@@ -38,6 +37,6 @@ class CreateChOxygenTherapyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_oxygen_therapy');
+        Schema::dropIfExists('ch_nursing_note');
     }
 }

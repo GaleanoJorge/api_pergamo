@@ -41,7 +41,7 @@ class ManagementPlanController extends Controller
         }
 
         if ($request->type) {
-            $ManagementPlan->where('type_of_attention_id', $request->type)->with('service_briefcase', 'service_briefcase.manual_price', 'admissions', 'admissions.patients');
+            $ManagementPlan->where('type_of_attention_id', $request->type)->with('service_briefcase', 'service_briefcase.manual_price', 'admissions', 'admissions.ManagementPlan');
         }
 
         if ($request->_sort) {
@@ -125,81 +125,178 @@ class ManagementPlanController extends Controller
 
     public function getByPatient(Request $request, int $id, int $userId): JsonResponse
     {
-        if ($userId == 0) {
-            $ManagementPlan = ManagementPlan::select(
-                'management_plan.*',
-                DB::raw('
-                        IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                            SUM(
-                                CASE assigned_management_plan.execution_date 
-                                    WHEN "0000-00-00 00:00:00" THEN 1 
-                                    ELSE 0 
-                                END), 
-                            -1) AS not_executed'),
-                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
-                DB::raw('
-                         
-                            SUM(
-                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
-                                   1,0 
-                            )
-                           ) AS incumplidas'),
-            )
-                ->with(
-                    'authorization',
-                    'type_of_attention',
-                    'frequency',
-                    'specialty',
-                    'admissions',
-                    'admissions.briefcase',
-                    'admissions.location',
-                    'admissions.location.admission_route',
-                    'admissions.location.scope_of_attention',
-                    'admissions.location.program',
-                    'assigned_user'
+        $consulta = 'IF(
+            SUM(
+                IF(management_plan.id > 0, 1,0)
+            ) = 0
+            
+        ,
+        IF(NOW() > (admissions.entry_date + INTERVAL 1 DAY),2,1)
+        ,
+
+             IF(
+                 SUM(
+                     IF(assigned_management_plan.id > 0, 1,0)
+                 ) = 0
+                 ,3
+                 ,
+                     IF(SUM(
+                             IF(assigned_management_plan.user_id = null,1,0)
+                         ) = 0
+                         ,
+                             IF(
+                                 SUM(
+                                     IF(assigned_management_plan.redo > ' . Carbon::now()->format('YmdHis') . ',1,0)
+                                 ) = 0
+                                 ,
+                                    IF(
+                                            SUM(
+                                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                                                    1,0 
+                                                )
+                                            ) = 0
+                                        ,
+                                              IF(
+                                                COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                                                                                                    SUM(
+                                                                                                    CASE assigned_management_plan.execution_date 
+                                                                                                        WHEN "0000-00-00 00:00:00" THEN 1 
+                                                                                                        ELSE 0 
+                                                                                                    END), 
+                                                                                                    -1)
+                                                    ,6
+                                                    ,0
+                                                )  
+                                        ,5
+                                    )
+                                 ,4
+                             )
+                         ,3
+                     )
+             )
+    )';
+        $ManagementPlan = ManagementPlan::select(
+            'management_plan.*',
+            DB::raw('
+            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                    CASE assigned_management_plan.execution_date 
+                        WHEN "0000-00-00 00:00:00" THEN 1 
+                        ELSE 0 
+                    END), 
+                -1) AS not_executed'),
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+             
+                SUM(
+                    IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                       1,0 
                 )
-                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
-                ->where('admissions.patient_id', $id)
-                ->groupBy('management_plan.id');
-        } else {
-            $ManagementPlan = ManagementPlan::select(
-                'management_plan.*',
-                DB::raw('
-                            IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                                SUM(
-                                    CASE assigned_management_plan.execution_date 
-                                        WHEN "0000-00-00 00:00:00" THEN 1 
-                                        ELSE 0 
-                                    END), 
-                                -1) AS not_executed'),
-                DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
-                DB::raw('
-                         
-                            SUM(
-                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
-                                   1,0 
-                            )
-                           ) AS incumplidas'),
+               ) AS incumplidas'),
+            DB::raw($consulta . ' AS ingreso'),
+        )
+            ->with(
+                'authorization',
+                'type_of_attention',
+                'frequency',
+                'specialty',
+                'assigned_management_plan',
+                'admissions',
+                'admissions.briefcase',
+                'admissions.location',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'assigned_user'
             )
-                ->with(
-                    'authorization',
-                    'type_of_attention',
-                    'frequency',
-                    'specialty',
-                    'admissions',
-                    'admissions.briefcase',
-                    'admissions.location',
-                    'admissions.location.admission_route',
-                    'admissions.location.scope_of_attention',
-                    'admissions.location.program',
-                    'assigned_user'
-                )
-                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-                ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
-                ->where('admissions.patient_id', $id)
-                ->where('management_plan.assigned_user_id', $userId)
-                ->groupBy('management_plan.id');
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
+            ->where('admissions.patient_id', $id)
+            ->groupBy('management_plan.id');
+        if ($userId != 0) {
+            $ManagementPlan
+                ->where('management_plan.assigned_user_id', $userId);
+        }
+
+        if ($request->semaphore == 1) {
+            //Cumplido
+            $ManagementPlan->when($consulta . '= 0', function ($query) {
+                $query->when('assigned_management_plan.redo < ' . Carbon::now()->format('YmdHis'), function ($q) {
+                    $q->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+                });
+            });
+        } else if ($request->semaphore == 2) {
+            //Admisión creada
+            $ManagementPlan->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '>', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 3) {
+            //Sin agendar
+            $ManagementPlan->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 4) {
+            //Sin asignar profesional
+            $ManagementPlan->when($consulta . '= 3', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNull('assigned_management_plan.user_id');
+                });
+            });
+        } else if ($request->semaphore == 5) {
+            //Por subsanar
+            $ManagementPlan->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+            });
+            $ManagementPlan->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.redo', '>', Carbon::now()->format('YmdHis'));
+            });
+        } else if ($request->semaphore == 6) {
+            //Pendiente por ejecutar
+            $ManagementPlan->when($consulta . '= 5', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '<', Carbon::now());
+                });
+            });
+        } else if ($request->semaphore == 7) {
+            //Proyección creada
+            $ManagementPlan->when($consulta . '= 6', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '>', Carbon::now());
+                });
+            });
         }
 
         if ($request->admission_id) {

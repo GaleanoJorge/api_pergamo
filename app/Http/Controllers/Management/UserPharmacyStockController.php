@@ -129,12 +129,13 @@ class UserPharmacyStockController extends Controller
      */
     public function getByUser(int $id): JsonResponse
     {
-        $UserPharmacyStock = UserPharmacyStock::where('user_id', $id)->with('pharmacy')
+        $UserPharmacyStock = UserPharmacyStock::select('user_pharmacy_stock.*')
+            ->where('user_id', $id)->with('pharmacy')
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
-            'message' => 'Permiso en farmacia obtenido exitosamente',
+            'message' => 'Permisos en farmacia obtenido exitosamente',
             'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }

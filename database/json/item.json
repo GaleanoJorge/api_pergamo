@@ -1092,8 +1092,8 @@
         "id": "175",
         "item_parent_id": null,
         "name": "Cuentas de cobro",
-        "code": "account-receivable",
-        "route": "/pages/account-receivable/list",
+        "code": null,
+        "route": null,
         "icon": "layers-outline",
         "show_menu": "1"
     },
@@ -1141,8 +1141,7 @@
         "route": "/pages/setting/pharmacy-stock",
         "icon": "",
         "show_menu": "1"
-    }
-    ,
+    },
     {
         "id": "178",
         "item_parent_id": "174",
@@ -1422,7 +1421,6 @@
         "icon": "",
         "show_menu": "1"
     },
-    
     {
         "id": "208",
         "item_parent_id": "91",
@@ -1565,6 +1563,24 @@
         "code": "medical-diary",
         "route": "/pages/setting/medical-diary",
         "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "225",
+        "item_parent_id": "175",
+        "name": "Por profesional",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "226",
+        "item_parent_id": "175",
+        "name": "Por paciente",
+        "code": "account-receivable",
+        "route": "/pages/account-receivable/account-patient",
+        "icon": "",
         "show_menu": "1"
     }
 ]

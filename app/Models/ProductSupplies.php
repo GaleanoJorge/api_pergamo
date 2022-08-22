@@ -16,6 +16,7 @@ protected $fillable = [
 	'size_supplies_measure_id',     
 	'measure_supplies_measure_id',    
 	'dose',     
+	'code_gmdn',     
 	'product_dose_id',  
 	];
 }

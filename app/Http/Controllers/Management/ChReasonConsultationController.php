@@ -25,7 +25,7 @@ class ChReasonConsultationController extends Controller
                 $chrecord = ChRecord::find($request->record_id);
                 $ChReasonConsultation = ChReasonConsultation::select()
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
-                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_reason_consultation.ch_record_id') //
                     // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
                 ;
             }

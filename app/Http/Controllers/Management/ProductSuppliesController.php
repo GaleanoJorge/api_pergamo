@@ -57,6 +57,7 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
         $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->code_gmdn = $request->code_gmdn;
         $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 
@@ -104,6 +105,7 @@ class ProductSuppliesController extends Controller
         $ProductSupplies->size_supplies_measure_id = $request->size_supplies_measure_id;
         $ProductSupplies->measure_supplies_measure_id = $request->measure_supplies_measure_id;
         $ProductSupplies->dose = $request->dose;
+        $ProductSupplies->code_gmdn = $request->code_gmdn;
         $ProductSupplies->product_dose_id = $request->product_dose_id;
         $ProductSupplies->save();
 

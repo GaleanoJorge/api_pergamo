@@ -35,10 +35,14 @@ class FixedAddController extends Controller
             'fixed_nom_product',
             'admissions',
             'admissions.patients',
-            'own_fixed_user_id',
-            'own_fixed_user_id.campus',
-            'request_fixed_user_id',
-            'request_fixed_user_id.campus',
+            'own_fixed_user',
+            'procedure',
+            'procedure.manual_price',
+            'fixed_nom_product',
+            'fixed_nom_product.fixed_clasification',
+            'fixed_nom_product.fixed_clasification.fixed_type',
+            'request_fixed_user',
+            // 'request_fixed_user.campus',
         );
 
         if ($request->_sort) {
@@ -57,6 +61,9 @@ class FixedAddController extends Controller
         }
         if ($request->fixed_accessories_id) {
             $FixedAdd->where('fixed_add.fixed_accessories_id', $request->fixed_accessories_id);
+        }
+        if ($request->admissions_id) {
+            $FixedAdd->where('fixed_add.admissions_id', $request->admissions_id);
         }
 
         if ($request->insum == "true") {
@@ -127,6 +134,7 @@ class FixedAddController extends Controller
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
         $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
         $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
+        $FixedAdd->procedure_id = $request->procedure_id;
         $FixedAdd->save();
 
         return response()->json([
@@ -175,6 +183,7 @@ class FixedAddController extends Controller
         $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
         $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
         $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
+        $FixedAdd->procedure_id = $request->procedure_id;
         $FixedAdd->save();
 
         return response()->json([
@@ -196,39 +205,44 @@ class FixedAddController extends Controller
         if ($id != -1) {
             $FixedAdd = FixedAdd::find($id);
             if ($FixedAdd) {
-                if ($request->status == "ENVIADO") {
-                    $FixedAdd->request_amount = $FixedAdd->amount_total - $request->request_amount;
+                if ($request->status == "ENVIADO PATIENT") {
+                    $FixedAdd->status = $request->status;
+                    $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+
+                    $FixedAdd->save();
+
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'PRESTADO PACIENTE';
+                    $FixedAssets->save();
+                }
+
+
+                if ($request->status == "DEVUELTO") {
                     $FixedAdd->status = $request->status;
                     $FixedAdd->save();
 
-                    $elements = json_decode($request->fixed_assets_id);
-                    foreach ($elements as $element) {
-                        $FixedAssets = FixedAssets::find($element->fixed_assets_id);
-                        $FixedAssets->actual_amount = $FixedAssets->actual_amount - $element->actual_amount;
-                        $FixedAssets->save();
-                    }
-                    $elements = json_decode($request->fixed_accessories_id);
-                    foreach ($elements as $element) {
-                        $FixedAccessories = FixedAccessories::find($element->fixed_accessories_id);
-                        $FixedAccessories->actual_amount = $FixedAccessories->actual_amount - $element->actual_amount;
-                        $FixedAccessories->save();
-                    }
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'STOCK';
+                    $FixedAssets->save();
                 }
 
+
+                if ($request->status == "ENVIADO") {
+                    $FixedAdd->status = $request->status;
+                    $FixedAdd->save();
+
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'PRESTADO';
+                    $FixedAssets->save();
+                }
 
                 if ($request->status == "ACEPTADO") {
                     $FixedAdd->request_amount = $FixedAdd->request_amount - $request->actual_amount;
                     $FixedAdd->status = $request->status;
                     $FixedAdd->observation = $request->observation;
-                    $FixedAdd->save();
+                    $FixedAdd->responsible_user_id = $request->responsible_user_id;
 
-                    $NewPharmacyLotStock = new FixedAccessories;
-                    $FixedAccessories->name = $FixedAccessories->name;
-                    $FixedAccessories->request_amount = $FixedAccessories->request_amount;
-                    $FixedAccessories->actual_amount = $element->actual_amount;
-                    $FixedAccessories->campus_id = $FixedAccessories->campus_id;
-                    $FixedAccessories->fixed_type_id = $FixedAccessories->fixed_type_id;
-                    $NewPharmacyLotStock->save();
+                    $FixedAdd->save();
                 }
             }
         } else {
@@ -238,6 +252,7 @@ class FixedAddController extends Controller
             $FixedAdd->request_amount = $request->request_amount;
             $FixedAdd->admissions_id = $request->admissions_id;
             $FixedAdd->responsible_user_id = $request->responsible_user_id;
+            var_dump($request->fixed_assets_id);
             $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
             $FixedAdd->management_plan_id = $request->management_plan_id;
             $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
@@ -245,6 +260,7 @@ class FixedAddController extends Controller
             $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
             $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
             $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
+            $FixedAdd->procedure_id = $request->procedure_id;
             $FixedAdd->save();
 
             $FixedAssets = FixedAssets::find($request->fixed_assets_id);

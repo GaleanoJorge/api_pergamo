@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $fixed_location_campus_id
  * @property BigInteger $own_fixed_user_id
  * @property BigInteger $request_fixed_user_id
+ * @property BigInteger $procedure_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -92,5 +93,10 @@ class FixedAdd extends Model
 	public function management_plan()
 	{
 		return $this->belongsTo(ManagementPlan::class, 'management_plan_id');
+	}
+	
+	public function procedure()
+	{
+		return $this->belongsTo(ServicesBriefcase::class, 'procedure_id');
 	}
 }

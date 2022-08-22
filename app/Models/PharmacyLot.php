@@ -13,5 +13,7 @@ protected $fillable = [
 	'total',
 	'receipt_date',
 	'pharmacy_stock_id',
+	'date_invoice',
+	'num_invoice',
 	];
 }
