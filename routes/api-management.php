@@ -1097,8 +1097,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
     Route::get('ch_e_m_s_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSWeeklyOTController@getByRecord');
-    Route::apiResource('ch_r_n_weekly_o_t', 'Management\ChRNWeeklyOTController');
-    Route::get('ch_r_n_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNWeeklyOTController@getByRecord');
+    // Route::apiResource('ch_r_n_weekly_o_t', 'Management\ChRNWeeklyOTController');
+    // Route::get('ch_r_n_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNWeeklyOTController@getByRecord');
 
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::apiResource('ch_e_past_o_t', 'Management\ChEPastOTController');

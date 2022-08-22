@@ -61,7 +61,7 @@ class ChEMSWeeklyOTController extends Controller
 
 
         $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('ch_e_m_s_weekly_o_t')->get()->toArray();
+            ->get()->toArray();
 
 
         return response()->json([
