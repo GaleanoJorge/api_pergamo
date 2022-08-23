@@ -28,6 +28,28 @@
 
 <body>
 
+    <div>
+        <div style="-aw-headerfooter-type:header-primary">
+            <p style="margin-top:0pt; margin-bottom:0pt; line-height:6%; widows:0; orphans:0; font-size:10pt">
+                <span style="height:0pt; display:block; position:absolute; z-index:-65546">
+                    <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59" alt="" style="margin-top:-15.15pt; margin-left:-21pt; -aw-left-pos:15pt; -aw-rel-hpos:page; -aw-rel-vpos:page; -aw-top-pos:20.25pt; -aw-wrap-type:none; position:absolute" /></span>
+                <span style="height:0pt; display:block; position:absolute; z-index:-65543">
+                    <div style="float:right;">
+                        <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
+                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
+                        <p>Folio: {{$chrecord[0]['id']}}</p>
+                    </div>
+                </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
+                    <div style="text-align: center;    margin-left: 60px;">
+                        <p>HEALTH & LIFE IPS S.A.S </p>
+                        <p>Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                        <p>Nit: 900900122 - 7</p>
+                    </div>
+
+                </span><span style="font-family:Tahoma">&#xa0;</span>
+            </p>
+        </div>
+
 <!-- Encabezado-->
 <div>
         
