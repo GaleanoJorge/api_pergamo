@@ -80,7 +80,7 @@ class FixedAssetsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'lotes por usuario obtenidas exitosamente',
+            'message' => 'Activos por usuario obtenidas exitosamente',
             'data' => ['fixed_assets' => $fixed]
         ]);
     }
@@ -108,7 +108,7 @@ class FixedAssetsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'lotes por usuario obtenidas exitosamente',
+            'message' => 'Activos por usuario obtenidas exitosamente',
             'data' => ['fixed_assets' => $fixed]
         ]);
     }
