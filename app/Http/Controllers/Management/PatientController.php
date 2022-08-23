@@ -412,6 +412,21 @@ class PatientController extends Controller
                 -1) AS not_executed'),
             DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
             DB::raw('
+               SUM(
+                   IF( (CURDATE() < assigned_management_plan.finish_date AND 
+                        CURDATE() > assigned_management_plan.start_date AND 
+                        assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
+                        assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
+                    ,IF (assigned_management_plan.start_hour != "00:00:00"
+                        ,
+                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->format('H:i:s').'") AND 
+                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->format('H:i:s').'") AND 
+                            (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
+                        ,1)
+                    ,0 
+               )
+              ) AS por_ejecutar'),
+            DB::raw('
              
                 SUM(
                     IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
@@ -420,6 +435,9 @@ class PatientController extends Controller
                ) AS incumplidas'),
             DB::raw($consulta . ' AS ingreso'),
         )
+            ->leftjoin('locality', 'patients.locality_id', 'locality.id')
+            ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
+            ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
@@ -428,6 +446,7 @@ class PatientController extends Controller
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
                 'status',
+                'locality',
                 'gender',
                 'inability',
                 'academic_level',
@@ -581,12 +600,16 @@ class PatientController extends Controller
 
         if ($request->search) {
             $patients->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('locality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
