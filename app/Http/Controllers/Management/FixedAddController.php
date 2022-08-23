@@ -234,7 +234,7 @@ class FixedAddController extends Controller
                     $FixedAdd->save();
 
                     $FixedAssets = FixedAssets::find($request->fixed_assets_id);
-                    $FixedAssets->status_prod = 'PRESTADO PACIENTE';
+                    $FixedAssets->status_prod = 'ACEPTAR PACIENTE';
                     $FixedAssets->save();
                 }
 
