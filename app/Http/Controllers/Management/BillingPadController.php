@@ -735,6 +735,8 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
+                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 // ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
@@ -1360,6 +1362,8 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.assigned_management_plan_id')
+                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 //  ->whereNotNull('authorization.application_id')
                 // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 // ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
@@ -1802,7 +1806,9 @@ class BillingPadController extends Controller
                 ->whereNotNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
-                ->whereNull('authorization.assigned_management_plan_id');
+                ->whereNull('authorization.assigned_management_plan_id')
+                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             //     ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             //     ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
             // if ($request->route == 1) {
