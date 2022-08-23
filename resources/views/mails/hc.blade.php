@@ -306,15 +306,15 @@
             @foreach($ChReasonConsultation as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['reason_consultation'])) MOTIVO DE CONSULTA: </b> {{$ChReasonConsultation['reason_consultation']}} @endisset</span>
+                    <b>@if(isset($ch['reason_consultation'])) MOTIVO DE CONSULTA: </b> {{$ch['reason_consultation']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['current_illness'])) ENFERMEDAD ACTUAL: </b> {{$ChReasonConsultation['current_illness']}} @endisset</span>
+                    <b>@if(isset($ch['current_illness'])) ENFERMEDAD ACTUAL: </b> {{$ch['current_illness']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['ch_external_cause'])) CAUSA EXTERNA: </b> {{$ChReasonConsultation['ch_external_cause']['name']}} @endisset</span>
+                    <b>@if(isset($ch['ch_external_cause'])) CAUSA EXTERNA: </b> {{$ch['ch_external_cause']['name']}} @endisset</span>
             </p>                    
             @endforeach
 
