@@ -105,6 +105,8 @@ class AssignedManagementPlanController extends Controller
                 'user',
                 'management_plan',
                 'management_plan.type_of_attention',
+                'management_plan.procedure',
+                'management_plan.procedure.manual_price',
             )
             ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
             ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
@@ -126,6 +128,10 @@ class AssignedManagementPlanController extends Controller
             ->orderBy('assigned_management_plan.finish_date', 'ASC')
             ->orderBy('assigned_management_plan.start_hour', 'ASC')
             ->groupBy('assigned_management_plan.id');
+
+        if ($request->management_plan_id) {
+            $assigned_management_plan->where('assigned_management_plan.management_plan_id', $request->management_plan_id);
+        }
 
         if ($request->query("pagination", true) == "false") {
             $assigned_management_plan = $assigned_management_plan->get()->toArray();
