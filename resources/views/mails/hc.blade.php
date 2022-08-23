@@ -73,7 +73,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['firstname']}} {{$chrecord['admissions']['patients']['middlefirstname']}} {{$chrecord['admissions']['patients']['lastname']}} {{$chrecord['admissions']['patients']['middlelastname']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -83,7 +83,7 @@
                 </td>
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['identification']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification']}}</span>
                         <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                     </p>
                 </td>
@@ -96,7 +96,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{substr($chrecord['admissions']['patients']['birthday'],0,10)}}</span>
+                        <span style="font-family:Calibri">{{substr($chrecord[0]['admissions']['patients']['birthday'],0,10)}}</span>
                         <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
                 
                     </p>
@@ -108,7 +108,7 @@
                 </td>      
                 {{-- <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['marital_status']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
                     </p>
                 </td> --}}
 
@@ -121,7 +121,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['age']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}}</span>
                     </p>
                 </td>
             
@@ -133,7 +133,7 @@
 
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord['admissions']['patients']['gender']['name']}}</span>
+                        <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender']['name']}}</span>
                     </p>
                 </td>
             
@@ -147,7 +147,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['residence_address']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address']}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -157,7 +157,7 @@
                 </td>
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['phone']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone']}}</span>
                     </p>
                 </td>
             </tr>
@@ -169,7 +169,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['residence_municipality']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality']['name']}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -180,7 +180,7 @@
 
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['activities']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities']['name']}}</span>
                     </p>
                 </td>
                
@@ -194,7 +194,7 @@
         
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['ethnicity']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -205,7 +205,7 @@
 
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['patients']['academic_level']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level']['name']}}</span>
                     </p>
                 </td>
                 
@@ -228,7 +228,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['consecutive']}} </span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive']}} </span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -238,7 +238,7 @@
                 </td>
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['entry_date']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date']}}</span>
                         <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                     </p>
                 </td>
@@ -251,7 +251,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['contract']['company']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company']['name']}}</span>
                         <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
                 
                     </p>
@@ -263,7 +263,7 @@
                 </td>      
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord['admissions']['contract']['type_briefcase']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase']['name']}}</span>
                     </p>
                 </td>
             </tr>
@@ -4171,7 +4171,7 @@
 
 <!-- Terapia Respiratoria-->
 <div>
-    @if($chrecord['ch_type_id'] == 5)
+    @if($chrecord[0]['ch_type_id'] == 5)
 
     <!-- INGRESO -->
     <div>
@@ -5726,7 +5726,7 @@
 
 <!-- Terapia Fisica-->
 <div>
-    @if($chrecord['ch_type_id'] == 7)
+    @if($chrecord[0]['ch_type_id'] == 7)
 
     <!-- INGRESO -->
     <div>
@@ -8094,7 +8094,7 @@
 
 <!-- Terapia Ocupacional-->
 <div>
-    @if($chrecord['ch_type_id'] == 6)
+    @if($chrecord[0]['ch_type_id'] == 6)
 
     <!-- INGRESO -->
     <div>
@@ -10855,7 +10855,7 @@
 
  <!-- Trabajo Social-->
  <div>
-    @if($chrecord['ch_type_id'] == 8)
+    @if($chrecord[0]['ch_type_id'] == 8)
 
     <!-- INGRESO -->
     <div>
