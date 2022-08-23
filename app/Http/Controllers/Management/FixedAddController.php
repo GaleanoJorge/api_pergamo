@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\FixedAdd;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Authorization;
 use App\Models\FixedAccessories;
 use Illuminate\Http\Request;
 use App\Models\FixedAssets;
@@ -206,6 +207,7 @@ class FixedAddController extends Controller
             $FixedAdd = FixedAdd::find($id);
             if ($FixedAdd) {
                 if ($request->status == "ENVIADO PATIENT") {
+
                     $FixedAdd->status = $request->status;
                     $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
 
@@ -213,6 +215,35 @@ class FixedAddController extends Controller
 
                     $FixedAssets = FixedAssets::find($request->fixed_assets_id);
                     $FixedAssets->status_prod = 'PRESTADO PACIENTE';
+                    $FixedAssets->save();
+                    
+                    $auth = new Authorization;
+
+                    $auth->services_briefcase_id = $FixedAdd->procedure_id;
+                    $auth->admissions_id = $FixedAdd->admissions_id;
+                    $auth->auth_status_id = 1;
+                    $auth->fixed_add_id =  $FixedAdd->id;
+
+                    $auth->save();
+
+                }
+
+
+                if ($request->status == "DEVUELTO PACIENTE") {
+                    $FixedAdd->status = $request->status;
+                    $FixedAdd->save();
+
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'PRESTADO PACIENTE';
+                    $FixedAssets->save();
+                }
+
+                if ($request->status == "ACEPTADO PACIENTE") {
+                    $FixedAdd->status = $request->status;
+                    $FixedAdd->save();
+
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'STOCK';
                     $FixedAssets->save();
                 }
 
@@ -222,10 +253,9 @@ class FixedAddController extends Controller
                     $FixedAdd->save();
 
                     $FixedAssets = FixedAssets::find($request->fixed_assets_id);
-                    $FixedAssets->status_prod = 'STOCK';
+                    $FixedAssets->status_prod = 'PRESTADO';
                     $FixedAssets->save();
                 }
-
 
                 if ($request->status == "ENVIADO") {
                     $FixedAdd->status = $request->status;
@@ -237,12 +267,14 @@ class FixedAddController extends Controller
                 }
 
                 if ($request->status == "ACEPTADO") {
-                    $FixedAdd->request_amount = $FixedAdd->request_amount - $request->actual_amount;
                     $FixedAdd->status = $request->status;
                     $FixedAdd->observation = $request->observation;
                     $FixedAdd->responsible_user_id = $request->responsible_user_id;
-
                     $FixedAdd->save();
+
+                    $FixedAssets = FixedAssets::find($request->fixed_assets_id);
+                    $FixedAssets->status_prod = 'STOCK';
+                    $FixedAssets->save();
                 }
             }
         } else {
@@ -252,7 +284,6 @@ class FixedAddController extends Controller
             $FixedAdd->request_amount = $request->request_amount;
             $FixedAdd->admissions_id = $request->admissions_id;
             $FixedAdd->responsible_user_id = $request->responsible_user_id;
-            var_dump($request->fixed_assets_id);
             $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
             $FixedAdd->management_plan_id = $request->management_plan_id;
             $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
@@ -263,9 +294,8 @@ class FixedAddController extends Controller
             $FixedAdd->procedure_id = $request->procedure_id;
             $FixedAdd->save();
 
-            $FixedAssets = FixedAssets::find($request->fixed_assets_id);
-            $FixedAssets->amount_total = $FixedAdd->amount_total - $request->request_amount;
-            //$FixedAssets->status = $request->status;
+            $FixedAssets = FixedAssets::find($request->fixed_assets_id);;
+            $FixedAssets->status = $request->status;
             $FixedAssets->save();
         }
         return response()->json([
