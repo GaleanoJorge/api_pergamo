@@ -15,9 +15,9 @@ class CreateAuthorizationTable extends Migration
     {
         Schema::create('authorization', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('services_briefcase_id');
+            $table->unsignedBigInteger('services_briefcase_id');//
             $table->unsignedBigInteger('assigned_management_plan_id')->nullable();
-            $table->unsignedBigInteger('admissions_id');
+            $table->unsignedBigInteger('admissions_id');//
             $table->string('auth_number')->nullable();
             $table->unsignedBigInteger('authorized_amount')->nullable();
             $table->string('observation')->nullable();
@@ -25,7 +25,7 @@ class CreateAuthorizationTable extends Migration
             $table->integer('copay_value')->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->unsignedBigInteger('auth_package_id')->nullable();
-            $table->unsignedBigInteger('fixed_add_id')->nullable();
+            $table->unsignedBigInteger('fixed_add_id')->nullable();//
             $table->unsignedBigInteger('manual_price_id')->nullable();
             $table->unsignedBigInteger('application_id')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
