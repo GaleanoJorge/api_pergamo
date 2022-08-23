@@ -481,8 +481,8 @@ class PatientController extends Controller
             //                 ->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00");
             //         });
             // });
-            $patients->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'));
-            $patients->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'));
+            // $patients->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'));
+            // $patients->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'));
             $patients->orderBy('assigned_management_plan.finish_date', 'ASC');
             $patients->orderBy('assigned_management_plan.start_hour', 'ASC');
         } else {
