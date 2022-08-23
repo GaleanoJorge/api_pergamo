@@ -15805,7 +15805,7 @@
 
 <!-- Firma -->
 <div style="display: flex">
-<div style="width: 100%">
+<div style="width: 50%">
     <br>
     <br>
     <hr />
@@ -15838,7 +15838,7 @@
         @endisset   
 </div>
 
-<div style="margin-left:250pt">
+<div style="margin-left:250pt;width: 50%">
     <br>
     <br>
     <hr />
