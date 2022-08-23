@@ -10078,11 +10078,18 @@
             <!-- Otros-->
             <div>
                     @if (isset($ch['ch_vital_neurological']) || isset($ch['ch_vital_hydration']) || 
-                    isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
-                    isset($ch['mydriatic']) || isset($ch['normal']) || isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || isset($ch['miotic_size']) ||
-                    isset($ch['pulse']) || isset($ch['venous_pressure']) || isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
-                    isset($ch['intra_abdominal']) || isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || isset($ch['pulmonary_half']) ||
-                    isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || isset($ch['chest_perimeter']) )
+                    isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || 
+                    isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
+                    isset($ch['mydriatic']) || isset($ch['normal']) || 
+                    isset($ch['lazy_reaction_light']) || isset($ch['fixed_lazy_reaction']) || 
+                    isset($ch['miotic_size']) ||
+                    isset($ch['pulse']) || isset($ch['venous_pressure']) || 
+                    isset($ch['intracranial_pressure']) || isset($ch['cerebral_perfusion_pressure']) ||
+                    isset($ch['intra_abdominal']) || 
+                    isset($ch['pulmonary_systolic']) || isset($ch['pulmonary_diastolic']) || 
+                    isset($ch['pulmonary_half']) ||
+                    isset($ch['head_circunference']) || isset($ch['abdominal_perimeter']) || 
+                    isset($ch['chest_perimeter']))
 
                     <br/>
 
@@ -15797,10 +15804,13 @@
 
 
 <!-- Firma -->
-<div>
+<div style="display: flex">
+<div style="width: 100%">
     <br>
     <br>
     <hr />
+    <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+
     @if($firm != null)
     <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
         <span style="height:0pt;">
@@ -15826,6 +15836,27 @@
         
 
         @endisset   
+</div>
+
+<div style="margin-left:250pt">
+    <br>
+    <br>
+    <hr />
+    <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN </b> </span>
+
+    @if($firmPatient != null)
+    <p style="margin-top:15pt; margin-left:30pt; margin-bottom:0pt;">
+        <span style="height:0pt;">
+        
+            <img src="data:image/png;base64,{{$firmPatient}}" width="250" height="100" alt="" style=""/></span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+        @endisset
+        <p style="margin-top:8.95pt; margin-left:30pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
+            <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+        </p>
+</div>
 </div>
 
 </body>
