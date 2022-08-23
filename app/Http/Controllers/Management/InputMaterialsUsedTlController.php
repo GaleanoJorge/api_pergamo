@@ -73,7 +73,7 @@ class InputMaterialsUsedTlController extends Controller
 
         if (isset($request->materialused)) {
             foreach ($request->materialused as $element) {
-                if ($element == 'ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS') {
+                if ($element == 'ELEMENTOS DE BIOSEGURIDAD (BATA, GUANTES, GORRO, POLAINAS)' ) {
                     $InputMaterialsUsedTl->biosecurity_elements = $element;
                 } else if ($element == 'MATERIALES DIDÁCTICOS') {
                     $InputMaterialsUsedTl->didactic_materials = $element;
