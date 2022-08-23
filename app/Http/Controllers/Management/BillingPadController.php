@@ -407,6 +407,7 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.auth_package_id')
@@ -454,6 +455,7 @@ class BillingPadController extends Controller
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNotNull('authorization.product_com_id')
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -500,6 +502,7 @@ class BillingPadController extends Controller
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -523,8 +526,45 @@ class BillingPadController extends Controller
         }
 
 
+        // BÚSQUEDA DE AUTORIZACIONES QUE SEAN ACTIVOS FIJOS
+        $ActivosFijosEvento = Authorization::select('authorization.*')
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'manual_price.procedure'
+            )
+            ->where('authorization.admissions_id', $admission_id)
+            ->where('authorization.auth_status_id', 3)
+            ->whereNull('authorization.auth_package_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNotNull('authorization.fixed_add_id')
+            ->whereNull('authorization.product_com_id')
+            ->whereNull('authorization.application_id')
+            ->whereNull('authorization.assigned_management_plan_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
+        if ($request->show) {
+            $ActivosFijosEvento->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->where('billing_pad.id', $request->billing_id);
+        }
+        $ActivosFijosEvento = $ActivosFijosEvento->get()->toArray();
 
-
+        foreach ($ActivosFijosEvento as $Authorization) {
+            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
+            if (!$AuthBillingPad) {
+                array_push($Authorizations, $Authorization);
+            } else {
+                array_push($AlreadyBilling, $Authorization);
+            }
+        }
 
 
         // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
@@ -546,6 +586,7 @@ class BillingPadController extends Controller
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
@@ -592,6 +633,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -623,6 +665,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -634,7 +677,7 @@ class BillingPadController extends Controller
 
 
 
-            // medicamentos
+            // insumos
             $AuthsPackedSupp = Authorization::select(
                 'authorization.*',
                 'management_plan.procedure_id AS procedure_id',
@@ -656,12 +699,46 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+                ->groupby('authorization.services_briefcase_id')
+                ->get()->toArray();
+
+
+            // activos fijos
+            $AuthsPackedFixed = Authorization::select(
+                'authorization.*',
+                'management_plan.procedure_id AS procedure_id',
+                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
+            )
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $admission_id)
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.application_id')
+                // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                // ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+                // ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
 
@@ -683,6 +760,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -708,6 +786,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -733,11 +812,40 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+                ->get()->toArray();
+
+
+            // Activos fijos
+            $AuthsresponseFixed = Authorization::select('authorization.*')
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $admission_id)
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.application_id')
+                ->whereNull('authorization.assigned_management_plan_id')
+                // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+                // ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
                 ->get()->toArray();
 
             $Authorizationspackage['auth_package'] = [];
@@ -761,6 +869,9 @@ class BillingPadController extends Controller
             foreach ($AuthsPackedSupp as $element) {
                 array_push($AuthsPacked, $element);
             }
+            foreach ($AuthsPackedFixed as $element) {
+                array_push($AuthsPacked, $element);
+            }
 
             $total_max = 0;
             $total_done = 0;
@@ -768,12 +879,6 @@ class BillingPadController extends Controller
                 $type_validator = 0;
                 $ProcedurePackages = ProcedurePackage::select('procedure_package.*')
                     ->where('procedure_package.procedure_package_id', $Authorizationspackage['manual_price_id']);
-                //
-                //
-                // el id de producto y el de insumo están permutados
-                // corrección por parte de ivan
-                //
-                //
 
 
                 if ($AuthPacked['product_com_id']) {
@@ -785,6 +890,9 @@ class BillingPadController extends Controller
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
                     $type_validator = 3;
+                } else if ($AuthPacked['fixed_add_id']) {
+                    $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
+                    $type_validator = 4;
                 }
 
                 $ProcedurePackages = $ProcedurePackages->get()->toArray();
@@ -813,6 +921,10 @@ class BillingPadController extends Controller
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
+                        } else if ($type_validator == 4) {
+                            foreach ($AuthsresponseFixed as $element) {
+                                array_push($Authorizationspackage['auth_package'], $element);
+                            }
                         }
                     } else {
                         if ($type_validator == 1) {
@@ -825,6 +937,10 @@ class BillingPadController extends Controller
                             }
                         } else if ($type_validator == 3) {
                             foreach ($AuthsresponseSupp as $element) {
+                                array_push($result_packages, $element);
+                            }
+                        } else if ($type_validator == 4) {
+                            foreach ($AuthsresponseFixed as $element) {
                                 array_push($result_packages, $element);
                             }
                         }
@@ -840,6 +956,10 @@ class BillingPadController extends Controller
                         }
                     } else if ($type_validator == 3) {
                         foreach ($AuthsresponseSupp as $element) {
+                            array_push($result_packages, $element);
+                        }
+                    } else if ($type_validator == 4) {
+                        foreach ($AuthsresponseFixed as $element) {
                             array_push($result_packages, $element);
                         }
                     }
@@ -907,6 +1027,7 @@ class BillingPadController extends Controller
             ->where('authorization.admissions_id', $admission_id)
             // ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.auth_package_id')
@@ -954,9 +1075,10 @@ class BillingPadController extends Controller
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
-            ->where('authorization.auth_status_id', 3)
+            // ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNotNull('authorization.product_com_id')
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -1000,9 +1122,10 @@ class BillingPadController extends Controller
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
-            ->where('authorization.auth_status_id', 3)
+            // ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNotNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             // ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
@@ -1026,7 +1149,46 @@ class BillingPadController extends Controller
         }
 
 
+        // BÚSQUEDA DE AUTORIZACIONES QUE SEAN ACTIVOS FIJOS Y POR EVENTO (NO PAQUETIZADAS)
+        $ActivosFijosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
+                'services_briefcase.manual_price.procedure',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'manual_price.procedure',
+            )
+            ->where('authorization.admissions_id', $admission_id)
+            // ->where('authorization.auth_status_id', 3)
+            ->whereNull('authorization.auth_package_id')
+            ->whereNull('authorization.supplies_com_id')
+            ->whereNotNull('authorization.fixed_add_id')
+            ->whereNull('authorization.product_com_id')
+            ->whereNull('authorization.application_id')
+            ->whereNull('authorization.assigned_management_plan_id')
+            ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+            ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+            ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->get()->toArray();
 
+        foreach ($ActivosFijosEventos as $Authorization) {
+            array_push($Authorizations, $Authorization);
+            // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     array_push($Authorizations, $Authorization);
+            // } else {
+            //     array_push($AlreadyBilling, $Authorization);
+            // }
+        }
 
 
 
@@ -1049,6 +1211,7 @@ class BillingPadController extends Controller
             // ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
@@ -1094,6 +1257,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -1125,6 +1289,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -1136,7 +1301,7 @@ class BillingPadController extends Controller
 
 
 
-            // medicamentos
+            // insumos
             $AuthsPackedSupp = Authorization::select(
                 'authorization.*',
                 'management_plan.procedure_id AS procedure_id',
@@ -1158,12 +1323,48 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+                ->groupby('authorization.services_briefcase_id')
+                ->get()->toArray();
+
+
+
+            // activos fijos
+            $AuthsPackedFixed = Authorization::select(
+                'authorization.*',
+                'management_plan.procedure_id AS procedure_id',
+                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
+            )
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $admission_id)
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.assigned_management_plan_id')
+                //  ->whereNotNull('authorization.application_id')
+                // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                // ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+                // ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id')
                 ->get()->toArray();
 
@@ -1187,6 +1388,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -1212,6 +1414,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -1237,11 +1440,41 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $admission_id)
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 //  ->whereNotNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
                 ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+                ->get()->toArray();
+
+
+            // Activos fijos
+            $AuthsresponseFixed = Authorization::select('authorization.*')
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $admission_id)
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.assigned_management_plan_id')
+                //  ->whereNotNull('authorization.application_id')
+                // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                // ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+                // ->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->get()->toArray();
 
             $Authorizationspackage['auth_package'] = [];
@@ -1265,6 +1498,9 @@ class BillingPadController extends Controller
             foreach ($AuthsPackedSupp as $element) {
                 array_push($AuthsPacked, $element);
             }
+            foreach ($AuthsPackedFixed as $element) {
+                array_push($AuthsPacked, $element);
+            }
 
             $total_max = 0;
             $total_done = 0;
@@ -1272,12 +1508,6 @@ class BillingPadController extends Controller
                 $type_validator = 0;
                 $ProcedurePackages = ProcedurePackage::select('procedure_package.*')
                     ->where('procedure_package.procedure_package_id', $Authorizationspackage['manual_price_id']);
-                //
-                //
-                // el id de producto y el de insumo están permutados
-                // corrección por parte de ivan
-                //
-                //
 
 
                 if ($AuthPacked['product_com_id']) {
@@ -1289,6 +1519,9 @@ class BillingPadController extends Controller
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
                     $type_validator = 3;
+                } else if ($AuthPacked['fixed_add_id']) {
+                    $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
+                    $type_validator = 4;
                 }
 
                 $ProcedurePackages = $ProcedurePackages->get()->toArray();
@@ -1317,6 +1550,10 @@ class BillingPadController extends Controller
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
+                        } else if ($type_validator == 4) {
+                            foreach ($AuthsresponseFixed as $element) {
+                                array_push($Authorizationspackage['auth_package'], $element);
+                            }
                         }
                     } else {
                         if ($type_validator == 1) {
@@ -1329,6 +1566,10 @@ class BillingPadController extends Controller
                             }
                         } else if ($type_validator == 3) {
                             foreach ($AuthsresponseSupp as $element) {
+                                array_push($result_packages, $element);
+                            }
+                        } else if ($type_validator == 4) {
+                            foreach ($AuthsresponseFixed as $element) {
                                 array_push($result_packages, $element);
                             }
                         }
@@ -1344,6 +1585,10 @@ class BillingPadController extends Controller
                         }
                     } else if ($type_validator == 3) {
                         foreach ($AuthsresponseSupp as $element) {
+                            array_push($result_packages, $element);
+                        }
+                    } else if ($type_validator == 4) {
+                        foreach ($AuthsresponseFixed as $element) {
                             array_push($result_packages, $element);
                         }
                     }
@@ -1413,6 +1658,7 @@ class BillingPadController extends Controller
         }
         $Authorizationspackages->whereNull('authorization.auth_package_id')
             ->whereNull('authorization.supplies_com_id')
+            ->whereNull('authorization.fixed_add_id')
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
@@ -1444,6 +1690,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
@@ -1478,6 +1725,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
@@ -1492,7 +1740,7 @@ class BillingPadController extends Controller
 
 
 
-            // medicamentos
+            // insumos
             $AuthsPackedSupp = Authorization::select(
                 'authorization.*',
                 'management_plan.procedure_id AS procedure_id',
@@ -1514,6 +1762,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
@@ -1525,6 +1774,46 @@ class BillingPadController extends Controller
             $AuthsPackedSupp->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
                 ->groupby('authorization.services_briefcase_id');
             $AuthsPackedSupp = $AuthsPackedSupp->get()->toArray();
+
+
+
+            // activos fijos
+            $AuthsPackedFixed = Authorization::select(
+                'authorization.*',
+                'management_plan.procedure_id AS procedure_id',
+                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
+            )
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.application_id')
+                ->whereNull('authorization.assigned_management_plan_id');
+            //     ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            //     ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
+            // if ($request->route == 1) {
+            //     $AuthsPackedSupp->whereNotNull('authorization.application_id')
+            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
+            // } else if ($request->route == 2) {
+            // }
+            $AuthsPackedFixed->groupby('authorization.services_briefcase_id');
+            $AuthsPackedFixed = $AuthsPackedFixed->get()->toArray();
+
+
 
             // procdimientos
             $AuthsresponseProc = Authorization::select('authorization.*')
@@ -1544,6 +1833,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->whereNull('authorization.application_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
@@ -1553,6 +1843,7 @@ class BillingPadController extends Controller
             }
             $AuthsresponseProc->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
             $AuthsresponseProc = $AuthsresponseProc->get()->toArray();
+            
 
             // Medicamentos
             $AuthsresponseMed = Authorization::select('authorization.*')
@@ -1572,6 +1863,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNotNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
@@ -1600,6 +1892,7 @@ class BillingPadController extends Controller
                 ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
                 ->where('authorization.auth_package_id', $Authorizationspackage['id'])
                 ->whereNotNull('authorization.supplies_com_id')
+                ->whereNull('authorization.fixed_add_id')
                 ->whereNull('authorization.product_com_id')
                 ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
             if ($request->route == 1) {
@@ -1609,6 +1902,40 @@ class BillingPadController extends Controller
             }
             $AuthsresponseSupp->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
             $AuthsresponseSupp = $AuthsresponseSupp->get()->toArray();
+
+
+
+            // Activos Fijos
+            $AuthsresponseFixed = Authorization::select('authorization.*')
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )
+                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
+                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
+                ->whereNull('authorization.supplies_com_id')
+                ->whereNotNull('authorization.fixed_add_id')
+                ->whereNull('authorization.product_com_id')
+                ->whereNull('authorization.application_id')
+                ->whereNull('authorization.assigned_management_plan_id');
+            //     ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            //     ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
+            // if ($request->route == 1) {
+            //     $AuthsPackedSupp->whereNotNull('authorization.application_id')
+            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
+            // } else if ($request->route == 2) {
+            // }
+            $AuthsresponseFixed = $AuthsresponseFixed->get()->toArray();
+
 
             $Authorizationspackage['auth_package'] = [];
             // foreach ($AuthsresponseProc as $element) {
@@ -1629,6 +1956,9 @@ class BillingPadController extends Controller
                 array_push($AuthsPacked, $element);
             }
             foreach ($AuthsPackedSupp as $element) {
+                array_push($AuthsPacked, $element);
+            }
+            foreach ($AuthsPackedFixed as $element) {
                 array_push($AuthsPacked, $element);
             }
 
@@ -1655,6 +1985,9 @@ class BillingPadController extends Controller
                 } else if ($AuthPacked['procedure_id']) {
                     $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
                     $type_validator = 3;
+                } else if ($AuthPacked['fixed_add_id']) {
+                    $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
+                    $type_validator = 4;
                 }
 
                 $ProcedurePackages = $ProcedurePackages->get()->toArray();
@@ -1682,6 +2015,10 @@ class BillingPadController extends Controller
                         } else if ($type_validator == 3) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($result_packages, $element);
+                            }
+                        } else if ($type_validator == 4) {
+                            foreach ($AuthsresponseFixed as $element) {
+                                array_push($Authorizationspackage['auth_package'], $element);
                             }
                         }
                     }

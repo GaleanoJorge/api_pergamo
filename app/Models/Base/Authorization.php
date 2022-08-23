@@ -10,6 +10,7 @@ use App\Models\AssignedManagementPlan;
 use App\Models\AssistanceSupplies;
 use App\Models\Authorization as ModelsAuthorization;
 use App\Models\AuthStatus;
+use App\Models\FixedAdd;
 use App\Models\ManagementPlan;
 use App\Models\ManualPrice;
 use App\Models\Procedure;
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $admissions_id
  * @property int $auth_number
  * @property int $state_auth_id
+ * @property int $fixed_add_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @package App\Models\Base
@@ -82,5 +84,10 @@ class Authorization extends Model
 	public function assigned_management_plan()
 	{
 		return $this->belongsTo(AssignedManagementPlan::class, 'assigned_management_plan_id', 'id');
+	}
+
+	public function fixed_add()
+	{
+		return $this->belongsTo(FixedAdd::class, 'fixed_add_id', 'id');
 	}
 }
