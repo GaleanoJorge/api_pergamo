@@ -315,6 +315,13 @@ class ChRecordController extends Controller
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
 
+
+        if ($ChRecord[0]['firm_file']) {
+            $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
+            $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+            $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }
+
         ///Medicina General
         ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -497,6 +504,7 @@ class ChRecordController extends Controller
                 'ChPatientExit' => $ChPatientExit,
 
                 'firm' => $imagenComoBase64,
+                'firmPatient'=>$imagenPAtient,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
                 //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
@@ -567,7 +575,7 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('user_incharge',)->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -663,6 +671,7 @@ class ChRecordController extends Controller
 
 
 
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
