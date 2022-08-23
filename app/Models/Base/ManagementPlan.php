@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\AdministrationRoute;
 use App\Models\AdmissionRoute;
 use Carbon\Carbon;
 use App\Models\TypeOfAttention;
@@ -32,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $specialty_id
  * @property int $admissions_id
  * @property int $assigned_user_id
+ * @property int $route_of_administration
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -45,6 +47,10 @@ class ManagementPlan extends Model
 	public function type_of_attention()
 	{
 		return $this->belongsTo(TypeOfAttention::class,'type_of_attention_id');
+	}
+	public function route_administration()
+	{
+		return $this->belongsTo(AdministrationRoute::class,'route_of_administration');
 	}
 	public function frequency()
 	{

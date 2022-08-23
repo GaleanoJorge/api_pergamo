@@ -1040,12 +1040,29 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         $patients = Patient::find($id);
-        $patients->status_id = $request->status_id;
         $patients->gender_id = $request->gender_id;
         $patients->academic_level_id = $request->academic_level_id;
+        $patients->status_id = $request->status_id;
         $patients->identification_type_id = $request->identification_type_id;
         $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
+        $patients->birthplace_country_id = $request->birthplace_country_id;
+        $patients->birthplace_region_id = $request->birthplace_region_id;
+        $patients->locality_id = $request->locality_id;
+        $patients->residence_id = $request->residence_id;
+        $patients->residence_region_id = $request->residence_region_id;
+        $patients->residence_municipality_id = $request->residence_municipality_id;
+        $patients->residence_address = $request->residence_address;
+        $patients->residence_country_id = $request->residence_country_id;
+        $patients->study_level_status_id = $request->study_level_status_id;
+        $patients->activities_id = $request->activities_id;
+        $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+        $patients->select_rh_id = $request->select_RH_id;
+        $patients->marital_status_id = $request->marital_status_id;
+        $patients->population_group_id = $request->population_group_id;
         $patients->username = $request->username;
+        $patients->is_disability = $request->is_disability;
+        $patients->disability = $request->disability;
+        $patients->gender_type = $request->gender_type;
         $patients->email = $request->email;
         $patients->firstname = $request->firstname;
         $patients->middlefirstname = $request->middlefirstname;
@@ -1054,19 +1071,7 @@ class PatientController extends Controller
         $patients->identification = $request->identification;
         $patients->birthday = $request->birthday;
         $patients->phone = $request->phone;
-        $patients->landline = $request->landline;
-        $patients->ethnicity_id = $request->ethnicity_id;
-        $patients->is_disability = $request->is_disability;
         $patients->age = $request->age;
-        $patients->activities_id = $request->activities_id;
-        $patients->is_street_dweller = $request->is_street_dweller;
-        $patients->is_disability = $request->is_disability;
-        $patients->disability = $request->disability;
-        $patients->residence_address = $request->residence_address;
-        $patients->residence_country_id = $request->residence_country_id;
-        $patients->locality_id = $request->locality_id;
-        $patients->residence_id = $request->residence_id;
-        $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         if ($request->gender_id == 3) {
             $patients->gender_type = $request->gender_type;
         }

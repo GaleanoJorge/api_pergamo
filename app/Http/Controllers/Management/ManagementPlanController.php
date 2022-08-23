@@ -34,7 +34,9 @@ class ManagementPlanController extends Controller
                 'service_briefcase',
                 'service_briefcase.manual_price',
                 'procedure',
-                'procedure.manual_price'
+                'procedure.manual_price',
+                'route_administration',
+                'service_briefcase.manual_price.product.measurement_units'
             );
         } else {
             $ManagementPlan = ManagementPlan::select();
@@ -90,7 +92,8 @@ class ManagementPlanController extends Controller
                             )
                            ) AS incumplidas'),
         )
-            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase', 'assigned_user')
+            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase', 'assigned_user','route_administration','service_briefcase.manual_price.product.measurement_units')
+                
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
             ->groupBy('management_plan.id');
@@ -207,7 +210,9 @@ class ManagementPlanController extends Controller
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
-                'assigned_user'
+                'assigned_user',
+                'service_briefcase',
+                'service_briefcase.manual_price',
             )
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')

@@ -547,7 +547,7 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('user_incharge',)->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
