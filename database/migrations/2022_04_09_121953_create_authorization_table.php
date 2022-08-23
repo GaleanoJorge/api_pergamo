@@ -25,6 +25,7 @@ class CreateAuthorizationTable extends Migration
             $table->integer('copay_value')->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->unsignedBigInteger('auth_package_id')->nullable();
+            $table->unsignedBigInteger('fixed_add_id')->nullable();
             $table->unsignedBigInteger('manual_price_id')->nullable();
             $table->unsignedBigInteger('application_id')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
@@ -33,6 +34,10 @@ class CreateAuthorizationTable extends Migration
             $table->string('file_auth')->nullable();
             $table->timestamps();
 
+            $table->index('fixed_add_id');
+            $table->foreign('fixed_add_id')->references('id')
+                ->on('fixed_add');
+                
             $table->index('services_briefcase_id');
             $table->foreign('services_briefcase_id')->references('id')
                 ->on('services_briefcase');
