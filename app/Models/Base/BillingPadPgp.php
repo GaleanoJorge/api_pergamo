@@ -17,7 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $total_value
  * @property Date $validation_date
+ * @property BigInteger $consecutive
  * @property BigInteger $contract_id
+ * @property BigInteger $billing_pad_consecutive_id
+ * @property BigInteger $billing_pad_prefix_id
  * @property BigInteger $billing_pad_status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -37,5 +40,13 @@ class BillingPadPgp extends Model
 	public function billing_pad_status()
 	{
 		return $this->belongsTo(BillingPadStatus::class);
+	}
+	public function billing_pad_consecutive()
+	{
+		return $this->belongsTo(BillingPadConsecutive::class);
+	}
+	public function billing_pad_prefix()
+	{
+		return $this->belongsTo(BillingPadPrefix::class);
 	}
 }
