@@ -58,17 +58,22 @@ class AssignedManagementPlanController extends Controller
         $dateNow = Carbon::now()->format('YmdHis');
         $assigned_management_plan = AssignedManagementPlan::select(
             'assigned_management_plan.*',
-            DB::raw('IF(' . $dateNow . ' <= assigned_management_plan.redo,1,0) AS allow_redo')
-        )
-            ->with('user', 'management_plan');
+            DB::raw('IF(' . $dateNow . ' <= assigned_management_plan.redo,1,0) AS allow_redo'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+            )
+            ->with('user', 'management_plan')
+            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+            ->leftJoin('users', 'users.id', 'assigned_management_plan.user_id')
+            ->groupBy('assigned_management_plan.id')
+            ;
         if ($userId == 0) {
-            $assigned_management_plan->where('management_plan_id', $managementId);
+            $assigned_management_plan->where('assigned_management_plan.management_plan_id', $managementId);
         } else {
             if ($request->patient) {
-                $assigned_management_plan->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')->where('user_id', $userId)
+                $assigned_management_plan->where('assigned_management_plan.management_plan.user_id', $userId)
                     ->where('management_plan.admissions_id', $request->patient);
             } else {
-                $assigned_management_plan->where('user_id', $userId);
+                $assigned_management_plan->where('assigned_management_plan.user_id', $userId);
             }
         }
 
