@@ -24,7 +24,8 @@ class FixedAssetsController extends Controller
             'fixed_stock',
             'fixed_stock.campus',
             'fixed_stock.fixed_type',
-            'fixed_nom_product'
+            'fixed_nom_product',
+            'fixed_type'
         );
 
         if ($request->_sort) {
@@ -36,6 +37,9 @@ class FixedAssetsController extends Controller
 
         if ($request->fixed_stock_id) {
             $FixedAssets->where('fixed_assets.fixed_stock_id', $request->fixed_stock_id);
+        }
+       if ($request->status_prod) {
+            $FixedAssets->where('fixed_assets.status_prod', $request->status_prod);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -76,7 +80,7 @@ class FixedAssetsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'lotes por usuario obtenidas exitosamente',
+            'message' => 'Activos por usuario obtenidas exitosamente',
             'data' => ['fixed_assets' => $fixed]
         ]);
     }
@@ -104,7 +108,7 @@ class FixedAssetsController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'lotes por usuario obtenidas exitosamente',
+            'message' => 'Activos por usuario obtenidas exitosamente',
             'data' => ['fixed_assets' => $fixed]
         ]);
     }
@@ -127,7 +131,7 @@ class FixedAssetsController extends Controller
         $FixedAssets->detail_description = $request->detail_description;
         $FixedAssets->color = $request->color;
         $FixedAssets->fixed_condition_id = $request->fixed_condition_id;
-
+        $FixedAssets->accessories = $request->accessories;
         $FixedAssets->calibration_certificate = $request->calibration_certificate;
         $FixedAssets->health_register = $request->health_register;
         $FixedAssets->warranty = $request->warranty;
@@ -213,6 +217,7 @@ class FixedAssetsController extends Controller
         $FixedAssets->color = $request->color;
         $FixedAssets->fixed_condition_id = $request->fixed_condition_id;
         $FixedAssets->calibration_certificate = $request->calibration_certificate;
+        $FixedAssets->accessories = $request->accessories;
         $FixedAssets->health_register = $request->health_register;
         $FixedAssets->warranty = $request->warranty;
         $FixedAssets->cv = $request->cv;

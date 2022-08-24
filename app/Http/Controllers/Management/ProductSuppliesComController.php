@@ -56,8 +56,7 @@ class ProductSuppliesComController extends Controller
         $ProductSuppliesCom->sanitary_registration_id = $request->sanitary_registration_id;
         $ProductSuppliesCom->packing_id = $request->packing_id;
         $ProductSuppliesCom->unit_packing = $request->unit_packing;
-        $ProductSuppliesCom->code_cum_file = $request->code_cum_file;
-        $ProductSuppliesCom->code_cum_consecutive = $request->code_cum_consecutive;
+        $ProductSuppliesCom->code_udi = $request->code_udi;
         $ProductSuppliesCom->useful_life = $request->useful_life;
         $ProductSuppliesCom->date_cum = $request->date_cum;
         $ProductSuppliesCom->save();
@@ -105,8 +104,7 @@ class ProductSuppliesComController extends Controller
         $ProductSuppliesCom->sanitary_registration_id = $request->sanitary_registration_id;
         $ProductSuppliesCom->packing_id = $request->packing_id;
         $ProductSuppliesCom->unit_packing = $request->unit_packing;
-        $ProductSuppliesCom->code_cum_file = $request->code_cum_file;
-        $ProductSuppliesCom->code_cum_consecutive = $request->code_cum_consecutive;
+        $ProductSuppliesCom->code_udi = $request->code_udi;
         $ProductSuppliesCom->useful_life = $request->useful_life;
         $ProductSuppliesCom->date_cum = $request->date_cum;
         $ProductSuppliesCom->save();

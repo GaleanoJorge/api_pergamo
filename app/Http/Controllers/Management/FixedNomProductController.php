@@ -18,7 +18,7 @@ class FixedNomProductController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedNomProduct = FixedNomProduct::with('fixed_clasification','fixed_clasification.fixed_code');
+        $FixedNomProduct = FixedNomProduct::with('fixed_clasification','fixed_clasification.fixed_code', 'fixed_clasification.fixed_type');
 
         if($request->_sort){
             $FixedNomProduct->orderBy($request->_sort, $request->_order);

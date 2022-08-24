@@ -54,6 +54,8 @@ class PharmacyLotController extends Controller
         $PharmacyLot->total = $request->total;
         $PharmacyLot->receipt_date = $request->receipt_date;
         $PharmacyLot->pharmacy_stock_id = $request->pharmacy_stock_id;
+        $PharmacyLot->date_invoice = $request->date_invoice;
+        $PharmacyLot->num_invoice = $request->num_invoice;
         $PharmacyLot->save();
 
         return response()->json([
@@ -95,7 +97,8 @@ class PharmacyLotController extends Controller
         $PharmacyLot->total = $request->total;
         $PharmacyLot->receipt_date = $request->receipt_date;
         $PharmacyLot->pharmacy_stock_id = $request->pharmacy_stock_id;
-
+        $PharmacyLot->date_invoice = $request->date_invoice;
+        $PharmacyLot->num_invoice = $request->num_invoice;
         $PharmacyLot->save();
 
         return response()->json([

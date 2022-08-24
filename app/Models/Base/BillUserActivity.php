@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\AccountReceivable;
 use App\Models\AssignedManagementPlan;
 use Carbon\Carbon;
 use App\Models\ServicesBriefcase;
@@ -45,6 +46,11 @@ class BillUserActivity extends Model
 	public function assigned_management_plan()
 	{
 		return $this->belongsTo(AssignedManagementPlan::class,'assigned_management_plan_id');
+
+	}
+	public function account_receivable()
+	{
+		return $this->belongsTo(AccountReceivable::class,'account_receivable_id');
 
 	}
 	
