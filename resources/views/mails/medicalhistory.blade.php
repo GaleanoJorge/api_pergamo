@@ -3650,7 +3650,7 @@
                 <tr style="height:11.95pt">
                     <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['product_generic']['measurement_units']) && isset($ch['product_generic']['multidose_concentration']) && isset($ch['dose'])) DOSIS: </b> {{$ch['dose']}} {{($ch['product_generic']['product_dose_id']==1? $ch['product_generic']['measurement_units'] ? $ch['product_generic']['measurement_units']['code'] : "" : $ch['product_generic']['multidose_concentration'] ? $ch['product_generic']['multidose_concentration']['code'] : "" )}} @endisset  </span>
+                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['product_generic']['measurement_units']) && isset($ch['product_generic']['multidose_concentration']) && isset($ch['dose'])) DOSIS: </b> {{$ch['dose']}} {{($ch['product_generic']['product_dose_id']==1? ($ch['product_generic']['measurement_units'] ? $ch['product_generic']['measurement_units']['code'] : "") : ($ch['product_generic']['multidose_concentration'] ? $ch['product_generic']['multidose_concentration']['code'] : "") )}} @endisset  </span>
                         </p>
                     </td>
                     <td style="width:106pt; vertical-align:top">
