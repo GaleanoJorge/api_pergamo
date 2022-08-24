@@ -104,9 +104,10 @@ use App\Models\SpecificTestsTl;
 use App\Models\TherapeuticGoalsTl;
 use App\Models\CifDiagnosisTl;
 use App\Models\NumberMonthlySessionsTl;
-use App\Models\RecommendationsEvo;
-
-
+use App\Models\TlTherapyLanguageRegular;
+use App\Models\InterventionTl;
+use App\Models\TherapyConceptTl;
+use App\Models\InputMaterialsUsedTl;
 
 use App\Models\ChSystemExam;
 use App\Models\Tariff;
@@ -593,7 +594,7 @@ class ChRecordController extends Controller
             $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
             $patient=$ChRecord[0]['admissions'];
-            $html = view('mails.hc', [
+            $html = view('mails.hcEnfermeria', [
                 'chrecord' => $ChRecord,
 
                 'ChPosition' => $ChPosition,
@@ -760,7 +761,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 4) {
 
             // INGRESO
-            $TlTherapyLanguage = TlTherapyLanguage::with('therapeutic_diagnosis','therapeutic_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $TlTherapyLanguage = TlTherapyLanguage::with('medical_diagnostic','therapeutic_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -774,7 +775,7 @@ class ChRecordController extends Controller
             //Antecedentes 
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
 
-            //Ostomias 
+            //Evolución 
             $OstomiesTl = OstomiesTl::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $SwallowingDisordersTL = SwallowingDisordersTL::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $VoiceAlterationsTl = VoiceAlterationsTl::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
@@ -789,10 +790,25 @@ class ChRecordController extends Controller
             $CifDiagnosisTl = CifDiagnosisTl::where('ch_record_id', $id)->get()->toArray();
             $NumberMonthlySessionsTl = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
            
-
+            // REGULAR
+            // Valoración
+            $TlTherapyLanguageRegular = TlTherapyLanguageRegular ::with('diagnosis',)->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChVitalSignsEvotl = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             
-
-
+            $TherapeuticGoalsTlEvo = TherapeuticGoalsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $InterventionTl = InterventionTl ::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $CifDiagnosisTlEvo = CifDiagnosisTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $InputMaterialsUsedTl = InputMaterialsUsedTl ::where('ch_record_id', $id)->get()->toArray();
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
@@ -805,7 +821,7 @@ class ChRecordController extends Controller
             $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
-            $html = view('mails.hc', [
+            $html = view('mails.lenguagehistory', [
                 'chrecord' => $ChRecord,
 
                 'TlTherapyLanguage' => $TlTherapyLanguage,
@@ -825,6 +841,16 @@ class ChRecordController extends Controller
                 'NumberMonthlySessionsTl' => $NumberMonthlySessionsTl,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChBackground' => $ChBackground,
+                'TlTherapyLanguageRegular' => $TlTherapyLanguageRegular,
+                'ChVitalSignsEvotl' => $ChVitalSignsEvotl,
+                'TherapeuticGoalsTlEvo' => $TherapeuticGoalsTlEvo,
+                'InterventionTl' => $InterventionTl,
+                'CifDiagnosisTlEvo' => $CifDiagnosisTl,
+                'CifDiagnosisTlEvo' => $CifDiagnosisTl,
+                'TherapyConceptTl' => $TherapyConceptTl,
+                'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
+                'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
+
                 
 
 
@@ -847,7 +873,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'Historia Clinica Terapia de Lenguaje.pdf';
 
             Storage::disk('public')->put($name, $file);
 
