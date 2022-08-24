@@ -311,6 +311,7 @@ class UserController extends Controller
             ->leftJoin('assistance', 'users.id', 'assistance.user_id')
             ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
             ->where('users.status_id', 1)
+            ->whereNotNull('assistance.id')
             ->groupBy('users.id');
 
         $users->where(function ($query) use ($request, $roles) {
@@ -352,16 +353,17 @@ class UserController extends Controller
                                 DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
                             )->Join('user_role', 'users.id', 'user_role.user_id')
                                 ->Join('assistance', 'users.id', 'assistance.user_id');
-                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                            $first = true;
-                            foreach ($roles as $role) {
-                                if ($first) {
-                                    $usersfinal->where('user_role.role_id', $role->role_id);
-                                    $first = false;
-                                } else {
-                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            $usersfinal->where(function ($query) use ($request, $roles) {
+                                $first = true;
+                                foreach ($roles as $role) {
+                                    if ($first) {
+                                        $query->where('user_role.role_id', $role->role_id);
+                                        $first = false;
+                                    } else {
+                                        $query->orWhere('user_role.role_id', $role->role_id);
+                                    }
                                 }
-                            }
+                            });
                             $usersfinal->where('users.id', $row['id'])
                                 ->with(
                                     'status',
@@ -371,7 +373,7 @@ class UserController extends Controller
                                     'user_role',
                                     'user_role.role',
                                     'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
 
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
@@ -388,16 +390,17 @@ class UserController extends Controller
                                 DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
                             )->Join('user_role', 'users.id', 'user_role.user_id')
                                 ->Join('assistance', 'users.id', 'assistance.user_id');
-                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                            $first = true;
-                            foreach ($roles as $role) {
-                                if ($first) {
-                                    $usersfinal->where('user_role.role_id', $role->role_id);
-                                    $first = false;
-                                } else {
-                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            $usersfinal->where(function ($query) use ($request, $roles) {
+                                $first = true;
+                                foreach ($roles as $role) {
+                                    if ($first) {
+                                        $query->where('user_role.role_id', $role->role_id);
+                                        $first = false;
+                                    } else {
+                                        $query->orWhere('user_role.role_id', $role->role_id);
+                                    }
                                 }
-                            }
+                            });
                             $usersfinal->where('users.id', $row['id'])
                                 ->with(
                                     'status',
@@ -407,7 +410,7 @@ class UserController extends Controller
                                     'user_role',
                                     'user_role.role',
                                     'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
 
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
