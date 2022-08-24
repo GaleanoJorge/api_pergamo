@@ -137,7 +137,6 @@ use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\ChDiagnosis;
 use App\Models\ChBackground;
-use App\Models\ChGynecologists;
 use App\Models\ChEvoSoap;
 use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
