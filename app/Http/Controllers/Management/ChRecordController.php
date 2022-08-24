@@ -468,7 +468,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.medicalhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChReasonConsultation' => $ChReasonConsultation,
@@ -776,7 +776,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.respiratoryhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
@@ -887,7 +887,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.sworkhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChSwFamily' => $ChSwFamily,
@@ -989,7 +989,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.physicalhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChEValorationFT' => $ChEValorationFT,
@@ -1044,9 +1044,6 @@ class ChRecordController extends Controller
 		}else if ($ChRecord[0]['ch_type_id'] == 6) {
             //Ingreso
             $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-
-
-            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -1089,7 +1086,7 @@ class ChRecordController extends Controller
             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1101,9 +1098,9 @@ class ChRecordController extends Controller
             $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
-            $html = view('mails.hc', [
+            $html = view('mails.occupationalhistory', [
                 'chrecord' => $ChRecord,
-                'chevalorationot' => $ChEValorationOT,
+                'ChEValorationOT' => $ChEValorationOT,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChEOccHistoryOT' => $ChEOccHistoryOT,
                 'ChEPastOT' => $ChEPastOT,
@@ -1121,13 +1118,12 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOT' => $ChEMSAssessmentOT,
                 'ChEMSWeeklyOT' => $ChEMSWeeklyOT,
                 'ChEValorationOTNT' => $ChEValorationOTNT,
+                'ChRNValorationOT' => $ChRNValorationOT,
                 'ChVitalSignsNT' => $ChVitalSignsNT,
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                 'firmPatient'=>$imagenPAtient,
-
-
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,

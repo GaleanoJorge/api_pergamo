@@ -88,6 +88,35 @@ class ChTherapeuticAssController extends Controller
             ->where('ch_ass_chest_symmetry_id', $request->ch_ass_chest_symmetry_id)
             ->first();
 
+            $ChAssSigns = new ChAssSigns;
+
+            if (isset($request->ch_signs)) {
+                foreach ($request->ch_signs as $element) {
+                    if ($element == 'ALETEO NASAL') {
+                        $ChAssSigns->fluter = $element;
+                    } else if ($element == 'CIANOSIS DISTAL') {
+                        $ChAssSigns->distal = $element;
+                    } else if ($element == 'CIANOSIS GENERALIZADA') {
+                        $ChAssSigns->widespread = $element;
+                    } else if ($element == 'CIANOSIS PERIBUCAL') {
+                        $ChAssSigns->peribucal = $element;
+                    } else if ($element == 'CIANOSIS PERIORBITAL') {
+                        $ChAssSigns->periorbitary = $element;
+                    } else if ($element == 'NINGUNO') {
+                        $ChAssSigns->none = $element;
+                    }else if ($element == 'USO DE MUSCULOS INTERCOSTALES') {
+                        $ChAssSigns->intercostal = $element;
+                    } else if ($element == 'USO DE MUSCULOS SUPRACLAVICULARES') {
+                        $ChAssSigns->aupraclavicular = $element;
+                }
+            }
+        }
+    
+                
+            $ChAssSigns->type_record_id = $request->type_record_id; 
+            $ChAssSigns->ch_record_id = $request->ch_record_id; 
+            $ChAssSigns->save();
+
         $ChTherapeuticAss = new ChTherapeuticAss;
 
         $ChTherapeuticAss->ch_ass_pattern_id = $request->ch_ass_pattern_id;
@@ -99,36 +128,10 @@ class ChTherapeuticAssController extends Controller
         $ChTherapeuticAss->ch_ass_chest_symmetry_id = $request->ch_ass_chest_symmetry_id;
         $ChTherapeuticAss->type_record_id = $request->type_record_id;
         $ChTherapeuticAss->ch_record_id = $request->ch_record_id;
+        $ChTherapeuticAss->ch_ass_signs_id = $ChAssSigns->id;
         $ChTherapeuticAss->save();
 
-        $ChAssSigns = new ChAssSigns;
 
-        if (isset($request->ch_signs)) {
-            foreach ($request->ch_signs as $element) {
-                if ($element == 'ALETEO NASAL') {
-                    $ChAssSigns->fluter = $element;
-                } else if ($element == 'CIANOSIS DISTAL') {
-                    $ChAssSigns->distal = $element;
-                } else if ($element == 'CIANOSIS GENERALIZADA') {
-                    $ChAssSigns->widespread = $element;
-                } else if ($element == 'CIANOSIS PERIBUCAL') {
-                    $ChAssSigns->peribucal = $element;
-                } else if ($element == 'CIANOSIS PERIORBITAL') {
-                    $ChAssSigns->periorbitary = $element;
-                } else if ($element == 'NINGUNO') {
-                    $ChAssSigns->none = $element;
-                }else if ($element == 'USO DE MUSCULOS INTERCOSTALES') {
-                    $ChAssSigns->intercostal = $element;
-                } else if ($element == 'USO DE MUSCULOS SUPRACLAVICULARES') {
-                    $ChAssSigns->aupraclavicular = $element;
-            }
-        }
-    }
-
-            
-        $ChAssSigns->type_record_id = $request->type_record_id; 
-        $ChAssSigns->ch_record_id = $request->ch_record_id; 
-        $ChAssSigns->save();
 
         return response()->json([
             'status' => true,
