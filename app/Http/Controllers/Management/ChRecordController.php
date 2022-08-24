@@ -166,6 +166,7 @@ use App\Models\ChETherGoalsFT;
 use App\Models\ChEValorationFT;
 use App\Models\ChEValorationTherFT;
 use App\Models\ChEWeeklyFT;
+use App\Models\ChGynecologists;
 use App\Models\InputMaterialsUsedTl;
 use App\Models\InterventionTl;
 use App\Models\TherapyConceptTl;
@@ -315,6 +316,13 @@ class ChRecordController extends Controller
 
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
+
+
+        if ($ChRecord[0]['firm_file']) {
+            $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
+            $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+            $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }
 
         ///Medicina General
         ///////////////////////////////////////////////////////////////////////////////////////
@@ -510,6 +518,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -582,7 +591,7 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('user_incharge',)->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -678,6 +687,7 @@ class ChRecordController extends Controller
 
 
 
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -789,6 +799,7 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -895,7 +906,7 @@ class ChRecordController extends Controller
                 'ChSwArmedConflict' => $ChSwArmedConflict,
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
-
+                'firmPatient'=>$imagenPAtient,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -1005,7 +1016,7 @@ class ChRecordController extends Controller
                 'ChETherGoalsFTEvo' => $ChETherGoalsFTEvo,
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
-
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1113,7 +1124,7 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
-
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1230,7 +1241,7 @@ class ChRecordController extends Controller
                 'CifDiagnosisTlEvo' => $CifDiagnosisTl,
                 'TherapyConceptTl' => $TherapyConceptTl,
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
-
+                'firmPatient'=>$imagenPAtient,
                 
 
 
