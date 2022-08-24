@@ -19,9 +19,9 @@ class BillingStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingStock = BillingStock::select('billing_stock.*')->with('billing', 'billing.company', 'product', 'product.factory', 'product.product_generic', 'product_supplies_com', 'product_supplies_com.product_supplies')
-        ->Leftjoin('product', 'billing_stock.product_id', 'product.id')
-        ->Leftjoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')->groupBy('billing_stock.id');
+        $BillingStock = BillingStock::select('billing_stock.*')->with('billing', 'billing.company', 'product', 'product.factory', 'product.product_generic', 'product_supplies_com', 'product_supplies_com.factory', 'product_supplies_com.product_supplies')
+            ->Leftjoin('product', 'billing_stock.product_id', 'product.id')
+            ->Leftjoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')->groupBy('billing_stock.id');
 
         if ($request->_sort) {
             $BillingStock->orderBy($request->_sort, $request->_order);

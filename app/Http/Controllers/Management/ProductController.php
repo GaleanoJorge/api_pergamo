@@ -18,14 +18,20 @@ class ProductController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Products = Product::with('product_generic');
+        $Products = Product::select('product.*')
+            ->leftJoin('product_generic', 'product.product_generic_id', 'product_generic.id')
+            ->with('product_generic',
+        'factory');
 
         if ($request->_sort) {
             $Products->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $Products->where('name', 'like', '%' . $request->search . '%');
+            $Products->where(function ($query) use ($request) {
+                $query->Where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_generic.description', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
