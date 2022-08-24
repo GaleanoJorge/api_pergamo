@@ -185,18 +185,16 @@
                     <span style="font-family:Calibri; font-size:8pt"><b>Pertenencia étnica: </b></span>
                 </p>
             </td>
-    
-            <td style="width:203pt; vertical-align:top">
+            {{-- <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
                 </p>
-            </td>
+            </td> --}}
             <td style="width:106pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:47.05pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri"> <b> Nivel Educativo: </b> </span>
                 </p>
             </td>
-
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level']['name']}}</span>
@@ -1121,85 +1119,82 @@
                         <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                     </p>
                 @endisset
-
+                
                     @foreach($ChSwIncome as $ch)
-                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
-                    </p>
-                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
-                        <tr style="height:11.95pt">
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['salary'])) SALARIO </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['salary'])) {{$ch['salary']}} @endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['pension'])) PENSIÓN </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['pension'])) {{$ch['pension']}} @endisset</span>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr style="height:11.95pt">
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['donations'])) DONACIONES </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['donations'])) {{$ch['donations']}} @endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['rent'])) RENTA </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['rent'])) {{$ch['rent']}} @endisset</span>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr style="height:11.95pt">
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['familiar_help'])) AYUDA FAMILIAR </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['familiar_help'])) {{$ch['familiar_help']}} @endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:79.75pt; vertical-align:top">
-                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['none'])) NINGUNO </b>@endisset</span>
-                                </p>
-                            </td>
-                            <td style="width:106pt; vertical-align:top">
-                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['none'])) {{$ch['none']}} @endisset</span>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['total'])) TOTAL DE INGRESOS: </b> {{$ch['total']}}@endisset</span>
-                    </p>   
-                    <br/>       
+                        @if(($ch['none'])==1)
+                            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                                <span style="font-family:Calibri; font-size:9pt">
+                                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
+                                <span style="font-family:Calibri; font-size:8pt">NO TIENE INGRESOS </span>
+                            </p>
+                        @endisset
 
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        </p>
+                        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['salary'])) SALARIO </b>@endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">@if(isset($ch['salary'])) $ {{$ch['salary']}} @endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['pension'])) PENSIÓN </b>@endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">@if(isset($ch['pension'])) $ {{$ch['pension']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['donations'])) DONACIONES </b>@endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">@if(isset($ch['donations'])) $ {{$ch['donations']}} @endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['rent'])) RENTA </b>@endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">@if(isset($ch['rent'])) $ {{$ch['rent']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['familiar_help'])) AYUDA FAMILIAR </b>@endisset</span>
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri">@if(isset($ch['familiar_help'])) $ {{$ch['familiar_help']}} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['total'])) TOTAL DE INGRESOS: </b> $ {{$ch['total']}}@endisset</span>
+                        </p>   
+                        <br/>       
                     @endforeach          
             </div>
 
@@ -1226,7 +1221,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['feeding'])) {{$ch['feeding']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['feeding'])) $ {{$ch['feeding']}} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:79.75pt; vertical-align:top">
@@ -1236,7 +1231,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['gas'])) {{$ch['gas']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['gas'])) $ {{$ch['gas']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1248,7 +1243,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['light'])) {{$ch['light']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['light'])) $ {{$ch['light']}} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:79.75pt; vertical-align:top">
@@ -1258,7 +1253,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['aqueduct'])) {{$ch['aqueduct']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['aqueduct'])) $ {{$ch['aqueduct']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1270,7 +1265,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['rent'])) {{$ch['rent']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['rent'])) $ {{$ch['rent']}} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:79.75pt; vertical-align:top">
@@ -1280,7 +1275,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['transportation'])) {{$ch['transportation']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['transportation'])) $ {{$ch['transportation']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1292,7 +1287,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['recreation'])) {{$ch['recreation']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['recreation'])) $ {{$ch['recreation']}} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:79.75pt; vertical-align:top">
@@ -1302,7 +1297,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['education'])) {{$ch['education']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['education'])) $ {{$ch['education']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1314,7 +1309,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['medical'])) {{$ch['medical']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['medical'])) $ {{$ch['medical']}} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:79.75pt; vertical-align:top">
@@ -1324,7 +1319,7 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['cell_phone'])) {{$ch['cell_phone']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['cell_phone'])) $ {{$ch['cell_phone']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1336,13 +1331,13 @@
                             </td>
                             <td style="width:106pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['landline'])) {{$ch['landline']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['landline'])) $ {{$ch['landline']}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
                     </table>
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['total'])) TOTAL DE EGRESOS: </b> {{$ch['total']}}@endisset</span>
+                        <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['total'])) TOTAL DE EGRESOS: </b> $ {{$ch['total']}}@endisset</span>
                     </p>      
                     <br/>       
 
