@@ -67,7 +67,8 @@ class ChDietsEvoController extends Controller
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //
                 $chrecord = ChRecord::find($id); //
-                $ChDietsEvo = ChDietsEvo::with(
+                $ChDietsEvo = ChDietsEvo::select('ch_diets_evo.*')
+                ->with(
                     'enterally_diet',
                     'diet_consistency',
                     'type_record',

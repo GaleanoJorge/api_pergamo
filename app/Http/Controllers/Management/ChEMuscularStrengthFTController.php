@@ -6,6 +6,7 @@ use App\Models\ChEMuscularStrengthFT;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ChRecord;
 use Illuminate\Database\QueryException;
 
 class ChEMuscularStrengthFTController extends Controller
@@ -57,12 +58,22 @@ class ChEMuscularStrengthFTController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request,int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChEMuscularStrengthFT = ChEMuscularStrengthFT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
+
+            if ($request->has_input) { //
+                if ($request->has_input == 'true') { //
+                    $chrecord = ChRecord::find($id); //
+                    $ChEMuscularStrengthFT = ChEMuscularStrengthFT::select('ch_e_muscular_strength_f_t.*')
+                        ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                        ->leftJoin('ch_record', 'ch_record.id', 'ch_e_muscular_strength_f_t.ch_record_id') //
+                        ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+                }
+            }
             
 
 
