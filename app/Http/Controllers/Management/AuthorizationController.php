@@ -93,6 +93,10 @@ class AuthorizationController extends Controller
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
             );
 
         if ($statusId == 0) {
@@ -213,6 +217,10 @@ class AuthorizationController extends Controller
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
             );
 
         if ($statusId == 0) {

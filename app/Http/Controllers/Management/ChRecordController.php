@@ -165,6 +165,7 @@ use App\Models\ChETherGoalsFT;
 use App\Models\ChEValorationFT;
 use App\Models\ChEValorationTherFT;
 use App\Models\ChEWeeklyFT;
+use App\Models\ChGynecologists;
 use App\Models\InputMaterialsUsedTl;
 use App\Models\InterventionTl;
 use App\Models\TherapyConceptTl;
@@ -315,6 +316,13 @@ class ChRecordController extends Controller
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
 
+
+        if ($ChRecord[0]['firm_file']) {
+            $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
+            $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+            $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }
+
         ///Medicina General
         ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -341,6 +349,19 @@ class ChRecordController extends Controller
 
             //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            //Antecedentes Gyneco
+            $ChGynecologists = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Evolución
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -435,7 +456,7 @@ class ChRecordController extends Controller
 
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
-            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -461,6 +482,7 @@ class ChRecordController extends Controller
                 'ChDiets' => $ChDiets,
 
                 'ChBackground' => $ChBackground,
+                'ChGynecologists' => $ChGynecologists,
 
                 'ChEvoSoap' => $ChEvoSoap,
                 'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
@@ -495,6 +517,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -567,7 +590,7 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('user_incharge',)->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -663,6 +686,7 @@ class ChRecordController extends Controller
 
 
 
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -742,8 +766,7 @@ class ChRecordController extends Controller
             $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-
-            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -775,6 +798,7 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -881,7 +905,7 @@ class ChRecordController extends Controller
                 'ChSwArmedConflict' => $ChSwArmedConflict,
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
-
+                'firmPatient'=>$imagenPAtient,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -991,7 +1015,7 @@ class ChRecordController extends Controller
                 'ChETherGoalsFTEvo' => $ChETherGoalsFTEvo,
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
-
+                'firmPatient'=>$imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1101,7 +1125,7 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
-
+                'firmPatient'=>$imagenPAtient,
 
 
 
@@ -1220,7 +1244,7 @@ class ChRecordController extends Controller
                 'CifDiagnosisTlEvo' => $CifDiagnosisTl,
                 'TherapyConceptTl' => $TherapyConceptTl,
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
-
+                'firmPatient'=>$imagenPAtient,
                 
 
 

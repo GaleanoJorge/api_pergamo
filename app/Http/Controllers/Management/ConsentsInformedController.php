@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 
 class ConsentsInformedController extends Controller
@@ -114,34 +116,42 @@ class ConsentsInformedController extends Controller
             $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['assigned_user']['assistance'][0]['file_firm']);
             $contenidoBinario = file_get_contents($rutaImagen);
             $imagenAssistence = base64_encode($contenidoBinario);
+        }else{
+            $imagenAssistence = null;
         }
-        // if ($ConsentsInformed[0]['firm_patient']) {
-        //     $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
-        //     $contenidoBinario = file_get_contents($rutaImagen);
-        //     $imagenPatient = base64_encode($contenidoBinario);
-        // }
-        // if ($ConsentsInformed[0]['firm_responsible']) {
-        //     $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
-        //     $contenidoBinario = file_get_contents($rutaImagen);
-        //     $imagenResponsible = base64_encode($contenidoBinario);
-        // }
+        if ($ConsentsInformed[0]['firm_patient']) {
+            $rutaImagen2 = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
+            $contenidoBinario2 = file_get_contents($rutaImagen2);
+            $imagenPatient = base64_encode($contenidoBinario2);
+        }else{
+            $imagenPatient = null;
+            
+        }
+        if ($ConsentsInformed[0]['firm_responsible']) {
+            $rutaImagen3 = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
+            $contenidoBinario3 = file_get_contents($rutaImagen3);
+            $imagenResponsible = base64_encode($contenidoBinario3);
+        }else{
+            $imagenResponsible = null;
+
+        }
 
         if ($ConsentsInformed[0]['type_consents_id'] == 1) {
 
             $html = view('mails.ciPsicologia', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         } else if ($ConsentsInformed[0]['type_consents_id'] == 2) {
 
             $html = view('mails.ciProcedimientosg', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
                 
             ])->render();
@@ -149,54 +159,54 @@ class ConsentsInformedController extends Controller
 
         $html = view('mails.ciAltavoluntaria', [
             'consentsinformed' => $ConsentsInformed,
-            'firmpatient' => $imagenComoBase64,
-            'firmassistance' => $imagenComoBase64,
-            'firmresponsible' => $imagenComoBase64,
+            'firmpatient' => $imagenPatient,
+            'firmassistance' => $imagenAssistence,
+            'firmresponsible' => $imagenResponsible,
             'today' => $today,
         ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 4) {
 
             $html = view('mails.ciTeleterapia', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 5) {
 
             $html = view('mails.ciTerapiaL', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 6) {
 
             $html = view('mails.ciTerapiaR', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 7) {
 
             $html = view('mails.ciTerapiaF', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
     
                 $html = view('mails.ciTerapiaO', [
                     'consentsinformed' => $ConsentsInformed,
-                    'firmpatient' => $imagenComoBase64,
-                    'firmassistance' => $imagenComoBase64,
-                    'firmresponsible' => $imagenComoBase64,
+                    'firmpatient' => $imagenPatient,
+                    'firmassistance' => $imagenAssistence,
+                    'firmresponsible' => $imagenResponsible,
                     'today' => $today,
                 ])->render();
            
@@ -204,27 +214,27 @@ class ConsentsInformedController extends Controller
 
             $html = view('mails.ciDisentimientoPAD', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
 
             $html = view('mails.ciRAudiovisual', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
 
             $html = view('mails.ciCompromisoPad', [
                 'consentsinformed' => $ConsentsInformed,
-                'firmpatient' => $imagenComoBase64,
-                'firmassistance' => $imagenComoBase64,
-                'firmresponsible' => $imagenComoBase64,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
         }
@@ -266,8 +276,28 @@ class ConsentsInformedController extends Controller
 
         $ConsentsInformed = new ConsentsInformed;
         $ConsentsInformed->admissions_id = $request->admissions_id;
-        $ConsentsInformed->firm_patient = $request->firm_patient;
-        $ConsentsInformed->firm_responsible = $request->firm_responsible;
+
+        if ($request->firm_patient) {
+            $image = $request->get('firm_patient');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $random = Str::random(10);
+            $imagePath = 'firmas-consentimientos/' . $random . '.png';
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+
+            $ConsentsInformed->firm_patient = $imagePath;
+        }
+
+        if ($request->firm_responsible) {
+            $image = $request->get('firm_responsible');  // your base64 encoded
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $random = Str::random(10);
+            $imagePath = 'firmas-consentimientos/' . $random . '.png';
+            Storage::disk('public')->put($imagePath, base64_decode($image));
+
+            $ConsentsInformed->firm_responsible = $imagePath;
+        }
         $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
         $ConsentsInformed->type_consents_id = $request->type_consents_id;
         $ConsentsInformed->name_responsible = $request->name_responsible;
