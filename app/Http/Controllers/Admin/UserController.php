@@ -439,6 +439,25 @@ class UserController extends Controller
         ]);
     }
 
+        /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function indexByExternalConsultant(Request $request): JsonResponse
+    {
+        $users = User::select('users')
+        ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+        ->where('assistance.attends_external_consultation', 1);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios por locación obtenidos exitosamente',
+            'data' => ['users' => $users]
+        ]);
+    }
+
     /**
      * Display a listing of the resource
      *

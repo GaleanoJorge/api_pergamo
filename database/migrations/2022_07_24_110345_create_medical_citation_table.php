@@ -22,7 +22,7 @@ class CreateMedicalCitationTable extends Migration
             $table->date('start_date');
             $table->date('finish_date');
             $table->unsignedBigInteger('patient_id');
-            $table->unsignedBigInteger('assistance_id');
+            $table->unsignedBigInteger('medical_diary_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('status_id');
             $table->timestamps();
@@ -40,9 +40,8 @@ class CreateMedicalCitationTable extends Migration
                 ->on('patients');
             $table->foreign('user_id')->references('id')
                 ->on('users');
-                $table->foreign('status_id')->references('id')
+            $table->foreign('status_id')->references('id')
                 ->on('status');
-
         });
     }
 

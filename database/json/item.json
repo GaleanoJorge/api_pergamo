@@ -1560,8 +1560,8 @@
         "id": "224",
         "item_parent_id": null,
         "name": "Consulta externa",
-        "code": "medical-diary",
-        "route": "/pages/setting/medical-diary",
+        "code": null,
+        "route": null,
         "icon": "book-open-outline",
         "show_menu": "1"
     },
@@ -1599,6 +1599,24 @@
         "code": "fixed-assets-requests",
         "route": "/pages/setting/fixed-assets-requests",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "229",
+        "item_parent_id": "224",
+        "name": "Consulta externa",
+        "code": "medical-diary",
+        "route": "/pages/setting/medical-diary",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "230",
+        "item_parent_id": "224",
+        "name": "Agendamiento",
+        "code": "medical-diary",
+        "route": "/pages/setting/medical-diary",
+        "icon": "book-open-outline",
         "show_menu": "1"
     }
 ]

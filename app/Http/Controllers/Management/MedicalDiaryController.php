@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Management;
 use App\Models\MedicalDiary;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Bed;
+use App\Models\MedicalDiaryDays;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,17 @@ class MedicalDiaryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $medical_diary = MedicalDiary::with('assistance');
+        $medical_diary = MedicalDiary::select('medical_diary.*')
+            ->with(
+                'assistance',
+                'diary_status',
+                'medical_diary_days',
+                'medical_diary_days.days',
+                'office',
+                'office.pavilion',
+                'office.pavilion.flat',
+                'office.pavilion.flat.campus',
+            );
 
         if ($request->assistance) {
             $medical_diary->where('assistance_id', $request->assistance );
@@ -43,7 +55,7 @@ class MedicalDiaryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'MedicalDiarys obtenidas exitosamente',
+            'message' => 'Agendas medicas obtenidas exitosamente',
             'data' => ['medical_diary' => $medical_diary]
         ]);
     }
@@ -58,18 +70,36 @@ class MedicalDiaryController extends Controller
     public function store(Request $request): JsonResponse
     {
         $MedicalDiary = new MedicalDiary;
+
         $MedicalDiary->assistance_id = $request->assistance_id;
-        $MedicalDiary->weekdays = $request->weekdays;
         $MedicalDiary->start_time = $request->start_time;
         $MedicalDiary->finish_time = $request->finish_time;
         $MedicalDiary->start_date = $request->start_date;
         $MedicalDiary->finish_date = $request->finish_date;
         $MedicalDiary->interval = $request->interval;
+        $MedicalDiary->office_id = $request->office_id;
+        $MedicalDiary->diary_status_id = 1;
+
         $MedicalDiary->save();
+
+        $Office = Bed::find($request->office_id);
+        $Office->status_bed_id = 2;
+        $Office->save();
+
+        $days = json_decode($request->weekdays);
+        foreach($days as $day){
+            
+            $MedicalDiaryDays = new MedicalDiaryDays;
+
+            $MedicalDiaryDays->days_id = $day;
+            $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+
+            $MedicalDiaryDays->save();
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Agenda creada exitosamente',
+            'message' => 'Agendas medicas creada exitosamente',
             'data' => ['medical_diary' => $MedicalDiary->toArray()]
         ]);
     }
@@ -88,7 +118,7 @@ class MedicalDiaryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Área obtenida exitosamente',
+            'message' => 'Agendas medicas obtenida exitosamente',
             'data' => ['medical_diary' => $MedicalDiary]
         ]);
     }

@@ -11,33 +11,32 @@ use Illuminate\Database\QueryException;
 
 class BedController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Bed = Bed::with('pavilion','pavilion.flat','pavilion.flat.campus','status_bed');
+        $Bed = Bed::with('pavilion', 'pavilion.flat', 'pavilion.flat.campus', 'status_bed');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Bed->where('name','like','%' . $request->search. '%')
-            ->orWhere('code','like','%'.$request->search.'%');
+            $Bed->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('code', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Bed=$Bed->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Bed = $Bed->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Bed = $Bed->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Bed=$Bed->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -47,15 +46,15 @@ class BedController extends Controller
         ]);
     }
 
-                     /**
+    /**
      * Display a listing of the resource
      *
      * @param integer $pavilion_id
      * @return JsonResponse
      */
-    public function getBedByPavilion(int $pavilion_id,int $ambit): JsonResponse
+    public function getBedByPavilion(int $pavilion_id, int $ambit): JsonResponse
     {
-        $Bed = Bed::where('pavilion_id', $pavilion_id)->where('status_bed_id','=','1')->where('bed_or_office','=',$ambit)
+        $Bed = Bed::where('pavilion_id', $pavilion_id)->where('status_bed_id', '=', '1')->where('bed_or_office', '=', $ambit)
             ->orderBy('name', 'asc')->get()->toArray();
 
         return response()->json([
@@ -64,8 +63,8 @@ class BedController extends Controller
             'data' => ['bed' => $Bed]
         ]);
     }
-    
-                         /**
+
+    /**
      * Display a listing of the resource
      *
      * @param integer $pavilion_id
@@ -73,25 +72,24 @@ class BedController extends Controller
      */
     public function getBedByPacient(Request $request): JsonResponse
     {
-        $Bed = Bed::with('status_bed','location','location.admissions','location.admissions.users')->where('bed_or_office',1);
+        $Bed = Bed::with('status_bed', 'location', 'location.admissions', 'location.admissions.users')->where('bed_or_office', 1);
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Bed->where('name','like','%' . $request->search. '%');
+            $Bed->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Bed=$Bed->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Bed = $Bed->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Bed = $Bed->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Bed=$Bed->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -100,19 +98,69 @@ class BedController extends Controller
             'data' => ['bed' => $Bed]
         ]);
     }
-    
-    
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param integer $pavilion_id
+     * @return JsonResponse
+     */
+    public function getOfficeByCampus(Request $request): JsonResponse
+    {
+        $Bed = Bed::select('bed.*')
+            ->leftJoin('pavilion', 'bed.pavilion_id', 'pavilion.id')
+            ->leftjoin('flat', 'pavilion.flat_id', 'flat.id')
+            ->with(
+                'status_bed',
+                'pavilion',
+                'pavilion.flat',
+                'pavilion.flat.campus',
+            )
+            ->where([
+                'bed.status_bed_id' => $request->status_bed_id,
+                'bed.bed_or_office' => '2',
+                'flat.campus_id' => $request->campus_id,
+            ]);
+
+        if ($request->_sort) {
+            $Bed->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $Bed->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $Bed = $Bed->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Bed = $Bed->paginate($per_page, '*', 'page', $page);
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas obtenidos exitosamente',
+            'data' => ['bed' => $Bed]
+        ]);
+    }
+
+
+
+
 
     public function store(BedRequest $request): JsonResponse
     {
         $Bed = new Bed;
-        $Bed->code = $request->code; 
-        $Bed->name = $request->name; 
-        $Bed->status_bed_id = $request->status_bed_id; 
-        $Bed->bed_or_office = $request->bed_or_office; 
-        $Bed->pavilion_id = $request->pavilion_id; 
-         
-        
+        $Bed->code = $request->code;
+        $Bed->name = $request->name;
+        $Bed->status_bed_id = $request->status_bed_id;
+        $Bed->bed_or_office = $request->bed_or_office;
+        $Bed->pavilion_id = $request->pavilion_id;
+
+
         $Bed->save();
 
         return response()->json([
@@ -148,21 +196,21 @@ class BedController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        if($request==true){
-            $Bed = Bed::find($id); 
-            $Bed->status_bed_id = $request->status_bed_id; 
+        if ($request == true) {
+            $Bed = Bed::find($id);
+            $Bed->status_bed_id = $request->status_bed_id;
             $Bed->save();
-        }else{
-            $Bed = Bed::find($id); 
-            $Bed->code = $request->code; 
-            $Bed->name = $request->name; 
-            $Bed->status_bed_id = $request->status_bed_id; 
-            $Bed->pavilion_id = $request->pavilion_id; 
-            $Bed->bed_or_office = $request->bed_or_office; 
-          
-        
-        
-        $Bed->save();
+        } else {
+            $Bed = Bed::find($id);
+            $Bed->code = $request->code;
+            $Bed->name = $request->name;
+            $Bed->status_bed_id = $request->status_bed_id;
+            $Bed->pavilion_id = $request->pavilion_id;
+            $Bed->bed_or_office = $request->bed_or_office;
+
+
+
+            $Bed->save();
         }
         return response()->json([
             'status' => true,
