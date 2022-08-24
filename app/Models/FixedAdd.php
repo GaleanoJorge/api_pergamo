@@ -20,5 +20,6 @@ class FixedAdd extends BaseFixedAdd
 		'fixed_location_campus_id',
 		'own_fixed_user_id',
 		'request_fixed_user_id',
+		'procedure_id',
 	];
 }

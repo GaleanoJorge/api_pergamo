@@ -16,7 +16,7 @@ class CreateChOxygenTherapyTable extends Migration
         Schema::create('ch_oxygen_therapy', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('revision');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -184,7 +184,7 @@ class LoginController extends Controller
     public function getRolesUserAuth(): JsonResponse
     {
         $userId = Auth::user()->id;
-        $user = User::where('id', $userId)->with('roles')->get()->toArray();
+        $user = User::where('id', $userId)->with('roles', 'assistance')->get()->toArray();
 
         return response()->json([
             'status' => true,

@@ -42,9 +42,9 @@ class AdmissionsController extends Controller
                 'location.program',
             );
         if ($request->admissions_id) {
-            $Admissions->with('patients','regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
         } else {
-            $Admissions->with('patients','regime')->orderBy('created_at', 'desc');
+            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -120,26 +120,77 @@ class AdmissionsController extends Controller
      */
     public function getByPacient(Request $request, int $pacientId): JsonResponse
     {
+        $consulta = 'IF(
+            SUM(
+                IF(management_plan.id > 0, 1,0)
+            ) = 0
+            
+        ,
+        IF(NOW() > (admissions.entry_date + INTERVAL 1 DAY),2,1)
+        ,
+
+             IF(
+                 SUM(
+                     IF(assigned_management_plan.id > 0, 1,0)
+                 ) = 0
+                 ,3
+                 ,
+                     IF(SUM(
+                             IF(assigned_management_plan.user_id = null,1,0)
+                         ) = 0
+                         ,
+                             IF(
+                                 SUM(
+                                     IF(assigned_management_plan.redo > ' . Carbon::now()->format('YmdHis') . ',1,0)
+                                 ) = 0
+                                 ,
+                                    IF(
+                                            SUM(
+                                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                                                    1,0 
+                                                )
+                                            ) = 0
+                                        ,
+                                              IF(
+                                                COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                                                                                                    SUM(
+                                                                                                    CASE assigned_management_plan.execution_date 
+                                                                                                        WHEN "0000-00-00 00:00:00" THEN 1 
+                                                                                                        ELSE 0 
+                                                                                                    END), 
+                                                                                                    -1)
+                                                    ,6
+                                                    ,0
+                                                )  
+                                        ,5
+                                    )
+                                 ,4
+                             )
+                         ,3
+                     )
+             )
+    )';
         $Admissions = Admissions::select(
             'admissions.*',
             DB::raw('
-                    IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                        SUM(
-                            CASE assigned_management_plan.execution_date 
-                                WHEN "0000-00-00 00:00:00" THEN 1 
-                                ELSE 0 
-                            END), 
-                        -1) AS not_executed'),
+            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                    CASE assigned_management_plan.execution_date 
+                        WHEN "0000-00-00 00:00:00" THEN 1 
+                        ELSE 0 
+                    END), 
+                -1) AS not_executed'),
             DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
             DB::raw('
-                         
-                            SUM(
-                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
-                                   1,0 
-                            )
-                           ) AS incumplidas'),
+             
+                SUM(
+                    IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                       1,0 
+                )
+               ) AS incumplidas'),
+            DB::raw($consulta . ' AS ingreso'),
         )
-        ->where('patient_id', $pacientId)
+            ->where('patient_id', $pacientId)
             ->with(
                 'patients',
                 'briefcase',
@@ -147,6 +198,8 @@ class AdmissionsController extends Controller
                 'contract',
                 'location',
                 'regime',
+                'management_plan',
+                'management_plan.assigned_management_plan',
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
@@ -154,7 +207,7 @@ class AdmissionsController extends Controller
                 'location.pavilion',
                 'location.bed',
             )
-            ->leftJoin('management_plan','management_plan.admissions_id','admissions.id')
+            ->leftJoin('management_plan', 'management_plan.admissions_id', 'admissions.id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->groupBy('admissions.id')
             ->orderBy('created_at', 'desc');
@@ -163,6 +216,88 @@ class AdmissionsController extends Controller
             $Admissions->where('name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
+
+        if ($request->semaphore == 1) {
+            //Cumplido
+            $Admissions->when($consulta . '= 0', function ($query) {
+                $query->when('assigned_management_plan.redo < ' . Carbon::now()->format('YmdHis'), function ($q) {
+                    $q->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+                });
+            });
+        } else if ($request->semaphore == 2) {
+            //Admisión creada
+            $Admissions->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '>', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 3) {
+            //Sin agendar
+            $Admissions->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 4) {
+            //Sin asignar profesional
+            $Admissions->when($consulta . '= 3', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNull('assigned_management_plan.user_id');
+                });
+            });
+        } else if ($request->semaphore == 5) {
+            //Por subsanar
+            $Admissions->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+            });
+            $Admissions->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.redo', '>', Carbon::now()->format('YmdHis'));
+            });
+        } else if ($request->semaphore == 6) {
+            //Pendiente por ejecutar
+            $Admissions->when($consulta . '= 5', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '<', Carbon::now());
+                });
+            });
+        } else if ($request->semaphore == 7) {
+            //Proyección creada
+            $Admissions->when($consulta . '= 6', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '>', Carbon::now());
+                });
+            });
+        }
+
         if ($request->query("pagination", true) === "false") {
             $Admissions = $Admissions->get()->toArray();
         } else {
@@ -206,7 +341,7 @@ class AdmissionsController extends Controller
                 'location',
                 'location.scope_of_attention',
                 'location.program',
-                )
+            )
             ->where('briefcase_id', $briefcase_id)
             ->where('discharge_date', '0000-00-00 00:00:00')
             ->orderBy('created_at', 'desc')->get()->toArray();
@@ -327,80 +462,80 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
-        $count=0;
+        $count = 0;
         global $Admission;
-        $admissions=Admissions::where('patient_id',$request->patient_id)->get()->toArray();
-        foreach($admissions as $admission){
-            $nowlocation= Location::where('admissions_id',$admission['id'])->where('program_id',$request->program_id)->get()->toArray();
-            if(sizeof($nowlocation)>0){
-            $count++;
+        $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
+        foreach ($admissions as $admission) {
+            $nowlocation = Location::where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->get()->toArray();
+            if (sizeof($nowlocation) > 0) {
+                $count++;
             }
         }
-        
-        if($count==0){
-        $count      = Admissions::where('patient_id', $request->patient_id)->count();
-        $Admissions = new Admissions;
-        $Admissions->consecutive = $count + 1;
-        $Admissions->diagnosis_id = $request->diagnosis_id;;
-        $Admissions->campus_id = $request->campus_id;
-        $Admissions->contract_id = $request->contract_id;
-        $Admissions->briefcase_id = $request->briefcase_id;
-        $Admissions->procedure_id = $request->procedure_id;
-        $Admissions->regime_id = $request->regime_id;
-        $Admissions->patient_id = $request->patient_id;
-        $Admissions->entry_date = Carbon::now();
-        $Admissions->save();
 
-        $Location = new Location;
-        $Location->admissions_id = $Admissions->id;
-        $Location->admission_route_id = $request->admission_route_id;
-        $Location->scope_of_attention_id = $request->scope_of_attention_id;
-        $Location->program_id = $request->program_id;
-        $Location->pavilion_id = $request->pavilion_id;
-        $Location->flat_id = $request->flat_id;
-        $Location->bed_id = $request->bed_id;
-        $Location->user_id = Auth::user()->id;
-        $Location->entry_date = Carbon::now();
-        $Location->save();
+        if ($count == 0) {
+            $count      = Admissions::where('patient_id', $request->patient_id)->count();
+            $Admissions = new Admissions;
+            $Admissions->consecutive = $count + 1;
+            $Admissions->diagnosis_id = $request->diagnosis_id;;
+            $Admissions->campus_id = $request->campus_id;
+            $Admissions->contract_id = $request->contract_id;
+            $Admissions->briefcase_id = $request->briefcase_id;
+            $Admissions->procedure_id = $request->procedure_id;
+            $Admissions->regime_id = $request->regime_id;
+            $Admissions->patient_id = $request->patient_id;
+            $Admissions->entry_date = Carbon::now();
+            $Admissions->save();
 
-        if($Location->admission_route_id == 2){
-            $Admission = Admissions::where('id',$Admissions->id)->with('locationUnique')->first();
-        }
+            $Location = new Location;
+            $Location->admissions_id = $Admissions->id;
+            $Location->admission_route_id = $request->admission_route_id;
+            $Location->scope_of_attention_id = $request->scope_of_attention_id;
+            $Location->program_id = $request->program_id;
+            $Location->pavilion_id = $request->pavilion_id;
+            $Location->flat_id = $request->flat_id;
+            $Location->bed_id = $request->bed_id;
+            $Location->user_id = Auth::user()->id;
+            $Location->entry_date = Carbon::now();
+            $Location->save();
 
-        if ($Admissions->procedure_id) {
-            $Authorization = new  Authorization;
-            $Authorization->services_briefcase_id =  $Admissions->procedure_id;
-            $Authorization->admissions_id =  $Admissions->id;
-            $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-            if ($validate->type_auth == 1) {
-                $Authorization->auth_status_id =  2;
-            } else {
-                $Authorization->auth_status_id =  1;
+            if ($Location->admission_route_id == 2) {
+                $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
             }
 
-            $Authorization->save();
+            if ($Admissions->procedure_id) {
+                $Authorization = new  Authorization;
+                $Authorization->services_briefcase_id =  $Admissions->procedure_id;
+                $Authorization->admissions_id =  $Admissions->id;
+                $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+                if ($validate->type_auth == 1) {
+                    $Authorization->auth_status_id =  2;
+                } else {
+                    $Authorization->auth_status_id =  1;
+                }
+
+                $Authorization->save();
+            }
+
+
+            if ($request->bed_id) {
+                $Bed = Bed::find($request->bed_id);
+                $Bed->status_bed_id = 2;
+                $Bed->save();
+            }
+
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Admisión creado exitosamente',
+                'data' => ['admissions' => $Admissions->toArray()],
+                'dataAux' => ['aux' =>  $Admission ? $Admission->toArray() : null]
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya se creo una admisión con el mismo programa',
+            ]);
         }
-
-
-        if ($request->bed_id) {
-            $Bed = Bed::find($request->bed_id);
-            $Bed->status_bed_id = 2;
-            $Bed->save();
-        }
-
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Admisión creado exitosamente',
-            'data' => ['admissions' => $Admissions->toArray()],
-            'dataAux' => ['aux' =>  $Admission ? $Admission->toArray() : null]
-        ]);
-    }else{
-        return response()->json([
-            'status' => false,
-            'message' => 'Ya se creo una admisión con el mismo programa',
-        ]);
-    }
     }
 
     /**
@@ -429,7 +564,7 @@ class AdmissionsController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        if ($request->medical_date=='0000-00-00 00:00:00') {
+        if ($request->medical_date == '0000-00-00 00:00:00') {
             $Admissions = Admissions::find($id);
             $Admissions->discharge_date = Carbon::now();
             $Admissions->save();
@@ -443,7 +578,7 @@ class AdmissionsController extends Controller
             $Admissions = Admissions::find($id);
             $Admissions->medical_date = '0000-00-00 00:00:00';
             $Admissions->save();
-        }else if ($request->user_medical_id){
+        } else if ($request->user_medical_id) {
             $Admissions = Admissions::find($id);
             $Admissions->medical_date = Carbon::now();
             $Admissions->user_medical_id = $request->user_medical_id;

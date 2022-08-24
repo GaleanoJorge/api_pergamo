@@ -178,9 +178,11 @@
 				<div class="stl_01" style="top: 24.111em; left:3.1em;"><span class="stl_12 stl_11" style="word-spacing:0.15em;">Declaro que acepto y</span><span class="stl_12 stl_11" style="word-spacing:0.17em;">&nbsp;autorizo</span><span class="stl_12 stl_11" style="word-spacing:0.15em;">&nbsp;al profesional</span><span class="stl_12 stl_11" style="word-spacing:0.14em;">&nbsp;que</span><span class="stl_12 stl_11" style="word-spacing:0.1em;">&nbsp;se</span><span class="stl_12 stl_11" style="word-spacing:0.16em;">&nbsp;comunica vía telefónica, para</span><span class="stl_12 stl_11" style="word-spacing:0.11em;">&nbsp;la</span><span class="stl_12 stl_11" style="word-spacing:0.19em;">&nbsp;ejecución</span><span class="stl_12 stl_11" style="word-spacing:0.06em;">&nbsp;de</span><span class="stl_12 stl_11" style="word-spacing:0.03em;">&nbsp;las &nbsp;</span></div>
 				<div class="stl_01" style="top: 25.311em; left:3.1em;"><span class="stl_12 stl_11" style="word-spacing:0.05em;">terapias aplicando TELETERAPIA al paciente. &nbsp;</span></div>
 
-				@if(isset($consentsinformed[0]['firm_patient']))
+				@if(isset($firmpatient))
 				<div class="stl_01" style="top: 28.7735em; left:3.55em;"><span class="stl_13">Firma: &nbsp;</span></div>
-				<div class="stl_01" style="top: 28.7735em; left:13.4617em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['firm_patient']}}&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 26.7735em; left:9.4617em;"><span class="stl_13 stl_10"><img src="data:image/png;base64,{{$firmpatient}}" width="250" height="100" alt="" style=""/>&nbsp;</span></span></div>
+		
+				
 				@endisset
 
 				<div class="stl_01" style="top: 30.0535em; left:13.4617em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}} &nbsp;</span></span></div>
@@ -198,9 +200,9 @@
 			
 				<div class="stl_01" style="top: 32.9435em; left:35.495em;"><span class="stl_13 stl_10">______p_________ &nbsp;</span></span></div>
 
-				@if(isset($consentsinformed[0]['firm_responsible']))
+				@if(isset($firmresponsible))
 				<div class="stl_01" style="top: 33.8835em; left:3.55em;"><span class="stl_13">Firma: &nbsp;</span></div>
-				<div class="stl_01" style="top: 34.2235em; left:13.4617em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['firm_responsible']}}&nbsp;</span></span></div>
+	         <img src="data:image/png;base64,{{$firmresponsible}}" width="250" height="100" alt="" style=""/></span>
 				<div class="stl_01" style="top: 35.8951em; left:13.4617em;"><span class="stl_13 stl_10">&nbsp;</span></span></div>
 				@endisset
 				@if(isset($consentsinformed[0]['relationship']))

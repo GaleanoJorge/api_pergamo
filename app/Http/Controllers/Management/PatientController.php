@@ -347,18 +347,106 @@ class PatientController extends Controller
     public function indexPacientByPAD(Request $request, int $roleId, int $userId): JsonResponse
     {
 
+        $consulta = 'IF(
+            SUM(
+                IF(management_plan.id > 0, 1,0)
+            ) = 0
+            
+        ,
+        IF(NOW() > (admissions.entry_date + INTERVAL 1 DAY),2,1)
+        ,
+
+             IF(
+                 SUM(
+                     IF(assigned_management_plan.id > 0, 1,0)
+                 ) = 0
+                 ,3
+                 ,
+                     IF(SUM(
+                             IF(assigned_management_plan.user_id = null,1,0)
+                         ) = 0
+                         ,
+                             IF(
+                                 SUM(
+                                     IF(assigned_management_plan.redo > ' . Carbon::now()->format('YmdHis') . ',1,0)
+                                 ) = 0
+                                 ,
+                                    IF(
+                                            SUM(
+                                                IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                                                    1,0 
+                                                )
+                                            ) = 0
+                                        ,
+                                              IF(
+                                                COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                                                                                                    SUM(
+                                                                                                    CASE assigned_management_plan.execution_date 
+                                                                                                        WHEN "0000-00-00 00:00:00" THEN 1 
+                                                                                                        ELSE 0 
+                                                                                                    END), 
+                                                                                                    -1)
+                                                    ,6
+                                                    ,0
+                                                )  
+                                        ,5
+                                    )
+                                 ,4
+                             )
+                         ,3
+                     )
+             )
+    )';
+
         $patients = Patient::select(
             'patients.*',
             'admissions.id AS admissions_id',
-            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('
+            IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                    CASE assigned_management_plan.execution_date 
+                        WHEN "0000-00-00 00:00:00" THEN 1 
+                        ELSE 0 
+                    END), 
+                -1) AS not_executed'),
+            DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
+            DB::raw('
+               SUM(
+                   IF( (CURDATE() < assigned_management_plan.finish_date AND 
+                        CURDATE() > assigned_management_plan.start_date AND 
+                        assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
+                        assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
+                    ,IF (assigned_management_plan.start_hour != "00:00:00"
+                        ,
+                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->format('H:i:s').'") AND 
+                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->format('H:i:s').'") AND 
+                            (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
+                        ,1)
+                    ,0 
+               )
+              ) AS por_ejecutar'),
+            DB::raw('
+             
+                SUM(
+                    IF( CURDATE() > assigned_management_plan.finish_date AND assigned_management_plan.execution_date = "0000-00-00 00:00:00" , 
+                       1,0 
+                )
+               ) AS incumplidas'),
+            DB::raw($consulta . ' AS ingreso'),
         )
+            ->leftjoin('locality', 'patients.locality_id', 'locality.id')
+            ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
+            ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->Join('location', 'location.admissions_id', 'admissions.id')
             ->where('location.admission_route_id', 2)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
                 'status',
+                'locality',
                 'gender',
                 'inability',
                 'academic_level',
@@ -366,24 +454,139 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
-                'admissions.location',
+                'admissions.management_plan',
+                'admissions.management_plan.assigned_management_plan',
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions.campus',
+                'admissions.location',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
                 'admissions.location.flat',
                 'admissions.location.pavilion',
                 'admissions.location.bed'
-            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id');
+            )->groupBy('patients.id');
 
         if ($request->userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
             $patients->where('management_plan.assigned_user_id', $userId);
+
+            // $patients->where(function ($query) {
+            //     $query->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00")
+            //         ->orWhere('assigned_management_plan.redo', '>=', Carbon::now()->format('YmdHis'))
+            //         ->when('assigned_management_plan.start_hour != "00:00:00"', function ($q) {
+            //             $q->where('assigned_management_plan.start_hour', '<=', Carbon::now()->format('H:i:s'))
+            //                 ->where('assigned_management_plan.finish_hour', '>=', Carbon::now()->format('H:i:s'))
+            //                 ->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00");
+            //         });
+            // });
+            // $patients->where('assigned_management_plan.start_date', '<=', Carbon::now()->format('Y-m-d'));
+            // $patients->where('assigned_management_plan.finish_date', '>=', Carbon::now()->format('Y-m-d'));
+            $patients->orderBy('assigned_management_plan.finish_date', 'ASC');
+            $patients->orderBy('assigned_management_plan.start_hour', 'ASC');
         } else {
             $management = null;
+            $patients->orderBy('admissions.entry_date', 'DESC');
         }
+
+        if ($request->semaphore == 1) {
+            //Cumplido
+            $patients->when($consulta . '= 0', function ($query) {
+                $query->when('assigned_management_plan.redo < ' . Carbon::now()->format('YmdHis'), function ($q) {
+                    $q->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+                });
+            });
+        } else if ($request->semaphore == 2) {
+            //Admisión creada
+            $patients->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '>', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 3) {
+            //Sin agendar
+            $patients->when($consulta . '= 1', function ($query) {
+                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                    $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
+                    $q->whereNull('management_plan.id');
+                });
+            });
+        } else if ($request->semaphore == 4) {
+            //Sin asignar profesional
+            $patients->when($consulta . '= 3', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNull('assigned_management_plan.user_id');
+                });
+            });
+        } else if ($request->semaphore == 5) {
+            //Por subsanar
+            $patients->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00");
+            });
+            $patients->when('assigned_management_plan.finish_date <' . Carbon::now(), function ($query) {
+                $query->where('assigned_management_plan.redo', '>', Carbon::now()->format('YmdHis'));
+            });
+        } else if ($request->semaphore == 6) {
+            //Pendiente por ejecutar
+            $patients->when($consulta . '= 5', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '<', Carbon::now());
+                });
+            });
+            // $patients->whereNotNull('management_plan.id');
+            // $patients->whereNotNull('assigned_management_plan.id');
+            // $patients->whereNotNull('assigned_management_plan.user_id');
+            // $patients->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+            // $patients->where('assigned_management_plan.finish_date', '<', Carbon::now());
+        } else if ($request->semaphore == 7) {
+            //Proyección creada
+            $patients->when($consulta . '= 6', function ($query) {
+                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
+                SUM(
+                CASE assigned_management_plan.execution_date 
+                    WHEN "0000-00-00 00:00:00" THEN 1 
+                    ELSE 0 
+                END), 
+                -1)', function ($q) {
+                    $q->whereNotNull('management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.id');
+                    $q->whereNotNull('assigned_management_plan.user_id');
+                    $q->where('assigned_management_plan.execution_date', "0000-00-00 00:00:00");
+                    $q->where('assigned_management_plan.finish_date', '>', Carbon::now());
+                });
+            });
+        }
+
+        if($request->campus && isset($request->campus) && $request->campus != 'null'){
+            $patients->where('admissions.campus_id', $request->campus);
+            // var_dump($insu = "monda'");
+        }
+
+        if($request->eps && isset($request->eps) && $request->eps != 'null'){
+            $patients->leftjoin('contract','admissions.contract_id', 'contract.id')
+                ->where('contract.company_id', $request->eps);
+        }
+    
+
 
         if ($request->_sort) {
             $patients->orderBy($request->_sort, $request->_order);
@@ -397,12 +600,16 @@ class PatientController extends Controller
 
         if ($request->search) {
             $patients->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('locality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
@@ -565,7 +772,7 @@ class PatientController extends Controller
                 'inability',
                 'academic_level',
                 'identification_type',
-           
+
             );
 
         if ($roleId > 0) {
@@ -716,10 +923,10 @@ class PatientController extends Controller
             //     $patients->force_reset_password = 1;
             //     $patients->save();
             // } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'El número de documento ya se encuentra registrado.',
-                ]);
+            return response()->json([
+                'status' => false,
+                'message' => 'El número de documento ya se encuentra registrado.',
+            ]);
             // }
         } else {
             $patients = new Patient;
@@ -856,12 +1063,29 @@ class PatientController extends Controller
         DB::beginTransaction();
 
         $patients = Patient::find($id);
-        $patients->status_id = $request->status_id;
         $patients->gender_id = $request->gender_id;
         $patients->academic_level_id = $request->academic_level_id;
+        $patients->status_id = $request->status_id;
         $patients->identification_type_id = $request->identification_type_id;
         $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
+        $patients->birthplace_country_id = $request->birthplace_country_id;
+        $patients->birthplace_region_id = $request->birthplace_region_id;
+        $patients->locality_id = $request->locality_id;
+        $patients->residence_id = $request->residence_id;
+        $patients->residence_region_id = $request->residence_region_id;
+        $patients->residence_municipality_id = $request->residence_municipality_id;
+        $patients->residence_address = $request->residence_address;
+        $patients->residence_country_id = $request->residence_country_id;
+        $patients->study_level_status_id = $request->study_level_status_id;
+        $patients->activities_id = $request->activities_id;
+        $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
+        $patients->select_rh_id = $request->select_RH_id;
+        $patients->marital_status_id = $request->marital_status_id;
+        $patients->population_group_id = $request->population_group_id;
         $patients->username = $request->username;
+        $patients->is_disability = $request->is_disability;
+        $patients->disability = $request->disability;
+        $patients->gender_type = $request->gender_type;
         $patients->email = $request->email;
         $patients->firstname = $request->firstname;
         $patients->middlefirstname = $request->middlefirstname;
@@ -870,19 +1094,7 @@ class PatientController extends Controller
         $patients->identification = $request->identification;
         $patients->birthday = $request->birthday;
         $patients->phone = $request->phone;
-        $patients->landline = $request->landline;
-        $patients->ethnicity_id = $request->ethnicity_id;
-        $patients->is_disability = $request->is_disability;
         $patients->age = $request->age;
-        $patients->activities_id = $request->activities_id;
-        $patients->is_street_dweller = $request->is_street_dweller;
-        $patients->is_disability = $request->is_disability;
-        $patients->disability = $request->disability;
-        $patients->residence_address = $request->residence_address;
-        $patients->residence_country_id = $request->residence_country_id;
-        $patients->locality_id = $request->locality_id;
-        $patients->residence_id = $request->residence_id;
-        $patients->neighborhood_or_residence_id = $request->neighborhood_or_residence_id;
         if ($request->gender_id == 3) {
             $patients->gender_type = $request->gender_type;
         }
