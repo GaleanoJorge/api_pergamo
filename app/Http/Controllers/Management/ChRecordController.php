@@ -137,6 +137,7 @@ use App\Models\Tariff;
 use App\Models\BillUserActivity;
 use App\Models\ChDiagnosis;
 use App\Models\ChBackground;
+use App\Models\ChGynecologists;
 use App\Models\ChEvoSoap;
 use App\Models\MinimumSalary;
 use Illuminate\Support\Facades\Storage;
@@ -341,6 +342,19 @@ class ChRecordController extends Controller
 
             //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            //Antecedentes Gyneco
+            $ChGynecologists = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Evolución
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -447,7 +461,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.medicalhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChReasonConsultation' => $ChReasonConsultation,
@@ -461,6 +475,7 @@ class ChRecordController extends Controller
                 'ChDiets' => $ChDiets,
 
                 'ChBackground' => $ChBackground,
+                'ChGynecologists' => $ChGynecologists,
 
                 'ChEvoSoap' => $ChEvoSoap,
                 'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
@@ -752,7 +767,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.respiratoryhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
@@ -862,7 +877,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.sworkhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChSwFamily' => $ChSwFamily,
@@ -964,7 +979,7 @@ class ChRecordController extends Controller
 
             // $patient=$ChRecord['admissions'];
 
-            $html = view('mails.hc', [
+            $html = view('mails.physicalhistory', [
                 'chrecord' => $ChRecord,
 
                 'ChEValorationFT' => $ChEValorationFT,
@@ -1019,9 +1034,6 @@ class ChRecordController extends Controller
 		}else if ($ChRecord[0]['ch_type_id'] == 6) {
             //Ingreso
             $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-
-
-            $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -1064,7 +1076,7 @@ class ChRecordController extends Controller
             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-            if ($ChRecord[0]['user']['assistance'][0]['file_firm']) {
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1076,9 +1088,9 @@ class ChRecordController extends Controller
             $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
-            $html = view('mails.hc', [
+            $html = view('mails.occupationalhistory', [
                 'chrecord' => $ChRecord,
-                'chevalorationot' => $ChEValorationOT,
+                'ChEValorationOT' => $ChEValorationOT,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChEOccHistoryOT' => $ChEOccHistoryOT,
                 'ChEPastOT' => $ChEPastOT,
@@ -1096,12 +1108,11 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOT' => $ChEMSAssessmentOT,
                 'ChEMSWeeklyOT' => $ChEMSWeeklyOT,
                 'ChEValorationOTNT' => $ChEValorationOTNT,
+                'ChRNValorationOT' => $ChRNValorationOT,
                 'ChVitalSignsNT' => $ChVitalSignsNT,
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
-
-
 
 
                 'firm' => $imagenComoBase64,
