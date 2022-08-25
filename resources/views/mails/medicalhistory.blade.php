@@ -3648,11 +3648,12 @@
 
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                 <tr style="height:11.95pt">
-                    <td style="width:79.75pt; vertical-align:top">
+                    {{-- comentareado provisionalemente --}}
+                    {{-- <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['product_generic']['measurement_units']) && isset($ch['product_generic']['multidose_concentration']) && isset($ch['dose'])) DOSIS: </b> {{$ch['dose']}} {{($ch['product_generic']['product_dose_id']==1? ($ch['product_generic']['measurement_units']['code'] ? $ch['product_generic']['measurement_units']['code'] : "") : ($ch['product_generic']['multidose_concentration']['code'] ? $ch['product_generic']['multidose_concentration']['code'] : "") )}} @endisset  </span>
                         </p>
-                    </td>
+                    </td> --}}
                     <td style="width:106pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                             <span style="font-family:Calibri"><b> @if(isset($ch['administration_route'])) VÍA DE ADMON: </b> {{$ch['administration_route']['name']}} @endisset </span>
