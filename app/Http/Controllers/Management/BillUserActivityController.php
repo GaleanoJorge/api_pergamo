@@ -98,6 +98,7 @@ class BillUserActivityController extends Controller
     {
         $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)
             ->with(
+                'admissions',
                 'procedure',
                 'procedure.manual_price',
                 'tariff',
@@ -156,7 +157,7 @@ class BillUserActivityController extends Controller
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.id', 'bill_user_activity.assigned_management_plan_id')
             ->where('patients.id', $patient_id)
-            ->groupBy('patients.id')
+            ->groupBy('bill_user_activity.id')
             ->orderBy('assigned_management_plan.execution_date', 'DESC');
 
         if ($request->search) {
