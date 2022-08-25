@@ -1121,19 +1121,23 @@
                 @endisset
                 
                     @foreach($ChSwIncome as $ch)
-                        @if(($ch['none'])==1)
+                        @if(($ch['none'])== 1)
                             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                 <span style="font-family:Calibri; font-size:9pt">
                                 <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
                                 <span style="font-family:Calibri; font-size:8pt">NO TIENE INGRESOS </span>
                             </p>
                         @endisset
-
-                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
-                        </p>
+                        
+                        @if(($ch['none'])== 0)
                         <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA</b> {{substr($ch['created_at'],0,10) }} @endisset</span>
+                                    </p>
+                                </td>
+                            </tr>
                             <tr style="height:11.95pt">
                                 <td style="width:79.75pt; vertical-align:top">
                                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
@@ -1191,9 +1195,11 @@
                                 </td>
                             </tr>
                         </table>
+                
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['total'])) TOTAL DE INGRESOS: </b> $ {{$ch['total']}}@endisset</span>
-                        </p>   
+                        </p>  
+                        @endisset 
                         <br/>       
                     @endforeach          
             </div>
