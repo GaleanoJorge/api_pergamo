@@ -198,8 +198,8 @@ class ManagementPlanController extends Controller
                ) AS incumplidas'),
             DB::raw('
                SUM(
-                   IF( (CURDATE() < assigned_management_plan.finish_date AND 
-                        CURDATE() > assigned_management_plan.start_date AND 
+                   IF( (CURDATE() <= assigned_management_plan.finish_date AND 
+                        CURDATE() >= assigned_management_plan.start_date AND 
                         assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
                         assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
