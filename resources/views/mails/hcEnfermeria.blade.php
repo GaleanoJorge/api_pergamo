@@ -162,7 +162,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : ''}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
