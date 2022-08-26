@@ -110,6 +110,8 @@ class AssignedManagementPlanController extends Controller
                 'user',
                 'management_plan',
                 'management_plan.type_of_attention',
+                'management_plan.service_briefcase',
+                'management_plan.service_briefcase.manual_price',
                 'management_plan.procedure',
                 'management_plan.procedure.manual_price',
             )

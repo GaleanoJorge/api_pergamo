@@ -197,20 +197,20 @@ class ManagementPlanController extends Controller
                 )
                ) AS incumplidas'),
             DB::raw('
-               SUM(
-                   IF( (CURDATE() < assigned_management_plan.finish_date AND 
-                        CURDATE() > assigned_management_plan.start_date AND 
+                SUM(
+                    IF( (CURDATE() <= assigned_management_plan.finish_date AND 
+                        CURDATE() >= assigned_management_plan.start_date AND 
                         assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
                         assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
                         ,
-                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->format('H:i:s').'") AND 
-                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->format('H:i:s').'") AND 
+                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->addHours(3)->format('H:i:s').'") AND 
+                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->subHours(3)->format('H:i:s').'") AND 
                             (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
                         ,1)
                     ,0 
-               )
-              ) AS por_ejecutar'),
+                )
+            ) AS por_ejecutar'),
             DB::raw($consulta . ' AS ingreso'),
         )
             ->with(

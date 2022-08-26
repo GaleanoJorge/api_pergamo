@@ -1644,4 +1644,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Usuarios en convenio
     Route::apiResource('user_agreement', 'Management\UserAgreementController');
     Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
+
+    
+    //days
+    Route::apiResource('days', 'Management\DaysController');
 });
