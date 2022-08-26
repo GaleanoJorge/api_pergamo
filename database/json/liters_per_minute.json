@@ -1,5 +1,9 @@
 [
     {
+        "name": "0,25 Lts x Min."
+
+    },
+    {
         "name": "0,5 Lts x Min."
 
     },
@@ -61,6 +65,51 @@
     },
     {
         "name": "15 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "20 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "25 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "30 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "35 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "40 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "45 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "50 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "55 Lts x Min."
+
+    }
+    ,
+    {
+        "name": "60 Lts x Min."
 
     }
     
