@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\ChRecord;
 use App\Models\User;
 use App\Models\ManagementPlan;
 use Carbon\Carbon;
@@ -40,5 +41,9 @@ class AssignedManagementPlan extends Model
 	public function management_plan()
 	{
 		return $this->belongsTo(ManagementPlan::class, 'management_plan_id');
+	}
+	public function ch_record()
+	{
+		return $this->hasMany(ChRecord::class, 'assigned_management_plan_id');
 	}
 }
