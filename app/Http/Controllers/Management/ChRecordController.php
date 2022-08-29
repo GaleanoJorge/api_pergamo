@@ -291,7 +291,6 @@ class ChRecordController extends Controller
             $ChAp = ChAp::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             $ChDiets = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
-
             //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
             //Antecedentes Gyneco
@@ -311,6 +310,22 @@ class ChRecordController extends Controller
             //Evolución
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            //Antecedentes
+            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            //Antecedentes Gyneco
+            $ChGynecologistsEvo = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+
             $ChVitalSignsEvo = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -430,6 +445,8 @@ class ChRecordController extends Controller
 
                 'ChEvoSoap' => $ChEvoSoap,
                 'ChPhysicalExamEvo' => $ChPhysicalExamEvo,
+                'ChBackgroundEvo' => $ChBackgroundEvo,
+                'ChGynecologistsEvo' => $ChGynecologistsEvo,
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChDiagnosisEvo' => $ChDiagnosisEvo,
                 'ChOstomiesEvo' => $ChOstomiesEvo,
@@ -653,6 +670,18 @@ class ChRecordController extends Controller
             //Ingreso
             $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChGynecologists = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             $ChVitalSigns = ChVitalSigns::with(
                 'ch_vital_hydration',
@@ -672,7 +701,8 @@ class ChRecordController extends Controller
                 'ch_ass_mode',
                 'ch_ass_cough',
                 'ch_ass_chest_type',
-                'ch_ass_chest_symmetry'
+                'ch_ass_chest_symmetry',
+                'ch_ass_signs'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChAssSigns = ChAssSigns::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
@@ -686,7 +716,20 @@ class ChRecordController extends Controller
 
             //Regular
             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+              //Antecedentes Gyneco
+            $ChGynecologistsEvo = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
 
             $ChVitalSignsEvo = ChVitalSigns::with(
                 'ch_vital_hydration',
@@ -716,6 +759,7 @@ class ChRecordController extends Controller
 
                 'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
                 'ChBackground' => $ChBackground,
+                'ChGynecologists' => $ChGynecologists,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChOxygenTherapy' => $ChOxygenTherapy,
                 'ChAssSigns' => $ChAssSigns,
@@ -729,7 +773,8 @@ class ChRecordController extends Controller
                 'ChRtSessions' => $ChRtSessions,
 
                 'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
-                'ChBackground' => $ChBackground,
+                'ChBackgroundEvo' => $ChBackgroundEvo,
+                'ChGynecologistsEvo' => $ChGynecologistsEvo,
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
