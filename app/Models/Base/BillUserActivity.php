@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\AccountReceivable;
+use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use Carbon\Carbon;
 use App\Models\ServicesBriefcase;
@@ -51,6 +52,11 @@ class BillUserActivity extends Model
 	public function account_receivable()
 	{
 		return $this->belongsTo(AccountReceivable::class,'account_receivable_id');
+
+	}
+	public function admissions()
+	{
+		return $this->belongsTo(Admissions::class,'admissions_id');
 
 	}
 	

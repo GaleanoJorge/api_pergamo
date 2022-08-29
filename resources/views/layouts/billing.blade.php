@@ -572,8 +572,10 @@
 
                 <div class="stl_01" style="left:25.2892em;top:19.182em;"><span class="stl_19 stl_08 stl_24"
                         style="word-spacing:0.0047em;">Contrato: &nbsp;</span></div>
-                <div class="stl_01" style="left:29em;top:19.182em;"><span class="stl_19 stl_08 stl_24"
-                        style="word-spacing:0.0047em;">{{ $contract_name }} &nbsp;</span></div>
+                @for ($i = 0; $i < count($contract_name); $i++)
+                    <div class="stl_01" style="left:29em;top:{{ $i + 19.182 }}em;"><span class="stl_19 stl_08 stl_24"
+                            style="word-spacing:0.0047em;">{{ $contract_name[$i] }} &nbsp;</span></div>
+                @endfor
 
                 {{-- <div class="stl_01" style="left:25.2926em;top:20.572em;"><span class="stl_19 stl_08 stl_37"
                         style="word-spacing:-0.0001em;">Número de Cuenta: &nbsp;</span></div>
@@ -661,12 +663,12 @@
                                 style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['code'] }} &nbsp;</span>
                         </div>
 
-                        <div class="stl_01" style="left:34em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:33.5em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_21"
                                 style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span>
                         </div>
                         
-                        <div class="stl_01" style="left:35em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:34.5em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_21"
                                 style="word-spacing:0.0058em;">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span>
                         </div>
@@ -675,7 +677,7 @@
                                 class="stl_07 stl_08 stl_37">{{ $selected_procedures[$i]['service'] }} &nbsp;</span>
                         </div>
 
-                        <div class="stl_01" style="left:40em;top:{{ $i + 1 + 26.5 }}em;"><span
+                        <div class="stl_01" style="left:40.3em;top:{{ $i + 1 + 26.5 }}em;"><span
                                 class="stl_07 stl_08 stl_38"
                                 style="word-spacing:-0.0033em;">{{ $selected_procedures[$i]['value'] }} &nbsp;</span>
                         </div>

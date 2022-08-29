@@ -16,7 +16,7 @@ class CreateMedicalDiaryTable extends Migration
         Schema::create('medical_diary', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('assistance_id');
-            $table->string('weekdays');
+            // $table->string('weekdays');
             $table->time('start_time');
             $table->time('finish_time');
             $table->date('start_date');
