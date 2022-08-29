@@ -135,6 +135,8 @@ class ChRecordController extends Controller
         $ChRecord = ChRecord::with(
             'user',
             'admissions',
+            'admissions.location',
+            'admissions.location.program',
             'admissions.patients',
         );
 
