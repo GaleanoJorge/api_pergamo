@@ -134,12 +134,18 @@ class PharmacyProductRequestController extends Controller
 
             $PharmacyProductRequest->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
                 ->where('pharmacy_product_request.status', 'SOLICITADO FARMACIA')->get();
-        } 
-        else if ($request->status == "DEVUELTO" && $request->own_pharmacy_stock_id) {
+        } else if ($request->status == "DEVUELTO_PACIENTE" && $request->own_pharmacy_stock_id) {
 
             $PharmacyProductRequest->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
-                ->where('pharmacy_product_request.status', 'DEVUELTO')->get();
-        }else {
+                ->where('pharmacy_product_request.status', 'DEVUELTO_PACIENTE')->get();
+        } 
+
+        // else if ($request->status == "DEVUELTO FARMACIA" && $request->request_pharmacy_stock_id) {
+
+        //     $PharmacyProductRequest->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
+        //         ->where('pharmacy_product_request.status', 'DEVUELTO FARMACIA')->get();
+        // } 
+        else {
             $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
         }
 
@@ -179,13 +185,13 @@ class PharmacyProductRequestController extends Controller
                 }
             });
         }
-        if ($request->request_amount) {
+        // if ($request->request_amount) {
             $PharmacyProductRequest->where(function ($query) use ($request) {
                 if ($request->request_amount == 0) {
                     $query->where('pharmacy_product_request.request_amount', '>', 0);
                 }
             });
-        }
+        // }
 
         if ($request->admissions_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.admissions_id', $request->admissions_id);
@@ -493,7 +499,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
-        if ($request->status == "DEVUELTO") {
+        if ($request->status == "DEVUELTO_PACIENTE") {
             $lot=PharmacyRequestShipping::where('pharmacy_product_request_id',$request->pharmacy_request)->get()->first();
             $PharmacyRequestShipping = new PharmacyRequestShipping;
             $PharmacyRequestShipping->amount_damaged =  0;

@@ -424,7 +424,7 @@ class ManagementPlanController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+                    'message' => 'Se debe asociar farmacia al servicio para poder dispensar el medicamento.',
                 ], 423);
             }
         } else {

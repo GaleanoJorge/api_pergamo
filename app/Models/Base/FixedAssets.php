@@ -7,7 +7,6 @@
 namespace App\Models\Base;
 
 use App\Models\BiomedicalClassification;
-use App\Models\Campus;
 use App\Models\Company;
 use App\Models\FixedClasification;
 use App\Models\FixedCondition;
@@ -15,7 +14,7 @@ use App\Models\FixedNomProduct;
 use App\Models\FixedProperty;
 use App\Models\FixedStock;
 use App\Models\FixedType;
-use App\Models\Frequency;
+use App\Models\PeriodicityFrequency;
 use App\Models\Risk;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -122,10 +121,10 @@ class FixedAssets extends Model
 	}
 	public function periodicity_frequency()
 	{
-		return $this->belongsTo(Frequency::class);
+		return $this->belongsTo(PeriodicityFrequency::class);
 	}
 	public function calibration_frequency()
 	{
-		return $this->belongsTo(Frequency::class);
+		return $this->belongsTo(PeriodicityFrequency::class);
 	}
 }
