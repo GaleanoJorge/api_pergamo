@@ -119,5 +119,13 @@ class ChGynecologists extends Model
 	{
 		return $this->belongsTo(ChMethodPlanningGyneco::class);
 	}
+	public function type_record()
+	{
+		return $this->belongsTo(ChTypeRecord::class);
+	}
+	public function ch_record()
+	{
+		return $this->belongsTo(ChRecord::class);
+	}
 
 }

@@ -18,14 +18,19 @@ class ProductSuppliesComController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Products = ProductSuppliesCom::with('product_supplies', 'factory');
+        $Products = ProductSuppliesCom::select('product_supplies_com.*')
+        ->leftJoin('product_supplies', 'product_supplies_com.product_supplies_id', 'product_supplies.id')
+        ->with('product_supplies', 'factory');
 
         if ($request->_sort) {
             $Products->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $Products->where('name', 'like', '%' . $request->search . '%');
+            $Products->where(function ($query) use ($request) {
+                $query->Where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies.description', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -45,7 +50,7 @@ class ProductSuppliesComController extends Controller
     }
 
 
-    public function store(ProductSuppliesComRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $ProductSuppliesCom = new ProductSuppliesCom;
         $ProductSuppliesCom->name = $request->name;
@@ -56,8 +61,7 @@ class ProductSuppliesComController extends Controller
         $ProductSuppliesCom->sanitary_registration_id = $request->sanitary_registration_id;
         $ProductSuppliesCom->packing_id = $request->packing_id;
         $ProductSuppliesCom->unit_packing = $request->unit_packing;
-        $ProductSuppliesCom->code_cum_file = $request->code_cum_file;
-        $ProductSuppliesCom->code_cum_consecutive = $request->code_cum_consecutive;
+        $ProductSuppliesCom->code_udi = $request->code_udi;
         $ProductSuppliesCom->useful_life = $request->useful_life;
         $ProductSuppliesCom->date_cum = $request->date_cum;
         $ProductSuppliesCom->save();
@@ -105,8 +109,7 @@ class ProductSuppliesComController extends Controller
         $ProductSuppliesCom->sanitary_registration_id = $request->sanitary_registration_id;
         $ProductSuppliesCom->packing_id = $request->packing_id;
         $ProductSuppliesCom->unit_packing = $request->unit_packing;
-        $ProductSuppliesCom->code_cum_file = $request->code_cum_file;
-        $ProductSuppliesCom->code_cum_consecutive = $request->code_cum_consecutive;
+        $ProductSuppliesCom->code_udi = $request->code_udi;
         $ProductSuppliesCom->useful_life = $request->useful_life;
         $ProductSuppliesCom->date_cum = $request->date_cum;
         $ProductSuppliesCom->save();

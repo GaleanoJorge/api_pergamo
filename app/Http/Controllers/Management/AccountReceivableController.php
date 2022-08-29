@@ -13,6 +13,7 @@ use App\Models\BillUserActivity;
 use App\Models\FinancialData;
 use App\Models\IdentificationType;
 use App\Models\MinimumSalary;
+use App\Models\Patient;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
@@ -84,7 +85,12 @@ class AccountReceivableController extends Controller
         $LastDayMonth = Carbon::now()->endOfMonth()->format('Ymd');
         // $ancualDate = Carbon::parse('2022-06-01 14:44:40')->format('Ymd');
         $ancualDate = Carbon::now()->format('Ymd');
-        $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
+        $AccountReceivable = AccountReceivable::with(
+            'user',
+            'user.identification_type',
+            'status_bill',
+            'minimum_salary'
+        )
             ->select(
                 'account_receivable.*',
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
@@ -139,6 +145,70 @@ class AccountReceivableController extends Controller
     }
 
 
+    public function getPatientsServices(Request $request, int $id)
+    {
+        $Patients = Patient::select(
+            'patients.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+        )
+            ->with(
+                'status',
+                'gender',
+                'inability',
+                'academic_level',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'admissions',
+                'admissions.management_plan',
+                'admissions.management_plan.assigned_management_plan',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions.campus',
+                'admissions.location',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )
+            ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+            ->leftJoin('management_plan', 'management_plan.admissions_id', 'admissions.id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+            ->where('assigned_management_plan.execution_date', '!=', "0000-00-00 00:00:00")
+            ->groupBy('patients.id')
+            ->orderBy('assigned_management_plan.execution_date', 'DESC');
+
+        if ($request->search) {
+            $Patients->where(function ($query) use ($request) {
+                $query->where('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->campus && isset($request->campus) && $request->campus != 'null') {
+            $Patients->where('admissions.campus_id', $request->campus);
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $Patients = $Patients->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Patients = $Patients->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro asociada exitosamente',
+            'data' => ['account_receivable' => $Patients]
+        ]);
+    }
 
     public function store(AccountReceivableRequest $request): JsonResponse
     {

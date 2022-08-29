@@ -62,7 +62,7 @@ class AuthorizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function InProcess(Request $request, int $statusId): JsonResponse
+    public function InProcess(Request $request, string $statusId): JsonResponse
     {
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
@@ -86,33 +86,77 @@ class AuthorizationController extends Controller
                 'admissions.patients.residence_municipality',
                 'admissions.patients.neighborhood_or_residence',
                 'admissions.patients.residence',
-                'assigned_management_plan',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
             );
 
-        if ($statusId == 0) {
+        if ($statusId === '0') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
                     $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '<=', 3)
+                        ->where('auth_status_id', '<', 3)
                         ->WhereNull('auth_number');
                 });
             });
-        } else {
+        } 
+        else if($statusId === 'E'){
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3);
+                // ->WhereNull('auth_number');
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('application_id')
+                        ->where('auth_status_id', '<', 3)
+                        ->WhereNull('auth_number');
+                });
+            });
+            $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
+                $que->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00');
+            });
+        } else if($statusId === 'P'){
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3);
+                // ->WhereNull('auth_number');
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('application_id')
+                        ->where('auth_status_id', '<', 3)
+                        ->WhereNull('auth_number');
+                });
+            });
+            $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
+                $que->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
+            });
+        } 
+        else {
             $Authorization
                 ->where('auth_status_id', $statusId);
-            $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3)
-                    ->orWhereNotNull('application_id');
+            $Authorization->orwhere(function ($query) use ($request) {
+                $query->WhereNotNull('application_id');
             });
         }
+
+        // if($statusId === 'E'){
+        //     $Authorization->Where(function ($query) use ($request) {
+        //         $query->WhereNotNull('assigned_management_plan_id')
+        //             ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00')
+        //         ->When('assigned_management_plan_id' != null,function ($que) use ($request){
+        //             $que->whereNotNull('application_id');
+        //         });
+        //     });
+        // } else if($statusId === 'P') {
+
+        // }
 
 
         if ($request->eps_id != 'null' && isset($request->eps_id)) {
@@ -213,6 +257,10 @@ class AuthorizationController extends Controller
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
             );
 
         if ($statusId == 0) {
@@ -474,7 +522,7 @@ class AuthorizationController extends Controller
     {
         $Authorization = Authorization::find($id);
 
-        if($request->auth_status_id){            
+        if ($request->auth_status_id) {
             $Authorization->auth_number = $request->auth_number;
             $Authorization->auth_status_id = $request->auth_status_id;
             $Authorization->observation = $request->observation;

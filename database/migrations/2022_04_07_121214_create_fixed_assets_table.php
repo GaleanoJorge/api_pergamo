@@ -32,6 +32,7 @@ class CreateFixedAssetsTable extends Migration
             $table->unsignedBigInteger('fixed_condition_id');
 
 
+            $table->string('accessories')->nullable();
             $table->string('calibration_certificate')->nullable();
             $table->string('health_register')->nullable();
             $table->string('warranty')->nullable();
@@ -62,8 +63,8 @@ class CreateFixedAssetsTable extends Migration
             $table->string('humidity_rank')->nullable();
             $table->string('manuals')->nullable();
             $table->string('guide')->nullable();
-            $table->unsignedTinyInteger('periodicity_frequency_id')->nullable();
-            $table->unsignedTinyInteger('calibration_frequency_id')->nullable();
+            $table->unsignedBigInteger('periodicity_frequency_id')->nullable();
+            $table->unsignedBigInteger('calibration_frequency_id')->nullable();
             $table->timestamps();
 
             $table->index('fixed_clasification_id');
@@ -102,11 +103,11 @@ class CreateFixedAssetsTable extends Migration
 
             $table->index('periodicity_frequency_id');
             $table->foreign('periodicity_frequency_id')->references('id')
-                ->on('frequency');
+                ->on('periodicity_frequency');
 
             $table->index('calibration_frequency_id');
             $table->foreign('calibration_frequency_id')->references('id')
-                ->on('frequency');
+                ->on('periodicity_frequency');
         });
     }
 

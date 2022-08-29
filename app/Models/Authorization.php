@@ -14,6 +14,7 @@ class Authorization extends BaseAuthorization
 		'services_briefcase_id',
 		'assigned_management_plan_id',
 		'authorized_amount',
+		'fixed_add_id',
 		'auth_package_id',
 		'manual_price_id',
 		'application_id',

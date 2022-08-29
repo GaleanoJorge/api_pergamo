@@ -31,7 +31,7 @@ class CreateManagementPlanTable extends Migration
             $table->string('number_doses')->nullable();
             $table->Integer('dosage_administer')->nullable();
             $table->boolean('phone_consult');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->timestamps();
 
             $table->index('type_of_attention_id');

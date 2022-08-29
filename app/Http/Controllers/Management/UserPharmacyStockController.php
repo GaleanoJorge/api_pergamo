@@ -83,8 +83,18 @@ class UserPharmacyStockController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        // $deleteUserAgreement = UserPharmacyStock::select('user_pharmacy_stock.*')->where('user_id', $request->user_id)->get()->toArray();
+
+
         // $UserPharmacyStockDelete = UserPharmacyStock::where('pharmacy_stock_id', $request->pharmacy_stock_id)->get();
-        // $UserPharmacyStockDelete->delete();
+        // // $UserPharmacyStockDelete->delete();
+        // if (sizeof($deleteUserAgreement) > 0) {
+        //     foreach ($deleteUserAgreement as $item) {
+        //         $UserAgreement = UserAgreement::find($item['id']);
+        //         $UserAgreement->delete();
+        //     }
+        $UserPharmacyStockDel = UserPharmacyStock::where('pharmacy_stock_id',$request->pharmacy_stock_id);
+        $UserPharmacyStockDel->delete();
 
         $users = json_decode($request->users);
         foreach ($users as $user) {
@@ -93,7 +103,6 @@ class UserPharmacyStockController extends Controller
             $UserPharmacyStock->user_id = $user;
             $UserPharmacyStock->save();
         }
-
         return response()->json([
             'status' => true,
             'message' => 'Permiso en farmacia asociado al en farmacia exitosamente',
@@ -118,10 +127,10 @@ class UserPharmacyStockController extends Controller
             'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }
-    
 
 
-        /**
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -129,12 +138,13 @@ class UserPharmacyStockController extends Controller
      */
     public function getByUser(int $id): JsonResponse
     {
-        $UserPharmacyStock = UserPharmacyStock::where('user_id', $id)->with('pharmacy')
+        $UserPharmacyStock = UserPharmacyStock::select('user_pharmacy_stock.*')
+            ->where('user_id', $id)->with('pharmacy')
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
-            'message' => 'Permiso en farmacia obtenido exitosamente',
+            'message' => 'Permisos en farmacia obtenido exitosamente',
             'data' => ['user_pharmacy_stock' => $UserPharmacyStock]
         ]);
     }

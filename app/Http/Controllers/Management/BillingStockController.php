@@ -19,23 +19,28 @@ class BillingStockController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingStock = BillingStock::with('billing', 'billing.company', 'product', 'product.factory', 'product.product_generic', 'product_supplies_com', 'product_supplies_com.product_supplies');
+        $BillingStock = BillingStock::select('billing_stock.*')->with('billing', 'billing.company', 'product', 'product.factory', 'product.product_generic', 'product_supplies_com', 'product_supplies_com.factory', 'product_supplies_com.product_supplies')
+            ->Leftjoin('product', 'billing_stock.product_id', 'product.id')
+            ->Leftjoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')->groupBy('billing_stock.id');
 
         if ($request->_sort) {
             $BillingStock->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $BillingStock->where('amount', 'like', '%' . $request->search . '%');
+            $BillingStock->where(function ($query) use ($request) {
+                $query->Where('product.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%');
+            });
         }
         if ($request->billing_id) {
-            $BillingStock->where('billing_id', $request->billing_id)->where('amount_provitional','!=',0);
+            $BillingStock->where('billing_stock.billing_id', $request->billing_id)->where('amount_provitional', '!=', 0);
         }
         if ($request->product_id) {
-            $BillingStock->where('product_id', $request->product_id);
+            $BillingStock->where('billing_stock.product_id', $request->product_id);
         }
         if ($request->product_supplies_com_id) {
-            $BillingStock->where('product_supplies_com_id', $request->product_supplies_com_id);
+            $BillingStock->where('billing_stock.product_supplies_com_id', $request->product_supplies_com_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -79,11 +84,11 @@ class BillingStockController extends Controller
                 $BillingStock = new BillingStock;
                 $BillingStock->amount = $element1->amount;
                 $BillingStock->amount_unit = $element1->amount_unit;
-                $BillingStock->iva = $element1->iva;
                 $BillingStock->amount_provitional = $element1->amount;
-                $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
+                $BillingStock->iva = $element1->iva;
                 $BillingStock->billing_id = $request->billing_id;
                 $BillingStock->product_id = null;
+                $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
                 $BillingStock->save();
             }
         }
@@ -140,19 +145,18 @@ class BillingStockController extends Controller
             }
         }
         if ($request->product_supplies_com_id) {
-            $BillingStockDelete = BillingStock::where('billing_id', $id);
-            $BillingStockDelete->delete();
+            // $BillingStockDelete = BillingStock::where('billing_id', $id);
+            // $BillingStockDelete->delete();
             $supplies1 = json_decode($request->product_supplies_com_id);
             foreach ($supplies1 as $element1) {
                 $BillingStock = new BillingStock;
                 $BillingStock->amount = $element1->amount;
                 $BillingStock->amount_unit = $element1->amount_unit;
-                $BillingStock->amount_provitional = $element->amount_provitional;
+                $BillingStock->amount_provitional = $element1->amount_provitional;
                 $BillingStock->iva = $element1->iva;
                 $BillingStock->billing_id = $id;
                 $BillingStock->product_supplies_com_id = $element1->product_supplies_com_id;
-                $BillingStock->product = null;
-
+                $BillingStock->product_id = null;
                 $BillingStock->save();
             }
         }

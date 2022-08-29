@@ -68,6 +68,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
 use App\Models\RoleAttention;
 use App\Models\TalentHumanLog;
+use App\Models\UserAgreement;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -310,6 +311,7 @@ class UserController extends Controller
             ->leftJoin('assistance', 'users.id', 'assistance.user_id')
             ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
             ->where('users.status_id', 1)
+            ->whereNotNull('assistance.id')
             ->groupBy('users.id');
 
         $users->where(function ($query) use ($request, $roles) {
@@ -351,16 +353,17 @@ class UserController extends Controller
                                 DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
                             )->Join('user_role', 'users.id', 'user_role.user_id')
                                 ->Join('assistance', 'users.id', 'assistance.user_id');
-                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                            $first = true;
-                            foreach ($roles as $role) {
-                                if ($first) {
-                                    $usersfinal->where('user_role.role_id', $role->role_id);
-                                    $first = false;
-                                } else {
-                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            $usersfinal->where(function ($query) use ($request, $roles) {
+                                $first = true;
+                                foreach ($roles as $role) {
+                                    if ($first) {
+                                        $query->where('user_role.role_id', $role->role_id);
+                                        $first = false;
+                                    } else {
+                                        $query->orWhere('user_role.role_id', $role->role_id);
+                                    }
                                 }
-                            }
+                            });
                             $usersfinal->where('users.id', $row['id'])
                                 ->with(
                                     'status',
@@ -370,7 +373,7 @@ class UserController extends Controller
                                     'user_role',
                                     'user_role.role',
                                     'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
 
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
@@ -387,16 +390,17 @@ class UserController extends Controller
                                 DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
                             )->Join('user_role', 'users.id', 'user_role.user_id')
                                 ->Join('assistance', 'users.id', 'assistance.user_id');
-                            // ->leftjoin('admissions', 'users.id', 'admissions.user_id');
-                            $first = true;
-                            foreach ($roles as $role) {
-                                if ($first) {
-                                    $usersfinal->where('user_role.role_id', $role->role_id);
-                                    $first = false;
-                                } else {
-                                    $usersfinal->orWhere('user_role.role_id', $role->role_id);
+                            $usersfinal->where(function ($query) use ($request, $roles) {
+                                $first = true;
+                                foreach ($roles as $role) {
+                                    if ($first) {
+                                        $query->where('user_role.role_id', $role->role_id);
+                                        $first = false;
+                                    } else {
+                                        $query->orWhere('user_role.role_id', $role->role_id);
+                                    }
                                 }
-                            }
+                            });
                             $usersfinal->where('users.id', $row['id'])
                                 ->with(
                                     'status',
@@ -406,7 +410,7 @@ class UserController extends Controller
                                     'user_role',
                                     'user_role.role',
                                     'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('id');
+                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
 
                             $usersfinal = $usersfinal->get()->toArray();
                         } else {
@@ -727,7 +731,9 @@ class UserController extends Controller
             'academic_level',
             'identification_type',
             'user_role',
-            'user_role.role'
+            'user_role.role',
+            'user_agreement',
+            'user_agreement.campus',
         )
             ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
             ->orderBy('users.id', 'asc');;
@@ -735,6 +741,21 @@ class UserController extends Controller
         if ($roleId > 0) {
             $users->Join('user_role', 'users.id', 'user_role.user_id');
             $users = $users->where('user_role.role_id', $roleId);
+        } else if ($roleId < 0) {
+            $users->select(
+                'users.*',
+                'assistance.id as assistance_id',
+                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+            )->with(
+                'status',
+                'gender',
+                'academic_level',
+                'identification_type',
+                'user_role',
+                'user_role.role'
+            );
+            $users->Join('assistance', 'users.id', 'assistance.user_id');
+            $users = $users->where('assistance.attends_external_consultation', 1);
         }
 
         if ($request->_sort) {
@@ -744,7 +765,7 @@ class UserController extends Controller
         if ($request->search) {
             if (str_contains($request->search, ' ')) {
                 $spl = explode(' ', $request->search);
-                foreach($spl as $element) {
+                foreach ($spl as $element) {
                     $users->where('users.identification', 'like', '%' . $element . '%')
                         ->orWhere('users.email', 'like', '%' . $element . '%')
                         ->orWhere('users.firstname', 'like', '%' . $element . '%')
@@ -858,6 +879,16 @@ class UserController extends Controller
                     }
                 }
 
+                if($request->company_id){
+                    $arraycompany = json_decode($request->company_id);
+        
+                    foreach($arraycompany as $company){
+                        $user_agreement = new UserAgreement;
+                        $user_agreement->user_id = $user->id;
+                        $user_agreement->company_id = $company->company_id;
+                        $user_agreement->save();
+                    }
+                }
 
                 if ($request->isTH) {
                     $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
@@ -1007,6 +1038,17 @@ class UserController extends Controller
                 }
             }
 
+            if($request->company_id){
+                $arraycompany = json_decode($request->company_id);
+    
+                foreach($arraycompany as $company){
+                    $user_agreement = new UserAgreement;
+                    $user_agreement->user_id = $user->id;
+                    $user_agreement->company_id = $company->company_id;
+                    $user_agreement->save();
+                }
+            }
+
             if ($request->isTH) {
                 $HumanTalentRequest = HumanTalentRequest::find($request->isTH);
                 $HumanTalentRequest->status = 'Aprobada TH';
@@ -1114,9 +1156,6 @@ class UserController extends Controller
             // 'data2' => ['assitance' => $assistance]
         ]);
     }
-
-
-
 
     /**
      * Display the specified resource.
@@ -1231,6 +1270,20 @@ class UserController extends Controller
                 $userCampus->user_id = $id;
                 $userCampus->campus_id = $item->campus_id;
                 $userCampus->save();
+            }
+        }
+        
+        if($request->company_id != "null"){
+            $delete_company = UserAgreement::select('user_agreement.*')
+                ->where('user_id', $id);
+            $delete_company->delete();
+            $arraycompany = json_decode($request->company_id);
+
+            foreach($arraycompany as $company){
+                $user_agreement = new UserAgreement;
+                $user_agreement->user_id = $id;
+                $user_agreement->company_id = $company->company_id;
+                $user_agreement->save();
             }
         }
         if ($request->file('file')) {
@@ -1447,6 +1500,8 @@ class UserController extends Controller
                 'identification_type',
                 'user_role',
                 'user_role.role',
+                'user_agreement',
+                'user_agreement.campus',
                 // 'admissions',
                 // 'admissions.location',
                 // 'admissions.contract',
@@ -1457,7 +1512,9 @@ class UserController extends Controller
                 // 'admissions.location.flat',
                 // 'admissions.location.pavilion',
                 // 'admissions.location.bed',
-                'assistance'
+                'assistance',
+                'assistance.special_field',
+                
             )->get()->toArray();
 
 

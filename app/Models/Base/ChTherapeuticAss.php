@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $ch_ass_cough_id
  * @property BigInteger $ch_ass_chest_type_id
  * @property BigInteger $ch_ass_chest_symmetry_id 
+ * @property BigInteger $ch_ass_signs_id 
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
  * @property Carbon $created_at
@@ -65,6 +66,10 @@ class ChTherapeuticAss extends Model
 	public function ch_ass_chest_symmetry()
 	{
 		return $this->belongsTo(ChAssChestSymmetry::class);
+	}
+	public function ch_ass_signs()
+	{
+		return $this->belongsTo(ChAssSigns::class);
 	}
 	
 	public function type_record()

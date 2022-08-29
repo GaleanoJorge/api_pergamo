@@ -22,6 +22,7 @@ class CreateChTherapeuticAssTable extends Migration
             $table->unsignedBigInteger('ch_ass_cough_id');
             $table->unsignedBigInteger('ch_ass_chest_type_id');
             $table->unsignedBigInteger('ch_ass_chest_symmetry_id');
+            $table->unsignedBigInteger('ch_ass_signs_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -53,6 +54,10 @@ class CreateChTherapeuticAssTable extends Migration
             $table->index('ch_ass_chest_symmetry_id');
             $table->foreign('ch_ass_chest_symmetry_id')->references('id')
                 ->on('ch_ass_chest_symmetry');
+
+            $table->index('ch_ass_signs_id');
+            $table->foreign('ch_ass_signs_id')->references('id')
+                ->on('ch_ass_signs');
 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')

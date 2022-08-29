@@ -98,17 +98,78 @@ class BillUserActivityController extends Controller
     {
         $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)
             ->with(
+                'admissions',
                 'procedure',
                 'procedure.manual_price',
                 'tariff',
                 'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.admissions',
+                'assigned_management_plan.management_plan.admissions.patients',
+                'assigned_management_plan.management_plan.admissions.patients.identification_type',
             );
+
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
             $BillUserActivity->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $BillUserActivity = $BillUserActivity->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $BillUserActivity = $BillUserActivity->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro con las actividades del usuario actualizado exitosamente',
+            'data' => ['bill_user_activity' => $BillUserActivity]
+        ]);
+    }
+
+    public function getByPatient(Request $request, int $patient_id)
+    {
+        $BillUserActivity = BillUserActivity::select('bill_user_activity.*')
+            ->with(
+                'procedure',
+                'procedure.manual_price',
+                'tariff',
+                'account_receivable',
+                'account_receivable.user',
+                'account_receivable.user.identification_type',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.admissions',
+                'assigned_management_plan.management_plan.admissions.patients',
+                'assigned_management_plan.management_plan.admissions.patients.identification_type',
+            )
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'bill_user_activity.procedure_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('account_receivable', 'account_receivable.id', 'bill_user_activity.account_receivable_id')
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
+            ->leftJoin('admissions', 'admissions.id', 'bill_user_activity.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.id', 'bill_user_activity.assigned_management_plan_id')
+            ->where('patients.id', $patient_id)
+            ->groupBy('bill_user_activity.id')
+            ->orderBy('assigned_management_plan.execution_date', 'DESC');
+
+        if ($request->search) {
+            $BillUserActivity->where(function ($query) use ($request) {
+                $query->where('users.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%')
+                    ;
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
