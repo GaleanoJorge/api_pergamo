@@ -411,7 +411,7 @@ class AccountReceivableController extends Controller
             'letter_value' => $letter_value,
             'account_type' => $account_type,
             'bank' => $bank,
-            'account_number' => $account_number,
+            'account_number' => $account_number . '',
             'role' => $role,
             'address' => $address,
             'phone' => $phone,
