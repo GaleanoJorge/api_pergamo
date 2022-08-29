@@ -1559,7 +1559,7 @@
     {
         "id": "224",
         "item_parent_id": null,
-        "name": "Agendamiento",
+        "name": "Consulta externa",
         "code": null,
         "route": null,
         "icon": "book-open-outline",
