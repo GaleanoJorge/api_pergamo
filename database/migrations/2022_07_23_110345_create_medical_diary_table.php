@@ -16,7 +16,8 @@ class CreateMedicalDiaryTable extends Migration
         Schema::create('medical_diary', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('assistance_id');
-            // $table->string('weekdays');
+            $table->unsignedBigInteger('office_id')->nullable();
+            $table->unsignedTinyInteger('diary_status_id');
             $table->time('start_time');
             $table->time('finish_time');
             $table->date('start_date');
@@ -27,11 +28,16 @@ class CreateMedicalDiaryTable extends Migration
 
 
             $table->index('assistance_id');
+            $table->index('office_id');
+            $table->index('diary_status_id');
 
 
             $table->foreign('assistance_id')->references('id')
                 ->on('assistance');
-
+            $table->foreign('office_id')->references('id')
+                ->on('bed');
+            $table->foreign('diary_status_id')->references('id')
+                ->on('status');
         });
     }
 
