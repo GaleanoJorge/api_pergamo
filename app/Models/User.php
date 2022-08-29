@@ -98,11 +98,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserRole::class);
     }
 
-    public function user_agreement()
-    {
-        return $this->hasMany(UserAgreement::class);
-    }
-
     public function users_campus()
     {
         return $this->hasMany(UserCampus::class);
