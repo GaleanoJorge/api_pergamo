@@ -419,8 +419,8 @@ class PatientController extends Controller
                         assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
                         ,
-                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->format('H:i:s').'") AND 
-                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->format('H:i:s').'") AND 
+                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->addHours(3)->format('H:i:s').'") AND 
+                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->subHours(3)->format('H:i:s').'") AND 
                             (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
                         ,1)
                     ,0 
@@ -507,24 +507,17 @@ class PatientController extends Controller
             });
         } else if ($request->semaphore == 3) {
             //Sin agendar
-            $patients->when($consulta . '= 1', function ($query) {
-                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
-                    $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
-                    $q->whereNull('management_plan.id');
-                });
+            $patients->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
+                $q->whereNull('management_plan.id');
             });
         } else if ($request->semaphore == 4) {
             //Sin asignar profesional
-            $patients->when($consulta . '= 3', function ($query) {
-                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                SUM(
-                CASE assigned_management_plan.execution_date 
-                    WHEN "0000-00-00 00:00:00" THEN 1 
-                    ELSE 0 
-                END), 
-                -1)', function ($q) {
-                    $q->whereNotNull('management_plan.id');
-                    $q->whereNull('assigned_management_plan.user_id');
+            $patients->where(function ($q) {
+                $q->whereNotNull('management_plan.id');
+                $q->where(function ($query) {
+                    $query->whereNull('assigned_management_plan.user_id');
+                    $query->orWhereNull('management_plan.assigned_user_id');
                 });
             });
         } else if ($request->semaphore == 5) {
