@@ -1559,9 +1559,9 @@
     {
         "id": "224",
         "item_parent_id": null,
-        "name": "Consulta externa",
-        "code": "medical-diary",
-        "route": "/pages/setting/medical-diary",
+        "name": "Agendamiento",
+        "code": null,
+        "route": null,
         "icon": "book-open-outline",
         "show_menu": "1"
     },
@@ -1599,6 +1599,33 @@
         "code": "fixed-assets-requests",
         "route": "/pages/setting/fixed-assets-requests",
         "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "229",
+        "item_parent_id": "224",
+        "name": "Consulta externa",
+        "code": "medical-diary",
+        "route": "/pages/scheduling/medical-diary",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "230",
+        "item_parent_id": "224",
+        "name": "Días no laborales",
+        "code": "non-working-days",
+        "route": "/pages/scheduling/non-working-days",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "231",
+        "item_parent_id": "224",
+        "name": "Días no laborales",
+        "code": "non-working-days",
+        "route": "/pages/scheduling/non-working-days",
+        "icon": "calendar-outline",
         "show_menu": "1"
     }
 ]
