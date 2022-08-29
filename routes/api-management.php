@@ -699,6 +699,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
+    //Consultorio
+    Route::get('office_by_campus', 'Management\BedController@getOfficeByCampus');
 
     Route::get(
         'bedbyPacient',
@@ -1645,7 +1647,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('user_agreement', 'Management\UserAgreementController');
     Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
 
-    
+
     //days
     Route::apiResource('days', 'Management\DaysController');
+
+    //non-working days
+    Route::apiResource('non_working_days', 'Management\NonWorkingDaysController');
 });
