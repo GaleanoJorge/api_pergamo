@@ -135,6 +135,8 @@ class ChRecordController extends Controller
         $ChRecord = ChRecord::with(
             'user',
             'admissions',
+            'admissions.location',
+            'admissions.location.program',
             'admissions.patients',
         );
 
@@ -770,8 +772,21 @@ class ChRecordController extends Controller
                 'parameters_signs'
             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
-            //Antecedentes
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+             //Antecedentes
+             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+             //Antecedentes Gyneco
+             $ChGynecologists = ChGynecologists::with(
+                 'ch_type_gynecologists',
+                 'ch_planning_gynecologists',
+                 'ch_exam_gynecologists',
+                 'ch_flow_gynecologists',
+                 'ch_rst_cytology_gyneco',
+                 'ch_rst_biopsy_gyneco',
+                 'ch_rst_mammography_gyneco',
+                 'ch_rst_colposcipia_gyneco',
+                 'ch_failure_method_gyneco',
+                 'ch_method_planning_gyneco'
+             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Evolución
             $OstomiesTl = OstomiesTl::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
@@ -836,6 +851,7 @@ class ChRecordController extends Controller
                 'NumberMonthlySessionsTl' => $NumberMonthlySessionsTl,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChBackground' => $ChBackground,
+                'ChGynecologists' => $ChGynecologists,
                 'TlTherapyLanguageRegular' => $TlTherapyLanguageRegular,
                 'ChVitalSignsEvotl' => $ChVitalSignsEvotl,
                 'TherapeuticGoalsTlEvo' => $TherapeuticGoalsTlEvo,
