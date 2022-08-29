@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\Days;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -27,5 +28,8 @@ class MedicalDiaryDays extends Model
 {
 	protected $table = 'medical_diary_days';
 
-	
+	public function days()
+	{
+		return $this->belongsTo(Days::class);
+	}
 }
