@@ -24,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
+use Exception;
 
 class BillingPadController extends Controller
 {
@@ -233,38 +234,48 @@ class BillingPadController extends Controller
             $BillingPadConsecutive->stats_id = 2;
         }
 
-        $Contract = Contract::find($contract_id);
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
+            }
+            $Contract = Contract::find($contract_id);
 
-        $BillingPadPgp = new BillingPadPgp;
-        $BillingPadPgp->total_value = $Contract->amount;
-        $BillingPadPgp->contract_id = $contract_id;
-        $BillingPadPgp->billing_pad_status_id = 1;
-        $BillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
-        $BillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPadPgp->consecutive = $consecutive;
-        $BillingPadPgp->validation_date = Carbon::now();
-        $BillingPadPgp->save();
+            $BillingPadPgp = new BillingPadPgp;
+            $BillingPadPgp->total_value = $Contract->amount;
+            $BillingPadPgp->contract_id = $contract_id;
+            $BillingPadPgp->billing_pad_status_id = 1;
+            $BillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
+            $BillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $BillingPadPgp->consecutive = $consecutive;
+            $BillingPadPgp->validation_date = Carbon::now();
+            $BillingPadPgp->save();
 
-        $this->generateBillingDat(2, $BillingPadPgp->id);
+            $this->generateBillingDat(2, $BillingPadPgp->id);
 
-        $BillingsPad = BillingPad::select('billing_pad.*')
-            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
-            ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
-            ->where('admissions.contract_id', $contract_id)
-            ->get()
-            ->toArray();
+            $BillingsPad = BillingPad::select('billing_pad.*')
+                ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+                ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+                ->where('admissions.contract_id', $contract_id)
+                ->get()
+                ->toArray();
 
-        foreach ($BillingsPad as $element) {
-            $BillingPad = BillingPad::where('id', $element['id'])->first();
-            $BillingPad->billing_pad_pgp_id = $BillingPadPgp->id;
-            $BillingPad->save();
+            foreach ($BillingsPad as $element) {
+                $BillingPad = BillingPad::where('id', $element['id'])->first();
+                $BillingPad->billing_pad_pgp_id = $BillingPadPgp->id;
+                $BillingPad->save();
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura creada exitosamente',
+                'data' => ['billing_pad' => $BillingPadPgp]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'data' => ['billing_pad' => []]
+            ]);
         }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'factura creada exitosamente',
-            'data' => ['billing_pad' => $BillingPadPgp]
-        ]);
     }
 
     /**
@@ -2092,50 +2103,60 @@ class BillingPadController extends Controller
             ]);
         }
 
-        $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
-        $AuthBillingPadDelete->delete();
-        $components = json_decode($request->authorizations);
-        $total_value = 0;
-        foreach ($components as $conponent) {
-            $AuthBillingPad = new AuthBillingPad;
-            $AuthBillingPad->billing_pad_id = $id;
-            $AuthBillingPad->authorization_id = $conponent->id;
-            if ($conponent->services_briefcase) {
-                $AuthBillingPad->value = $conponent->services_briefcase->value;
-            } else {
-                $AuthBillingPad->value = $conponent->manual_price->value;
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
-            $AuthBillingPad->save();
-            $total_value += $AuthBillingPad->value;
+            $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
+            $AuthBillingPadDelete->delete();
+            $components = json_decode($request->authorizations);
+            $total_value = 0;
+            foreach ($components as $conponent) {
+                $AuthBillingPad = new AuthBillingPad;
+                $AuthBillingPad->billing_pad_id = $id;
+                $AuthBillingPad->authorization_id = $conponent->id;
+                if ($conponent->services_briefcase) {
+                    $AuthBillingPad->value = $conponent->services_briefcase->value;
+                } else {
+                    $AuthBillingPad->value = $conponent->manual_price->value;
+                }
+                $AuthBillingPad->save();
+                $total_value += $AuthBillingPad->value;
+            }
+
+            $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
+            if ($consecutive == $BillingPadConsecutive->final_consecutive) {
+                $BillingPadConsecutive->stats_id = 2;
+            }
+            $BillingPadConsecutive->actual_consecutive = $consecutive;
+            $BillingPadConsecutive->save();
+
+            $BillingPad = BillingPad::where('id', $id)->first();
+            $BillingPad->billing_pad_status_id = 2;
+            $BillingPad->total_value = $total_value;
+            $BillingPad->consecutive = $consecutive;
+            $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
+            $BillingPad->save();
+            $this->generateBillingDat(1, $id);
+
+            $BillingPadLog = new BillingPadLog;
+            $BillingPadLog->billing_pad_id = $id;
+            $BillingPadLog->billing_pad_status_id = 2;
+            $BillingPadLog->user_id = $request->user_id;
+            $BillingPadLog->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura actualizada exitosamente',
+                'data' => ['billing_pad' => $BillingPad]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'data' => ['billing_pad' => []]
+            ]);
         }
-
-        $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
-        if ($consecutive == $BillingPadConsecutive->final_consecutive) {
-            $BillingPadConsecutive->stats_id = 2;
-        }
-        $BillingPadConsecutive->actual_consecutive = $consecutive;
-        $BillingPadConsecutive->save();
-
-        $BillingPad = BillingPad::where('id', $id)->first();
-        $BillingPad->billing_pad_status_id = 2;
-        $BillingPad->total_value = $total_value;
-        $BillingPad->consecutive = $consecutive;
-        $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
-        $BillingPad->save();
-        $this->generateBillingDat(1, $id);
-
-        $BillingPadLog = new BillingPadLog;
-        $BillingPadLog->billing_pad_id = $id;
-        $BillingPadLog->billing_pad_status_id = 2;
-        $BillingPadLog->user_id = $request->user_id;
-        $BillingPadLog->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'factura actualizada exitosamente',
-            'data' => ['billing_pad' => $BillingPad]
-        ]);
     }
 
     /**
@@ -2401,9 +2422,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
 
 
-        $name = '900900122-7_' . $year . '_' . $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . '_.dat';
+        $name = '900900122-7_' . $year . '_' . $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . '.dat';
 
         Storage::disk('public')->put($name, $file);
+        Storage::disk('sftp')->put($name, $file);
 
         return response()->json([
             'status' => true,
