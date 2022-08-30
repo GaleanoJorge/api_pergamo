@@ -522,6 +522,7 @@ class ChRecordController extends Controller
 
             // NOTA DE ENFERMERIA
             $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNursingNote = ChPosition::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -618,6 +619,7 @@ class ChRecordController extends Controller
                 'chrecord' => $ChRecord,
 
                 'ChPosition' => $ChPosition,
+                'ChNursingNote' => $ChNursingNote,
                 'ChHairValoration' => $ChHairValoration,
                 'ChOstomies' => $ChOstomies,
                 'ChPhysicalExam' => $ChPhysicalExam,
