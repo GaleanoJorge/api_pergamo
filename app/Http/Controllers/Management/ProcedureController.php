@@ -22,7 +22,7 @@ class ProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Procedures = Procedure::select();
+        $Procedures = Procedure::select('procedure.*');
 
         if ($request->_sort) {
             $Procedures->orderBy($request->_sort, $request->_order);
