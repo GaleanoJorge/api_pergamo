@@ -413,14 +413,14 @@ class PatientController extends Controller
             DB::raw('COUNT(assigned_management_plan.execution_date) AS created'),
             DB::raw('
                SUM(
-                   IF( (CURDATE() < assigned_management_plan.finish_date AND 
-                        CURDATE() > assigned_management_plan.start_date AND 
+                   IF( (CURDATE() <= assigned_management_plan.finish_date AND 
+                        CURDATE() >= assigned_management_plan.start_date AND 
                         assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
                         assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
                         ,
-                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->format('H:i:s').'") AND 
-                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->format('H:i:s').'") AND 
+                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->addHours(3)->format('H:i:s').'") AND 
+                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->subHours(3)->format('H:i:s').'") AND 
                             (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
                         ,1)
                     ,0 
@@ -434,6 +434,13 @@ class PatientController extends Controller
                 )
                ) AS incumplidas'),
             DB::raw($consulta . ' AS ingreso'),
+            DB::raw('
+                    IF(
+                        COUNT(DISTINCT program.id) > 1
+                        , "MIXTO"
+                        , program.name
+                        )
+            AS programa'),
         )
             ->leftjoin('locality', 'patients.locality_id', 'locality.id')
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
@@ -441,7 +448,8 @@ class PatientController extends Controller
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-            ->Join('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
             ->where('location.admission_route_id', 2)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
@@ -507,24 +515,17 @@ class PatientController extends Controller
             });
         } else if ($request->semaphore == 3) {
             //Sin agendar
-            $patients->when($consulta . '= 1', function ($query) {
-                $query->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
-                    $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
-                    $q->whereNull('management_plan.id');
-                });
+            $patients->when('SUM(IF(management_plan.id > 0, 1,0)) = 0', function ($q) {
+                $q->where('admissions.entry_date', '<=', Carbon::now()->subDay());
+                $q->whereNull('management_plan.id');
             });
         } else if ($request->semaphore == 4) {
             //Sin asignar profesional
-            $patients->when($consulta . '= 3', function ($query) {
-                $query->when('COUNT(assigned_management_plan.execution_date) = IF(COUNT(assigned_management_plan.execution_date) > 0, 
-                SUM(
-                CASE assigned_management_plan.execution_date 
-                    WHEN "0000-00-00 00:00:00" THEN 1 
-                    ELSE 0 
-                END), 
-                -1)', function ($q) {
-                    $q->whereNotNull('management_plan.id');
-                    $q->whereNull('assigned_management_plan.user_id');
+            $patients->where(function ($q) {
+                $q->whereNotNull('management_plan.id');
+                $q->where(function ($query) {
+                    $query->whereNull('assigned_management_plan.user_id');
+                    $query->orWhereNull('management_plan.assigned_user_id');
                 });
             });
         } else if ($request->semaphore == 5) {
@@ -609,6 +610,7 @@ class PatientController extends Controller
                     ->orWhere('locality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('program.name', 'like', '%' . $request->search . '%')
                     ;
             });
         }

@@ -156,9 +156,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Assistance::class);
     }
-
-    public function user_agreement()
-    {
-        return $this->hasMany(UserAgreement::class);
-    }
 }

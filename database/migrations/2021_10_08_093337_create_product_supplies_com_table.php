@@ -23,7 +23,7 @@ class CreateProductSuppliesComTable extends Migration
             $table->unsignedBigInteger('sanitary_registration_id');
             $table->unsignedBigInteger('packing_id');
             $table->string('unit_packing');
-            $table->string('code_udi');
+            $table->string('code_udi')->nullable();
             $table->string('useful_life');
             $table->date('date_cum');
             $table->timestamps();

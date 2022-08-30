@@ -568,7 +568,7 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
-        $Authorizationspackages = Authorization::select('authorization.*')
+        $Authorizationspackages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -590,6 +590,9 @@ class BillingPadController extends Controller
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
+            ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
+            ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->groupBy('authorization.id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
         if ($request->show) {
             $Authorizationspackages->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -890,7 +893,7 @@ class BillingPadController extends Controller
                     $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
-                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
+                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['services_briefcase']['manual_price']['procedure_id']);
                     $type_validator = 3;
                 } else if ($AuthPacked['fixed_add_id']) {
                     $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
@@ -911,15 +914,15 @@ class BillingPadController extends Controller
                             $total_max += $ProcedurePackages[0]['max_quantity'];
                             $total_done += $AuthPacked['quantity'];
                         }
-                        if ($type_validator == 1) {
+                        if ($type_validator == 3) {
                             foreach ($AuthsresponseProc as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
-                        } else if ($type_validator == 2) {
+                        } else if ($type_validator == 1) {
                             foreach ($AuthsresponseMed as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
-                        } else if ($type_validator == 3) {
+                        } else if ($type_validator == 2) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
@@ -929,15 +932,15 @@ class BillingPadController extends Controller
                             }
                         }
                     } else {
-                        if ($type_validator == 1) {
+                        if ($type_validator == 3) {
                             foreach ($AuthsresponseProc as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 2) {
+                        } else if ($type_validator == 1) {
                             foreach ($AuthsresponseMed as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 3) {
+                        } else if ($type_validator == 2) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($result_packages, $element);
                             }
@@ -948,15 +951,15 @@ class BillingPadController extends Controller
                         }
                     }
                 } else {
-                    if ($type_validator == 1) {
+                    if ($type_validator == 3) {
                         foreach ($AuthsresponseProc as $element) {
                             array_push($result_packages, $element);
                         }
-                    } else if ($type_validator == 2) {
+                    } else if ($type_validator == 1) {
                         foreach ($AuthsresponseMed as $element) {
                             array_push($result_packages, $element);
                         }
-                    } else if ($type_validator == 3) {
+                    } else if ($type_validator == 2) {
                         foreach ($AuthsresponseSupp as $element) {
                             array_push($result_packages, $element);
                         }
@@ -1195,7 +1198,7 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
-        $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
+        $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'), DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -1222,6 +1225,9 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
+            ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->groupBy('authorization.id')
             ->get()->toArray();
 
 
@@ -1521,7 +1527,7 @@ class BillingPadController extends Controller
                     $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
-                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
+                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['services_briefcase']['manual_price']['procedure_id']);
                     $type_validator = 3;
                 } else if ($AuthPacked['fixed_add_id']) {
                     $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
@@ -1542,15 +1548,15 @@ class BillingPadController extends Controller
                             $total_max += $ProcedurePackages[0]['max_quantity'];
                             $total_done += $AuthPacked['quantity'];
                         }
-                        if ($type_validator == 1) {
+                        if ($type_validator == 3) {
                             foreach ($AuthsresponseProc as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
-                        } else if ($type_validator == 2) {
+                        } else if ($type_validator == 1) {
                             foreach ($AuthsresponseMed as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
-                        } else if ($type_validator == 3) {
+                        } else if ($type_validator == 2) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($Authorizationspackage['auth_package'], $element);
                             }
@@ -1560,15 +1566,15 @@ class BillingPadController extends Controller
                             }
                         }
                     } else {
-                        if ($type_validator == 1) {
+                        if ($type_validator == 3) {
                             foreach ($AuthsresponseProc as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 2) {
+                        } else if ($type_validator == 1) {
                             foreach ($AuthsresponseMed as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 3) {
+                        } else if ($type_validator == 2) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($result_packages, $element);
                             }
@@ -1579,15 +1585,15 @@ class BillingPadController extends Controller
                         }
                     }
                 } else {
-                    if ($type_validator == 1) {
+                    if ($type_validator == 3) {
                         foreach ($AuthsresponseProc as $element) {
                             array_push($result_packages, $element);
                         }
-                    } else if ($type_validator == 2) {
+                    } else if ($type_validator == 1) {
                         foreach ($AuthsresponseMed as $element) {
                             array_push($result_packages, $element);
                         }
-                    } else if ($type_validator == 3) {
+                    } else if ($type_validator == 2) {
                         foreach ($AuthsresponseSupp as $element) {
                             array_push($result_packages, $element);
                         }
@@ -1641,7 +1647,7 @@ class BillingPadController extends Controller
         }
 
 
-        $Authorizationspackages = Authorization::select('authorization.*')
+        $Authorizationspackages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -1666,6 +1672,9 @@ class BillingPadController extends Controller
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
+            ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
+            ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->groupBy('authorization.id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
         $Authorizationspackages = $Authorizationspackages->get()->toArray();
 
@@ -1849,7 +1858,7 @@ class BillingPadController extends Controller
             }
             $AuthsresponseProc->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
             $AuthsresponseProc = $AuthsresponseProc->get()->toArray();
-            
+
 
             // Medicamentos
             $AuthsresponseMed = Authorization::select('authorization.*')
@@ -1989,7 +1998,7 @@ class BillingPadController extends Controller
                     $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
                     $type_validator = 2;
                 } else if ($AuthPacked['procedure_id']) {
-                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['procedure_id']);
+                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['services_briefcase']['manual_price']['procedure_id']);
                     $type_validator = 3;
                 } else if ($AuthPacked['fixed_add_id']) {
                     $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
@@ -2010,15 +2019,15 @@ class BillingPadController extends Controller
                             $total_max += $ProcedurePackages[0]['max_quantity'];
                             $total_done += $AuthPacked['quantity'];
                         }
-                        if ($type_validator == 1) {
+                        if ($type_validator == 3) {
                             foreach ($AuthsresponseProc as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 2) {
+                        } else if ($type_validator == 1) {
                             foreach ($AuthsresponseMed as $element) {
                                 array_push($result_packages, $element);
                             }
-                        } else if ($type_validator == 3) {
+                        } else if ($type_validator == 2) {
                             foreach ($AuthsresponseSupp as $element) {
                                 array_push($result_packages, $element);
                             }
@@ -2520,17 +2529,24 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function NumToLettersBill(int $value)
     {
         $lengt = 45;
-        $res[0] = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
-        if (strlen($res[0]) > $lengt) {
-            $prov = substr($res[0], $lengt);
+        $res = $this->renglones(NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true), $lengt);
+
+        return $res;
+    }
+
+    public function renglones(string $val, int $length)
+    {
+        $res[0] = $val;
+        if (strlen($res[0]) > $length) {
+            $prov = substr($res[0], $length);
             $pos = strpos($prov, " ");
             $prov = substr($prov, $pos + 1);
-            $res[0] = substr($res[0], 0, $lengt + $pos);
-            if (strlen($prov) > $lengt) {
-                $prov2 = substr($prov, $lengt);
+            $res[0] = substr($res[0], 0, $length + $pos);
+            if (strlen($prov) > $length) {
+                $prov2 = substr($prov, $length);
                 $pos = strpos($prov2, " ");
                 $prov2 = substr($prov2, $pos + 1);
-                $res[1] = substr($prov, 0, $lengt + $pos);
+                $res[1] = substr($prov, 0, $length + $pos);
                 $res[2] = $prov2;
             } else {
                 $res[1] = $prov;
@@ -2658,8 +2674,28 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         $selected_procedures[$i]['product_com']['code_cum'] : null));
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
             $selected_procedures[$i]['services_briefcase']['value'] = $element['services_briefcase']['value'];
-            $A = $element['assigned_management_plan']['execution_date'];
-            $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+            if ($element['assigned_management_plan'] || $element['fixed_add_id']) {
+                $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
+                $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'] : "";
+            } else {
+                $packedAuthAux = Authorization::where('auth_package_id', $element['id'])->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure'
+                )->get()->toArray();
+                foreach ($packedAuthAux as $e) {
+                    $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
+                    $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                }
+            }
             if ($assistance_name == '') {
                 $assistance_name = $b;
             }
@@ -2730,7 +2766,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'patient_name' => $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']),
             'patient_phone' => $BillingPad[0]['phone'],
             'patient_address' => $BillingPad[0]['residence_address'],
-            'contract_name' => $BillingPad[0]['contract_name'],
+            'contract_name' => $this->renglones($BillingPad[0]['contract_name'], 30),
             'program_name' => $BillingPad[0]['program_name'],
             'billing_resolution' => $BillingPad[0]['billing_resolution'],
             'selected_procedures' => $sort_view_services,
