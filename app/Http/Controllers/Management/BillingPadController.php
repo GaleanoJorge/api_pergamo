@@ -603,11 +603,14 @@ class BillingPadController extends Controller
 
         // VALIDACIÓN SI LA FACTURA YA CUENTA CON PAQUETES
         $hasPackages = false;
+        $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
+            $Authorizationspackages[$i]['auth_package'] = true;
             $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
             if (!$AuthBillingPad) {
                 $hasPackages = true;
             }
+            $i++;
         }
 
         // // VALIDACIÓN SI LOS PAQUETES ENCONTRADOS CUMPLAN CON LAS CONDICIONES DESCRITAS EN EL MANUAL TARIFARIO
@@ -1233,11 +1236,14 @@ class BillingPadController extends Controller
 
         // VALIDACIÓN SI LA FACTURA YA CUENTA CON PAQUETES
         $hasPackages = false;
+        $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
+            $Authorizationspackage[0]['auth_package'] = true;
             $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
             if (!$AuthBillingPad) {
                 $hasPackages = true;
             }
+            $i++;
         }
 
         // // VALIDACIÓN SI LOS PAQUETES ENCONTRADOS CUMPLAN CON LAS CONDICIONES DESCRITAS EN EL MANUAL TARIFARIO
