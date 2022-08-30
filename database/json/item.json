@@ -1622,9 +1622,9 @@
     {
         "id": "231",
         "item_parent_id": "224",
-        "name": "Días no laborales",
-        "code": "non-working-days",
-        "route": "/pages/scheduling/non-working-days",
+        "name": "CUPS del asistencial",
+        "code": "Cups del asistencial",
+        "route": "/pages/scheduling/assitencial-procedure",
         "icon": "calendar-outline",
         "show_menu": "1"
     }
