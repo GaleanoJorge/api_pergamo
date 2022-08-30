@@ -627,6 +627,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Activos Fijos 
     Route::apiResource('fixed_assets', 'Management\FixedAssetsController');
+    Route::apiResource('periodicity_frequency', 'Management\PeriodicityFrequencyController');
 
     //Tipos de Activos Fijos
     Route::apiResource('type_assets', 'Management\TypeAssetsController');

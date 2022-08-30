@@ -434,6 +434,13 @@ class PatientController extends Controller
                 )
                ) AS incumplidas'),
             DB::raw($consulta . ' AS ingreso'),
+            DB::raw('
+                    IF(
+                        COUNT(DISTINCT program.id) > 1
+                        , "MIXTO"
+                        , program.name
+                        )
+            AS programa'),
         )
             ->leftjoin('locality', 'patients.locality_id', 'locality.id')
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
@@ -441,7 +448,8 @@ class PatientController extends Controller
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
-            ->Join('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
             ->where('location.admission_route_id', 2)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
@@ -602,6 +610,7 @@ class PatientController extends Controller
                     ->orWhere('locality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('program.name', 'like', '%' . $request->search . '%')
                     ;
             });
         }

@@ -20,8 +20,8 @@ class CreateChSwIncomeTable extends Migration
             $table->double('donations')->nullable();
             $table->double('rent')->nullable();
             $table->double('familiar_help')->nullable();
-            $table->double('none')->nullable();
-            $table->double('total');
+            $table->boolean('none')->nullable();
+            $table->double('total')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

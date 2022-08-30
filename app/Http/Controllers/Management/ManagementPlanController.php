@@ -424,7 +424,7 @@ class ManagementPlanController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+                    'message' => 'Se debe asociar farmacia al servicio para poder dispensar el medicamento.',
                 ], 423);
             }
         } else {
@@ -861,7 +861,71 @@ class ManagementPlanController extends Controller
         $ManagementPlan->specialty_id = $request->specialty_id;
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;
-        $ManagementPlan->save();
+        $ManagementPlan->procedure_id = $request->procedure_id;
+        $ManagementPlan->phone_consult = $request->phone_consult;
+        // $ManagementPlan->authorization_id = $Authorization->id;
+        if ($request->type_of_attention_id == 17) {
+            $ManagementPlan->preparation = $request->preparation;
+            $ManagementPlan->product_id = $request->product_id;
+            $ManagementPlan->route_of_administration = $request->route_of_administration;
+            $ManagementPlan->blend = $request->blend;
+            $ManagementPlan->administration_time = $request->administration_time;
+            $ManagementPlan->observation = $request->observation;
+            $ManagementPlan->number_doses = $request->number_doses;
+            $ManagementPlan->dosage_administer = $request->dosage_administer;
+
+            $admissions = Admissions::where('admissions.id', $request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location', 'location.admissions_id', 'admissions.id')->get()->toArray();
+
+
+
+            $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
+                ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
+                ->get()->toArray();
+            if ($PharmacyServices) {
+                $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
+
+                $PharmacyProductRequest = new PharmacyProductRequest;
+                $PharmacyProductRequest->admissions_id = $request->admissions_id;
+                $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+
+                $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
+                if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                    $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+                } else {
+                    $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                }
+
+                $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+                $PharmacyProductRequest->request_amount = $quantity;
+                $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy;
+                $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
+                $ManagementPlan->save();
+                $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+                $PharmacyProductRequest->status = 'PATIENT';
+                $PharmacyProductRequest->save();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Plan de manejo actualizado exitosamente',
+                    'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
+                    'data' => ['management_plan' => $ManagementPlan->toArray()]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Se debe asociar farmacia al servivio para poder dispensar el medicamento.',
+                ], 423);
+            }
+        } else {
+            $ManagementPlan->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Plan de manejo actualizado exitosamente',
+                'message_error' => 'No se pudo asignar el plan de manejo de los meses posteriores ya que el médico no cuenta con capacidad instalada base en la Comuna, Localidad o Vereda',
+                'data' => ['management_plan' => $ManagementPlan->toArray()]
+            ]);
+        }
+        if($request->edit==null){
 
         $validate = AssignedManagementPlan::where('management_plan_id', $id)->get()->toArray();
         foreach ($validate as $key => $value) {
@@ -942,6 +1006,7 @@ class ManagementPlanController extends Controller
 
             $this->createAuth($request, $assignedManagement, $ManagementPlan);
         }
+    
 
         if ($error == 0) {
             return response()->json([
@@ -964,6 +1029,7 @@ class ManagementPlanController extends Controller
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         }
+    }
     }
 
     /**

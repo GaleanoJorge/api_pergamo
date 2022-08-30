@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $donations
  * @property int $rent
  * @property int $familiar_help
- * @property int $none
+ * @property boolean $none
  * @property int $total
 
  * @property BigInteger $type_record_id

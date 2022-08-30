@@ -103,8 +103,11 @@ class AssignedManagementPlanController extends Controller
 
     public function getByUserPatient(Request $request, int $user_id, int $patient_id)
     {
+        $dateNow = Carbon::now()->format('YmdHis');
         $assigned_management_plan = AssignedManagementPlan::select(
             'assigned_management_plan.*',
+            DB::raw('IF(' . $dateNow . ' <= assigned_management_plan.redo,1,0) AS allow_redo'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
         )
             ->with(
                 'user',
@@ -114,6 +117,7 @@ class AssignedManagementPlanController extends Controller
                 'management_plan.service_briefcase.manual_price',
                 'management_plan.procedure',
                 'management_plan.procedure.manual_price',
+                'ch_record',
             )
             ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
             ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
