@@ -123,7 +123,7 @@ return [
             'username' => 'hlips',
             'password' => 'yNuzY9kZcArY',
             'port' => 22,
-            'root' => '/OUTBOUND/invostream/plano/procesado/',
+            'root' => '/INBOUND/invostream/plano/',
         ],
 
     ],
