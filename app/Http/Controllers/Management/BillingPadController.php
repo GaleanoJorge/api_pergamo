@@ -24,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
+use Illuminate\Filesystem\Filesystem;
 use Exception;
 
 class BillingPadController extends Controller
@@ -273,6 +274,7 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2154,6 +2156,7 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2425,7 +2428,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $name = '900900122-7_' . $year . '_' . $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . '.dat';
 
         Storage::disk('public')->put($name, $file);
-        Storage::disk('sftp')->put($name, $file);
+        $filesystem = new Filesystem();
+        $allFiles = $filesystem->allFiles(base_path("storage/app/public/"));
+        Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
             'status' => true,
