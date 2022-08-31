@@ -2541,29 +2541,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function NumToLettersBill(int $value)
     {
         $lengt = 45;
-        $res = $this->renglones(NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true), $lengt);
+        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
 
-        return $res;
-    }
-
-    public function renglones(string $val, int $length)
-    {
-        $res[0] = $val;
-        if (strlen($res[0]) > $length) {
-            $prov = substr($res[0], $length);
-            $pos = strpos($prov, " ");
-            $prov = substr($prov, $pos + 1);
-            $res[0] = substr($res[0], 0, $length + $pos);
-            if (strlen($prov) > $length) {
-                $prov2 = substr($prov, $length);
-                $pos = strpos($prov2, " ");
-                $prov2 = substr($prov2, $pos + 1);
-                $res[1] = substr($prov, 0, $length + $pos);
-                $res[2] = $prov2;
-            } else {
-                $res[1] = $prov;
-            }
-        }
         return $res;
     }
 
@@ -2778,7 +2757,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'patient_name' => $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']),
             'patient_phone' => $BillingPad[0]['phone'],
             'patient_address' => $BillingPad[0]['residence_address'],
-            'contract_name' => $this->renglones($BillingPad[0]['contract_name'], 30),
+            'contract_name' => $BillingPad[0]['contract_name'],
             'program_name' => $BillingPad[0]['program_name'],
             'billing_resolution' => $BillingPad[0]['billing_resolution'],
             'selected_procedures' => $sort_view_services,
