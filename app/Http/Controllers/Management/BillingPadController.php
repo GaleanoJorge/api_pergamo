@@ -605,7 +605,7 @@ class BillingPadController extends Controller
         $hasPackages = false;
         $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
-            $Authorizationspackages[$i]['auth_package'] = true;
+            $Authorizationpackages['auth_package'] = true;
             $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
             // if (!$AuthBillingPad) {
             //     $hasPackages = true;
@@ -1243,7 +1243,7 @@ class BillingPadController extends Controller
         $hasPackages = false;
         $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
-            $Authorizationspackage[$i]['auth_package'] = true;
+            $Authorizationpackages['auth_package'] = true;
             // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
             // if (!$AuthBillingPad) {
             //     $hasPackages = true;
