@@ -18,10 +18,12 @@ class BillingPadConsecutiveController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingPadConsecutive = BillingPadConsecutive::select()
+        $BillingPadConsecutive = BillingPadConsecutive::select('billing_pad_consecutive.*')
             ->with('status', 'billing_pad_prefix')
             ->leftJoin('status', 'status.id', 'billing_pad_consecutive.status_id')
-            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_consecutive.billing_pad_prefix_id');
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_consecutive.billing_pad_prefix_id')
+            ->groupBy('billing_pad_consecutive.id')
+            ;
 
         if ($request->_sort) {
             $BillingPadConsecutive->orderBy($request->_sort, $request->_order);
@@ -142,7 +144,6 @@ class BillingPadConsecutiveController extends Controller
         $BillingPadConsecutive->resolution = $request->resolution;
         $BillingPadConsecutive->initial_consecutive = $request->initial_consecutive;
         $BillingPadConsecutive->final_consecutive = $request->final_consecutive;
-        $BillingPadConsecutive->actual_consecutive = $request->actual_consecutive;
         $BillingPadConsecutive->expiracy_date = $request->expiracy_date;
         $BillingPadConsecutive->status_id = $request->status_id;
         $BillingPadConsecutive->billing_pad_prefix_id = $request->billing_pad_prefix_id;
