@@ -62,7 +62,7 @@ class ChEMSMovPatOTController extends Controller
         
        
         $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_e_m_s_mov_pat_o_t')->get()->toArray();
+        ->get()->toArray();
         
 
         return response()->json([
