@@ -8,21 +8,22 @@
     </title>
 
     <STYLE>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-td, th {
-  border: 1px solid #ccc;
-  text-align: left;
-  padding: 8px;
-}
+        td,
+        th {
+            border: 1px solid #ccc;
+            text-align: left;
+            padding: 8px;
+        }
 
-tr:nth-child(even) {
-  /* background-color: #dddddd; */
-}
+        tr:nth-child(even) {
+            /* background-color: #dddddd; */
+        }
     </STYLE>
 </head>
 
@@ -53,35 +54,37 @@ tr:nth-child(even) {
     <hr />
     <table>
         <tr>
-            <td><span>HEALTH &amp; LIFE IPS S.A.S. &nbsp;</span></td>
-            <td style="text-aling:" rowspan="2"><span>Doctor: {{ $assistance_name }} &nbsp;</span></td>
+            <td><span style="font-size: 10px">HEALTH &amp; LIFE IPS S.A.S. &nbsp;</span></td>
+            <td style="text-aling:" rowspan="2"><span style="font-size: 10px">Doctor: {{ $assistance_name }}
+                    &nbsp;</span></td>
         </tr>
 
         <tr>
 
-            <td><span>NIT: 900900122-7 &nbsp;</span></td>
+            <td><span style="font-size: 10px">NIT: 900900122-7 &nbsp;</span></td>
 
         </tr>
         <tr>
 
-            <td><span>Av. Cr 68 N° 13-61 &nbsp;</span></td>
-            <td rowspan="2"><span>Fecha inicial: {{ $first_date }} &nbsp;</span></td>
+            <td><span style="font-size: 10px">Av. Cr 68 N° 13-61 &nbsp;</span></td>
+            <td rowspan="2"><span style="font-size: 10px">Fecha inicial: {{ $first_date }} &nbsp;</span></td>
         </tr>
         <tr>
 
-            <td><span>http://healthlifeips.com/ &nbsp;</span></td>
+            <td><span style="font-size: 10px">http://healthlifeips.com/ &nbsp;</span></td>
         </tr>
         <tr>
-            <td><span>Bogotá D.C. &nbsp;</span></td>
-            <td rowspan="2"><span>Fecha final: {{ $last_date }}&nbsp;</span></td>
+            <td><span style="font-size: 10px">Bogotá D.C. &nbsp;</span></td>
+            <td rowspan="2"><span style="font-size: 10px">Fecha final: {{ $last_date }}&nbsp;</span></td>
         </tr>
         <tr>
-            <td><span>Teléfonos: 300-9121102 Ext. 1030 &nbsp;</span></td>
+            <td><span style="font-size: 10px">Teléfonos: 300-9121102 Ext. 1030 &nbsp;</span></td>
         </tr>
         <tr>
-            <td><a href="mailto:contabilidad@hlips.com.co" target="_blank"><span>contabilidad@hlips.com.co
+            <td><a href="mailto:contabilidad@hlips.com.co" target="_blank"><span
+                        style="font-size: 10px">contabilidad@hlips.com.co
                         &nbsp;</span></a>
-                        <td><span> </span></td>
+            <td><span> </span></td>
             </td>
         </tr>
     </table>
@@ -103,12 +106,18 @@ tr:nth-child(even) {
 
 
 
-
-
-
-    <div><span>Plan: {{ $program_name }} &nbsp;</span></div>
-
-    <div><span>Contrato: {{ $contract_name }} &nbsp;</span></div>
+    <table>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Plan: {{ $program_name }} &nbsp;</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Contrato: {{ $contract_name }} &nbsp;</span></div>
+            </td>
+        </tr>
+    </table>
 
 
     <hr />
@@ -116,15 +125,28 @@ tr:nth-child(even) {
 
     <!-- ---------------------------------------- -->
 
-
-    <div><span>Nombres y Apellidos: {{ $patient_name }} &nbsp;</span></div>
-
-
-    <div><span>Identificación: {{ $identification }} &nbsp;</span></div>
-
-    <div><span>Dirección: {{ $patient_address }} &nbsp;</span></div>
-
-    <div><span>Teléfono: {{ $patient_phone }} &nbsp;</span></div>
+    <table>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Nombres y Apellidos: {{ $patient_name }} &nbsp;</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Identificación: {{ $identification }} &nbsp;</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Dirección: {{ $patient_address }} &nbsp;</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div><span style="font-size: 10px">Teléfono: {{ $patient_phone }} &nbsp;</span></div>
+            </td>
+        </tr>
+    </table>
 
 
     <hr />
@@ -136,29 +158,29 @@ tr:nth-child(even) {
 
     <table>
         <tr>
-            <td><span>CODIGO &nbsp;</span></td>
+            <td><span style="font-size: 10px">CODIGO &nbsp;</span></td>
 
-            <td><span>CONCEPTO &nbsp;</span></td>
+            <td><span style="font-size: 10px">CONCEPTO &nbsp;</span></td>
 
-            <td><span>UND. &nbsp;</span></td>
+            <td><span style="font-size: 10px">UND. &nbsp;</span></td>
 
-            <td><span>VAL. UND. &nbsp;</span></td>
+            <td><span style="font-size: 10px">VAL. UND. &nbsp;</span></td>
 
-            <td><span>PRECIO &nbsp;</span></td>
+            <td><span style="font-size: 10px">PRECIO &nbsp;</span></td>
 
         </tr>
         @if ($selected_procedures != null)
             @for ($i = 0; $i < count($selected_procedures); $i++)
                 <tr>
-                    <td><span>{{ $selected_procedures[$i]['code'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['code'] }} &nbsp;</span></td>
 
-                    <td><span>{{ $selected_procedures[$i]['service'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['service'] }} &nbsp;</span></td>
 
-                    <td><span>{{ $selected_procedures[$i]['amount'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span></td>
 
-                    <td><span>{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
 
-                    <td><span>{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
                 </tr>
             @endfor
         @endisset
@@ -179,29 +201,29 @@ tr:nth-child(even) {
 
     <tr>
 
-        <td rowspan="3"><span>Son: &nbsp;{{ $letter_value }} &nbsp;</span></td>
+        <td rowspan="3"><span style="font-size: 10px">Son: &nbsp;{{ $letter_value }} &nbsp;</span></td>
         <td>
-            <div style="text-align: left"><span>TOTAL &nbsp;</span></div>
+            <div style="text-align: left"><span style="font-size: 10px">TOTAL &nbsp;</span></div>
         </td>
         <td>
-            <div style="text-align: right"><span>{{ $currency_value }}</span></div>
+            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_value }}</span></div>
         </td>
 
     </tr>
     <tr>
         <td>
-            <div style="text-align: left"><span>DESCUENTO &nbsp;</span></div>
+            <div style="text-align: left"><span style="font-size: 10px">DESCUENTO &nbsp;</span></div>
         </td>
         <td>
-            <div style="text-align: right"><span>$0.00</span></div>
+            <div style="text-align: right"><span style="font-size: 10px">$0.00</span></div>
         </td>
     </tr>
     <tr>
         <td>
-            <div style="text-align: left"><span>TOTAL A PAGAR &nbsp;</span></div>
+            <div style="text-align: left"><span style="font-size: 10px">TOTAL A PAGAR &nbsp;</span></div>
         </td>
         <td>
-            <div style="text-align: right"><span>{{ $currency_value }}</span></div>
+            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_value }}</span></div>
         </td>
     </tr>
     {{-- <tr>
@@ -236,7 +258,7 @@ tr:nth-child(even) {
 
 <hr />
 
-<div><span>Documento generado {{ $generate_date }} por Pérgamo &nbsp;</span></div>
+<div><span style="font-size: 10px">Documento generado {{ $generate_date }} por Pérgamo &nbsp;</span></div>
 
 </div>
 </body>
