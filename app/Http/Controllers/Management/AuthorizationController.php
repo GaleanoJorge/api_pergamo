@@ -163,18 +163,6 @@ class AuthorizationController extends Controller
             });
         }
 
-        // if($statusId === 'E'){
-        //     $Authorization->Where(function ($query) use ($request) {
-        //         $query->WhereNotNull('assigned_management_plan_id')
-        //             ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00')
-        //         ->When('assigned_management_plan_id' != null,function ($que) use ($request){
-        //             $que->whereNotNull('application_id');
-        //         });
-        //     });
-        // } else if($statusId === 'P') {
-
-        // }
-
 
         if ($request->eps_id != 'null' && isset($request->eps_id)) {
             $Authorization
