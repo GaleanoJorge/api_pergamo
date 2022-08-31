@@ -1625,14 +1625,14 @@ class BillingPadController extends Controller
         //     }
         // }
 
-        foreach ($Authorizationspackages as $result_package) {
-            array_push($Authorizations, $result_package);
-            // if ($hasPackages) {
-            //     array_push($Authorizations, $result_package);
-            // } else {
-            //     array_push($AlreadyBilling, $result_package);
-            // }
-        }
+        // foreach ($Authorizationspackages as $result_package) {
+        //     array_push($Authorizations, $result_package);
+        //     // if ($hasPackages) {
+        //     //     array_push($Authorizations, $result_package);
+        //     // } else {
+        //     //     array_push($AlreadyBilling, $result_package);
+        //     // }
+        // }
 
         return response()->json([
             'status' => true,
