@@ -203,6 +203,7 @@ class DatabaseSeeder extends Seeder
                 // BillingPad
                 $this->call(InvimaStatusSeeder::class);
                 $this->call(FixedTypeSeeder::class);
+                $this->call(FixedStockSeeder::class);
                 $this->call(BiomedicalClassificationSeeder::class);
                 $this->call(RiskSeeder::class);
                 $this->call(MultidoseConcentrationSeeder::class);
@@ -213,9 +214,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(FactorySeeder::class);
                 $this->call(ProductSeeder::class);
                 $this->call(FixedNomProductSeeder::class);
-                $this->call(FixedAssetsSeeder::class);
                 $this->call(PeriodicityFrequencySeeder::class);
-                $this->call(FixedStockSeeder::class);
+                $this->call(FixedAssetsSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
