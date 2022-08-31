@@ -63,7 +63,7 @@ class ChEOccHistoryOTController extends Controller
         
        
         $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_e_occ_history_o_t')->get()->toArray();
+        ->get()->toArray();
         
 
         return response()->json([

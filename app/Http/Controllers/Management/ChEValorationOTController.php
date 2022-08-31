@@ -62,7 +62,7 @@ class ChEValorationOTController extends Controller
 
 
         $ChEValorationOT = ChEValorationOT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with('diagnosis')->get()->toArray();
+            ->with('ch_diagnosis')->get()->toArray();
 
 
         return response()->json([
