@@ -65,6 +65,7 @@ class AuthorizationController extends Controller
     public function InProcess(Request $request, string $statusId): JsonResponse
     {
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
+            ->leftjoin('location', 'admissions.id', 'location.admissions_id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
@@ -137,6 +138,8 @@ class AuthorizationController extends Controller
                 $que->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
             });
+        } else if($statusId == 'PAQ'){
+
         } 
         else {
             $Authorization
@@ -175,9 +178,9 @@ class AuthorizationController extends Controller
                 ->where('briefcase.id', $request->briefcase_id);
         }
 
-        if ($request->admissions_id != 'null' && isset($request->admissions_id)) {
+        if ($request->program_id != 'null' && isset($request->program_id)) {
             $Authorization
-                ->where('admissions.id', $request->admissions_id);
+                ->where('location.program_id', $request->program_id);
         }
 
         if ($request->initial_date != 'null' && isset($request->initial_date)) {
@@ -234,14 +237,17 @@ class AuthorizationController extends Controller
     public function InHistoric(Request $request, int $statusId): JsonResponse
     {
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
+            ->leftjoin('location', 'admissions.id', 'location.admissions_id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                 DB::raw('DATE(authorization.created_at) as date'),
             )
+            ->wherenull('auth_package_id')
             ->with(
                 'admissions',
                 'admissions.patients',
@@ -253,10 +259,12 @@ class AuthorizationController extends Controller
                 'admissions.patients.residence_municipality',
                 'admissions.patients.neighborhood_or_residence',
                 'admissions.patients.residence',
-                'assigned_management_plan',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
                 'fixed_add',
                 'fixed_add.fixed_assets',
                 'fixed_add.fixed_assets.fixed_nom_product',
@@ -323,33 +331,6 @@ class AuthorizationController extends Controller
      */
     public function GetByAdmissions(Request $request, int $admissionsId): JsonResponse
     {
-        // $Authorization = Authorization::where('admissions_id', $admissionsId)
-        //     ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
-        //     ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
-        //     ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
-        //     ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
-        //     ->select(
-        //         'authorization.*',
-        //         'briefcase.type_auth',
-        //         'patients.identification_type_id',
-        //         'patients.identification',
-        //         'patients.email',
-        //         'patients.residence_address',
-        //         'patients.residence_municipality_id',
-        //         'patients.neighborhood_or_residence_id',
-        //         DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
-        //     )
-        //     ->with(
-        //         'admissions',
-        //         'assigned_management_plan',
-        //         'identification_type',
-        //         'services_briefcase',
-        //         'services_briefcase.manual_price',
-        //         'auth_status',
-        //         'residence_municipality',
-        //         'residence'
-        //     )
-
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
@@ -380,11 +361,8 @@ class AuthorizationController extends Controller
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
             );
-        // ->where('auth_status_id', '<', 3);
-
 
         if ($request->edit) {
-
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_package_id', $request->id)
                     ->orWhere('auth_package_id', null)
@@ -419,8 +397,6 @@ class AuthorizationController extends Controller
                     ->orWhere('auth_number', 'like', '%' . $request->search . '%');
             });
         }
-
-
 
         if ($request->query("pagination", true) == "false") {
             $Authorization = $Authorization->get()->toArray();
