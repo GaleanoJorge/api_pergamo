@@ -607,8 +607,13 @@ class BillingPadController extends Controller
         foreach ($Authorizationspackages as $Authorizationpackages) {
             $Authorizationspackages[$i]['auth_package'] = true;
             $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     $hasPackages = true;
+            // }
             if (!$AuthBillingPad) {
-                $hasPackages = true;
+                array_push($Authorizations, $Authorizationpackages);
+            } else {
+                array_push($AlreadyBilling, $Authorizationpackages);
             }
             $i++;
         }
@@ -982,13 +987,13 @@ class BillingPadController extends Controller
         //     }
         // }
 
-        foreach ($Authorizationspackages as $result_package) {
-            if ($hasPackages) {
-                array_push($Authorizations, $result_package);
-            } else {
-                array_push($AlreadyBilling, $result_package);
-            }
-        }
+        // foreach ($Authorizationspackages as $result_package) {
+        //     if ($hasPackages) {
+        //         array_push($Authorizations, $result_package);
+        //     } else {
+        //         array_push($AlreadyBilling, $result_package);
+        //     }
+        // }
 
         return [
             'billing_pad' => $Authorizations,
@@ -1239,10 +1244,11 @@ class BillingPadController extends Controller
         $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
             $Authorizationspackage[$i]['auth_package'] = true;
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
-            if (!$AuthBillingPad) {
-                $hasPackages = true;
-            }
+            // $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
+            // if (!$AuthBillingPad) {
+            //     $hasPackages = true;
+            // }
+            array_push($Authorizations, $Authorization);
             $i++;
         }
 
