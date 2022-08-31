@@ -217,7 +217,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now())
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
@@ -2093,7 +2093,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now())
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
