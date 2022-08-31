@@ -4174,7 +4174,7 @@
                     </td>
                     <td style="width:106pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                            <span style="font-family:Calibri"><b> @if(isset($ch['hourly_frequency'])) FRECUENCIA HORARIA: </b>{{((+($ch['treatment_days']))/(+($ch['dose'])))*24}} {{$ch['hourly_frequency']['name']}} @endisset  </span>
+                            <span style="font-family:Calibri"><b> @if(isset($ch['hourly_frequency'])) FRECUENCIA HORARIA: </b> CADA {{$ch['hourly_frequency']['value']}} {{$ch['hourly_frequency']['name']}} @endisset  </span>
                         </p>
                     </td>
                 </tr>
@@ -4353,27 +4353,27 @@
                             </p>
                             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                                 <tr style="height:11.95pt">                                    
-                                    <td style="width:180pt; vertical-align:top">
+                                    <td style="width:100pt; vertical-align:top">
                                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['type_of_attention'])) TIPO DE ATENCIÓN </b>{{$ch['type_of_attention']['name']}} @endisset</span>
+                                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['assigned_management_plan']['management_plan']['type_of_attention'])) TIPO DE ATENCIÓN </b>{{$ch['assigned_management_plan']['management_plan']['type_of_attention']['name']}} @endisset</span>
                                                             
                                         </p>
                                     </td>
-                                    <td style="width:180pt; vertical-align:top">
+                                    <td style="width:100pt; vertical-align:top">
                                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                            <span style="font-family:Calibri"><b> @if(isset($ch['service_briefcase'])) PROCEDIMIENTO </b>{{$ch['service_briefcase']['manual_price']['name']}} @endisset  </span>
+                                            <span style="font-family:Calibri"><b> @if(isset($ch['assigned_management_plan']['management_plan']['procedure']['manual_price'])) PROCEDIMIENTO </b>{{$ch['assigned_management_plan']['management_plan']['procedure']['manual_price']['name']}} @endisset  </span>
                                         </p>
                                     </td>
                                 </tr>
                                 <tr style="height:11.95pt">  
-                                <td style="width:180pt; vertical-align:top">
+                                <td style="width:100pt; vertical-align:top">
                                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                        <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['frequency'])) FRECUENCIA </b>{{$ch['frequency']['name']}} @endisset  </span>
+                                        <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['assigned_management_plan']['management_plan']['frequency'])) FRECUENCIA </b>{{$ch['assigned_management_plan']['management_plan']['frequency']['name']}} @endisset  </span>
                                         </p>
                                     </td>
-                                    <td style="width:180pt; vertical-align:top">
+                                    <td style="width:100pt; vertical-align:top">
                                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                            <span style="font-family:Calibri"><b> @if(isset($ch['quantity'])) CANTIDAD PROYECTADA </b>{{$ch['quantity']}} @endisset  </span>
+                                            <span style="font-family:Calibri"><b> @if(isset($ch['assigned_management_plan']['management_plan']['quantity'])) CANTIDAD PROYECTADA </b>{{$ch['assigned_management_plan']['management_plan']['quantity']}} @endisset  </span>
                                         </p>
                                     </td>
                                 </tr>
@@ -4663,7 +4663,7 @@
 </div>
 
 <!-- Firma -->
-<div style="display: flex">
+{{-- <div style="display: flex">
     <div style="width: 100%">
         <br>
         <br>
@@ -4716,7 +4716,7 @@
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
     </div>
-</div>
+</div> --}}
 
 
 </body>
