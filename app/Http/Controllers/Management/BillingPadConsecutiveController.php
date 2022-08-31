@@ -144,7 +144,6 @@ class BillingPadConsecutiveController extends Controller
         $BillingPadConsecutive->resolution = $request->resolution;
         $BillingPadConsecutive->initial_consecutive = $request->initial_consecutive;
         $BillingPadConsecutive->final_consecutive = $request->final_consecutive;
-        $BillingPadConsecutive->actual_consecutive = $request->actual_consecutive;
         $BillingPadConsecutive->expiracy_date = $request->expiracy_date;
         $BillingPadConsecutive->status_id = $request->status_id;
         $BillingPadConsecutive->billing_pad_prefix_id = $request->billing_pad_prefix_id;
