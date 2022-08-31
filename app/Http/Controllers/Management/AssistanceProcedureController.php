@@ -107,7 +107,7 @@ class AssistanceProcedureController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function updateAgreement(AssistanceProcedureRequest $request): JsonResponse
+    public function updateCups(AssistanceProcedureRequest $request): JsonResponse
     {
 
         $deleteAssistanceProcedure = AssistanceProcedure::select('assistance_procedure.*')->where('user_id', $request->user_id)->get()->toArray();
