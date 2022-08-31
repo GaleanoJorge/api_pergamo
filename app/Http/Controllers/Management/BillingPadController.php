@@ -1248,7 +1248,7 @@ class BillingPadController extends Controller
             // if (!$AuthBillingPad) {
             //     $hasPackages = true;
             // }
-            array_push($Authorizations, $Authorization);
+            array_push($Authorizations, $Authorizationpackages);
             $i++;
         }
 
