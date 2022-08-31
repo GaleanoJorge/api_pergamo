@@ -1648,6 +1648,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('user_agreement', 'Management\UserAgreementController');
     Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
 
+    //CUPS por asistencial
+    Route::apiResource('assistance_procedure', 'Management\AssistanceProcedureController');
+    Route::post('cups_package', 'Management\AssistanceProcedureController@updateCups');
+
 
     //days
     Route::apiResource('days', 'Management\DaysController');
