@@ -10,6 +10,7 @@ use App\Models\Assistance;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
+use App\Models\Base\ChNursingNote;
 use App\Models\Base\ChRecord as BaseChRecord;
 use App\Models\Base\ServicesBriefcase;
 use App\Models\BillingPad;
@@ -257,6 +258,7 @@ class ChRecordController extends Controller
             'assigned_management_plan.management_plan.type_of_attention',
             'assigned_management_plan.management_plan.procedure.manual_price',
             'assigned_management_plan.management_plan.service_briefcase.manual_price',
+            'assigned_management_plan.management_plan.route_administration',
             // 'assistance_supplies',
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
@@ -533,7 +535,7 @@ class ChRecordController extends Controller
 
             // NOTA DE ENFERMERIA
             $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChNursingNote = ChPosition::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNursingNote = ChNursingNote::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
