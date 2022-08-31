@@ -62,7 +62,7 @@ class ChEPastOTController extends Controller
         
        
         $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_e_past_o_t')->get()->toArray();
+        ->get()->toArray();
         
 
         return response()->json([
