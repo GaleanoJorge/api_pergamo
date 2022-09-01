@@ -318,6 +318,12 @@ class PharmacyProductRequestController extends Controller
                        1,0 
                    )
                ) AS Usadas'),
+            DB::raw('                
+               SUM(
+                   IF( assistance_supplies.supplies_status_id = 4 OR assistance_supplies.supplies_status_id = 5, 
+                       1,0 
+                   )
+               ) AS returned'),
         )
             // ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')

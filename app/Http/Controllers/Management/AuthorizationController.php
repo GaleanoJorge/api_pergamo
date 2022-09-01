@@ -93,6 +93,8 @@ class AuthorizationController extends Controller
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.user',
+                'assigned_management_plan.ch_record',
                 'fixed_add',
                 'fixed_add.fixed_assets',
                 'fixed_add.fixed_assets.fixed_nom_product',
@@ -267,6 +269,8 @@ class AuthorizationController extends Controller
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.user',
+                'assigned_management_plan.ch_record',
                 'fixed_add',
                 'fixed_add.fixed_assets',
                 'fixed_add.fixed_assets.fixed_nom_product',
@@ -444,7 +448,7 @@ class AuthorizationController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function saveGroup(AuthorizationRequest $request): JsonResponse
+    public function saveGroup(AuthorizationRequest $request, int $id): JsonResponse
     {
 
         $auth_array = json_decode($request->authorizations);
@@ -457,8 +461,8 @@ class AuthorizationController extends Controller
             $Auth->auth_status_id = 3;
             $Auth->copay = $request->copay;
             $Auth->copay_value = $request->copay_value;
-            if ($request->file('file')) {
-                $path = Storage::disk('public')->put('file', $request->file('file'));
+            if ($request->file('file_auth')) {
+                $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
                 $Auth->file_auth = $path;
             }
             $Auth->save();
@@ -506,15 +510,20 @@ class AuthorizationController extends Controller
             $Authorization->observation = $request->observation;
             $Authorization->copay = $request->copay;
             $Authorization->copay_value = $request->copay_value;
+            if ($request->file('file_auth')) {
+                $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
+                $Authorization->file_auth = $path;
+            }
+
         } else {
             $Authorization->auth_number = $request->auth_number;
             $Authorization->observation = $request->observation;
             $Authorization->copay = $request->copay;
             $Authorization->copay_value = $request->copay_value;
-        }
-        if ($request->file('file')) {
-            $path = Storage::disk('public')->put('file', $request->file('file'));
-            $Authorization->file_auth = $path;
+            if ($request->file('file_auth')) {
+                $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
+                $Authorization->file_auth = $path;
+            }
         }
 
         $Authorization->save();
