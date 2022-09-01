@@ -1090,7 +1090,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\NomProductController@getSubcategoryByCategory'
     );
 
-    //Histgoria Clinica Terapia Ocupacional
+    //Historia Clinica Terapia Ocupacional
     Route::apiResource('ch_e_valoration_o_t', 'Management\ChEValorationOTController');
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
