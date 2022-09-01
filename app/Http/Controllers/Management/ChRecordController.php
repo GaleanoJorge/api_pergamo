@@ -731,7 +731,7 @@ class ChRecordController extends Controller
             $PharmacyProductRequest = PharmacyProductRequest::with(
                 'product_supplies',
                 'request_pharmacy_stock'
-            )->where('ch_record_id', $id)->get()->toArray();
+            )->get()->toArray();
             $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             
             //Regular
@@ -751,22 +751,22 @@ class ChRecordController extends Controller
                 'ch_method_planning_gyneco'
                 )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
                 
-                $ChVitalSignsEvo = ChVitalSigns::with(
-                    'ch_vital_hydration',
-                    'ch_vital_ventilated',
-                    'ch_vital_temperature',
-                    'ch_vital_neurological',
-                    'oxygen_type',
-                    'liters_per_minute',
-                    'parameters_signs'
-                    )
-                    ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-                    $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-                    $PharmacyProductRequestEvo = PharmacyProductRequest::with(
-                        'product_supplies',
-                        'request_pharmacy_stock'
-                    )->where('ch_record_id', $id)->get()->toArray();
-                    $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+                )
+                ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $PharmacyProductRequestEvo = PharmacyProductRequest::with(
+                'product_supplies',
+                'request_pharmacy_stock'
+            )->get()->toArray();
+            $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
