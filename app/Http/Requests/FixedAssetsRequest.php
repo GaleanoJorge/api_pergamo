@@ -24,14 +24,13 @@ class FixedAssetsRequest extends FormRequest
     public function rules()
     {
         return [
-            'fixed_clasification_id' => 'required',
-            'fixed_type_id' => 'required',
-            'fixed_stock_id' => 'required',
-            'fixed_property_id' => 'required',
-            'fixed_nom_product_id' => 'required',
-            'detail_description' => 'required',
-            'color' => 'required',
-            'fixed_condition_id' => 'required',
+            'fixed_clasification_id' => '',
+            'fixed_type_id' => '',
+            'fixed_stock_id' => '',
+            'fixed_property_id' => '',
+            'fixed_nom_product_id' => '',
+            'color' => '',
+            'fixed_condition_id' => '',
         ];
     }
 }

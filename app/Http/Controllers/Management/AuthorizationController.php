@@ -139,7 +139,21 @@ class AuthorizationController extends Controller
                 ->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
             });
         } else if($statusId == 'PAQ'){
-
+            $Authorization->where(function ($query) use ($request) {
+                $query->where('auth_status_id', '<', 3);
+                // ->WhereNull('auth_number');
+                $query->Where(function ($que) use ($request) {
+                    $que->WhereNull('authorization.assigned_management_plan_id')
+                        ->WhereNull('authorization.auth_package_id')
+                        ->WhereNull('authorization.fixed_add_id')
+                        ->WhereNotNull('authorization.manual_price_id')
+                        ->WhereNull('authorization.application_id')
+                        ->WhereNull('authorization.procedure_id')
+                        ->WhereNull('authorization.supplies_com_id')
+                        ->WhereNull('authorization.product_com_id')
+                        ->WhereNull('authorization.auth_number');
+                });
+            });
         } 
         else {
             $Authorization
@@ -148,18 +162,6 @@ class AuthorizationController extends Controller
                 $query->WhereNotNull('application_id');
             });
         }
-
-        // if($statusId === 'E'){
-        //     $Authorization->Where(function ($query) use ($request) {
-        //         $query->WhereNotNull('assigned_management_plan_id')
-        //             ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00')
-        //         ->When('assigned_management_plan_id' != null,function ($que) use ($request){
-        //             $que->whereNotNull('application_id');
-        //         });
-        //     });
-        // } else if($statusId === 'P') {
-
-        // }
 
 
         if ($request->eps_id != 'null' && isset($request->eps_id)) {

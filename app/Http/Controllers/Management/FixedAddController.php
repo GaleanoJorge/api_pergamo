@@ -21,7 +21,12 @@ class FixedAddController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAdd = FixedAdd::with(
+        $FixedAdd = FixedAdd::select('fixed_add.*')
+        ->leftJoin('fixed_nom_product', 'fixed_add.fixed_nom_product_id', 'fixed_nom_product.id')
+        ->leftJoin('admissions', 'fixed_add.admissions_id', 'admissions.id')
+        ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+        ->leftJoin('fixed_assets', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
+        ->with(
             'fixed_assets',
             'fixed_assets.fixed_type',
             'fixed_assets.fixed_clasification',
@@ -82,8 +87,11 @@ class FixedAddController extends Controller
         }
 
         if ($request->search) {
-            $FixedAdd->where('fixed_add.status', 'like', '%' . $request->search . '%');
-        }
+            $FixedAdd->where(function ($query) use ($request) {
+                $query->Where('fixed_nom_product.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%');
+            });        }
 
         if ($request->query("pagination", true) == "false") {
             $FixedAdd = $FixedAdd->get()->toArray();

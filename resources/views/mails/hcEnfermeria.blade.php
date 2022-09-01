@@ -89,7 +89,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['birthday']}}</span>
+                        <span style="font-family:Calibri">{{substr($chrecord[0]['admissions']['patients']['birthday'],0,10)}}</span>
                         <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
                         <span style="font-family:Calibri"> <b> Edad Actual: </b> </span>
                         <span style="font-family:Calibri; letter-spacing:-0.35pt"> </span>
@@ -268,7 +268,7 @@
                 </tr>
                 @endisset
 
-                @if(isset($chrecord[0]['assigned_management_plan']['management_plan']['quantity'])) 
+                {{-- @if(isset($chrecord[0]['assigned_management_plan']['management_plan']['quantity'])) 
                 <tr style="height:11.95pt">
                     <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
@@ -280,9 +280,9 @@
                     <span style="font-family:Calibri">{{$chrecord[0]['assigned_management_plan']['management_plan']['quantity']}} </span>
                  </p>
                 </td>
-                @endisset
+                @endisset --}}
                 
-                @if(isset($chrecord[0]['assigned_management_plan']['management_plan']['route_of_administration'])) 
+                {{-- @if(isset($chrecord[0]['assigned_management_plan']['management_plan']['route_administration'])) 
                 <td style="width:79.75pt; vertical-align:top">
                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:8pt"><b>Vía de administración:</b></span>
@@ -290,11 +290,11 @@
                 </td>
                 <td style="width:106pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:10pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['assigned_management_plan']['management_plan']['route_of_administration']}} </span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['assigned_management_plan']['management_plan']['route_administration']['name']}} </span>
                     </p>
                 </td>
                 </tr>
-                @endisset
+                @endisset --}}
 
 
                 @if(isset($chrecord[0]['assigned_management_plan']['management_plan']['preparation'])) 
@@ -2059,7 +2059,7 @@
             <!-- {{-- Aplicacion de Medicamentos --}} -->
 
                  <div>
-                    @if(count($ChScaleGlasgow) > 0)
+                    @if(count($AssistanceSupplies) > 0)
 
                     <hr />
 
@@ -2070,46 +2070,23 @@
 
                     <table class="tablehc">
                         <tr>
-                            <th><span style="font-family:Calibri; font-size:9pt">PRODUCTO</th>
-                            <th><span style="font-family:Calibri; font-size:9pt">DESCRIPCIÓN</th>
-                            <th><span style="font-family:Calibri; font-size:9pt">INDICACIONES</th>
-                            <th><span style="font-family:Calibri; font-size:9pt">CONTRAINDICACIONES</th>
-                            <th><span style="font-family:Calibri; font-size:9pt">REFRIGERACIÓN</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">MEDICAMENTO</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">FECHA Y HORA DE APLICACIÓN</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">RESPONSABLE</th>
                         </tr>
 
-                        @foreach($PharmacyProductRequest as $ch)
+                        @foreach($AssistanceSupplies as $ch)
                         <tr>                        
-                           {{-- @if(isset($ch['created_at']))
+                  
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['pharmacy_request_shipping']['pharmacy_lot_stock']['billing_stock']['product'] ? 
-                                $ch['pharmacy_request_shipping']['pharmacy_lot_stock']['billing_stock']['product']['name'] : 
-                                $ch['pharmacy_request_shipping']['pharmacy_lot_stock']['billing_stock']['product_supplies_com']['name'] }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{$chrecord[0]['assigned_management_plan']['management_plan']['service_briefcase']['manual_price']['name']}}</span>
                             </td>
-                            @endisset --}}
-
-                          @if(isset($ch['ocular_detail']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['ocular_detail']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
                             </td>
-                            @endisset
-
-                         @if(isset($ch['verbal_detail']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['verbal_detail']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['users']['firstname']}}</span>
                             </td>
-                            @endisset
-
-                          @if(isset($ch['motor_detail']))
-                            <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['motor_detail']}}</span>
-                            </td>
-                            @endisset
-
-                           @if(isset($ch['total']))
-                            <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['total']}} </span>
-                            </td>
-                            @endisset
                                                 
                         </tr>
                         @endforeach

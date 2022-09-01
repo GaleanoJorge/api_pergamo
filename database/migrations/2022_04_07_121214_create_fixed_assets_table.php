@@ -26,7 +26,7 @@ class CreateFixedAssetsTable extends Migration
             $table->string('mark');
             $table->string('serial')->nullable();
             $table->unsignedBigInteger('fixed_nom_product_id');
-            $table->string('detail_description');
+            $table->string('detail_description')->nullable();
             $table->string('color');
             $table->string('status_prod')->nullable();
             $table->unsignedBigInteger('fixed_condition_id');
