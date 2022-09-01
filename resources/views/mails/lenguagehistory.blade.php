@@ -2052,8 +2052,10 @@
 
             <table class="tablehc">
                 <tr>
+                    @if(isset($chrecord[0]['created_at']))
                     <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
                     <th><span style="font-family:Calibri; font-size:9pt">OBJETIVOS</th>
+                    @endisset
                 </tr>
 
                 @foreach($TherapeuticGoalsTl as $ch)
@@ -2659,30 +2661,25 @@
                 <td>
                         <span style="font-family:Calibri; font-size:9pt">
                            
-                            
                             @if(isset($ch['strengthen_phonoarticulators'])) {{$ch['strengthen_phonoarticulators']}} @endisset 
+                            
                            
-                            
                             @if(isset($ch['strengthen_tone']))<br/>  {{$ch['strengthen_tone']}} @endisset 
-                            
-                            
+                           
+                           
                             @if(isset($ch['favor_process']))  <br/>{{$ch['favor_process']}} @endisset 
-                       
-                            
+                          
                             @if(isset($ch['strengthen_thread'])) <br/> {{$ch['strengthen_thread']}} @endisset 
                             
-                            
                             @if(isset($ch['favor_psycholinguistic'])) <br/> {{$ch['favor_psycholinguistic']}} @endisset 
-               
-                         
-                            @if(isset($ch['increase_processes'])) <br/> {{$ch['increase_processes']}} @endisset 
                            
-                        
+                            @if(isset($ch['increase_processes'])) <br/> {{$ch['increase_processes']}} @endisset 
+                            
                             @if(isset($ch['strengthen_qualities'])) <br/> {{$ch['strengthen_qualities']}}@endisset  
-                        
+                            
                             @if(isset($ch['strengthen_communication']))  <br/>{{$ch['strengthen_communication']}} @endisset 
-                          
-                            @if(isset($ch['improve_skills'])) {{$ch['improve_skills']}} @endisset 
+                           
+                            @if(isset($ch['improve_skills']))  {{$ch['improve_skills']}} @endisset 
                            
                        </span> 
                     @endisset  
