@@ -216,6 +216,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(FixedNomProductSeeder::class);
                 $this->call(PeriodicityFrequencySeeder::class);
                 $this->call(FixedAssetsSeeder::class);
+                $this->call(ProductSuppliesComSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);
