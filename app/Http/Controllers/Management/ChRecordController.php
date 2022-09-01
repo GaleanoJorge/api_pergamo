@@ -273,6 +273,14 @@ class ChRecordController extends Controller
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
         }
 
+        if ($ChRecord[0]['status'] != 'CERRADO') {
+            return response()->json([
+                'status' => false,
+                'message' => 'El folio de historia clínica no ha sido finalizado',
+                'data' => ['ch_record' => $ChRecord],
+            ]);
+        }
+
         ///Medicina General
         ///////////////////////////////////////////////////////////////////////////////////////
 
