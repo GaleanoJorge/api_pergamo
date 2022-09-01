@@ -1209,11 +1209,7 @@ class ChRecordController extends Controller
                     break;
                 }
             case (2): {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
+                    $ChRecord->ch_type_id = 1;
                     break;
                 }
             case (3): {
