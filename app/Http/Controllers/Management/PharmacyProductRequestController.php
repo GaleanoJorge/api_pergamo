@@ -140,11 +140,11 @@ class PharmacyProductRequestController extends Controller
                 ->where('pharmacy_product_request.status', 'DEVUELTO_PACIENTE')->get();
         } 
 
-        // else if ($request->status == "DEVUELTO FARMACIA" && $request->request_pharmacy_stock_id) {
+        else if ($request->status == "DEVUELTO FARMACIA" && $request->request_pharmacy_stock_id) {
 
-        //     $PharmacyProductRequest->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
-        //         ->where('pharmacy_product_request.status', 'DEVUELTO FARMACIA')->get();
-        // } 
+            $PharmacyProductRequest->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
+                ->where('pharmacy_product_request.status', 'DEVUELTO FARMACIA')->get();
+        } 
         else {
             $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
         }

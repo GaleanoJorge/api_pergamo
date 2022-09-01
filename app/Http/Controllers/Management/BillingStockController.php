@@ -21,7 +21,10 @@ class BillingStockController extends Controller
     {
         $BillingStock = BillingStock::select('billing_stock.*')->with('billing', 'billing.company', 'product', 'product.factory', 'product.product_generic', 'product_supplies_com', 'product_supplies_com.factory', 'product_supplies_com.product_supplies')
             ->Leftjoin('product', 'billing_stock.product_id', 'product.id')
-            ->Leftjoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')->groupBy('billing_stock.id');
+            ->Leftjoin('product_generic', 'product.product_generic_id', 'product_generic.id')
+            ->Leftjoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
+            ->Leftjoin('product_supplies', 'product_supplies_com.product_supplies_id', 'product_supplies.id')
+            ->groupBy('billing_stock.id');
 
         if ($request->_sort) {
             $BillingStock->orderBy($request->_sort, $request->_order);
@@ -30,7 +33,9 @@ class BillingStockController extends Controller
         if ($request->search) {
             $BillingStock->where(function ($query) use ($request) {
                 $query->Where('product.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%');
+                    ->orWhere('product_generic.description', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies.description', 'like', '%' . $request->search . '%');
             });
         }
         if ($request->billing_id) {
