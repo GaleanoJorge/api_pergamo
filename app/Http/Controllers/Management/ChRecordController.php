@@ -274,6 +274,8 @@ class ChRecordController extends Controller
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
             $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }else{
+            $imagenPAtient = null;
         }
 
         if ($ChRecord[0]['status'] != 'CERRADO') {
@@ -502,7 +504,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
-                // 'firmPatient' => $imagenPAtient,
+                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
