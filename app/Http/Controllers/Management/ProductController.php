@@ -21,7 +21,8 @@ class ProductController extends Controller
         $Products = Product::select('product.*')
             ->leftJoin('product_generic', 'product.product_generic_id', 'product_generic.id')
             ->with('product_generic',
-        'factory');
+            'product_generic.product_presentation',
+        'factory')->groupBy('product.id');
 
         if ($request->_sort) {
             $Products->orderBy($request->_sort, $request->_order);
