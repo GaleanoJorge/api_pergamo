@@ -1,0 +1,3943 @@
+[
+    {
+        "user_id": "106",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870212919",
+        "rut": "80126306"
+    },
+    {
+        "user_id": "107",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24096676055",
+        "rut": "1233889206"
+    },
+    {
+        "user_id": "108",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570450770064951",
+        "rut": "1065606738"
+    },
+    {
+        "user_id": "111",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24029450532",
+        "rut": "52899027"
+    },
+    {
+        "user_id": "112",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "314731147",
+        "rut": "1095927389"
+    },
+    {
+        "user_id": "113",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "28493443",
+        "rut": "52364814"
+    },
+    {
+        "user_id": "114",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15113533",
+        "rut": "1031125743"
+    },
+    {
+        "user_id": "115",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15101181",
+        "rut": "52646617"
+    },
+    {
+        "user_id": "116",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "21346887",
+        "rut": "80865174"
+    },
+    {
+        "user_id": "117",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "237325295",
+        "rut": "79444293"
+    },
+    {
+        "user_id": "118",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4392005629",
+        "rut": "80001140"
+    },
+    {
+        "user_id": "119",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "23760706931",
+        "rut": "1024483730"
+    },
+    {
+        "user_id": "120",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570473170014400",
+        "rut": "1026264168"
+    },
+    {
+        "user_id": "121",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4382025245",
+        "rut": "52589404"
+    },
+    {
+        "user_id": "122",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "24174693982",
+        "rut": "1023893102"
+    },
+    {
+        "user_id": "123",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "81685844",
+        "rut": "1015474386"
+    },
+    {
+        "user_id": "124",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488415002614",
+        "rut": "1047363442"
+    },
+    {
+        "user_id": "125",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24104981944",
+        "rut": "1030691227"
+    },
+    {
+        "user_id": "126",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24109451765",
+        "rut": "1030603760"
+    },
+    {
+        "user_id": "127",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870193994",
+        "rut": "52320737"
+    },
+    {
+        "user_id": "128",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488422264314",
+        "rut": "1073525434"
+    },
+    {
+        "user_id": "129",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "38730586",
+        "rut": "52036606"
+    },
+    {
+        "user_id": "130",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870373398",
+        "rut": "1024505432"
+    },
+    {
+        "user_id": "131",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3036483872",
+        "rut": "52461640"
+    },
+    {
+        "user_id": "132",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "17131131",
+        "rut": "80186962"
+    },
+    {
+        "user_id": "133",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "380229658",
+        "rut": "80740440"
+    },
+    {
+        "user_id": "134",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "66162132",
+        "rut": "52449512"
+    },
+    {
+        "user_id": "135",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488406194297",
+        "rut": "1070331546"
+    },
+    {
+        "user_id": "136",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550009400831583",
+        "rut": "79651464"
+    },
+    {
+        "user_id": "137",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "4400087922",
+        "rut": "45458862"
+    },
+    {
+        "user_id": "138",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488406402849",
+        "rut": "52125746"
+    },
+    {
+        "user_id": "139",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24063688438",
+        "rut": "1018452167"
+    },
+    {
+        "user_id": "140",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488411858027",
+        "rut": "1000775546"
+    },
+    {
+        "user_id": "141",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "56715027475",
+        "rut": "1031140901"
+    },
+    {
+        "user_id": "142",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "437333164",
+        "rut": "1022983241"
+    },
+    {
+        "user_id": "143",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "52523468588",
+        "rut": "1007710133"
+    },
+    {
+        "user_id": "144",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "103304093",
+        "rut": "1031170488"
+    },
+    {
+        "user_id": "145",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "327080958",
+        "rut": "52822232"
+    },
+    {
+        "user_id": "146",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24080528531",
+        "rut": "1019084429"
+    },
+    {
+        "user_id": "147",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "211076153",
+        "rut": "39819639"
+    },
+    {
+        "user_id": "148",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "264481615",
+        "rut": "1078371283"
+    },
+    {
+        "user_id": "149",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "90912975842",
+        "rut": "1065656441"
+    },
+    {
+        "user_id": "150",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18904573",
+        "rut": "39678570"
+    },
+    {
+        "user_id": "151",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "89555452",
+        "rut": "52305039"
+    },
+    {
+        "user_id": "152",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3111191131",
+        "rut": "1000035289"
+    },
+    {
+        "user_id": "153",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570007271108032",
+        "rut": "1052969346"
+    },
+    {
+        "user_id": "154",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488418597321",
+        "rut": "1070963259"
+    },
+    {
+        "user_id": "155",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "93251647745",
+        "rut": "40026012"
+    },
+    {
+        "user_id": "156",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "637426024",
+        "rut": "1077879102"
+    },
+    {
+        "user_id": "157",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24065805424",
+        "rut": "24716036"
+    },
+    {
+        "user_id": "158",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "304676000",
+        "rut": "1082979721"
+    },
+    {
+        "user_id": "159",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "21464797",
+        "rut": "1005646033"
+    },
+    {
+        "user_id": "160",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488404836782",
+        "rut": "50988312"
+    },
+    {
+        "user_id": "161",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24050082205",
+        "rut": "63353536"
+    },
+    {
+        "user_id": "162",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15107816",
+        "rut": "28867967"
+    },
+    {
+        "user_id": "163",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "20324013556",
+        "rut": "52288275"
+    },
+    {
+        "user_id": "164",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550008200822578",
+        "rut": "1121894970"
+    },
+    {
+        "user_id": "165",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "2908197",
+        "rut": "1026275448"
+    },
+    {
+        "user_id": "166",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316108067",
+        "rut": "64700146"
+    },
+    {
+        "user_id": "167",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488411396754",
+        "rut": "35428025"
+    },
+    {
+        "user_id": "168",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "25700021303",
+        "rut": "35114895"
+    },
+    {
+        "user_id": "169",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "38401894001",
+        "rut": "52616792"
+    },
+    {
+        "user_id": "170",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "78413119",
+        "rut": "1057516470"
+    },
+    {
+        "user_id": "171",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "452821262",
+        "rut": "1075681451"
+    },
+    {
+        "user_id": "172",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "22324685719",
+        "rut": "1016088006"
+    },
+    {
+        "user_id": "173",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18944504",
+        "rut": "1016716485"
+    },
+    {
+        "user_id": "174",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "54732055498",
+        "rut": "1013638804"
+    },
+    {
+        "user_id": "175",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24087693311",
+        "rut": "1073325465"
+    },
+    {
+        "user_id": "176",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3107134805",
+        "rut": "1063169370"
+    },
+    {
+        "user_id": "177",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "24432189",
+        "rut": "49715688"
+    },
+    {
+        "user_id": "178",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "20775890055",
+        "rut": "52183388"
+    },
+    {
+        "user_id": "179",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "55905934",
+        "rut": "52227868"
+    },
+    {
+        "user_id": "180",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "19743442",
+        "rut": "1018491636"
+    },
+    {
+        "user_id": "181",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "901240523",
+        "rut": "57292088"
+    },
+    {
+        "user_id": "182",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "16886553661",
+        "rut": "18051248"
+    },
+    {
+        "user_id": "183",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550458200139715",
+        "rut": "1014271937"
+    },
+    {
+        "user_id": "184",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "81529497",
+        "rut": "39577927"
+    },
+    {
+        "user_id": "185",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "480700075843",
+        "rut": "51974087"
+    },
+    {
+        "user_id": "186",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "275409472",
+        "rut": "22810853"
+    },
+    {
+        "user_id": "187",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "82531880",
+        "rut": "26274930"
+    },
+    {
+        "user_id": "188",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488403630889",
+        "rut": "1081517591"
+    },
+    {
+        "user_id": "189",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "139188874",
+        "rut": "53011010"
+    },
+    {
+        "user_id": "190",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "230554216234",
+        "rut": "1106900426"
+    },
+    {
+        "user_id": "191",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "85359669",
+        "rut": "1000117809"
+    },
+    {
+        "user_id": "192",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "23374702912",
+        "rut": "80208426"
+    },
+    {
+        "user_id": "193",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "143266807",
+        "rut": "52796611"
+    },
+    {
+        "user_id": "194",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3100105224",
+        "rut": "33222299"
+    },
+    {
+        "user_id": "195",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "488405147478",
+        "rut": "1026570346"
+    },
+    {
+        "user_id": "196",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "437307028",
+        "rut": "1033766160"
+    },
+    {
+        "user_id": "197",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24061864616",
+        "rut": "1023895519"
+    },
+    {
+        "user_id": "198",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "2802007452",
+        "rut": "52355243"
+    },
+    {
+        "user_id": "199",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24097080998",
+        "rut": "52543567"
+    },
+    {
+        "user_id": "200",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "30140651",
+        "rut": "1019134683"
+    },
+    {
+        "user_id": "201",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24099446448",
+        "rut": "1022334406"
+    },
+    {
+        "user_id": "202",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18939173",
+        "rut": "1005302143"
+    },
+    {
+        "user_id": "203",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24093979368",
+        "rut": "53153199"
+    },
+    {
+        "user_id": "204",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "796232973",
+        "rut": "1069745070"
+    },
+    {
+        "user_id": "205",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "272255589",
+        "rut": "1007328978"
+    },
+    {
+        "user_id": "206",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "143195170",
+        "rut": "1026577062"
+    },
+    {
+        "user_id": "207",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "75668269",
+        "rut": "1049534297"
+    },
+    {
+        "user_id": "208",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "40681769",
+        "rut": "5825025"
+    },
+    {
+        "user_id": "209",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "84028362675",
+        "rut": "33481903"
+    },
+    {
+        "user_id": "210",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550456000099493",
+        "rut": "1030690387"
+    },
+    {
+        "user_id": "211",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "212141477",
+        "rut": "1012362276"
+    },
+    {
+        "user_id": "212",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "62475152790",
+        "rut": "39581537"
+    },
+    {
+        "user_id": "213",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "1100108347",
+        "rut": "26987919"
+    },
+    {
+        "user_id": "214",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "82531609",
+        "rut": "1024589238"
+    },
+    {
+        "user_id": "215",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24050425679",
+        "rut": "1082474640"
+    },
+    {
+        "user_id": "216",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "637155094",
+        "rut": "53141010"
+    },
+    {
+        "user_id": "217",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550456400080994",
+        "rut": "1065581328"
+    },
+    {
+        "user_id": "218",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "161813480",
+        "rut": "1003777051"
+    },
+    {
+        "user_id": "219",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "78410958",
+        "rut": "1016059299"
+    },
+    {
+        "user_id": "221",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "606173151",
+        "rut": "1016086713"
+    },
+    {
+        "user_id": "222",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "660295619",
+        "rut": "21112893"
+    },
+    {
+        "user_id": "223",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "52438407103",
+        "rut": "1065205171"
+    },
+    {
+        "user_id": "224",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "171183882",
+        "rut": "1097990560"
+    },
+    {
+        "user_id": "225",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18906529",
+        "rut": "1005293570"
+    },
+    {
+        "user_id": "226",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "8212019441",
+        "rut": "53891857"
+    },
+    {
+        "user_id": "227",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "272305095",
+        "rut": "1023867067"
+    },
+    {
+        "user_id": "228",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570458270081326",
+        "rut": "32798141"
+    },
+    {
+        "user_id": "229",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "73521163",
+        "rut": "1023881543"
+    },
+    {
+        "user_id": "230",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488401889743",
+        "rut": "1233506001"
+    },
+    {
+        "user_id": "231",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24110924720",
+        "rut": "20879503"
+    },
+    {
+        "user_id": "232",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "447212796",
+        "rut": "1000619385"
+    },
+    {
+        "user_id": "234",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "380482471",
+        "rut": "27356337"
+    },
+    {
+        "user_id": "236",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "34716563",
+        "rut": "1010207544"
+    },
+    {
+        "user_id": "237",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91221312151",
+        "rut": "1024597058"
+    },
+    {
+        "user_id": "238",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "34796516",
+        "rut": "1001300888"
+    },
+    {
+        "user_id": "239",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "81712283",
+        "rut": "1021312095"
+    },
+    {
+        "user_id": "240",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "26244277",
+        "rut": "1016712140"
+    },
+    {
+        "user_id": "241",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "447205212",
+        "rut": "1097991922"
+    },
+    {
+        "user_id": "242",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "264610015",
+        "rut": "40449856"
+    },
+    {
+        "user_id": "243",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24110126069",
+        "rut": "1016070225"
+    },
+    {
+        "user_id": "244",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "132177916",
+        "rut": "1121888237"
+    },
+    {
+        "user_id": "245",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550462800019350",
+        "rut": "1024488276"
+    },
+    {
+        "user_id": "246",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "75678367",
+        "rut": "1069730888"
+    },
+    {
+        "user_id": "247",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "488419548828",
+        "rut": "83232645"
+    },
+    {
+        "user_id": "248",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570009470633174",
+        "rut": "80564525"
+    },
+    {
+        "user_id": "249",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550007100840094",
+        "rut": "1031143424"
+    },
+    {
+        "user_id": "250",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "337132682",
+        "rut": "65776073"
+    },
+    {
+        "user_id": "252",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570477170037477",
+        "rut": "1007535394"
+    },
+    {
+        "user_id": "253",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570001970182596",
+        "rut": "80748990"
+    },
+    {
+        "user_id": "254",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "810032618",
+        "rut": "1014259061"
+    },
+    {
+        "user_id": "255",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "765045528",
+        "rut": "1020726225"
+    },
+    {
+        "user_id": "256",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550002300299043",
+        "rut": "52303957"
+    },
+    {
+        "user_id": "257",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18510883",
+        "rut": "1033784632"
+    },
+    {
+        "user_id": "258",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550462500056744",
+        "rut": "73106567"
+    },
+    {
+        "user_id": "259",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "45864746",
+        "rut": "1023898107"
+    },
+    {
+        "user_id": "260",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "123466880",
+        "rut": "52645617"
+    },
+    {
+        "user_id": "261",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "477100049923",
+        "rut": "52901370"
+    },
+    {
+        "user_id": "262",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91212009119",
+        "rut": "1030579607"
+    },
+    {
+        "user_id": "263",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550008400776491",
+        "rut": "1010205708"
+    },
+    {
+        "user_id": "264",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488413679546",
+        "rut": "1026253093"
+    },
+    {
+        "user_id": "266",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "802215905",
+        "rut": "53010792"
+    },
+    {
+        "user_id": "267",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550008200762410",
+        "rut": "79754248"
+    },
+    {
+        "user_id": "268",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "2770053144",
+        "rut": "79121172"
+    },
+    {
+        "user_id": "269",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488407622981",
+        "rut": "1030648901"
+    },
+    {
+        "user_id": "270",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570473870210118",
+        "rut": "1012399566"
+    },
+    {
+        "user_id": "271",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "9232066225",
+        "rut": "1033692198"
+    },
+    {
+        "user_id": "272",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "6342017318",
+        "rut": "52777179"
+    },
+    {
+        "user_id": "273",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "29802480",
+        "rut": "1013589074"
+    },
+    {
+        "user_id": "274",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "20003955",
+        "rut": "1010160651"
+    },
+    {
+        "user_id": "275",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "99636875054",
+        "rut": "52756811"
+    },
+    {
+        "user_id": "276",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488414096203",
+        "rut": "1070612000"
+    },
+    {
+        "user_id": "277",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3591032657",
+        "rut": "1018457604"
+    },
+    {
+        "user_id": "278",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488426185291",
+        "rut": "1030598123"
+    },
+    {
+        "user_id": "279",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91238447734",
+        "rut": "32849015"
+    },
+    {
+        "user_id": "280",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "65817559403",
+        "rut": "1024562868"
+    },
+    {
+        "user_id": "281",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91233737009",
+        "rut": "1057514350"
+    },
+    {
+        "user_id": "282",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "450220751",
+        "rut": "1013664192"
+    },
+    {
+        "user_id": "283",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "419236351",
+        "rut": "1023004219"
+    },
+    {
+        "user_id": "284",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "52500026995",
+        "rut": "52636235"
+    },
+    {
+        "user_id": "285",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "161850680",
+        "rut": "1006131182"
+    },
+    {
+        "user_id": "286",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24090707982",
+        "rut": "51933158"
+    },
+    {
+        "user_id": "287",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "82523929",
+        "rut": "104410400"
+    },
+    {
+        "user_id": "288",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "21502653",
+        "rut": "1010237747"
+    },
+    {
+        "user_id": "289",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "83313544",
+        "rut": "1049617401"
+    },
+    {
+        "user_id": "290",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "83402172",
+        "rut": "1022993472"
+    },
+    {
+        "user_id": "291",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15140585",
+        "rut": "1005675855"
+    },
+    {
+        "user_id": "292",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24092301241",
+        "rut": "1026278133"
+    },
+    {
+        "user_id": "293",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24096576333",
+        "rut": "42086541"
+    },
+    {
+        "user_id": "294",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "83397836",
+        "rut": "1018439968"
+    },
+    {
+        "user_id": "295",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "83364992",
+        "rut": "1030629524"
+    },
+    {
+        "user_id": "296",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550456000065403",
+        "rut": "1030671168"
+    },
+    {
+        "user_id": "297",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "62493124698",
+        "rut": "52987511"
+    },
+    {
+        "user_id": "298",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24090931691",
+        "rut": "22793512"
+    },
+    {
+        "user_id": "299",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488427547572",
+        "rut": "1024544612"
+    },
+    {
+        "user_id": "300",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "40766859",
+        "rut": "32816206"
+    },
+    {
+        "user_id": "301",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18938308",
+        "rut": "65815750"
+    },
+    {
+        "user_id": "302",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24097517623",
+        "rut": "1003699367"
+    },
+    {
+        "user_id": "303",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18947341",
+        "rut": "51657133"
+    },
+    {
+        "user_id": "304",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "261092571",
+        "rut": "45538466"
+    },
+    {
+        "user_id": "305",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24100926558",
+        "rut": "1000005352"
+    },
+    {
+        "user_id": "306",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "161877543",
+        "rut": "1000371823"
+    },
+    {
+        "user_id": "307",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15185473",
+        "rut": "1000613821"
+    },
+    {
+        "user_id": "308",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91230540280",
+        "rut": "1023943322"
+    },
+    {
+        "user_id": "309",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488406528247",
+        "rut": "1076201971"
+    },
+    {
+        "user_id": "310",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "447231754",
+        "rut": "52240904"
+    },
+    {
+        "user_id": "311",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "580131167",
+        "rut": "39732065"
+    },
+    {
+        "user_id": "312",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "62455536303",
+        "rut": "1072719368"
+    },
+    {
+        "user_id": "313",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24074781863",
+        "rut": "1033679377"
+    },
+    {
+        "user_id": "314",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35500000218",
+        "rut": "20445381"
+    },
+    {
+        "user_id": "315",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "304744188",
+        "rut": "1073426097"
+    },
+    {
+        "user_id": "316",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "230361132350",
+        "rut": "39576753"
+    },
+    {
+        "user_id": "317",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "38508388192",
+        "rut": "1069944369"
+    },
+    {
+        "user_id": "318",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "89243881308",
+        "rut": "1071868234"
+    },
+    {
+        "user_id": "319",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "580120756",
+        "rut": "1074185894"
+    },
+    {
+        "user_id": "320",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "260342109493",
+        "rut": "1076201616"
+    },
+    {
+        "user_id": "321",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "407303011822",
+        "rut": "1003967434"
+    },
+    {
+        "user_id": "322",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3202924184",
+        "rut": "1051185715"
+    },
+    {
+        "user_id": "323",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35699956935",
+        "rut": "1072364665"
+    },
+    {
+        "user_id": "324",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24114098616",
+        "rut": "1018449270"
+    },
+    {
+        "user_id": "325",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "580122810",
+        "rut": "1074135376"
+    },
+    {
+        "user_id": "326",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3124869387",
+        "rut": "1076200111"
+    },
+    {
+        "user_id": "327",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570406070181762",
+        "rut": "1072496662"
+    },
+    {
+        "user_id": "328",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "500802592534",
+        "rut": "1001197382"
+    },
+    {
+        "user_id": "329",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "179279195",
+        "rut": "80010079"
+    },
+    {
+        "user_id": "330",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3125706938",
+        "rut": "1086107324"
+    },
+    {
+        "user_id": "331",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "83394478",
+        "rut": "1072719069"
+    },
+    {
+        "user_id": "332",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "431682029081",
+        "rut": "1074558035"
+    },
+    {
+        "user_id": "333",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "660628959",
+        "rut": "35413384"
+    },
+    {
+        "user_id": "334",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "431262027806",
+        "rut": "1005703385"
+    },
+    {
+        "user_id": "336",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "582260089",
+        "rut": "1072195745"
+    },
+    {
+        "user_id": "337",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "16807251795",
+        "rut": "1079034244"
+    },
+    {
+        "user_id": "338",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24113481880",
+        "rut": "1000987400"
+    },
+    {
+        "user_id": "339",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "704913214",
+        "rut": "1042465396"
+    },
+    {
+        "user_id": "340",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24115206294",
+        "rut": "1007101744"
+    },
+    {
+        "user_id": "341",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488413006245",
+        "rut": "1022407299"
+    },
+    {
+        "user_id": "342",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "82533639",
+        "rut": "1012464436"
+    },
+    {
+        "user_id": "343",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24107033635",
+        "rut": "1000785027"
+    },
+    {
+        "user_id": "344",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "74904702",
+        "rut": "1005679905"
+    },
+    {
+        "user_id": "345",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "73358111",
+        "rut": "1024505941"
+    },
+    {
+        "user_id": "346",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "10800073711",
+        "rut": "1118072029"
+    },
+    {
+        "user_id": "347",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24108684803",
+        "rut": "52750046"
+    },
+    {
+        "user_id": "348",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316342153",
+        "rut": "1109496574"
+    },
+    {
+        "user_id": "349",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18921510",
+        "rut": "1043007785"
+    },
+    {
+        "user_id": "350",
+        "bank_id": "16",
+        "account_type_id": "1",
+        "account_number": "90940039160",
+        "rut": "1085287976"
+    },
+    {
+        "user_id": "351",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "272296906",
+        "rut": "53892819"
+    },
+    {
+        "user_id": "352",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "657174553",
+        "rut": "1081802772"
+    },
+    {
+        "user_id": "353",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "431102049765",
+        "rut": "52171497"
+    },
+    {
+        "user_id": "354",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "261254627",
+        "rut": "51851236"
+    },
+    {
+        "user_id": "355",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "78436995",
+        "rut": "1000271351"
+    },
+    {
+        "user_id": "356",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "920130994",
+        "rut": "1071580685"
+    },
+    {
+        "user_id": "357",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "179292586",
+        "rut": "1112229600"
+    },
+    {
+        "user_id": "358",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24103815734",
+        "rut": "28978497"
+    },
+    {
+        "user_id": "359",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "378313530",
+        "rut": "1069731075"
+    },
+    {
+        "user_id": "360",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "33250186288",
+        "rut": "1075661598"
+    },
+    {
+        "user_id": "361",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24095496333",
+        "rut": "20927835"
+    },
+    {
+        "user_id": "362",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488406191251",
+        "rut": "39738392"
+    },
+    {
+        "user_id": "363",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "82908303501",
+        "rut": "1144186051"
+    },
+    {
+        "user_id": "364",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550458200138212",
+        "rut": "1014215375"
+    },
+    {
+        "user_id": "365",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570406070150361",
+        "rut": "1129501058"
+    },
+    {
+        "user_id": "366",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "4870516822",
+        "rut": "4834526"
+    },
+    {
+        "user_id": "367",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24518473989",
+        "rut": "39618633"
+    },
+    {
+        "user_id": "368",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "23700003102",
+        "rut": "37394315"
+    },
+    {
+        "user_id": "369",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "58967898595",
+        "rut": "1012356578"
+    },
+    {
+        "user_id": "370",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "51101062281",
+        "rut": "1010180159"
+    },
+    {
+        "user_id": "371",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "237053483",
+        "rut": "41462345"
+    },
+    {
+        "user_id": "372",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "677867223",
+        "rut": "1024513768"
+    },
+    {
+        "user_id": "373",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24101214924",
+        "rut": "1026594871"
+    },
+    {
+        "user_id": "374",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91225547276",
+        "rut": "1018498708"
+    },
+    {
+        "user_id": "375",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "796186419",
+        "rut": "1012407827"
+    },
+    {
+        "user_id": "376",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "21590394430",
+        "rut": "1012402697"
+    },
+    {
+        "user_id": "377",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24104343302",
+        "rut": "1012351455"
+    },
+    {
+        "user_id": "378",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "3569856841",
+        "rut": "1022418093"
+    },
+    {
+        "user_id": "379",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "66200000122",
+        "rut": "1012384589"
+    },
+    {
+        "user_id": "380",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "132097155",
+        "rut": "1022397201"
+    },
+    {
+        "user_id": "381",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "1005005228",
+        "rut": "52539628"
+    },
+    {
+        "user_id": "382",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "22900033251",
+        "rut": "1051657243"
+    },
+    {
+        "user_id": "383",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "83249149708",
+        "rut": "1090417983"
+    },
+    {
+        "user_id": "384",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488425523575",
+        "rut": "1026264992"
+    },
+    {
+        "user_id": "385",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570008480344343",
+        "rut": "52065803"
+    },
+    {
+        "user_id": "386",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570008480387557",
+        "rut": "1026297700"
+    },
+    {
+        "user_id": "387",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "26205062",
+        "rut": "1068664804"
+    },
+    {
+        "user_id": "388",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "462404328",
+        "rut": "1094282128"
+    },
+    {
+        "user_id": "389",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24049396074",
+        "rut": "52122112"
+    },
+    {
+        "user_id": "390",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "24433336",
+        "rut": "1018502521"
+    },
+    {
+        "user_id": "391",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "327088480",
+        "rut": "55153976"
+    },
+    {
+        "user_id": "392",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550008200694472",
+        "rut": "1015402692"
+    },
+    {
+        "user_id": "393",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "58922377411",
+        "rut": "1233695724"
+    },
+    {
+        "user_id": "394",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "102637204",
+        "rut": "1030578325"
+    },
+    {
+        "user_id": "395",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "132355207",
+        "rut": "52370023"
+    },
+    {
+        "user_id": "396",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15115637",
+        "rut": "1102803165"
+    },
+    {
+        "user_id": "397",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "209223551",
+        "rut": "1073160199"
+    },
+    {
+        "user_id": "398",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "26629180001",
+        "rut": "1069256209"
+    },
+    {
+        "user_id": "399",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550475900059407",
+        "rut": "51740309"
+    },
+    {
+        "user_id": "400",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "65945886832",
+        "rut": "39556640"
+    },
+    {
+        "user_id": "401",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "7212021096",
+        "rut": "35529766"
+    },
+    {
+        "user_id": "402",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "15993790971",
+        "rut": "1018443212"
+    },
+    {
+        "user_id": "403",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "622114809",
+        "rut": "52436519"
+    },
+    {
+        "user_id": "404",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24086448448",
+        "rut": "52503100"
+    },
+    {
+        "user_id": "405",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "317257707",
+        "rut": "53053711"
+    },
+    {
+        "user_id": "406",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "67376285798",
+        "rut": "1014284093"
+    },
+    {
+        "user_id": "407",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570473870160552",
+        "rut": "1018413123"
+    },
+    {
+        "user_id": "408",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24100357044",
+        "rut": "1033801412"
+    },
+    {
+        "user_id": "409",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "275356517",
+        "rut": "55163997"
+    },
+    {
+        "user_id": "411",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15101629",
+        "rut": "52020994"
+    },
+    {
+        "user_id": "412",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "796184679",
+        "rut": "1121818301"
+    },
+    {
+        "user_id": "413",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "51600953481",
+        "rut": "52213253"
+    },
+    {
+        "user_id": "414",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "10883423688",
+        "rut": "1022367585"
+    },
+    {
+        "user_id": "415",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "60292414",
+        "rut": "53049805"
+    },
+    {
+        "user_id": "416",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550004800294771",
+        "rut": "51968910"
+    },
+    {
+        "user_id": "417",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "265044362",
+        "rut": "52101507"
+    },
+    {
+        "user_id": "418",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "4547032000",
+        "rut": "52538581"
+    },
+    {
+        "user_id": "419",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "54791483231",
+        "rut": "1015446733"
+    },
+    {
+        "user_id": "420",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "59246995031",
+        "rut": "1015450738"
+    },
+    {
+        "user_id": "421",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "66780176262",
+        "rut": "52149115"
+    },
+    {
+        "user_id": "423",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "38712576",
+        "rut": "1033728671"
+    },
+    {
+        "user_id": "424",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "214651947",
+        "rut": "1102820480"
+    },
+    {
+        "user_id": "425",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "99669368883",
+        "rut": "1032444548"
+    },
+    {
+        "user_id": "426",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "102686698",
+        "rut": "1030558259"
+    },
+    {
+        "user_id": "428",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "132159138",
+        "rut": "52504052"
+    },
+    {
+        "user_id": "429",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "720123990",
+        "rut": "1032486175"
+    },
+    {
+        "user_id": "430",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "327088647",
+        "rut": "51777580"
+    },
+    {
+        "user_id": "431",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "21994129241",
+        "rut": "1031166687"
+    },
+    {
+        "user_id": "432",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4542006968",
+        "rut": "1032444242"
+    },
+    {
+        "user_id": "433",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "230012104337",
+        "rut": "1032430729"
+    },
+    {
+        "user_id": "434",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488404374008",
+        "rut": "52081408"
+    },
+    {
+        "user_id": "435",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "871087",
+        "rut": "52165575"
+    },
+    {
+        "user_id": "436",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "23236094",
+        "rut": "1013649200"
+    },
+    {
+        "user_id": "437",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "974061871",
+        "rut": "1016050089"
+    },
+    {
+        "user_id": "438",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "425896342",
+        "rut": "1024520887"
+    },
+    {
+        "user_id": "439",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "264342460",
+        "rut": "20493462"
+    },
+    {
+        "user_id": "440",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "37224062967",
+        "rut": "51788693"
+    },
+    {
+        "user_id": "442",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "18988386142",
+        "rut": "1019057011"
+    },
+    {
+        "user_id": "443",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "337231435",
+        "rut": "1032454260"
+    },
+    {
+        "user_id": "444",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "23120017",
+        "rut": "52374252"
+    },
+    {
+        "user_id": "445",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91223163047",
+        "rut": "1015468680"
+    },
+    {
+        "user_id": "446",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "17599054715",
+        "rut": "1032406749"
+    },
+    {
+        "user_id": "447",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "41630542",
+        "rut": "65553433"
+    },
+    {
+        "user_id": "449",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570006270509299",
+        "rut": "52159780"
+    },
+    {
+        "user_id": "450",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "52338902",
+        "rut": "52035712"
+    },
+    {
+        "user_id": "451",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550476100084310",
+        "rut": "1076664835"
+    },
+    {
+        "user_id": "452",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870176668",
+        "rut": "41780529"
+    },
+    {
+        "user_id": "453",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "20247670182",
+        "rut": "65743283"
+    },
+    {
+        "user_id": "454",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "89520225",
+        "rut": "52828831"
+    },
+    {
+        "user_id": "455",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "1052021251",
+        "rut": "39757583"
+    },
+    {
+        "user_id": "456",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "473870206165",
+        "rut": "39020264"
+    },
+    {
+        "user_id": "457",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "51000902681",
+        "rut": "52053596"
+    },
+    {
+        "user_id": "458",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "82432154",
+        "rut": "1083464672"
+    },
+    {
+        "user_id": "459",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488425378368",
+        "rut": "52166305"
+    },
+    {
+        "user_id": "460",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "802190751",
+        "rut": "52492474"
+    },
+    {
+        "user_id": "461",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "622128874",
+        "rut": "1022383916"
+    },
+    {
+        "user_id": "462",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488401570301",
+        "rut": "1022978413"
+    },
+    {
+        "user_id": "463",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "4823581781",
+        "rut": "1031125739"
+    },
+    {
+        "user_id": "464",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "40787335",
+        "rut": "20472363"
+    },
+    {
+        "user_id": "465",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488401569410",
+        "rut": "1031121493"
+    },
+    {
+        "user_id": "466",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "89524268",
+        "rut": "52828830"
+    },
+    {
+        "user_id": "467",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "462570004301",
+        "rut": "20423278"
+    },
+    {
+        "user_id": "468",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "16826920606",
+        "rut": "20493536"
+    },
+    {
+        "user_id": "469",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570456170026656",
+        "rut": "39772837"
+    },
+    {
+        "user_id": "470",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "52307782",
+        "rut": "36310401"
+    },
+    {
+        "user_id": "471",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "261032346",
+        "rut": "52537667"
+    },
+    {
+        "user_id": "472",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "59249992636",
+        "rut": "63561975"
+    },
+    {
+        "user_id": "473",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570002870703044",
+        "rut": "1022412112"
+    },
+    {
+        "user_id": "474",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "85127066",
+        "rut": "52526246"
+    },
+    {
+        "user_id": "475",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "4584312799",
+        "rut": "52615766"
+    },
+    {
+        "user_id": "476",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15114432",
+        "rut": "52839362"
+    },
+    {
+        "user_id": "477",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550004000181570",
+        "rut": "51995058"
+    },
+    {
+        "user_id": "478",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4502035343",
+        "rut": "1121915691"
+    },
+    {
+        "user_id": "479",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "275205425",
+        "rut": "20879292"
+    },
+    {
+        "user_id": "480",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550463400046868",
+        "rut": "1074188430"
+    },
+    {
+        "user_id": "481",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "51600564481",
+        "rut": "52492383"
+    },
+    {
+        "user_id": "482",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "50900823381",
+        "rut": "1069735220"
+    },
+    {
+        "user_id": "483",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488410242884",
+        "rut": "1072364875"
+    },
+    {
+        "user_id": "484",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "802086702",
+        "rut": "1102822350"
+    },
+    {
+        "user_id": "485",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570008870568550",
+        "rut": "57442892"
+    },
+    {
+        "user_id": "486",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "23700000526",
+        "rut": "52458407"
+    },
+    {
+        "user_id": "487",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "46714624296",
+        "rut": "1015451206"
+    },
+    {
+        "user_id": "488",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "253006746",
+        "rut": "1010241231"
+    },
+    {
+        "user_id": "489",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24056161524",
+        "rut": "1070814226"
+    },
+    {
+        "user_id": "490",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18933606",
+        "rut": "1023977111"
+    },
+    {
+        "user_id": "491",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "272122524",
+        "rut": "39731256"
+    },
+    {
+        "user_id": "492",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570451870043978",
+        "rut": "52887191"
+    },
+    {
+        "user_id": "493",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "50923221",
+        "rut": "1098758833"
+    },
+    {
+        "user_id": "494",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "356313544",
+        "rut": "1073678727"
+    },
+    {
+        "user_id": "495",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "82756982407",
+        "rut": "1070916952"
+    },
+    {
+        "user_id": "496",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550406000126879",
+        "rut": "1069743911"
+    },
+    {
+        "user_id": "497",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "342181872",
+        "rut": "1069738534"
+    },
+    {
+        "user_id": "498",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "65899705",
+        "rut": "1073166473"
+    },
+    {
+        "user_id": "499",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "179252093",
+        "rut": "1073162717"
+    },
+    {
+        "user_id": "500",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35521847172",
+        "rut": "20976521"
+    },
+    {
+        "user_id": "501",
+        "bank_id": "19",
+        "account_type_id": "1",
+        "account_number": "230170105407",
+        "rut": "1014178566"
+    },
+    {
+        "user_id": "502",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "451570131818",
+        "rut": "1069052623"
+    },
+    {
+        "user_id": "503",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35415365568",
+        "rut": "40042328"
+    },
+    {
+        "user_id": "504",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "6292075341",
+        "rut": "1076649800"
+    },
+    {
+        "user_id": "505",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "57452318425",
+        "rut": "1014276930"
+    },
+    {
+        "user_id": "506",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "542234141",
+        "rut": "52969439"
+    },
+    {
+        "user_id": "507",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4722025748",
+        "rut": "52976629"
+    },
+    {
+        "user_id": "508",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488417225973",
+        "rut": "1023913419"
+    },
+    {
+        "user_id": "509",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "54305230",
+        "rut": "57462446"
+    },
+    {
+        "user_id": "510",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "212086698",
+        "rut": "1030592094"
+    },
+    {
+        "user_id": "511",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "912037215",
+        "rut": "80921466"
+    },
+    {
+        "user_id": "512",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "41639659",
+        "rut": "1020785661"
+    },
+    {
+        "user_id": "514",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "60263530",
+        "rut": "52231347"
+    },
+    {
+        "user_id": "515",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "123373243",
+        "rut": "1012396869"
+    },
+    {
+        "user_id": "516",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "10086024191",
+        "rut": "52093874"
+    },
+    {
+        "user_id": "517",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "21341003",
+        "rut": "1010172382"
+    },
+    {
+        "user_id": "518",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "58258628690",
+        "rut": "53006068"
+    },
+    {
+        "user_id": "519",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "810045774",
+        "rut": "1030570232"
+    },
+    {
+        "user_id": "520",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "77467918",
+        "rut": "1018452095"
+    },
+    {
+        "user_id": "521",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "64953128525",
+        "rut": "1020760824"
+    },
+    {
+        "user_id": "522",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "25161456",
+        "rut": "1022413787"
+    },
+    {
+        "user_id": "523",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "2284693",
+        "rut": "53102654"
+    },
+    {
+        "user_id": "524",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316099316",
+        "rut": "22865423"
+    },
+    {
+        "user_id": "525",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "380535419",
+        "rut": "40993933"
+    },
+    {
+        "user_id": "526",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550456300072752",
+        "rut": "1030664907"
+    },
+    {
+        "user_id": "527",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "36210714",
+        "rut": "24099621"
+    },
+    {
+        "user_id": "528",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550005300554416",
+        "rut": "1090494214"
+    },
+    {
+        "user_id": "529",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "60329679",
+        "rut": "1030554431"
+    },
+    {
+        "user_id": "530",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "24478816355",
+        "rut": "52268404"
+    },
+    {
+        "user_id": "531",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "541305900",
+        "rut": "1013599874"
+    },
+    {
+        "user_id": "532",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "130124654",
+        "rut": "1023881761"
+    },
+    {
+        "user_id": "533",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "437270952",
+        "rut": "1023024067"
+    },
+    {
+        "user_id": "534",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "390389856",
+        "rut": "1026295831"
+    },
+    {
+        "user_id": "535",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "472317502",
+        "rut": "1019091137"
+    },
+    {
+        "user_id": "536",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24106194436",
+        "rut": "32896980"
+    },
+    {
+        "user_id": "537",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "85969645",
+        "rut": "1022416101"
+    },
+    {
+        "user_id": "538",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24091866790",
+        "rut": "1023919760"
+    },
+    {
+        "user_id": "539",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "380113654",
+        "rut": "1013579556"
+    },
+    {
+        "user_id": "540",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "180302283",
+        "rut": "1031140216"
+    },
+    {
+        "user_id": "542",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "68977699626",
+        "rut": "1018418815"
+    },
+    {
+        "user_id": "543",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "86906281",
+        "rut": "53139943"
+    },
+    {
+        "user_id": "544",
+        "bank_id": "7",
+        "account_type_id": "1",
+        "account_number": "50900438131",
+        "rut": "64560788"
+    },
+    {
+        "user_id": "545",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "54712733724",
+        "rut": "1112460697"
+    },
+    {
+        "user_id": "546",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91223465621",
+        "rut": "1234089065"
+    },
+    {
+        "user_id": "547",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15107584",
+        "rut": "52073727"
+    },
+    {
+        "user_id": "548",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "4516040080",
+        "rut": "1022327806"
+    },
+    {
+        "user_id": "549",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "488415569448",
+        "rut": "1098619856"
+    },
+    {
+        "user_id": "550",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24072103816",
+        "rut": "39626976"
+    },
+    {
+        "user_id": "551",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "796173474",
+        "rut": "1070962160"
+    },
+    {
+        "user_id": "552",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "94455425",
+        "rut": "1015402760"
+    },
+    {
+        "user_id": "553",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "78413093",
+        "rut": "36306385"
+    },
+    {
+        "user_id": "554",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550462500036399",
+        "rut": "1070009675"
+    },
+    {
+        "user_id": "555",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24524840647",
+        "rut": "1075650458"
+    },
+    {
+        "user_id": "556",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "33296581467",
+        "rut": "37864072"
+    },
+    {
+        "user_id": "557",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550475900010400",
+        "rut": "52424613"
+    },
+    {
+        "user_id": "558",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "38413965427",
+        "rut": "20358970"
+    },
+    {
+        "user_id": "559",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550085000169160",
+        "rut": "1054554118"
+    },
+    {
+        "user_id": "560",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "65955145164",
+        "rut": "51814838"
+    },
+    {
+        "user_id": "561",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "270153661",
+        "rut": "1069262933"
+    },
+    {
+        "user_id": "562",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "802245472",
+        "rut": "1053335044"
+    },
+    {
+        "user_id": "563",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24095871840",
+        "rut": "1031152499"
+    },
+    {
+        "user_id": "564",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488400260904",
+        "rut": "1032488219"
+    },
+    {
+        "user_id": "566",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "10097609921",
+        "rut": "1030565713"
+    },
+    {
+        "user_id": "567",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "16760557467",
+        "rut": "1014214399"
+    },
+    {
+        "user_id": "568",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570473870166997",
+        "rut": "55304045"
+    },
+    {
+        "user_id": "569",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "94439273806",
+        "rut": "1024558238"
+    },
+    {
+        "user_id": "570",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570007170507086",
+        "rut": "80853694"
+    },
+    {
+        "user_id": "571",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "4529905161",
+        "rut": "1030607626"
+    },
+    {
+        "user_id": "572",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18926733",
+        "rut": "1033728427"
+    },
+    {
+        "user_id": "573",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316092832",
+        "rut": "1022345471"
+    },
+    {
+        "user_id": "574",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15112931",
+        "rut": "1022353583"
+    },
+    {
+        "user_id": "575",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "54450275",
+        "rut": "43611547"
+    },
+    {
+        "user_id": "576",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "274148535",
+        "rut": "1016037326"
+    },
+    {
+        "user_id": "577",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "40782849",
+        "rut": "1023944172"
+    },
+    {
+        "user_id": "578",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "68849954541",
+        "rut": "52329392"
+    },
+    {
+        "user_id": "579",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24100777578",
+        "rut": "1013691285"
+    },
+    {
+        "user_id": "580",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "21700001685",
+        "rut": "5005074728"
+    },
+    {
+        "user_id": "581",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "237476965",
+        "rut": "1143414885"
+    },
+    {
+        "user_id": "582",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "33734665831",
+        "rut": "1062755579"
+    },
+    {
+        "user_id": "583",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488409885800",
+        "rut": "1003823584"
+    },
+    {
+        "user_id": "584",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "31600102373",
+        "rut": "1000000398"
+    },
+    {
+        "user_id": "585",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "330392176",
+        "rut": "1004925774"
+    },
+    {
+        "user_id": "586",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "406070180418",
+        "rut": "1069767025"
+    },
+    {
+        "user_id": "587",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316288463",
+        "rut": "1010083974"
+    },
+    {
+        "user_id": "588",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "451942036",
+        "rut": "1026271025"
+    },
+    {
+        "user_id": "589",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488430804416",
+        "rut": "1003569114"
+    },
+    {
+        "user_id": "590",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "431572025757",
+        "rut": "20892233"
+    },
+    {
+        "user_id": "591",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "545705134",
+        "rut": "52504918"
+    },
+    {
+        "user_id": "592",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "348462383",
+        "rut": "1071987578"
+    },
+    {
+        "user_id": "593",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "396180127",
+        "rut": "1007933509"
+    },
+    {
+        "user_id": "594",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35486719603",
+        "rut": "20979913"
+    },
+    {
+        "user_id": "595",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "348470790",
+        "rut": "39552505"
+    },
+    {
+        "user_id": "596",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "86914767395",
+        "rut": "1110593150"
+    },
+    {
+        "user_id": "597",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24099681753",
+        "rut": "32571096"
+    },
+    {
+        "user_id": "598",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4602025068",
+        "rut": "51940857"
+    },
+    {
+        "user_id": "599",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91237889491",
+        "rut": "1022959189"
+    },
+    {
+        "user_id": "600",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "382684355",
+        "rut": "35533310"
+    },
+    {
+        "user_id": "601",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "18943043",
+        "rut": "66942573"
+    },
+    {
+        "user_id": "604",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488422194933",
+        "rut": "1007346036"
+    },
+    {
+        "user_id": "605",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "437328503",
+        "rut": "65794610"
+    },
+    {
+        "user_id": "606",
+        "bank_id": "2",
+        "account_type_id": "1",
+        "account_number": "415922040252",
+        "rut": "1002682557"
+    },
+    {
+        "user_id": "607",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "56781909454",
+        "rut": "39022629"
+    },
+    {
+        "user_id": "608",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488412443795",
+        "rut": "1000066464"
+    },
+    {
+        "user_id": "609",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "91211076548",
+        "rut": "1030700191"
+    },
+    {
+        "user_id": "610",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "130165491",
+        "rut": "1083464859"
+    },
+    {
+        "user_id": "611",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "45210069",
+        "rut": "1030692785"
+    },
+    {
+        "user_id": "612",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24107238694",
+        "rut": "1024503697"
+    },
+    {
+        "user_id": "613",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24070883844",
+        "rut": "39627882"
+    },
+    {
+        "user_id": "614",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488405058733",
+        "rut": "1001215755"
+    },
+    {
+        "user_id": "615",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "948054879",
+        "rut": "45502252"
+    },
+    {
+        "user_id": "616",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24048799531",
+        "rut": "1018476929"
+    },
+    {
+        "user_id": "617",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "542265764",
+        "rut": "1067030703"
+    },
+    {
+        "user_id": "619",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488408326228",
+        "rut": "20928400"
+    },
+    {
+        "user_id": "620",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35473994991",
+        "rut": "39744427"
+    },
+    {
+        "user_id": "621",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "86285525",
+        "rut": "20989759"
+    },
+    {
+        "user_id": "622",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "85230084",
+        "rut": "1024492745"
+    },
+    {
+        "user_id": "623",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "39321393",
+        "rut": "52561772"
+    },
+    {
+        "user_id": "624",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "35479190303",
+        "rut": "20552544"
+    },
+    {
+        "user_id": "625",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "26487037221",
+        "rut": "1013646587"
+    },
+    {
+        "user_id": "627",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "316246594",
+        "rut": "1018463532"
+    },
+    {
+        "user_id": "628",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488413124220",
+        "rut": "1073164141"
+    },
+    {
+        "user_id": "629",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "8812113918",
+        "rut": "1093744452"
+    },
+    {
+        "user_id": "630",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "42842788921",
+        "rut": "1022324539"
+    },
+    {
+        "user_id": "631",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "261107882",
+        "rut": "1022970018"
+    },
+    {
+        "user_id": "632",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "17599024786",
+        "rut": "1128048306"
+    },
+    {
+        "user_id": "633",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488401454761",
+        "rut": "1010221674"
+    },
+    {
+        "user_id": "634",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "304622111",
+        "rut": "1018429977"
+    },
+    {
+        "user_id": "635",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "10039844261",
+        "rut": "79409552"
+    },
+    {
+        "user_id": "636",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4882017952",
+        "rut": "1015438962"
+    },
+    {
+        "user_id": "637",
+        "bank_id": "5",
+        "account_type_id": "1",
+        "account_number": "4542006913",
+        "rut": "1032452500"
+    },
+    {
+        "user_id": "638",
+        "bank_id": "31",
+        "account_type_id": "1",
+        "account_number": "21312944716101",
+        "rut": "1072647361"
+    },
+    {
+        "user_id": "639",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550006301142441",
+        "rut": "65747507"
+    },
+    {
+        "user_id": "640",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870290873",
+        "rut": "51997493"
+    },
+    {
+        "user_id": "641",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488423480216",
+        "rut": "1052408490"
+    },
+    {
+        "user_id": "642",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "270109804",
+        "rut": "1069260561"
+    },
+    {
+        "user_id": "644",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15115876",
+        "rut": "1033702800"
+    },
+    {
+        "user_id": "645",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488401599896",
+        "rut": "1019108468"
+    },
+    {
+        "user_id": "646",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "468400057203",
+        "rut": "40767670"
+    },
+    {
+        "user_id": "647",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "184018398",
+        "rut": "52623822"
+    },
+    {
+        "user_id": "648",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "611652926",
+        "rut": "1076668904"
+    },
+    {
+        "user_id": "650",
+        "bank_id": "9",
+        "account_type_id": "1",
+        "account_number": "7470018",
+        "rut": "1117524077"
+    },
+    {
+        "user_id": "651",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "42562835",
+        "rut": "1024540152"
+    },
+    {
+        "user_id": "652",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570473870090866",
+        "rut": "1018434254"
+    },
+    {
+        "user_id": "653",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "380324327",
+        "rut": "52504380"
+    },
+    {
+        "user_id": "654",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570406070125363",
+        "rut": "51776965"
+    },
+    {
+        "user_id": "655",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550477000040907",
+        "rut": "35427453"
+    },
+    {
+        "user_id": "656",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "85293017",
+        "rut": "39687303"
+    },
+    {
+        "user_id": "657",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15101389",
+        "rut": "52835519"
+    },
+    {
+        "user_id": "658",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004170299913",
+        "rut": "52039408"
+    },
+    {
+        "user_id": "659",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550456100010788",
+        "rut": "65744478"
+    },
+    {
+        "user_id": "660",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "60291804",
+        "rut": "51706294"
+    },
+    {
+        "user_id": "663",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "40792319",
+        "rut": "1032484643"
+    },
+    {
+        "user_id": "664",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "171221732",
+        "rut": "1000003579"
+    },
+    {
+        "user_id": "666",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550406100065100",
+        "rut": "39637506"
+    },
+    {
+        "user_id": "667",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "468000087410",
+        "rut": "20989539"
+    },
+    {
+        "user_id": "669",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488404376243",
+        "rut": "1018448854"
+    },
+    {
+        "user_id": "670",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "239048416",
+        "rut": "39544402"
+    },
+    {
+        "user_id": "672",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "329107460",
+        "rut": "52532679"
+    },
+    {
+        "user_id": "673",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570356270057280",
+        "rut": "39579079"
+    },
+    {
+        "user_id": "674",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570004870395086",
+        "rut": "52297392"
+    },
+    {
+        "user_id": "675",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24091587415",
+        "rut": "51880546"
+    },
+    {
+        "user_id": "677",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24050737101",
+        "rut": "218193"
+    },
+    {
+        "user_id": "679",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550484900015302",
+        "rut": "52541204"
+    },
+    {
+        "user_id": "681",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "570226070178380",
+        "rut": "1015439656"
+    },
+    {
+        "user_id": "682",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "52332269",
+        "rut": "36276240"
+    },
+    {
+        "user_id": "683",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "605366194",
+        "rut": "41747789"
+    },
+    {
+        "user_id": "684",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "143216901",
+        "rut": "1010232295"
+    },
+    {
+        "user_id": "685",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "4100182411",
+        "rut": "35473867"
+    },
+    {
+        "user_id": "689",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "479295446",
+        "rut": "52154173"
+    },
+    {
+        "user_id": "690",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550077700042870",
+        "rut": "1023949112"
+    },
+    {
+        "user_id": "691",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550468000006568",
+        "rut": "52709533"
+    },
+    {
+        "user_id": "692",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550488422159167",
+        "rut": "1073603501"
+    },
+    {
+        "user_id": "693",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "15108319",
+        "rut": "23857656"
+    },
+    {
+        "user_id": "694",
+        "bank_id": "3",
+        "account_type_id": "1",
+        "account_number": "179167457",
+        "rut": "1022417349"
+    },
+    {
+        "user_id": "696",
+        "bank_id": "10",
+        "account_type_id": "1",
+        "account_number": "550356200003081",
+        "rut": "1069175475"
+    },
+    {
+        "user_id": "698",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "447253774",
+        "rut": "1024556808"
+    },
+    {
+        "user_id": "701",
+        "bank_id": "1",
+        "account_type_id": "1",
+        "account_number": "443841510",
+        "rut": "52699437"
+    },
+    {
+        "user_id": "703",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "132099177",
+        "rut": "39657346"
+    },
+    {
+        "user_id": "704",
+        "bank_id": "4",
+        "account_type_id": "1",
+        "account_number": "24105741101",
+        "rut": "1032497326"
+    },
+    {
+        "user_id": "712",
+        "bank_id": "22",
+        "account_type_id": "1",
+        "account_number": "65800015043",
+        "rut": "300341088"
+    },
+    {
+        "user_id": "714",
+        "bank_id": "11",
+        "account_type_id": "1",
+        "account_number": "450237441",
+        "rut": "1024504180"
+    }
+]
