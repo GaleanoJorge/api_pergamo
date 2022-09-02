@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ActivitiesSeeder::class);
                 $this->call(LocalitySeeder::class);
                 $this->call(PadRiskSeeder::class);
+                $this->call(ResidenceSeeder::class);
                 $this->call(NeighborhoodOrResidenceSeeder::class);
                 $this->call(SelectRhSeeder::class);
                 $this->call(StudyLevelStatusSeeder::class);
@@ -90,7 +91,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeOfAttentionSeeder::class);
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
-                $this->call(ResidenceSeeder::class);
+                
                 
                 //dietas
                 $this->call(DietComponentSeeder::class);
