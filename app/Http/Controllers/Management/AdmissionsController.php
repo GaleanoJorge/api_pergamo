@@ -40,6 +40,7 @@ class AdmissionsController extends Controller
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
+                'diagnosis',
             );
         if ($request->admissions_id) {
             $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
