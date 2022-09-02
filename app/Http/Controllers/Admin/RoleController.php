@@ -22,36 +22,39 @@ class RoleController extends Controller
     public function index(Request $request): JsonResponse
     {
         $roles = Role::select('role.*')->with('status', 'role_type')
-        ->orderBy('role.name', 'asc')
-        ->groupBy('role.id');
-        
+            ->orderBy('role.name', 'asc')
+            ->groupBy('role.id');
+
         if ($request->id) {
             $roles->where('id', $request->id);
         }
-        
+
         if ($request->status_id) {
             $roles->where('role.status_id', $request->status_id);
         }
 
+        if ($request->role_type_id) {
+            $roles->where('role.role_type_id', $request->role_type_id);
+        }
+
         if ($request->search) {
             $roles->where(function ($query) use ($request) {
-                $query->where('role.name', 'like', '%' . $request->search . '%')
-                    ;
+                $query->where('role.name', 'like', '%' . $request->search . '%');
             });
         }
 
         if ($request->role_type_id) {
             $roles->where('role.role_type_id', $request->role_type_id);
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $roles=$roles->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $roles=$roles->paginate($per_page,'*','page',$page); 
-        }  
+
+        if ($request->query("pagination", true) == "false") {
+            $roles = $roles->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $roles = $roles->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
