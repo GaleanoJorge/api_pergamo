@@ -237,7 +237,7 @@ class ManagementPlanController extends Controller
             ->groupBy('management_plan.id');
         if ($userId != 0) {
             $ManagementPlan
-                ->where('management_plan.assigned_user_id', $userId);
+                ->where('assigned_management_plan.user_id', $userId);
         }
 
         if ($request->semaphore == 1) {
@@ -856,6 +856,7 @@ class ManagementPlanController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        $error=0;
         $ManagementPlan = ManagementPlan::find($id);
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
@@ -951,7 +952,7 @@ class ManagementPlanController extends Controller
                 $auth_status = 2;
             }
         }
-            $error=0;
+           
         $error_count = 0;
             $firstDateMonth = Carbon::now()->startOfMonth();
             $lastDateMonth = Carbon::now()->endOfMonth();
@@ -1185,6 +1186,7 @@ class ManagementPlanController extends Controller
                     }
                 }
             }
+        }
     
 
         if ($error == 0) {
@@ -1208,7 +1210,7 @@ class ManagementPlanController extends Controller
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         }
-    }
+
     }
 
     /**
