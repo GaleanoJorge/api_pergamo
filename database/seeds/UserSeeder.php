@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
                 'phone' => $row-> phone,
 				'landline' => $row-> landline,
 				'sync_id' => $row-> sync_id,
-                'force_reset_password' => $row->reset_password,
+                'force_reset_password' => $row->force_reset_password,
                 'sga_origin_fk' => $row->sga_origin_pk,
                 'birthplace_country_id' => $row->birthplace_country_id,
 				'birthplace_region_id'=> $row->birthplace_region_id,
