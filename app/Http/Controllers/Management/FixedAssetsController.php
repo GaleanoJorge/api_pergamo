@@ -19,26 +19,33 @@ class FixedAssetsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedAssets = FixedAssets::with(
-            'fixed_clasification',
-            'fixed_stock',
-            'fixed_stock.campus',
-            'fixed_stock.fixed_type',
-            'fixed_nom_product',
-            'fixed_type'
-        );
+        $FixedAssets = FixedAssets::select('fixed_assets.*')
+            ->leftJoin('fixed_stock', 'fixed_assets.fixed_stock_id', 'fixed_stock.id')
+            ->leftJoin('fixed_nom_product', 'fixed_assets.fixed_nom_product_id', 'fixed_nom_product.id')
+            ->with(
+                'fixed_clasification',
+                'fixed_stock',
+                'fixed_stock.campus',
+                'fixed_stock.fixed_type',
+                'fixed_nom_product',
+                'fixed_type'
+            )->groupBy('fixed_assets.id');
 
         if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);
         }
         if ($request->search) {
-            $FixedAssets->where('name', 'like', '%' . $request->search . '%');
+            $FixedAssets->where(function ($query) use ($request) {
+                $query->Where('mark', 'like', '%' . $request->search . '%')
+                    ->orWhere('model', 'like', '%' . $request->search . '%')
+                    ->orWhere('fixed_nom_product.name', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->fixed_stock_id) {
             $FixedAssets->where('fixed_assets.fixed_stock_id', $request->fixed_stock_id);
         }
-       if ($request->status_prod) {
+        if ($request->status_prod) {
             $FixedAssets->where('fixed_assets.status_prod', $request->status_prod);
         }
 

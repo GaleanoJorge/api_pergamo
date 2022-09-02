@@ -370,8 +370,8 @@ class AccountReceivableController extends Controller
         $retCalculator = app('App\Http\Controllers\Management\SourceRetentionController')->getByAccountReceivableId($request, $id);
         $retCalculator = json_decode($retCalculator->content(), true)['data']['source_retention'];
         $consecutive = $AccountReceivable->id;
-        $gross_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->gross_value_activities));
-        $net_value = $this->fillCharacters($this->currencyTransform($AccountReceivable->net_value_activities));
+        $gross_value = $this->currencyTransform($AccountReceivable->gross_value_activities);
+        $net_value = $this->currencyTransform($AccountReceivable->net_value_activities);
         $letter_value = $this->NumToLetters($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
         $bank = strtoupper($FinancialData['bank']['name'] . ' - ' . $FinancialData['bank']['code']);
@@ -405,8 +405,8 @@ class AccountReceivableController extends Controller
             'doc_type' => $doc_type,
             'doc_number' => $doc_number,
             'gross_value' => $gross_value,
-            'ica_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Rete_ica'])),
-            'source_value' => $this->fillCharacters($this->currencyTransform($retCalculator['Retencion_por_aplicar'])),
+            'ica_value' => $this->currencyTransform($retCalculator['Rete_ica']),
+            'source_value' => $this->currencyTransform($retCalculator['Retencion_por_aplicar']),
             'net_value' => $net_value,
             'letter_value' => $letter_value,
             'account_type' => $account_type,
@@ -440,16 +440,6 @@ class AccountReceivableController extends Controller
             'message' => 'Cuenta de cobro generada exitosamente',
             'url' => asset('/storage' .  '/' . $name),
         ]);
-    }
-
-    public function fillCharacters(string $value): string
-    {
-        $Response = $value;
-        while (Str::length($Response) < 16) {
-            $Response = '_' . $Response;
-        }
-
-        return $Response;
     }
 
     private function currencyTransform($value): string
@@ -564,23 +554,7 @@ class AccountReceivableController extends Controller
 
     public function NumToLetters(int $value)
     {
-        $lengt = 45;
-        $res[0] = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
-        if (strlen($res[0]) > $lengt) {
-            $prov = substr($res[0], $lengt);
-            $pos = strpos($prov, " ");
-            $prov = substr($prov, $pos + 1);
-            $res[0] = substr($res[0], 0, $lengt + $pos);
-            if (strlen($prov) > $lengt) {
-                $prov2 = substr($prov, $lengt);
-                $pos = strpos($prov2, " ");
-                $prov2 = substr($prov2, $pos + 1);
-                $res[1] = substr($prov, 0, $lengt + $pos);
-                $res[2] = $prov2;
-            } else {
-                $res[1] = $prov;
-            }
-        }
+        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
         return $res;
     }
 }

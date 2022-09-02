@@ -6,6 +6,7 @@ use App\Models\ChEOccHistoryOT;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
+use App\Models\ChRecord;
 use Illuminate\Database\QueryException;
 
 class ChEOccHistoryOTController extends Controller
@@ -58,12 +59,22 @@ class ChEOccHistoryOTController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
         
        
         $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-            ->with('ch_e_occ_history_o_t')->get()->toArray();
+        ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChEOccHistoryOT = ChEOccHistoryOT::select('ch_e_occ_history_o_t.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_e_occ_history_o_t.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
         
 
         return response()->json([

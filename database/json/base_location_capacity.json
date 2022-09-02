@@ -1,0 +1,4664 @@
+[
+    {
+        "phone_consult": "null",
+        "assistance_id": "14",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "15",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "16",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "180"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "17",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "18",
+        "locality_id": "3448",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "19",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "20",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "21",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "22",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "23",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "24",
+        "locality_id": "3448",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "25",
+        "locality_id": "3482",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "26",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "27",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "28",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "29",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "30",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "31",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "32",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "33",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "34",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "35",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "36",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "5"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "37",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "38",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "39",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "11"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "40",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "41",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "42",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "43",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "44",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "45",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "4"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "46",
+        "locality_id": "3119",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "47",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "48",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "49",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "50",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "51",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "52",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "53",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "54",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "55",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "56",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "57",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "58",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "59",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "60",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "61",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "62",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "63",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "64",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "65",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "66",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "67",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "68",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "69",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "70",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "23"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "71",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "72",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "73",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "74",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "75",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "76",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "77",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "78",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "79",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "80",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "81",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "36"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "82",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "83",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "84",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "85",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "86",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "87",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "88",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "89",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "90",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "91",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "92",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "93",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "36"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "94",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "95",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "96",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "97",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "98",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "99",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "100",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "101",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "102",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "103",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "104",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "105",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "106",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "107",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "108",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "109",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "110",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "111",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "112",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "113",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "114",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "115",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "116",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "117",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "118",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "119",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "120",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "120",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "120",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "120",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "120",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "121",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "121",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "121",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "121",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "121",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "122",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "300"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "122",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "300"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "122",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "300"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "122",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "300"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "122",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "300"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "123",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "124",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "125",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "125",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "126",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "126",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "126",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "126",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "127",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "127",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "127",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "128",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "129",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "129",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "130",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "131",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "132",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "133",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "134",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "134",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "134",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "134",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "134",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "135",
+        "locality_id": "3470",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "136",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "137",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "137",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "137",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "138",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "139",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "140",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "141",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "142",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "143",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "144",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "145",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "146",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "147",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "148",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "149",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "150",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "151",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "152",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "153",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "154",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "155",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "156",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "72"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "157",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "158",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "159",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "160",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "161",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "162",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "163",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "164",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "2"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "165",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "166",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "167",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "168",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "169",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "170",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "171",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "172",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "173",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "31"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "174",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "175",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "176",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "177",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "178",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "179",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "180",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "181",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "182",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "183",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "104"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "184",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "185",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "186",
+        "locality_id": "3529",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "187",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "188",
+        "locality_id": "3238",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "189",
+        "locality_id": "3238",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "190",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "191",
+        "locality_id": "3245",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "192",
+        "locality_id": "3136",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "193",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "194",
+        "locality_id": "3383",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "195",
+        "locality_id": "3355",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "196",
+        "locality_id": "3172",
+        "PAD_base_patient_quantity": "5"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "197",
+        "locality_id": "3529",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "198",
+        "locality_id": "3538",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "199",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "200",
+        "locality_id": "3270",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "201",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "202",
+        "locality_id": "3529",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "203",
+        "locality_id": "3529",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "204",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "205",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "206",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "207",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "208",
+        "locality_id": "3238",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "209",
+        "locality_id": "3465",
+        "PAD_base_patient_quantity": "39"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "210",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "211",
+        "locality_id": "3238",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "212",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "213",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "214",
+        "locality_id": "3448",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "215",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "216",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "217",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "5"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "218",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "219",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "220",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "221",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "222",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "223",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "224",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "225",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "21"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "226",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "227",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "228",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "229",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "230",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "231",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "232",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "233",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "234",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "235",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "236",
+        "locality_id": "3375",
+        "PAD_base_patient_quantity": "27"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "237",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "238",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "238",
+        "locality_id": "3267",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "238",
+        "locality_id": "3492",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "239",
+        "locality_id": "3530",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "240",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "241",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "242",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "243",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "244",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "244",
+        "locality_id": "3142",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "245",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "246",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "247",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "247",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "247",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "247",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "248",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "249",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "110"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "250",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "140"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "251",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "252",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "252",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "253",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "54"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "254",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "88"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "255",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "256",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "257",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "258",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "258",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "258",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "258",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "258",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "259",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "259",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "260",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "260",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "261",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "261",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "261",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "262",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "263",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "264",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "264",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "264",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "265",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "266",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "266",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "75"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "267",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "28"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "267",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "268",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "120"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "268",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "269",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "28"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "270",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "270",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "52"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "271",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "88"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "272",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "272",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "273",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "273",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "273",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "273",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "273",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "274",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "56"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "274",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "56"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "274",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "56"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "275",
+        "locality_id": "3193",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "275",
+        "locality_id": "3549",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "276",
+        "locality_id": "3315",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "276",
+        "locality_id": "3119",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "276",
+        "locality_id": "3207",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "277",
+        "locality_id": "3263",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "277",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "278",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "67"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "279",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "279",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "279",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "279",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "280",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "280",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "280",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "281",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "281",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "282",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "282",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "283",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "283",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "18"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "284",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "284",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "284",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "285",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "285",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "285",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "285",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "285",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "286",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "287",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "287",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "65"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "287",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "288",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "289",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "104"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "290",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "291",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "292",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "112"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "293",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "32"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "294",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "294",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "294",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "294",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "294",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "295",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "160"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "295",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "160"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "296",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "88"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "297",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "297",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "298",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "91"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "298",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "299",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "300",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "301",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "301",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "4"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "302",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "302",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "303",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "130"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "303",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "304",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "305",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "306",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "32"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "306",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "38"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "307",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "308",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "308",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "15"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "309",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "310",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "311",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "312",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "312",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "313",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "314",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "315",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "315",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "316",
+        "locality_id": "3193",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "316",
+        "locality_id": "6923",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "317",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "318",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "318",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "318",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "318",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "318",
+        "locality_id": "3136",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "319",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "319",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "320",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "49"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "321",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "78"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "322",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "322",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "323",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "324",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "324",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "325",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "326",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "45"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "326",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "327",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "327",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "327",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "328",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "328",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "329",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "330",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "331",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "3"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "332",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "333",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "333",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "333",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "334",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "334",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "335",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "336",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "336",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "337",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "338",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "338",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "339",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "28"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "340",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "340",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "41"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "340",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "340",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "341",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "342",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "342",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "342",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "343",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "344",
+        "locality_id": "3142",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "344",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "345",
+        "locality_id": "3448",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "346",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "346",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "346",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "347",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "111"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "348",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "349",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "350",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "351",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "352",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "353",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "354",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "354",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "354",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "355",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "355",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "355",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "355",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "356",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "357",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "358",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "7"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "359",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "170"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "359",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "359",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "359",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "170"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "360",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "46"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "361",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "84"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "361",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "28"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "362",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "363",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "364",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "365",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "365",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "365",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "365",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "365",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "366",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "367",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "368",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "368",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "369",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "370",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "370",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "371",
+        "locality_id": "3142",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "371",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "371",
+        "locality_id": "3470",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "372",
+        "locality_id": "3205",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "372",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "373",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "373",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "374",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "64"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "375",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "376",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "110"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "376",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "377",
+        "locality_id": "3465",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "377",
+        "locality_id": "3245",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "377",
+        "locality_id": "3442",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "378",
+        "locality_id": "3554",
+        "PAD_base_patient_quantity": "28"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "379",
+        "locality_id": "3319",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "381",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "127"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "382",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "43"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "383",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "384",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "385",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "385",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "386",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "18"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "387",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "387",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "388",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "130"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "389",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "149"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "390",
+        "locality_id": "3375",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "390",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "391",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "392",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "52"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "393",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "394",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "395",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "396",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "140"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "396",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "140"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "397",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "2"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "398",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "225"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "399",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "400",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "208"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "401",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "170"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "402",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "403",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "130"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "404",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "404",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "405",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "405",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "406",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "32"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "407",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "407",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "408",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "72"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "408",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "72"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "409",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "56"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "409",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "46"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "409",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "410",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "410",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "410",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "411",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "411",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "411",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "411",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "411",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "412",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "413",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "120"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "413",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "414",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "415",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "415",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "415",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "415",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "415",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "416",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "416",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "417",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "418",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "419",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "419",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "419",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "420",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "55"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "420",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "421",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "421",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "421",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "422",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "44"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "423",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "424",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "425",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "426",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "426",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "427",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "120"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "428",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "428",
+        "locality_id": "3136",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "429",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "429",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "429",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "200"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "430",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "430",
+        "locality_id": "3339",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "431",
+        "locality_id": "3142",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "431",
+        "locality_id": "3500",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "432",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "118"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "433",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "433",
+        "locality_id": "3194",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "434",
+        "locality_id": "3207",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "435",
+        "locality_id": "3119",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "435",
+        "locality_id": "3394",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "435",
+        "locality_id": "3315",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "435",
+        "locality_id": "3496",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "436",
+        "locality_id": "3377",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "437",
+        "locality_id": "3263",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "438",
+        "locality_id": "3193",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "438",
+        "locality_id": "3549",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "438",
+        "locality_id": "3459",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "438",
+        "locality_id": "6847",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "439",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "440",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "270"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "441",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "442",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "443",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "158"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "444",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "445",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "170"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "446",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "150"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "446",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "446",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "447",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "120"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "448",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "158"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "449",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "154"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "449",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "449",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "449",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "449",
+        "locality_id": "13",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "450",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "450",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "451",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "452",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "453",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "453",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "453",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "453",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "453",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "454",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "202"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "455",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "209"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "456",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "457",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "458",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "459",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "460",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "461",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "462",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "463",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "464",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "465",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "466",
+        "locality_id": "3263",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "467",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "468",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "469",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "3"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "470",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "471",
+        "locality_id": "3530",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "472",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "473",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "474",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "475",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "476",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "477",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "478",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "479",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "480",
+        "locality_id": "3362",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "481",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "482",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "483",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "484",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "485",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "65"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "486",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "487",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "488",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "90"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "489",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "490",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "491",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "110"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "492",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "493",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "494",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "495",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "496",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "497",
+        "locality_id": "3530",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "498",
+        "locality_id": "3480",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "499",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "170"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "500",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "501",
+        "locality_id": "3530",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "502",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "503",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "504",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "128"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "504",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "505",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "506",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "180"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "507",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "52"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "508",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "92"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "508",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "38"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "509",
+        "locality_id": "3263",
+        "PAD_base_patient_quantity": "180"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "510",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "45"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "510",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "5"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "510",
+        "locality_id": "17",
+        "PAD_base_patient_quantity": "5"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "511",
+        "locality_id": "3219",
+        "PAD_base_patient_quantity": "44"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "512",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "250"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "513",
+        "locality_id": "12",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "513",
+        "locality_id": "2",
+        "PAD_base_patient_quantity": "10"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "514",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "514",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "515",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "516",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "517",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "517",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "518",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "518",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "519",
+        "locality_id": "3193",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "519",
+        "locality_id": "6847",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "519",
+        "locality_id": "3549",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "520",
+        "locality_id": "14",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "521",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "521",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "70"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "521",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "521",
+        "locality_id": "18",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "521",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "522",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "58"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "522",
+        "locality_id": "3438",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "522",
+        "locality_id": "3375",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "523",
+        "locality_id": "3466",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "524",
+        "locality_id": "3142",
+        "PAD_base_patient_quantity": "240"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "525",
+        "locality_id": "3530",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "526",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "526",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "527",
+        "locality_id": "3258",
+        "PAD_base_patient_quantity": "32"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "528",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "529",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "530",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "530",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "86"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "530",
+        "locality_id": "6",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "530",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "530",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "531",
+        "locality_id": "3248",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "532",
+        "locality_id": "3572",
+        "PAD_base_patient_quantity": "12"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "533",
+        "locality_id": "1",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "534",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "120"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "535",
+        "locality_id": "3193",
+        "PAD_base_patient_quantity": "35"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "536",
+        "locality_id": "3325",
+        "PAD_base_patient_quantity": "55"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "537",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "537",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "38"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "538",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "539",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "541",
+        "locality_id": "4",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "545",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "546",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "546",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "25"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "547",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "4"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "548",
+        "locality_id": "3240",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "549",
+        "locality_id": "5",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "550",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "16"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "551",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "3"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "552",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "553",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "553",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "553",
+        "locality_id": "9",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "554",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "136"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "555",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "556",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "557",
+        "locality_id": "11",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "558",
+        "locality_id": "10",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "559",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "102"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "560",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "60"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "561",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "563",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "564",
+        "locality_id": "3114",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "565",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "26"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "565",
+        "locality_id": "3428",
+        "PAD_base_patient_quantity": "40"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "566",
+        "locality_id": "3175",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "567",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "100"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "568",
+        "locality_id": "3315",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "569",
+        "locality_id": "3362",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "570",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "75"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "570",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "30"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "570",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "80"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "571",
+        "locality_id": "15",
+        "PAD_base_patient_quantity": "6"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "571",
+        "locality_id": "16",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "572",
+        "locality_id": "3172",
+        "PAD_base_patient_quantity": "20"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "573",
+        "locality_id": "3263",
+        "PAD_base_patient_quantity": "8"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "574",
+        "locality_id": "3172",
+        "PAD_base_patient_quantity": "27"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "575",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "24"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "578",
+        "locality_id": "3",
+        "PAD_base_patient_quantity": "22"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "578",
+        "locality_id": "19",
+        "PAD_base_patient_quantity": "50"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "580",
+        "locality_id": "8",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "580",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "591",
+        "locality_id": "7",
+        "PAD_base_patient_quantity": "1"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "594",
+        "locality_id": "3261",
+        "PAD_base_patient_quantity": "66"
+    },
+    {
+        "phone_consult": "null",
+        "assistance_id": "595",
+        "locality_id": "3445",
+        "PAD_base_patient_quantity": "60"
+    }
+]

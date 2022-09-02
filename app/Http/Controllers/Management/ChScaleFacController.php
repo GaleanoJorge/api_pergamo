@@ -18,32 +18,35 @@ class ChScaleFacController extends Controller
     public function index(Request $request): JsonResponse
     {
         if ($request->latest) {
-            $ChScaleFac = ChScaleFac::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1);
+            $ChScaleFac = ChScaleFac::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
         } else {
 
-            $ChScaleFac = ChScaleFac::select();
+        $ChScaleFac = ChScaleFac::select();
+
+        if($request->_sort){
+            $ChScaleFac->orderBy($request->_sort, $request->_order);
+        }            
+
+        if ($request->search) {
+            $ChScaleFac->where('name','like','%' . $request->search. '%');
         }
-            if ($request->_sort) {
-                $ChScaleFac->orderBy($request->_sort, $request->_order);
-            }
+        if ($request->ch_record_id) {
+            $ChScaleFac->where('ch_record_id', $request->ch_record_id);
+        }
 
-            if ($request->search) {
-                $ChScaleFac->where('name', 'like', '%' . $request->search . '%');
-            }
-            if ($request->ch_record_id) {
-                $ChScaleFac->where('ch_record_id', $request->ch_record_id);
-            }
-            if ($request->latest  && isset($request->latest)) {
-            }
-            if ($request->query("pagination", true) == "false") {
-                $ChScaleFac = $ChScaleFac->get()->toArray();
-            } else {
-                $page = $request->query("current_page", 1);
-                $per_page = $request->query("per_page", 10);
+        if ($request->latest  && isset($request->latest)) {
+        }
+        if($request->query("pagination", true)=="false"){
+            $ChScaleFac=$ChScaleFac->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $ChScaleFac=$ChScaleFac->paginate($per_page,'*','page',$page); 
+        } 
 
-                $ChScaleFac = $ChScaleFac->paginate($per_page, '*', 'page', $page);
-            }
-
+    }
 
             return response()->json([
                 'status' => true,
