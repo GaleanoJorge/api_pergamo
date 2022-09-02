@@ -202,6 +202,7 @@ class AdmissionsController extends Controller
                 'contract',
                 'location',
                 'regime',
+                'diagnosis',
                 'management_plan',
                 'management_plan.assigned_management_plan',
                 'location.admission_route',
