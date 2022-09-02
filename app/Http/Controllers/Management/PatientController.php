@@ -401,6 +401,7 @@ class PatientController extends Controller
         $patients = Patient::select(
             'patients.*',
             'admissions.id AS admissions_id',
+            'company.name AS company',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw('
             IF(COUNT(assigned_management_plan.execution_date) > 0, 
@@ -426,6 +427,8 @@ class PatientController extends Controller
                     ,0 
                )
               ) AS por_ejecutar'),
+              DB::raw('SUM(IF(assigned_management_plan.id > 0, 1, 0)) AS total_agendado'),
+              DB::raw('SUM(IF(assigned_management_plan.execution_date != "0000-00-00 00:00:00", 1, 0)) AS total_ejecutado'),
             DB::raw('
              
                 SUM(
@@ -436,11 +439,11 @@ class PatientController extends Controller
             DB::raw($consulta . ' AS ingreso'),
             DB::raw('
                     IF(
-                        COUNT(DISTINCT program.id) > 1
+                        COUNT(DISTINCT scope_of_attention.id) > 1
                         , "MIXTO"
-                        , program.name
+                        , scope_of_attention.name
                         )
-            AS programa'),
+            AS scope_of_attention'),
         )
             ->leftjoin('locality', 'patients.locality_id', 'locality.id')
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
@@ -448,8 +451,10 @@ class PatientController extends Controller
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
-            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
             ->where('location.admission_route_id', 2)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
@@ -610,7 +615,7 @@ class PatientController extends Controller
                     ->orWhere('locality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('program.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('company.name', 'like', '%' . $request->search . '%')
                     ;
             });
         }

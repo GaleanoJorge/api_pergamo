@@ -1090,7 +1090,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\NomProductController@getSubcategoryByCategory'
     );
 
-    //Histgoria Clinica Terapia Ocupacional
+    //Historia Clinica Terapia Ocupacional
     Route::apiResource('ch_e_valoration_o_t', 'Management\ChEValorationOTController');
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
@@ -1439,7 +1439,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
     //Autorizaciones
     Route::apiResource('authorization', 'Management\AuthorizationController');
-    Route::post('authorization/Massive', 'Management\AuthorizationController@saveGroup');
+    Route::post('authorization/{id}', 'Management\AuthorizationController@update');
+    Route::post('authorization/Massive/{id}', 'Management\AuthorizationController@saveGroup');
     Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
     Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');

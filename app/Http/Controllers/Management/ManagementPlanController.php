@@ -215,6 +215,8 @@ class ManagementPlanController extends Controller
         )
             ->with(
                 'authorization',
+                'procedure',
+                'procedure.manual_price',
                 'type_of_attention',
                 'frequency',
                 'specialty',
