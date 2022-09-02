@@ -21,18 +21,29 @@ class RoleController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $roles = Role::with('status', 'role_type')->orderBy('name', 'asc');
+        $roles = Role::select('role.*')->with('status', 'role_type')
+        ->leftJoin('role_type','role_type.id','role.role_type_id')
+        ->orderBy('role.name', 'asc')
+        ->groupBy('role.id');
         
         if ($request->id) {
             $roles->where('id', $request->id);
         }
         
         if ($request->status_id) {
-            $roles->where('status_id', $request->status_id);
+            $roles->where('role.status_id', $request->status_id);
+        }
+
+        if ($request->search) {
+            $roles->where(function ($query) use ($request) {
+                $query->where('role.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('role_type.name', 'like', '%' . $request->search . '%')
+                    ;
+            });
         }
 
         if ($request->role_type_id) {
-            $roles->where('role_type_id', $request->role_type_id);
+            $roles->where('role.role_type_id', $request->role_type_id);
         }
         
         if($request->query("pagination", true)=="false"){
