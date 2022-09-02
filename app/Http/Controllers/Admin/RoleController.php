@@ -22,7 +22,6 @@ class RoleController extends Controller
     public function index(Request $request): JsonResponse
     {
         $roles = Role::select('role.*')->with('status', 'role_type')
-        ->leftJoin('role_type','role_type.id','role.role_type_id')
         ->orderBy('role.name', 'asc')
         ->groupBy('role.id');
         
@@ -37,7 +36,6 @@ class RoleController extends Controller
         if ($request->search) {
             $roles->where(function ($query) use ($request) {
                 $query->where('role.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('role_type.name', 'like', '%' . $request->search . '%')
                     ;
             });
         }
