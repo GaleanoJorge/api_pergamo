@@ -17,7 +17,7 @@ class AssistanceSpecialSeeder extends Seeder
         foreach(json_decode($jAssistanceSpecial) as $row){
             AssistanceSpecial::create([
                 'specialty_id'=> $row-> specialty_id,
-                'assitance_id'=> $row->assitance_id,
+                'assistance_id'=> $row->assistance_id,
             ]);
         }
     }
