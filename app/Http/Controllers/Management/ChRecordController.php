@@ -1259,7 +1259,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
     
             $html = view('mails.physicalhistory', [
-            'chrecord' => $ChRecord[0],
+            'chrecord' => $ChRecord,
     
             'ChEValorationFT' => $ChEValorationFT,
             'ChVitalSigns' => $ChVitalSigns,
