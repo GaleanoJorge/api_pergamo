@@ -1262,6 +1262,9 @@ class ChRecordController extends Controller
             'ChEMarchFT' => $ChEMarchFT,
             'ChEDiagnosisFT' => $ChEDiagnosisFT,
             'ChETherGoalsFT' => $ChETherGoalsFT,
+
+
+            
             'ChEWeeklyFT' => $ChEWeeklyFT,
     
             'ChEValorationFTEvo' => $ChEValorationFTEvo,
