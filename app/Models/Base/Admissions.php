@@ -20,6 +20,7 @@ use App\Models\Flat;
 use App\Models\Bed;
 use App\Models\Briefcase;
 use App\Models\Contract;
+use App\Models\Diagnosis;
 use App\Models\ManagementPlan;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
@@ -107,6 +108,11 @@ class Admissions extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(Procedure::class,'procedure_id');
+	}
+
+	public function diagnosis()
+	{
+		return $this->belongsTo(Diagnosis::class);
 	}
 
 	public function management_plan()

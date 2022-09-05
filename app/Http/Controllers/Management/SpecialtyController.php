@@ -13,7 +13,7 @@ class SpecialtyController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $specialtys = Specialty::with('status');
+        $specialtys = Specialty::with('status')->orderBy('specialty.name', 'DESC');
 
         if($request->_sort){
             $specialtys->orderBy($request->_sort, $request->_order);

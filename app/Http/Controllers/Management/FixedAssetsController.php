@@ -29,7 +29,7 @@ class FixedAssetsController extends Controller
                 'fixed_stock.fixed_type',
                 'fixed_nom_product',
                 'fixed_type'
-            );
+            )->groupBy('fixed_assets.id');
 
         if ($request->_sort) {
             $FixedAssets->orderBy($request->_sort, $request->_order);

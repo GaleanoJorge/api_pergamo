@@ -23,7 +23,11 @@ use App\Models\ChCarePlan;
 use App\Models\ChDiagnosis;
 use App\Models\ChDiagnosticAids;
 use App\Models\ChDietsEvo;
+use App\Models\ChEBalanceFT;
 use App\Models\ChEDailyActivitiesOT;
+use App\Models\ChEDiagnosisFT;
+use App\Models\ChEFlexibilityFT;
+use App\Models\ChEMarchFT;
 use App\Models\ChEMSAcuityOT;
 use App\Models\ChEMSAssessmentOT;
 use App\Models\ChEMSCommunicationOT;
@@ -36,10 +40,22 @@ use App\Models\ChEMSMovPatOT;
 use App\Models\ChEMSTestOT;
 use App\Models\ChEMSThermalOT;
 use App\Models\ChEMSWeeklyOT;
+use App\Models\ChEMuscularStrengthFT;
+use App\Models\ChEMuscularToneFT;
 use App\Models\ChEOccHistoryOT;
+use App\Models\ChEPainFT;
 use App\Models\ChEPastOT;
+use App\Models\ChEPositionFT;
+use App\Models\ChEReflectionFT;
+use App\Models\ChESensibilityFT;
+use App\Models\ChESysIntegumentaryFT;
+use App\Models\ChESysMusculoskeletalFT;
+use App\Models\ChETherGoalsFT;
+use App\Models\ChEValorationFT;
 use App\Models\ChEValorationOT;
+use App\Models\ChEValorationTherFT;
 use App\Models\ChEvoSoap;
+use App\Models\ChEWeeklyFT;
 use App\Models\ChFailed;
 use App\Models\ChFormulation;
 use App\Models\ChGynecologists;
@@ -103,7 +119,6 @@ use App\Models\NumberMonthlySessionsTl;
 use App\Models\OrofacialTl;
 use App\Models\OstomiesTl;
 use App\Models\Patient;
-use App\Models\PharmacyProductRequest;
 use App\Models\SpecificTestsTl;
 use App\Models\SpeechTl;
 use App\Models\SwallowingDisordersTL;
@@ -116,6 +131,10 @@ use App\Models\TypeContract;
 use App\Models\VoiceAlterationsTl;
 use App\Models\ChNutritionAnthropometry;
 use App\Models\ChNutritionGastrointestinal;
+use App\Models\ChNutritionFoodHistory;
+use App\Models\ChNutritionInterpretation;
+use App\Models\ChNutritionParenteral;
+use App\Models\PharmacyProductRequest;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -263,6 +282,7 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )
+        
 
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
@@ -271,7 +291,11 @@ class ChRecordController extends Controller
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
             $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }else{
+            $imagenPAtient = null;
         }
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
         if ($ChRecord[0]['status'] != 'CERRADO') {
             return response()->json([
@@ -499,7 +523,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
-                // 'firmPatient' => $imagenPAtient,
+                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -735,12 +759,16 @@ class ChRecordController extends Controller
             $ChAuscultation = ChAuscultation::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $PharmacyProductRequest = PharmacyProductRequest::with(
+                'product_supplies',
+                'request_pharmacy_stock'
+            )->get()->toArray();
             $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-
+            
             //Regular
             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
-              //Antecedentes Gyneco
+            //Antecedentes Gyneco
             $ChGynecologistsEvo = ChGynecologists::with(
                 'ch_type_gynecologists',
                 'ch_planning_gynecologists',
@@ -752,8 +780,8 @@ class ChRecordController extends Controller
                 'ch_rst_colposcipia_gyneco',
                 'ch_failure_method_gyneco',
                 'ch_method_planning_gyneco'
-            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
-
+                )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+                
             $ChVitalSignsEvo = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -762,9 +790,13 @@ class ChRecordController extends Controller
                 'oxygen_type',
                 'liters_per_minute',
                 'parameters_signs'
-            )
+                )
                 ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $PharmacyProductRequestEvo = PharmacyProductRequest::with(
+                'product_supplies',
+                'request_pharmacy_stock'
+            )->get()->toArray();
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
@@ -793,6 +825,7 @@ class ChRecordController extends Controller
                 'ChAuscultation' => $ChAuscultation,
                 'ChDiagnosticAids' => $ChDiagnosticAids,
                 'ChObjectivesTherapy' => $ChObjectivesTherapy,
+                'PharmacyProductRequest' => $PharmacyProductRequest,
                 'ChRtSessions' => $ChRtSessions,
 
                 'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
@@ -801,6 +834,7 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
@@ -1064,51 +1098,45 @@ class ChRecordController extends Controller
             //Ingreso
             $ChNutritionAnthropometry = ChNutritionAnthropometry::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChNutritionGastrointestinal = ChNutritionGastrointestinal::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChNutritionFoodHistory = ChNutritionFoodHistory::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChNutritionInterpretation = ChNutritionInterpretation::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChNutritionParenteral  = ChNutritionParenteral::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
+            
+            //Antecedentes
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            //Antecedentes Gyneco
+            $ChGynecologists = ChGynecologists::with(
+                'ch_type_gynecologists',
+                'ch_planning_gynecologists',
+                'ch_exam_gynecologists',
+                'ch_flow_gynecologists',
+                'ch_rst_cytology_gyneco',
+                'ch_rst_biopsy_gyneco',
+                'ch_rst_mammography_gyneco',
+                'ch_rst_colposcipia_gyneco',
+                'ch_failure_method_gyneco',
+                'ch_method_planning_gyneco'
+            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
 
-
-
-            $ChVitalSigns = ChVitalSigns::with(
-                'ch_vital_hydration',
-                'ch_vital_ventilated',
-                'ch_vital_temperature',
-                'ch_vital_neurological',
-                'oxygen_type',
-                'liters_per_minute',
-                'parameters_signs'
-            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEOccHistoryOT = ChEOccHistoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEDailyActivitiesOT = ChEDailyActivitiesOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSFunPatOT = ChEMSFunPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSIntPatOT = ChEMSIntPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSMovPatOT = ChEMSMovPatOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSThermalOT = ChEMSThermalOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSDisAuditoryOT = ChEMSDisAuditoryOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSDisTactileOT = ChEMSDisTactileOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSAcuityOT = ChEMSAcuityOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSComponentOT = ChEMSComponentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-
-            $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-
+            
             //Regular
-            $ChRNValorationOT = ChRNValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChVitalSignsNT = ChVitalSigns::with(
-                'ch_vital_hydration',
-                'ch_vital_ventilated',
-                'ch_vital_temperature',
-                'ch_vital_neurological',
-                'oxygen_type',
-                'liters_per_minute',
-                'parameters_signs'
-            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNutritionAnthropometryNR = ChNutritionAnthropometry::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNutritionParenteralNR  = ChNutritionParenteral::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNutritionInterpretationNR  = ChNutritionInterpretation::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsNR = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
+            //Escalas
+            $ChScalePediatricNutrition = ChScalePediatricNutrition::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleScreening = ChScaleScreening::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScalePayette = ChScalePayette::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            $ChScaleFragility = ChScaleFragility::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
+            
+            $ChFailed = ChFailed::with(
+                'ch_reason'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
+           
             if (count($ChRecord[0]['user']['assistance']) > 0) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
@@ -1119,33 +1147,31 @@ class ChRecordController extends Controller
             $Patients = $ChRecord[0]['admissions']['patients'];
 
             // $patient=$ChRecord['admissions'];
-            $html = view('mails.occupationalhistory', [
+            $html = view('mails.nutritionhistory', [
                 'chrecord' => $ChRecord,
                 'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
                 'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
+                'ChNutritionFoodHistory' => $ChNutritionFoodHistory,
+                'ChNutritionInterpretation' => $ChNutritionInterpretation,
+                'ChNutritionParenteral' => $ChNutritionParenteral,
+                'ChRecommendations' => $ChRecommendations,
+                'ChBackground' => $ChBackground,
+                'ChGynecologists' => $ChGynecologists,
+                
+                'ChNutritionAnthropometryNR' => $ChNutritionAnthropometryNR,
+                'ChNutritionParenteralNR' => $ChNutritionParenteralNR,
+                'ChNutritionInterpretationNR' => $ChNutritionInterpretationNR,
+                'ChRecommendationsNR' => $ChRecommendationsNR,
+                
+                'ChScalePediatricNutrition' => $ChScalePediatricNutrition,
+                'ChScaleScreening' => $ChScaleScreening,
+                'ChScalePayette' => $ChScalePayette,
+                'ChScaleFragility' => $ChScaleFragility,
+                
+                'ChFailed' => $ChFailed,
 
-                'ChVitalSigns' => $ChVitalSigns,
-                'ChEOccHistoryOT' => $ChEOccHistoryOT,
-                'ChEPastOT' => $ChEPastOT,
-                'ChEDailyActivitiesOT' => $ChEDailyActivitiesOT,
-                'ChEMSFunPatOT' => $ChEMSFunPatOT,
-                'ChEMSIntPatOT' => $ChEMSIntPatOT,
-                'ChEMSMovPatOT' => $ChEMSMovPatOT,
-                'ChEMSThermalOT' => $ChEMSThermalOT,
-                'ChEMSDisAuditoryOT' => $ChEMSDisAuditoryOT,
-                'ChEMSDisTactileOT' => $ChEMSDisTactileOT,
-                'ChEMSAcuityOT' => $ChEMSAcuityOT,
-                'ChEMSComponentOT' => $ChEMSComponentOT,
-                'ChEMSTestOT' => $ChEMSTestOT,
-                'ChEMSCommunicationOT' => $ChEMSCommunicationOT,
-                'ChEMSAssessmentOT' => $ChEMSAssessmentOT,
-                'ChEMSWeeklyOT' => $ChEMSWeeklyOT,
-                'ChEValorationOTNT' => $ChEValorationOTNT,
-                'ChRNValorationOT' => $ChRNValorationOT,
-                'ChVitalSignsNT' => $ChVitalSignsNT,
-                'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
-                'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
-                'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
+
+               
                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
@@ -1170,7 +1196,119 @@ class ChRecordController extends Controller
             Storage::disk('public')->put($name, $file);
 
 
-        } 
+         ///Terapia Física
+        ///////////////////////////////////////////
+    
+        } else if ($ChRecord[0]['ch_type_id'] == 7) {
+            //Ingreso
+            $ChEValorationFT = ChEValorationFT::with(
+                'ch_diagnosis'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEValorationTherFT = ChEValorationTherFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEPainFT = ChEPainFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESysIntegumentaryFT = ChESysIntegumentaryFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMuscularStrengthFT = ChEMuscularStrengthFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESysMusculoskeletalFT = ChESysMusculoskeletalFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESensibilityFT = ChESensibilityFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMuscularToneFT = ChEMuscularToneFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEReflectionFT = ChEReflectionFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEFlexibilityFT = ChEFlexibilityFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEBalanceFT = ChEBalanceFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEPositionFT = ChEPositionFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMarchFT = ChEMarchFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            
+            ///Regular
+            $ChEValorationFTEvo = ChEValorationFT::with(
+                'ch_diagnosis'
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+    
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+    
+            // $patient=$ChRecord['admissions'];
+    
+            $html = view('mails.physicalhistory', [
+            'chrecord' => $ChRecord,
+    
+            'ChEValorationFT' => $ChEValorationFT,
+            'ChVitalSigns' => $ChVitalSigns,
+            'ChEValorationTherFT' => $ChEValorationTherFT,
+            'ChEPainFT' => $ChEPainFT,
+            'ChESysIntegumentaryFT' => $ChESysIntegumentaryFT,
+            'ChESysMusculoskeletalFT' => $ChESysMusculoskeletalFT,
+            'ChEMuscularStrengthFT' => $ChEMuscularStrengthFT,
+            'ChESensibilityFT' => $ChESensibilityFT,
+            'ChEMuscularToneFT' => $ChEMuscularToneFT,
+            'ChEReflectionFT' => $ChEReflectionFT,
+            'ChEFlexibilityFT' => $ChEFlexibilityFT,
+            'ChEBalanceFT' => $ChEBalanceFT,
+            'ChEPositionFT' => $ChEPositionFT,
+            'ChEMarchFT' => $ChEMarchFT,
+            'ChEDiagnosisFT' => $ChEDiagnosisFT,
+            'ChETherGoalsFT' => $ChETherGoalsFT,
+            'ChEWeeklyFT' => $ChEWeeklyFT,
+    
+            'ChEValorationFTEvo' => $ChEValorationFTEvo,
+            'ChVitalSignsEvo'=> $ChVitalSignsEvo,
+            'ChETherGoalsFTEvo'=> $ChETherGoalsFTEvo,
+            'ChEDiagnosisFTEvo'=> $ChEDiagnosisFTEvo,
+            'ChEWeeklyFTEvo'=> $ChEWeeklyFTEvo,
+    
+            
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+            //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+            //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+            //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+    
+    
+        ])->render();
+    
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+    
+        $name = 'prueba.pdf';
+    
+        Storage::disk('public')->put($name, $file);
+    
+        }
 
         return response()->json([
             'status' => true,
@@ -1209,11 +1347,7 @@ class ChRecordController extends Controller
                     break;
                 }
             case (2): {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
+                    $ChRecord->ch_type_id = 1;
                     break;
                 }
             case (3): {

@@ -22,34 +22,34 @@ class FixedAddController extends Controller
     public function index(Request $request): JsonResponse
     {
         $FixedAdd = FixedAdd::select('fixed_add.*')
-        ->leftJoin('fixed_nom_product', 'fixed_add.fixed_nom_product_id', 'fixed_nom_product.id')
-        ->leftJoin('admissions', 'fixed_add.admissions_id', 'admissions.id')
-        ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-        ->leftJoin('fixed_assets', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
-        ->with(
-            'fixed_assets',
-            'fixed_assets.fixed_type',
-            'fixed_assets.fixed_clasification',
-            'fixed_assets.fixed_stock',
-            'fixed_location_campus',
-            'fixed_location_campus.campus',
-            'fixed_location_campus.flat',
-            'responsible_user',
-            'responsible_user.user',
-            'fixed_accessories',
-            'fixed_accessories.fixed_type',
-            'fixed_nom_product',
-            'admissions',
-            'admissions.patients',
-            'own_fixed_user',
-            'procedure',
-            'procedure.manual_price',
-            'fixed_nom_product',
-            'fixed_nom_product.fixed_clasification',
-            'fixed_nom_product.fixed_clasification.fixed_type',
-            'request_fixed_user',
-            // 'request_fixed_user.campus',
-        );
+            ->leftJoin('fixed_nom_product', 'fixed_add.fixed_nom_product_id', 'fixed_nom_product.id')
+            ->leftJoin('admissions', 'fixed_add.admissions_id', 'admissions.id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('fixed_assets', 'fixed_add.fixed_assets_id', 'fixed_assets.id')
+            ->with(
+                'fixed_assets',
+                'fixed_assets.fixed_type',
+                'fixed_assets.fixed_clasification',
+                'fixed_assets.fixed_stock',
+                'fixed_location_campus',
+                'fixed_location_campus.campus',
+                'fixed_location_campus.flat',
+                'responsible_user',
+                // 'responsible_user.user',
+                'fixed_accessories',
+                'fixed_accessories.fixed_type',
+                'fixed_nom_product',
+                'admissions',
+                'admissions.patients',
+                'own_fixed_user',
+                'procedure',
+                'procedure.manual_price',
+                'fixed_nom_product',
+                'fixed_nom_product.fixed_clasification',
+                'fixed_nom_product.fixed_clasification.fixed_type',
+                'request_fixed_user',
+                // 'request_fixed_user.campus',
+            )->groupBy('fixed_add.id');
 
         if ($request->_sort) {
             $FixedAdd->orderBy($request->_sort, $request->_order);
@@ -67,6 +67,9 @@ class FixedAddController extends Controller
         }
         if ($request->fixed_accessories_id) {
             $FixedAdd->where('fixed_add.fixed_accessories_id', $request->fixed_accessories_id);
+        }
+        if ($request->admissions) {
+            $FixedAdd->where('fixed_add.admissions_id', $request->admissions);
         }
         if ($request->admissions_id) {
             $FixedAdd->where('fixed_add.admissions_id', $request->admissions_id);
@@ -91,7 +94,8 @@ class FixedAddController extends Controller
                 $query->Where('fixed_nom_product.name', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.firstname', 'like', '%' . $request->search . '%');
-            });        }
+            });
+        }
 
         if ($request->query("pagination", true) == "false") {
             $FixedAdd = $FixedAdd->get()->toArray();
@@ -130,21 +134,29 @@ class FixedAddController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $FixedAdd = new FixedAdd;
-        $FixedAdd->status = $request->status;
-        $FixedAdd->observation = $request->observation;
-        $FixedAdd->request_amount = $request->request_amount;
-        $FixedAdd->admissions_id = $request->admissions_id;
-        $FixedAdd->responsible_user_id = $request->responsible_user_id;
-        $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
-        $FixedAdd->management_plan_id = $request->management_plan_id;
-        $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
-        $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
-        $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
-        $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
-        $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
-        $FixedAdd->procedure_id = $request->procedure_id;
-        $FixedAdd->save();
+        if ($request->fixed_nom_product_id && $request->procedure_id) {
+            $FixedAdd = new FixedAdd;
+            $FixedAdd->status = $request->status;
+            $FixedAdd->observation = $request->observation;
+            $FixedAdd->request_amount = $request->request_amount;
+            $FixedAdd->admissions_id = $request->admissions_id;
+            $FixedAdd->responsible_user_id = $request->responsible_user_id;
+            $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+            $FixedAdd->management_plan_id = $request->management_plan_id;
+            $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
+            $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
+            $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
+            $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
+            $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
+            $FixedAdd->procedure_id = $request->procedure_id;
+            $FixedAdd->save();
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se diligenciaron todos los datos',
+                'data' => ['fixed_add' => []]
+            ]);
+        }
 
         return response()->json([
             'status' => true,
@@ -218,13 +230,14 @@ class FixedAddController extends Controller
 
                     $FixedAdd->status = $request->status;
                     $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+                    $FixedAdd->responsible_user_id = $request->responsible_user_id;
 
                     $FixedAdd->save();
 
                     $FixedAssets = FixedAssets::find($request->fixed_assets_id);
                     $FixedAssets->status_prod = 'PRESTADO PACIENTE';
                     $FixedAssets->save();
-                    
+
                     $auth = new Authorization;
 
                     $auth->services_briefcase_id = $FixedAdd->procedure_id;
@@ -233,7 +246,6 @@ class FixedAddController extends Controller
                     $auth->fixed_add_id =  $FixedAdd->id;
 
                     $auth->save();
-
                 }
 
 
@@ -283,6 +295,13 @@ class FixedAddController extends Controller
                     $FixedAssets = FixedAssets::find($request->fixed_assets_id);
                     $FixedAssets->status_prod = 'STOCK';
                     $FixedAssets->save();
+                }
+
+                if ($request->status == "RECHAZADO") {
+                    $FixedAdd->status = $request->status;
+                    $FixedAdd->observation = $request->observation;
+                    $FixedAdd->responsible_user_id = $request->responsible_user_id;
+                    $FixedAdd->save();
                 }
             }
         } else {

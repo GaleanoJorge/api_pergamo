@@ -17,7 +17,7 @@ class HumanTalentRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $HumanTalentRequest = HumanTalentRequest::select('human_talent_request.*', 'role.name', 'role.id as role_id')->with('admissions.patients.locality', 'admissions.patients.residence', 'management_plan')
+        $HumanTalentRequest = HumanTalentRequest::select('human_talent_request.*', 'role.name', 'role.id as role_id')->with('admissions.patients.locality', 'admissions.patients.residence', 'management_plan','management_plan.type_of_attention')
             ->leftJoin('management_plan', 'management_plan.id', 'human_talent_request.management_plan_id')
             ->leftJoin('role_attention', 'role_attention.type_of_attention_id', 'management_plan.type_of_attention_id')
             ->leftJoin('role', 'role.id', 'role_attention.role_id')

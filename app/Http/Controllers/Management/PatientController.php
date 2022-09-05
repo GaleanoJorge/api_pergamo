@@ -483,7 +483,7 @@ class PatientController extends Controller
 
         if ($request->userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
-            $patients->where('management_plan.assigned_user_id', $userId);
+            $patients->where('assigned_management_plan.user_id', $userId);
 
             // $patients->where(function ($query) {
             //     $query->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00")
@@ -939,6 +939,7 @@ class PatientController extends Controller
             $patients = new Patient;
             $patients->status_id = $request->status_id;
             $patients->gender_id = $request->gender_id;
+            $patients->inability_id = $request->inability_id;
             $patients->academic_level_id = $request->academic_level_id;
             $patients->identification_type_id = $request->identification_type_id;
             $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
@@ -1073,6 +1074,7 @@ class PatientController extends Controller
         $patients->gender_id = $request->gender_id;
         $patients->academic_level_id = $request->academic_level_id;
         $patients->status_id = $request->status_id;
+        $patients->inability_id = $request->inability_id;
         $patients->identification_type_id = $request->identification_type_id;
         $patients->birthplace_municipality_id = $request->birthplace_municipality_id;
         $patients->birthplace_country_id = $request->birthplace_country_id;
