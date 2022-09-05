@@ -23,7 +23,11 @@ use App\Models\ChCarePlan;
 use App\Models\ChDiagnosis;
 use App\Models\ChDiagnosticAids;
 use App\Models\ChDietsEvo;
+use App\Models\ChEBalanceFT;
 use App\Models\ChEDailyActivitiesOT;
+use App\Models\ChEDiagnosisFT;
+use App\Models\ChEFlexibilityFT;
+use App\Models\ChEMarchFT;
 use App\Models\ChEMSAcuityOT;
 use App\Models\ChEMSAssessmentOT;
 use App\Models\ChEMSCommunicationOT;
@@ -36,10 +40,22 @@ use App\Models\ChEMSMovPatOT;
 use App\Models\ChEMSTestOT;
 use App\Models\ChEMSThermalOT;
 use App\Models\ChEMSWeeklyOT;
+use App\Models\ChEMuscularStrengthFT;
+use App\Models\ChEMuscularToneFT;
 use App\Models\ChEOccHistoryOT;
+use App\Models\ChEPainFT;
 use App\Models\ChEPastOT;
+use App\Models\ChEPositionFT;
+use App\Models\ChEReflectionFT;
+use App\Models\ChESensibilityFT;
+use App\Models\ChESysIntegumentaryFT;
+use App\Models\ChESysMusculoskeletalFT;
+use App\Models\ChETherGoalsFT;
+use App\Models\ChEValorationFT;
 use App\Models\ChEValorationOT;
+use App\Models\ChEValorationTherFT;
 use App\Models\ChEvoSoap;
+use App\Models\ChEWeeklyFT;
 use App\Models\ChFailed;
 use App\Models\ChFormulation;
 use App\Models\ChGynecologists;
@@ -1180,7 +1196,119 @@ class ChRecordController extends Controller
             Storage::disk('public')->put($name, $file);
 
 
-        } 
+         ///Terapia Física
+        ///////////////////////////////////////////
+    
+        } else if ($ChRecord[0]['ch_type_id'] == 7) {
+            //Ingreso
+            $ChEValorationFT = ChEValorationFT::with(
+                'ch_diagnosis'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChVitalSigns = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEValorationTherFT = ChEValorationTherFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEPainFT = ChEPainFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESysIntegumentaryFT = ChESysIntegumentaryFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMuscularStrengthFT = ChEMuscularStrengthFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESysMusculoskeletalFT = ChESysMusculoskeletalFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChESensibilityFT = ChESensibilityFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMuscularToneFT = ChEMuscularToneFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEReflectionFT = ChEReflectionFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEFlexibilityFT = ChEFlexibilityFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEBalanceFT = ChEBalanceFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEPositionFT = ChEPositionFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEMarchFT = ChEMarchFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            
+            ///Regular
+            $ChEValorationFTEvo = ChEValorationFT::with(
+                'ch_diagnosis'
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChVitalSignsEvo = ChVitalSigns::with(
+                'ch_vital_hydration',
+                'ch_vital_ventilated',
+                'ch_vital_temperature',
+                'ch_vital_neurological',
+                'oxygen_type',
+                'liters_per_minute',
+                'parameters_signs'
+            )
+                ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+    
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+    
+            // $patient=$ChRecord['admissions'];
+    
+            $html = view('mails.hc', [
+            'chrecord' => $ChRecord[0],
+    
+            'ChEValorationFT' => $ChEValorationFT,
+            'ChVitalSigns' => $ChVitalSigns,
+            'ChEValorationTherFT' => $ChEValorationTherFT,
+            'ChEPainFT' => $ChEPainFT,
+            'ChESysIntegumentaryFT' => $ChESysIntegumentaryFT,
+            'ChESysMusculoskeletalFT' => $ChESysMusculoskeletalFT,
+            'ChEMuscularStrengthFT' => $ChEMuscularStrengthFT,
+            'ChESensibilityFT' => $ChESensibilityFT,
+            'ChEMuscularToneFT' => $ChEMuscularToneFT,
+            'ChEReflectionFT' => $ChEReflectionFT,
+            'ChEFlexibilityFT' => $ChEFlexibilityFT,
+            'ChEBalanceFT' => $ChEBalanceFT,
+            'ChEPositionFT' => $ChEPositionFT,
+            'ChEMarchFT' => $ChEMarchFT,
+            'ChEDiagnosisFT' => $ChEDiagnosisFT,
+            'ChETherGoalsFT' => $ChETherGoalsFT,
+            'ChEWeeklyFT' => $ChEWeeklyFT,
+    
+            'ChEValorationFTEvo' => $ChEValorationFTEvo,
+            'ChVitalSignsEvo'=> $ChVitalSignsEvo,
+            'ChETherGoalsFTEvo'=> $ChETherGoalsFTEvo,
+            'ChEDiagnosisFTEvo'=> $ChEDiagnosisFTEvo,
+            'ChEWeeklyFTEvo'=> $ChEWeeklyFTEvo,
+    
+            
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+            //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+            //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+            //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+    
+    
+        ])->render();
+    
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+    
+        $name = 'prueba.pdf';
+    
+        Storage::disk('public')->put($name, $file);
+    
+        }
 
         return response()->json([
             'status' => true,
