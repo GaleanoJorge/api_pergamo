@@ -588,8 +588,7 @@ class PatientController extends Controller
         }
 
         if($request->eps && isset($request->eps) && $request->eps != 'null'){
-            $patients->leftjoin('contract','admissions.contract_id', 'contract.id')
-                ->where('contract.company_id', $request->eps);
+            $patients->where('contract.company_id', $request->eps);
         }
     
 
