@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class FactoryController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,22 +20,22 @@ class FactoryController extends Controller
     {
         $Factory = Factory::select();
 
-        if($request->_sort){
+        if ($request->_sort != "actions") {
             $Factory->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Factory->where('name','like','%' . $request->search. '%');
+            $Factory->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Factory=$Factory->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Factory=$Factory->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $Factory = $Factory->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Factory = $Factory->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -43,12 +43,12 @@ class FactoryController extends Controller
             'data' => ['factory' => $Factory]
         ]);
     }
-    
+
 
     public function store(FactoryRequest $request): JsonResponse
     {
         $Factory = new Factory;
-        $Factory->name = $request->name; 
+        $Factory->name = $request->name;
         $Factory->status_id = $request->status_id;
         $Factory->save();
         return response()->json([
@@ -85,8 +85,8 @@ class FactoryController extends Controller
      */
     public function update(FactoryRequest $request, int $id): JsonResponse
     {
-        $Factory = Factory ::find($id);
-        $Factory->name = $request->name; 
+        $Factory = Factory::find($id);
+        $Factory->name = $request->name;
         $Factory->status_id = $request->status_id;
         $Factory->save();
 

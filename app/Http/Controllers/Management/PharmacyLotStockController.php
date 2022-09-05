@@ -77,6 +77,7 @@ class PharmacyLotStockController extends Controller
                 $query->Where('product.name', 'like', '%' . $request->search . '%')
                     ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%')
                     ->orWhere('factory.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('lot', 'like', '%' . $request->search . '%')
                     ->orWhere('fc.name', 'like', '%' . $request->search . '%');
             });
         }
