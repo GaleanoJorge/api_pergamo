@@ -215,9 +215,9 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
-        if ($request->type_of_attention_id == 17) {
+        if ($request->type_of_attention_id == 17 || $request->type_of_attention_id == 12) {
             $AssignedManagementPlan->start_date = $request->start_date;
-            $AssignedManagementPlan->finish_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->finish_date;
             $AssignedManagementPlan->user_id = $request->user_id;
             $AssignedManagementPlan->start_hour = $request->start_hour;
             $AssignedManagementPlan->finish_hour = $request->finish_hour;

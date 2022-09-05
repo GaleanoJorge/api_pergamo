@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpSpreadsheet\Calculation\TextData\Format;
 use PhpParser\Node\Expr\Cast\Double;
 
 class ManagementPlanController extends Controller
@@ -536,9 +537,14 @@ class ManagementPlanController extends Controller
                     // while (!$assigned && $error == 0) {
                     // }
 
+                    $start_hour = Carbon::parse(Carbon::now()->format('Y-m-d') . ' 00:00:00')->addHours($i * (24 / $request->quantity))->format('H:i:s');
+                    $finish_hour = Carbon::parse(Carbon::now()->format('Y-m-d') . ' 00:00:00')->addHours(($i + 1) * (24 / $request->quantity))->format('H:i:s');
+
                     $assignedManagement = new AssignedManagementPlan;
                     $assignedManagement->start_date = $request->start_date;
                     $assignedManagement->finish_date =  $request->finish_date;
+                    $assignedManagement->start_hour =  $start_hour;
+                    $assignedManagement->finish_hour =  $finish_hour;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
@@ -1084,9 +1090,14 @@ class ManagementPlanController extends Controller
                     // while (!$assigned && $error == 0) {
                     // }
 
+                    $start_hour = Carbon::parse(Carbon::now()->format('Y-m-d') . ' 00:00:00')->addHours($i * (24 / $request->quantity))->format('H:i:s');
+                    $finish_hour = Carbon::parse(Carbon::now()->format('Y-m-d') . ' 00:00:00')->addHours(($i + 1) * (24 / $request->quantity))->format('H:i:s');
+
                     $assignedManagement = new AssignedManagementPlan;
                     $assignedManagement->start_date = $request->start_date;
                     $assignedManagement->finish_date =  $request->finish_date;
+                    $assignedManagement->start_hour =  $start_hour;
+                    $assignedManagement->finish_hour =  $finish_hour;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
