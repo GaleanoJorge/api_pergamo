@@ -1652,9 +1652,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     //ch nutrición
+
     Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
-    Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
+    Route::get('ch_nutrition_anthropometry/by_record/{id}/{type_record_id}', 'Management\ChNutritionAnthropometryController@getByRecord');
+
     Route::apiResource('ch_nutrition_gastrointestinal', 'Management\ChNutritionGastrointestinalController');
+    Route::get('ch_nutrition_gastrointestinal/by_record/{id}/{type_record_id}', 'Management\ChNutritionGastrointestinalController@getByRecord');
+
+    Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
+    Route::get('ch_nutrition_food_history/by_record/{id}/{type_record_id}', 'Management\ChNutritionFoodHistoryController@getByRecord');
+
+    
+    Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
+    Route::get('ch_nutrition_parenteral/by_record/{id}/{type_record_id}', 'Management\ChNutritionParenteralController@getByRecord');
+
+
     Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
     Route::apiResource('ch_nutrition_interpretation', 'Management\ChNutritionInterpretationController');
     Route::apiResource('ch_nutrition_diet_type', 'Management\ChNutritionDietTypeController');
