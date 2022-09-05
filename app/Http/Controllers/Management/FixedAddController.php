@@ -68,6 +68,9 @@ class FixedAddController extends Controller
         if ($request->fixed_accessories_id) {
             $FixedAdd->where('fixed_add.fixed_accessories_id', $request->fixed_accessories_id);
         }
+        if ($request->admissions) {
+            $FixedAdd->where('fixed_add.admissions_id', $request->admissions);
+        }
         if ($request->admissions_id) {
             $FixedAdd->where('fixed_add.admissions_id', $request->admissions_id);
         }
