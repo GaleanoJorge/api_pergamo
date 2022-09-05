@@ -227,7 +227,6 @@ class FixedAddController extends Controller
             $FixedAdd = FixedAdd::find($id);
             if ($FixedAdd) {
                 if ($request->status == "ENVIADO PATIENT") {
-
                     $FixedAdd->status = $request->status;
                     $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
                     $FixedAdd->responsible_user_id = $request->responsible_user_id;
@@ -239,7 +238,6 @@ class FixedAddController extends Controller
                     $FixedAssets->save();
 
                     $auth = new Authorization;
-
                     $auth->services_briefcase_id = $FixedAdd->procedure_id;
                     $auth->admissions_id = $FixedAdd->admissions_id;
                     $auth->auth_status_id = 1;

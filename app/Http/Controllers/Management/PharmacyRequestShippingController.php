@@ -64,7 +64,7 @@ class PharmacyRequestShippingController extends Controller
             $PharmacyRequestShipping = $PharmacyRequestShipping->get()->toArray();
         } else if ($request->product1 == "false") {
             // insumo product_supplies_id
-            $PharmacyRequestShipping->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id');
+            $PharmacyRequestShipping->whereNull('pharmacy_product_request.product_generic_id')->whereNotNull('pharmacy_product_request.product_supplies_id')->orderBy('created_at', 'desc')->first();
             $PharmacyRequestShipping = $PharmacyRequestShipping->get()->toArray();
         }
 
