@@ -21,7 +21,9 @@ class FactoryController extends Controller
         $Factory = Factory::select();
 
         if($request->_sort){
+            if($request->_sort!="actions"){
             $Factory->orderBy($request->_sort, $request->_order);
+            }
         }            
 
         if ($request->search) {
