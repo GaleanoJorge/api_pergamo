@@ -131,21 +131,29 @@ class FixedAddController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $FixedAdd = new FixedAdd;
-        $FixedAdd->status = $request->status;
-        $FixedAdd->observation = $request->observation;
-        $FixedAdd->request_amount = $request->request_amount;
-        $FixedAdd->admissions_id = $request->admissions_id;
-        $FixedAdd->responsible_user_id = $request->responsible_user_id;
-        $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
-        $FixedAdd->management_plan_id = $request->management_plan_id;
-        $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
-        $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
-        $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
-        $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
-        $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
-        $FixedAdd->procedure_id = $request->procedure_id;
-        $FixedAdd->save();
+        if ($request->fixed_nom_product_id && $request->procedure_id) {
+            $FixedAdd = new FixedAdd;
+            $FixedAdd->status = $request->status;
+            $FixedAdd->observation = $request->observation;
+            $FixedAdd->request_amount = $request->request_amount;
+            $FixedAdd->admissions_id = $request->admissions_id;
+            $FixedAdd->responsible_user_id = $request->responsible_user_id;
+            $FixedAdd->fixed_assets_id = $request->fixed_assets_id;
+            $FixedAdd->management_plan_id = $request->management_plan_id;
+            $FixedAdd->fixed_accessories_id = $request->fixed_accessories_id;
+            $FixedAdd->fixed_nom_product_id = $request->fixed_nom_product_id;
+            $FixedAdd->fixed_location_campus_id = $request->fixed_location_campus_id;
+            $FixedAdd->own_fixed_user_id = $request->own_fixed_user_id;
+            $FixedAdd->request_fixed_user_id = $request->request_fixed_user_id;
+            $FixedAdd->procedure_id = $request->procedure_id;
+            $FixedAdd->save();
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se diligenciaron todos los datos',
+                'data' => ['fixed_add' => []]
+            ]);
+        }
 
         return response()->json([
             'status' => true,
