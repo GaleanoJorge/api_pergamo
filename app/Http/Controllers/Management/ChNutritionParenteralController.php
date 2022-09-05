@@ -6,6 +6,7 @@ use App\Models\ChNutritionParenteral;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ChRecord;
 use App\Http\Requests\ChNutritionParenteralRequest;
 use Illuminate\Database\QueryException;
 
@@ -52,6 +53,31 @@ class ChNutritionParenteralController extends Controller
             'data' => ['ch_nutrition_parenteral' => $ChNutritionParenteral]
         ]);
     }
+
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
+    {
+
+
+        $ChNutritionParenteral = ChNutritionParenteral::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChNutritionParenteral = ChNutritionParenteral::select('ch_nutrition_parenteral.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_nutrition_parenteral.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Valoracion obtenidos exitosamente',
+            'data' => ['ch_nutrition_parenteral' => $ChNutritionParenteral]
+        ]);
+    }
+
 
 
     public function store(ChNutritionParenteralRequest $request)
