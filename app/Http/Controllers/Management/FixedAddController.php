@@ -35,7 +35,7 @@ class FixedAddController extends Controller
                 'fixed_location_campus.campus',
                 'fixed_location_campus.flat',
                 'responsible_user',
-                'responsible_user.user',
+                // 'responsible_user.user',
                 'fixed_accessories',
                 'fixed_accessories.fixed_type',
                 'fixed_nom_product',
