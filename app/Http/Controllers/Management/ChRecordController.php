@@ -266,6 +266,7 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )
+        
 
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
@@ -277,6 +278,8 @@ class ChRecordController extends Controller
         }else{
             $imagenPAtient = null;
         }
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
         if ($ChRecord[0]['status'] != 'CERRADO') {
             return response()->json([
