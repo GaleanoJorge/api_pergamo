@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property double $name
  * @property integer $quantity
  * @property double $amount
+ * @property boolean $has_car
  * @property boolean $extra_dose
  * @property boolean $phone_consult
  * @property TinyInteger $status_id

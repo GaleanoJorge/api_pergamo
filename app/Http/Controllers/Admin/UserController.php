@@ -905,6 +905,7 @@ class UserController extends Controller
                     $assistance->contract_type_id = $request->contract_type_id;
                     $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
+                    $assistance->has_car = $request->has_car;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->specialty = $request->specialty;
@@ -1064,6 +1065,7 @@ class UserController extends Controller
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->specialty = $request->specialty;    
@@ -1313,8 +1315,8 @@ class UserController extends Controller
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
-                // $assistance->type_professional_id = $request->type_professional_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -1337,6 +1339,7 @@ class UserController extends Controller
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->specialty = $request->specialty;

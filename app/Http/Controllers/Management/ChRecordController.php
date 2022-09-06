@@ -1613,6 +1613,15 @@ class ChRecordController extends Controller
     public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
     {
         $extra_dose = 0;
+        $has_car = 0;
+        $Assistance = Assistance::select('assistance.*')
+            ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+            ->groupBy('assistance.id')->get()->toArray();
+        if (count($Assistance) > 0) {
+            if ($Assistance[0]['has_car']) {
+                $has_car = $Assistance[0]['has_car'];
+            }
+        }
         if ($ManagementPlan->type_of_attention_id == 17) {
             $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
                 ->whereNull('assigned_management_plan.redo')
@@ -1652,12 +1661,21 @@ class ChRecordController extends Controller
                 ->where('status_id', 1);
             $valuetariff = $valuetariff->get()->toArray();
             if (count($valuetariff) == 0) {
-                $valuetariff = Tariff::where('pad_risk_id', $tariff)
-                    ->where('phone_consult', $ManagementPlan->phone_consult)
-                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                    ->where('status_id', 1)
-                    ->where('failed', 0)
-                    ->where('program_id', $Location->program_id);
+                if ($ManagementPlan->phone_consult == 1) {
+                    $valuetariff = Tariff::whereNull('pad_risk_id')
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->where('failed', 0)
+                        ->where('program_id', $Location->program_id);
+                } else {
+                    $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->where('failed', 0)
+                        ->where('program_id', $Location->program_id);
+                }
                 // definir cuando la atención es fallida
                 if ($request->is_failed) {
                     if ($request->is_failed == true) {
@@ -1676,6 +1694,7 @@ class ChRecordController extends Controller
                     $valuetariff->whereNull('quantity');
                 }
                 $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff->where('has_car', $has_car);
                 $valuetariff = $valuetariff->get()->toArray();
             }
         }

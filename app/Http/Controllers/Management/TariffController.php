@@ -85,6 +85,11 @@ class TariffController extends Controller
         } else {
             $TariffTest->where('extra_dose', 0);
         }
+        if ($request->has_car) {
+            $TariffTest->where('has_car', 1);
+        } else {
+            $TariffTest->where('has_car', 0);
+        }
         if ($request->failed) {
             $TariffTest->where('failed', 1);
         } else {
@@ -134,6 +139,7 @@ class TariffController extends Controller
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
         $Tariff->quantity = $request->quantity;
+        $Tariff->has_car = $request->has_car;
         $Tariff->extra_dose = $request->extra_dose;
         $Tariff->phone_consult = $request->phone_consult;
         $Tariff->status_id = $request->status_id;
@@ -182,6 +188,7 @@ class TariffController extends Controller
         $Tariff->name = $request->name;
         $Tariff->amount = $request->amount;
         $Tariff->quantity = $request->quantity;
+        $Tariff->has_car = $request->has_car;
         $Tariff->extra_dose = $request->extra_dose;
         $Tariff->phone_consult = $request->phone_consult;
         $Tariff->status_id = $request->status_id;

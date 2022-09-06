@@ -19,6 +19,7 @@ class TariffSeeder extends Seeder
                 'name' => $row->name,
                 'amount' => $row->amount,
                 'quantity' => $row->quantity,
+                'has_car' => $row->has_car,
                 'extra_dose' => $row->extra_dose,
                 'phone_consult' => $row->phone_consult,
                 'status_id' => $row->status_id,

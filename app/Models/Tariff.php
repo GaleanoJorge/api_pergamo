@@ -10,6 +10,7 @@ class Tariff extends BaseTariff
 		'name',
 		'amount',
 		'quantity',
+		'has_car',
 		'extra_dose',
 		'phone_consult',
 		'status_id',
