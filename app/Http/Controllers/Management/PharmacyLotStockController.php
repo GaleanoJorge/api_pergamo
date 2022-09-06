@@ -66,6 +66,12 @@ class PharmacyLotStockController extends Controller
         } else if ($request->product == "false") {
             $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
         }
+           
+        $PharmacyLotStock->where(function ($query) use ($request) {
+            if ($request->actual_amount == 0) {
+                $query->where('pharmacy_lot_stock.actual_amount', '>', 0);
+            }
+        });
         // if ($request->product1 == "true") {
         //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
         // } else if ($request->product1 == "false") {
