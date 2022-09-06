@@ -15,6 +15,7 @@ use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\ManagementProcedure;
 use App\Models\Procedure;
 use App\Models\RoleAttention;
 use App\Models\Specialty;
@@ -106,4 +107,9 @@ class ManagementPlan extends Model
 	// 		'type_of_attention_id',
 	// 	);
 	// }
+
+	public function management_procedure()
+	{
+		return $this->hasMany(ManagementProcedure::class);
+	}
 }
