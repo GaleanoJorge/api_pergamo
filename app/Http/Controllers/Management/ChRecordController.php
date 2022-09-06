@@ -156,7 +156,9 @@ class ChRecordController extends Controller
         }
 
         if ($request->record_id) {
-            $ChRecord->where('id', $request->record_id);
+            $ChRecord->where('id', $request->record_id)
+            ->with(
+                'assigned_management_plan.management_plan.management_procedure.services_briefcase.manual_price');
         }
 
         if ($request->query("pagination", true) == "false") {
