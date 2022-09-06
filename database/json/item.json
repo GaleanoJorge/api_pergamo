@@ -875,7 +875,7 @@
     {
         "id": "148",
         "item_parent_id": null,
-        "name": "Plan de atención domiciliario",
+        "name": "Programa de atención domiciliaria",
         "code": "pad",
         "route": "/pages/pad/list",
         "icon": "activity-outline",

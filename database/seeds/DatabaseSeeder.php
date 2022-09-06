@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ActivitiesSeeder::class);
                 $this->call(LocalitySeeder::class);
                 $this->call(PadRiskSeeder::class);
+                $this->call(ResidenceSeeder::class);
                 $this->call(NeighborhoodOrResidenceSeeder::class);
                 $this->call(SelectRhSeeder::class);
                 $this->call(StudyLevelStatusSeeder::class);
@@ -90,7 +91,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(TypeOfAttentionSeeder::class);
                 $this->call(FrequencySeeder::class);
                 $this->call(RelationshipSeeder::class);
-                $this->call(ResidenceSeeder::class);
+                
                 
                 //dietas
                 $this->call(DietComponentSeeder::class);
@@ -203,6 +204,7 @@ class DatabaseSeeder extends Seeder
                 // BillingPad
                 $this->call(InvimaStatusSeeder::class);
                 $this->call(FixedTypeSeeder::class);
+                $this->call(FixedStockSeeder::class);
                 $this->call(BiomedicalClassificationSeeder::class);
                 $this->call(RiskSeeder::class);
                 $this->call(MultidoseConcentrationSeeder::class);
@@ -214,7 +216,13 @@ class DatabaseSeeder extends Seeder
                 $this->call(ProductSeeder::class);
                 $this->call(FixedNomProductSeeder::class);
                 $this->call(PeriodicityFrequencySeeder::class);
-                $this->call(FixedStockSeeder::class);
+                $this->call(FixedAssetsSeeder::class);
+                $this->call(ProductSuppliesComSeeder::class);
+                $this->call(AssistanceSeeder::class);
+                $this->call(BaseLocationCapacitySeeder::class);
+                $this->call(LocationCapacitySeeder::class);
+                $this->call(FinancialDataSeeder::class);
+                $this->call(AssistanceSpecialSeeder::class);
                 //$this->call(TypeOfAttention::class);
                 //$this->call(FrequencySeeder::class);
                 //$this->call(CriterionSeeder::class);

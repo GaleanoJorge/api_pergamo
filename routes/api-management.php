@@ -1090,7 +1090,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\NomProductController@getSubcategoryByCategory'
     );
 
-    //Histgoria Clinica Terapia Ocupacional
+    //Historia Clinica Terapia Ocupacional
     Route::apiResource('ch_e_valoration_o_t', 'Management\ChEValorationOTController');
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
@@ -1122,30 +1122,39 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_dis_auditory_o_t', 'Management\ChEMSDisAuditoryOTController');
     Route::get('ch_e_m_s_dis_auditory_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSDisAuditoryOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_dis_tactile_o_t', 'Management\ChEMSDisTactileOTController');
+    Route::get('ch_e_m_s_dis_tactile_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSDisTactileOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_acuity_o_t', 'Management\ChEMSAcuityOTController');
+    Route::get('ch_e_m_s_acuity_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAcuityOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');
+    Route::get('ch_e_m_s_component_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSComponentOTController@getByRecord');
 
+    Route::apiResource('ch_e_m_s_test_o_t', 'Management\ChEMSTestOTController');
+    Route::get('ch_e_m_s_test_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSTestOTController@getByRecord');
+
+    Route::apiResource('ch_e_m_s_communication_o_t', 'Management\ChEMSCommunicationOTController');
+    Route::get('ch_e_m_s_communication_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSCommunicationOTController@getByRecord');
 
     Route::apiResource('ch_e_m_s_assessment_o_t', 'Management\ChEMSAssessmentOTController');
     Route::get('ch_e_m_s_assessment_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSAssessmentOTController@getByRecord');
+
+    Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
+    Route::get('ch_e_m_s_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSWeeklyOTController@getByRecord');
+
+
+
+
+
     Route::apiResource('ch_r_n_therapeutic_obj_o_t', 'Management\ChRNTherapeuticObjOTController');
     Route::get('ch_r_n_therapeutic_obj_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNTherapeuticObjOTController@getByRecord');
 
     Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
     Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
 
-    Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
-    Route::get('ch_e_m_s_weekly_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSWeeklyOTController@getByRecord');
-
     
 
-
-    Route::apiResource('ch_e_m_s_dis_tactile_o_t', 'Management\ChEMSDisTactileOTController');
-    Route::apiResource('ch_e_m_s_acuity_o_t', 'Management\ChEMSAcuityOTController');
-    Route::apiResource('ch_e_m_s_component_o_t', 'Management\ChEMSComponentOTController');
-    Route::apiResource('ch_e_m_s_test_o_t', 'Management\ChEMSTestOTController');
-    Route::apiResource('ch_e_m_s_communication_o_t', 'Management\ChEMSCommunicationOTController');
-    Route::apiResource('ch_e_m_s_weekly_o_t', 'Management\ChEMSWeeklyOTController');
     Route::apiResource('fixed_nom_product', 'Management\FixedNomProductController');
     Route::get(
         'FixedNomProduct/byCategory/{fixed_clasification_id}',
@@ -1430,7 +1439,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('fileUpload_account_receivable', 'Management\AccountReceivableController@import');
     //Autorizaciones
     Route::apiResource('authorization', 'Management\AuthorizationController');
-    Route::post('authorization/Massive', 'Management\AuthorizationController@saveGroup');
+    Route::post('authorization/{id}', 'Management\AuthorizationController@update');
+    Route::post('authorization/Massive/{id}', 'Management\AuthorizationController@saveGroup');
     Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
     Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
@@ -1643,9 +1653,21 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     //ch nutrición
+
     Route::apiResource('ch_nutrition_anthropometry', 'Management\ChNutritionAnthropometryController');
-    Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
+    Route::get('ch_nutrition_anthropometry/by_record/{id}/{type_record_id}', 'Management\ChNutritionAnthropometryController@getByRecord');
+
     Route::apiResource('ch_nutrition_gastrointestinal', 'Management\ChNutritionGastrointestinalController');
+    Route::get('ch_nutrition_gastrointestinal/by_record/{id}/{type_record_id}', 'Management\ChNutritionGastrointestinalController@getByRecord');
+
+    Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
+    Route::get('ch_nutrition_food_history/by_record/{id}/{type_record_id}', 'Management\ChNutritionFoodHistoryController@getByRecord');
+
+    
+    Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
+    Route::get('ch_nutrition_parenteral/by_record/{id}/{type_record_id}', 'Management\ChNutritionParenteralController@getByRecord');
+
+
     Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
     Route::apiResource('ch_nutrition_interpretation', 'Management\ChNutritionInterpretationController');
     Route::apiResource('ch_nutrition_diet_type', 'Management\ChNutritionDietTypeController');

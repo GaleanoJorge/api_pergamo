@@ -40,6 +40,7 @@ class AdmissionsController extends Controller
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
+                'diagnosis',
             );
         if ($request->admissions_id) {
             $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
@@ -172,6 +173,7 @@ class AdmissionsController extends Controller
     )';
         $Admissions = Admissions::select(
             'admissions.*',
+            'company.name AS company',
             DB::raw('
             IF(COUNT(assigned_management_plan.execution_date) > 0, 
                 SUM(
@@ -189,6 +191,8 @@ class AdmissionsController extends Controller
                 )
                ) AS incumplidas'),
             DB::raw($consulta . ' AS ingreso'),
+            DB::raw('SUM(IF(assigned_management_plan.id > 0, 1, 0)) AS total_agendado'),
+            DB::raw('SUM(IF(assigned_management_plan.execution_date != "0000-00-00 00:00:00", 1, 0)) AS total_ejecutado'),
         )
             ->where('patient_id', $pacientId)
             ->with(
@@ -198,6 +202,7 @@ class AdmissionsController extends Controller
                 'contract',
                 'location',
                 'regime',
+                'diagnosis',
                 'management_plan',
                 'management_plan.assigned_management_plan',
                 'location.admission_route',
@@ -208,12 +213,14 @@ class AdmissionsController extends Controller
                 'location.bed',
             )
             ->leftJoin('management_plan', 'management_plan.admissions_id', 'admissions.id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->groupBy('admissions.id')
             ->orderBy('created_at', 'desc');
 
         if ($request->search) {
-            $Admissions->where('name', 'like', '%' . $request->search . '%')
+            $Admissions->where('company.name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
 
