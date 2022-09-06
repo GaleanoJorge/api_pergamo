@@ -16,6 +16,7 @@ use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
 use App\Models\BillingPad;
 use App\Models\LocationCapacity;
+use App\Models\ManagementProcedure;
 use App\Models\TypeContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -36,7 +37,9 @@ class ManagementPlanController extends Controller
                 'procedure',
                 'procedure.manual_price',
                 'route_administration',
-                'service_briefcase.manual_price.product.measurement_units'
+                'service_briefcase.manual_price.product.measurement_units',
+                'management_procedure',
+                'management_procedure.services_briefcase.manual_price',
             );
         } else {
             $ManagementPlan = ManagementPlan::select();
@@ -92,8 +95,8 @@ class ManagementPlanController extends Controller
                             )
                            ) AS incumplidas'),
         )
-            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase', 'assigned_user','route_administration','service_briefcase.manual_price.product.measurement_units')
-                
+            ->with('authorization', 'type_of_attention', 'frequency', 'specialty', 'admissions', 'admissions.briefcase', 'assigned_user', 'route_administration', 'service_briefcase.manual_price.product.measurement_units')
+
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->where('admissions_id', $id)
             ->groupBy('management_plan.id');
@@ -201,11 +204,11 @@ class ManagementPlanController extends Controller
                     IF( (CURDATE() <= assigned_management_plan.finish_date AND 
                         CURDATE() >= assigned_management_plan.start_date AND 
                         assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
-                        assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
+                        assigned_management_plan.redo >= ' . Carbon::now()->format('YmdHis') . '
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
                         ,
-                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->addHours(3)->format('H:i:s').'") AND 
-                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->subHours(3)->format('H:i:s').'") AND 
+                            IF((assigned_management_plan.start_hour <= "' . Carbon::now()->addHours(3)->format('H:i:s') . '") AND 
+                            (assigned_management_plan.finish_hour >= "' . Carbon::now()->subHours(3)->format('H:i:s') . '") AND 
                             (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
                         ,1)
                     ,0 
@@ -433,6 +436,8 @@ class ManagementPlanController extends Controller
             $ManagementPlan->save();
         }
 
+
+
         if ($request->isnewrequest == 1) {
             $HumanTalentRequest = new HumanTalentRequest;
             $HumanTalentRequest->admissions_id = $request->admissions_id;
@@ -482,7 +487,7 @@ class ManagementPlanController extends Controller
         if ($request->medical == false &&  $request->isnewrequest != 1) {
 
             if ($request->type_of_attention_id == 12) {
-            
+
                 for ($i = 0; $i < $request->quantity; $i++) {
 
 
@@ -552,8 +557,7 @@ class ManagementPlanController extends Controller
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
                 }
-                
-            }else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
+            } else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
                 $diasDiferencia = $finish->diffInDays($now);
@@ -785,6 +789,23 @@ class ManagementPlanController extends Controller
             }
         }
 
+        if ($request->type_of_attention_id == 16) {
+            $request->laboratories;
+            foreach ($request->laboratories as $item) {
+                $managementProcedure = new ManagementProcedure;
+                $managementProcedure->management_plan_id = $ManagementPlan->id;
+                $managementProcedure->procedure_id = $item;
+                $managementProcedure->save();
+
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id =  $item;
+                $Authorization->admissions_id = $request->admissions_id;
+                $Authorization->assigned_management_plan_id = $assignedManagement->id;
+                $Authorization->auth_status_id = $auth_status;
+                $Authorization->save();
+            }
+        }
+
         if ($request->type_auth == 0) {
             return response()->json([
                 'status' => true,
@@ -929,7 +950,7 @@ class ManagementPlanController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $error=0;
+        $error = 0;
         $ManagementPlan = ManagementPlan::find($id);
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
@@ -940,7 +961,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->procedure_id = $request->procedure_id;
         $ManagementPlan->phone_consult = $request->phone_consult;
         // $ManagementPlan->authorization_id = $Authorization->id;
-        if ($request->type_of_attention_id == 17 && $request->edit!=null) {
+        if ($request->type_of_attention_id == 17 && $request->edit != null) {
             $ManagementPlan->preparation = $request->preparation;
             $ManagementPlan->product_id = $request->product_id;
             $ManagementPlan->route_of_administration = $request->route_of_administration;
@@ -993,40 +1014,39 @@ class ManagementPlanController extends Controller
             // }
         } else {
             $ManagementPlan->save();
-
         }
-        if($request->edit==null){
+        if ($request->edit == null) {
             $TypeContract = TypeContract::select('type_contract.*')
-            ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
-            ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
-            ->where('admissions.id', $request->admissions_id)
-            ->first();
+                ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                ->where('admissions.id', $request->admissions_id)
+                ->first();
             $BillingPad = BillingPad::where('admissions_id', $request->admissions_id)
-            ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->first();
-        if (!$BillingPad) {
-            $BillingPad = new BillingPad;
-            $BillingPad->admissions_id = $request->admissions_id;
-            $BillingPad->validation_date = Carbon::now();
+                ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->first();
+            if (!$BillingPad) {
+                $BillingPad = new BillingPad;
+                $BillingPad->admissions_id = $request->admissions_id;
+                $BillingPad->validation_date = Carbon::now();
+                if ($TypeContract->id == 5) {
+                    $BillingPad->billing_pad_status_id = 2;
+                } else {
+                    $BillingPad->billing_pad_status_id = 1;
+                }
+                $BillingPad->total_value = 0;
+                $BillingPad->save();
+            }
             if ($TypeContract->id == 5) {
-                $BillingPad->billing_pad_status_id = 2;
+                $auth_status = 3;
             } else {
-                $BillingPad->billing_pad_status_id = 1;
+                if ($request->type_auth == 0) {
+                    $auth_status = 1;
+                } else {
+                    $auth_status = 2;
+                }
             }
-            $BillingPad->total_value = 0;
-            $BillingPad->save();
-        }
-        if ($TypeContract->id == 5) {
-            $auth_status = 3;
-        } else {
-            if ($request->type_auth == 0) {
-                $auth_status = 1;
-            } else {
-                $auth_status = 2;
-            }
-        }
-           
-        $error_count = 0;
+
+            $error_count = 0;
             $firstDateMonth = Carbon::now()->startOfMonth();
             $lastDateMonth = Carbon::now()->endOfMonth();
             if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
@@ -1260,7 +1280,7 @@ class ManagementPlanController extends Controller
                 }
             }
         }
-    
+
 
         if ($error == 0) {
             return response()->json([
@@ -1283,7 +1303,6 @@ class ManagementPlanController extends Controller
                 'data' => ['management_plan' => $ManagementPlan->toArray()]
             ]);
         }
-
     }
 
     /**
