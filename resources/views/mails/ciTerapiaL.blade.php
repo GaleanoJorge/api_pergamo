@@ -509,7 +509,7 @@
 				@endisset
 				@endisset
 
-				@if($consentsinformed[0]['dissent']!='SI' || $consentsinformed[0]['dissent']==null)
+				@if($consentsinformed[0]['dissent']!='SI' && $consentsinformed[0]['dissent']==null)
 				<div class="stl_01" style="top: 43.2851em; left:13.4617em;"><span class="stl_16 stl_08">{{$consentsinformed[0]['relationship'] ['name']}}&nbsp;</span></span></div>
 				@endisset
 				<div class="stl_01" style="top: 42.5551em; left:3.55em;"><span class="stl_16 stl_08">Parentesco: &nbsp;</span></span></div>
