@@ -2041,7 +2041,7 @@ A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $
 2;1;;;;' . $exparcy_date . '
 ;;;
 
-SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
             ];
             $file = $file_no_pgp;
@@ -2115,6 +2115,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'billing_pad.total_value AS billing_total_value',
                 'billing_pad.consecutive AS billing_consecutive',
                 'contract.name AS contract_name',
+                'contract.number_contract AS number_contract',
                 'contract.expiration_days_portafolio AS contract_expiration_days_portafolio',
                 'program.name AS program_name',
             )
@@ -2166,6 +2167,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'PF.name AS billing_prefix',
                 'billing_pad_pgp.consecutive AS billing_consecutive',
                 'billing_pad_consecutive.resolution AS billing_resolution',
+                'contract.number_contract AS number_contract',
                 'contract.objective AS contract_objective',
                 'contract.expiration_days_portafolio AS contract_expiration_days_portafolio',
                 'type_briefcase.name AS regimen_name',
