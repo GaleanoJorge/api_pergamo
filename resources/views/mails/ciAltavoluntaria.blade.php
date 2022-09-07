@@ -170,29 +170,29 @@
 				<div class="stl_01" style="top: 20.601em; left:3.55em;"><span class="stl_09 stl_11" style="word-spacing:0.19em;">las dudas y preguntas. Considero que el (la) paciente o responsable comprenden lo que he explicado &nbsp;</span></div>
 				<div class="stl_01" style="top: 21.641em; left:3.55em;"><span class="stl_09 stl_10">completamente<span class="stl_11">. &nbsp;</span></span></div>
 
-				@if(isset($consentsinformed[0]['firm_patient']))
+				@if($consentsinformed[0]['confirmation']=="Paciente")
 				<div class="stl_01" style="top: 24.7635em; left:3.55em;"><span class="stl_12">Firma: &nbsp;</span></div>
-				<div class="stl_01" style="top: 24.7635em; left:13.4617em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['firm_patient']}}<span class="stl_13">&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 24.7635em; left:11.4617em;"><span class="stl_12 stl_10"><img src="data:image/png;base64,{{$firmpatient}}" width="200" height="30" alt="" style=""/><span class="stl_13">&nbsp;</span></span></div>
 				@endisset
 				<div class="stl_01" style="top: 26.0335em; left:13.4617em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}}&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 27.3135em; left:13.4617em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['admissions']['patients'] ['identification']}}&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 24.7635em; left:25.7758em;"><span class="stl_12">Firma: &nbsp;</span></div>
 
-				<div class="stl_01" style="top: 25.0935em; left:34.495em;"><span class="stl_12 stl_10">_________p_______&nbsp;</span></span></div>
+				{{-- <div class="stl_01" style="top: 25.0935em; left:34.495em;"><span class="stl_12 stl_10"><img src="data:image/png;base64,{{$firmassistance}}" width="250" height="30" alt="" style=""/>&nbsp;</span></span></div> --}}
 				<div class="stl_01" style="top: 26.3735em; left:34.495em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['assigned_user']['firstname']}} {{$consentsinformed[0]['assigned_user']['middlefirstname'] }} {{$consentsinformed[0]['assigned_user']['lastname'] }} {{$consentsinformed[0]['assigned_user']['middlelastname'] }}</span></span></div>
 				<div class="stl_01" style="top: 26.0335em; left:3.55em;"><span class="stl_12" style="word-spacing:0.02em;">Nombre de Paciente: &nbsp;</span></div>
 				<div class="stl_01" style="top: 27.3135em; left:3.55em;"><span class="stl_12">Documento: &nbsp;</span></div>
 				<div class="stl_01" style="top: 26.0335em; left:25.7758em;"><span class="stl_12" style="word-spacing:0.02em;">Nombre Profesional: &nbsp;</span></div>
 				<div class="stl_01" style="top: 27.4835em; left:25.7758em;"><span class="stl_12">T.P.: &nbsp;</span></div>
-				<div class="stl_01" style="top: 27.4835em; left:34.495em;"><span class="stl_12 stl_10">______p__________&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 27.4835em; left:34.495em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}}&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 28.7635em; left:25.7758em;"><span class="stl_12">Cargo: &nbsp;</span></div>
 
-				<div class="stl_01" style="top: 28.9335em; left:34.495em;"><span class="stl_12 stl_10">_________p______&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 28.9335em; left:34.495em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}}&nbsp;</span></span></div>
 
 
-				@if(isset($consentsinformed[0]['firm_responsible']))
+				@if($consentsinformed[0]['confirmation']=="Responsable/Cuidador")
 				<div class="stl_01" style="top: 29.8735em; left:3.55em;"><span class="stl_12">Firma: &nbsp;</span></div>
-				<div class="stl_01" style="top: 30.2135em; left:13.4617em;"><span class="stl_12 stl_10">{{$consentsinformed[0]['firm_responsible']}}&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 30.2135em; left:13.4617em;"><span class="stl_12 stl_10"> <img src="data:image/png;base64,{{$firmresponsible}}" width="250" height="30" alt="" style=""/>&nbsp;</span></span></div>
 				@endisset
 
 				@if(isset($consentsinformed[0]['relationship']))
