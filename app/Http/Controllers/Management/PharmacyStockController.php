@@ -25,20 +25,31 @@ class PharmacyStockController extends Controller
             'user_pharmacy_stock.user',
             'services_pharmacy_stock.scope_of_attention',
         );
+            // ->leftJoin('type_pharmacy_stock', 'pharmacy_stock.type_pharmacy_stock_id', 'type_pharmacy_stock.id')
+            // ->leftJoin('campus', 'pharmacy_stock.campus_id', 'campus.id')
+            // ->groupBy('pharmacy_stock.id');
 
-        if($request->type==1){
-            $PharmacyStock->where('type_pharmacy_stock_id',1);
-        }else if($request->type==2){
-            $PharmacyStock->where('type_pharmacy_stock_id',2);
+        if ($request->type == 1) {
+            $PharmacyStock->where('type_pharmacy_stock_id', 1);
+        } else if ($request->type == 2) {
+            $PharmacyStock->where('type_pharmacy_stock_id', 2);
         }
 
         if ($request->_sort) {
             $PharmacyStock->orderBy($request->_sort, $request->_order);
         }
-
         if ($request->search) {
             $PharmacyStock->where('status', 'like', '%' . $request->search . '%');
         }
+
+
+        // if ($request->search) {
+        //     $PharmacyStock->where(function ($query) use ($request) {
+        //         $query->where('pharmacy_stock.name', 'like', '%' . $request->search . '%')
+        //             ->orwhere('pharmacy_stock.type_pharmacy_stock.name', 'like', '%' . $request->search . '%')
+        //             ->orwhere('pharmacy_stock.campus.name', 'like', '%' . $request->search . '%');
+        //     });
+        // }
 
         if ($request->not_pharmacy) {
             $PharmacyStock->where('id', '!=', $request->not_pharmacy);
