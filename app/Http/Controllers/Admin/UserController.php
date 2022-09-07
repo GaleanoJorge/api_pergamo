@@ -300,6 +300,10 @@ class UserController extends Controller
     {
         $roles = json_decode($request->roles);
 
+        if (count($roles) == 0) {
+            $roles = RoleAttention::where('type_of_attention_id',  $request->type_of_attention)->get()->toArray();
+        }
+
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
 
