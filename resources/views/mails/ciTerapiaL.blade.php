@@ -271,7 +271,7 @@
 				<div class="stl_01" style="top: 64.1359em; left:19.7142em;"><span class="stl_15 stl_08" style="word-spacing:0.75em;">CARGO: SISTEMA INTEGRADO DEGESTIÓN &nbsp;</span></div>
 				<div class="stl_01" style="top: 62.6239em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.82em;">FECHA: 21de febrerode2022 &nbsp;</span></div>
 				<div class="stl_01" style="top: 63.3839em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.09em;">APROBO: ANDREA GUTIERREZ &nbsp;</span></div>
-				<div class="stl_01" style="top: 64.1359em; left:30.4358em;"><span class="stl_15 stl_08" style="word-spacing:0.5em;">CARGO: COORDINACION NAL PAD &nbsp;</span></div>
+				
 			</div>
 		</div>
 	</div>
@@ -420,7 +420,7 @@
 				<div class="stl_01" style="top: 64.1359em; left:19.7142em;"><span class="stl_15 stl_08" style="word-spacing:0.75em;">CARGO: SISTEMA INTEGRADO DE GESTIÓN &nbsp;</span></div>
 				<div class="stl_01" style="top: 62.6239em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.82em;">FECHA: 21 de febrero de 2022 &nbsp;</span></div>
 				<div class="stl_01" style="top: 63.3839em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.09em;">APROBO: ANDREA GUTIERREZ &nbsp;</span></div>
-				<div class="stl_01" style="top: 64.1359em; left:30.4358em;"><span class="stl_15 stl_08" style="word-spacing:0.5em;">CARGO: COORDINACION NAL PAD &nbsp;</span></div>
+				
 			</div>
 		</div>
 	</div>
@@ -541,7 +541,7 @@
 				<div class="stl_01" style="top: 64.1359em; left:19.7142em;"><span class="stl_15 stl_08" style="word-spacing:0.75em;">CARGO: SISTEMA INTEGRADO DE GESTIÓN &nbsp;</span></div>
 				<div class="stl_01" style="top: 62.6239em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.82em;">FECHA: 21 de febrero de 2022 &nbsp;</span></div>
 				<div class="stl_01" style="top: 63.3839em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.09em;">APROBO: ANDREA GUTIERREZ &nbsp;</span></div>
-				<div class="stl_01" style="top: 64.1359em; left:30.4358em;"><span class="stl_15 stl_08" style="word-spacing:0.5em;">CARGO: COORDINACION NAL PAD &nbsp;</span></div>
+			
 			</div>
 		</div>
 	</div>
@@ -646,7 +646,7 @@
 				<div class="stl_01" style="top: 64.1359em; left:19.7142em;"><span class="stl_15 stl_08" style="word-spacing:0.75em;">CARGO: SISTEMA INTEGRADO DE GESTIÓN &nbsp;</span></div>
 				<div class="stl_01" style="top: 62.6239em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.82em;">FECHA: 21de febrerode2022 &nbsp;</span></div>
 				<div class="stl_01" style="top: 63.3839em; left:37.4358em;"><span class="stl_15 stl_12" style="word-spacing:0.09em;">APROBO: ANDREA GUTIERREZ &nbsp;</span></div>
-				<div class="stl_01" style="top: 64.1359em; left:30.4358em;"><span class="stl_15 stl_08" style="word-spacing:0.5em;">CARGO: COORDINACION NAL PAD &nbsp;</span></div>
+			
 			</div>
 		</div>
 	</div>
