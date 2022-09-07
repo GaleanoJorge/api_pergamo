@@ -365,7 +365,9 @@
 				
 				<div class="stl_01" style="top: 23.6235em; left:3.55em;"><span class="stl_15">Firma: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='SI')
-				<div class="stl_01" style="top: 23.6235em; left:13.4617em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['firm_patient']}}&nbsp;</span></span></div>
+				@if($consentsinformed[0]['confirmation']=="Paciente")
+				<div class="stl_01" style="top: 23.6235em; left:7.4617em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmpatient}}" width="2800" height="300" alt="" style=""/>&nbsp;</span></span></div>
+				@endisset
 				@endisset
 				
 				@if($consentsinformed[0]['dissent']!='SI')
@@ -380,7 +382,10 @@
 				<div class="stl_01" style="top: 23.6235em; left:27.7758em;"><span class="stl_15">Firma: &nbsp;</span></div>
 				
 				@if($consentsinformed[0]['dissent']!='SI')
-				<div class="stl_01" style="top: 23.9535em; left:36.495em;"><span class="stl_15 stl_10">________4________<span class="stl_16">___ &nbsp;</span></span></div>
+				
+				<div class="stl_01" style="top: 23.9535em; left:36.495em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmassistance}}" width="1200" height="200" alt="" style=""/>
+					<span class="stl_16"> &nbsp;</span></span></div>
+			
 				@endisset
 
 				@if($consentsinformed[0]['dissent']!='SI')
@@ -392,18 +397,21 @@
 				
 				<div class="stl_01" style="top: 26.3435em; left:27.7758em;"><span class="stl_15">T.P.: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='SI')
-				<div class="stl_01" style="top: 26.3435em; left:37.0758em;"><span class="stl_15 stl_10">__________6______<span class="stl_16">____ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 26.3435em; left:37.0758em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}}
+					<span class="stl_16"> &nbsp;</span></span></div>
 				@endisset
 				<div class="stl_01" style="top: 27.6235em; left:27.7758em;"><span class="stl_15">Cargo: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='SI')
-				<div class="stl_01" style="top: 27.7935em; left:36.495em;"><span class="stl_15 stl_10">_________7______<span class="stl_16">____ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 27.7935em; left:36.495em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}}<span class="stl_16"> &nbsp;</span></span></div>
 				@endisset
 
 
 	
 				<div class="stl_01" style="top: 28.7335em; left:3.55em;"><span class="stl_15">Firma: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='SI')
-				<div class="stl_01" style="top: 29.0735em; left:13.4617em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['firm_responsible']}}&nbsp;</span></span></div>
+				@if($consentsinformed[0]['confirmation']=="Responsable/Cuidador")
+				<div class="stl_01" style="top: 29.0735em; left:13.4617em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmresponsible}}" width="1500" height="200" alt="" style=""/>&nbsp;</span></span></div>
+				@endisset
 				@endisset
 				@if(isset($consentsinformed[0]['relationship']))
 				@if($consentsinformed[0]['dissent']!='SI')
@@ -458,7 +466,7 @@
 				<div class="stl_01" style="top: 13.3085em; left:3.1em;"><span class="stl_09 stl_11" style="word-spacing:0.09em;">el Programa Atención Domiciliaria. &nbsp;</span></div>
 				<div class="stl_01" style="top: 16.431em; left:3.55em;"><span class="stl_15">Firma: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='NO')
-				<div class="stl_01" style="top: 16.431em; left:13.4617em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['firm_patient']}} &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 16.431em; left:6.4617em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmpatient}}" width="3050" height="300" alt="" style=""/>&nbsp;</span></span></div>
 				@endisset
 				@if($consentsinformed[0]['dissent']!='NO')
 				<div class="stl_01" style="top: 17.711em; left:13.4617em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}} &nbsp;</span></span></div>
@@ -471,7 +479,7 @@
 				<div class="stl_01" style="top: 16.431em; left:27.7758em;"><span class="stl_15">Firma: &nbsp;</span></div>
 
 				@if($consentsinformed[0]['dissent']!='NO')
-				<div class="stl_01" style="top: 16.761em; left:36.495em;"><span class="stl_15 stl_10">firma profesional <span class="stl_16"> &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 16.761em; left:36.495em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmassistance}}" width="250" height="30" alt="" style=""/> <span class="stl_16"> &nbsp;</span></span></div>
 				@endisset
 
 				@if($consentsinformed[0]['dissent']!='NO')
@@ -483,21 +491,22 @@
 				<div class="stl_01" style="top: 19.151em; left:27.7758em;"><span class="stl_15">T.P.: &nbsp;</span></div>
 
 				@if($consentsinformed[0]['dissent']!='NO')
-				<div class="stl_01" style="top: 19.151em;  left:36.495em;"><span class="stl_15 stl_10">______6__________<span class="stl_16"> </span></div>
+				<div class="stl_01" style="top: 19.151em;  left:36.495em;"><span class="stl_15 stl_10">
+					{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}}<span class="stl_16"> </span></div>
 				@endisset
 
 
 				<div class="stl_01" style="top: 20.4335em; left:27.7758em;"><span class="stl_15">Cargo: &nbsp;</span></div>
 
 				@if($consentsinformed[0]['dissent']!='NO')
-				<div class="stl_01" style="top: 20.6035em;  left:36.495em;"><span class="stl_15 stl_10">________7_______<span class="stl_16"> </span></div>
+				<div class="stl_01" style="top: 20.6035em;  left:36.495em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}}<span class="stl_16"> </span></div>
 				@endisset
 
 
 					
 				<div class="stl_01" style="top: 21.5435em; left:3.55em;"><span class="stl_15">Firma: &nbsp;</span></div>
 				@if($consentsinformed[0]['dissent']!='NO')
-				<div class="stl_01" style="top: 21.8835em; left:13.4617em;"><span class="stl_15 stl_10">{{$consentsinformed[0]['firm_responsible']}}&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 21.8835em; left:13.4617em;"><span class="stl_15 stl_10"><img src="data:image/png;base64,{{$firmresponsible}}" width="250" height="30" alt="" style=""/>&nbsp;</span></span></div>
 				@endisset
 
 				@if(isset($consentsinformed[0]['relationship']))

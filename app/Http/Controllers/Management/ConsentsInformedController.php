@@ -98,7 +98,8 @@ class ConsentsInformedController extends Controller
             'admissions.patients',
             'admissions.patients.identification_type', 
             'assigned_user',
-            'assigned_user.assistance', 
+            'assigned_user.assistance',
+            'assigned_user.roles', 
             // 'assigned_user.assistance.medical_record', 
             // 'user_role.role',
             
