@@ -1286,7 +1286,8 @@ class ChRecordController extends Controller
             'ChETherGoalsFTEvo'=> $ChETherGoalsFTEvo,
             'ChEDiagnosisFTEvo'=> $ChEDiagnosisFTEvo,
             'ChEWeeklyFTEvo'=> $ChEWeeklyFTEvo,
-    
+            'firmPatient' => $imagenPAtient,
+
             
             'firm' => $imagenComoBase64,
             'today' => $today,
