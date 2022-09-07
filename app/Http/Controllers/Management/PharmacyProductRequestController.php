@@ -495,7 +495,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->admissions_id = $admissions_id;
         $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
         $PharmacyProductRequest->product_generic_id = $request->services_briefcase_id ? $product->product_id : $request->product_generic_id;
-        $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
+        $PharmacyProductRequest->product_supplies_id = $request->services_briefcase_id ? $product->supplies_id : $request->product_supplies_id;
         $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
         $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
         $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
