@@ -22,6 +22,13 @@ class AssignedManagementPlanController extends Controller
         $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with('user', 'management_plan');
 
+        if ($request->assigned_management_plan_id) {
+            $assigned_management_plan->where('assigned_management_plan.id', $request->assigned_management_plan_id)
+                ->with(
+                    'management_plan.management_procedure.services_briefcase.manual_price',
+                );
+        }
+
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
         }
@@ -41,8 +48,8 @@ class AssignedManagementPlanController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Areas obtenidas exitosamente',
-            'data' => ['areas' => $assigned_management_plan]
+            'message' => 'Plan asignado obtenido exitosamente',
+            'data' => ['assigned_management_plan' => $assigned_management_plan]
         ]);
     }
 

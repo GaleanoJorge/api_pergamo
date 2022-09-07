@@ -107,7 +107,7 @@ class AuthorizationController extends Controller
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
                     $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '<', 3)
+                        ->where('auth_status_id', '=', 3)
                         ->WhereNull('auth_number');
                 });
             });
@@ -118,7 +118,7 @@ class AuthorizationController extends Controller
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
                     $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '<', 3)
+                        ->where('auth_status_id', '=', 3)
                         ->WhereNull('auth_number');
                 });
             });
