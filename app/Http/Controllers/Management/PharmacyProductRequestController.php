@@ -67,13 +67,13 @@ class PharmacyProductRequestController extends Controller
                         ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT');
                 })
                 ->get();
-        }else if($request->status == "PATIENT"){
+        } else if ($request->status == "PATIENT") {
             $PharmacyProductRequest
-            ->where(function ($query) {
-                $query->where('pharmacy_product_request.status', 'PATIENT')
-                    ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT');
-            })
-            ->get();
+                ->where(function ($query) {
+                    $query->where('pharmacy_product_request.status', 'PATIENT')
+                        ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT');
+                })
+                ->get();
         } else if ($request->status == "ENVIADO" && $request->own_pharmacy_stock_id) {
             $PharmacyProductRequest
                 ->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
@@ -82,16 +82,15 @@ class PharmacyProductRequestController extends Controller
                         ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL');
                 })
                 ->get();
-            }else if ($request->status == "ENVIADO" && $request->request_pharmacy_stock_id) {
-                    $PharmacyProductRequest
-                        ->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
-                        ->where(function ($query) {
-                            $query->where('pharmacy_product_request.status', 'ENVIADO')
-                                ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL');
-                        })
-                        ->get();
-                
-        }else if ($request->status == "ENVIADO FARMACIA" && $request->own_pharmacy_stock_id) {
+        } else if ($request->status == "ENVIADO" && $request->request_pharmacy_stock_id) {
+            $PharmacyProductRequest
+                ->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
+                ->where(function ($query) {
+                    $query->where('pharmacy_product_request.status', 'ENVIADO')
+                        ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL');
+                })
+                ->get();
+        } else if ($request->status == "ENVIADO FARMACIA" && $request->own_pharmacy_stock_id) {
             $PharmacyProductRequest
                 ->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
                 ->where(function ($query) {
@@ -99,15 +98,14 @@ class PharmacyProductRequestController extends Controller
                         ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL FARMACIA');
                 })
                 ->get();
-            }else if ($request->status == "ENVIADO FARMACIA" && $request->request_pharmacy_stock_id) {
-                    $PharmacyProductRequest
-                        ->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
-                        ->where(function ($query) {
-                            $query->where('pharmacy_product_request.status', 'ENVIO FARMACIA')
-                                ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL FARMACIA');
-                        })
-                        ->get();
-                
+        } else if ($request->status == "ENVIADO FARMACIA" && $request->request_pharmacy_stock_id) {
+            $PharmacyProductRequest
+                ->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
+                ->where(function ($query) {
+                    $query->where('pharmacy_product_request.status', 'ENVIO FARMACIA')
+                        ->orWhere('pharmacy_product_request.status', 'ENVIO PARCIAL FARMACIA');
+                })
+                ->get();
         } else if ($request->status == "SOLICITADO"  && $request->request_pharmacy_stock_id) {
 
             $PharmacyProductRequest
@@ -121,7 +119,7 @@ class PharmacyProductRequestController extends Controller
 
             $PharmacyProductRequest->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
                 ->where('pharmacy_product_request.status', 'SOLICITADO')->get();
-        }else if ($request->status == "SOLICITADO FARMACIA"  && $request->request_pharmacy_stock_id) {
+        } else if ($request->status == "SOLICITADO FARMACIA"  && $request->request_pharmacy_stock_id) {
 
             $PharmacyProductRequest
                 ->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
@@ -138,14 +136,11 @@ class PharmacyProductRequestController extends Controller
 
             $PharmacyProductRequest->where('own_pharmacy_stock_id', $request->own_pharmacy_stock_id)
                 ->where('pharmacy_product_request.status', 'DEVUELTO_PACIENTE')->get();
-        } 
-
-        else if ($request->status == "DEVUELTO FARMACIA" && $request->request_pharmacy_stock_id) {
+        } else if ($request->status == "DEVUELTO FARMACIA" && $request->request_pharmacy_stock_id) {
 
             $PharmacyProductRequest->where('request_pharmacy_stock_id', $request->request_pharmacy_stock_id)
                 ->where('pharmacy_product_request.status', 'DEVUELTO FARMACIA')->get();
-        } 
-        else {
+        } else {
             $PharmacyProductRequest->WhereNotNull('own_pharmacy_stock_id');
         }
 
@@ -164,7 +159,9 @@ class PharmacyProductRequestController extends Controller
         // }
 
         if ($request->_sort) {
-            $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
+            if ($request->_sort != "actions" && $request->_sort != "request_pharmacy_stock"  && $request->_sort != "product_generic" && $request->_sort != "request_amount" && $request->_sort != "services_briefcase"  && $request->_sort != "identification"   && $request->_sort != "own_pharmacy_stock" && $request->_sort != "user_request_pad") {
+                $PharmacyProductRequest->orderBy($request->_sort, $request->_order);
+            }
         }
         if ($request->product_generic_id) {
             $PharmacyProductRequest->where('pharmacy_product_request.product_generic_id', $request->product_generic_id);
@@ -186,12 +183,12 @@ class PharmacyProductRequestController extends Controller
             });
         }
         // if ($request->request_amount) {
-            $PharmacyProductRequest->where(function ($query) use ($request) {
-                if ($request->request_amount == 0) {
-                    $query->where('pharmacy_product_request.request_amount', '>', 0);
-                }
-            });
-         
+        $PharmacyProductRequest->where(function ($query) use ($request) {
+            if ($request->request_amount == 0) {
+                $query->where('pharmacy_product_request.request_amount', '>', 0);
+            }
+        });
+
         // }
 
         if ($request->admissions_id) {
@@ -490,7 +487,7 @@ class PharmacyProductRequestController extends Controller
         }
 
         if ($request->services_briefcase_id) {
-            $product= ServicesBriefcase::select('manual_price.*')->where('services_briefcase.id',$request->services_briefcase_id)->leftJoin('manual_price','manual_price.id','services_briefcase.manual_price_id')->get()->first();
+            $product = ServicesBriefcase::select('manual_price.*')->where('services_briefcase.id', $request->services_briefcase_id)->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')->get()->first();
         }
 
         $PharmacyProductRequest = new PharmacyProductRequest;
@@ -507,7 +504,7 @@ class PharmacyProductRequestController extends Controller
         $PharmacyProductRequest->user_request_pad_id = $request->user_request_pad_id;
         $PharmacyProductRequest->save();
         if ($request->status == "DEVUELTO_PACIENTE") {
-            $lot=PharmacyRequestShipping::where('pharmacy_product_request_id',$request->pharmacy_request)->get()->first();
+            $lot = PharmacyRequestShipping::where('pharmacy_product_request_id', $request->pharmacy_request)->get()->first();
             $PharmacyRequestShipping = new PharmacyRequestShipping;
             $PharmacyRequestShipping->amount_damaged =  0;
             $PharmacyRequestShipping->amount =  $request->request_amount;
@@ -519,19 +516,15 @@ class PharmacyProductRequestController extends Controller
 
             $PharmacyRequestShipping->save();
 
-            
+
             $supplies = AssistanceSupplies::select('assistance_supplies.*')
                 ->where('supplies_status_id', 1)
                 ->where('pharmacy_product_request_id', $request->pharmacy_request)->get()->toArray();
-            for ($i = 0; $i < $request->request_amount; $i++){
+            for ($i = 0; $i < $request->request_amount; $i++) {
                 $AssistanceSupplies = AssistanceSupplies::find($supplies[$i]['id']);
                 $AssistanceSupplies->supplies_status_id = 4;
                 $AssistanceSupplies->save();
-
             }
-
-
-
         }
 
         return response()->json([
@@ -607,7 +600,7 @@ class PharmacyProductRequestController extends Controller
             $status_ant = $PharmacyProductRequest->status;
             if ($PharmacyProductRequest) {
                 if ($request->status == "ENVIADO FARMACIA") {
-                    $varamount=$PharmacyProductRequest->request_amount;
+                    $varamount = $PharmacyProductRequest->request_amount;
                     $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
 
 
@@ -625,7 +618,7 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyLotStock->save();
 
 
-                      
+
                         $PharmacyRequestShipping = new PharmacyRequestShipping;
                         $PharmacyRequestShipping->pharmacy_product_request_id =  $PharmacyProductRequest->id;
                         $PharmacyRequestShipping->pharmacy_lot_stock_id =  $PharmacyLotStock->id;
@@ -647,12 +640,12 @@ class PharmacyProductRequestController extends Controller
                     $PharmacyRequestShipping->amount_provition =  $varamount;
                     $PharmacyRequestShipping->amount_operation =  $varamount - $element->amount;
                     $PharmacyRequestShipping->save();
-                    
-                    $pharmacyvalid=PharmacyProductRequest::find($id+1);
 
-                    if(!$pharmacyvalid){
-                        $PharmacyProductRequestNew=new PharmacyProductRequest;
-                        $PharmacyProductRequestNew->request_amount = 0+$request->amount;
+                    $pharmacyvalid = PharmacyProductRequest::find($id + 1);
+
+                    if (!$pharmacyvalid) {
+                        $PharmacyProductRequestNew = new PharmacyProductRequest;
+                        $PharmacyProductRequestNew->request_amount = 0 + $request->amount;
                         $PharmacyProductRequestNew->status = $PharmacyProductRequest->status;
                         $PharmacyProductRequestNew->observation = '';
                         $PharmacyProductRequestNew->product_generic_id = $PharmacyProductRequest->product_generic_id;
@@ -664,7 +657,7 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyProductRequestNew->services_briefcase_id = $PharmacyProductRequest->services_briefcase_id;
                         $PharmacyProductRequestNew->user_request_pad_id = $PharmacyProductRequest->user_request_pad_id;
                         $PharmacyProductRequestNew->save();
-    
+
                         $PharmacyRequestShipping3 = new PharmacyRequestShipping;
                         $PharmacyRequestShipping3->amount_damaged = 0;
                         $PharmacyRequestShipping3->amount =  0;
@@ -673,10 +666,9 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping3->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                         $PharmacyRequestShipping3->amount_operation = $request->amount;
                         $PharmacyRequestShipping3->save();
-
-                    }else{
+                    } else {
                         $pharmacyvalid->status = "ENVIO FARMACIA";
-                        $pharmacyvalid->request_amount=$pharmacyvalid->request_amount+$request->amount;
+                        $pharmacyvalid->request_amount = $pharmacyvalid->request_amount + $request->amount;
                         $pharmacyvalid->save();
 
                         $PharmacyRequestShipping3 = new PharmacyRequestShipping;
@@ -685,11 +677,9 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping3->amount_provition =  $pharmacyvalid->request_amount;
                         $PharmacyRequestShipping3->pharmacy_product_request_id = $pharmacyvalid->id;
                         $PharmacyRequestShipping3->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
-                        $PharmacyRequestShipping3->amount_operation =$pharmacyvalid->request_amount;
+                        $PharmacyRequestShipping3->amount_operation = $pharmacyvalid->request_amount;
                         $PharmacyRequestShipping3->save();
                     }
-
-                
                 }
                 if ($request->status == "ENVIADO") {
                     $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
@@ -725,7 +715,7 @@ class PharmacyProductRequestController extends Controller
                                     $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                                     $PharmacyRequestShipping2->amount_operation = $PharmacyRequestShipping->amount_operation - $element->amount;
                                     $PharmacyRequestShipping2->save();
-    
+
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                     $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount;
                                     $PharmacyLotStock->save();
@@ -751,7 +741,7 @@ class PharmacyProductRequestController extends Controller
                                     $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                                     $PharmacyRequestShipping2->amount_operation = end($COUNT)['amount_operation'] - $element->amount;
                                     $PharmacyRequestShipping2->save();
-    
+
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                     $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount;
                                     $PharmacyLotStock->save();
@@ -768,7 +758,7 @@ class PharmacyProductRequestController extends Controller
                                     ]);
                                 }
                             }
-                       
+
 
 
 
@@ -833,7 +823,7 @@ class PharmacyProductRequestController extends Controller
                                 ]);
                             }
                         }
-                    }else if($status_ant=="SOLICITADO FARMACIA"){
+                    } else if ($status_ant == "SOLICITADO FARMACIA") {
                         $elements = json_decode($request->pharmacy_lot_stock_id);
                         foreach ($elements as $element) {
                             $COUNT = PharmacyRequestShipping::where('pharmacy_product_request_id', $id)->where('amount', 0);
@@ -860,7 +850,7 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                                 $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
                                 $PharmacyRequestShipping2->save();
-    
+
 
                                 $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                 $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount;
@@ -871,7 +861,6 @@ class PharmacyProductRequestController extends Controller
                                     $PharmacyProductRequest->status = "ENVIO PARCIAL FARMACIA";
                                 }
                                 $PharmacyProductRequest->save();
-                             
                             } else {
                                 return response()->json([
                                     'status' => false,
@@ -879,16 +868,16 @@ class PharmacyProductRequestController extends Controller
                                 ]);
                             }
                         }
-                     
-                            // $PharmacyRequestShipping2 = new PharmacyRequestShipping;
-                            // $PharmacyRequestShipping2->amount_damaged = 0;
-                            // $PharmacyRequestShipping2->amount =  $element->amount;
-                            // $PharmacyRequestShipping2->amount_provition =  $element->amount;
-                            // $PharmacyRequestShipping2->pharmacy_product_request_id =  $id;
-                            // $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
-                            // $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
-                            // $PharmacyRequestShipping2->save();
-                            
+
+                        // $PharmacyRequestShipping2 = new PharmacyRequestShipping;
+                        // $PharmacyRequestShipping2->amount_damaged = 0;
+                        // $PharmacyRequestShipping2->amount =  $element->amount;
+                        // $PharmacyRequestShipping2->amount_provition =  $element->amount;
+                        // $PharmacyRequestShipping2->pharmacy_product_request_id =  $id;
+                        // $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
+                        // $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
+                        // $PharmacyRequestShipping2->save();
+
                     } else {
                         if ($PharmacyProductRequest->request_amount <= 0) {
                             $PharmacyProductRequest->status = 'ENVIADO';
@@ -904,7 +893,7 @@ class PharmacyProductRequestController extends Controller
                             $PharmacyLotStock->save();
 
 
-                          
+
                             $PharmacyRequestShipping = new PharmacyRequestShipping;
                             $PharmacyRequestShipping->pharmacy_product_request_id =  $PharmacyProductRequest->id;
                             $PharmacyRequestShipping->pharmacy_lot_stock_id =  $PharmacyLotStock->id;
@@ -1020,9 +1009,7 @@ class PharmacyProductRequestController extends Controller
                             }
                         }
                     }
-                }
-
-                else if ($request->status == "ACEPTADO FARMACIA") {
+                } else if ($request->status == "ACEPTADO FARMACIA") {
                     // $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
                     // $PharmacyProductRequest->status = $request->status;
                     $PharmacyProductRequest->observation = $request->observation;

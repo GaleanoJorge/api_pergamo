@@ -21,8 +21,11 @@ class ProductGroupController extends Controller
         $ProductGroup = ProductGroup::select();
 
         if ($request->_sort) {
+            if ($request->_sort != "actions") {
+
             $ProductGroup->orderBy($request->_sort, $request->_order);
         }
+    }
 
         if ($request->search) {
             $ProductGroup->where('name', 'like', '%' . $request->search . '%');

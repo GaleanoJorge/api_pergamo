@@ -21,19 +21,23 @@ class ProductController extends Controller
         $Products = Product::select('product.*')
             ->leftJoin('product_generic', 'product.product_generic_id', 'product_generic.id')
             ->leftJoin('factory', 'product.factory_id', 'factory.id')
-            ->with('product_generic',
-            'product_generic.product_presentation',
-        'factory')->groupBy('product.id');
+            ->with(
+                'product_generic',
+                'product_generic.product_presentation',
+                'factory'
+            )->groupBy('product.id');
 
         if ($request->_sort) {
-            $Products->orderBy($request->_sort, $request->_order);
+            if ($request->_sort != "actions" && $request->_sort != "product_generic"&& $request->_sort != "factory") {
+                $Products->orderBy($request->_sort, $request->_order);
+            }
         }
 
         if ($request->search) {
             $Products->where(function ($query) use ($request) {
                 $query->Where('product.name', 'like', '%' . $request->search . '%')
-                ->orWhere('product_generic.description', 'like', '%' . $request->search . '%')
-                ->orWhere('factory.name', 'like', '%' . $request->search . '%');
+                    ->orWhere('product_generic.description', 'like', '%' . $request->search . '%')
+                    ->orWhere('factory.name', 'like', '%' . $request->search . '%');
             });
         }
 

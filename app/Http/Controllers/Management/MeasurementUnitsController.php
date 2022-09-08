@@ -21,8 +21,11 @@ class MeasurementUnitsController extends Controller
         $MeasurementUnits = MeasurementUnits::select('measurement_units.*');
 
         if ($request->_sort) {
+            if ($request->_sort != "actions") {
+
             $MeasurementUnits->orderBy($request->_sort, $request->_order);
         }
+    }
         
         if ($request->search) {
             $MeasurementUnits->where('code', 'like', '%' . $request->search . '%')

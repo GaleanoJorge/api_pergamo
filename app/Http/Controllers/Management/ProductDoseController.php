@@ -21,8 +21,11 @@ class ProductDoseController extends Controller
         $ProductDose = ProductDose::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductDose->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $ProductDose->where('name','like','%' . $request->search. '%')
