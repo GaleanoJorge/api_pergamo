@@ -47,7 +47,9 @@ class PharmacyLotStockController extends Controller
         }
 
         if ($request->_sort) {
-            $PharmacyLotStock->orderBy($request->_sort, $request->_order);
+            if($request->_sort!="actions" && $request->_sort!="product" && $request->_sort!="factory"  && $request->_sort!="amount_total"  && $request->_sort!="actual_amount"  && $request->_sort!="lot" && $request->_sort!="expiration_date" && $request->_sort!="product_supplies_com"){
+                $PharmacyLotStock->orderBy($request->_sort, $request->_order);
+                }
         }
         if ($request->pharmacy_stock_id) {
             $PharmacyLotStock->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id);

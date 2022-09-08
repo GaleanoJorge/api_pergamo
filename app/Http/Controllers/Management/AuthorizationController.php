@@ -128,7 +128,8 @@ class AuthorizationController extends Controller
                 });
             });
             $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
-                $que->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                $que
+                //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00');
             });
         } else if($statusId === 'P'){

@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class ProductGenericController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,22 +29,25 @@ class ProductGenericController extends Controller
                 'nom_product',
             )->orderBy('description', 'asc');
 
-        if($request->_sort){
-            $ProductGeneric->orderBy($request->_sort, $request->_order);
-        }            
+        if ($request->_sort) {
+            if ($request->_sort != "actions") {
+
+                $ProductGeneric->orderBy($request->_sort, $request->_order);
+            }
+        }
 
         if ($request->search) {
-            $ProductGeneric->where('product_generic.description','like','%' . $request->search. '%');
+            $ProductGeneric->where('product_generic.description', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $ProductGeneric=$ProductGeneric->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $ProductGeneric=$ProductGeneric->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $ProductGeneric = $ProductGeneric->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ProductGeneric = $ProductGeneric->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -52,7 +55,7 @@ class ProductGenericController extends Controller
             'data' => ['product_generic' => $ProductGeneric]
         ]);
     }
-    
+
 
     public function store(ProductGenericRequest $request): JsonResponse
     {
@@ -60,13 +63,13 @@ class ProductGenericController extends Controller
         $ProductGeneric->drug_concentration_id = $request->drug_concentration_id;
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
-        $ProductGeneric->description = $request->description;       
+        $ProductGeneric->description = $request->description;
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
         $ProductGeneric->pbs_restriction = $request->pbs_restriction;
-        $ProductGeneric->nom_product_id = $request->nom_product_id;  
-        $ProductGeneric->administration_route_id = $request->administration_route_id;  
-        $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
-        $ProductGeneric->code_atc = $request->code_atc;  
+        $ProductGeneric->nom_product_id = $request->nom_product_id;
+        $ProductGeneric->administration_route_id = $request->administration_route_id;
+        $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;
+        $ProductGeneric->code_atc = $request->code_atc;
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->dose = $request->dose;
@@ -108,17 +111,17 @@ class ProductGenericController extends Controller
      */
     public function update(ProductGenericRequest $request, int $id): JsonResponse
     {
-        $ProductGeneric = ProductGeneric ::find($id);
+        $ProductGeneric = ProductGeneric::find($id);
         $ProductGeneric->drug_concentration_id = $request->drug_concentration_id;
         $ProductGeneric->measurement_units_id = $request->measurement_units_id;
         $ProductGeneric->product_presentation_id = $request->product_presentation_id;
-        $ProductGeneric->description = $request->description;       
+        $ProductGeneric->description = $request->description;
         $ProductGeneric->pbs_type_id = $request->pbs_type_id;
         $ProductGeneric->pbs_restriction = $request->pbs_restriction;
-        $ProductGeneric->nom_product_id = $request->nom_product_id;  
-        $ProductGeneric->administration_route_id = $request->administration_route_id;  
-        $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;  
-        $ProductGeneric->code_atc = $request->code_atc;  
+        $ProductGeneric->nom_product_id = $request->nom_product_id;
+        $ProductGeneric->administration_route_id = $request->administration_route_id;
+        $ProductGeneric->special_controller_medicine = $request->special_controller_medicine;
+        $ProductGeneric->code_atc = $request->code_atc;
         $ProductGeneric->minimum_stock = $request->minimum_stock;
         $ProductGeneric->maximum_stock = $request->maximum_stock;
         $ProductGeneric->dose = $request->dose;

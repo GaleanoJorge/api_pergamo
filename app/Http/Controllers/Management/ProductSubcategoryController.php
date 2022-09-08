@@ -21,8 +21,11 @@ class ProductSubcategoryController extends Controller
         $ProductSubcategory = ProductSubcategory::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductSubcategory->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $ProductSubcategory->where('name','like','%' . $request->search. '%');
