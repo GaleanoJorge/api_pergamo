@@ -78,6 +78,8 @@ class AuthorizationController extends Controller
                 DB::raw('DATE(authorization.created_at) as date'),
             )
             ->wherenull('auth_package_id')
+            ->leftjoin('auth_billing_pad', 'authorization.id', 'auth_billing_pad.authorization_id')
+            ->whereNull('auth_billing_pad.authorization_id')
             ->with(
                 'admissions',
                 'admissions.patients',
