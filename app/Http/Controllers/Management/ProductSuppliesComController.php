@@ -23,8 +23,10 @@ class ProductSuppliesComController extends Controller
         ->with('product_supplies', 'factory');
 
         if ($request->_sort) {
+            if ($request->_sort != "actions" && $request->_sort != "product_supplies" && $request->_sort != "factory") {
             $Products->orderBy($request->_sort, $request->_order);
         }
+    }
 
         if ($request->search) {
             $Products->where(function ($query) use ($request) {
