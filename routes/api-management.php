@@ -171,6 +171,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
     Route::apiResource('pad_risk', 'Management\PadRiskController');
     Route::apiResource('tariff', 'Management\TariffController');
+    Route::patch('tariff/{id}/changeStatus', 'Management\TariffController@changeStatus');
 
     //Region
     Route::apiResource('region', 'Management\RegionController');
