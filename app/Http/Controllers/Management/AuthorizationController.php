@@ -101,6 +101,7 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets',
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
+                'applications.users',
             );
 
         if ($statusId === '0') {
