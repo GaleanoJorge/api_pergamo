@@ -20460,5 +20460,31 @@
         "useful_life": null,
         "code_cum": "20105907-4",
         "date_cum": "2022-08-31"
+    },
+    {
+        "id": "794",
+        "name": "ACICLOVIR",
+        "factory_id": "158",
+        "product_generic_id": "71",
+        "invima_registration": "2016M-0003840-R1",
+        "invima_status_id": "1",
+        "sanitary_registration_id": "158",
+        "storage_conditions_id": "3",
+        "packing_id": "1",
+        "code_cum_file": "19945134",
+        "code_cum_consecutive": "1",
+        "regulated_drug": "1",
+        "high_price": "0",
+        "maximum_dose": null,
+        "indications": "TRATAMIENTO DE INFECCIONES CAUSADAS POR EL VIRUS HERPES SIMPLE EN PACIENTES INMUNOCOMPROMETIDOS.PARA PROFILAXIS DE LA INFECCIÓN POR CITOMEGALOVIRUS.",
+        "contraindications": "HIPERSENSIBILIDAD AL ACICLOVIR. ADMINÍSTRESE CON PRECAUCIÓN EN PACIENTES CON INSUFICIENCIA RENAL. PRECAUCIONES: NO SE DEBE ADMINISTRAR EL MEDICAMENTO DIRECTAMENTE, DEBE SER DILUIDO PARA ADMINISTRARSE EN INFUSIÓN POR UNA HORA.",
+        "applications": null,
+        "value_circular": "73394,7144517587",
+        "circular": "12",
+        "unit_packing": "1",
+        "refrigeration": "0",
+        "useful_life": "1",
+        "code_cum": "19945134-1",
+        "date_cum": "2022-08-32"
     }
 ]

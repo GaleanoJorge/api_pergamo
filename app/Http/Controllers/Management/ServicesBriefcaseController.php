@@ -95,6 +95,11 @@ class ServicesBriefcaseController extends Controller
             $ServicesBriefcase
                 ->where('manual_price.procedure_id', '!=', 'null')
                 ->where('procedure.procedure_type_id', '!=', '3');
+
+            if($request->laboratory == true){
+                $ServicesBriefcase
+                ->where('procedure.procedure_category_id', '=', 5);
+            }
         }
 
         if ($request->search) {

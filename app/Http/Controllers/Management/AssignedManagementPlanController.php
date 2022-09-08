@@ -22,6 +22,13 @@ class AssignedManagementPlanController extends Controller
         $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with('user', 'management_plan');
 
+        if ($request->assigned_management_plan_id) {
+            $assigned_management_plan->where('assigned_management_plan.id', $request->assigned_management_plan_id)
+                ->with(
+                    'management_plan.management_procedure.services_briefcase.manual_price',
+                );
+        }
+
         if ($request->_sort) {
             $assigned_management_plan->orderBy($request->_sort, $request->_order);
         }
@@ -41,8 +48,8 @@ class AssignedManagementPlanController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Areas obtenidas exitosamente',
-            'data' => ['areas' => $assigned_management_plan]
+            'message' => 'Plan asignado obtenido exitosamente',
+            'data' => ['assigned_management_plan' => $assigned_management_plan]
         ]);
     }
 
@@ -60,18 +67,18 @@ class AssignedManagementPlanController extends Controller
             'assigned_management_plan.*',
             DB::raw('IF(' . $dateNow . ' <= assigned_management_plan.redo,1,0) AS allow_redo'),
             DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
-            )
+        )
             ->with('user', 'management_plan', 'ch_record')
             ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
             ->leftJoin('users', 'users.id', 'assigned_management_plan.user_id')
-            ->groupBy('assigned_management_plan.id')
-            ;
+            ->groupBy('assigned_management_plan.id');
         if ($userId == 0) {
             $assigned_management_plan->where('assigned_management_plan.management_plan_id', $managementId);
         } else {
             if ($request->patient) {
-                $assigned_management_plan->where('assigned_management_plan.management_plan.user_id', $userId)
-                    ->where('management_plan.admissions_id', $request->patient);
+                $assigned_management_plan->where('assigned_management_plan.user_id', $userId)
+                    ->where('management_plan.admissions_id', $request->patient)
+                    ->where('assigned_management_plan.management_plan_id', $managementId);
             } else {
                 $assigned_management_plan->where('assigned_management_plan.user_id', $userId);
             }
@@ -123,7 +130,7 @@ class AssignedManagementPlanController extends Controller
             ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('users', 'users.id', 'assigned_management_plan.user_id')
-            ->where('users.id', $user_id)
+            ->where('assigned_management_plan.user_id', $user_id)
             ->where('patients.id', $patient_id)
             ->where(function ($query) {
                 $query->where('assigned_management_plan.execution_date', '=', "0000-00-00 00:00:00")
@@ -215,9 +222,9 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
-        if ($request->type_of_attention_id == 17) {
+        if ($request->type_of_attention_id == 17 || $request->type_of_attention_id == 12) {
             $AssignedManagementPlan->start_date = $request->start_date;
-            $AssignedManagementPlan->finish_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->finish_date;
             $AssignedManagementPlan->user_id = $request->user_id;
             $AssignedManagementPlan->start_hour = $request->start_hour;
             $AssignedManagementPlan->finish_hour = $request->finish_hour;

@@ -6,6 +6,7 @@ use App\Models\ChEValorationFT;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ChRecord;
 use Illuminate\Database\QueryException;
 
 class ChEValorationFTController extends Controller
@@ -57,12 +58,27 @@ class ChEValorationFTController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request,int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChEValorationFT = ChEValorationFT::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->with('ch_diagnosis')->get()->toArray();
+
+            if ($request->has_input) { //
+                if ($request->has_input == 'true') { //
+                    $chrecord = ChRecord::find($id); //
+                    $ChEValorationFT = ChEValorationFT::select('ch_e_valoration_f_t.*')
+                    ->with
+                    (
+                        'ch_diagnosis'
+                    )
+                        ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                        ->leftJoin('ch_record', 'ch_record.id', 'ch_e_valoration_f_t.ch_record_id') //
+                        ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
+                    ;
+                }
+            }
 
 
         return response()->json([

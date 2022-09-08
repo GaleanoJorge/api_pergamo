@@ -34,7 +34,7 @@ class ProductGenericController extends Controller
         }            
 
         if ($request->search) {
-            $ProductGeneric->where('description','like','%' . $request->search. '%');
+            $ProductGeneric->where('product_generic.description','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

@@ -300,6 +300,10 @@ class UserController extends Controller
     {
         $roles = json_decode($request->roles);
 
+        if (count($roles) == 0) {
+            $roles = RoleAttention::where('type_of_attention_id',  $request->type_of_attention)->get()->toArray();
+        }
+
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now()->endOfMonth();
 
@@ -317,7 +321,7 @@ class UserController extends Controller
         $users->where(function ($query) use ($request, $roles) {
             $first = true;
             foreach ($roles as $role) {
-                if ($role->role_id == 14) {
+                if ($role->role_id == 14 || $role->role_id == 7) {
                     $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
                     $query->where('assistance_special.specialty_id', $specialty->specialty_id);
                 } else {
@@ -905,6 +909,7 @@ class UserController extends Controller
                     $assistance->contract_type_id = $request->contract_type_id;
                     $assistance->cost_center_id = $request->cost_center_id;
                     $assistance->PAD_service = $request->PAD_service;
+                    $assistance->has_car = $request->has_car;
                     $assistance->attends_external_consultation = $request->attends_external_consultation;
                     $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                     // $assistance->specialty = $request->specialty;
@@ -1064,6 +1069,7 @@ class UserController extends Controller
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->specialty = $request->specialty;    
@@ -1313,8 +1319,8 @@ class UserController extends Controller
                 $assistance->medical_record = $request->medical_record;
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
-                // $assistance->type_professional_id = $request->type_professional_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
 
@@ -1337,6 +1343,7 @@ class UserController extends Controller
                 $assistance->contract_type_id = $request->contract_type_id;
                 $assistance->cost_center_id = $request->cost_center_id;
                 $assistance->PAD_service = $request->PAD_service;
+                $assistance->has_car = $request->has_car;
                 $assistance->attends_external_consultation = $request->attends_external_consultation;
                 $assistance->serve_multiple_patients = $request->serve_multiple_patients;
                 // $assistance->specialty = $request->specialty;

@@ -10,6 +10,7 @@ use App\Models\Assistance;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
+use App\Models\Base\ChNursingNote;
 use App\Models\Base\ChRecord as BaseChRecord;
 use App\Models\Base\ServicesBriefcase;
 use App\Models\BillingPad;
@@ -171,7 +172,9 @@ class ChRecordController extends Controller
         }
 
         if ($request->record_id) {
-            $ChRecord->where('id', $request->record_id);
+            $ChRecord->where('id', $request->record_id)
+            ->with(
+                'assigned_management_plan.management_plan.management_procedure.services_briefcase.manual_price');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -276,10 +279,12 @@ class ChRecordController extends Controller
             'assigned_management_plan.management_plan.type_of_attention',
             'assigned_management_plan.management_plan.procedure.manual_price',
             'assigned_management_plan.management_plan.service_briefcase.manual_price',
+            'assigned_management_plan.management_plan.route_administration',
             // 'assistance_supplies',
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )
+        
 
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
@@ -288,6 +293,18 @@ class ChRecordController extends Controller
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
             $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
+        }else{
+            $imagenPAtient = null;
+        }
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+        if ($ChRecord[0]['status'] != 'CERRADO') {
+            return response()->json([
+                'status' => false,
+                'message' => 'El folio de historia clínica no ha sido finalizado',
+                'data' => ['ch_record' => $ChRecord],
+            ]);
         }
 
         ///Medicina General
@@ -508,7 +525,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
-                // 'firmPatient' => $imagenPAtient,
+                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -552,7 +569,7 @@ class ChRecordController extends Controller
 
             // NOTA DE ENFERMERIA
             $ChPositionNE = ChPosition::with('patient_position')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChNursingNote = ChPosition::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChNursingNote = ChNursingNote::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChHairValorationNE = ChHairValoration::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOstomiesNE = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPhysicalExamNE = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -1233,7 +1250,7 @@ class ChRecordController extends Controller
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
     
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm'])) {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1244,7 +1261,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
     
             $html = view('mails.physicalhistory', [
-            'chrecord' => $ChRecord[0],
+            'chrecord' => $ChRecord,
     
             'ChEValorationFT' => $ChEValorationFT,
             'ChVitalSigns' => $ChVitalSigns,
@@ -1272,7 +1289,8 @@ class ChRecordController extends Controller
             'ChETherGoalsFTEvo'=> $ChETherGoalsFTEvo,
             'ChEDiagnosisFTEvo'=> $ChEDiagnosisFTEvo,
             'ChEWeeklyFTEvo'=> $ChEWeeklyFTEvo,
-    
+            'firmPatient' => $imagenPAtient,
+
             
             'firm' => $imagenComoBase64,
             'today' => $today,
@@ -1335,11 +1353,7 @@ class ChRecordController extends Controller
                     break;
                 }
             case (2): {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
+                    $ChRecord->ch_type_id = 1;
                     break;
                 }
             case (3): {
@@ -1605,6 +1619,15 @@ class ChRecordController extends Controller
     public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
     {
         $extra_dose = 0;
+        $has_car = 0;
+        $Assistance = Assistance::select('assistance.*')
+            ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+            ->groupBy('assistance.id')->get()->toArray();
+        if (count($Assistance) > 0) {
+            if ($Assistance[0]['has_car']) {
+                $has_car = $Assistance[0]['has_car'];
+            }
+        }
         if ($ManagementPlan->type_of_attention_id == 17) {
             $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
                 ->whereNull('assigned_management_plan.redo')
@@ -1644,12 +1667,21 @@ class ChRecordController extends Controller
                 ->where('status_id', 1);
             $valuetariff = $valuetariff->get()->toArray();
             if (count($valuetariff) == 0) {
-                $valuetariff = Tariff::where('pad_risk_id', $tariff)
-                    ->where('phone_consult', $ManagementPlan->phone_consult)
-                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                    ->where('status_id', 1)
-                    ->where('failed', 0)
-                    ->where('program_id', $Location->program_id);
+                if ($ManagementPlan->phone_consult == 1) {
+                    $valuetariff = Tariff::whereNull('pad_risk_id')
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->where('failed', 0)
+                        ->where('program_id', $Location->program_id);
+                } else {
+                    $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->where('failed', 0)
+                        ->where('program_id', $Location->program_id);
+                }
                 // definir cuando la atención es fallida
                 if ($request->is_failed) {
                     if ($request->is_failed == true) {
@@ -1668,6 +1700,7 @@ class ChRecordController extends Controller
                     $valuetariff->whereNull('quantity');
                 }
                 $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff->where('has_car', $has_car);
                 $valuetariff = $valuetariff->get()->toArray();
             }
         }

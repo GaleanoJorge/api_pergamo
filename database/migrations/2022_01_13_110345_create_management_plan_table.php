@@ -20,7 +20,7 @@ class CreateManagementPlanTable extends Migration
             $table->Integer('quantity');
             $table->unsignedBigInteger('specialty_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
-            $table->unsignedBigInteger('procedure_id');
+            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('authorization_id');
             $table->unsignedBigInteger('assigned_user_id')->nullable();
