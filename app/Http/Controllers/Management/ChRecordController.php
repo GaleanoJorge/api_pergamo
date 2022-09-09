@@ -149,7 +149,6 @@ use App\Models\ChSwExpenses;
 use App\Models\ChSwEconomicAspects;
 use App\Models\ChSwArmedConflict;
 use App\Models\ChSwSupportNetwork;
-use App\Models\BaseChSwSupportNetwork;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -1383,7 +1382,7 @@ class ChRecordController extends Controller
             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
-            $ChSwSupportNetworkEvo = BaseChSwSupportNetwork::with(
+            $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
