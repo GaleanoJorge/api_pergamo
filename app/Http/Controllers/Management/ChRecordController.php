@@ -544,7 +544,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'HC.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -708,7 +708,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'HC.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -856,7 +856,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'HC.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1089,7 +1089,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'HC.pdf';
 
             Storage::disk('public')->put($name, $file);
             
@@ -1193,7 +1193,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name = 'HC.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1307,10 +1307,119 @@ class ChRecordController extends Controller
         $this->injectPageCount($dompdf);
         $file = $dompdf->output();
     
-        $name = 'prueba.pdf';
+        $name = 'HC.pdf';
     
         Storage::disk('public')->put($name, $file);
     
+        
+         // Trabajo Social
+            //////////////////////////////////
+    
+        } else if ($ChRecord[0]['ch_type_id'] == 8) {
+            //Ingreso    
+            $ChSwDiagnosis = ChSwDiagnosis::with(
+                'ch_diagnosis',
+                'ch_diagnosis.diagnosis'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwFamily = ChSwFamily::with(
+                'relationship',
+                'identification_type',
+                'marital_status',
+                'academic_level',
+                'study_level_status',
+                'activities',
+                'inability'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwNursing = ChSwNursing::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwOccupationalHistory = ChSwOccupationalHistory::with(
+                'ch_sw_occupation',
+                'ch_sw_seniority',
+                'ch_sw_hours',
+                'ch_sw_turn'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwFamilyDynamics = ChSwFamilyDynamics::with(
+                'decisions',
+                'decisions.relationship',
+                'authority',
+                'authority.relationship',
+                'ch_sw_communications',
+                'ch_sw_expression'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwRiskFactors = ChSwRiskFactors::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwHousingAspect = ChSwHousingAspect::with(
+                'ch_sw_housing_type',
+                'ch_sw_housing'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwConditionHousing = ChSwConditionHousing::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwHygieneHousing = ChSwHygieneHousing::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwIncome = ChSwIncome::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwExpenses = ChSwExpenses::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwEconomicAspects = ChSwEconomicAspects::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwArmedConflict = ChSwArmedConflict::with(
+                'municipality',
+                'population_group',
+                'ethnicity'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChSwSupportNetwork = ChSwSupportNetwork::with(
+                'ch_sw_network'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+
+            //Regular
+            $ChSwSupportNetworkEvo = BaseChSwSupportNetwork::with(
+                'ch_sw_network'
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+
+
+            if (count($ChRecord[0]['user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            }
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.sworkhistory', [
+                'chrecord' => $ChRecord,
+
+                'ChSwDiagnosis' => $ChSwDiagnosis,
+                'ChSwFamily' => $ChSwFamily,
+                'ChSwNursing' => $ChSwNursing,
+                'ChSwOccupationalHistory' => $ChSwOccupationalHistory,
+                'ChSwFamilyDynamics' => $ChSwFamilyDynamics,
+                'ChSwRiskFactors' => $ChSwRiskFactors,
+                'ChSwHousingAspect' => $ChSwHousingAspect,
+                'ChSwConditionHousing' => $ChSwConditionHousing,
+                'ChSwHygieneHousing' => $ChSwHygieneHousing,
+                'ChSwIncome' => $ChSwIncome,
+                'ChSwExpenses' => $ChSwExpenses,
+                'ChSwEconomicAspects' => $ChSwEconomicAspects,
+                'ChSwArmedConflict' => $ChSwArmedConflict,
+                'ChSwSupportNetwork' => $ChSwSupportNetwork,
+                'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
         }
 
         return response()->json([
