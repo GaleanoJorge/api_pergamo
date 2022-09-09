@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChAssSigns;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChSwHousingAspectController extends Controller
 {
@@ -53,20 +54,26 @@ class ChSwHousingAspectController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChSwHousingAspect = ChSwHousingAspect::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with(
-                'ch_sw_housing_type',
-                'ch_sw_housing',
-            )->get()->toArray();
+            ->get()->toArray();
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwHousingAspect = ChSwHousingAspect::select('ch_sw_housing_aspect.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_housing_aspect.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Aspectos vivienda obtenidos exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_housing_aspect' => $ChSwHousingAspect]
         ]);
     }

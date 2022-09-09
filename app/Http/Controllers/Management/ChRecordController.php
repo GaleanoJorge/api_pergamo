@@ -1868,4 +1868,9 @@ class ChRecordController extends Controller
             }
         }
     }
+
+    public function interoperavility(int $id)
+    {
+
+    }
 }

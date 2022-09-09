@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SwallowingDisordersTL;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class SwallowingDisordersTLController extends Controller
 {
@@ -51,17 +52,26 @@ class SwallowingDisordersTLController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $SwallowingDisordersTL = SwallowingDisordersTL::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $SwallowingDisordersTL = SwallowingDisordersTL::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $SwallowingDisordersTL = SwallowingDisordersTL::select('swallowing_disorders_tl.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'swallowing_disorders_tl.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Alteraciones en la Deglución asociado al paciente exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['swallowing_disorders_tl' => $SwallowingDisordersTL]
         ]);
     }

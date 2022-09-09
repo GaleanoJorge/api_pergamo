@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class LanguageTlController extends Controller
 {
@@ -51,17 +52,26 @@ class LanguageTlController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $LanguageTl = LanguageTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $LanguageTl = LanguageTl::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $LanguageTl = LanguageTl::select('language_tl.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'language_tl.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Lenguaje asociado al paciente exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['language_tl' => $LanguageTl]
         ]);
     }
