@@ -1915,6 +1915,7 @@ class BillingPadController extends Controller
 
         if ($bill_type == 1) {
             $consecutivo = 1;
+            $services = array();
             $billing_line = '';
             $assistance_name = '';
             $services_date = array();
@@ -2002,27 +2003,73 @@ class BillingPadController extends Controller
                 $value = $Auth[0]['services_briefcase']['value'];
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
                 $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
-                    $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
-                        $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
-                            $Auth[0]['product_com']['code_cum'] : null));
+                $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
+                    $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
+                        $Auth[0]['product_com']['code_cum'] : null));
 
-                $line = $consecutivo . ';' . $service . ';999;' . $code . ';94;;;;1;' . $value . ';' . $value . ';0;0;' . $value . ';0;0;01';
-                if (strlen($billing_line) == 0) {
-                    $billing_line = $line;
-                } else {
-                    $billing_line = $billing_line . '
-' . $line;
-                }
+                $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['service'] = $service;
+                $services[$consecutivo]['code'] = $code;
                 $consecutivo++;
             }
+            $service_column  = array_column($services, 'service');
+            $code_column  = array_column($services, 'code');
+            array_multisort($service_column, SORT_DESC, $code_column, SORT_ASC, $services);
 
+            if (count($services) > 0) {
+                $line_service = array();
+                $line_service_aux = array();
+                // $line_service[0]['value'] = $services[0]['value'];
+                // $line_service[0]['value_unid'] = $services[0]['value'];
+                // $line_service[0]['amount'] = 1;
+                // $line_service[0]['service'] = $services[0]['service'];
+                // $line_service[0]['code'] = $services[0]['code'];
+                // $line_service_aux = $line_service;
+                foreach($services as $s) {
+                    $service_column  = array_column($line_service, 'service');
+                    $exist = false;
+                    foreach($service_column as $c) {
+                        if($c == $s['service']) {
+                            $exist = true;
+                        }
+                    }
+
+                    if ($exist) {
+                        for($i = 0; $i < count($line_service); $i++) {
+                            if($line_service[$i]['service'] == $s['service']) {
+                                $line_service_aux[$i]['value'] += $s['value'];
+                                $line_service_aux[$i]['amount'] += 1;
+                            }
+                        }
+                    } else {
+                        $a['value'] = $s['value'];
+                        $a['value_unid'] = $s['value'];
+                        $a['amount'] = 1;
+                        $a['service'] = $s['service'];
+                        $a['code'] = $s['code'];
+                        array_push($line_service_aux, $a);
+                    }
+                    $line_service = $line_service_aux;
+                }
+                $consec = 1;
+                foreach($line_service as $sss) {
+                    $line = $consec . ';' . $sss['service'] . ';999;' . $sss['code'] . ';94;;;;' . $sss['amount'] . ';' . $sss['value_unid'] . ';' . $sss['value'] . ';0;0;' . $sss['value'] . ';0;0;01';
+                    if (strlen($billing_line) == 0) {
+                        $billing_line = $line;
+                    } else {
+                        $billing_line = $billing_line . '
+' . $line;
+                    }
+                    $consec++;
+                }
+            }
 
             $file = [];
             $collection = collect($services_date);
             $sortDates = $collection->sort()->toArray();
             $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
             $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
-            }
+        }
         $now_date = Carbon::now();
         $exparcy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
         $year = Carbon::now()->year;
