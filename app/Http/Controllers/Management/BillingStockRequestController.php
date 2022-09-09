@@ -19,14 +19,21 @@ class BillingStockRequestController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingStockRequest = BillingStockRequest::with('billing', 'product_generic', 'product_supplies');
+        $BillingStockRequest = BillingStockRequest::select('billing_stock_request.*')
+            ->with('billing', 'product_generic', 'product_supplies')
+            ->Leftjoin('product_generic', 'billing_stock_request.product_generic_id', 'product_generic.id')
+            ->Leftjoin('product_supplies', 'billing_stock_request.product_supplies_id', 'product_supplies.id')
+            ->groupBy('billing_stock_request.id');
 
         if ($request->_sort) {
             $BillingStockRequest->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $BillingStockRequest->where('amount', 'like', '%' . $request->search . '%');
+            $BillingStockRequest->where(function ($query) use ($request) {
+                $query->Where('product_generic.description', 'like', '%' . $request->search . '%')
+                    ->orWhere('product_supplies.description', 'like', '%' . $request->search . '%');
+            });
         }
         if ($request->billing_id) {
             $BillingStockRequest->where('billing_id', $request->billing_id);

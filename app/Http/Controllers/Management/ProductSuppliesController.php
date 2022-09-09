@@ -21,7 +21,10 @@ class ProductSuppliesController extends Controller
         $ProductSupplies = ProductSupplies::with('size_supplies_measure', 'measure_supplies_measure')->orderBy('description', 'asc');
 
         if ($request->_sort) {
-            $ProductSupplies->orderBy($request->_sort, $request->_order);
+            if ($request->_sort != "actions" && $request->_sort != "description" && $request->_sort != "factory") {
+
+                $ProductSupplies->orderBy($request->_sort, $request->_order);
+            }
         }
 
         if ($request->search) {

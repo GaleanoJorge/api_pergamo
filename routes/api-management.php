@@ -97,6 +97,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_supplies_therapy/by_record/{id}/{type_record_id}', 'Management\ChSuppliesTherapyController@getByRecord');
 
     //Ch Trabajo Social
+    Route::apiResource('ch_sw_diagnosis', 'Management\ChSwDiagnosisController');
+    Route::get('ch_sw_diagnosis/by_record/{id}/{type_record_id}', 'Management\ChSwDiagnosisController@getByRecord');
     Route::apiResource('ch_sw_family', 'Management\ChSwFamilyController');
     Route::get('ch_sw_family/by_record/{id}/{type_record_id}', 'Management\ChSwFamilyController@getByRecord');
     Route::apiResource('ch_sw_nursing', 'Management\ChSwNursingController');
@@ -171,6 +173,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('neighborhood_or_residence', 'Management\NeighborhoodOrResidenceController');
     Route::apiResource('pad_risk', 'Management\PadRiskController');
     Route::apiResource('tariff', 'Management\TariffController');
+    Route::patch('tariff/{id}/changeStatus', 'Management\TariffController@changeStatus');
 
     //Region
     Route::apiResource('region', 'Management\RegionController');
@@ -820,6 +823,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
+    Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
 
     //Visualización pdf consentimientos informados
     Route::get('viewCI/{id}', 'Management\ConsentsInformedController@ViewCI');

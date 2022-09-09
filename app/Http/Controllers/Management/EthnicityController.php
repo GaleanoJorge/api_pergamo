@@ -38,7 +38,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia obtenidas exitosamente',
-            'data' => ['ethicity' => $Ethnicity]
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
     
@@ -54,7 +54,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia creado exitosamente',
-            'data' => ['ethicity' => $Ethnicity->toArray()]
+            'data' => ['ethnicity' => $Ethnicity->toArray()]
         ]);
     }
      /**
@@ -75,7 +75,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia obtenidas exitosamente',
-            'data' => ['ethicity' => $Ethnicity]
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
 
@@ -93,7 +93,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia obtenido exitosamente',
-            'data' => ['ethicity' => $Ethnicity ]
+            'data' => ['ethnicity' => $Ethnicity ]
         ]);
     }
 
@@ -116,7 +116,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia actualizado exitosamente',
-            'data' => ['ethicity' => $Ethnicity]
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
 

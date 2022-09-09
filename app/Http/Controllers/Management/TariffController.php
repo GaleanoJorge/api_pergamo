@@ -207,6 +207,25 @@ class TariffController extends Controller
         ]);
     }
 
+    public function changeStatus(Request $request, int $id): JsonResponse
+    {
+        $Tariff = Tariff::find($id);
+        $status_id = Tariff::where('id', $id)->get()->first()->status_id;
+        if ($status_id == 1) {
+            $Tariff->status_id = 2;
+        } else {
+            $Tariff->status_id = 1;
+        }
+        $Tariff->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Estado actualizado exitosamente',
+            'data' => ['tariff' => $Tariff]
+        ]);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

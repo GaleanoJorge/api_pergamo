@@ -186,33 +186,33 @@
                 <div class="stl_01" style="top: 44.3509em; left:6.222em;"><span class="stl_11">•</span></div>
                 <div class="stl_01" style="top: 44.4327em; left:7.722em;"><span class="stl_08 stl_09" style="word-spacing:-0.05em;">Que la información que le brindo al psicólogo/a es verdad y corresponde a mi realidad, ya que sobre &nbsp;</span></span></div>
                 <div class="stl_01" style="top: 45.4726em; left:7.722em;"><span class="stl_08 stl_10" style="word-spacing:0.07em;">dicha información se plantean las propuestas de intervención. &nbsp;</span></div>
-                @if(isset($consentsinformed[0]['firm_patient']))
+                @if($consentsinformed[0]['confirmation']=="Paciente")
                 <div class="stl_01" style="top: 48.2127em; left:3.55em;"><span class="stl_08">Firma: &nbsp;</span></div>
-                <div class="stl_01" style="top: 48.2127em; left:13em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['firm_patient']}}</span></span></div>
+                <div class="stl_01" style="top: 47.2127em; left:12em;"><span class="stl_08 stl_09"><img src="data:image/png;base64,{{$firmpatient}}" width="200" height="30" alt="" style=""/></span></span></div>
                 @endisset
                 <div class="stl_01" style="top: 49.4952em; left:13em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}}</span></span></div>
                 @if(isset($consentsinformed[0]['admissions']['patients'] ['identification']))
                 <div class="stl_01" style="top: 50.7752em; left:13em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['admissions']['patients'] ['identification']}}</span></span></div>
                 @endisset
-                <div class="stl_01" style="top: 48.2127em; left:25em;"><span class="stl_08">Firma: &nbsp;</span></div>
+                <div class="stl_01" style="top: 48.2127em; left:25em;"><span class="stl_08">Firma: &nbsp;</span> </div>
 
-                <div class="stl_01" style="top: 48.4527em; left:35em;"><span class="stl_08 stl_09"> &nbsp;</span></span></div>
+                <div class="stl_01" style="top: 48.2127em; left:34em;"><span class="stl_08 stl_09"> &nbsp;</span></span> <img src="data:image/png;base64,{{$firmassistance}}" width="200" height="30" alt="" style=""/></div>
                 <div class="stl_01" style="top: 49.7352em; left:35em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['assigned_user']['firstname']}} {{$consentsinformed[0]['assigned_user']['middlefirstname'] }} {{$consentsinformed[0]['assigned_user']['lastname'] }} {{$consentsinformed[0]['assigned_user']['middlelastname'] }} &nbsp;</span></span></div>
                 <div class="stl_01" style="top: 49.4952em; left:3.55em;"><span class="stl_08 stl_10" style="word-spacing:0.08em;">Nombre de Paciente: &nbsp;</span></div>
                 <div class="stl_01" style="top: 50.7752em; left:3.55em;"><span class="stl_08">Documento: &nbsp;</span></div>
                 <div class="stl_01" style="top: 49.4952em; left:25em;"><span class="stl_08 stl_09" style="word-spacing:0em;">Nombre Profesional: &nbsp;</span></span></div>
                 <div class="stl_01" style="top: 50.8952em; left:25em;"><span class="stl_08">T.P.: &nbsp;</span></div>
-                <div class="stl_01" style="top: 50.8952em; left:35em;"><span class="stl_08 stl_09">registro medico &nbsp;</span></span></div>
+                <div class="stl_01" style="top: 50.8952em; left:35em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}} &nbsp;</span></span></div>
                 <div class="stl_01" style="top: 52.1751em; left:25em;"><span class="stl_08">Cargo: &nbsp;</span></div>
-                <div class="stl_01" style="top: 52.2952em; left:35em;"><span class="stl_08 stl_09">cargo medico &nbsp;</span></span></div>
+                <div class="stl_01" style="top: 52.2952em; left:35em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}} &nbsp;</span></span></div>
 
-                @if(isset($consentsinformed[0]['firm_responsible']))
+                @if($consentsinformed[0]['confirmation']=="Responsable/Cuidador")
                 <div class="stl_01" style="top: 53.3352em; left:3.55em;"><span 
                 class="stl_08">Firma: &nbsp;</span></div>
-                <div class="stl_01" style="top: 53.5752em; left:13.9217em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['firm_responsible']}}</span></span></div>
+                <div class="stl_01" style="top: 53.5752em; left:11.9217em;"><span class="stl_08 stl_09"><img src="data:image/png;base64,{{$firmresponsible}}" width="200" height="30" alt="" style=""/></span></span></div>
                 @endisset
                 @if(isset($consentsinformed[0]['relationship']))
-                <div class="stl_01" style="top: 55.2452em; left:13.9217em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['relationship'] ['name']}}&nbsp;</span></span></div>
+                <div class="stl_01" style="top: 55.2452em; left:13em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['relationship'] ['name']}}&nbsp;</span></span></div>
                 <div class="stl_01" style="top: 54.6152em; left:3.55em;"><span class="stl_08">Parentesco: &nbsp;</span></div>
                 @endisset
                 @if(isset($consentsinformed[0]['name_responsible']))
@@ -225,7 +225,7 @@
 
                 <div class="stl_01" style="top: 59.4048em; left:3.55em;"><span class="stl_08">Documento: &nbsp;</span></div>
 
-                <div class="stl_01" style="top: 59.6448em; left:13.9217em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['identification_responsible']}}</span></span></div>
+                <div class="stl_01" style="top: 59.6448em; left:13em;"><span class="stl_08 stl_09">{{$consentsinformed[0]['identification_responsible']}}</span></span></div>
                 @endisset
 
                 <div class="stl_01" style="top: 63.0426em; left:3.04em;"><span class="stl_12 stl_10">CODIGO:F-PSI-04 &nbsp;</span></span></div>

@@ -178,7 +178,7 @@
 				<div class="stl_01" style="top: 24.111em; left:3.1em;"><span class="stl_12 stl_11" style="word-spacing:0.15em;">Declaro que acepto y</span><span class="stl_12 stl_11" style="word-spacing:0.17em;">&nbsp;autorizo</span><span class="stl_12 stl_11" style="word-spacing:0.15em;">&nbsp;al profesional</span><span class="stl_12 stl_11" style="word-spacing:0.14em;">&nbsp;que</span><span class="stl_12 stl_11" style="word-spacing:0.1em;">&nbsp;se</span><span class="stl_12 stl_11" style="word-spacing:0.16em;">&nbsp;comunica vía telefónica, para</span><span class="stl_12 stl_11" style="word-spacing:0.11em;">&nbsp;la</span><span class="stl_12 stl_11" style="word-spacing:0.19em;">&nbsp;ejecución</span><span class="stl_12 stl_11" style="word-spacing:0.06em;">&nbsp;de</span><span class="stl_12 stl_11" style="word-spacing:0.03em;">&nbsp;las &nbsp;</span></div>
 				<div class="stl_01" style="top: 25.311em; left:3.1em;"><span class="stl_12 stl_11" style="word-spacing:0.05em;">terapias aplicando TELETERAPIA al paciente. &nbsp;</span></div>
 
-				@if(isset($firmpatient))
+				@if($consentsinformed[0]['confirmation']=="Paciente")
 				<div class="stl_01" style="top: 28.7735em; left:3.55em;"><span class="stl_13">Firma: &nbsp;</span></div>
 				<div class="stl_01" style="top: 26.7735em; left:9.4617em;"><span class="stl_13 stl_10"><img src="data:image/png;base64,{{$firmpatient}}" width="250" height="100" alt="" style=""/>&nbsp;</span></span></div>
 		
@@ -189,21 +189,21 @@
 				<div class="stl_01" style="top: 31.3335em; left:13.4617em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['admissions']['patients'] ['identification']}}&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 28.7735em; left:27.558em;"><span class="stl_13">Firma: &nbsp;</span></div>
 
-				<div class="stl_01" style="top: 29.1035em; left:35.495em;"><span class="stl_13 stl_10">_________p_______&nbsp;</span></span></div>
+				<div class="stl_01" style="top:28.1035em; left:35.495em;"><span class="stl_13 stl_10"><img src="data:image/png;base64,{{$firmassistance}}" width="200" height="30" alt="" style=""/>&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 30.3835em; left:35.495em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['assigned_user']['firstname']}} {{$consentsinformed[0]['assigned_user']['middlefirstname'] }} {{$consentsinformed[0]['assigned_user']['lastname'] }} {{$consentsinformed[0]['assigned_user']['middlelastname'] }} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 30.0535em; left:3.55em;"><span class="stl_13" style="word-spacing:0.02em;">Nombre de Paciente: &nbsp;</span></div>
 				<div class="stl_01" style="top: 31.3335em; left:3.55em;"><span class="stl_13">Documento: &nbsp;</span></div>
 				<div class="stl_01" style="top: 30.0535em; left:27.558em;"><span class="stl_13" style="word-spacing:0.02em;">Nombre Profesional: &nbsp;</span></div>
 				<div class="stl_01" style="top: 31.4935em; left:27.558em;"><span class="stl_13">T.P.: &nbsp;</span></div>
-				<div class="stl_01" style="top: 31.4935em; left: 35.495em;"><span class="stl_13 stl_10">_____p___________ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 31.4935em; left: 35.495em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 32.7735em; left:27.558em;"><span class="stl_13">Cargo: &nbsp;</span></div>
 			
-				<div class="stl_01" style="top: 32.9435em; left:35.495em;"><span class="stl_13 stl_10">______p_________ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 32.9435em; left:35.495em;"><span class="stl_13 stl_10">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}}&nbsp;</span></span></div>
 
-				@if(isset($firmresponsible))
+				@if($consentsinformed[0]['confirmation']=="Responsable/Cuidador")
 				<div class="stl_01" style="top: 33.8835em; left:3.55em;"><span class="stl_13">Firma: &nbsp;</span></div>
-	         <img src="data:image/png;base64,{{$firmresponsible}}" width="250" height="100" alt="" style=""/></span>
-				<div class="stl_01" style="top: 35.8951em; left:13.4617em;"><span class="stl_13 stl_10">&nbsp;</span></span></div>
+	            </span>
+				<div class="stl_01" style="top: 33.8835em; left:12.4617em;"><span class="stl_13 "></span> <img src="data:image/png;base64,{{$firmresponsible}}" width="250" height="30" alt="" style=""/></span></div>
 				@endisset
 				@if(isset($consentsinformed[0]['relationship']))
 				<div class="stl_01" style="top: 35.8951em; left:13.4617em;"><span class="stl_13">{{$consentsinformed[0]['relationship'] ['name']}}</span></div>

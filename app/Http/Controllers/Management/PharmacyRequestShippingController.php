@@ -30,7 +30,11 @@ class PharmacyRequestShippingController extends Controller
                 'pharmacy_lot_stock',
                 'pharmacy_lot_stock.billing_stock',
                 'pharmacy_lot_stock.billing_stock.product',
+                'pharmacy_lot_stock.billing_stock.product.product_generic',
+                'pharmacy_lot_stock.billing_stock.product.factory',
                 'pharmacy_lot_stock.billing_stock.product_supplies_com',
+                'pharmacy_lot_stock.billing_stock.product_supplies_com.factory',
+                'pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
                 'user_responsible',
                 //'user_request.users'
             )
@@ -54,7 +58,7 @@ class PharmacyRequestShippingController extends Controller
         }
 
         if ($request->pharmacy_product_request_id) {
-            $PharmacyRequestShipping->where('pharmacy_product_request_id', $request->pharmacy_product_request_id);
+            $PharmacyRequestShipping->where('pharmacy_product_request_id','=', $request->pharmacy_product_request_id);
         }
 
         if ($request->product1 == "true") {

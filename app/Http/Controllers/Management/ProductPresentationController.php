@@ -21,8 +21,11 @@ class ProductPresentationController extends Controller
         $ProductPresentation = ProductPresentation::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductPresentation->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $ProductPresentation->where('name','like','%' . $request->search. '%');
