@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChAuscultationController extends Controller
 {
@@ -51,16 +52,30 @@ class ChAuscultationController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
+
+
         $ChAuscultation = ChAuscultation::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChAuscultation = ChAuscultation::select('ch_auscultation.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_auscultation.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
         return response()->json([
             'status' => true,
-            'message' => 'Auscultacion obtenido exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_auscultation' => $ChAuscultation]
         ]);
     }
+
 
     public function store(Request $request): JsonResponse
     {

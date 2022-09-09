@@ -52,17 +52,26 @@ class ChSwEconomicAspectsController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChSwEconomicAspects = ChSwEconomicAspects::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwEconomicAspects = ChSwEconomicAspects::select('ch_sw_economic_aspects.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_economic_aspects.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Capacidad de copago obtenidos exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_economic_aspects' => $ChSwEconomicAspects]
         ]);
     }

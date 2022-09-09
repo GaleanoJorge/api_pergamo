@@ -9,6 +9,7 @@ use App\Models\ChRecord;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
 
+
 class ChSwNursingController extends Controller
 {
        /**
@@ -52,17 +53,26 @@ class ChSwNursingController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChSwNursing = ChSwNursing::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $ChSwNursing = ChSwNursing::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwNursing = ChSwNursing::select('ch_sw_nursing.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_nursing.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Información servicio de enfermería obtenida exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_nursing' => $ChSwNursing]
         ]);
     }
