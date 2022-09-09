@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class TherapeuticGoalsTlController extends Controller
 {
@@ -51,17 +52,26 @@ class TherapeuticGoalsTlController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $TherapeuticGoalsTl = TherapeuticGoalsTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $TherapeuticGoalsTl = TherapeuticGoalsTl::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $TherapeuticGoalsTl = TherapeuticGoalsTl::select('therapeutic_goals_tl.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'therapeutic_goals_tl.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Objetivos Terapeuticos asociado al paciente exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['therapeutic_goals_tl' => $TherapeuticGoalsTl]
         ]);
     }

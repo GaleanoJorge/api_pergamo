@@ -17,7 +17,7 @@ class CreateChSwHousingAspectTable extends Migration
         Schema::create('ch_sw_housing_aspect', function (Blueprint $table) {
             $table->bigIncrements('id');            
             $table->string('flat')->nullable();
-            $table->string('lift');
+            $table->string('lift')->nullable();
             $table->string('location');
             $table->string('vehicle_access');
             $table->unsignedBigInteger('ch_sw_housing_type_id');
