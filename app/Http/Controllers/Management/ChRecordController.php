@@ -1415,6 +1415,7 @@ class ChRecordController extends Controller
                 'ChSwArmedConflict' => $ChSwArmedConflict,
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
