@@ -59,6 +59,11 @@ class ChSwFamilyDynamicsController extends Controller
 
 
         $ChSwFamilyDynamics = ChSwFamilyDynamics::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->with(
+                'ch_sw_communications',
+                'authority',
+                'decisions',
+                'ch_sw_expression',)
             ->get()->toArray();
 
         if ($request->has_input) { //

@@ -63,7 +63,9 @@ class ChSwSupportNetworkController extends Controller
 
 
         $ChSwSupportNetwork = ChSwSupportNetwork::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->get()->toArray();
+          ->with(
+           'ch_sw_network',
+           'ch_sw_entity')->get()->toArray();
 
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //
@@ -89,6 +91,8 @@ class ChSwSupportNetworkController extends Controller
         $ChSwSupportNetwork->provided = $request->provided;
         $ChSwSupportNetwork->sw_note = $request->sw_note;
         $ChSwSupportNetwork->ch_sw_network_id = $request->ch_sw_network_id;
+        $ChSwSupportNetwork->ch_sw_entity_id = $request->ch_sw_entity_id;
+        $ChSwSupportNetwork->observation = $request->observation;
         $ChSwSupportNetwork->type_record_id = $request->type_record_id;
         $ChSwSupportNetwork->ch_record_id = $request->ch_record_id;
         $ChSwSupportNetwork->save();
@@ -131,6 +135,8 @@ class ChSwSupportNetworkController extends Controller
         $ChSwSupportNetwork->provided = $request->provided;
         $ChSwSupportNetwork->sw_note = $request->sw_note;
         $ChSwSupportNetwork->ch_sw_network_id = $request->ch_sw_network_id;
+        $ChSwSupportNetwork->ch_sw_entity_id = $request->ch_sw_entity_id;
+        $ChSwSupportNetwork->observation = $request->observation;
         $ChSwSupportNetwork->type_record_id = $request->type_record_id;
         $ChSwSupportNetwork->ch_record_id = $request->ch_record_id;
         $ChSwSupportNetwork->save();
