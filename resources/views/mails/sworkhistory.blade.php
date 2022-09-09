@@ -100,11 +100,11 @@
                     <span style="font-family:Calibri"> <b> Estado Civil: </b> </span>
                 </p>
             </td>      
-            {{-- <td style="width:141.6pt; vertical-align:top">
+            <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
                 </p>
-            </td> --}}
+            </td>
 
         </tr>
         <tr style="height:11.95pt">
@@ -1606,15 +1606,18 @@
 </div>
 
 <!-- Firma -->
-<div style="display: flex">
-    <div style="width: 100%">
-        <br>
-        <br>
-        <hr />
+<hr />
+<br>
+<br>
+<table>
+
+    <tr style="height:11.95pt">
+        <td style="width:130pt; vertical-align:top">
+    <div>
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
     
         @if($firm != null)
-        <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
+        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
             <span style="height:0pt;">
             
                 <img src="data:image/png;base64,{{$firm}}" width="250" height="100" alt="" style=""/></span>
@@ -1639,15 +1642,13 @@
     
             @endisset   
     </div>
-    
-    <div style="margin-left:250pt">
-        <br>
-        <br>
-        <hr />
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN </b> </span>
+</td>
+<td style="margin-left:50px;width:130pt; vertical-align:top">
+    <div style="">
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE</b> </span>
     
         @if($firmPatient != null)
-        <p style="margin-top:15pt; margin-left:30pt; margin-bottom:0pt;">
+        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
             <span style="height:0pt;">
             
                 <img src="data:image/png;base64,{{$firmPatient}}" width="250" height="100" alt="" style=""/></span>
@@ -1659,7 +1660,10 @@
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
     </div>
-</div>
+
+</td>
+</tr>
+</table>
 
 </body>
 

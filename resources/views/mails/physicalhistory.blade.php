@@ -100,11 +100,11 @@
                     <span style="font-family:Calibri"> <b> Estado Civil: </b> </span>
                 </p>
             </td>      
-            {{-- <td style="width:141.6pt; vertical-align:top">
+            <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
                 </p>
-            </td> --}}
+            </td>
 
         </tr>
         <tr style="height:11.95pt">
@@ -2587,6 +2587,9 @@
 </div>
 
 <!-- Firma -->
+<table>
+    <tr>
+        <td>
 <div style="display: flex">
     <div style="width: 100%">
         <br>
@@ -2620,7 +2623,8 @@
     
             @endisset   
     </div>
-    
+</td>
+<td>
     <div style="margin-left:200pt">
         <br>
         <br>
@@ -2641,7 +2645,9 @@
             </p>
     </div>
 </div>
-
+</td>
+</tr>
+</table>
 </body>
 
 </html>
