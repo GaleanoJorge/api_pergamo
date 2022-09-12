@@ -41,6 +41,7 @@ class FixedAddController extends Controller
                 'fixed_nom_product',
                 'admissions',
                 'admissions.patients',
+                'admissions.campus',
                 'own_fixed_user',
                 'procedure',
                 'procedure.manual_price',

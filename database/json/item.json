@@ -1600,5 +1600,27 @@
         "route": "/pages/setting/fixed-assets-requests",
         "icon": "",
         "show_menu": "1"
+    },
+
+    
+    {
+        "id": "229",
+        "item_parent_id": "219",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    }
+
+    ,
+    {
+        "id": "230",
+        "item_parent_id": "174",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

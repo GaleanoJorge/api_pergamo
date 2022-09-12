@@ -11,31 +11,35 @@ use Illuminate\Database\QueryException;
 
 class FixedNomProductController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $FixedNomProduct = FixedNomProduct::with('fixed_clasification','fixed_clasification.fixed_code', 'fixed_clasification.fixed_type');
+        $FixedNomProduct = FixedNomProduct::select('fixed_nom_product.*')
+            ->leftJoin('fixed_clasification', 'fixed_nom_product.fixed_clasification_id', 'fixed_clasification.id')
+            ->with('fixed_clasification', 'fixed_clasification.fixed_code', 'fixed_clasification.fixed_type');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $FixedNomProduct->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $FixedNomProduct->where('name','like','%' . $request->search. '%');
+            $FixedNomProduct->where(function ($query) use ($request) {
+                $query->where('fixed_nom_product.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('fixed_clasification.name', 'like', '%' . $request->search . '%');
+            });
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $FixedNomProduct=$FixedNomProduct->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $FixedNomProduct=$FixedNomProduct->paginate($per_page,'*','page',$page); 
-        }     
+        if ($request->query("pagination", true) == "false") {
+            $FixedNomProduct = $FixedNomProduct->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $FixedNomProduct = $FixedNomProduct->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -44,7 +48,7 @@ class FixedNomProductController extends Controller
         ]);
     }
 
-                /**
+    /**
      * Display a listing of the resource
      *
      * @param integer $fixed_type_id
@@ -63,8 +67,8 @@ class FixedNomProductController extends Controller
     }
 
 
-     
-             /**
+
+    /**
      * Display a listing of the resource
      *
      * @param integer $fixed_clasification_id
@@ -126,7 +130,7 @@ class FixedNomProductController extends Controller
      */
     public function update(FixedNomProductRequest $request, int $id): JsonResponse
     {
-        $FixedNomProduct = FixedNomProduct ::find($id);
+        $FixedNomProduct = FixedNomProduct::find($id);
         $FixedNomProduct->name = $request->name;
         $FixedNomProduct->fixed_clasification_id = $request->fixed_clasification_id;
         $FixedNomProduct->save();
