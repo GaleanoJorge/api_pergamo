@@ -11,6 +11,7 @@ class Authorization extends BaseAuthorization
 		'supplies_id',
 		'admissions_id',
 		'auth_status_id',
+		'quantity',
 		'services_briefcase_id',
 		'assigned_management_plan_id',
 		'authorized_amount',

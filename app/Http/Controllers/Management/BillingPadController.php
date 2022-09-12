@@ -1924,6 +1924,7 @@ class BillingPadController extends Controller
                 $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                     ->select(
                         'authorization.id AS authorization_id',
+                        'authorization.quantity AS quantity',
                         'authorization.auth_number AS auth_number',
                         'authorization.observation AS observation',
                         'authorization.file_auth AS file_auth',
@@ -1962,6 +1963,7 @@ class BillingPadController extends Controller
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
                             'authorization.auth_number AS auth_number',
+                            'authorization.quantity AS quantity',
                             'authorization.observation AS observation',
                             'authorization.file_auth AS file_auth',
                             'authorization.services_briefcase_id AS services_briefcase_id',
@@ -1999,8 +2001,13 @@ class BillingPadController extends Controller
                     }
                 }
 
+                $q = 1;
+                if ($Auth[0]['quantity']) {
+                    $q = $Auth[0]['quantity'];
+                }
 
-                $value = $Auth[0]['services_briefcase']['value'];
+                $value = $Auth[0]['services_briefcase']['value'] * $q;
+                $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
                 $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
                 $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
@@ -2008,6 +2015,7 @@ class BillingPadController extends Controller
                         $Auth[0]['product_com']['code_cum'] : null));
 
                 $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['quantity'] = $quantity;
                 $services[$consecutivo]['service'] = $service;
                 $services[$consecutivo]['code'] = $code;
                 $consecutivo++;
@@ -2038,18 +2046,25 @@ class BillingPadController extends Controller
                         for($i = 0; $i < count($line_service); $i++) {
                             if($line_service[$i]['service'] == $s['service']) {
                                 $line_service_aux[$i]['value'] += $s['value'];
-                                $line_service_aux[$i]['amount'] += 1;
+                                $line_service_aux[$i]['amount'] += $s['quantity'];
                             }
                         }
                     } else {
                         $a['value'] = $s['value'];
-                        $a['value_unid'] = $s['value'];
-                        $a['amount'] = 1;
+                        $a['value_unid'] = 0;
+                        $a['amount'] = $s['quantity'];
                         $a['service'] = $s['service'];
                         $a['code'] = $s['code'];
                         array_push($line_service_aux, $a);
                     }
                     $line_service = $line_service_aux;
+                }
+                if (count($line_service) > 0) {
+                    $j = 0;
+                    foreach ($line_service as $e) {
+                        $line_service[$j]['value_unid'] = ($e['value']/$e['amount']);
+                        $j++;
+                    }
                 }
                 $consec = 1;
                 foreach($line_service as $sss) {
@@ -2348,10 +2363,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function generateBillingPdf(Request $request, int $id): JsonResponse
     {
         $BillingPad = $this->getBillingPadInformation($id);
+        $multiplicate = false;
         if ($request->selected_procedures) {
             $selected_procedures = json_decode($request->selected_procedures, true);
         } else if ($request->admission_id) {
             $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
+            $multiplicate = true;
         } else {
             return response()->json([
                 'status' => false,
@@ -2362,9 +2379,15 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $services_date = array();
         $view_services = array();
         $total_value = 0;
+        $quantity = 0;
         $i = 0;
         foreach ($selected_procedures as $element) {
-            $total_value += $element['services_briefcase']['value'];
+            $q = 1;
+            if ($element['quantity']) {
+                $q = $element['quantity'];
+            }
+            $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+            $quantity += $q;
             $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
                 $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
                     $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
@@ -2407,25 +2430,25 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     $j = 0;
                     foreach ($view_services as $e) {
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
-                            $view_services[$j]['amount']++;
-                            $view_services[$j]['value'] += $selected_procedures[$i]['services_briefcase']['value'];
+                            $view_services[$j]['amount'] += $quantity;
+                            $view_services[$j]['value'] += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                         }
                         $j++;
                     }
                 } else {
                     $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
-                    $a['amount'] = 1;
-                    $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
-                    $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                    $a['amount'] = $quantity;
+                    $a['val_und'] = 0;
+                    $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                     array_push($view_services, $a);
                 }
             } else {
                 $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
-                $a['amount'] = 1;
-                $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
-                $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                $a['amount'] = $quantity;
+                $a['val_und'] = 0;
+                $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                 array_push($view_services, $a);
             }
 
@@ -2436,7 +2459,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         if (count($view_services) > 0) {
             $j = 0;
             foreach ($view_services as $e) {
-                $view_services[$j]['val_und'] = $this->currencyTransform($e['val_und']);
+                $view_services[$j]['val_und'] = $this->currencyTransform(($e['value']/$e['amount']));
                 $view_services[$j]['value'] = $this->currencyTransform($e['value']);
                 $j++;
             }

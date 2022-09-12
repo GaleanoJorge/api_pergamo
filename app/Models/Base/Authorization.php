@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $procedure_id
  * @property int $admissions_id
  * @property int $auth_number
+ * @property int $quantity
  * @property int $state_auth_id
  * @property int $fixed_add_id
  * @property Carbon $created_at
