@@ -289,6 +289,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChSwHousingTypeSeeder::class);
                 $this->call(ChSwServicesSeeder::class);
                 $this->call(ChSwNetworkSeeder::class);
+                $this->call(ChSwEntitySeeder::class);
                 
                 
                 

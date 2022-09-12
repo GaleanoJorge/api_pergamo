@@ -151,6 +151,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_services/by_record/{id}/{type_record_id}', 'Management\ChSwServicesController@getByRecord');
     Route::apiResource('ch_sw_network', 'Management\ChSwNetworkController');
     Route::get('ch_sw_network/by_record/{id}/{type_record_id}', 'Management\ChSwNetworkController@getByRecord');
+    Route::apiResource('ch_sw_entity', 'Management\ChSwEntityController');
+    Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
 
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
@@ -823,6 +825,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
+    Route::get('viewCertification/{id}', 'Management\ChRecordController@ViewCertification');
     Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
 
     //Visualización pdf consentimientos informados
