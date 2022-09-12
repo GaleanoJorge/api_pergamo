@@ -268,6 +268,7 @@ class ChRecordController extends Controller
      */
     public function ViewHC(int $id)
     {
+        $fecharecord=0 ;
 
         $ChRecord = ChRecord::with(
             'user',
@@ -302,6 +303,7 @@ class ChRecordController extends Controller
 
             ->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
+        $fecharecord=Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
         if ($ChRecord[0]['firm_file']) {
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
@@ -540,7 +542,7 @@ class ChRecordController extends Controller
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
                  'firmPatient' => $imagenPAtient,
-
+                 'fecharecord'=> $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -618,6 +620,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
 
@@ -819,6 +824,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -944,6 +952,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -1053,6 +1064,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
 
@@ -1157,6 +1171,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
 
@@ -1268,6 +1285,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -1391,6 +1411,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];

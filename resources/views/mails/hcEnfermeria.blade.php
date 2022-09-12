@@ -1984,6 +1984,7 @@
                         <tr>
                             <th><span style="font-family:Calibri; font-size:9pt">MEDICAMENTO</th>
                             <th><span style="font-family:Calibri; font-size:9pt">FECHA Y HORA DE APLICACIÓN</th>
+                                <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</th>
                             <th><span style="font-family:Calibri; font-size:9pt">RESPONSABLE</th>
                         </tr>
 
@@ -1997,7 +1998,10 @@
                                 <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
                             </td>
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$ch['users']['firstname']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['observation']}}</span>
+                            </td>
+                            <td>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['users']['firstname']}} {{$ch['users']['middlefirstname']}} {{$ch['users']['lastname']}} {{$ch['users']['middlelastname']}}</span>
                             </td>
                                                 
                         </tr>
