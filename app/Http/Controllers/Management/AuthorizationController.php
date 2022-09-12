@@ -62,7 +62,7 @@ class AuthorizationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function InProcess(Request $request, string $statusId): JsonResponse
+    public function InProcess(Request $request, int $algo = null): JsonResponse
     {
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('location', 'admissions.id', 'location.admissions_id')
@@ -106,7 +106,7 @@ class AuthorizationController extends Controller
                 'applications.users',
             );
 
-        if ($statusId === '0') {
+        if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -117,7 +117,7 @@ class AuthorizationController extends Controller
                 });
             });
         } 
-        else if($statusId === 'E'){
+        else if($request->status_id === 'E'){
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -132,7 +132,7 @@ class AuthorizationController extends Controller
                 //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00');
             });
-        } else if($statusId === 'P'){
+        } else if($request->status_id === 'P'){
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -145,7 +145,7 @@ class AuthorizationController extends Controller
             $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
                 $que->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
             });
-        } else if($statusId == 'PAQ'){
+        } else if($request->status_id == 'PAQ'){
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -164,7 +164,7 @@ class AuthorizationController extends Controller
         } 
         else {
             $Authorization
-                ->where('auth_status_id', $statusId);
+                ->where('auth_status_id', $request->status_id);
             $Authorization->orwhere(function ($query) use ($request) {
                 $query->WhereNotNull('application_id');
             });
@@ -212,6 +212,11 @@ class AuthorizationController extends Controller
 
         if ($request->_sort) {
             $Authorization->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->number_id != 'null' && isset($request->number_id)) {
+            $Authorization
+                ->where('identification', 'like', '%' . $request->number_id . '%');
         }
 
         if ($request->search) {

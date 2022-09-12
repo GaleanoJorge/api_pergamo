@@ -1448,7 +1448,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('authorization', 'Management\AuthorizationController');
     Route::post('authorization/{id}', 'Management\AuthorizationController@update');
     Route::post('authorization/Massive/{id}', 'Management\AuthorizationController@saveGroup');
-    Route::get('authorization/byStatus/{statusId}', 'Management\AuthorizationController@InProcess');
+    Route::get('authorization/byStatus/{id}', 'Management\AuthorizationController@InProcess');
     Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     //Estado de autorizaciones.

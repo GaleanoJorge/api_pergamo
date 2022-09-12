@@ -60,12 +60,19 @@
 
     <p style="margin-top:40pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
         <span style="font-family:Calibri; font-size:10pt">
-        <b>@if(isset($ChSwSupportNetwork['created_at'])) FECHA DE DILIGENCIAMIENTO: </b>{{substr($ChSwSupportNetwork['created_at'],0,10) }} @endisset </span>
+        <b>@if(isset($ChSwSupportNetwork[0]['created_at'])) FECHA DE DILIGENCIAMIENTO: </b>{{substr($ChSwSupportNetwork[0]['created_at'],0,10) }} @endisset </span>
     </p>
     <p style="margin-top:40pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
         <span style="font-family:Calibri; font-size:10pt">
         <b> HEALTH & LIFE IPS INFORMA</span>
     </p>
+
+    @if(isset($chrecord[0]['admissions']['patients']['firstname'])  &&
+    isset($chrecord[0]['admissions']['patients']['lastname'])  &&
+    isset($chrecord[0]['admissions']['patients']['identification_type']['name']) && isset($chrecord[0]['admissions']['patients']['identification']) && isset($chrecord[0]['admissions']['patients']['age']) && 
+    isset($ChSwSupportNetwork[0]['created_at']) && isset($ChSwSupportNetwork[0]['ch_sw_entity']['name']) &&  isset($ChSwSupportNetwork[0]['observation']))
+
+
     <p style="margin-top:40pt; margin-left:14pt; margin-right:14pt;margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0; text-align: justify">
         <span style="font-family:Calibri; font-size:10pt; line-height:20pt">
             Que el paciente <b>{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} </b>
@@ -78,7 +85,10 @@
             {{$ChSwSupportNetwork[0]['observation']}}
         </span>
     </p>
+    @endisset
     <br/>
+</div>
+
 <!-- Firma -->
 <div style="display: flex">
     <div style="width: 100%">
@@ -89,9 +99,11 @@
             <p style="margin-top:15pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt;">
                 <span style="height:0pt;">
             
-            
+            @if(isset($firm))
                 <img src="data:image/png;base64,{{$firm}}" width="250" height="100" alt="" style=""/></span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+
+            @endisset
             </p>
             @endisset
             <p style="margin-top:8.95pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt; widows:0; orphans:0; font-size:10pt">

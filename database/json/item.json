@@ -1600,5 +1600,14 @@
         "route": "/pages/setting/fixed-assets-requests",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "234",
+        "item_parent_id": null,
+        "name": "Gestión asistencial",
+        "code": "medical-records-list",
+        "route": "/pages/medical-records/list",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
