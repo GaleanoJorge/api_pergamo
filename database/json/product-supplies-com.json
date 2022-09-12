@@ -365,7 +365,7 @@
     },
     {
      "id": null,
-     "name": "GORRO ENFERMERIA  ",
+     "name": "GORRO ENFERMERIA",
      "factory_id": 224,
      "product_supplies_id": 12,
      "invima_registration": "N\/A",
@@ -379,7 +379,7 @@
     },
     {
      "id": null,
-     "name": "GORRO ENFERMERIA TIPO ORUGA ",
+     "name": "GORRO ENFERMERIA TIPO ORUGA",
      "factory_id": 233,
      "product_supplies_id": 12,
      "invima_registration": "N\/A",
@@ -393,7 +393,7 @@
     },
     {
      "id": null,
-     "name": "RECOLECTOR CORTOPUNZANTE (GUARDIAN) 1.5L ",
+     "name": "RECOLECTOR CORTOPUNZANTE (GUARDIAN) 1.5L",
      "factory_id": 190,
      "product_supplies_id": 21,
      "invima_registration": "N\/A",
@@ -729,7 +729,7 @@
     },
     {
      "id": null,
-     "name": "COMPRESA ESTERIL (LIFE CARE) PAQ X 5 UND 1 ",
+     "name": "COMPRESA ESTERIL (LIFE CARE) PAQ X 5 UND 1",
      "factory_id": 218,
      "product_supplies_id": 33,
      "invima_registration": "2020DM-0022281",
@@ -799,7 +799,7 @@
     },
     {
      "id": null,
-     "name": "TAPABOCAS FACE MASK (BIO SAFE) ",
+     "name": "TAPABOCAS FACE MASK (BIO SAFE)",
      "factory_id": 177,
      "product_supplies_id": 89,
      "invima_registration": "2020DM-0022007",
@@ -1177,7 +1177,7 @@
     },
     {
      "id": null,
-     "name": "ELECTRODO DE MONITOREO ADULTO BSS MEDICAL ",
+     "name": "ELECTRODO DE MONITOREO ADULTO BSS MEDICAL",
      "factory_id": 183,
      "product_supplies_id": 101,
      "invima_registration": "2019DM-0019407",
@@ -1191,7 +1191,7 @@
     },
     {
      "id": null,
-     "name": "ELECTRODO DE MONITOREO PEDIATRICO BSS MEDICAL ",
+     "name": "ELECTRODO DE MONITOREO PEDIATRICO BSS MEDICAL",
      "factory_id": 183,
      "product_supplies_id": 129,
      "invima_registration": "2019DM-0019407",
@@ -1639,7 +1639,7 @@
     },
     {
      "id": null,
-     "name": "FILTRO ANTIMICROBIANO NARIZ DE CAMELLO NEONATAL ",
+     "name": "FILTRO ANTIMICROBIANO NARIZ DE CAMELLO NEONATAL",
      "factory_id": 210,
      "product_supplies_id": 168,
      "invima_registration": "2018DM-0018409",
@@ -1891,7 +1891,7 @@
     },
     {
      "id": null,
-     "name": "FRASCO RECOLECTOR DE ORINA  ",
+     "name": "FRASCO RECOLECTOR DE ORINA",
      "factory_id": 180,
      "product_supplies_id": 41,
      "invima_registration": "2018DM-0017737",
@@ -2563,7 +2563,7 @@
     },
     {
      "id": null,
-     "name": "EQUIPO DE BURETROL  ",
+     "name": "EQUIPO DE BURETROL",
      "factory_id": 214,
      "product_supplies_id": 225,
      "invima_registration": "2017DM-0016656",
