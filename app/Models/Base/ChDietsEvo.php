@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property unsignedBigInteger $enterally_diet_id
- * @property unsignedBigInteger $diet_consistency_id
+ * @property string $diet_consistency
  * @property string $observation
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
@@ -39,10 +39,7 @@ class ChDietsEvo extends Model
 	{
 		return $this->belongsTo(EnterallyDiet::class);
 	}
-	public function diet_consistency()
-	{
-		return $this->belongsTo(DietConsistency::class);
-	}
+	
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);
