@@ -1419,7 +1419,7 @@
                     </td>
                     <td style="width:106pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                            <span style="font-family:Calibri"><b>@if(isset($ch['enterally_diet'])) ENTERAL : </b> {{$ch['enterally_diet']}} @endisset</span>
+                            <span style="font-family:Calibri"><b>@if(isset($ch['enterally_diet'])) ENTERAL : </b> {{$ch['enterally_diet']['name']}} @endisset</span>
                         </p>
                     </td>
                 </tr>                            
@@ -2515,7 +2515,7 @@
                         </td>
                         <td style="width:106pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                <span style="font-family:Calibri"><b>@if(isset($ch['diet_consistency'])) ORAL: </b> {{$ch['diet_consistency']['name']}} @endisset</span>
+                                <span style="font-family:Calibri"><b>@if(isset($ch['diet_consistency'])) ORAL: </b> {{$ch['diet_consistency']}} @endisset</span>
                                             
                             </p>
                         </td>

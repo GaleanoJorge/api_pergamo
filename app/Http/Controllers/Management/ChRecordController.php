@@ -482,7 +482,7 @@ class ChRecordController extends Controller
             $ChOstomiesEvo = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChApEvo = ChAp::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
-            $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+            $ChDietsEvo = ChDietsEvo::with('enterally_diet')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
             //Escalas
             $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
@@ -910,9 +910,11 @@ class ChRecordController extends Controller
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
+                if($ChRecord[0]['user']['assistance'][0]['file_firm']!=null){
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+                }
             }else{
                 $imagenComoBase64 = null;
 
