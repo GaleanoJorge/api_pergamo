@@ -64,6 +64,7 @@ class ChObjectivesTherapyController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChObjectivesTherapy = ChObjectivesTherapy::select('ch_objectives_therapy.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_objectives_therapy.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_objectives_therapy.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

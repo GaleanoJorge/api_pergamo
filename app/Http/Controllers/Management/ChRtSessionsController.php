@@ -65,6 +65,7 @@ class ChRtSessionsController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChRtSessions = ChRtSessions::select('ch_rt_sessions.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_rt_sessions.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_rt_sessions.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

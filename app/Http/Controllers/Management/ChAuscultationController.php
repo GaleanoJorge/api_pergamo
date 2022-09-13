@@ -64,6 +64,7 @@ class ChAuscultationController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChAuscultation = ChAuscultation::select('ch_auscultation.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_auscultation.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_auscultation.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

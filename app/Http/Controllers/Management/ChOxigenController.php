@@ -57,6 +57,7 @@ class ChOxigenController extends Controller
 
         $ChOxigen = ChOxigen::select('ch_oxigen.*')
             ->where('ch_record_id', $id)
+            ->where('ch_oxigen.type_record_id', 1)
             ->where('type_record_id', $type_record)
             ->with(
                 'liters_per_minute',

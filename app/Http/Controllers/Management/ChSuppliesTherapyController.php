@@ -53,7 +53,10 @@ class ChSuppliesTherapyController extends Controller
      */
     public function getByRecord(int $id,int $type_record_id): JsonResponse
     {
-        $ChSuppliesTherapy = ChSuppliesTherapy::where('ch_record_id', $id)->where('type_record_id',$type_record_id)->with('product')
+        $ChSuppliesTherapy = ChSuppliesTherapy::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
+        ->where('ch_supplies_therapy.type_record_id', 1)
+        ->with('product')
         ->get()->toArray();
         return response()->json([
             'status' => true,

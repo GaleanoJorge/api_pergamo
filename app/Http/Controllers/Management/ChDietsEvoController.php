@@ -62,7 +62,9 @@ class ChDietsEvoController extends Controller
             'type_record',
             'ch_record'
         )
-            ->where('ch_record_id', $id)->where('type_record_id', $type_record_id);
+            ->where('ch_record_id', $id)
+            ->where('ch_diets_evo.type_record_id', 1)
+            ->where('type_record_id', $type_record_id);
 
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //

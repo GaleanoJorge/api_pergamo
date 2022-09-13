@@ -56,7 +56,9 @@ class ChSwIncomeController extends Controller
     {
 
 
-        $ChSwIncome = ChSwIncome::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChSwIncome = ChSwIncome::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
+        ->where('ch_sw_income.type_record_id', 1)
             ->get()->toArray();
 
 
