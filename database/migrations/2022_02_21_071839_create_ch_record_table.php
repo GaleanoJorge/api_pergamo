@@ -16,6 +16,7 @@
             Schema::create('ch_record', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('status');
+                $table->Integer('consecutive');
                 $table->date('date_attention');
                 $table->string('firm_file')->nullable();
                 $table->unsignedBigInteger('admissions_id');

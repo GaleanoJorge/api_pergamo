@@ -150,20 +150,6 @@ use App\Models\ChSwOccupationalHistory;
 use App\Models\ChSwRiskFactors;
 use App\Models\ChSwSupportNetwork;
 use App\Models\PharmacyProductRequest;
-use App\Models\ChSwDiagnosis;
-use App\Models\ChSwFamily;
-use App\Models\ChSwNursing;
-use App\Models\ChSwOccupationalHistory;
-use App\Models\ChSwFamilyDynamics;
-use App\Models\ChSwRiskFactors;
-use App\Models\ChSwHousingAspect;
-use App\Models\ChSwConditionHousing;
-use App\Models\ChSwHygieneHousing;
-use App\Models\ChSwIncome;
-use App\Models\ChSwExpenses;
-use App\Models\ChSwEconomicAspects;
-use App\Models\ChSwArmedConflict;
-use App\Models\ChSwSupportNetwork;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -2594,7 +2580,13 @@ class ChRecordController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $count = 0;
+        $chrecord = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
+        foreach ($chrecord as $ch) {
+                $count++;
+        }
         $ChRecord = new ChRecord;
+        $ChRecord->consecutive = $count + 1;
         $ChRecord->status = $request->status;
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
