@@ -18,7 +18,7 @@ class ChDietsEvoController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency'); /// Cargar 
+        $ChDietsEvo = ChDietsEvo::with('enterally_diet'); /// Cargar 
 
         if ($request->_sort) {
             $ChDietsEvo->orderBy($request->_sort, $request->_order);
@@ -58,7 +58,6 @@ class ChDietsEvoController extends Controller
 
         $ChDietsEvo = ChDietsEvo::with(
             'enterally_diet',
-            'diet_consistency',
             'type_record',
             'ch_record'
         )
@@ -72,7 +71,6 @@ class ChDietsEvoController extends Controller
                 $ChDietsEvo = ChDietsEvo::select('ch_diets_evo.*')
                 ->with(
                     'enterally_diet',
-                    'diet_consistency',
                     'type_record',
                     'ch_record'
                 )
@@ -102,13 +100,18 @@ class ChDietsEvoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $ChDietsEvo = new ChDietsEvo;
-        $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
-        $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
-        $ChDietsEvo->observation = $request->observation;
-        $ChDietsEvo->type_record_id = $request->type_record_id;
-        $ChDietsEvo->ch_record_id = $request->ch_record_id;
-        $ChDietsEvo->save();
+        $supplies = json_decode($request->diet_consistency);
+        foreach ($supplies as $element) {
+
+            $ChDietsEvo = new ChDietsEvo;
+            $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
+            $ChDietsEvo->observation =  $request ->observation;
+            $ChDietsEvo->diet_consistency = $element;
+            $ChDietsEvo->type_record_id = $request->type_record_id;
+            $ChDietsEvo->ch_record_id = $request->ch_record_id;
+
+            $ChDietsEvo->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -145,7 +148,7 @@ class ChDietsEvoController extends Controller
     {
         $ChDietsEvo = ChDietsEvo::find($id);
         $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
-        $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
+        $ChDietsEvo->diet_consistency = $request->diet_consistency;
         $ChDietsEvo->observation = $request->observation;
         $ChDietsEvo->type_record_id = $request->type_record_id;
         $ChDietsEvo->ch_record_id = $request->ch_record_id;
