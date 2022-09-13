@@ -180,6 +180,9 @@
            
         </tr>
         <tr style="height:11.95pt">
+            @if(isset($chrecord[0]['admissions']['patients']['ethnicity']['name']))
+
+
             <td style="width:79.75pt; vertical-align:top">
                 <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:8pt"><b>Pertenencia étnica: </b></span>
@@ -190,6 +193,7 @@
                     <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
                 </p>
             </td>
+            @endisset
             <td style="width:106pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:47.05pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                     <span style="font-family:Calibri"> <b> Nivel Educativo: </b> </span>
