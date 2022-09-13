@@ -1087,6 +1087,7 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping3->save();
                             }
                             if ($request->status == "ACEPTADO") {
+                                $PharmacyRequestShipping3->amount =  0;
                                 $PharmacyProductRequest3->status = "DAÑADO";
                                 $PharmacyProductRequest3->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
                                 $PharmacyProductRequest3->request_amount = $element->amount_damaged;
