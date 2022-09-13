@@ -910,7 +910,7 @@ class ChRecordController extends Controller
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
-                if($ChRecord[0]['user']['assistance'][0]['file_firm']!=null){
+                if($ChRecord[0]['user']['assistance'][0]['file_firm']!='null'){
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
