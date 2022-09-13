@@ -57,6 +57,7 @@ class ChNursingNoteController extends Controller
        
         $ChNursingNote = ChNursingNote::select('ch_nursing_note.*')
             ->where('ch_record_id', $id)
+            ->where('ch_nursing_note.type_record_id', 1)
             ->where('type_record_id', $type_record);
 
 

@@ -65,6 +65,7 @@ class ChDiagnosticAidsController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChDiagnosticAids = ChDiagnosticAids::select('ch_diagnostic_aids.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_diagnostic_aids.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_diagnostic_aids.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

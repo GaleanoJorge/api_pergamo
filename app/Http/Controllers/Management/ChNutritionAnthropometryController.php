@@ -72,6 +72,7 @@ class ChNutritionAnthropometryController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChNutritionAnthropometry = ChNutritionAnthropometry::select('ch_nutrition_anthropometry.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_nutrition_anthropometry.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_nutrition_anthropometry.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

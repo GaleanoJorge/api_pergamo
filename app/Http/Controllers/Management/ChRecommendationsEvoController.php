@@ -68,6 +68,7 @@ class ChRecommendationsEvoController extends Controller
             'ch_record'
         )
             ->where('ch_record_id', $id)
+            ->where('ch_recommendations_evo.type_record_id', 3)
             ->where('type_record_id', $type_record_id);
 
         if ($request->has_input) { //

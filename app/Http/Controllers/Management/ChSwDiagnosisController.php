@@ -53,7 +53,10 @@ class ChSwDiagnosisController extends Controller
      */
     public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $ChSwDiagnosis = ChSwDiagnosis::with('ch_diagnosis', 'ch_diagnosis.diagnosis') ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        $ChSwDiagnosis = ChSwDiagnosis::with('ch_diagnosis', 'ch_diagnosis.diagnosis')
+         ->where('ch_record_id', $id)
+         ->where('ch_sw_diagnosis.type_record_id', 1)
+         ->where('type_record_id',$type_record_id);
            
         if ($request->query("pagination", true) == "false") {
             $ChSwDiagnosis = $ChSwDiagnosis->get()->toArray();

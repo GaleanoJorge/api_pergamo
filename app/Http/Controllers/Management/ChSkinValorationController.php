@@ -61,6 +61,7 @@ class ChSkinValorationController extends Controller
 
         $ChSkinValoration = ChSkinValoration::select('ch_skin_valoration.*')
             ->where('ch_record_id', $id)
+            ->where('ch_skin_valoration.type_record_id', 1)
             ->where('type_record_id', $type_record)
             ->with(
                 'body_region',

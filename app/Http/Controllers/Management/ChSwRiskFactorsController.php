@@ -58,7 +58,9 @@ class ChSwRiskFactorsController extends Controller
     {
 
 
-        $ChSwRiskFactors = ChSwRiskFactors::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChSwRiskFactors = ChSwRiskFactors::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
+        ->where('ch_sw_risk_factors.type_record_id', 1)
             ->get()->toArray();
 
         if ($request->has_input) { //

@@ -121,7 +121,9 @@ class ChBackgroundController extends Controller
     {
 
 
-        $ChBackground = ChBackground::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChBackground = ChBackground::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
+        ->where('ch_background.type_record_id', 1)
             ->with('ch_type_background')->get()->toArray();
 
 

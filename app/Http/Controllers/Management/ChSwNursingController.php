@@ -65,6 +65,7 @@ class ChSwNursingController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChSwNursing = ChSwNursing::select('ch_sw_nursing.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_sw_nursing.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_nursing.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

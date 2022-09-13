@@ -89,6 +89,7 @@ class ChLiquidControlController extends Controller
             )
             ->leftJoin('ch_vital_signs', 'ch_liquid_control.ch_record_id','=', 'ch_vital_signs.ch_record_id')
             ->where('ch_liquid_control.ch_record_id', $id)
+            ->where('ch_liquid_control.type_record_id', 1)
             ->orderBy('clock', 'ASC')
             ->with(
                 'ch_route_fluid',

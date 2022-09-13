@@ -56,7 +56,9 @@ class ChSwActivitiesController extends Controller
     {
         
        
-        $ChSwActivities = ChSwActivities::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChSwActivities = ChSwActivities::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
+        ->where('ch_sw_activities.type_record_id', 1)
             ->get()->toArray();
         
 

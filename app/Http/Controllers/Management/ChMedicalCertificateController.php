@@ -56,7 +56,9 @@ class ChMedicalCertificateController extends Controller
         
        
         $ChMedicalCertificate = ChMedicalCertificate::with('type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        ->where('ch_record_id', $id)
+        ->where('ch_medical_certificate.type_record_id', 1)
+        ->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
             $ChMedicalCertificate = $ChMedicalCertificate->get()->toArray();

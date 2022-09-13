@@ -56,7 +56,9 @@ class ChSwEntityController extends Controller
     {
         
        
-        $ChSwEntity = ChSwEntity::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChSwEntity = ChSwEntity::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
+        ->where('ch_sw_entity.type_record_id', 1)
             ->get()->toArray();
         
 

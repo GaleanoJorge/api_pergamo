@@ -55,7 +55,9 @@ class InputMaterialsUsedTlController extends Controller
     {
 
 
-        $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
+        ->where('input_materials_used_tl.type_record_id', 1)
             ->get()->toArray();
 
 
