@@ -16,6 +16,7 @@ class CoverageSeeder extends Seeder
 
         foreach (json_decode($data) as $row) {
             Coverage::create([
+                'id' => $row->id,
                 'code' => $row->code,
                 'name' =>  $row->name,
             ]);

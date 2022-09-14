@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $enable_code
  * @property bigInteger $region_id
  * @property bigInteger $billing_pad_prefix_id
+ * @property bigInteger $billing_pad_credit_note_prefix_id
  * @property bigInteger $municipality_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -45,5 +46,9 @@ class Campus extends Model
 	public function billing_pad_prefix()
     {
         return $this->belongsTo(BillingPadPrefix::class, 'billing_pad_prefix_id');
+    }
+	public function billing_pad_credit_note_prefix()
+    {
+        return $this->belongsTo(BillingPadPrefix::class, 'billing_pad_credit_note_prefix_id');
     }
 }
