@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\ChSwActivity;
+use App\Models\ChPsEpisodes;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\ChRecord;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
 
-class ChSwActivityController extends Controller
+class ChPsEpisodesController extends Controller
 {
        /**
      * Display a listing of the resource.
@@ -18,31 +18,31 @@ class ChSwActivityController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChSwActivity = ChSwActivity::select();
+        $ChPsEpisodes = ChPsEpisodes::select();
 
         if($request->_sort){
-            $ChSwActivity->orderBy($request->_sort, $request->_order);
+            $ChPsEpisodes->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $ChSwActivity->where('name','like','%' . $request->search. '%');
+            $ChPsEpisodes->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){
-            $ChSwActivity=$ChSwActivity->get()->toArray();    
+            $ChPsEpisodes=$ChPsEpisodes->get()->toArray();    
         }
         else{
             $page= $request->query("current_page", 1);
             $per_page=$request->query("per_page", 10);
             
-            $ChSwActivity=$ChSwActivity->paginate($per_page,'*','page',$page); 
+            $ChPsEpisodes=$ChPsEpisodes->paginate($per_page,'*','page',$page); 
         } 
 
 
         return response()->json([
             'status' => true,
-            'message' => 'Actividad obtenida exitosamente',
-            'data' => ['ch_sw_activity' => $ChSwActivity]
+            'message' => 'Episodios obtenidas exitosamente',
+            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
         ]);
     }
   /**
@@ -56,28 +56,27 @@ class ChSwActivityController extends Controller
     {
         
        
-        $ChSwActivity = ChSwActivity::where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id)
+        $ChPsEpisodes = ChPsEpisodes::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 
         return response()->json([
             'status' => true,
-            'message' => 'Actividad obtenida exitosamente',
-            'data' => ['ch_sw_activity' => $ChSwActivity]
+            'message' => 'Episodios obtenidas exitosamente',
+            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
         ]);
     }
     
     public function store(Request $request): JsonResponse
     {
-        $ChSwActivity = new ChSwActivity;
-        $ChSwActivity->name = $request->name; 
-        $ChSwActivity->save();
+        $ChPsEpisodes = new ChPsEpisodes;
+        $ChPsEpisodes->name = $request->name; 
+        $ChPsEpisodes->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Actividad asociada al paciente exitosamente',
-            'data' => ['ch_sw_activity' => $ChSwActivity->toArray()]
+            'message' => 'Episodios asociadas al paciente exitosamente',
+            'data' => ['ch_ps_episodes' => $ChPsEpisodes->toArray()]
         ]);
     }
 
@@ -90,13 +89,13 @@ class ChSwActivityController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $ChSwActivity = ChSwActivity::where('id', $id)
+        $ChPsEpisodes = ChPsEpisodes::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
-            'message' => 'Actividad obtenida exitosamente',
-            'data' => ['ch_sw_activity' => $ChSwActivity]
+            'message' => 'Episodios obtenidas exitosamente',
+            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
         ]);
     }
 
@@ -108,14 +107,14 @@ class ChSwActivityController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChSwActivity = ChSwActivity::find($id);  
-        $ChSwActivity->name = $request->name; 
-        $ChSwActivity->save();
+        $ChPsEpisodes = ChPsEpisodes::find($id);  
+        $ChPsEpisodes->name = $request->name; 
+        $ChPsEpisodes->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Actividad actualizada exitosamente',
-            'data' => ['ch_sw_activity' => $ChSwActivity]
+            'message' => 'Episodios actualizadas exitosamente',
+            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
         ]);
     }
 
@@ -128,17 +127,17 @@ class ChSwActivityController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $ChSwActivity = ChSwActivity::find($id);
-            $ChSwActivity->delete();
+            $ChPsEpisodes = ChPsEpisodes::find($id);
+            $ChPsEpisodes->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Actividad eliminada exitosamente'
+                'message' => 'Episodios eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Actividad en uso, no es posible eliminarla'
+                'message' => 'Episodios en uso, no es posible eliminarlo'
             ], 423);
         }
     }

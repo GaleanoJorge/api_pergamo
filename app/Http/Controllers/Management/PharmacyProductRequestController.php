@@ -300,6 +300,7 @@ class PharmacyProductRequestController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $PharmacyProductRequest = PharmacyProductRequest::select('pharmacy_product_request.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('pharmacy_product_request.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'pharmacy_product_request.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

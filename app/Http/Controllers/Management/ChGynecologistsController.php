@@ -56,7 +56,6 @@ class ChGynecologistsController extends Controller
 
         $ChGynecologists = ChGynecologists::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-        ->where('ch_gynecologists.type_record_id', 1)
             ->with(
                 'ch_type_gynecologists',
                 'ch_planning_gynecologists',

@@ -77,7 +77,6 @@ class ChNursingProcedureController extends Controller
 
         $ChNursingProcedure = ChNursingProcedure::select('ch_nursing_procedure.*')
             ->where('ch_record_id', $id)
-            ->where('ch_nursing_procedure.type_record_id', 1)
             ->with('nursing_procedure');
 
 

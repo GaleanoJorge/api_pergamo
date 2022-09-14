@@ -55,7 +55,6 @@ class ChSwDiagnosisController extends Controller
     {
         $ChSwDiagnosis = ChSwDiagnosis::with('ch_diagnosis', 'ch_diagnosis.diagnosis')
          ->where('ch_record_id', $id)
-         ->where('ch_sw_diagnosis.type_record_id', 1)
          ->where('type_record_id',$type_record_id);
            
         if ($request->query("pagination", true) == "false") {

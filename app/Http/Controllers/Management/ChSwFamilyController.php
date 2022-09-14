@@ -58,7 +58,6 @@ class ChSwFamilyController extends Controller
 
         $ChSwFamily = ChSwFamily::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-        ->where('ch_sw_family.type_record_id', 1)
         ->with(
                 'relationship',
                 'identification_type',

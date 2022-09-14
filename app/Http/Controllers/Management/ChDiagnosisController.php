@@ -57,8 +57,6 @@ class ChDiagnosisController extends Controller
     {
         $ChDiagnosis = ChDiagnosis::where('ch_record_id', $id)
             ->with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')
-            ->where('ch_diagnosis.type_record_id', 3)
-            ->where('ch_diagnosis.type_record_id', 1)
             ->where('type_record_id', $type_record_id)
             ->get()->toArray();
 
@@ -71,6 +69,7 @@ class ChDiagnosisController extends Controller
                     'ch_diagnosis_type'
                 )
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->where('ch_diagnosis.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_diagnosis.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

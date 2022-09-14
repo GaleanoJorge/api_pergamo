@@ -57,7 +57,6 @@ class TlTherapyLanguageRegularController extends Controller
        
         $TlTherapyLanguageRegular = TlTherapyLanguageRegular::with('diagnosis') 
         ->where('ch_record_id', $id)
-        ->where('tl_therapy_language_regular.type_record_id', 1)
         ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         

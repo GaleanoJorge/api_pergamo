@@ -79,7 +79,6 @@ class ChNotesDescriptionController extends Controller
        
         $ChNotesDescription = ChNotesDescription::select('ch_notes_description.*')
             ->where('ch_record_id', $id)
-            ->where('ch_notes_description.type_record_id', 1)
             ->where('type_record_id', $type_record)
             ->with(
                 'patient_position',

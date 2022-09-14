@@ -58,7 +58,6 @@ class ChSwServicesController extends Controller
        
         $ChSwServices = ChSwServices::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_sw_services.type_record_id', 1)
             ->get()->toArray();
         
 
