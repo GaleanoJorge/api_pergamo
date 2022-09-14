@@ -291,6 +291,9 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChSwNetworkSeeder::class);
                 $this->call(ChSwEntitySeeder::class);
                 
+                //Semillas HC Psicologia
+                $this->call(ChPsEpisodesSeeder::class);
+
                 
                 
                 //Semillas talento humano
