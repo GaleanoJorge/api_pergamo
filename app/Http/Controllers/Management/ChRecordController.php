@@ -266,7 +266,7 @@ class ChRecordController extends Controller
             $ChSwSupportNetwork = ChSwSupportNetwork::with(
                 'ch_sw_network',
                 'ch_sw_entity'
-            )->where('id', $id)->where('type_record_id', 1)->get()->toArray();
+            )->where('id', $id)->get()->toArray();
 
             
         $ChRecord = ChRecord::with(
