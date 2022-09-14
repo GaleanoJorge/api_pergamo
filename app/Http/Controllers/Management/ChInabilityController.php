@@ -58,7 +58,6 @@ class ChInabilityController extends Controller
         $ChInability = ChInability::with('ch_contingency_code', 'diagnosis','ch_type_inability', 'ch_type_procedure', 'type_record', 'ch_record')
         ->where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_inability.type_record_id', 1)
             ->get()->toArray();
         
 

@@ -60,7 +60,6 @@ class ChSwFamilyDynamicsController extends Controller
 
         $ChSwFamilyDynamics = ChSwFamilyDynamics::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-        ->where('ch_sw_family_dynamics.type_record_id', 1)
             ->with(
                 'ch_sw_communications',
                 'authority',

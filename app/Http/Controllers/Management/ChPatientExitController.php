@@ -55,7 +55,6 @@ class ChPatientExitController extends Controller
     {
         $ChPatientExit = ChPatientExit::with('death_diagnosis','ch_diagnosis','exit_diagnosis','relations_diagnosis','reason_exit') 
         ->where('ch_record_id', $id)
-        ->where('ch_patient_exit.type_record_id', 1)
         ->where('type_record_id',$type_record_id);
            
         if ($request->query("pagination", true) == "false") {

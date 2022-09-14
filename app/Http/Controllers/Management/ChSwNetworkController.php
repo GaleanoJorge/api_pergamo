@@ -58,7 +58,6 @@ class ChSwNetworkController extends Controller
        
         $ChSwNetwork = ChSwNetwork::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_sw_network.type_record_id', 1)
             ->get()->toArray();
         
 

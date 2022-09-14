@@ -57,7 +57,6 @@ class ChMedicalOrdersController extends Controller
        
         $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_medical_orders.type_record_id', 1)
         ->with('procedure','frequency')
             ->get()->toArray();
         
