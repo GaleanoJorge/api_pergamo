@@ -16,6 +16,7 @@ class CreateBillingPadLogTable extends Migration
     {
         Schema::create('billing_pad_log', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('billing_pad_pgp_id')->nullable();
             $table->unsignedBigInteger('billing_pad_id')->nullable();
             $table->unsignedBigInteger('billing_pad_status_id')->nullable();
             $table->unsignedBigInteger('user_id');
@@ -24,6 +25,10 @@ class CreateBillingPadLogTable extends Migration
             $table->index('billing_pad_id');
             $table->foreign('billing_pad_id')->references('id')
                 ->on('billing_pad');
+
+            $table->index('billing_pad_pgp_id');
+            $table->foreign('billing_pad_pgp_id')->references('id')
+                ->on('billing_pad_pgp');
 
             $table->index('billing_pad_status_id');
             $table->foreign('billing_pad_status_id')->references('id')

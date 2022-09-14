@@ -1498,8 +1498,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
     Route::post('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
-    Route::get('billing_pad/generateBillingDat/{id}', 'Management\BillingPadController@generateBillingDat');
+    Route::get('billing_pad/generateBillingDat/{bill_type}/{id}', 'Management\BillingPadController@generateBillingDat');
     Route::get('billing_pad/generateBillingPdf/{id}', 'Management\BillingPadController@generateBillingPdf');
+    Route::get('billing_pad/creditNoteNoPgp/{id}', 'Management\BillingPadController@creditNoteNoPgp');
+    Route::get('billing_pad/creditNotePgp/{id}', 'Management\BillingPadController@creditNotePgp');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
     Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
     Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
