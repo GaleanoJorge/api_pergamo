@@ -70,6 +70,7 @@ class ChEMarchFTController extends Controller
                     $chrecord = ChRecord::find($id); //
                     $ChEMarchFT = ChEMarchFT::select('ch_e_march_f_t.*')
                         ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                        ->where('ch_e_march_f_t.type_record_id', 1)
                         ->leftJoin('ch_record', 'ch_record.id', 'ch_e_march_f_t.ch_record_id') //
                         ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
                 }

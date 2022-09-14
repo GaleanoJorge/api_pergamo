@@ -71,6 +71,7 @@ class ChEMSIntPatOTController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChEMSIntPatOT = ChEMSIntPatOT::select('ch_e_m_s_int_pat_o_t.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_e_m_s_int_pat_o_t.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_e_m_s_int_pat_o_t.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

@@ -64,6 +64,7 @@ class ChSwEconomicAspectsController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChSwEconomicAspects = ChSwEconomicAspects::select('ch_sw_economic_aspects.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_sw_economic_aspects.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_economic_aspects.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

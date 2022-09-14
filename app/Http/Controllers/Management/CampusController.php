@@ -22,6 +22,8 @@ class CampusController extends Controller
             ->LeftJoin('region', 'region.id', 'campus.region_id')
             ->LeftJoin('municipality', 'municipality.id', 'campus.municipality_id')
             ->LeftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ->LeftJoin('billing_pad_prefix as bpp', 'bpp.id', 'campus.billing_pad_credit_note_prefix_id')
+            ->groupBy('campus.id')
             ;
 
         if($request->_sort){
@@ -36,6 +38,7 @@ class CampusController extends Controller
                 ->orWhere('region.name','like','%' . $request->search. '%')
                 ->orWhere('municipality.name','like','%' . $request->search. '%')
                 ->orWhere('billing_pad_prefix.name','like','%' . $request->search. '%')
+                ->orWhere('bpp.name','like','%' . $request->search. '%')
                 ;
             });
         }
@@ -65,6 +68,7 @@ class CampusController extends Controller
         $Campus->address = $request->address;
         $Campus->enable_code = $request->enable_code;
         $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
+        $Campus->billing_pad_credit_note_prefix_id = $request->billing_pad_credit_note_prefix_id;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
@@ -107,6 +111,7 @@ class CampusController extends Controller
         $Campus->name = $request->name;
         $Campus->address = $request->address;
         $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
+        $Campus->billing_pad_credit_note_prefix_id = $request->billing_pad_credit_note_prefix_id;
         $Campus->enable_code = $request->enable_code;
         $Campus->region_id = $request->region_id;
         $Campus->municipality_id = $request->municipality_id;

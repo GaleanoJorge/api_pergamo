@@ -55,6 +55,7 @@ class ChFormulationController extends Controller
     {
         $ChFormulation = ChFormulation::where('ch_record_id', $id)
             ->where('type_record_id', $type_record_id)
+            ->where('ch_formulation.type_record_id', 3)
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',

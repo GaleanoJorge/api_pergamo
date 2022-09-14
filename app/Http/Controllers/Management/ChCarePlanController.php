@@ -98,6 +98,7 @@ class ChCarePlanController extends Controller
 
         $ChCarePlan = ChCarePlan::select('ch_care_plan.*')
             ->with('nursing_care_plan')
+            ->where('ch_care_plan.type_record_id', 1)
             ->where('ch_record_id', $id);
 
 

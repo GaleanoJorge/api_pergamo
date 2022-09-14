@@ -19,11 +19,13 @@ class CreateBillingPadTable extends Migration
             $table->integer('total_value')->nullable();
             $table->bigInteger('consecutive')->nullable();
             $table->date('validation_date')->nullable();
+            $table->dateTime('facturation_date')->nullable();
             $table->unsignedBigInteger('billing_pad_consecutive_id')->nullable();
             $table->unsignedBigInteger('billing_pad_prefix_id')->nullable();
             $table->unsignedBigInteger('billing_pad_status_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
             $table->unsignedBigInteger('billing_pad_pgp_id')->nullable();
+            $table->unsignedBigInteger('billing_credit_note_id')->nullable();
             $table->timestamps();
 
             $table->index('billing_pad_consecutive_id');
@@ -45,6 +47,10 @@ class CreateBillingPadTable extends Migration
             $table->index('billing_pad_pgp_id');
             $table->foreign('billing_pad_pgp_id')->references('id')
                 ->on('billing_pad_pgp');
+
+            $table->index('billing_credit_note_id');
+            $table->foreign('billing_credit_note_id')->references('id')
+                ->on('billing_pad');
         });
     }
 

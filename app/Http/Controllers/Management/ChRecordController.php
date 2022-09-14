@@ -135,35 +135,7 @@ use App\Models\ChNutritionGastrointestinal;
 use App\Models\ChNutritionFoodHistory;
 use App\Models\ChNutritionInterpretation;
 use App\Models\ChNutritionParenteral;
-use App\Models\ChSwArmedConflict;
-use App\Models\ChSwConditionHousing;
-use App\Models\ChSwDiagnosis;
-use App\Models\ChSwEconomicAspects;
-use App\Models\ChSwExpenses;
-use App\Models\ChSwFamily;
-use App\Models\ChSwFamilyDynamics;
-use App\Models\ChSwHousingAspect;
-use App\Models\ChSwHygieneHousing;
-use App\Models\ChSwIncome;
-use App\Models\ChSwNursing;
-use App\Models\ChSwOccupationalHistory;
-use App\Models\ChSwRiskFactors;
-use App\Models\ChSwSupportNetwork;
 use App\Models\PharmacyProductRequest;
-use App\Models\ChSwDiagnosis;
-use App\Models\ChSwFamily;
-use App\Models\ChSwNursing;
-use App\Models\ChSwOccupationalHistory;
-use App\Models\ChSwFamilyDynamics;
-use App\Models\ChSwRiskFactors;
-use App\Models\ChSwHousingAspect;
-use App\Models\ChSwConditionHousing;
-use App\Models\ChSwHygieneHousing;
-use App\Models\ChSwIncome;
-use App\Models\ChSwExpenses;
-use App\Models\ChSwEconomicAspects;
-use App\Models\ChSwArmedConflict;
-use App\Models\ChSwSupportNetwork;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -341,6 +313,9 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
+
             }
 
             $today = Carbon::now();
@@ -423,11 +398,6 @@ class ChRecordController extends Controller
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
         }else{
             $imagenPAtient = null;
-            return response()->json([
-                'status' => false,
-                'message' => 'No es posible generar el documento, ya que el personal asistencial no cuenta con firma',
-                'data' => ['ch_record' => $ChRecord],
-            ]);
         }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
@@ -462,7 +432,7 @@ class ChRecordController extends Controller
             $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChAp = ChAp::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
-            $ChDiets = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
+            $ChDiets = ChDietsEvo::with('enterally_diet')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             //Antecedentes
             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
             //Antecedentes Gyneco
@@ -512,7 +482,7 @@ class ChRecordController extends Controller
             $ChOstomiesEvo = ChOstomies::with('ostomy')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChApEvo = ChAp::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
-            $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+            $ChDietsEvo = ChDietsEvo::with('enterally_diet')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
             //Escalas
             $ChScaleNorton = ChScaleNorton::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
@@ -599,6 +569,8 @@ class ChRecordController extends Controller
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+            }else{
+                $imagenComoBase64 = null;
             }
 
             $today = Carbon::now();
@@ -938,9 +910,11 @@ class ChRecordController extends Controller
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             if (count($ChRecord[0]['user']['assistance']) > 0) {
+                if($ChRecord[0]['user']['assistance'][0]['file_firm']!='null'){
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
+                }
             }else{
                 $imagenComoBase64 = null;
 
@@ -2594,7 +2568,13 @@ class ChRecordController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $count = 0;
+        $chrecord = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
+        foreach ($chrecord as $ch) {
+                $count++;
+        }
         $ChRecord = new ChRecord;
+        $ChRecord->consecutive = $count + 1;
         $ChRecord->status = $request->status;
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;

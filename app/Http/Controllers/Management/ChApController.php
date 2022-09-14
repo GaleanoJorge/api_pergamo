@@ -63,6 +63,7 @@ class ChApController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChAp = ChAp::select('ch_ap.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_ap.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_ap.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

@@ -66,7 +66,9 @@ class ChTherapeuticAssController extends Controller
                 'ch_ass_cough',
                 'ch_ass_chest_type',
                 'ch_ass_chest_symmetry'
-            )->get()->toArray();
+            )
+            ->where('ch_therapeutic_ass.type_record_id', 1)
+            ->get()->toArray();
 
 
         return response()->json([

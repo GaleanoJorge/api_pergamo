@@ -57,6 +57,7 @@ class ChPositionController extends Controller
        
         $ChPosition = ChPosition::select('ch_position.*')
             ->where('ch_record_id', $id)
+            ->where('ch_position.type_record_id', 1)
             ->where('type_record_id', $type_record)
             ->with(
                 'patient_position'

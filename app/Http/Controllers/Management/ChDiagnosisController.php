@@ -57,6 +57,8 @@ class ChDiagnosisController extends Controller
     {
         $ChDiagnosis = ChDiagnosis::where('ch_record_id', $id)
             ->with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')
+            ->where('ch_diagnosis.type_record_id', 3)
+            ->where('ch_diagnosis.type_record_id', 1)
             ->where('type_record_id', $type_record_id)
             ->get()->toArray();
 

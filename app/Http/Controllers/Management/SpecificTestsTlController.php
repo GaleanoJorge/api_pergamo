@@ -64,6 +64,7 @@ class SpecificTestsTlController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $SpecificTestsTl = SpecificTestsTl::select('specific_tests_tl.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('specific_tests_tl.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'specific_tests_tl.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

@@ -10,9 +10,11 @@ class BillingPadPgp extends BaseBillingPadPgp
 		'total_value',
 		'consecutive',
 		'validation_date',
+		'facturation_date',
 		'billing_pad_consecutive_id',
 		'billing_pad_prefix_id',
 		'billing_pad_status_id',
+		'billing_credit_note_id',
 		'contract_id',
 	];
 }

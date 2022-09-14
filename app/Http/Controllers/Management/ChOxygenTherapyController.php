@@ -71,6 +71,7 @@ class ChOxygenTherapyController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChOxygenTherapy = ChOxygenTherapy::select('ch_oxygen_therapy.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_oxygen_therapy.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_oxygen_therapy.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

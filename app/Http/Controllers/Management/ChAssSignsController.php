@@ -61,6 +61,7 @@ class ChAssSignsController extends Controller
         if ($request->search) {
             $ChAssSigns->where(function ($query) use ($request) {
                 $query->where('fluter', 'like', '%' . $request->search . '%')
+                    ->where('ch_ass_signs.type_record_id', 1)
                     ->orWhere('distal', 'like', '%' . $request->search . '%')
                     ->orWhere('widespread', 'like', '%' . $request->search . '%')
                     ->orWhere('peribucal', 'like', '%' . $request->search . '%')

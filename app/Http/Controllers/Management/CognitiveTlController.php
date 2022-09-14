@@ -65,6 +65,7 @@ class CognitiveTlController extends Controller
                 $CognitiveTl = CognitiveTl::select('cognitive_tl.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
                     ->leftJoin('ch_record', 'ch_record.id', 'cognitive_tl.ch_record_id') //
+                    ->where('cognitive_tl.type_record_id', 1)
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }
         }
