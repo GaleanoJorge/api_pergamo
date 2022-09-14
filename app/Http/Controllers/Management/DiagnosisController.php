@@ -24,6 +24,10 @@ class DiagnosisController extends Controller
             $Diagnosis->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->id) {
+            $Diagnosis->where('id', $request->id);
+        }
+
         if ($request->search) {
             if ($request->search == '') {
                 return response()->json([
