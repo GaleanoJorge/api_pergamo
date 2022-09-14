@@ -753,6 +753,8 @@ class UserController extends Controller
             'user_role.role',
             'user_agreement',
             'user_agreement.campus',
+            'assistance',
+            'assistance.assistance_procedure',
         )
             ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
             ->orderBy('users.id', 'asc');;
@@ -770,8 +772,11 @@ class UserController extends Controller
                 'gender',
                 'academic_level',
                 'identification_type',
+                'residence_municipality',
+                'residence',
                 'user_role',
-                'user_role.role'
+                'user_role.role',
+                'assistance'
             );
             $users->Join('assistance', 'users.id', 'assistance.user_id');
             $users = $users->where('assistance.attends_external_consultation', 1);
