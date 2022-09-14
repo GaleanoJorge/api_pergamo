@@ -2587,18 +2587,18 @@
 </div>
 
 <!-- Firma -->
+<hr />
+<br>
+<br>
 <table>
-    <tr>
-        <td>
-<div style="display: flex">
-    <div style="width: 100%">
-        <br>
-        <br>
-        <hr />
+
+    <tr style="height:11.95pt">
+        <td style="width:130pt; vertical-align:top">
+    <div>
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
     
         @if($firm != null)
-        <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
+        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
             <span style="height:0pt;">
             
                 <img src="data:image/png;base64,{{$firm}}" width="250" height="100" alt="" style=""/></span>
@@ -2624,15 +2624,12 @@
             @endisset   
     </div>
 </td>
-<td>
-    <div style="margin-left:200pt">
-        <br>
-        <br>
-        <hr />
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN </b> </span>
+<td style="margin-left:50px;width:130pt; vertical-align:top">
+    <div style="">
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE</b> </span>
     
         @if($firmPatient != null)
-        <p style="margin-top:15pt; margin-left:30pt; margin-bottom:0pt;">
+        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
             <span style="height:0pt;">
             
                 <img src="data:image/png;base64,{{$firmPatient}}" width="250" height="100" alt="" style=""/></span>
@@ -2644,7 +2641,7 @@
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
     </div>
-</div>
+
 </td>
 </tr>
 </table>
