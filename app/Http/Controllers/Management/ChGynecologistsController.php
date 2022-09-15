@@ -6,6 +6,7 @@ use App\Models\ChGynecologists;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ChRecord;
 use Illuminate\Database\QueryException;
 
 class ChGynecologistsController extends Controller
@@ -51,7 +52,7 @@ class ChGynecologistsController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request,int $id, int $type_record_id): JsonResponse
     {
 
         $ChGynecologists = ChGynecologists::where('ch_record_id', $id)
@@ -68,6 +69,28 @@ class ChGynecologistsController extends Controller
                 'ch_failure_method_gyneco',
                 'ch_method_planning_gyneco',
             )->get()->toArray();
+            if ($request->has_input) { //
+                if ($request->has_input == 'true') { //
+                    $chrecord = ChRecord::find($id); //
+                    $ChGynecologists = ChGynecologists::select('ch_gynecologists.*')
+                        ->with(
+                            'ch_type_gynecologists',
+                            'ch_planning_gynecologists',
+                            'ch_exam_gynecologists',
+                            'ch_flow_gynecologists',
+                            'ch_rst_cytology_gyneco',
+                            'ch_rst_biopsy_gyneco',
+                            'ch_rst_mammography_gyneco',
+                            'ch_rst_colposcipia_gyneco',
+                            'ch_failure_method_gyneco',
+                            'ch_method_planning_gyneco',
+                        )
+                        ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                        ->where('ch_gynecologists.type_record_id', 1)
+                        ->leftJoin('ch_record', 'ch_record.id', 'ch_gynecologists.ch_record_id') //
+                        ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+                }
+            }
 
 
         return response()->json([

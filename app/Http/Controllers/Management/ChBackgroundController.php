@@ -117,13 +117,25 @@ class ChBackgroundController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request,int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChBackground = ChBackground::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
             ->with('ch_type_background')->get()->toArray();
+
+            if ($request->has_input) { //
+                if ($request->has_input == 'true') { //
+                    $chrecord = ChRecord::find($id); //
+                    $ChBackground = ChBackground::select('ch_background.*')
+                        ->with('ch_type_background')
+                        ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                        ->where('ch_background.type_record_id', 1)
+                        ->leftJoin('ch_record', 'ch_record.id', 'ch_background.ch_record_id') //
+                        ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+                }
+            }
 
 
         return response()->json([
