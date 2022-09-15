@@ -60,7 +60,6 @@ class ChSwRiskFactorsController extends Controller
 
         $ChSwRiskFactors = ChSwRiskFactors::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-        ->where('ch_sw_risk_factors.type_record_id', 1)
             ->get()->toArray();
 
         if ($request->has_input) { //
@@ -68,6 +67,7 @@ class ChSwRiskFactorsController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChSwRiskFactors = ChSwRiskFactors::select('ch_sw_risk_factors.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_sw_risk_factors.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_risk_factors.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

@@ -58,7 +58,6 @@ class ChSwOccupationController extends Controller
        
         $ChSwOccupation = ChSwOccupation::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_sw_occupation.type_record_id', 1)
             ->get()->toArray();
         
 

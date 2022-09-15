@@ -58,6 +58,7 @@ class ChAssChestTypeController extends Controller
                 $chrecord = ChRecord::find($id); //
                 $ChAssChestType = ChAssChestType::select('ch_ass_chest_type.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_ass_chest_type.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_ass_chest_type.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }

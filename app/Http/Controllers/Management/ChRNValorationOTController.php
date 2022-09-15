@@ -61,7 +61,6 @@ class ChRNValorationOTController extends Controller
     {
         $ChRNValorationOT = ChRNValorationOT::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-        ->where('ch_r_n_valoration_o_t.type_record_id', 3)
             ->with('ch_diagnosis')->get()->toArray();
 
         return response()->json([

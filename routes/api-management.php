@@ -154,6 +154,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_sw_entity', 'Management\ChSwEntityController');
     Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
 
+    //Ch Psicología
+    Route::apiResource('ch_sw_activities', 'Management\ChPsEpisodesController');
+
+    
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
