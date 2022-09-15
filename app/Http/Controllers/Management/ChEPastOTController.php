@@ -62,7 +62,8 @@ class ChEPastOTController extends Controller
     {
         
        
-        $ChEPastOT = ChEPastOT::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChEPastOT = ChEPastOT::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
         ->get()->toArray();
 
         if ($request->has_input) { //

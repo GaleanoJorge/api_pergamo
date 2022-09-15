@@ -58,7 +58,6 @@ class ChSwHousingController extends Controller
        
         $ChSwHousing = ChSwHousing::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_sw_housing.type_record_id', 1)
             ->get()->toArray();
         
 

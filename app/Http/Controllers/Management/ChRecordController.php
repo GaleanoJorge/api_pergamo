@@ -10,10 +10,9 @@ use App\Models\Assistance;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
-use App\Models\Base\ChNursingNote;
-use App\Models\Base\ChRecord as BaseChRecord;
-use App\Models\Base\ChSwSupportNetwork as BaseChSwSupportNetwork;
-use App\Models\Base\ServicesBriefcase;
+use App\Models\ChNursingNote;
+use App\Models\ChSwSupportNetwork;
+use App\Models\ServicesBriefcase;
 use App\Models\BillingPad;
 use App\Models\BillUserActivity;
 use App\Models\ChAp;
@@ -136,6 +135,19 @@ use App\Models\ChNutritionFoodHistory;
 use App\Models\ChNutritionInterpretation;
 use App\Models\ChNutritionParenteral;
 use App\Models\PharmacyProductRequest;
+use App\Models\ChSwDiagnosis;
+use App\Models\ChSwFamily;
+use App\Models\ChSwNursing;
+use App\Models\ChSwOccupationalHistory;
+use App\Models\ChSwFamilyDynamics;
+use App\Models\ChSwRiskFactors;
+use App\Models\ChSwHousingAspect;
+use App\Models\ChSwConditionHousing;
+use App\Models\ChSwHygieneHousing;
+use App\Models\ChSwIncome;
+use App\Models\ChSwExpenses;
+use App\Models\ChSwEconomicAspects;
+use App\Models\ChSwArmedConflict;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -267,7 +279,7 @@ class ChRecordController extends Controller
             $ChSwSupportNetwork = ChSwSupportNetwork::with(
                 'ch_sw_network',
                 'ch_sw_entity'
-            )->where('id', $id)->where('type_record_id', 1)->get()->toArray();
+            )->where('id', $id)->get()->toArray();
 
             
         $ChRecord = ChRecord::with(
@@ -1488,7 +1500,7 @@ class ChRecordController extends Controller
             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
-            $ChSwSupportNetworkEvo = BaseChSwSupportNetwork::with(
+            $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
@@ -1524,6 +1536,7 @@ class ChRecordController extends Controller
                 'ChSwArmedConflict' => $ChSwArmedConflict,
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,

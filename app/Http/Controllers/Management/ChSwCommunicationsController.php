@@ -57,7 +57,6 @@ class ChSwCommunicationsController extends Controller
        
         $ChSwCommunications = ChSwCommunications::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->where('ch_sw_communications.type_record_id', 1)
             ->get()->toArray();
         
 
