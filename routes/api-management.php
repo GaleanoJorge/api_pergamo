@@ -1707,4 +1707,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     
     //days
     Route::apiResource('days', 'Management\DaysController');
+
+    //interoperabilidad
+    Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
 });

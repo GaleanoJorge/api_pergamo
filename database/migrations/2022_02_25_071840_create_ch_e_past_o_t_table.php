@@ -27,10 +27,10 @@ class CreateChEPastOTTable extends Migration
 
             /////////////////////////////////////////
             $table->string('number_childrens');
-            $table->string('observation_family_struct');
+            $table->string('observation_family_struct')->nullable();
             $table->string('academy');
             $table->string('level_academy');
-            $table->string('observation_schooling_training');
+            $table->string('observation_schooling_training')->nullable();
             $table->string('terapy');
             $table->string('observation_terapy')->nullable();
             $table->string('smoke');
