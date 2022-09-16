@@ -19,7 +19,7 @@ class ChBackgroundController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChBackground = ChBackground::with('ch_background');
+        $ChBackground = ChBackground::with('ch_type_background');
 
         if ($request->_sort) {
             $ChBackground->orderBy($request->_sort, $request->_order);
@@ -148,39 +148,30 @@ class ChBackgroundController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $ch_type_background = ChTypeBackground::select()->get();
-        $validate = ChBackground::where('ch_record_id', $request->ch_record_id)->where('ch_type_background_id', $request->ch_type_background_id)->first();
-        if (!$validate) {
+        $ch_type_background = json_decode($request->ch_type_background_id);
+        // $validate = ChBackground::where('ch_record_id', $request->ch_record_id)->where('ch_type_background_id', $request->ch_type_background_id)->first();
+        // if (!$validate) {
             foreach($ch_type_background as $element) {
-                if($element->id == $request->ch_type_background_id) {
                     $ChBackground = new ChBackground;
-                    $ChBackground->revision = $request->revision;
-                    $ChBackground->observation = $request->observation;
-                    $ChBackground->ch_type_background_id = $request->ch_type_background_id;
-                    $ChBackground->type_record_id = $request->type_record_id;
-                    $ChBackground->ch_record_id = $request->ch_record_id;
-                    $ChBackground->save();
-                } else {
-                    $ChBackground = new ChBackground;
-                    $ChBackground->revision = 'NO REFIERE';
                     $ChBackground->ch_type_background_id = $element->id;
+                    $ChBackground->revision = $element->revision;
+                    $ChBackground->observation = $element->description;
                     $ChBackground->type_record_id = $request->type_record_id;
                     $ChBackground->ch_record_id = $request->ch_record_id;
                     $ChBackground->save();
-                }
-            }
+                } 
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Antecedentes asociados al paciente exitosamente',
-                'data' => ['ch_background' => $ChBackground->toArray()]
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
-        }
+        // } else {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Ya tiene observación'
+        //     ], 423);
+        // }
+        return response()->json([
+            'status' => true,
+            'message' => 'Antecedentes guardados exitosamente',
+            'data' => ['ch_background' => $ChBackground]
+        ]);
     }
 
     /**
