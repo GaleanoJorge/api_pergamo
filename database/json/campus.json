@@ -7,6 +7,7 @@
         "municipality_id": 11001,
         "billing_pad_prefix_id": 2,
         "billing_pad_credit_note_prefix_id": 12,
+        "status_id": 1,
         "region_id": 3
     },
     {
@@ -17,6 +18,7 @@
         "municipality_id": 11001,
         "billing_pad_prefix_id": 1,
         "billing_pad_credit_note_prefix_id": 11,
+        "status_id": 1,
         "region_id": 3
     },
     {
@@ -27,6 +29,7 @@
         "municipality_id": 11001,
         "billing_pad_prefix_id": 3,
         "billing_pad_credit_note_prefix_id": 13,
+        "status_id": 1,
         "region_id": 3
     },
     {
@@ -37,6 +40,7 @@
         "municipality_id": 41001,
         "billing_pad_prefix_id": 7,
         "billing_pad_credit_note_prefix_id": 17,
+        "status_id": 1,
         "region_id": 13
     },
     {
@@ -47,6 +51,7 @@
         "municipality_id": 68001,
         "billing_pad_prefix_id": 9,
         "billing_pad_credit_note_prefix_id": 19,
+        "status_id": 1,
         "region_id": 21
     },
     {
@@ -57,6 +62,7 @@
         "municipality_id": 73001,
         "billing_pad_prefix_id": 10,
         "billing_pad_credit_note_prefix_id": 20,
+        "status_id": 1,
         "region_id": 23
     },
     {
@@ -67,6 +73,7 @@
         "municipality_id": 11001,
         "billing_pad_prefix_id": 4,
         "billing_pad_credit_note_prefix_id": 14,
+        "status_id": 1,
         "region_id": 3
     }
 ]
