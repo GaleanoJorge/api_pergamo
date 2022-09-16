@@ -407,6 +407,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Campus
     Route::apiResource('campus', 'Management\CampusController');
+    Route::patch('campus/{id}/changeStatus', 'Management\CampusController@changeStatus');
 
     //Procedimiento Edad
     Route::apiResource('procedure_age', 'Management\ProcedureAgeController');
@@ -1707,4 +1708,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     
     //days
     Route::apiResource('days', 'Management\DaysController');
+
+    //interoperabilidad
+    Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
 });

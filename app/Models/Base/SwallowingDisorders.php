@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class SwallowingDisordersTL extends Model
+class SwallowingDisorders extends Model
 {
 	protected $table = 'swallowing_disorders_tl';
 
