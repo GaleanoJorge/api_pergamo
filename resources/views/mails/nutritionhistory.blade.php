@@ -472,40 +472,43 @@
                     </span>
                 </p>
 
-                @if(($ch['vomit']) == 1 )
+                @if(($ch['vomit']) != null)
+                    @if(($ch['vomit']) == 1 )
 
-                <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
-                    <tr style="height:11.95pt">
-                        <td style="width:100pt; vertical-align:top">
-                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"> <b>HA PRESENTADO VÓMITO</b> </span>
-                            </p>
-                        </td>
-                        <td style="width:100pt; vertical-align:top">
-                            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt">  </span>
-                            </p>
-                        </td>
-                        <td style="width:100pt; vertical-align:top">
-                            <p style="margin-top:0pt; margin-left:2.5pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                <span style="font-family:Calibri"><b> @if(isset($ch['amount_of_vomit'])) CANTIDAD DE EPISODIOS EMÉTICOS </b> @endisset</span>
-                            </p>
-                        </td>
-                        <td style="width:100pt; vertical-align:top">
-                            <p style="margin-top:0pt; margin-left:2.5pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                <span style="font-family:Calibri">@if(isset($ch['amount_of_vomit'])) {{$ch['amount_of_vomit']}} @endisset</span>
-                            </p>
-                        </td>
-                    </tr>
-                </table> 
-                
-                @endisset
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"> <b>HA PRESENTADO VÓMITO</b> </span>
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt">  </span>
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:2.5pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                    <span style="font-family:Calibri"><b> @if(isset($ch['amount_of_vomit'])) CANTIDAD DE EPISODIOS EMÉTICOS </b> @endisset</span>
+                                </p>
+                            </td>
+                            <td style="width:100pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:2.5pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['amount_of_vomit'])) {{$ch['amount_of_vomit']}} @endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table> 
+                    
+                    @endisset
 
-                @if(($ch['vomit']) == 0 )
-                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:9pt">
-                        <b>NO HA PRESENTADO VÓMITO</b> </span>
-                    </p>  
+                    @if(($ch['vomit']) == 0 )
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="text-align: left; font-family:Calibri; font-size:9pt">
+                            <b>NO HA PRESENTADO VÓMITO</b> </span>
+                        </p>  
+                    @endisset
+
                 @endisset
 
                 @if(($ch['nausea']) == 1 )
@@ -518,7 +521,7 @@
                 @endisset
 
                 @if(($ch['nausea']) == 0 )
-                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <p style=" text-align: left; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                     <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff"> <b>NO HA PRESENTADO VÓMITO</b> </span>
                     <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                 </p>  
