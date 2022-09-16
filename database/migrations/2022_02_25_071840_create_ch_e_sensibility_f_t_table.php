@@ -20,7 +20,7 @@ class CreateChESensibilityFTTable extends Migration
             $table->string('deep');
             $table->string('superficial');
             $table->string('cortical');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
