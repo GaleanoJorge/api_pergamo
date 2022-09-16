@@ -38,6 +38,8 @@ class PharmacyProductRequestController extends Controller
             ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.pharmacy_product_request_id', 'pharmacy_product_request.id')
             ->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
             ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('admissions', 'pharmacy_product_request.admissions_id', 'admissions.id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->with(
                 'product_generic',
                 'product_supplies',
@@ -267,7 +269,9 @@ class PharmacyProductRequestController extends Controller
 
         if ($request->search) {
             $PharmacyProductRequest->where(function ($query) use ($request) {
-                $query->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%');
+                $query->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -1100,6 +1104,7 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping3->save();
                             }
                             if ($request->status == "ACEPTADO") {
+                                $PharmacyRequestShipping3->amount =  0;
                                 $PharmacyProductRequest3->status = "DAÑADO";
                                 $PharmacyProductRequest3->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
                                 $PharmacyProductRequest3->request_amount = $element->amount_damaged;
