@@ -13,6 +13,7 @@ class Campus extends BaseCampus
 		'billing_pad_credit_note_prefix_id',
 		'billing_pad_prefix_id',
 		'region_id',
+		'status_id',
 		'municipality_id',
 	];
 }
