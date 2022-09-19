@@ -82,40 +82,37 @@ class ChPhysicalExamController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        // $validate = ChPhysicalExam::select('ch_physical_exam.*')
-        //     ->where('ch_record_id', $request->ch_record_id)
-        //     ->where('type_record_id', $request->type_record_id)
-        //     ->get()->toArray();
-        // // ('ch_record_id', $request->ch_record_id)->where('type_ch_physical_exam_id',$request->type_ch_physical_exam_id)->first();
-        // if (sizeof($validate) == 0) {
+        $validate = ChPhysicalExam::select('ch_physical_exam.*')
+            ->where('ch_record_id', $request->ch_record_id)
+            ->where('type_record_id', $request->type_record_id)
+            ->get()->toArray();
+        // ('ch_record_id', $request->ch_record_id)->where('type_ch_physical_exam_id',$request->type_ch_physical_exam_id)->first();
+        if (sizeof($validate) == 0) {
 
-            // $ChPhysicalExamArray = json_decode($request->physical_exam);
+            $ChPhysicalExamArray = json_decode($request->physical_exam);
 
-            // foreach ($ChPhysicalExamArray as $item) {
+            foreach ($ChPhysicalExamArray as $item) {
 
                 $ChPhysicalExam = new ChPhysicalExam;
-                $ChPhysicalExam->revision =$request->revision;
-                $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id;
-                $ChPhysicalExam->description = $request->description;
+                $ChPhysicalExam->revision = $item->revision;
+                $ChPhysicalExam->type_ch_physical_exam_id = $item->id;
+                $ChPhysicalExam->description = $item->description;
                 $ChPhysicalExam->type_record_id = $request->type_record_id;
                 $ChPhysicalExam->ch_record_id = $request->ch_record_id;
                 $ChPhysicalExam->save();
-                
-            
-
+            }
 
             return response()->json([
                 'status' => true,
                 'message' => 'Examenes físicos asociados al paciente exitosamente',
                 'data' => ['ch_physical_exam' => $ChPhysicalExam->toArray()]
             ]);
-        // } 
-        // else {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Ya tiene observación'
-        //     ], 423);
-        // }
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya tiene observación'
+            ], 423);
+        }
     }
 
     /**
