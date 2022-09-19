@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Models\SwallowingDisorders;
+use App\Models\SwallowingDisordersTL;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\ChRecord;
@@ -18,7 +18,7 @@ class SwallowingDisordersTLController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $SwallowingDisordersTL = SwallowingDisorders::select();
+        $SwallowingDisordersTL = SwallowingDisordersTL::select();
 
         if ($request->_sort) {
             $SwallowingDisordersTL->orderBy($request->_sort, $request->_order);
@@ -56,13 +56,13 @@ class SwallowingDisordersTLController extends Controller
     {
 
 
-        $SwallowingDisordersTL = SwallowingDisorders::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $SwallowingDisordersTL = SwallowingDisordersTL::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
 
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //
                 $chrecord = ChRecord::find($id); //
-                $SwallowingDisordersTL = SwallowingDisorders::select('swallowing_disorders_tl.*')
+                $SwallowingDisordersTL = SwallowingDisordersTL::select('swallowing_disorders_tl.*')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id) //
                     ->where('swallowing_disorders_tl.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'swallowing_disorders_tl.ch_record_id') //
@@ -80,7 +80,7 @@ class SwallowingDisordersTLController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $SwallowingDisordersTL = new SwallowingDisorders;
+        $SwallowingDisordersTL = new SwallowingDisordersTL;
         $SwallowingDisordersTL->solid_dysphagia = $request->solid_dysphagia;
         $SwallowingDisordersTL->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
         $SwallowingDisordersTL->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
@@ -107,7 +107,7 @@ class SwallowingDisordersTLController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $SwallowingDisordersTL = SwallowingDisorders::where('id', $id)
+        $SwallowingDisordersTL = SwallowingDisordersTL::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
@@ -125,7 +125,7 @@ class SwallowingDisordersTLController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $SwallowingDisordersTL = SwallowingDisorders::find($id);
+        $SwallowingDisordersTL = SwallowingDisordersTL::find($id);
         $SwallowingDisordersTL->solid_dysphagia = $request->solid_dysphagia;
         $SwallowingDisordersTL->clear_liquid_dysphagia = $request->clear_liquid_dysphagia;
         $SwallowingDisordersTL->thick_liquid_dysphagia = $request->thick_liquid_dysphagia;
@@ -153,7 +153,7 @@ class SwallowingDisordersTLController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $SwallowingDisordersTL = SwallowingDisorders::find($id);
+            $SwallowingDisordersTL = SwallowingDisordersTL::find($id);
             $SwallowingDisordersTL->delete();
 
             return response()->json([
