@@ -37,7 +37,7 @@
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
                         <p>Fecha de registro: {{$fecharecord}}</p>
-                        <p>Folio: {{$chrecord[0]['id']}}</p>
+                        <p>Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -1934,16 +1934,16 @@
                         </tr>
                     </table>  
 
+                    
+
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:8pt">
                         <b> @if(($ch['misbirth_unstudied']) == 1 ) ABORTOS ESPONTÁNEOS  -</b> @endisset 
                         <b> @if(($ch['background_twins']) == 1 ) ANTECEDENTES GEMELARES  -</b> @endisset 
-                        <b> @if(($ch['last_planned_pregnancy']) == 1 ) ULTIMO EMBARAZO PLANEADO </b> @endisset 
-                        <b> @if(($ch['misbirth_unstudied']) == 0 ) NO ABORTOS ESPONTÁNEOS -</b>{{$ch['misbirth_unstudied']}} @endisset 
-                        <b> @if(($ch['background_twins']) == 0 ) SIN ANTECEDENTES GEMELARES -</b>{{$ch['background_twins']}} @endisset 
-                        <b> @if(($ch['last_planned_pregnancy']) == 0) ULTIMO EMBARAZO NO PLANEADO </b>{{$ch['last_planned_pregnancy']}} @endisset </span>
+                        <b> @if(($ch['last_planned_pregnancy']) == 1 ) ULTIMO EMBARAZO PLANEADO </b> @endisset  </span>
                     </p>
-
+                    @endisset
+                    
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">                               
                             <td style="width:80pt; vertical-align:top">
@@ -2079,18 +2079,18 @@
         </div>
 
         <!-- Rx Signos Vitales-->
-            <div>
-                @if(count($ChVitalSignsEvo) > 0)
-                @foreach($ChVitalSignsEvo as $ch)
+        <div>
+            @if(count($ChVitalSigns) > 0)
+            @foreach($ChVitalSigns as $ch)
 
-                <hr />
+            <hr />
 
-                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
-                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                </p>
-                <br>
-            
+            <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
+            <br>
+
                 <!-- Requeridos-->
                 <div>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -2180,7 +2180,7 @@
                         </tr>   
                     </table> 
                 </div>                         
-    
+
                 <!-- Otros-->
                 <div>
                         @if (isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
@@ -2351,7 +2351,7 @@
 
                         @endisset
 
-            
+
                         @if(($ch['has_oxigen']) == 1 )
 
                         <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
@@ -2392,7 +2392,7 @@
 
                 </div>
 
-            </div>
+        </div>
            
         <!-- Diagnóstico -->
             <div>

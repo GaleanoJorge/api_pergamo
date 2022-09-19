@@ -16,7 +16,7 @@
             Schema::create('ch_gynecologists', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('pregnancy_status')->nullable();
-                $table->date('gestational_age')->nullable();
+                $table->integer('gestational_age')->nullable();
                 $table->date('date_childbirth')->nullable();
                 $table->integer('menarche_years');
                 $table->date('last_menstruation');
