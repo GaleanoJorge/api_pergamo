@@ -446,7 +446,7 @@ class ChRecordController extends Controller
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             $ChDiets = ChDietsEvo::with('enterally_diet')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             //Antecedentes
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             //Antecedentes Gyneco
             $ChGynecologists = ChGynecologists::with(
                 'ch_type_gynecologists',
@@ -465,7 +465,7 @@ class ChRecordController extends Controller
             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             //Antecedentes
-            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             //Antecedentes Gyneco
             $ChGynecologistsEvo = ChGynecologists::with(
                 'ch_type_gynecologists',
@@ -478,7 +478,7 @@ class ChRecordController extends Controller
                 'ch_rst_colposcipia_gyneco',
                 'ch_failure_method_gyneco',
                 'ch_method_planning_gyneco'
-            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             $ChVitalSignsEvo = ChVitalSigns::with(
                 'ch_vital_hydration',
@@ -838,7 +838,7 @@ class ChRecordController extends Controller
         } else if ($ChRecord[0]['ch_type_id'] == 5) {
             //Ingreso
             $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChGynecologists = ChGynecologists::with(
                 'ch_type_gynecologists',
                 'ch_planning_gynecologists',
@@ -889,7 +889,7 @@ class ChRecordController extends Controller
             
             //Regular
             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             //Antecedentes Gyneco
             $ChGynecologistsEvo = ChGynecologists::with(
                 'ch_type_gynecologists',
@@ -902,7 +902,7 @@ class ChRecordController extends Controller
                 'ch_rst_colposcipia_gyneco',
                 'ch_failure_method_gyneco',
                 'ch_method_planning_gyneco'
-                )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+                )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
                 
             $ChVitalSignsEvo = ChVitalSigns::with(
                 'ch_vital_hydration',
@@ -1002,7 +1002,7 @@ class ChRecordController extends Controller
             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
              //Antecedentes
-             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
              //Antecedentes Gyneco
              $ChGynecologists = ChGynecologists::with(
                  'ch_type_gynecologists',
@@ -1237,7 +1237,7 @@ class ChRecordController extends Controller
             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             
             //Antecedentes
-            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             //Antecedentes Gyneco
             $ChGynecologists = ChGynecologists::with(
                 'ch_type_gynecologists',
@@ -1250,7 +1250,7 @@ class ChRecordController extends Controller
                 'ch_rst_colposcipia_gyneco',
                 'ch_failure_method_gyneco',
                 'ch_method_planning_gyneco'
-            )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             
             //Regular
@@ -1652,7 +1652,7 @@ class ChRecordController extends Controller
 //             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
 //             $ChDiets = ChDietsEvo::with('enterally_diet', 'diet_consistency')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
 //             //Antecedentes
-//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 //             //Antecedentes Gyneco
 //             $ChGynecologists = ChGynecologists::with(
 //                 'ch_type_gynecologists',
@@ -1671,7 +1671,7 @@ class ChRecordController extends Controller
 //             $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             $ChPhysicalExamEvo = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             //Antecedentes
-//             $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             //Antecedentes Gyneco
 //             $ChGynecologistsEvo = ChGynecologists::with(
 //                 'ch_type_gynecologists',
@@ -1684,7 +1684,7 @@ class ChRecordController extends Controller
 //                 'ch_rst_colposcipia_gyneco',
 //                 'ch_failure_method_gyneco',
 //                 'ch_method_planning_gyneco'
-//             )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
 //             $ChVitalSignsEvo = ChVitalSigns::with(
 //                 'ch_vital_hydration',
@@ -1915,7 +1915,7 @@ class ChRecordController extends Controller
 //         } else if ($ChRecord[0]['ch_type_id'] == 5) {
 //             //Ingreso
 //             $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 //             $ChGynecologists = ChGynecologists::with(
 //                 'ch_type_gynecologists',
 //                 'ch_planning_gynecologists',
@@ -1966,7 +1966,7 @@ class ChRecordController extends Controller
             
 //             //Regular
 //             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-//             $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             //Antecedentes Gyneco
 //             $ChGynecologistsEvo = ChGynecologists::with(
 //                 'ch_type_gynecologists',
@@ -1979,7 +1979,7 @@ class ChRecordController extends Controller
 //                 'ch_rst_colposcipia_gyneco',
 //                 'ch_failure_method_gyneco',
 //                 'ch_method_planning_gyneco'
-//                 )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//                 )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
                 
 //             $ChVitalSignsEvo = ChVitalSigns::with(
 //                 'ch_vital_hydration',
@@ -2026,7 +2026,7 @@ class ChRecordController extends Controller
 //             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
 //              //Antecedentes
-//              $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//              $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 //              //Antecedentes Gyneco
 //              $ChGynecologists = ChGynecologists::with(
 //                  'ch_type_gynecologists',
@@ -2151,7 +2151,7 @@ class ChRecordController extends Controller
 //             $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $id)->get()->toArray();
             
 //             //Antecedentes
-//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 //             //Antecedentes Gyneco
 //             $ChGynecologists = ChGynecologists::with(
 //                 'ch_type_gynecologists',
@@ -2164,7 +2164,7 @@ class ChRecordController extends Controller
 //                 'ch_rst_colposcipia_gyneco',
 //                 'ch_failure_method_gyneco',
 //                 'ch_method_planning_gyneco'
-//             )->where('ch_record_id', $id)->where('type_record_id', 2)->get()->toArray();
+//             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             
 //             //Regular
