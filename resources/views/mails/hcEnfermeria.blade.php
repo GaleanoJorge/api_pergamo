@@ -1607,7 +1607,7 @@
                         <b>@if(isset($ch['infection_sign'])) SIGNOS DE INFECCIÓN: </b> {{$ch['infection_sign']}} @endisset <br/>
                         
                         <b>@if(isset($ch['surrounding_skin'])) PIEL CIRCUNDANTE: </b> {{$ch['surrounding_skin']}} @endisset
-                        
+                        <b>@if(isset($ch['observation'])) OBSERVACION: </b> {{$ch['observation']}} @endisset
                     </span>
                 </p>
                 @endforeach
