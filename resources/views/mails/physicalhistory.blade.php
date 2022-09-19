@@ -188,7 +188,7 @@
     
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity_id'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : "No registra"}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -722,19 +722,24 @@
                         
                         @if(isset($ch['burning']) || isset($ch['stinging']) || isset($ch['locatedi']) || isset($ch['oppressive']) )
                     
-                        <p style=" text-align: left ; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>TIPO DOLOR </b> </span>
-                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        <p style=" text-align: left ; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff"> <b>TIPO DOLOR:            </b> </span>
+                            <span style="font-family:Calibri; font-size:8pt"> 
+                                @if(isset($ch['burning']))   {{$ch['burning']}} @endisset
+                                @if(isset($ch['stinging']))   {{$ch['stinging']}} @endisset
+                                @if(isset($ch['locatedi']))  {{$ch['locatedi']}} @endisset
+                                @if(isset($ch['oppressive'])) {{$ch['oppressive']}} @endisset</span>
                         </p>
+                       
                         @endisset
                 
-                    <p style= "margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                    {{-- <p style= "margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:8pt"> 
                             @if(isset($ch['burning']))   {{$ch['burning']}} @endisset
                             @if(isset($ch['stinging']))   {{$ch['stinging']}} @endisset
                             @if(isset($ch['locatedi']))  {{$ch['locatedi']}} @endisset
                             @if(isset($ch['oppressive'])) {{$ch['oppressive']}} @endisset</span>
-                    </p>                         
+                    </p>                          --}}
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">
                             <td style="width:100pt; vertical-align:top">
