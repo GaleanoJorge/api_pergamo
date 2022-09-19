@@ -1125,8 +1125,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_int_pat_o_t', 'Management\ChEMSIntPatOTController');
     Route::get('ch_e_m_s_int_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSIntPatOTController@getByRecord');
 
-    Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSmovPatOTController');
-    Route::get('ch_e_m_s_mov_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSmovPatOTController@getByRecord');
+    Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSMovPatOTController');
+    Route::get('ch_e_m_s_mov_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSMovPatOTController@getByRecord');
 
     Route::apiResource('ch_e_m_s_thermal_o_t', 'Management\ChEMSThermalOTController');
     Route::get('ch_e_m_s_thermal_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSThermalOTController@getByRecord');
