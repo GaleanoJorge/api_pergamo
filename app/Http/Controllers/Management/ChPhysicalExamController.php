@@ -63,10 +63,10 @@ class ChPhysicalExamController extends Controller
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //
                 $chrecord = ChRecord::find($id); //
-                $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')
+                $ChPhysicalExam = ChPhysicalExam::select('ch_physical_exam.*')->with('type_ch_physical_exam')
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_physical_exam.ch_record_id') //
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
                     ->where('ch_physical_exam.type_record_id', 1)
-                    ->leftJoin('ch_record', 'ch_record.id', 'ch_physical_exam.ch_record_id') //
                     ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }
         }

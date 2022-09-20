@@ -321,7 +321,7 @@ class ChRecordController extends Controller
      
     
    
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -577,7 +577,7 @@ class ChRecordController extends Controller
 
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -717,7 +717,7 @@ class ChRecordController extends Controller
 
             $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -921,7 +921,7 @@ class ChRecordController extends Controller
             )->get()->toArray();
             $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 if($ChRecord[0]['user']['assistance'][0]['file_firm']!='null'){
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
@@ -1051,7 +1051,7 @@ class ChRecordController extends Controller
             $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->get()->toArray();
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1163,7 +1163,7 @@ class ChRecordController extends Controller
             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1270,7 +1270,7 @@ class ChRecordController extends Controller
             )
             ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
            
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1382,7 +1382,7 @@ class ChRecordController extends Controller
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
     
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm'])) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1505,7 +1505,7 @@ class ChRecordController extends Controller
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
 
-            if (count($ChRecord[0]['user']['assistance']) > 0) {
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1783,7 +1783,7 @@ class ChRecordController extends Controller
 
 //             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
 //             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -1845,7 +1845,7 @@ class ChRecordController extends Controller
 
 //             $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
 
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2003,7 +2003,7 @@ class ChRecordController extends Controller
 //             $Patients = $ChRecord[0]['admissions']['patients'];
 
 
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2075,7 +2075,7 @@ class ChRecordController extends Controller
 //             $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->get()->toArray();
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2130,7 +2130,7 @@ class ChRecordController extends Controller
 //             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2184,7 +2184,7 @@ class ChRecordController extends Controller
 //             )
 //             ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
            
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2244,7 +2244,7 @@ class ChRecordController extends Controller
 //             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 //             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
     
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
@@ -2310,7 +2310,7 @@ class ChRecordController extends Controller
 //             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
 
-//             if (count($ChRecord[0]['user']['assistance']) > 0) {
+//             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm']!="null") {
 //                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
 //                 $contenidoBinario = file_get_contents($rutaImagen);
 //                 $imagenComoBase64 = base64_encode($contenidoBinario);
