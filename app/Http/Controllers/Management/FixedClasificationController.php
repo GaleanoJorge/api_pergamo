@@ -46,7 +46,7 @@ class FixedClasificationController extends Controller
     }
 
 
-            /**
+    /**
      * Display a listing of the resource
      *
      * @param integer $fixed_type_id
@@ -54,7 +54,7 @@ class FixedClasificationController extends Controller
      */
     public function getCategoryByGroup(int $fixed_type_id): JsonResponse
     {
-        $FixedClasification = FixedClasification::where('fixed_type_id', $fixed_type_id)
+        $FixedClasification = FixedClasification::where('fixed_type_id', $fixed_type_id)->with('fixed_code')
             ->orderBy('name', 'asc')->get()->toArray();
 
         return response()->json([
