@@ -1060,6 +1060,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
     Route::apiResource('type_ch_system_exam', 'Management\ChTypeSystemExamController');
     Route::apiResource('ch_type_background', 'Management\ChTypeBackgroundController');
+    Route::apiResource('ch_type', 'Management\ChTypeController');
 
     Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
     Route::apiResource('type_record', 'Management\ChTypeRecordController');
