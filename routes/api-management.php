@@ -1254,6 +1254,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_stock', 'Management\FixedStockController');
     Route::apiResource('users_fixed_stock', 'Management\UsersFixedStockController');
+    Route::get('users_fixed_stock/byuser/{id}', 'Management\UsersFixedStockController@getByUser');
+
 
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
@@ -1266,7 +1268,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getFixedByUserId');
 
     Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
-
 
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
