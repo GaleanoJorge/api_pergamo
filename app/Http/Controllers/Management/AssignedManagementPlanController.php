@@ -77,7 +77,7 @@ class AssignedManagementPlanController extends Controller
         } else {
             if ($request->patient) {
                 $assigned_management_plan->where('assigned_management_plan.user_id', $userId)
-                    ->where('management_plan.admissions_id', $request->patient)
+                    // ->where('management_plan.admissions_id', $request->patient)
                     ->where('assigned_management_plan.management_plan_id', $managementId);
             } else {
                 $assigned_management_plan->where('assigned_management_plan.user_id', $userId);

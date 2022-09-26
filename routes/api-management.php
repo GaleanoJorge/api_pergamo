@@ -155,7 +155,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
 
     //Ch Psicología
-    // Route::apiResource('ch_sw_activities', 'Management\ChPsEpisodesController');
+    Route::apiResource('ch_ps_episodes', 'Management\ChPsEpisodesController');
+    Route::apiResource('ch_ps_assessment', 'Management\ChPsAssessmentController');
+    Route::get('ch_ps_assessment/by_record/{id}/{type_record_id}', 'Management\ChPsAssessmentController@getByRecord');
 
     
     //SectionalCouncil
@@ -1058,6 +1060,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
     Route::apiResource('type_ch_system_exam', 'Management\ChTypeSystemExamController');
     Route::apiResource('ch_type_background', 'Management\ChTypeBackgroundController');
+    Route::apiResource('ch_type', 'Management\ChTypeController');
 
     Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
     Route::apiResource('type_record', 'Management\ChTypeRecordController');
