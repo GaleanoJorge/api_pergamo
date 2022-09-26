@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Models\ChRecord;
 
-class SwallowingDisordersTLController extends Controller
+class SwallowingDisordersController extends Controller
 {
     /**
      * Display a listing of the resource.
