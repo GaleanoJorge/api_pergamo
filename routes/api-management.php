@@ -155,7 +155,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
 
     //Ch Psicología
-    Route::apiResource('ch_sw_activities', 'Management\ChPsEpisodesController');
+    Route::apiResource('ch_ps_episodes', 'Management\ChPsEpisodesController');
+    Route::apiResource('ch_ps_assessment', 'Management\ChPsAssessmentController');
+    Route::get('ch_ps_assessment/by_record/{id}/{type_record_id}', 'Management\ChPsAssessmentController@getByRecord');
 
     
     //SectionalCouncil
@@ -407,6 +409,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Campus
     Route::apiResource('campus', 'Management\CampusController');
+    Route::patch('campus/{id}/changeStatus', 'Management\CampusController@changeStatus');
 
     //Procedimiento Edad
     Route::apiResource('procedure_age', 'Management\ProcedureAgeController');
@@ -1057,6 +1060,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
     Route::apiResource('type_ch_system_exam', 'Management\ChTypeSystemExamController');
     Route::apiResource('ch_type_background', 'Management\ChTypeBackgroundController');
+    Route::apiResource('ch_type', 'Management\ChTypeController');
 
     Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
     Route::apiResource('type_record', 'Management\ChTypeRecordController');
@@ -1124,8 +1128,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_e_m_s_int_pat_o_t', 'Management\ChEMSIntPatOTController');
     Route::get('ch_e_m_s_int_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSIntPatOTController@getByRecord');
 
-    Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSmovPatOTController');
-    Route::get('ch_e_m_s_mov_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSmovPatOTController@getByRecord');
+    Route::apiResource('ch_e_m_s_mov_pat_o_t', 'Management\ChEMSMovPatOTController');
+    Route::get('ch_e_m_s_mov_pat_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSMovPatOTController@getByRecord');
 
     Route::apiResource('ch_e_m_s_thermal_o_t', 'Management\ChEMSThermalOTController');
     Route::get('ch_e_m_s_thermal_o_t/by_record/{id}/{type_record_id}', 'Management\ChEMSThermalOTController@getByRecord');
@@ -1708,4 +1712,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     
     //days
     Route::apiResource('days', 'Management\DaysController');
+
+    //interoperabilidad
+    Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
 });

@@ -395,15 +395,27 @@ class PharmacyProductRequestController extends Controller
                     ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                     ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id)
                     ->whereNotNull('manual_price.product_id');
+                    $PharmacyProductRequest->where(function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            $query->where('status', 'ACEPTADO')
+                                ->orWhere('status', 'ENVIO PATIENT');
+                        });
+                    });
             } else {
                 $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                     ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                     ->where('pharmacy_product_request.admissions_id', $ch_record->admissions_id)
                     ->whereNotNull('manual_price.supplies_id');
+                    $PharmacyProductRequest->where(function ($query) use ($request) {
+                        $query->where(function ($query) use ($request) {
+                            $query->where('status', 'ACEPTADO')
+                                ->orWhere('status', 'ENVIO PATIENT');
+                        });
+                    });
             }
         }
 
-        //
+        //desde suministros
         if ($request->type == '1') {
 
             // $EnabledAdmissions =  Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')

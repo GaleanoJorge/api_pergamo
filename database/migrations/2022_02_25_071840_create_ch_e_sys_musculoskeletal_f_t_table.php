@@ -27,7 +27,7 @@ class CreateChESysMusculoskeletalFTTable extends Migration
             $table->string('left_foot');
             $table->string('inf_right');
             $table->string('right_foot');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

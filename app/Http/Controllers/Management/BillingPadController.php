@@ -294,7 +294,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);
@@ -409,6 +409,8 @@ class BillingPadController extends Controller
         ]);
     }
 
+
+    
     public function arraySupport(Request $request, int $admission_id)
     {
         if ($request->billing_id) {
@@ -458,19 +460,31 @@ class BillingPadController extends Controller
         $Authorizations = []; // COSAS NO FACTURADAS
         $AlreadyBilling = []; // COSAS FACTURADAS
         foreach ($eventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('auth_billing_pad.authorization_id', $Authorization['id'])
-            ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
-            ;
-        if ($request->bill) {
-            $AuthBillingPad->whereNull('billing_pad.billing_credit_note_id');
-        }
-        $AuthBillingPad->groupBy('auth_billing_pad.id')
-        ;
-        $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
             if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -512,19 +526,31 @@ class BillingPadController extends Controller
         $MedicamentosEventos = $MedicamentosEventos->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('auth_billing_pad.authorization_id', $Authorization['id'])
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
-                ;
-            if ($request->bill) {
-                $AuthBillingPad->whereNull('billing_pad.billing_credit_note_id');
-            }
-            $AuthBillingPad->groupBy('auth_billing_pad.id')
-            ;
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
             $AuthBillingPad = $AuthBillingPad->get()->toArray();
             if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -567,19 +593,31 @@ class BillingPadController extends Controller
         $InsumosEventos = $InsumosEventos->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('auth_billing_pad.authorization_id', $Authorization['id'])
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
-                ;
-            if ($request->bill) {
-                $AuthBillingPad->whereNull('billing_pad.billing_credit_note_id');
-            }
-            $AuthBillingPad->groupBy('auth_billing_pad.id')
-            ;
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
             $AuthBillingPad = $AuthBillingPad->get()->toArray();
             if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -616,19 +654,31 @@ class BillingPadController extends Controller
         $ActivosFijosEvento = $ActivosFijosEvento->get()->toArray();
 
         foreach ($ActivosFijosEvento as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('auth_billing_pad.authorization_id', $Authorization['id'])
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
-                ;
-            if ($request->bill) {
-                $AuthBillingPad->whereNull('billing_pad.billing_credit_note_id');
-            }
-            $AuthBillingPad->groupBy('auth_billing_pad.id')
-            ;
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
             $AuthBillingPad = $AuthBillingPad->get()->toArray();
             if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -672,22 +722,31 @@ class BillingPadController extends Controller
         $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
             $Authorizationpackages['auth_package'] = true;
-            $AuthBillingPad = AuthBillingPad::where('auth_billing_pad.authorization_id', $Authorizationpackages['id'])
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorizationpackages['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
-                ;
-            if ($request->bill) {
-                $AuthBillingPad->whereNull('billing_pad.billing_credit_note_id');
-            }
-            $AuthBillingPad->groupBy('auth_billing_pad.id')
-            ;
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
             $AuthBillingPad = $AuthBillingPad->get()->toArray();
-            // if (!$AuthBillingPad) {
-            //     $hasPackages = true;
-            // }
             if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorizationpackages);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorizationpackages);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorizationpackages);
+                    } else {
+                        array_push($AlreadyBilling, $Authorizationpackages);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorizationpackages);
+                }
             }
             $i++;
         }
@@ -1859,7 +1918,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);
@@ -1969,7 +2028,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);
@@ -2067,7 +2126,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conección con el servidor del proveedor de facturación',
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e,
                 'data' => ['billing_pad' => []]
             ]);

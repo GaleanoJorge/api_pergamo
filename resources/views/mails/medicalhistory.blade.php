@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="application/pdf" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta name="generator" content="Aspose.Words for .NET 17.1.0.0" />
     <title></title>
@@ -37,7 +37,7 @@
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
                         <p>Fecha de registro: {{$fecharecord}}</p>
-                        <p>Folio: {{$chrecord[0]['id']}}</p>
+                        <p>Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -67,7 +67,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname'] . ' ' . '' . $chrecord[0]['admissions']['patients']['middlefirstname'] . ($chrecord[0]['admissions']['patients']['middlefirstname'] ? ' ' : '') . '' . $chrecord[0]['admissions']['patients']['lastname'] . '' . ($chrecord[0]['admissions']['patients']['middlelastname'] ? ' ' : '') . $chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -77,7 +77,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? $chrecord[0]['admissions']['patients']['identification'] : 'No registra'}}</span>
                     <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                 </p>
             </td>
@@ -90,7 +90,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{substr($chrecord[0]['admissions']['patients']['birthday'],0,10)}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? mb_substr($chrecord[0]['admissions']['patients']['birthday'],0,10) : 'No registra'}}</span>
                     <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
             
                 </p>
@@ -102,7 +102,7 @@
             </td>      
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status_id'] ? $chrecord[0]['admissions']['patients']['marital_status']['name'] : 'No registra'}}</span>
                 </p>
             </td>
 
@@ -115,7 +115,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}} Años</span>
                 </p>
             </td>
         
@@ -127,7 +127,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender']['name']}}</span>
+                    <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender_id'] ? $chrecord[0]['admissions']['patients']['gender']['name'] : 'No registra'}}</span>
                 </p>
             </td>
         
@@ -141,7 +141,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address'] ? $chrecord[0]['admissions']['patients']['residence_address'] : 'No registra'}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -151,7 +151,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone'] ? $chrecord[0]['admissions']['patients']['phone'] : 'No registra'}}</span>
                 </p>
             </td>
         </tr>
@@ -163,7 +163,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality_id'] ? $chrecord[0]['admissions']['patients']['residence_municipality']['name'] : 'No registra'}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -174,7 +174,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities_id'] ? $chrecord[0]['admissions']['patients']['activities']['name'] : 'No registra'}}</span>
                 </p>
             </td>
            
@@ -188,7 +188,7 @@
     
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : ''}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity_id'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : "No registra"}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -199,7 +199,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level_id'] ? $chrecord[0]['admissions']['patients']['academic_level']['name'] : 'No registra'}}</span>
                 </p>
             </td>
             
@@ -222,7 +222,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive']}} </span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive'] ? $chrecord[0]['admissions']['consecutive'] : 'No registra'}} </span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -232,7 +232,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date'] ? $chrecord[0]['admissions']['entry_date'] : 'No registra'}}</span>
                     <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                 </p>
             </td>
@@ -245,7 +245,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company_id'] ? $chrecord[0]['admissions']['contract']['company']['name'] : 'No registra'}}</span>
                     <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
             
                 </p>
@@ -257,7 +257,7 @@
             </td>      
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase'] ? $chrecord[0]['admissions']['contract']['type_briefcase']['name'] : 'No registra'}}</span>
                 </p>
             </td>
         </tr>
@@ -343,7 +343,7 @@
 
                         @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                         </td>
                         @endisset
 
@@ -400,7 +400,7 @@
                 
                     @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -444,7 +444,7 @@
                     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
                     </p>
 
                     @if(($ch['pregnancy_status']) == 'EMBARAZADA' )
@@ -921,7 +921,7 @@
                         
                             @if(isset($ch['created_at']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                             </td>
                             @endisset
 
@@ -969,7 +969,7 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -1284,7 +1284,7 @@
                         <tr style="height:11.95pt">                                 
                             <td style="width:79.75pt; vertical-align:top">
                                 <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset</span>
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:106pt; vertical-align:top">
@@ -1332,7 +1332,7 @@
                     @foreach($ChOstomies as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                             <b>@if(isset($ch['ostomy'])) OSTOMIA: </b> {{$ch['ostomy']['name']}} @endisset<br/>
                             <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
                     </p>
@@ -1356,7 +1356,7 @@
                     @foreach($ChAp as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset<br/>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
                             <b>@if(isset($ch['analisys'])) ANÁISIS: </b> {{$ch['analisys']}} @endisset<br/>
                             <b>@if(isset($ch['plan'])) PLAN : </b> {{$ch['plan']}} @endisset</span>
                     </p>
@@ -1381,7 +1381,7 @@
                     @foreach($ChRecommendations as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="text-align: justify; font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                             <b>@if(isset($ch['recommendations_evo'])) RECOMENDACIÓN: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
                             <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
                             <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
@@ -1408,7 +1408,7 @@
                 <tr style="height:11.95pt">
                     <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset</span>
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                         </p>
                     </td>
                     <td style="width:106pt; vertical-align:top">
@@ -1476,7 +1476,7 @@
 
                             @if(isset($ch['created_at']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                             </td>
                             @endisset
 
@@ -1528,7 +1528,7 @@
                             
                                 @if(isset($ch['created_at']))
                                 <td>
-                                    <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                    <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                                 </td>
                                 @endisset
 
@@ -1584,7 +1584,7 @@
                 
                     @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -1628,7 +1628,7 @@
                     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
                     </p>
 
                     @if(($ch['pregnancy_status']) == 'EMBARAZADA' )
@@ -1934,16 +1934,15 @@
                         </tr>
                     </table>  
 
+                    
+
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:8pt">
                         <b> @if(($ch['misbirth_unstudied']) == 1 ) ABORTOS ESPONTÁNEOS  -</b> @endisset 
                         <b> @if(($ch['background_twins']) == 1 ) ANTECEDENTES GEMELARES  -</b> @endisset 
-                        <b> @if(($ch['last_planned_pregnancy']) == 1 ) ULTIMO EMBARAZO PLANEADO </b> @endisset 
-                        <b> @if(($ch['misbirth_unstudied']) == 0 ) NO ABORTOS ESPONTÁNEOS -</b>{{$ch['misbirth_unstudied']}} @endisset 
-                        <b> @if(($ch['background_twins']) == 0 ) SIN ANTECEDENTES GEMELARES -</b>{{$ch['background_twins']}} @endisset 
-                        <b> @if(($ch['last_planned_pregnancy']) == 0) ULTIMO EMBARAZO NO PLANEADO </b>{{$ch['last_planned_pregnancy']}} @endisset </span>
+                        <b> @if(($ch['last_planned_pregnancy']) == 1 ) ULTIMO EMBARAZO PLANEADO </b> @endisset  </span>
                     </p>
-
+                    
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">                               
                             <td style="width:80pt; vertical-align:top">
@@ -2079,25 +2078,25 @@
         </div>
 
         <!-- Rx Signos Vitales-->
-            <div>
-                @if(count($ChVitalSignsEvo) > 0)
-                @foreach($ChVitalSignsEvo as $ch)
+        <div>
+            @if(count($ChVitalSigns) > 0)
+            @foreach($ChVitalSigns as $ch)
 
-                <hr />
+            <hr />
 
-                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
-                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                </p>
-                <br>
-            
+            <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> SIGNOS VITALES </b> </span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
+            <br>
+
                 <!-- Requeridos-->
                 <div>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">
                             <td style="width:79.75pt; vertical-align:top">
                                 <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                                 </p>
                             </td>
                             <td style="width:106pt; vertical-align:top">
@@ -2180,7 +2179,7 @@
                         </tr>   
                     </table> 
                 </div>                         
-    
+
                 <!-- Otros-->
                 <div>
                         @if (isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
@@ -2351,7 +2350,7 @@
 
                         @endisset
 
-            
+
                         @if(($ch['has_oxigen']) == 1 )
 
                         <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
@@ -2392,7 +2391,7 @@
 
                 </div>
 
-            </div>
+        </div>
            
         <!-- Diagnóstico -->
             <div>
@@ -2408,7 +2407,7 @@
                 @foreach($ChDiagnosisEvo as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                         <b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b>{{$ch['diagnosis']['name']}} @endisset <br/>
                         <b>@if(isset($ch['ch_diagnosis_class'])) CLASE: </b> {{$ch['ch_diagnosis_class'] ['name']}} @endisset <br/>
                         <b>@if(isset($ch['ch_diagnosis_type'])) TIPO: </b> {{$ch['ch_diagnosis_type'] ['name']}} @endisset <br/>
@@ -2435,7 +2434,7 @@
                 @foreach($ChOstomiesEvo as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                         <b>@if(isset($ch['ostomy'])) OSTOMIA: </b> {{$ch['ostomy']['name']}} @endisset <br/>
                         <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
                 </p>
@@ -2458,7 +2457,7 @@
                 @foreach($ChApEvo as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                         <b>@if(isset($ch['analisys'])) ANÁISIS: </b> {{$ch['analisys']}} @endisset <br/>
                         <b>@if(isset($ch['plan'])) PLAN : </b> {{$ch['plan']}} @endisset</span>
                 </p>
@@ -2483,7 +2482,7 @@
                 @foreach($ChRecommendationsEvo as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style=" text-align: justify; font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
                         <b>@if(isset($ch['recommendations_evo'])) RECOMENDACION: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
                         <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
                         <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
@@ -2510,7 +2509,7 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -2580,7 +2579,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -2657,7 +2656,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -2705,7 +2704,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -2756,7 +2755,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -2926,7 +2925,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -2965,7 +2964,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3082,7 +3081,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -3128,7 +3127,7 @@
                 <tr>                        
                    @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{mb_substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
 
@@ -3167,7 +3166,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3252,7 +3251,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3414,7 +3413,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3577,7 +3576,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3673,7 +3672,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
             <br/>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -3809,7 +3808,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset </span>
             </p>
 
             <br/>
@@ -4128,7 +4127,7 @@
             @foreach($ChFormulation as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
             </p>
 
             @if(($ch['medical_formula']) == 1 )
@@ -4226,7 +4225,7 @@
                     @foreach($ChMedicalOrders as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                         </p>
 
                         @if(($ch['ambulatory_medical_order']) == 'Si' )
@@ -4283,7 +4282,7 @@
 
                             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                 <span style="font-family:Calibri; font-size:9pt">
-                                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
 
                                 
@@ -4337,7 +4336,7 @@
 
                             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                     <span style="font-family:Calibri; font-size:9pt">
-                                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
                             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                                 <tr style="height:11.95pt">                                    
@@ -4388,7 +4387,7 @@
             @foreach($ChInability as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
             </p>
 
             @if(($ch['extension']) == 'Si' )
@@ -4405,12 +4404,12 @@
                 <tr style="height:11.95pt">
                     <td style="width:180pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['initial_date'])) FECHA INICIAL </b>{{substr($ch['initial_date'],0,10) }} @endisset</span>
+                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['initial_date'])) FECHA INICIAL </b>{{mb_substr($ch['initial_date'],0,10) }} @endisset</span>
                         </p>
                     </td>
                     <td style="width:1fr; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                            <span style="font-family:Calibri"><b> @if(isset($ch['final_date'])) FECHA FINAL </b>{{substr($ch['final_date'],0,10) }} @endisset</span>
+                            <span style="font-family:Calibri"><b> @if(isset($ch['final_date'])) FECHA FINAL </b>{{mb_substr($ch['final_date'],0,10) }} @endisset</span>
                                         
                         </p>
                     </td>
@@ -4473,7 +4472,7 @@
             @foreach($ChMedicalCertificate as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
             </p>
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -4499,7 +4498,7 @@
                 @foreach($ChFailed as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                 </p>
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -4532,7 +4531,7 @@
             @foreach($ChPatientExit as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
             </p>
 
             <div>
