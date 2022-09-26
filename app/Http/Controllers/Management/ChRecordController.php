@@ -2468,8 +2468,8 @@ class ChRecordController extends Controller
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
                     }
                     //Ingreso
-                    $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+                    $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChGynecologists = ChGynecologists::with(
                         'ch_type_gynecologists',
                         'ch_planning_gynecologists',
@@ -2481,7 +2481,7 @@ class ChRecordController extends Controller
                         'ch_rst_colposcipia_gyneco',
                         'ch_failure_method_gyneco',
                         'ch_method_planning_gyneco'
-                    )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     $ChVitalSigns = ChVitalSigns::with(
                         'ch_vital_hydration',
@@ -2492,8 +2492,8 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )
-                        ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChTherapeuticAss = ChTherapeuticAss::with(
                         'ch_ass_pattern',
                         'ch_ass_swing',
@@ -2504,23 +2504,23 @@ class ChRecordController extends Controller
                         'ch_ass_chest_symmetry',
                         'ch_ass_signs'
                     )
-                        ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChAssSigns = ChAssSigns::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChScalePain = ChScalePain::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
-                    $ChScaleWongBaker = ChScaleWongBaker::where('ch_record_id', $id)->where('type_record_id', 4)->get()->toArray();
-                    $ChRtInspection = ChRtInspection::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChAuscultation = ChAuscultation::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-                    $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChAssSigns = ChAssSigns::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChScalePain = ChScalePain::where('ch_record_id', $ch['id'])->where('type_record_id', 4)->get()->toArray();
+                    $ChScaleWongBaker = ChScaleWongBaker::where('ch_record_id', $ch['id'])->where('type_record_id', 4)->get()->toArray();
+                    $ChRtInspection = ChRtInspection::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChAuscultation = ChAuscultation::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $PharmacyProductRequest = PharmacyProductRequest::with(
                         'product_supplies',
                         'request_pharmacy_stock'
                     )->get()->toArray();
-                    $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+                    $ChRtSessions = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     //Regular
-                    $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-                    $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+                    $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     //Antecedentes Gyneco
                     $ChGynecologistsEvo = ChGynecologists::with(
                         'ch_type_gynecologists',
@@ -2533,7 +2533,7 @@ class ChRecordController extends Controller
                         'ch_rst_colposcipia_gyneco',
                         'ch_failure_method_gyneco',
                         'ch_method_planning_gyneco'
-                    )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     $ChVitalSignsEvo = ChVitalSigns::with(
                         'ch_vital_hydration',
@@ -2544,13 +2544,13 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )
-                        ->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-                    $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $PharmacyProductRequestEvo = PharmacyProductRequest::with(
                         'product_supplies',
                         'request_pharmacy_stock'
                     )->get()->toArray();
-                    $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+                    $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                         if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
