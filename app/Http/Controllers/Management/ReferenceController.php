@@ -3,10 +3,27 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Reference;
+use App\Models\Patient;
+use App\Models\Gender;
+use App\Models\Procedure;
+use App\Models\IdentificationType;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\AdmissionRoute;
+use App\Models\Campus;
+use App\Models\Company;
+use App\Models\DeniedReason;
+use App\Models\Program;
+use App\Models\ProvidersOfHealthServices;
+use App\Models\ReferenceStatus;
+use App\Models\RoleType;
+use App\Models\Specialty;
+use App\Models\StayType;
+use App\Models\TechnologicalMedium;
+use App\Models\TypeBriefcase;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class ReferenceController extends Controller
@@ -215,6 +232,107 @@ class ReferenceController extends Controller
         ]);
     }
 
+    /**
+     * Get reference data
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getReferenceData(Request $request, int $id): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->with(
+                'status',
+                'gender',
+                'inability',
+                'academic_level',
+                'identification_type',
+                'admissions',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->orderBy('admissions.entry_date', 'DESC')->groupBy('id')
+            ->get()->toArray();
+
+        $gender = Gender::select()->get()->toArray();
+
+        $identificationType = IdentificationType::orderBy('name', 'asc')
+            ->get()->toArray();
+
+        $procedure = Procedure::select()->get()->toArray();
+
+        $Company = Company::select('company.*');
+
+        if ($request->eps) {
+            $Company->where(function ($query) use ($request) {
+                $query->where('company_type_id', 1)
+                    ->OrWhere('company_type_id', 4);
+            });
+        }
+
+        if ($request->company_category_id) {
+            $Company->where('company_category_id', $request->company_category_id);
+        }
+
+        $Company = $Company->get()->toArray();
+
+        $ProvidersOfHealthServices = ProvidersOfHealthServices::select()->get()->toArray();
+
+        $ReferenceStatus = ReferenceStatus::select()->get()->toArray();
+
+        $StayType = StayType::select()->get()->toArray();
+
+        $campus = Campus::select()->get()->toArray();
+
+        $TypeBriefcase = TypeBriefcase::select()->get()->toArray();
+
+        $TechnologicalMedium = TechnologicalMedium::select()->get()->toArray();
+
+        $AdmissionRoute = AdmissionRoute::select()->get()->toArray();
+
+        $specialtys = Specialty::with('status')->orderBy('specialty.name', 'DESC')->get()->toArray();
+
+        $Program = Program::select()->get()->toArray();
+
+        $RoleType = RoleType::select()->get()->toArray();
+
+        $response = array();
+
+        $response = [
+            'patient' => $patients,
+            'gender' => $gender,
+            'identification_type' => $identificationType,
+            'procedure' => $procedure,
+            'company' => $Company,
+            'providers_of_health_services' => $ProvidersOfHealthServices,
+            'stay_type' => $StayType,
+            'reference_status' => $ReferenceStatus,
+            'campus' => $campus,
+            'regime' => $TypeBriefcase,
+            'technological_medium' => $TechnologicalMedium,
+            'admission_route' => $AdmissionRoute,
+            'specialty' => $specialtys,
+            'program' => $Program,
+            'role_type' => $RoleType,
+        ];
+
+        return response()->json([
+            'status' => true,
+            'message' => 'facturas obtenidas exitosamente',
+            'data' => ['reference' => $response]
+        ]);
+    }
+
     public function store(Request $request): JsonResponse
     {
         if ($request->route == 1) {
@@ -227,7 +345,7 @@ class ReferenceController extends Controller
             $Reference->re_input = $request->re_input;
             $Reference->age = $request->age;
             $Reference->intention = $request->intention;
-            $Reference->presentation_date = Carbon::parse($request->presentation_date . ' ' .  $request->presentation_hour);
+            $Reference->presentation_date = Carbon::now();
             $Reference->gender_id = $request->gender_id;
             $Reference->identification_type_id = $request->identification_type_id;
             $Reference->procedure_id = $request->procedure_id;
@@ -292,7 +410,7 @@ class ReferenceController extends Controller
             $Reference->re_input = $request->re_input;
             $Reference->age = $request->age;
             $Reference->intention = $request->intention;
-            $Reference->presentation_date = Carbon::parse($request->presentation_date . ' ' .  $request->presentation_hour);
+            $Reference->presentation_date = Carbon::now();
             $Reference->gender_id = $request->gender_id;
             $Reference->identification_type_id = $request->identification_type_id;
             $Reference->procedure_id = $request->procedure_id;
@@ -310,12 +428,11 @@ class ReferenceController extends Controller
 
             $Reference->reference_status_id = 1;
             $Reference->save();
-            
         } else if ($request->route == 2) {
-            
+
             $Reference = Reference::find($id);
-            
-            $Reference->acceptance_date = Carbon::parse($request->acceptance_date . ' ' .  $request->acceptance_hour);
+
+            $Reference->acceptance_date = Carbon::now();
             $Reference->acceptance_campus_id = $request->acceptance_campus_id;
             $Reference->acceptance_regime_id = $request->acceptance_regime_id;
             $Reference->acceptance_user_id = $request->acceptance_user_id;
@@ -325,21 +442,21 @@ class ReferenceController extends Controller
             $Reference->acceptance_program_id = $request->acceptance_program_id;
             $Reference->acceptance_observation = $request->acceptance_observation;
             $Reference->reference_status_id = 3;
-            
+
             $Reference->tutor_id = $request->tutor_id;
-            
+
             $Reference->save();
-            
         } else if ($request->route == 3) {
 
             $Reference = Reference::find($id);
-            
-            $Reference->denied_date = Carbon::parse($request->denied_date . ' ' .  $request->denied_hour);
+
+            $Reference->denied_date = Carbon::now();
             $Reference->denied_user_id = $request->denied_user_id;
             $Reference->denied_technological_medium_id = $request->denied_technological_medium_id;
             $Reference->denied_admission_route_id = $request->denied_admission_route_id;
             $Reference->denied_specialty_id = $request->denied_specialty_id;
             $Reference->denied_type_id = $request->denied_type_id;
+            $Reference->denied_reason_id = $request->denied_reason_id;
             $Reference->denied_program_id = $request->denied_program_id;
             $Reference->denied_observation = $request->denied_observation;
             $Reference->reference_status_id = 2;

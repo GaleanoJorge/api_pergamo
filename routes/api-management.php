@@ -1722,5 +1722,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('reference_status', 'Management\ReferenceStatusController');
     Route::apiResource('stay_type', 'Management\StayTypeController');
     Route::apiResource('reference', 'Management\ReferenceController');
+    Route::get('reference/getReferenceData/{id}', 'Management\ReferenceController@getReferenceData');
     Route::apiResource('denied_reason', 'Management\DeniedReasonController');
 });
