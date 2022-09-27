@@ -1627,5 +1627,14 @@
         "route": "/pages/medical-records/list",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "235",
+        "item_parent_id": null,
+        "name": "Referencia",
+        "code": "reference",
+        "route": "/pages/reference/list",
+        "icon": "keypad-outline",
+        "show_menu": "1"
     }
 ]

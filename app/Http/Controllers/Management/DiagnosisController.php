@@ -26,6 +26,14 @@ class DiagnosisController extends Controller
 
         if ($request->id) {
             $Diagnosis->where('id', $request->id);
+            $Diagnosis = $Diagnosis->get()->toArray();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Diagnósticos obtenidos exitosamente',
+            'data' => ['diagnosis' => $Diagnosis]
+        ]);
         }
 
         if ($request->search) {

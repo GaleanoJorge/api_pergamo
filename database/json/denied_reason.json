@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "denied_type_id": 1,
+        "name": "EPS NO SOPORTES"
+    },
+    {
+        "id": 2,
+        "denied_type_id": 1,
+        "name": "NO CONTRATO"
+    },
+    {
+        "id": 3,
+        "denied_type_id": 1,
+        "name": "PACIENTE SIN ASEGURAMIENTO"
+    },
+    {
+        "id": 4,
+        "denied_type_id": 1,
+        "name": "PROBLEMAS LOCATIVOS"
+    },
+    {
+        "id": 5,
+        "denied_type_id": 1,
+        "name": "OTROS NO DESCRITOS"
+    },
+    {
+        "id": 6,
+        "denied_type_id": 2,
+        "name": "NO CRITERIOS DE INGRESO"
+    },
+    {
+        "id": 7,
+        "denied_type_id": 2,
+        "name": "NO DISPONIBILIDAD DE CAMAS"
+    },
+    {
+        "id": 8,
+        "denied_type_id": 2,
+        "name": "NO SE DISPONE DE ESPECIALIDAD"
+    },
+    {
+        "id": 9,
+        "denied_type_id": 2,
+        "name": "NO SOPORTE DE AISLADOS"
+    },
+    {
+        "id": 10,
+        "denied_type_id": 2,
+        "name": "MAYOR NIVEL DE COMPLEJIDAD"
+    },
+    {
+        "id": 11,
+        "denied_type_id": 2,
+        "name": "AMPLIAR SOPORTES"
+    }
+]

@@ -746,6 +746,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
     Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
+    Route::get('admission/getByIdentification/{identification}', 'Management\AdmissionsController@getByIdentification');
 
 
     //Tipo de contrato del empleado
@@ -1715,4 +1716,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //interoperabilidad
     Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
+
+    //hospitalización
+    Route::apiResource('technological_medium', 'Management\TechnologicalMediumController');
+
+    Route::apiResource('providers_of_health_services', 'Management\ProvidersOfHealthServicesController');
+    Route::apiResource('reference_status', 'Management\ReferenceStatusController');
+    Route::apiResource('stay_type', 'Management\StayTypeController');
+    Route::apiResource('reference', 'Management\ReferenceController');
+    Route::get('reference/getReferenceData/{id}', 'Management\ReferenceController@getReferenceData');
+    Route::apiResource('denied_reason', 'Management\DeniedReasonController');
 });
