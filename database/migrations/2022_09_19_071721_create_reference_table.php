@@ -64,6 +64,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedBigInteger('denied_admission_route_id')->nullable();
             $table->unsignedBigInteger('denied_specialty_id')->nullable();
             $table->unsignedTinyInteger('denied_type_id')->nullable();
+            $table->unsignedTinyInteger('denied_reason_id')->nullable();
             $table->unsignedBigInteger('denied_program_id')->nullable();
             $table->string('denied_observation')->nullable();
 
@@ -146,6 +147,10 @@ class CreateReferenceTable extends Migration
             $table->index('denied_type_id');
             $table->foreign('denied_type_id')->references('id')
                 ->on('role_type');
+
+            $table->index('denied_reason_id');
+            $table->foreign('denied_reason_id')->references('id')
+                ->on('denied_reason');
 
             $table->index('denied_program_id');
             $table->foreign('denied_program_id')->references('id')
