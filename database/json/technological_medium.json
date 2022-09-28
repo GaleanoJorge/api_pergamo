@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "CORREO ELECTRÓNICO"
+    },
+    {
+        "id": 2,
+        "name": "FAX"
+    },
+    {
+        "id": 3,
+        "name": "PERSONAL EN FÍSICO"
+    },
+    {
+        "id": 4,
+        "name": "PERSONAL VERBAL"
+    },
+    {
+        "id": 5,
+        "name": "TELÉFONO CELULAR"
+    },
+    {
+        "id": 6,
+        "name": "TELÉFONO FIJO"
+    },
+    {
+        "id": 7,
+        "name": "OTRO"
+    }
+]

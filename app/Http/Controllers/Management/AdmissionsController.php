@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\Patient;
+use App\Models\Reference;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -68,6 +70,27 @@ class AdmissionsController extends Controller
 
             $Admissions = $Admissions->paginate($per_page, '*', 'page', $page);
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Admisión obtenidos exitosamente',
+            'data' => ['admissions' => $Admissions]
+        ]);
+    }
+
+    /**
+     * Get admissions by identification patient
+     * @param  int  $identification
+     * @return JsonResponse
+     */
+    public function getByIdentification(Request $request, int $identification): JsonResponse
+    {
+        $Admissions = Admissions::Leftjoin('patients', 'admissions.patient_id', 'patients.id')
+            ->select(
+                'admissions.*',
+            )
+            ->where('patients.identification', $identification)
+            ->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -521,6 +544,17 @@ class AdmissionsController extends Controller
                 }
 
                 $Authorization->save();
+            }
+
+            $pattient = Patient::where('id', $request->patient_id)->get()->toArray();
+            $ref = Reference::where('identification', $pattient[0]['identification'])
+                ->whereNull('admissions_id')
+                ->where('reference_status_id', 3)
+                ->orderBy('reference.id', 'DESC')
+                ->get()->first();
+            if ($ref) {
+                $ref->admissions_id = $Admissions->id;
+                $ref->save();
             }
 
 

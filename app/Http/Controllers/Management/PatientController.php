@@ -63,6 +63,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
+use App\Models\Reference;
 use App\Models\UserUser;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -978,6 +979,16 @@ class PatientController extends Controller
                 $patients->file = $path;
             }
             $patients->save();
+
+            $ref = Reference::where('identification', $patients->identification)
+                ->whereNull('patient_id')
+                ->where('reference_status_id', 3)
+                ->orderBy('reference.id', 'DESC')
+                ->get()->first();
+            if ($ref) {
+                $ref->patient_id = $patients->id;
+                $ref->save();
+            }
         }
 
         DB::commit();
