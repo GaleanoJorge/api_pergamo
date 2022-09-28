@@ -2626,11 +2626,7 @@ class ChRecordController extends Controller
                 }
             case (5): {
                     // PSICOLOGÍA
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
+                    $ChRecord->ch_type_id = 9;
                     break;
                 }
             case (6): {

@@ -81,6 +81,7 @@ class ChVitalSignsController extends Controller
                         'type_record',
                         'ch_record'
                     )
+                    ->where('ch_vital_signs.type_record_id', 1)
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_vital_signs.ch_record_id') //
                     // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
