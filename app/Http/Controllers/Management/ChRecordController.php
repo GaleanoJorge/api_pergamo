@@ -153,6 +153,7 @@ use App\Models\ChSwArmedConflict;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
+use FontLib\Table\Type\post;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -3409,10 +3410,12 @@ class ChRecordController extends Controller
             }
         }
 
+        $hola = $this->interoperavility($id);
+
         return response()->json([
             'status' => true,
             'message' => 'Registro paciente actualizado exitosamente',
-            'data' => ['ch_record' => $ChRecord],
+            'data' => ['ch_record' => $ChRecord, 'hola' => $hola],
         ]);
     }
 
@@ -3545,7 +3548,81 @@ class ChRecordController extends Controller
         }
     }
 
-    public function interoperavility(int $id)
+    public function interoperavility(int $chrecordid)
     {
+        
+      $info = ChRecord::select(
+        //datos usuario
+        'patients.firstname AS firstname',                                 // 
+        'patients.middlefirstname AS middlefirstname',
+        'patients.lastname AS lastname',
+        'patients.middlelastname AS middlelastname',
+        'patients.identification AS identification',
+        'patients.birthday AS birthday',
+        'identification_type.code AS identification_type',
+        'gender.name AS gender',
+        // datos contrato
+        'company_type.code AS company',
+        'type_briefcase.code AS type_briefcase',
+        'IT.code AS assistential_id_code',
+        'patients.identification AS identification',
+        'diagnosis.code AS diagnosis',
+        //datos profesional que atiende
+        'ITP.code AS assistential_id_code',
+        'ID.code AS assistential_id_name',
+        //datos de contacto
+        'patients.email AS email_patient',  
+        'patients.residence_address AS address_patient', 
+        'patients.phone AS phone_patient', 
+        'patients.landline AS landline_patient', 
+        'municipality.id AS code_municipality_patient', 
+        'municipality.name AS municipality_patient', 
+
+
+
+      )
+        ->where('ch_record.id', $chrecordid)
+        //datos relacionales usuario
+        ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+        ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+        ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+        //->leftJoin('identification', 'identification.id', 'patients.identification')
+        ->leftJoin('gender', 'gender.id', 'patients.gender_id')
+        //datos relacionales contrato
+        ->leftJoin('company', 'company.id', 'company_type.company_type_id')
+        ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
+        ->leftJoin('users', 'users.id', 'ch_record.user_id')
+        ->leftJoin('identification_type AS IT', 'IT.id', 'users.identification_type_id')
+        //datos relacionales cita medica
+        ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
+        //datos relacionales profesional que atiende
+        ->leftJoin('identification_type AS ITP', 'ITP.id', 'users.identification_type_id')
+        ->leftJoin('identification AS ID', 'ID.id', 'users.identification')
+        //datos relacionales de contacto
+        ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
+        ->groupBy('ch_record.id')
+        ->get()->toarray()
+        ;
+
+        $info[0]['gender'] = $this->getGender($info[0]['gender']);
+        $info[0]['company'] = $this->getCompany($info[0]['company']);
+
+        return $info;
+    }
+
+    public function getGender(string $e) {
+        if ($e == "M" || $e == "F") {
+            return $e;
+        } else {
+            return "I";
+        }
+    }
+
+    public function getCompany(string $e) {
+        if ($e == "1") {
+            return "30";
+        } else {
+            return "31";
+        }
     }
 }
