@@ -321,9 +321,13 @@ class DatabaseSeeder extends Seeder
                 $this->call(HumanTalentRequestObservationSeeder::class);
                 //
                 $this->call(SuppliesStatusSeeder::class);
-
-                //
-          
+                
+                //Semillas Referencia y contrareferencia
+                $this->call(ProvidersOfHealthServicesSeeder::class);
+                $this->call(DeniedReasonSeeder::class);
+                $this->call(ReferenceStatusSeeder::class);
+                $this->call(StayTypeSeeder::class);
+                $this->call(TechnologicalMediumSeeder::class);
 
 
 

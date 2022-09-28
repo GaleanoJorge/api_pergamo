@@ -802,6 +802,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Admisiones
     Route::apiResource('admissions', 'Management\AdmissionsController');
     Route::get('admission/byPAC/{roleId}', 'Management\AdmissionsController@ByPAC');
+    Route::get('admission/getByIdentification/{identification}', 'Management\AdmissionsController@getByIdentification');
 
 
     //Tipo de contrato del empleado
@@ -1116,6 +1117,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_ch_physical_exam', 'Management\ChTypePhysicalExamController');
     Route::apiResource('type_ch_system_exam', 'Management\ChTypeSystemExamController');
     Route::apiResource('ch_type_background', 'Management\ChTypeBackgroundController');
+    Route::apiResource('ch_type', 'Management\ChTypeController');
 
     Route::apiResource('type_review_system', 'Management\ChTypeReviewSystemController');
     Route::apiResource('type_record', 'Management\ChTypeRecordController');
@@ -1281,6 +1283,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_e_weekly_f_t/by_record/{id}/{type_record_id}', 'Management\ChEWeeklyFTController@getByRecord');
 
 
+
+    Route::apiResource('ch_n_r_materials_f_t', 'Management\ChNRMaterialsFTController');
+    Route::get('ch_n_r_materials_f_t/by_record/{id}/{type_record_id}', 'Management\ChNRMaterialsFTController@getByRecord');
+
+
     Route::get(
         'FixedNomProduct/byGroup/{fixed_type_id}',
         'Management\FixedNomProductController@getCategoryByGroup'
@@ -1313,6 +1320,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('fixed_type', 'Management\FixedTypeController');
     Route::apiResource('fixed_stock', 'Management\FixedStockController');
     Route::apiResource('users_fixed_stock', 'Management\UsersFixedStockController');
+    Route::get('users_fixed_stock/byuser/{id}', 'Management\UsersFixedStockController@getByUser');
+
 
     Route::apiResource('fixed_code', 'Management\FixedCodeController');
     Route::apiResource('fixed_condition', 'Management\FixedConditionController');
@@ -1325,7 +1334,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_add/pharmacies/{user_id}', 'Management\FixedAddController@getFixedByUserId');
 
     Route::apiResource('biomedical_classification', 'Management\BiomedicalClassificationController');
-
 
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
@@ -1634,8 +1642,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('speech_tl', 'Management\SpeechTlController');
     Route::get('speech_tl/by_record/{id}/{type_record_id}', 'Management\SpeechTlController@getByRecord');
 
-    Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersTLController');
-    Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersTLController@getByRecord');
+    Route::apiResource('swallowing_disorders_tl', 'Management\SwallowingDisordersController');
+    Route::get('swallowing_disorders_tl/by_record/{id}/{type_record_id}', 'Management\SwallowingDisordersController@getByRecord');
 
     Route::apiResource('therapeutic_goals_tl', 'Management\TherapeuticGoalsTlController');
     Route::get('therapeutic_goals_tl/by_record/{id}/{type_record_id}', 'Management\TherapeuticGoalsTlController@getByRecord');
@@ -1769,4 +1777,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //interoperabilidad
     Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
+
+    //hospitalización
+    Route::apiResource('technological_medium', 'Management\TechnologicalMediumController');
+
+    Route::apiResource('providers_of_health_services', 'Management\ProvidersOfHealthServicesController');
+    Route::apiResource('reference_status', 'Management\ReferenceStatusController');
+    Route::apiResource('stay_type', 'Management\StayTypeController');
+    Route::apiResource('reference', 'Management\ReferenceController');
+    Route::get('reference/getReferenceData/{id}', 'Management\ReferenceController@getReferenceData');
+    Route::apiResource('denied_reason', 'Management\DeniedReasonController');
 });

@@ -48,6 +48,9 @@ class UsersFixedStockController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $UserFixedStockDel = UsersFixedStock::where('fixed_stock_id',$request->fixed_stock_id);
+        $UserFixedStockDel->delete();
+
         $users = json_decode($request->users);
         foreach ($users as $user) {
             $UsersFixedStock = new UsersFixedStock;
@@ -76,6 +79,24 @@ class UsersFixedStockController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Tipo obtenido exitosamente',
+            'data' => ['users_fixed_stock' => $UsersFixedStock]
+        ]);
+    }
+      /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function getByUser(int $id): JsonResponse
+    {
+        $UsersFixedStock = UsersFixedStock::select('users_fixed_stock.*')
+            ->where('user_id', $id)
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Permisos en activos fijos obtenido exitosamente',
             'data' => ['users_fixed_stock' => $UsersFixedStock]
         ]);
     }
