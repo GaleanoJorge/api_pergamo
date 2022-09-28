@@ -3553,7 +3553,7 @@ class ChRecordController extends Controller
         
       $info = ChRecord::select(
         //datos usuario
-        'patients.firstname AS firstname',
+        'patients.firstname AS firstname',                                 // 
         'patients.middlefirstname AS middlefirstname',
         'patients.lastname AS lastname',
         'patients.middlelastname AS middlelastname',
@@ -3570,6 +3570,16 @@ class ChRecordController extends Controller
         //datos profesional que atiende
         'ITP.code AS assistential_id_code',
         'ID.code AS assistential_id_name',
+        //datos de contacto
+        'patients.email AS email_patient',  
+        'patients.residence_address AS address_patient', 
+        'patients.phone AS phone_patient', 
+        'patients.landline AS landline_patient', 
+        'municipality.id AS code_municipality_patient', 
+        'municipality.name AS municipality_patient', 
+
+
+
       )
         ->where('ch_record.id', $chrecordid)
         //datos relacionales usuario
@@ -3588,6 +3598,8 @@ class ChRecordController extends Controller
         //datos relacionales profesional que atiende
         ->leftJoin('identification_type AS ITP', 'ITP.id', 'users.identification_type_id')
         ->leftJoin('identification AS ID', 'ID.id', 'users.identification')
+        //datos relacionales de contacto
+        ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
         ->groupBy('ch_record.id')
         ->get()->toarray()
         ;

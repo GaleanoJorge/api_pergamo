@@ -1226,6 +1226,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_e_weekly_f_t/by_record/{id}/{type_record_id}', 'Management\ChEWeeklyFTController@getByRecord');
 
 
+
+    Route::apiResource('ch_n_r_materials_f_t', 'Management\ChNRMaterialsFTController');
+    Route::get('ch_n_r_materials_f_t/by_record/{id}/{type_record_id}', 'Management\ChNRMaterialsFTController@getByRecord');
+
+
     Route::get(
         'FixedNomProduct/byGroup/{fixed_type_id}',
         'Management\FixedNomProductController@getCategoryByGroup'
