@@ -293,7 +293,27 @@ class DatabaseSeeder extends Seeder
                 
                 //Semillas HC Psicologia
                 $this->call(ChPsEpisodesSeeder::class);
+                $this->call(ChPsAreasSeeder::class);
                 
+                $this->call(ChPsAttitudeSeeder::class);
+                $this->call(ChPsAwarenessSeeder::class);
+                $this->call(ChPsSleepSeeder::class);
+                $this->call(ChPsExamOthersSeeder::class);
+                $this->call(ChPsSexualitySeeder::class);
+                $this->call(ChPsFeedingSeeder::class);
+                $this->call(ChPsExcretionSeeder::class);
+
+                $this->call(ChPsAttentionSeeder::class);
+                $this->call(ChPsMemorySeeder::class);
+                $this->call(ChPsPerceptionSeeder::class);
+
+                $this->call(ChPsSpeedSeeder::class);
+                $this->call(ChPsDelusionalSeeder::class);
+                $this->call(ChPsOverratedSeeder::class);
+                $this->call(ChPsObsessiveSeeder::class);
+                $this->call(ChPsAssociationSeeder::class);
+                $this->call(DiagnosisDmsSeeder::class);
+
                 
                 
                 //Semillas talento humano
@@ -301,6 +321,8 @@ class DatabaseSeeder extends Seeder
                 $this->call(HumanTalentRequestObservationSeeder::class);
                 //
                 $this->call(SuppliesStatusSeeder::class);
+
+                //
                 
                 //Semillas Referencia y contrareferencia
                 $this->call(ProvidersOfHealthServicesSeeder::class);
