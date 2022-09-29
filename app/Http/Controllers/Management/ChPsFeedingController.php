@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\ChPsEpisodes;
+use App\Models\ChPsFeeding;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\ChRecord;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
 
-class ChPsEpisodesController extends Controller
+class ChPsFeedingController extends Controller
 {
        /**
      * Display a listing of the resource.
@@ -18,31 +18,31 @@ class ChPsEpisodesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChPsEpisodes = ChPsEpisodes::select();
+        $ChPsFeeding = ChPsFeeding::select();
 
         if($request->_sort){
-            $ChPsEpisodes->orderBy($request->_sort, $request->_order);
+            $ChPsFeeding->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $ChPsEpisodes->where('name','like','%' . $request->search. '%');
+            $ChPsFeeding->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){
-            $ChPsEpisodes=$ChPsEpisodes->get()->toArray();    
+            $ChPsFeeding=$ChPsFeeding->get()->toArray();    
         }
         else{
             $page= $request->query("current_page", 1);
             $per_page=$request->query("per_page", 10);
             
-            $ChPsEpisodes=$ChPsEpisodes->paginate($per_page,'*','page',$page); 
+            $ChPsFeeding=$ChPsFeeding->paginate($per_page,'*','page',$page); 
         } 
 
 
         return response()->json([
             'status' => true,
-            'message' => 'Episodios obtenidas exitosamente',
-            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
+            'message' => 'Aspectos de alimentación obtenidas exitosamente',
+            'data' => ['ch_ps_feeding' => $ChPsFeeding]
         ]);
     }
   /**
@@ -56,27 +56,27 @@ class ChPsEpisodesController extends Controller
     {
         
        
-        $ChPsEpisodes = ChPsEpisodes::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChPsFeeding = ChPsFeeding::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 
         return response()->json([
             'status' => true,
-            'message' => 'Episodios obtenidas exitosamente',
-            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
+            'message' => 'Aspectos de alimentación obtenidas exitosamente',
+            'data' => ['ch_ps_feeding' => $ChPsFeeding]
         ]);
     }
     
     public function store(Request $request): JsonResponse
     {
-        $ChPsEpisodes = new ChPsEpisodes;
-        $ChPsEpisodes->name = $request->name; 
-        $ChPsEpisodes->save();
+        $ChPsFeeding = new ChPsFeeding;
+        $ChPsFeeding->name = $request->name; 
+        $ChPsFeeding->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Episodios asociadas al paciente exitosamente',
-            'data' => ['ch_ps_episodes' => $ChPsEpisodes->toArray()]
+            'message' => 'Aspectos de alimentación asociadas al paciente exitosamente',
+            'data' => ['ch_ps_feeding' => $ChPsFeeding->toArray()]
         ]);
     }
 
@@ -89,13 +89,13 @@ class ChPsEpisodesController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $ChPsEpisodes = ChPsEpisodes::where('id', $id)
+        $ChPsFeeding = ChPsFeeding::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
-            'message' => 'Episodios obtenidas exitosamente',
-            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
+            'message' => 'Aspectos de alimentación obtenidas exitosamente',
+            'data' => ['ch_ps_feeding' => $ChPsFeeding]
         ]);
     }
 
@@ -107,14 +107,14 @@ class ChPsEpisodesController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $ChPsEpisodes = ChPsEpisodes::find($id);  
-        $ChPsEpisodes->name = $request->name; 
-        $ChPsEpisodes->save();
+        $ChPsFeeding = ChPsFeeding::find($id);  
+        $ChPsFeeding->name = $request->name; 
+        $ChPsFeeding->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Episodios actualizadas exitosamente',
-            'data' => ['ch_ps_episodes' => $ChPsEpisodes]
+            'message' => 'Aspectos de alimentación actualizadas exitosamente',
+            'data' => ['ch_ps_feeding' => $ChPsFeeding]
         ]);
     }
 
@@ -127,17 +127,17 @@ class ChPsEpisodesController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $ChPsEpisodes = ChPsEpisodes::find($id);
-            $ChPsEpisodes->delete();
+            $ChPsFeeding = ChPsFeeding::find($id);
+            $ChPsFeeding->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Episodios eliminadas exitosamente'
+                'message' => 'Aspectos de alimentación eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Episodios en uso, no es posible eliminarlo'
+                'message' => 'Aspectos de alimentación en uso, no es posible eliminarlo'
             ], 423);
         }
     }

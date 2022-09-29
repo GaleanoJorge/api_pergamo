@@ -23,9 +23,9 @@ class UserCampusController extends Controller
             ->with('campus', 'campus.region')
             ->Leftjoin('campus', 'campus.id', 'user_campus.campus_id');
 
-        if ($request->status_id) {
-            $campus->where('campus.status_id', $request->status_id);
-        }
+        // if ($request->status_id) {
+        //     $campus->where('campus.status_id', $request->status_id);
+        // }
         $campus = $campus->get()->toArray();
 
         return response()->json([

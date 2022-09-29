@@ -156,8 +156,64 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Ch Psicología
     Route::apiResource('ch_ps_episodes', 'Management\ChPsEpisodesController');
+    Route::apiResource('ch_ps_areas', 'Management\ChPsAreasController');
+    Route::apiResource('ch_ps_attitude', 'Management\ChPsAttitudeController');
+    Route::apiResource('ch_ps_attention', 'Management\ChPsAttentionController');
+    Route::apiResource('ch_ps_memory', 'Management\ChPsMemoryController');
+    Route::apiResource('ch_ps_perception', 'Management\ChPsPerceptionController');
+    Route::apiResource('ch_ps_awareness', 'Management\ChPsAwarenessController');
+    Route::apiResource('ch_ps_sleep', 'Management\ChPsSleepController');
+    Route::apiResource('ch_ps_exam_others', 'Management\ChPsExamOthersController');
+    Route::apiResource('ch_ps_sexuality', 'Management\ChPsSexualityController');
+    Route::apiResource('ch_ps_feeding', 'Management\ChPsFeedingController');
+    Route::apiResource('ch_ps_excretion', 'Management\ChPsExcretionController');
+    Route::apiResource('ch_ps_speed', 'Management\ChPsSpeedController');
+    Route::apiResource('ch_ps_delusional', 'Management\ChPsDelusionalController');
+    Route::apiResource('ch_ps_overrated', 'Management\ChPsOverratedController');
+    Route::apiResource('ch_ps_obsessive', 'Management\ChPsObsessiveController');
+    Route::apiResource('ch_ps_association', 'Management\ChPsAssociationController');
+    Route::apiResource('ch_ps_expressive', 'Management\ChPsExpressiveController');
+    Route::apiResource('ch_ps_comprehensive', 'Management\ChPsComprehensiveController');
+    Route::apiResource('ch_ps_others', 'Management\ChPsOthersController');
+    Route::apiResource('ch_ps_paraphasias', 'Management\ChPsParaphasiasController');
+    Route::apiResource('ch_ps_sadness', 'Management\ChPsSadnessController');
+    Route::apiResource('ch_ps_joy', 'Management\ChPsJoyController');
+    Route::apiResource('ch_ps_fear', 'Management\ChPsFearController');
+    Route::apiResource('ch_ps_anger', 'Management\ChPsAngerController');
+    Route::apiResource('ch_ps_insufficiency', 'Management\ChPsInsufficiencyController');
+    Route::apiResource('ch_ps_several', 'Management\ChPsSeveralController');
+    Route::apiResource('ch_ps_psychomotricity', 'Management\ChPsPsychomotricityController');
+    Route::apiResource('ch_ps_introspection', 'Management\ChPsIntrospectionController');
+    Route::apiResource('ch_ps_judgment', 'Management\ChPsJudgmentController');
+    Route::apiResource('ch_ps_prospecting', 'Management\ChPsProspectingController');
+    Route::apiResource('ch_ps_intelligence', 'Management\ChPsIntelligenceController');
+    Route::apiResource('diagnosis_dms', 'Management\DiagnosisDmsController');
+    
     Route::apiResource('ch_ps_assessment', 'Management\ChPsAssessmentController');
     Route::get('ch_ps_assessment/by_record/{id}/{type_record_id}', 'Management\ChPsAssessmentController@getByRecord');
+    Route::apiResource('ch_ps_relationship', 'Management\ChPsRelationshipController');
+    Route::get('ch_ps_relationship/by_record/{id}/{type_record_id}', 'Management\ChPsRelationshipController@getByRecord');
+    Route::apiResource('ch_ps_intellective', 'Management\ChPsIntellectiveController');
+    Route::get('ch_ps_intellective/by_record/{id}/{type_record_id}', 'Management\ChPsIntellectiveController@getByRecord');
+    Route::apiResource('ch_ps_thought', 'Management\ChPsThoughtController');
+    Route::get('ch_ps_thought/by_record/{id}/{type_record_id}', 'Management\ChPsThoughtController@getByRecord');
+    Route::apiResource('ch_ps_language', 'Management\ChPsLanguageController');
+    Route::get('ch_ps_language/by_record/{id}/{type_record_id}', 'Management\ChPsLanguageController@getByRecord');
+    Route::apiResource('ch_ps_synthesis', 'Management\ChPsSynthesisController');
+    Route::get('ch_ps_synthesis/by_record/{id}/{type_record_id}', 'Management\ChPsSynthesisController@getByRecord');
+    Route::apiResource('ch_ps_sphere', 'Management\ChPsSphereController');
+    Route::get('ch_ps_sphere/by_record/{id}/{type_record_id}', 'Management\ChPsSphereController@getByRecord');
+    Route::apiResource('ch_ps_multiaxial', 'Management\ChPsMultiaxialController');
+    Route::get('ch_ps_multiaxial/by_record/{id}/{type_record_id}', 'Management\ChPsMultiaxialController@getByRecord');
+    Route::apiResource('ch_ps_intervention', 'Management\ChPsInterventionController');
+    Route::get('ch_ps_intervention/by_record/{id}/{type_record_id}', 'Management\ChPsInterventionController@getByRecord');
+    Route::apiResource('ch_ps_operationalization', 'Management\ChPsOperationalizationController');
+    Route::get('ch_ps_operationalization/by_record/{id}/{type_record_id}', 'Management\ChPsOperationalizationController@getByRecord');
+    Route::apiResource('ch_ps_consciousness', 'Management\ChPsConsciousnessController');
+    Route::get('ch_ps_consciousness/by_record/{id}/{type_record_id}', 'Management\ChPsConsciousnessController@getByRecord');
+    Route::apiResource('ch_ps_objectives', 'Management\ChPsObjectivesController');
+    Route::get('ch_ps_objectives/by_record/{id}/{type_record_id}', 'Management\ChPsObjectivesController@getByRecord');
+
 
     
     //SectionalCouncil
