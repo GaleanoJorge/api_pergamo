@@ -150,6 +150,18 @@ use App\Models\ChSwIncome;
 use App\Models\ChSwExpenses;
 use App\Models\ChSwEconomicAspects;
 use App\Models\ChSwArmedConflict;
+use App\Models\ChPsAssessment;
+use App\Models\ChPsConsciousness;
+use App\Models\ChPsRelationship;
+use App\Models\ChPsIntellective;
+use App\Models\ChPsIntervention;
+use App\Models\ChPsThought;
+use App\Models\ChPsLanguage;
+use App\Models\ChPsMultiaxial;
+use App\Models\ChPsObjectives;
+use App\Models\ChPsOperationalization;
+use App\Models\ChPsSphere;
+use App\Models\ChPsSynthesis;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -1555,6 +1567,120 @@ class ChRecordController extends Controller
             $name = 'prueba.pdf';
 
             Storage::disk('public')->put($name, $file);
+        } else if ($ChRecord[0]['ch_type_id'] == 9) {
+            //Ingreso
+            $ChPsAssessment = ChPsAssessment::with(
+                'relationship',
+                'ch_ps_episodes'
+            )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsRelationship = ChPsRelationship::with(
+                'ch_ps_awareness',
+                'ch_ps_sleep'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsIntellective = ChPsIntellective::with(
+                'ch_ps_attention'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsThought = ChPsThought::with(
+                'ch_ps_speed',
+                'ch_ps_delusional',
+                'ch_ps_overrated',
+                'ch_ps_obsessive',
+                'ch_ps_association'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();           
+            $ChPsLanguage = ChPsLanguage::with(
+                'ch_ps_expressive',
+                'ch_ps_comprehensive',
+                'ch_ps_others',
+                'ch_ps_paraphasias'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsSphere = ChPsSphere::with(
+                'ch_ps_sadness',
+                'ch_ps_joy',
+                'ch_ps_fear',
+                'ch_ps_anger',
+                'ch_ps_insufficiency',
+                'ch_ps_several'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsSynthesis = ChPsSynthesis::with(
+                'ch_ps_judgment',
+                'ch_ps_prospecting',
+                'ch_ps_intelligence'
+            )
+            ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();            
+            $ChPsMultiaxial = ChPsMultiaxial:: where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();            
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+
+            //Regular
+            $ChPsAssessmentEvo = ChPsAssessment::with(
+                'relationship',
+                'ch_ps_episodes'
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();            
+            $ChPsOperationalization = ChPsOperationalization::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPsConsciousness = ChPsConsciousness::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPsObjectives = ChPsObjectives::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            } else {
+                $imagenComoBase64 = null;
+            }
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.psychologyhistory', [
+                'chrecord' => $ChRecord,
+
+                'ChPsAssessment' => $ChPsAssessment,
+                'ChPsRelationship' => $ChPsRelationship,
+                'ChPsIntellective' => $ChPsIntellective,
+                'ChPsThought' => $ChPsThought,
+                'ChPsLanguage' => $ChPsLanguage,
+                'ChPsSphere' => $ChPsSphere,
+                'ChPsSynthesis' => $ChPsSynthesis,
+                'ChPsMultiaxial' => $ChPsMultiaxial,
+                'ChPsIntervention' => $ChPsIntervention,
+
+                'ChPsAssessmentEvo' => $ChPsAssessmentEvo,
+                'ChPsOperationalization' => $ChPsOperationalization,
+                'ChPsConsciousness' => $ChPsConsciousness,
+                'ChPsObjectives' => $ChPsObjectives,
+
+                'firmPatient' => $imagenPAtient,
+
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
+
+            // Trabajo Social
+            //////////////////////////////////
+
         }
 
         return response()->json([
@@ -3406,12 +3532,12 @@ class ChRecordController extends Controller
             }
         }
 
-        $hola = $this->interoperavility($id);
+        // $hola = $this->interoperavility($id);
 
         return response()->json([
             'status' => true,
             'message' => 'Registro paciente actualizado exitosamente',
-            'data' => ['ch_record' => $ChRecord, 'hola' => $hola],
+            'data' => ['ch_record' => $ChRecord],
         ]);
     }
 
