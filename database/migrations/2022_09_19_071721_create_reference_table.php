@@ -64,7 +64,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedBigInteger('denied_admission_route_id')->nullable();
             $table->unsignedBigInteger('denied_specialty_id')->nullable();
             $table->unsignedTinyInteger('denied_type_id')->nullable();
-            $table->unsignedTinyInteger('denied_reason_id')->nullable();
+            $table->unsignedBigInteger('denied_reason_id')->nullable();
             $table->unsignedBigInteger('denied_program_id')->nullable();
             $table->string('denied_observation')->nullable();
 
