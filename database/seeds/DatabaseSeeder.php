@@ -293,7 +293,6 @@ class DatabaseSeeder extends Seeder
                 
                 //Semillas HC Psicologia
                 $this->call(ChPsEpisodesSeeder::class);
-                
                 $this->call(ChPsAreasSeeder::class);
                 
                 $this->call(ChPsAttitudeSeeder::class);
@@ -329,12 +328,6 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReferenceStatusSeeder::class);
                 $this->call(StayTypeSeeder::class);
                 $this->call(TechnologicalMediumSeeder::class);
-
-                //
-          
-
-
-
 
         }
 }
