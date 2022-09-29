@@ -3553,23 +3553,30 @@ class ChRecordController extends Controller
         
       $info = ChRecord::select(
         //datos usuario
-        'patients.firstname AS firstname',                                 // 
-        'patients.middlefirstname AS middlefirstname',
-        'patients.lastname AS lastname',
-        'patients.middlelastname AS middlelastname',
-        'patients.identification AS identification',
-        'patients.birthday AS birthday',
-        'identification_type.code AS identification_type',
-        'gender.name AS gender',
+        'ITP.code AS patient_identification_type',
+        'patients.identification AS patient_identification',
+        'patients.firstname AS patient_firstname',                                 // 
+        'patients.middlefirstname AS patient_middlefirstname',
+        'patients.lastname AS patient_lastname',
+        'patients.middlelastname AS patient_middlelastname',
+        'GP.code AS patient_gender',
+        'patients.birthday AS patient_birthday',
         // datos contrato
-        'company_type.code AS company',
+        'company.name AS company',
+
+        //datos medico
+        'users.firstname AS firstname_medical',                                 // 
+        'users.middlefirstname AS middlefirstname_medical',
+        'users.lastname AS lastname_medical',
+        'users.middlelastname AS middlelastname_medical',
+        'users.identification AS identification_medical',
+        'users.birthday AS birthday_medical',
+        'IT.code AS identification_type_madical',
+        'GN.code AS gender_medical',
+        // datos contrato
         'type_briefcase.code AS type_briefcase',
         'IT.code AS assistential_id_code',
-        'patients.identification AS identification',
         'diagnosis.code AS diagnosis',
-        //datos profesional que atiende
-        'ITP.code AS assistential_id_code',
-        'ID.code AS assistential_id_name',
         //datos de contacto
         'patients.email AS email_patient',  
         'patients.residence_address AS address_patient', 
@@ -3585,26 +3592,25 @@ class ChRecordController extends Controller
         //datos relacionales usuario
         ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
         ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-        ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-        //->leftJoin('identification', 'identification.id', 'patients.identification')
-        ->leftJoin('gender', 'gender.id', 'patients.gender_id')
+        ->leftJoin('identification_type AS ITP', 'ITP.id', 'patients.identification_type_id')
+        ->leftJoin('gender AS GP', 'GP.id', 'patients.gender_id')
         //datos relacionales contrato
-        ->leftJoin('company', 'company.id', 'company_type.company_type_id')
+        ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+        ->leftJoin('company', 'company.id', 'contract.company_id')
         ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
         ->leftJoin('users', 'users.id', 'ch_record.user_id')
         ->leftJoin('identification_type AS IT', 'IT.id', 'users.identification_type_id')
+        ->leftJoin('gender AS GN', 'GN.id', 'users.gender_id')
         //datos relacionales cita medica
         ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
-        //datos relacionales profesional que atiende
-        ->leftJoin('identification_type AS ITP', 'ITP.id', 'users.identification_type_id')
-        ->leftJoin('identification AS ID', 'ID.id', 'users.identification')
         //datos relacionales de contacto
         ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
         ->groupBy('ch_record.id')
         ->get()->toarray()
         ;
 
-        $info[0]['gender'] = $this->getGender($info[0]['gender']);
+        $info[0]['patient_gender'] = $this->getGender($info[0]['patient_gender']);
+        $info[0]['gender_medical'] = $this->getGender($info[0]['gender_medical']);
         $info[0]['company'] = $this->getCompany($info[0]['company']);
 
         return $info;
