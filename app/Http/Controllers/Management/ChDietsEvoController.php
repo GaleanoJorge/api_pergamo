@@ -100,7 +100,7 @@ class ChDietsEvoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if($request->diet_consistency != "null"){
+        if($request->diet_consistency != null){
         $supplies = json_decode($request->diet_consistency);
         foreach ($supplies as $element) {
 
