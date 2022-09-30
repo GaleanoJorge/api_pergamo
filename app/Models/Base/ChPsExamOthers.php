@@ -24,5 +24,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ChPsExamOthers extends Model
 {
-	protected $table = 'ch_ps_sleep';
+	protected $table = 'ch_ps_exam_others';
 }
