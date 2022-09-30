@@ -891,6 +891,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
     Route::get('viewCertification/{id}', 'Management\ChRecordController@ViewCertification');
     Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
+    Route::get('viewFormulation/{id}', 'Management\ChRecordController@ViewFormulation');
+    Route::get('viewMedicalOrder/{id}', 'Management\ChRecordController@ViewMedicalOrder');
 
     //Visualización pdf consentimientos informados
     Route::get('viewCI/{id}', 'Management\ConsentsInformedController@ViewCI');
