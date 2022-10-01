@@ -30,5 +30,9 @@
     {
         "id": 7,
         "name": "terapia fisica"
+    },
+    {
+        "id": 9,
+        "name": "psicologia"
     }
 ]
