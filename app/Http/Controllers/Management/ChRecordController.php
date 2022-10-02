@@ -3940,8 +3940,7 @@ class ChRecordController extends Controller
         //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
         //     $ChRecord->firm_file = $path;
         // }
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
+        
 
         $mes = Carbon::now()->month;
 
@@ -3957,7 +3956,15 @@ class ChRecordController extends Controller
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
 
         $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-
+        if (count($valuetariff) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                'data' => ['ch_record' => $ChRecord],
+            ]);  
+        }
+        $ChRecord->date_finish = Carbon::now();
+        $ChRecord->save();
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
@@ -4122,8 +4129,8 @@ class ChRecordController extends Controller
                     $valuetariff->where('failed', 0);
                 }
                 if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                    if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
-                        $valuetariff->where('quantity', $ManagementPlan->quantity);
+                    if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                        $valuetariff->where('quantity', $ManagementPlan->hours);
                     }
                 } else {
                     $valuetariff->whereNull('quantity');
