@@ -17,6 +17,7 @@ class GenderSeeder extends Seeder
         foreach (json_decode($data) as $row) {
             Gender::create([
                 'name' => $row->name,
+                'code' => $row->code,
             ]);
         }
     }
