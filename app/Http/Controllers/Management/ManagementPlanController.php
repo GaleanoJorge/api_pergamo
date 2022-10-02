@@ -382,6 +382,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;
         $ManagementPlan->frequency_id = $request->frequency_id;
         $ManagementPlan->quantity = $request->quantity;
+        $ManagementPlan->hours = $request->hours;
         $ManagementPlan->specialty_id = $request->specialty_id;
         $ManagementPlan->admissions_id = $request->admissions_id;
         $ManagementPlan->assigned_user_id = $request->assigned_user_id;

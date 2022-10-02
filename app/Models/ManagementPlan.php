@@ -10,6 +10,7 @@ class ManagementPlan extends BaseManagementPlan
 		'type_of_attention_id',
 		'frequency_id',
 		'quantity',
+		'hours',
 		'specialty_id',
 		'admissions_id',
 		'procedure_id',
