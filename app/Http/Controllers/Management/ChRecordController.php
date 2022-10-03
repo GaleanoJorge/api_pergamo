@@ -3951,8 +3951,8 @@ class ChRecordController extends Controller
         $admissions = Admissions::find($admissions_id);
         $Location = Location::where('admissions_id', $admissions->id)->first();
         $user_id = $admissions->patient_id;
-        $locality = Patient::find($user_id)->locality_id;
-        $patient = Patient::find($user_id)->neighborhood_or_residence_id;
+        $locality = Patient::find($admissions->patient_id)->locality_id;
+        $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
 
         $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
@@ -3971,33 +3971,7 @@ class ChRecordController extends Controller
             $assigned->execution_date = Carbon::now();
             $assigned->save();
 
-            if (!$validate) {
-                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
-                //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
-                $AccountReceivable = new AccountReceivable;
-                $AccountReceivable->user_id = $request->user_id;
-                $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->save();
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $ManagementPlan->procedure_id;
-                $billActivity->account_receivable_id = $AccountReceivable->id;
-                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
-                $billActivity->ch_record_id = $id;
-                $billActivity->save();
-            } else {
-                $AccountReceivable = AccountReceivable::find($validate[0]['id']);
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $ManagementPlan->procedure_id;
-                $billActivity->account_receivable_id = $validate[0]['id'];
-                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
-                $billActivity->ch_record_id = $id;
-                $billActivity->save();
-            };
+            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
             if ($assistance) {
@@ -4039,6 +4013,14 @@ class ChRecordController extends Controller
                 if ($billActivity->status == 'RECHAZADO') {
                     $billActivity->status = 'REENVIADO';
                     $billActivity->save();
+                } else {
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                    }
+                }
+            } else {
+                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                    $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
                 }
             }
         }
@@ -4050,6 +4032,39 @@ class ChRecordController extends Controller
             'message' => 'Registro paciente actualizado exitosamente',
             'data' => ['ch_record' => $ChRecord],
         ]);
+    }
+
+    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff) {
+        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (!$validate) {
+                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
+                //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $request->user_id;
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->save();
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $AccountReceivable->id;
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            } else {
+                $AccountReceivable = AccountReceivable::find($validate[0]['id']);
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $validate[0]['id'];
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            };
+        }
     }
 
     public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
@@ -4066,12 +4081,13 @@ class ChRecordController extends Controller
         }
         if ($ManagementPlan->type_of_attention_id == 17) {
             $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
-                ->whereNull('assigned_management_plan.redo')
+                ->where('assigned_management_plan.redo', 0)
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
                 ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
                 ->where('management_plan.admissions_id', $admissions_id)
                 ->where('management_plan.type_of_attention_id', 17)
                 ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                ->groupBy('assigned_management_plan.id')
                 ->get()->toArray();
             $validate = array();
 
