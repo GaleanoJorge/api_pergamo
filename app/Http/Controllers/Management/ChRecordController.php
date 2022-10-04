@@ -3954,14 +3954,16 @@ class ChRecordController extends Controller
         $locality = Patient::find($admissions->patient_id)->locality_id;
         $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-
-        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-        if (count($valuetariff) == 0) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                'data' => ['ch_record' => $ChRecord],
-            ]);  
+        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+            if (count($valuetariff) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                    'data' => ['ch_record' => $ChRecord],
+                ]);  
+            }
         }
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
