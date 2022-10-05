@@ -418,18 +418,18 @@ class PatientController extends Controller
                    IF( (CURDATE() <= assigned_management_plan.finish_date AND 
                         CURDATE() >= assigned_management_plan.start_date AND 
                         assigned_management_plan.execution_date = "0000-00-00 00:00:00") OR 
-                        assigned_management_plan.redo >= '.Carbon::now()->format('YmdHis').'
+                        assigned_management_plan.redo >= ' . Carbon::now()->format('YmdHis') . '
                     ,IF (assigned_management_plan.start_hour != "00:00:00"
                         ,
-                            IF((assigned_management_plan.start_hour <= "'.Carbon::now()->addHours(3)->format('H:i:s').'") AND 
-                            (assigned_management_plan.finish_hour >= "'.Carbon::now()->subHours(3)->format('H:i:s').'") AND 
+                            IF((assigned_management_plan.start_hour <= "' . Carbon::now()->addHours(3)->format('H:i:s') . '") AND 
+                            (assigned_management_plan.finish_hour >= "' . Carbon::now()->subHours(3)->format('H:i:s') . '") AND 
                             (assigned_management_plan.execution_date = "0000-00-00 00:00:00"),1,0)
                         ,1)
                     ,0 
                )
               ) AS por_ejecutar'),
-              DB::raw('SUM(IF(assigned_management_plan.id > 0, 1, 0)) AS total_agendado'),
-              DB::raw('SUM(IF(assigned_management_plan.execution_date != "0000-00-00 00:00:00", 1, 0)) AS total_ejecutado'),
+            DB::raw('SUM(IF(assigned_management_plan.id > 0, 1, 0)) AS total_agendado'),
+            DB::raw('SUM(IF(assigned_management_plan.execution_date != "0000-00-00 00:00:00", 1, 0)) AS total_ejecutado'),
             DB::raw('
              
                 SUM(
@@ -583,15 +583,15 @@ class PatientController extends Controller
             });
         }
 
-        if($request->campus && isset($request->campus) && $request->campus != 'null'){
+        if ($request->campus && isset($request->campus) && $request->campus != 'null') {
             $patients->where('admissions.campus_id', $request->campus);
             // var_dump($insu = "monda'");
         }
 
-        if($request->eps && isset($request->eps) && $request->eps != 'null'){
+        if ($request->eps && isset($request->eps) && $request->eps != 'null') {
             $patients->where('contract.company_id', $request->eps);
         }
-    
+
 
 
         if ($request->_sort) {
@@ -615,8 +615,7 @@ class PatientController extends Controller
                     ->orWhere('locality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
                     ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('company.name', 'like', '%' . $request->search . '%')
-                    ;
+                    ->orWhere('company.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -634,6 +633,106 @@ class PatientController extends Controller
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
             'data' => ['patients' => $patients, 'management' => $management],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function indexPacientByPAH(Request $request, int $roleId, int $userId): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            'company.name AS company',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+        )
+            ->leftjoin('locality', 'patients.locality_id', 'locality.id')
+            ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
+            ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
+            ->where('location.admission_route_id', 1)
+            ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
+            ->with(
+                'status',
+                'locality',
+                'gender',
+                'inability',
+                'academic_level',
+                'identification_type',
+                'residence_municipality',
+                'residence',
+                'admissions',
+                'admissions.management_plan',
+                'admissions.management_plan.assigned_management_plan',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions.campus',
+                'admissions.location',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )->groupBy('patients.id');
+
+        $patients->orderBy('admissions.entry_date', 'DESC');
+
+        if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
+            $patients->where('admissions.campus_id', $request->campus_id);
+            // var_dump($insu = "monda'");
+        }
+
+        if ($request->eps && isset($request->eps) && $request->eps != 'null') {
+            $patients->where('contract.company_id', $request->eps);
+        }
+
+
+        if ($request->_sort) {
+            if ($request->_sort == 'flat' || $request->_sort == 'pavilion' || $request->_sort == 'bed') {
+                $patients->orderBy('location.' . $request->_sort . '_id', $request->_order);
+            } else {
+                $patients->orderBy($request->_sort, $request->_order);
+            }
+        }
+
+        if ($request->search) {
+            $patients->where(function ($query) use ($request) {
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('locality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('company.name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $patients = $patients->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patients],
         ]);
     }
 

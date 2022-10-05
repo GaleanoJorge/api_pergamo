@@ -21,7 +21,6 @@ class CreateAdmissionsTable extends Migration
             $table->unsignedBigInteger('diagnosis_id');
             $table->unsignedBigInteger('regime_id');
             $table->unsignedBigInteger('briefcase_id');
-            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('user_medical_id')->nullable();
             $table->dateTime('entry_date');
             $table->dateTime('discharge_date');
@@ -35,10 +34,9 @@ class CreateAdmissionsTable extends Migration
             $table->foreign('campus_id')->references('id')
                 ->on('campus');
 
-                $table->index('user_medical_id');
-                $table->foreign('user_medical_id')->references('id')
-                    ->on('users');
-    
+            $table->index('user_medical_id');
+            $table->foreign('user_medical_id')->references('id')
+                ->on('users');
 
             $table->index('regime_id');
             $table->foreign('regime_id')->references('id')

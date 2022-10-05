@@ -451,6 +451,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('PacientInscription/{id}', 'Management\PatientController@update');
     Route::get('patient/{id}', 'Management\PatientController@show');
     Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
+    Route::get('patient/byPAH/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAH');
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
 
@@ -776,7 +777,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     Route::get(
-        'bed/byPavilion/{pavilion_id}/{ambit}',
+        'bed/byPavilion/{pavilion_id}/{ambit}/{procedure}',
         'Management\BedController@getBedByPavilion'
     );
 

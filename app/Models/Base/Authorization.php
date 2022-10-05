@@ -11,6 +11,7 @@ use App\Models\AssistanceSupplies;
 use App\Models\Authorization as ModelsAuthorization;
 use App\Models\AuthStatus;
 use App\Models\FixedAdd;
+use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\ManualPrice;
 use App\Models\Procedure;
@@ -75,6 +76,11 @@ class Authorization extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(Procedure::class, 'procedure_id', 'id');
+	}
+
+	public function location()
+	{
+		return $this->belongsTo(Location::class, 'location_id', 'id');
 	}
 
 	public function applications()

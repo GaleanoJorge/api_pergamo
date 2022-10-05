@@ -3778,98 +3778,102 @@ class ChRecordController extends Controller
         //     // }
 
         // }
-        switch ($request->type_of_attention_id) {
-            case (1): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (2): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (3): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (4): {
-                    $ChRecord->ch_type_id = 3;
-                    break;
-                }
-            case (5): {
-                    // PSICOLOGÍA
-                    $ChRecord->ch_type_id = 9;
-                    break;
-                }
-            case (6): {
-                    // TRABAJO SOCIAL
-                    $ChRecord->ch_type_id = 8;
-                    break;
-                }
-            case (7): {
-                    // TERAPIA FÍSICA
-                    $ChRecord->ch_type_id = 7;
-                    break;
-                }
-            case (8): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (9): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (10): {
-
-                    // TERAPIA OCUPACIONAL
-                    $ChRecord->ch_type_id = 6;
-                    break;
-                }
-            case (11): {
-                    $ChRecord->ch_type_id = 4;
-                    break;
-                }
-            case (12): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (13): {
-                    // SERVICIO DE CUIDADOR
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
-                    break;
-                }
-            case (14): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (15): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (16): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (17): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (18): {
-                    // DEPORTOLOGO
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
-                    break;
-                }
-            case (19): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
+        if ($request->type_of_attention_id) {
+            switch ($request->type_of_attention_id) {
+                case (1): {
+                        $ChRecord->ch_type_id = 1;
+                        break;
+                    }
+                case (2): {
+                        $ChRecord->ch_type_id = 1;
+                        break;
+                    }
+                case (3): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (4): {
+                        $ChRecord->ch_type_id = 3;
+                        break;
+                    }
+                case (5): {
+                        // PSICOLOGÍA
+                        $ChRecord->ch_type_id = 9;
+                        break;
+                    }
+                case (6): {
+                        // TRABAJO SOCIAL
+                        $ChRecord->ch_type_id = 8;
+                        break;
+                    }
+                case (7): {
+                        // TERAPIA FÍSICA
+                        $ChRecord->ch_type_id = 7;
+                        break;
+                    }
+                case (8): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+                case (9): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+                case (10): {
+    
+                        // TERAPIA OCUPACIONAL
+                        $ChRecord->ch_type_id = 6;
+                        break;
+                    }
+                case (11): {
+                        $ChRecord->ch_type_id = 4;
+                        break;
+                    }
+                case (12): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (13): {
+                        // SERVICIO DE CUIDADOR
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'No hay historia clínica para esta atención',
+                            'data' => ['ch_record' => []],
+                        ]);
+                        break;
+                    }
+                case (14): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (15): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (16): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (17): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (18): {
+                        // DEPORTOLOGO
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'No hay historia clínica para esta atención',
+                            'data' => ['ch_record' => []],
+                        ]);
+                        break;
+                    }
+                case (19): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+            }
+        } else if ($request->ch_type_id) {
+            $ChRecord->ch_type_id = $request->ch_type_id;
         }
 
         if ($request->firm_file) {
