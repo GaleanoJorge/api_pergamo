@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Alerta o Vigil"
+    },
+    {
+        "name": "Hipervigilante "
+    },
+    {
+        "name": "Obnubilación o somnolencia"
+    },
+    {
+        "name": "En confusión mental "
+    },
+    {
+        "name": "En delirium"
+    },
+    {
+        "name": "En estado oniroide"
+    }, 
+    {
+        "name": "En estado crepuscular (automatismo o fugas ictales)"
+    },
+    {
+        "name": "Estupor o sopor "
+    },
+    {
+        "name": "En coma superficial"
+    },
+    {
+        "name": "En coma profundo"
+    }  
+   
+
+]

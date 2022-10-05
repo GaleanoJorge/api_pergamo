@@ -1,0 +1,635 @@
+[
+    {"code":"F70","name":"Discapacidad intelectual leve","value":"317"}
+    ,
+    {"code":"F71","name":"Discapacidad intelectual moderada","value":"318.0"}
+    ,
+    {"code":"F72","name":"Discapacidad intelectual grave","value":"318.1"}
+    ,
+    {"code":"F73","name":"Discapacidad intelectual profunda","value":"318.2"}
+    ,
+    {"code":"F79","name":"Discapacidad intelectual de gravedad no especificada","value":"319"}
+    ,
+    {"code":"F81","name":"Trastorno de la lectura","value":"315.00"}
+    ,
+    {"code":"F81","name":"Trastorno del clculo","value":"315.1"}
+    ,
+    {"code":"F81","name":"Trastorno de la expresin escrita","value":"315.2"}
+    ,
+    {"code":"F81","name":"Trastorno del aprendizaje no especificado","value":"315.9"}
+    ,
+    {"code":"F82","name":"Trastorno del desarrollo de la coordinacin","value":"315.4"}
+    ,
+    {"code":"F80.1","name":"Trastorno del lenguaje expresivo","value":"315.31"}
+    ,
+    {"code":"F80.2","name":"Trastorno mixto del lenguaje receptivo-expresivo","value":"315.31"}
+    ,
+    {"code":"F80.0","name":"Trastorno fonolgico","value":"315.39"}
+    ,
+    {"code":"F98.5","name":"Tartamudeo","value":"307.01"}
+    ,
+    {"code":"F80.9","name":"Trastorno de la comunicacin no especificado","value":"307.9"}
+    ,
+    {"code":"F84.0","name":"Trastorno autista","value":"299.00"}
+    ,
+    {"code":"F84.2","name":"Trastorno de Rett","value":"299.80"}
+    ,
+    {"code":"F84.3","name":"Trastorno desintegrativo infantil","value":"299.10"}
+    ,
+    {"code":"F84.5","name":"Trastorno de Asperger","value":"299.80"}
+    ,
+    {"code":"F84.9","name":"Trastorno generalizado del desarrollo no especificado","value":"299.80"}
+    ,
+    {"code":"F88.0  ","name":"Retraso global del desarrollo","value":"315.8"}
+    ,
+    {"code":"F90.0","name":"Trastorno por dficit de atencin con hiperactividad, con predominio de dficit de atencin","value":"314.00"}
+    ,
+    {"code":"F90.1  ","name":"Trastorno por dficit de atencin con hiperactividad, con predominio de hiperactividad/impulsividad","value":"314.01"}
+    ,
+    {"code":"F90.2  ","name":"Trastorno por dficit de atencin con hiperactividad, combinada","value":"314.01"}
+    ,
+    {"code":"F90.8  ","name":"Otro trastorno por dficit de atencin/hiperactividad especificado","value":"314.01"}
+    ,
+    {"code":"F90.9  ","name":"Trastorno por dficit de atencin/hiperactividad no especificado","value":"314.01"}
+    ,
+    {"code":"F91.8","name":"Trastorno disocial","value":"312.8"}
+    ,
+    {"code":"F91.3","name":"Trastorno negativista desafiante","value":"313.81"}
+    ,
+    {"code":"F91.9","name":"Trastorno de comportamiento perturbador no especificado","value":"312.9"}
+    ,
+    {"code":"F98.3","name":"Pica","value":"307.52"}
+    ,
+    {"code":"F98.2","name":"Trastorno por rumiacin","value":"307.59"}
+    ,
+    {"code":"F98.2","name":"Trastorno de la ingestin alimentaria de la infancia o la niez","value":"307.59"}
+    ,
+    {"code":"F95.2","name":"Trastorno de la Tourette","value":"307.23"}
+    ,
+    {"code":"F95.1","name":"Trastorno de tics motores o vocales crnicos","value":"307.22"}
+    ,
+    {"code":"F95.0","name":"Trastorno de tics transitorios","value":"307.21"}
+    ,
+    {"code":"F95.9","name":"Trastorno de tics no especificado","value":"307.20"}
+    ,
+    {"code":"F98.1","name":"Encopresis","value":"307.7"}
+    ,
+    {"code":"F98.0","name":"Enuresis","value":"307.6"}
+    ,
+    {"code":"F93.0","name":"Ansiedad por separacin","value":"309.21"}
+    ,
+    {"code":"F94.0","name":"Mutismo selectivo","value":"313.23"}
+    ,
+    {"code":"F94.2","name":"Trastorno reactivo de la vinculacin de la infancia o la niez","value":"313.89"}
+    ,
+    {"code":"F98.4","name":"Trastorno de movimientos estereotipados","value":"307.3"}
+    ,
+    {"code":"F98.9","name":"Trastorno de la infancia, la niez o la adolescencia no especificado","value":"313.9"}
+    ,
+    {"code":"F20.9  ","name":"Esquizofrenia","value":"295.90"}
+    ,
+    {"code":"F21    ","name":"Trastorno de la personalidad esquizotpico","value":"301.22"}
+    ,
+    {"code":"F25.0  ","name":"Trastorno esquizoafectivo de tipo bipolar","value":"295.70"}
+    ,
+    {"code":"F25.1  ","name":"Trastorno esquizoafectivo de tipo depresivo","value":"295.70"}
+    ,
+    {"code":"F60.1  ","name":"Trastorno de la personalidad esquizoide","value":"301.20"}
+    ,
+    {"code":"F20.81 ","name":"Trastorno esquizofreniforme","value":"295.40"}
+    ,
+    {"code":"F23    ","name":"Trastorno psictico breve","value":"298.8"}
+    ,
+    {"code":"F06.2  ","name":"Trastorno psictico con ideas delirantes","value":"293.81"}
+    ,
+    {"code":"F06.0  ","name":"Trastorno psictico con alucinaciones","value":"293.82"}
+    ,
+    {"code":"F06.1  ","name":"Catatonia relacionada con otro trastorno mental","value":"293.89"}
+    ,
+    {"code":"F60.1  ","name":"Trastorno catatnico debidoa otra afeccin mdica","value":"293.89"}
+    ,
+    {"code":"F22    ","name":"Trastorno delirante","value":"297.1"}
+    ,
+    {"code":"F28    ","name":"Otro trastorno especfico del espectrode la esquizofrenia y otro trastorno psictico","value":"298.8"}
+    ,
+    {"code":"F33.2  ","name":"Trastorno depresivo mayor","value":"296.33"}
+    ,
+    {"code":"F31.2  ","name":"Trastorno bipolar I","value":"296.44"}
+    ,
+    {"code":"F31.81 ","name":"Trastorno bipolar II","value":"296.89"}
+    ,
+    {"code":"F31.9  ","name":"Trastorno bipolar no especificado y relacionado","value":"296.80"}
+    ,
+    {"code":"F34.1  ","name":"Trastorno depresivo persistente distimia","value":"300.4"}
+    ,
+    {"code":"F34.0  ","name":"Trastorno ciclotmico","value":"301.13"}
+    ,
+    {"code":"N94.3  ","name":"Trastorno disfrico premenstrual","value":"625.4"}
+    ,
+    {"code":"F34.8  ","name":"Trastorno de desregulacin disruptivadel estado de nimo","value":"296.99"}
+    ,
+    {"code":"F19.94 ","name":"Trastorno depresivo inducido por interfern","value":"292.84"}
+    ,
+    {"code":"F06.31 ","name":"Trastorno depresivodebido a otra afeccin mdica con caractersticas depresivas","value":"293.83"}
+    ,
+    {"code":"F06.32 ","name":"Trastorno depresivodebido a otra afeccin mdica con episodio similar a la depresin mayor","value":"293.83"}
+    ,
+    {"code":"F06.34 ","name":"Trastorno depresivodebido a otra afeccin mdica con caractersticas mixtas","value":"293.83"}
+    ,
+    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con episodio similar al manaco o al hipomanaco","value":"293.83"}
+    ,
+    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con caractersticas manacas","value":"293.83"}
+    ,
+    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con caractersticas mixtas","value":"293.83"}
+    ,
+    {"code":"F31.89 ","name":"Otro trastorno bipolar especificado y relacionado","value":"296.89"}
+    ,
+    {"code":"F32.8  ","name":"Otro trastorno depresivo especificado","value":"311"}
+    ,
+    {"code":"F41.1  ","name":"Trastorno de ansiedad generalizada","value":"300.02"}
+    ,
+    {"code":"F41.0 ","name":"Trastorno de pnico","value":"300.01"}
+    ,
+    {"code":"F40.00 ","name":"Agorafobia","value":"300.22"}
+    ,
+    {"code":"F93.0  ","name":"Trastorno de ansiedad por separacin","value":"309.21"}
+    ,
+    {"code":"F41.8  ","name":"Otro trastorno de ansiedad especificado","value":"300.09"}
+    ,
+    {"code":"F41.9  ","name":"Trastorno de ansiedad no especificado","value":"300.00"}
+    ,
+    {"code":"F40.218 ","name":"Por animales serpientes, araas.","value":"300.29"}
+    ,
+    {"code":"F40.228 ","name":"Por elementos del ambiente natural tormentas elctricas,alturas.","value":"300.29"}
+    ,
+    {"code":"F40.230 ","name":"Sangre.","value":"300.29"}
+    ,
+    {"code":"F40.231 ","name":"Inyecciones y transfusiones.","value":"300.29"}
+    ,
+    {"code":"F40.232 ","name":"Otro tipo de atencin mdica.","value":"300.29"}
+    ,
+    {"code":"F40.233 ","name":"Lesin.","value":"300.29"}
+    ,
+    {"code":"F40.248 ","name":"Situacional viaje areo, enclaustramiento.","value":"300.29"}
+    ,
+    {"code":"F40.298 ","name":"De otro tipo situaciones en que la persona podra vomitar oasfixiarse; en nios, ruidos fuertes o personas disfrazadas.","value":"300.29"}
+    ,
+    {"code":"F42   ","name":"Trastorno obsesivo-compulsivo","value":"300.3"}
+    ,
+    {"code":"F45.22 ","name":"Trastorno de dismorfia corporal","value":"300.7"}
+    ,
+    {"code":"F42   ","name":"Trastorno de acumulacin","value":"300.3"}
+    ,
+    {"code":"F63.3  ","name":"Tricotilomanatrastorno de arrancamiento del pelo","value":"312.39"}
+    ,
+    {"code":"L98.1  ","name":"Trastorno de excoriacin rascarse la piel","value":"698.4"}
+    ,
+    {"code":"F42   ","name":"Trastorno obsesivo-compulsivoy trastornos relacionados no especificados","value":"300.3"}
+    ,
+    {"code":"F43.10 ","name":"Trastorno de estrs postraumtico","value":"309.81"}
+    ,
+    {"code":"F43   ","name":"Trastornode estrs agudo","value":"308.3"}
+    ,
+    {"code":"F43.21 ","name":"Con estado de nimo depresivo","value":"309.0"}
+    ,
+    {"code":"F43.22 ","name":"Con ansiedad","value":"309.24"}
+    ,
+    {"code":"F43.23 ","name":"Con ansiedad mixta y estado de nimo depresivo","value":"309.28"}
+    ,
+    {"code":"F43.24 ","name":"Con anomalas de la conducta","value":"309.3"}
+    ,
+    {"code":"F43.25 ","name":"Con alteracin mixta de las emociones y la conducta","value":"309.4"}
+    ,
+    {"code":"F43.20 ","name":"No especificado","value":"309.9"}
+    ,
+    {"code":"F94.1  ","name":"Trastorno de apego reactivo","value":"313.89"}
+    ,
+    {"code":"F94.2  ","name":"Trastorno de relacin social desinhibida","value":"313.89"}
+    ,
+    {"code":"F43.8  ","name":"Otro trastorno relacionadocon traumas o factores de estrs especificado","value":"309.89"}
+    ,
+    {"code":"F48.1  ","name":"Trastorno de despersonalizacin/desrealizacin","value":"300.6"}
+    ,
+    {"code":"F44.0  ","name":"Amnesia disociativa","value":"300.12"}
+    ,
+    {"code":"F44.1  ","name":"Amnesia con fuga disociativa","value":"300.13"}
+    ,
+    {"code":"F44.81 ","name":"Trastorno de la identidad disociativo","value":"300.14"}
+    ,
+    {"code":"F44.89 ","name":"Otro trastorno disociativo especificado","value":"300.15"}
+    ,
+    {"code":"F44.9  ","name":"Trastorno disociativo no especificado","value":"300.15"}
+    ,
+    {"code":"F45.1  ","name":"Trastorno de sntomas somticos","value":"300.82"}
+    ,
+    {"code":"F45.1  ","name":"Trastorno de sntomas somticos, con predominio de dolor","value":"300.82"}
+    ,
+    {"code":"F45.21 ","name":"Trastorno de ansiedad por enfermedad","value":"300.7"}
+    ,
+    {"code":"F54   ","name":"Factores psicolgicosque influyen sobre otras afecciones mdicas","value":"316"}
+    ,
+    {"code":"F68.10 ","name":"Trastorno facticio","value":"300.19"}
+    ,
+    {"code":"F45.8  ","name":"Otro trastorno de sntomas somticoso relacionado especificado","value":"300.89"}
+    ,
+    {"code":"F45.9  ","name":"Trastorno de sntomas somticos no especificado","value":"300.82"}
+    ,
+    {"code":"F44.4  ","name":"Con debilidad o parlisis; con movimiento anormal temblor,distona, marcha anormal; con sntomas para la deglucin; o con sntomadel lenguaje.","value":"300.11"}
+    ,
+    {"code":"F44.5  ","name":"Con convulsiones.","value":"300.11"}
+    ,
+    {"code":"F44.6  ","name":"Con anestesia o prdida sensorial; o con un sntoma sensorialparticular alucinaciones u otros trastornos visuales, auditivos, olfativos.","value":"300.11"}
+    ,
+    {"code":"F44.7  ","name":"Con sntomas mixtos.","value":"300.11"}
+    ,
+    {"code":"F50.02 ","name":"Tipo de atracones/purgas.","value":"307.1"}
+    ,
+    {"code":"F50.01 ","name":"Tipo restrictivo","value":"307.1"}
+    ,
+    {"code":"F50.2  ","name":"Bulimia nerviosa","value":"307.51"}
+    ,
+    {"code":"F50.8  ","name":"Trastorno de atracones","value":"307.51"}
+    ,
+    {"code":"F98.3  ","name":"Pica en nios.","value":"307.52"}
+    ,
+    {"code":"F50.8  ","name":"Pica en adultos.","value":"307.52"}
+    ,
+    {"code":"F50.8  ","name":"Trastorno de evitacin/restriccin de la ingesta de alimentos","value":"307.59"}
+    ,
+    {"code":"F50.8  ","name":"Otro trastorno alimentarioo del consumo de alimentos especificado","value":"307.59"}
+    ,
+    {"code":"F50.9  ","name":"Trastorno alimentario o del consumode alimentos no especificado","value":"307.50"}
+    ,
+    {"code":"F51.01 ","name":"Trastorno de insomnio","value":"307.42"}
+    ,
+    {"code":"F51.11 ","name":"Trastorno de hipersomnolencia","value":"307.44"}
+    ,
+    {"code":"G47.33 ","name":"Apnea-hipopnea obstructiva del sueo","value":"327.23"}
+    ,
+    {"code":"G47.21 ","name":"Tipo con fases del sueo retardadas","value":"307.45"}
+    ,
+    {"code":"G47.22 ","name":"Tipo con fases del sueo avanzadas","value":"307.45"}
+    ,
+    {"code":"G47.23 ","name":"Tipo con ciclo sueo-vigilia irregular","value":"307.45"}
+    ,
+    {"code":"G47.24 ","name":"Tipo con ciclo sueo-vigilia no ajustado a las 24 h. ","value":"307.45"}
+    ,
+    {"code":"G47.26 ","name":"Tipo asociado a turnos laborales","value":"307.45"}
+    ,
+    {"code":"G47.20 ","name":"Tipo no especificado.","value":"307.45"}
+    ,
+    {"code":"F51.3   ","name":"Tipo con sonambulismo","value":"307.46"}
+    ,
+    {"code":"F51.4   ","name":"Tipo con terrores nocturnos","value":"307.46"}
+    ,
+    {"code":"G25.81  ","name":"Sndrome de las piernas inquietas","value":"333.94"}
+    ,
+    {"code":"F51.5   ","name":"Trastorno de pesadillas","value":"307.47"}
+    ,
+    {"code":"G47.52  ","name":"Trastorno del comportamiento del sueo REM","value":"327.42"}
+    ,
+    {"code":"G47.09 ","name":"Otro trastorno de insomnio especificado","value":"780.52"}
+    ,
+    {"code":"G47.00  ","name":"Trastorno de insomnio no especificado","value":"780.52"}
+    ,
+    {"code":"G47.19  ","name":"Otro trastorno de hipersomnolencia especificado","value":"780.54"}
+    ,
+    {"code":"G47.10  ","name":"Trastorno de hipersomnolencia no especificado","value":"780.54"}
+    ,
+    {"code":"G47.8   ","name":"Otro trastorno sueo-vigilia especificado","value":"780.59"}
+    ,
+    {"code":"G47.9   ","name":"Trastorno sueo-vigilia no especificado","value":"780.59"}
+    ,
+    {"code":"F52.0   ","name":"Trastorno de deseo sexual hipoactivo en el varn","value":"302.71"}
+    ,
+    {"code":"F52.21  ","name":"Trastorno erctil","value":"302.72"}
+    ,
+    {"code":"F52.4   ","name":"Eyaculacin prematura precoz","value":"302.75"}
+    ,
+    {"code":"F52.32  ","name":"Eyaculacin retardada","value":"302.74"}
+    ,
+    {"code":"F52.22  ","name":"Trastorno del inters/excitacin sexualfemenino","value":"302.72"}
+    ,
+    {"code":"F52.6   ","name":"Trastorno de dolor genito-plvico/por penetracin","value":"302.76"}
+    ,
+    {"code":"F52.31  ","name":"Trastorno orgsmico femenino","value":"302.73"}
+    ,
+    {"code":"F52.8   ","name":"Otra disfuncin sexual especificada","value":"302.79"}
+    ,
+    {"code":"F52.9   ","name":"Disfuncin sexual no especificada","value":"302.70"}
+    ,
+    {"code":"F64.2   ","name":"Disforia de gnero en nios","value":"302.6"}
+    ,
+    {"code":"F64.1   ","name":"Disforia de gnero en adulto","value":"302.85"}
+    ,
+    {"code":"F64.8   ","name":"Otra disforia de gnero especificada","value":"302.6"}
+    ,
+    {"code":"F64.9   ","name":"Disforia de gnero no especificada","value":"302.6"}
+    ,
+    {"code":"F91.3   ","name":"Trastorno negativista desafiante","value":"313.81"}
+    ,
+    {"code":"F60.2   ","name":"Trastorno de la personalidad antisocial","value":"301.7"}
+    ,
+    {"code":"F63.1   ","name":"Piromana","value":"312.33"}
+    ,
+    {"code":"F63.2   ","name":"Cleptomana","value":"312.32"}
+    ,
+    {"code":"F91.8   ","name":"Otro trastorno disruptivo, del controlde los impulsos y de la conducta especificado","value":"312.89"}
+    ,
+    {"code":"F91.9   ","name":"Otro trastorno disruptivo, del controlde los impulsos y de la conducta no especificado","value":"312.9"}
+    ,
+    {"code":"F60.1   ","name":"Trastorno de la personalidad esquizoide","value":"301.20"}
+    ,
+    {"code":"F21    ","name":"Trastorno de la personalidad esquizotpico","value":"301.22"}
+    ,
+    {"code":"F60.2   ","name":"Trastorno de la personalidad antisocial","value":"301.7"}
+    ,
+    {"code":"F60.3   ","name":"Trastorno de la personalidad limtrofe","value":"301.83"}
+    ,
+    {"code":"F60.4   ","name":"Trastorno de la personalidad histrinico","value":"301.50"}
+    ,
+    {"code":"F60.81  ","name":"Trastorno de la personalidad narcisista","value":"301.81"}
+    ,
+    {"code":"F60.6   ","name":"Trastorno de la personalidad por evitacin","value":"301.82"}
+    ,
+    {"code":"F60.7   ","name":"Trastorno de la personalidad dependiente","value":"301.6"}
+    ,
+    {"code":"F60.5   ","name":"Trastorno de la personalidadobsesivo-compulsivo","value":"301.4"}
+    ,
+    {"code":"F07.0   ","name":"Cambio de la personalidaddebido a otra afeccin mdica","value":"310.1"}
+    ,
+    {"code":"F60.89  ","name":"Otro trastorno de la personalidad especificado","value":"301.89"}
+    ,
+    {"code":"F60.9   ","name":"Trastorno de la personalidad no especificado","value":"301.9"}
+    ,
+    {"code":"F65.0  ","name":"Trastorno de fetichismo","value":"302.81"}
+    ,
+    {"code":"F65.81 ","name":"Trastorno de frotteurismo","value":"302.89"}
+    ,
+    {"code":"F65.4  ","name":"Trastorno de pedofilia","value":"302.2"}
+    ,
+    {"code":"F65.51 ","name":"Trastornode masoquismo sexual","value":"302.83"}
+    ,
+    {"code":"F65.52 ","name":"Trastorno de sadismo sexual","value":"302.84"}
+    ,
+    {"code":"F65.1  ","name":"Trastorno de travestismo","value":"302.3"}
+    ,
+    {"code":"F65.3  ","name":"Trastorno de voyeurismo","value":"302.82"}
+    ,
+    {"code":"F65.89 ","name":"Otro trastorno paraflico especificado","value":"302.89"}
+    ,
+    {"code":"F65.9  ","name":"Trastorno paraflico no especificado","value":"302.9"}
+    ,
+    {"code":"F05.0","name":"Delirium debido a otra condicin mdica","value":"293.0"}
+    ,
+    {"code":"F05    ","name":"Delirium debido a etiologas mltiples","value":"293.0"}
+    ,
+    {"code":"F05.9","name":"Delirium no especificado","value":""}
+    ,
+    {"code":"F00","name":"Demencia tipo Alzheimer","value":""}
+    ,
+    {"code":"F01","name":"Demencia vascular","value":"290.4"}
+    ,
+    {"code":"F02","name":"Demencia debida a otras enfermedades mdicas","value":""}
+    ,
+    {"code":"F03","name":"Demencia no especificada","value":""}
+    ,
+    {"code":"F04","name":"Trastorno amnsico debido a otra condicin mdica","value":"294.0"}
+    ,
+    {"code":"","name":"Trastorno amnsico no especificado","value":"294.8"}
+    ,
+    {"code":"F06.9","name":"Trastorno cognoscitivo no especificado","value":"249.9"}
+    ,
+    {"code":"F06.1","name":"Trastorno catatnico debido a otra condicin mdica","value":"293.89"}
+    ,
+    {"code":"F07.0","name":"Cambio de personalidad debido a otra  condicin mdica","value":"310.1"}
+    ,
+    {"code":"F09","name":"Trastorno mental no especificado debido a otra condicin mdica","value":"239.9"}
+    ,
+    {"code":"F1x.2x","name":"Dependencia de sustancias","value":""}
+    ,
+    {"code":"F1x.1","name":"Abuso de sustancias","value":""}
+    ,
+    {"code":"F1x.00","name":"Intoxicacin por sustancias","value":""}
+    ,
+    {"code":"F1x.3","name":"Abstinencia de sustancias","value":""}
+    ,
+    {"code":"F10.2x","name":"Dependencia del alcohol","value":"303.90"}
+    ,
+    {"code":"F10.1","name":"Abuso de alcohol","value":"305.00"}
+    ,
+    {"code":"F10.00","name":"Intoxicacin por alcohol","value":"303.00"}
+    ,
+    {"code":"F10.3","name":"Abstinencia de alcohol","value":"291.81"}
+    ,
+    {"code":"F10.03","name":"Delirium por intoxicacin por alcohol","value":"291.0"}
+    ,
+    {"code":"F10.4","name":"Delirium por abstinencia de alcohol","value":"291.0"}
+    ,
+    {"code":"F10.73","name":"Demencia persistente inducida por el alcohol","value":"291.2"}
+    ,
+    {"code":"F10.6","name":"Trastorno amnsico persistente inducido por alcohol","value":"291.1"}
+    ,
+    {"code":"F10.51","name":"Trastorno psictico inducido por alcohol: con ideas delirantes","value":"291.5"}
+    ,
+    {"code":"F10.52","name":"Trastorno psictico inducido por alcohol: con alucinaciones","value":"291.3"}
+    ,
+    {"code":"F10.8","name":"Trastorno del estado de nimo inducido por alcohol","value":"291.8"}
+    ,
+    {"code":"F10.8","name":"Trastorno del estado de ansiedad inducido por alcohol","value":"291.8"}
+    ,
+    {"code":"F10.8","name":"Trastorno sexual inducido por alcohol","value":"291.8"}
+    ,
+    {"code":"F10.8","name":"Trastorno de sueo inducido por alcohol","value":"291.8"}
+    ,
+    {"code":"F10.9","name":"Trastorno relacionado con el alcohol no especificado","value":"291.9"}
+    ,
+    {"code":"F16.2x","name":"Dependencia de alucingenos","value":"304.50"}
+    ,
+    {"code":"F16.1","name":"Abuso de alucingenos","value":"305.30"}
+    ,
+    {"code":"F16.00","name":"Intoxicacin por alucingenos","value":"292.89"}
+    ,
+    {"code":"F16.70","name":"Trastorno perceptivo persistente por alucingenos flashbacks","value":"292.89"}
+    ,
+    {"code":"F16.03","name":"Delirium por intoxicacin por alucingenos","value":"292.81"}
+    ,
+    {"code":"F16.51","name":"Trastorno psictico inducido por alucingenos: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F16.52","name":"Trastorno psictico inducido por alucingenos: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F16.8","name":"Trastorno del estado de nimo inducido por alucingenos","value":"292.84"}
+    ,
+    {"code":"F16.8","name":"Trastorno del estado de ansiedad inducido por alucingenos","value":"292.89"}
+    ,
+    {"code":"F16.9","name":"Trastorno relacionado con el alucingenos no especificado","value":"292.9"}
+    ,
+    {"code":"F15.2x","name":"Dependencia de anfetamina","value":"304.50"}
+    ,
+    {"code":"F15.1","name":"Abuso de anfetamina","value":"305.30"}
+    ,
+    {"code":"F15.00","name":"Intoxicacin por anfetamina","value":"292.89"}
+    ,
+    {"code":"F15.04","name":"Intoxicacin por anfetamina, con alteraciones perceptivas","value":""}
+    ,
+    {"code":"F15.3","name":"Abstinencia de anfetamina","value":"292.0"}
+    ,
+    {"code":"F15.03","name":"Delirium por intoxicacin por anfetamina","value":"292.81"}
+    ,
+    {"code":"F15.51","name":"Trastorno psictico inducido por anfetamina: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F15.52","name":"Trastorno psictico inducido por anfetamina: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F15.8","name":"Trastorno del estado de nimo inducido por anfetamina","value":"292.84"}
+    ,
+    {"code":"F15.8","name":"Trastorno de ansiedad inducido por anfetamina","value":"292.89"}
+    ,
+    {"code":"F15.8","name":"Trastorno sexual inducido por anfetamina","value":"292.89"}
+    ,
+    {"code":"F15.8","name":"Trastorno del sueo inducido por anfetamina","value":"292.89"}
+    ,
+    {"code":"F15.9","name":"Trastorno relacionado con anfetamina no especificado","value":"292.9"}
+    ,
+    {"code":"F15.00","name":"Intoxicacin por cafena","value":"305.90"}
+    ,
+    {"code":"F15.8","name":"Trastorno de ansiedad inducido por cafena","value":"292.89"}
+    ,
+    {"code":"F15.8","name":"Trastorno del sueo inducido por cafena","value":"292.89"}
+    ,
+    {"code":"F15.9","name":"Trastorno relacionado con cafena no especificado","value":"292.9"}
+    ,
+    {"code":"F12.2x","name":"Dependencia de Cannabis","value":"304.30"}
+    ,
+    {"code":"F12.1","name":"Abuso de Cannabis","value":"305.20"}
+    ,
+    {"code":"F12.00","name":"Intoxicacin por Cannabis","value":"292.89"}
+    ,
+    {"code":"F12.04","name":"Intoxicacin por Cannabis, con alteraciones perceptivas","value":""}
+    ,
+    {"code":"F12.03","name":"Delirium por intoxicacin por Cannabis","value":"292.81"}
+    ,
+    {"code":"F12.51","name":"Trastorno psictico inducido por Cannabis: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F12.52","name":"Trastorno psictico inducido por Cannabis: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F12.8","name":"Trastorno de ansiedad inducido por Cannabis","value":"292.89"}
+    ,
+    {"code":"F12.9","name":"Trastorno relacionado con Cannabis no especificado","value":"292.9"}
+    ,
+    {"code":"F14.2x","name":"Dependencia de cocana","value":"304.50"}
+    ,
+    {"code":"F14.1","name":"Abuso de cocana","value":"305.30"}
+    ,
+    {"code":"F14.00","name":"Intoxicacin por cocana","value":"292.89"}
+    ,
+    {"code":"F14.04","name":"Intoxicacin por cocana, con alteraciones perceptivas","value":""}
+    ,
+    {"code":"F14.3","name":"Abstinencia de cocana","value":"292.0"}
+    ,
+    {"code":"F14.03","name":"Delirium por intoxicacin por cocana","value":"292.81"}
+    ,
+    {"code":"F14.51","name":"Trastorno psictico inducido por cocana: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F14.52","name":"Trastorno psictico inducido por cocana: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F14.8","name":"Trastorno del estado de nimo inducido por cocana","value":"292.84"}
+    ,
+    {"code":"F14.8","name":"Trastorno de ansiedad inducido por cocana","value":"292.89"}
+    ,
+    {"code":"F14.8","name":"Trastorno sexual inducido por cocana","value":"292.89"}
+    ,
+    {"code":"F14.8","name":"Trastorno del sueo inducido por cocana","value":"292.89"}
+    ,
+    {"code":"F14.9","name":"Trastorno relacionado con cocana no especificado","value":"292.9"}
+    ,
+    {"code":"F19.2x","name":"Dependencia de fenciclidina","value":"304.60"}
+    ,
+    {"code":"F19.1","name":"Abuso de fenciclidina","value":"305.90"}
+    ,
+    {"code":"F19.00","name":"Intoxicacin por fenciclidina","value":"292.89"}
+    ,
+    {"code":"F19.04","name":"Intoxicacin por fenciclidina, con alteraciones perceptivas","value":""}
+    ,
+    {"code":"F19.03","name":"Delirium por intoxicacin por fenciclidina","value":"292.81"}
+    ,
+    {"code":"F19.51","name":"Trastorno psictico inducido por fenciclidina: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F19.52","name":"Trastorno psictico inducido por fenciclidina: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F19.8","name":"Trastorno del estado de nimo inducido por fenciclidina","value":"292.84"}
+    ,
+    {"code":"F19.8","name":"Trastorno de ansiedad inducido por fenciclidina","value":"292.89"}
+    ,
+    {"code":"F19.9","name":"Trastorno relacionado con fenciclidina no especificado","value":"292.9"}
+    ,
+    {"code":"F18.2x","name":"Dependencia de inhalantes","value":"304.60"}
+    ,
+    {"code":"F18.1","name":"Abuso de inhalantes","value":"305.90"}
+    ,
+    {"code":"F18.00","name":"Intoxicacin por inhalantes","value":"292.89"}
+    ,
+    {"code":"F18.03","name":"Delirium por intoxicacin por inhalantes","value":"292.81"}
+    ,
+    {"code":"F18.73","name":"Demencia persistente inducida por inhalantes","value":"292.82"}
+    ,
+    {"code":"F18.51","name":"Trastorno psictico inducido por inhalantes: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F18.52","name":"Trastorno psictico inducido por inhalantes: con alucinaciones","value":"292.12"}
+    ,
+    {"code":"F18.8","name":"Trastorno del estado de nimo inducido por inhalantes","value":"292.84"}
+    ,
+    {"code":"F18.8","name":"Trastorno de ansiedad inducido por inhalantes","value":"292.89"}
+    ,
+    {"code":"F18.9","name":"Trastorno relacionado con inhalantes no especificado","value":"292.9"}
+    ,
+    {"code":"F17.2x","name":"Dependencia de nicotina","value":"305.1"}
+    ,
+    {"code":"F17.3","name":"Abstinencia de nicotina","value":"292.0"}
+    ,
+    {"code":"F17.9","name":"Trastorno relacionado con nicotina no especificado","value":"292.9"}
+    ,
+    {"code":"F11.2x","name":"Dependencia de opiceos","value":"304.00"}
+    ,
+    {"code":"F11.1","name":"Abuso de opiceos","value":"305.50"}
+    ,
+    {"code":"F11.00","name":"Intoxicacin por opiceos","value":"292.89"}
+    ,
+    {"code":"F11.04","name":"Intoxicacin por opiceos, con alteraciones perceptivas","value":""}
+    ,
+    {"code":"F11.3","name":"Abstinencia de opiceos","value":"292.0"}
+    ,
+    {"code":"F11.03","name":"Delirium por intoxicacin por opiceos","value":"292.81"}
+    ,
+    {"code":"F11.51","name":"Trastorno psictico inducido por opiceos: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F11.52","name":"Trastorno psictico inducido por opiceos: con alucinaciones 29","value":"2.12"}
+    ,
+    {"code":"F11.8","name":"Trastorno del estado de nimo inducido por opiceos","value":"292.84"}
+    ,
+    {"code":"F11.8","name":"Trastorno sexual inducido por opiceos","value":"292.89"}
+    ,
+    {"code":"F11.8","name":"Trastorno del sueo inducido por opiceos","value":"292.89"}
+    ,
+    {"code":"F11.9","name":"Trastorno relacionado con opiceos no especificado","value":"292.9"}
+    ,
+    {"code":"F13.2x","name":"Dependencia de sedantes, hipnticos o ansiolticos","value":"304.10"}
+    ,
+    {"code":"F13.1","name":"Abuso de sedantes, hipnticos o ansiolticos","value":"305.40"}
+    ,
+    {"code":"F13.00","name":"Intoxicacin por sedantes, hipnticos o ansiolticos","value":"292.89"}
+    ,
+    {"code":"F13.3","name":"Abstinencia de sedantes, hipnticos o ansiolticos","value":"292.0"}
+    ,
+    {"code":"F13.03","name":"Delirium por intoxicacin por sedantes, hipnticos o ansiolticos","value":"292.81"}
+    ,
+    {"code":"F13.4","name":"Delirium por abstinencia de sedantes, hipnticos o ansiolticos","value":"292.81"}
+    ,
+    {"code":"F13.73","name":"Demencia persistente inducida por sedantes, hipnticos o ansiolticos","value":"292.82"}
+    ,
+    {"code":"F13.6","name":"Trastorno amnsico persistente inducido por sedantes, hipnticos o ansiolticos","value":"292.83"}
+    ,
+    {"code":"F13.51","name":"Trastorno psictico inducido por sedantes, hipnticos o ansiolticos: con ideas delirantes","value":"292.11"}
+    ,
+    {"code":"F13.52","name":"Trastorno psictico inducido por sedantes, hipnticos o ansiolticos: con alucinaciones","value":"292.12"}
+    
+    ]
+    
