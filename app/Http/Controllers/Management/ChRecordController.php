@@ -3552,7 +3552,10 @@ class ChRecordController extends Controller
     {
         
       $info = ChRecord::select(
-        //datos usuario
+
+        //'scope_of_attention.name AS type_attention',
+
+        //datos paciente
         'ITP.code AS patient_identification_type',
         'patients.identification AS patient_identification',
         'patients.firstname AS patient_firstname',                                 // 
@@ -3561,22 +3564,36 @@ class ChRecordController extends Controller
         'patients.middlelastname AS patient_middlelastname',
         'GP.code AS patient_gender',
         'patients.birthday AS patient_birthday',
+
         // datos contrato
         'company.name AS company',
+        'type_briefcase.code AS type_briefcase',     //plan
 
-        //datos medico
+        //datos suursal y personal asistencial
+        'company.id AS id_company',
         'users.firstname AS firstname_medical',                                 // 
         'users.middlefirstname AS middlefirstname_medical',
         'users.lastname AS lastname_medical',
         'users.middlelastname AS middlelastname_medical',
+        //'role.name AS role_medical',
+        //'specialty.name AS speciality_medical',
+        'specialty.id AS speciality_medical',
+        'assistance.medical_record AS number_professional_medical',
+
+
+
+
+        //'company.name AS name_company',
+        'company.identification AS identification_company',     
+
+        //datos medico
         'users.identification AS identification_medical',
-        'users.birthday AS birthday_medical',
         'IT.code AS identification_type_madical',
+        'users.birthday AS birthday_medical',
         'GN.code AS gender_medical',
-        // datos contrato
-        'type_briefcase.code AS type_briefcase',
         'IT.code AS assistential_id_code',
         'diagnosis.code AS diagnosis',
+
         //datos de contacto
         'patients.email AS email_patient',  
         'patients.residence_address AS address_patient', 
@@ -3589,22 +3606,32 @@ class ChRecordController extends Controller
 
       )
         ->where('ch_record.id', $chrecordid)
-        //datos relacionales usuario
+        //datos relacionales paciente
         ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
         ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
         ->leftJoin('identification_type AS ITP', 'ITP.id', 'patients.identification_type_id')
         ->leftJoin('gender AS GP', 'GP.id', 'patients.gender_id')
-        //datos relacionales contrato
+
+        //datos relacionales usuario
         ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
         ->leftJoin('company', 'company.id', 'contract.company_id')
         ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
         ->leftJoin('users', 'users.id', 'ch_record.user_id')
         ->leftJoin('identification_type AS IT', 'IT.id', 'users.identification_type_id')
         ->leftJoin('gender AS GN', 'GN.id', 'users.gender_id')
-        //datos relacionales cita medica
+        ->leftJoin('user_role', 'user_role.user_id', 'users.id')       
+        ->leftJoin('role', 'role.id', 'user_role.role_id')
+        ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+        ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+        ->leftJoin('specialty', 'specialty.id', 'assistance_special.specialty_id')
+
+        //datos relacionales cita medica0
         ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
+
         //datos relacionales de contacto
         ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
+        
+        ->where('role.role_type_id',2)
         ->groupBy('ch_record.id')
         ->get()->toarray()
         ;
