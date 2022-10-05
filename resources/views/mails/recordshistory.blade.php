@@ -19926,7 +19926,7 @@
                 <br>
                 <br>
                 <hr />
-                <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+                <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
             
                 @if($firm != null)
                 <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">
