@@ -16,13 +16,16 @@ class CreateChMedicalOrdersTable extends Migration
         Schema::create('ch_medical_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ambulatory_medical_order')->nullable();
-            $table->unsignedBigInteger('procedure_id');
-            $table->unsignedBigInteger('services_briefcase_id');
+            $table->unsignedBigInteger('procedure_id')->nullable();
+            $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->integer('amount');
             $table->unsignedTinyInteger('frequency_id');
             $table->string('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
-            $table->unsignedBigInteger('ch_record_id');
+            $table->unsignedBigInteger('ch_record_id')->nullable();
+
+            $table->unsignedBigInteger('admissions_id')->nullable();
+
             $table->timestamps();
 
             $table->index('procedure_id');
@@ -44,6 +47,10 @@ class CreateChMedicalOrdersTable extends Migration
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
+
+            $table->index('admissions_id');
+            $table->foreign('admissions_id')->references('id')
+                ->on('admissions');
         });
     }
 

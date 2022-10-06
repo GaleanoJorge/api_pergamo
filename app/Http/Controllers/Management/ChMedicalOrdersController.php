@@ -17,7 +17,7 @@ class ChMedicalOrdersController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChMedicalOrders = ChMedicalOrders::with('procedure','frequency');
+        $ChMedicalOrders = ChMedicalOrders::with('procedure', 'services_briefcase','frequency', 'admissions');
 
         if ($request->_sort) {
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
@@ -79,6 +79,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
+        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([
@@ -122,6 +123,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
+        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([
