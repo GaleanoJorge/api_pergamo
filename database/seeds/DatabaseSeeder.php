@@ -344,8 +344,5 @@ class DatabaseSeeder extends Seeder
                 $this->call(StayTypeSeeder::class);
                 $this->call(TechnologicalMediumSeeder::class);
 
-
-
-
         }
 }

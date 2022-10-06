@@ -321,7 +321,23 @@ class UserController extends Controller
         $users->where(function ($query) use ($request, $roles) {
             $first = true;
             foreach ($roles as $role) {
-                if ($role->role_id == 14 || $role->role_id == 7) {
+                // if ($role->role_id == 14 || $role->role_id == 7) {
+                //     $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                //     if ($first) {
+                //         $query->where('assistance_special.specialty_id', $specialty->specialty_id);
+                //         $first = false;
+                //     } else {
+                //         $query->orWhere('assistance_special.specialty_id', $specialty->specialty_id);
+                //     }
+                // } else {
+                //     if ($first) {
+                //         $query->where('user_role.role_id', $role->role_id);
+                //         $first = false;
+                //     } else {
+                //         $query->orWhere('user_role.role_id', $role->role_id);
+                //     }
+                // }
+                if ($role->role_id == 14/* || $role->role_id == 7*/) {
                     $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
                     $query->where('assistance_special.specialty_id', $specialty->specialty_id);
                 } else {

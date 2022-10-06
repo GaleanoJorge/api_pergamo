@@ -3940,8 +3940,7 @@ class ChRecordController extends Controller
         //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
         //     $ChRecord->firm_file = $path;
         // }
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
+        
 
         $mes = Carbon::now()->month;
 
@@ -3952,45 +3951,30 @@ class ChRecordController extends Controller
         $admissions = Admissions::find($admissions_id);
         $Location = Location::where('admissions_id', $admissions->id)->first();
         $user_id = $admissions->patient_id;
-        $locality = Patient::find($user_id)->locality_id;
-        $patient = Patient::find($user_id)->neighborhood_or_residence_id;
+        $locality = Patient::find($admissions->patient_id)->locality_id;
+        $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-
-        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-
+        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+            if (count($valuetariff) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                    'data' => ['ch_record' => $ChRecord],
+                ]);  
+            }
+        }
+        $ChRecord->date_finish = Carbon::now();
+        $ChRecord->save();
         if ($ChRecordExist->date_finish == '0000-00-00') {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();
             $assigned->save();
-
-            if (!$validate) {
-                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
-                //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
-                $AccountReceivable = new AccountReceivable;
-                $AccountReceivable->user_id = $request->user_id;
-                $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->save();
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $ManagementPlan->procedure_id;
-                $billActivity->account_receivable_id = $AccountReceivable->id;
-                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
-                $billActivity->ch_record_id = $id;
-                $billActivity->save();
-            } else {
-                $AccountReceivable = AccountReceivable::find($validate[0]['id']);
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $ManagementPlan->procedure_id;
-                $billActivity->account_receivable_id = $validate[0]['id'];
-                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
-                $billActivity->ch_record_id = $id;
-                $billActivity->save();
-            };
+            if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+            }
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
             if ($assistance) {
@@ -4032,6 +4016,18 @@ class ChRecordController extends Controller
                 if ($billActivity->status == 'RECHAZADO') {
                     $billActivity->status = 'REENVIADO';
                     $billActivity->save();
+                } else {
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                        }               
+                    }
+                }
+            } else {
+                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                        }               
                 }
             }
         }
@@ -4043,6 +4039,39 @@ class ChRecordController extends Controller
             'message' => 'Registro paciente actualizado exitosamente',
             'data' => ['ch_record' => $ChRecord],
         ]);
+    }
+
+    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff) {
+        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (!$validate) {
+                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
+                //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $request->user_id;
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->save();
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $AccountReceivable->id;
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            } else {
+                $AccountReceivable = AccountReceivable::find($validate[0]['id']);
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $validate[0]['id'];
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            };
+        }
     }
 
     public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
@@ -4059,12 +4088,13 @@ class ChRecordController extends Controller
         }
         if ($ManagementPlan->type_of_attention_id == 17) {
             $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
-                ->whereNull('assigned_management_plan.redo')
+                ->where('assigned_management_plan.redo', 0)
                 ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
                 ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
                 ->where('management_plan.admissions_id', $admissions_id)
                 ->where('management_plan.type_of_attention_id', 17)
                 ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                ->groupBy('assigned_management_plan.id')
                 ->get()->toArray();
             $validate = array();
 
@@ -4122,8 +4152,8 @@ class ChRecordController extends Controller
                     $valuetariff->where('failed', 0);
                 }
                 if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                    if ($ManagementPlan->quantity && $ManagementPlan->quantity != 0) {
-                        $valuetariff->where('quantity', $ManagementPlan->quantity);
+                    if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                        $valuetariff->where('quantity', $ManagementPlan->hours);
                     }
                 } else {
                     $valuetariff->whereNull('quantity');
@@ -4178,24 +4208,48 @@ class ChRecordController extends Controller
     {
         
       $info = ChRecord::select(
-        //datos usuario
-        'patients.firstname AS firstname',                                 // 
-        'patients.middlefirstname AS middlefirstname',
-        'patients.lastname AS lastname',
-        'patients.middlelastname AS middlelastname',
-        'patients.identification AS identification',
-        'patients.birthday AS birthday',
-        'identification_type.code AS identification_type',
-        'gender.name AS gender',
+
+        //'scope_of_attention.name AS type_attention',
+
+        //datos paciente
+        'ITP.code AS patient_identification_type',
+        'patients.identification AS patient_identification',
+        'patients.firstname AS patient_firstname',                                 // 
+        'patients.middlefirstname AS patient_middlefirstname',
+        'patients.lastname AS patient_lastname',
+        'patients.middlelastname AS patient_middlelastname',
+        'GP.code AS patient_gender',
+        'patients.birthday AS patient_birthday',
+
         // datos contrato
-        'company_type.code AS company',
-        'type_briefcase.code AS type_briefcase',
+        'company.name AS company',
+        'type_briefcase.code AS type_briefcase',     //plan
+
+        //datos suursal y personal asistencial
+        'company.id AS id_company',
+        'users.firstname AS firstname_medical',                                 // 
+        'users.middlefirstname AS middlefirstname_medical',
+        'users.lastname AS lastname_medical',
+        'users.middlelastname AS middlelastname_medical',
+        //'role.name AS role_medical',
+        //'specialty.name AS speciality_medical',
+        'specialty.id AS speciality_medical',
+        'assistance.medical_record AS number_professional_medical',
+
+
+
+
+        //'company.name AS name_company',
+        'company.identification AS identification_company',     
+
+        //datos medico
+        'users.identification AS identification_medical',
+        'IT.code AS identification_type_madical',
+        'users.birthday AS birthday_medical',
+        'GN.code AS gender_medical',
         'IT.code AS assistential_id_code',
-        'patients.identification AS identification',
         'diagnosis.code AS diagnosis',
-        //datos profesional que atiende
-        'ITP.code AS assistential_id_code',
-        'ID.code AS assistential_id_name',
+
         //datos de contacto
         'patients.email AS email_patient',  
         'patients.residence_address AS address_patient', 
@@ -4208,29 +4262,38 @@ class ChRecordController extends Controller
 
       )
         ->where('ch_record.id', $chrecordid)
-        //datos relacionales usuario
+        //datos relacionales paciente
         ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
         ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-        ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-        //->leftJoin('identification', 'identification.id', 'patients.identification')
-        ->leftJoin('gender', 'gender.id', 'patients.gender_id')
-        //datos relacionales contrato
-        ->leftJoin('company', 'company.id', 'company_type.company_type_id')
+        ->leftJoin('identification_type AS ITP', 'ITP.id', 'patients.identification_type_id')
+        ->leftJoin('gender AS GP', 'GP.id', 'patients.gender_id')
+
+        //datos relacionales usuario
+        ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+        ->leftJoin('company', 'company.id', 'contract.company_id')
         ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
         ->leftJoin('users', 'users.id', 'ch_record.user_id')
         ->leftJoin('identification_type AS IT', 'IT.id', 'users.identification_type_id')
-        //datos relacionales cita medica
+        ->leftJoin('gender AS GN', 'GN.id', 'users.gender_id')
+        ->leftJoin('user_role', 'user_role.user_id', 'users.id')       
+        ->leftJoin('role', 'role.id', 'user_role.role_id')
+        ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+        ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+        ->leftJoin('specialty', 'specialty.id', 'assistance_special.specialty_id')
+
+        //datos relacionales cita medica0
         ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
-        //datos relacionales profesional que atiende
-        ->leftJoin('identification_type AS ITP', 'ITP.id', 'users.identification_type_id')
-        ->leftJoin('identification AS ID', 'ID.id', 'users.identification')
+
         //datos relacionales de contacto
         ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
+        
+        ->where('role.role_type_id',2)
         ->groupBy('ch_record.id')
         ->get()->toarray()
         ;
 
-        $info[0]['gender'] = $this->getGender($info[0]['gender']);
+        $info[0]['patient_gender'] = $this->getGender($info[0]['patient_gender']);
+        $info[0]['gender_medical'] = $this->getGender($info[0]['gender_medical']);
         $info[0]['company'] = $this->getCompany($info[0]['company']);
 
         return $info;

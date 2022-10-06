@@ -45,7 +45,7 @@ class ChNursingNoteController extends Controller
         ]);
     }
 
-            /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -54,20 +54,20 @@ class ChNursingNoteController extends Controller
      */
     public function getByRecord(Request $request, int $id, int $type_record): JsonResponse
     {
-       
+
         $ChNursingNote = ChNursingNote::select('ch_nursing_note.*')
             ->where('ch_record_id', $id)
             ->where('type_record_id', $type_record);
 
 
-            if ($request->query("pagination", true) == "false") {
-                $ChNursingNote = $ChNursingNote->get()->toArray();
-            } else {
-                $page = $request->query("current_page", 1);
-                $per_page = $request->query("per_page", 10);
-    
-                $ChNursingNote = $ChNursingNote->paginate($per_page, '*', 'page', $page);
-            }
+        if ($request->query("pagination", true) == "false") {
+            $ChNursingNote = $ChNursingNote->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChNursingNote = $ChNursingNote->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -79,27 +79,17 @@ class ChNursingNoteController extends Controller
 
     public function store(Request $request)
     {
-        $validate = ChNursingNote::select('ch_nursing_note.*')
-            ->where('ch_record_id', $request->ch_record_id)
-            ->where('type_record_id', $request->type_record_id)->first();
-        if (!$validate) {
-            $ChNursingNote = new ChNursingNote;
-            $ChNursingNote->observation = $request->observation;
-            $ChNursingNote->type_record_id = $request->type_record_id;
-            $ChNursingNote->ch_record_id = $request->ch_record_id;
-            $ChNursingNote->save();
+        $ChNursingNote = new ChNursingNote;
+        $ChNursingNote->observation = $request->observation;
+        $ChNursingNote->type_record_id = $request->type_record_id;
+        $ChNursingNote->ch_record_id = $request->ch_record_id;
+        $ChNursingNote->save();
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Nota de enfermeria creada exitosamente',
-                'data' => ['ch_nursing_note' => $ChNursingNote->toArray()]
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
-        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Nota de enfermeria creada exitosamente',
+            'data' => ['ch_nursing_note' => $ChNursingNote->toArray()]
+        ]);
     }
 
     /**
