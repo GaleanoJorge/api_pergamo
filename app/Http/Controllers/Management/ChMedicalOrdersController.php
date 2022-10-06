@@ -23,6 +23,14 @@ class ChMedicalOrdersController extends Controller
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->id) {
+            $ChMedicalOrders->where('ch_medical_orders.id', $request->id);
+        }
+
+        if ($request->admissions_id) {
+            $ChMedicalOrders->where('ch_medical_orders.admissions_id', $request->admissions_id);
+        }
+
         if ($request->search) {
             $ChMedicalOrders->where('name', 'like', '%' . $request->search . '%');
         }

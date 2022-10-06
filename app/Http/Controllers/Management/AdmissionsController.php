@@ -11,6 +11,7 @@ use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\BillingPad;
 use App\Models\Briefcase;
+use App\Models\ChMedicalOrders;
 use App\Models\LogAdmissions;
 use App\Models\Patient;
 use App\Models\Reference;
@@ -46,11 +47,12 @@ class AdmissionsController extends Controller
                 'location.scope_of_attention',
                 'location.program',
                 'diagnosis',
+                'regime',
             );
         if ($request->admissions_id) {
-            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+            $Admissions->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
         } else {
-            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc');
+            $Admissions->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -573,6 +575,12 @@ class AdmissionsController extends Controller
                     $BillingPad->total_value = 0;
                     $BillingPad->save();
                 }
+
+                $ChMedicalOrders = new ChMedicalOrders;
+                $ChMedicalOrders->ambulatory_medical_order = true;
+                $ChMedicalOrders->services_briefcase_id = $request->procedure_id;
+                $ChMedicalOrders->admissions_id = $Admissions->id;
+                $ChMedicalOrders->save();
             }
 
             // if ($Admissions->procedure_id) {

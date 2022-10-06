@@ -18,10 +18,10 @@ class CreateChMedicalOrdersTable extends Migration
             $table->string('ambulatory_medical_order')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
-            $table->integer('amount');
-            $table->unsignedTinyInteger('frequency_id');
+            $table->integer('amount')->nullable();
+            $table->unsignedTinyInteger('frequency_id')->nullable();
             $table->string('observations')->nullable();
-            $table->unsignedBigInteger('type_record_id');
+            $table->unsignedBigInteger('type_record_id')->nullable();
             $table->unsignedBigInteger('ch_record_id')->nullable();
 
             $table->unsignedBigInteger('admissions_id')->nullable();
