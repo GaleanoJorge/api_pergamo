@@ -35,7 +35,7 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
                         <p> Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
@@ -2862,7 +2862,7 @@
     <tr style="height:11.95pt">
         <td style="width:130pt; vertical-align:top">
     <div>
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
     
         @if($firm != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">

@@ -36,7 +36,7 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
                         <p>Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
@@ -342,7 +342,7 @@
                         </td>
                         <td style="width:80pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                <span style="font-family:Calibri">@if(isset($ch['areas'])) {{$ch['areas'] }} @endisset </span>
+                                <span style="font-family:Calibri">@if(isset($ch['areas'])) {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['areas']))}} @endisset </span>
                             </p>
                         </td>
                     </tr>                         
@@ -454,7 +454,7 @@
                     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['attitude'])) ACTITUD: </b>{{$ch['attitude']}} @endisset  <br/>
+                        <b>@if(isset($ch['attitude'])) ACTITUD: </b> {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['attitude']))}} @endisset  <br/>
                         <b>@if(isset($ch['att_observations'])) OBSERVACIONES: </b>{{$ch['att_observations']}} @endisset </span> <br/>
                     </p>
 
@@ -468,24 +468,24 @@
                         <span style="font-family:Calibri; font-size:9pt">
                         <b>@if(isset($ch['ch_ps_sleep'])) SUEÑO: </b>{{$ch['ch_ps_sleep']['name']}} @endisset <br/>
                         @if(($ch['ch_ps_sleep']) == 9 )
-                        <b>@if(isset($ch['exam_others'])) OTROS: </b>{{$ch['exam_others']}} @endisset  <br/>
+                        <b>@if(isset($ch['exam_others'])) OTROS: </b> {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['exam_others']))}} @endisset  <br/>
                         @endisset    
                         <b>@if(isset($ch['sl_observations'])) OBSERVACIONES: </b>{{$ch['sl_observations']}} @endisset </span> <br/>
                     </p>
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['sexuality'])) SEXUALIDAD: </b>{{$ch['sexuality']}} @endisset <br/>
+                        <b>@if(isset($ch['sexuality'])) SEXUALIDAD: </b> {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['sexuality']))}}  @endisset <br/>
                         <b>@if(isset($ch['sex_observations'])) OBSERVACIONES: </b>{{$ch['sex_observations']}} @endisset </span> <br/>
                     </p>
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['feeding'])) ALIMENTACIÓN: </b>{{$ch['feeding']}} @endisset  <br/>
+                        <b>@if(isset($ch['feeding'])) ALIMENTACIÓN: </b>{{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['feeding']))}} @endisset  <br/>
                         <b>@if(isset($ch['fee_observations'])) OBSERVACIONES: </b>{{$ch['fee_observations']}} @endisset </span> <br/>
                     </p>
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['excretion'])) EXCRECIÓN: </b>{{$ch['excretion']}} @endisset <br/>
+                        <b>@if(isset($ch['excretion'])) EXCRECIÓN: </b>{{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['excretion']))}} @endisset <br/>
                         <b>@if(isset($ch['ex_observations'])) OBSERVACIONES: </b>{{$ch['ex_observations']}} @endisset </span> <br/>
                     </p>
 
@@ -521,13 +521,13 @@
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['memory'])) MEMORIA: </b>{{$ch['memory']}} @endisset <br/>
+                        <b>@if(isset($ch['memory'])) MEMORIA: </b>{{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['memory']))}} @endisset <br/>
                         <b>@if(isset($ch['me_observations'])) OBSERVACIONES: </b>{{$ch['me_observations']}} @endisset </span> <br/>
                     </p>
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['perception'])) SENSIPERCEPCIÓN: </b>{{$ch['perception']}} @endisset  <br/>
+                        <b>@if(isset($ch['perception'])) SENSIPERCEPCIÓN: </b> {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['perception']))}}  @endisset  <br/>
                         <b>@if(isset($ch['per_observations'])) OBSERVACIONES: </b>{{$ch['per_observations']}} @endisset </span> <br/>
                     </p>
 
@@ -948,7 +948,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['psychomotric'])) PSICOMOTRICIDAD: </b>{{$ch['psychomotric']}} @endisset  <br/>
+                    <b>@if(isset($ch['psychomotric'])) PSICOMOTRICIDAD: </b>{{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['psychomotric']))}} @endisset  <br/>
                     <b>@if(isset($ch['observations_psy'])) OBSERVACIONES: </b>{{$ch['observations_psy']}} @endisset </span> <br/>
                 </p>
 
@@ -1167,7 +1167,7 @@
                             </td>
                             <td style="width:80pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['areas'])) {{$ch['areas'] }} @endisset </span>
+                                    <span style="font-family:Calibri">@if(isset($ch['areas'])) {{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['areas']))}}  @endisset </span>
                                 </p>
                             </td>
                         </tr>                         
@@ -1296,7 +1296,7 @@
                             </td>
                             <td style="width:100pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['appearance'])) {{$ch['attitude']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['appearance'])){{str_replace(',',', ',str_replace(['[', ']', '"'],'', $ch['attitude']))}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -1378,7 +1378,7 @@
     <tr style="height:11.95pt">
         <td style="width:130pt; vertical-align:top">
     <div>
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
     
         @if($firm != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">

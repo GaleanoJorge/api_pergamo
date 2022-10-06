@@ -51,6 +51,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
 use App\Models\CostCenter;
+use App\Models\LogAdmissions;
 use App\Models\Specialty;
 use App\Models\TypeProfessional;
 use App\Models\Residence;
@@ -1078,6 +1079,11 @@ class PatientController extends Controller
                 $patients->file = $path;
             }
             $patients->save();
+            $LogAdmissions = new LogAdmissions;
+            $LogAdmissions->user_id = Auth::user()->id;;
+            $LogAdmissions->patient_id = $patients->id; 
+            $LogAdmissions->status ='Paciente creado';
+            $LogAdmissions->save();
 
             $ref = Reference::where('identification', $patients->identification)
                 ->whereNull('patient_id')
@@ -1217,6 +1223,11 @@ class PatientController extends Controller
             $patients->gender_type = $request->gender_type;
         }
         $patients->save();
+        $LogAdmissions = new LogAdmissions;
+        $LogAdmissions->user_id = Auth::user()->id;;
+        $LogAdmissions->patient_id = $patients->id; 
+        $LogAdmissions->status ='Paciente actualizado';
+        $LogAdmissions->save();
 
         DB::commit();
 
