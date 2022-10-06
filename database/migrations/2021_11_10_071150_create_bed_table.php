@@ -20,14 +20,20 @@ class CreateBedTable extends Migration
             $table->unsignedBigInteger('status_bed_id');
             $table->Integer('bed_or_office');
             $table->unsignedBigInteger('pavilion_id');
+            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->timestamps();
+
+            $table->index('procedure_id');
+            $table->foreign('procedure_id')->references('id')
+                ->on('procedure');
 
             $table->index('status_bed_id');
             $table->foreign('status_bed_id')->references('id')
-            ->on('status_bed');
+                ->on('status_bed');
+
             $table->index('pavilion_id');
             $table->foreign('pavilion_id')->references('id')
-            ->on('pavilion');
+                ->on('pavilion');
         });
     }
 

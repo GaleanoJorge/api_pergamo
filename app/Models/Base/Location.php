@@ -18,6 +18,7 @@ use App\Models\Pavilion;
 use App\Models\Flat;
 use App\Models\Bed;
 use App\Models\Contract;
+use App\Models\Procedure;
 use App\Models\ScopeOfAttention;
 
 
@@ -32,6 +33,7 @@ use App\Models\ScopeOfAttention;
  * @property BigInteger $pavilion_id
  * @property BigInteger $flat_id
  * @property BigInteger $bed_id
+ * @property BigInteger $procedure_id
  * @property BigInteger $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -64,6 +66,11 @@ class Location extends Model
 	public function bed()
 	{
 		return $this->belongsTo(Bed::class);
+	}
+
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class);
 	}
 
 	public function scope_of_attention()

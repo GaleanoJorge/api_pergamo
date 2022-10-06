@@ -32,6 +32,7 @@ class CreateAuthorizationTable extends Migration
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('supplies_com_id')->nullable();
             $table->unsignedBigInteger('product_com_id')->nullable();
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->string('file_auth')->nullable();
             $table->timestamps();
 
@@ -66,6 +67,10 @@ class CreateAuthorizationTable extends Migration
             $table->index('product_com_id');
             $table->foreign('product_com_id')->references('id')
                 ->on('product');
+
+            $table->index('location_id');
+            $table->foreign('location_id')->references('id')
+                ->on('location');
 
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')

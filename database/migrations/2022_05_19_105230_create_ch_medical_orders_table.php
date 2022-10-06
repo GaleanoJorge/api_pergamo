@@ -17,16 +17,21 @@ class CreateChMedicalOrdersTable extends Migration
             $table->bigIncrements('id');
             $table->string('ambulatory_medical_order')->nullable();
             $table->unsignedBigInteger('procedure_id');
+            $table->unsignedBigInteger('services_briefcase_id');
             $table->integer('amount');
             $table->unsignedTinyInteger('frequency_id');
             $table->string('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
-            
+
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')
                 ->on('procedure');
+
+            $table->index('services_briefcase_id');
+            $table->foreign('services_briefcase_id')->references('id')
+                ->on('services_briefcase');
 
             $table->index('frequency_id');
             $table->foreign('frequency_id')->references('id')
@@ -35,7 +40,7 @@ class CreateChMedicalOrdersTable extends Migration
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                 ->on('type_record');
-                
+
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
