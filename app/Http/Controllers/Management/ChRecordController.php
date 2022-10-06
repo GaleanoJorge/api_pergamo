@@ -921,7 +921,7 @@ class ChRecordController extends Controller
             // 'assistance_supplies.application_hour',
         )->where('id', $id)->get()->toArray();
         $imagenComoBase64 = null;
-        $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
+        $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->setTimezone('America/Bogota');
 
         if ($ChRecord[0]['firm_file']) {
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
