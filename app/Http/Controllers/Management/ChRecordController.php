@@ -500,7 +500,8 @@ class ChRecordController extends Controller
         //Ordenes Médicas
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
-            'frequency'
+            'frequency',
+            'services_briefcase',
         )
             ->where('id', $id)->get()->toArray();
 
@@ -1044,7 +1045,8 @@ class ChRecordController extends Controller
             //Ordenes Médicas
             $ChMedicalOrders = ChMedicalOrders::with(
                 'procedure',
-                'frequency'
+                'frequency',
+                'services_briefcase',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
@@ -2382,7 +2384,8 @@ class ChRecordController extends Controller
                     //Ordenes Médicas
                     $ChMedicalOrders = ChMedicalOrders::with(
                         'procedure',
-                        'frequency'
+                        'frequency',  
+                        'services_briefcase',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Interconsulta
