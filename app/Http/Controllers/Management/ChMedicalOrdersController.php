@@ -17,7 +17,13 @@ class ChMedicalOrdersController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChMedicalOrders = ChMedicalOrders::with('procedure', 'services_briefcase','frequency', 'admissions');
+        $ChMedicalOrders = ChMedicalOrders::with(
+            'procedure', 
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
+            'frequency', 
+            'admissions');
 
         if ($request->_sort) {
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
@@ -57,7 +63,8 @@ class ChMedicalOrdersController extends Controller
        
         $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)
         ->where('type_record_id',$type_record_id)
-        ->with('procedure','frequency')
+        ->with('procedure','frequency','services_briefcase', 'services_briefcase.manual_price',
+        'services_briefcase.manual_price.procedure',)
             ->get()->toArray();
         
 
@@ -74,6 +81,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders = new ChMedicalOrders;
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
+        $ChMedicalOrders->services_briefcase_id = $request->services_briefcase_id;
         $ChMedicalOrders->amount = $request->amount;
         $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;
@@ -118,6 +126,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders = ChMedicalOrders::find($id);
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
+        $ChMedicalOrders->services_briefcase_id = $request->services_briefcase_id;
         $ChMedicalOrders->amount = $request->amount;
         $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;

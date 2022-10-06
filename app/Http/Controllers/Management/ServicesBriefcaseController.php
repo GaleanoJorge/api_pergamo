@@ -18,7 +18,7 @@ class ServicesBriefcaseController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ServicesBriefcase = ServicesBriefcase::with('manual_price.patient');
+        $ServicesBriefcase = ServicesBriefcase::with('manual_price.patient', 'manual_price.procedure' );
 
         if ($request->_sort) {
             $ServicesBriefcase->orderBy($request->_sort, $request->_order);
