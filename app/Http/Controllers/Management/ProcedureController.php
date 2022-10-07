@@ -24,6 +24,11 @@ class ProcedureController extends Controller
     {
         $Procedures = Procedure::select('procedure.*');
 
+        if($request->assistance_id){
+            $Procedures->leftJoin('assistance_procedure', 'procedure.id', 'assistance_procedure.procedure_id')
+                ->where('assistance_id', $request->assistance_id);
+        }
+
         if ($request->_sort) {
             $Procedures->orderBy($request->_sort, $request->_order);
         }
