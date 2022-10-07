@@ -357,15 +357,7 @@ class ManagementPlanController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        // $Authorization = new Authorization;
-        // $Authorization->procedure_id =  $request->procedure_id;
-        // $Authorization->admissions_id =  $request->admissions_id;
-        // if ($request->type_auth == 1) {
-        //     $Authorization->auth_status_id =  2;
-        // } else {
-        //     $Authorization->auth_status_id =  1;
-        // }
-        // $Authorization->save();
+
         $TypeContract = TypeContract::select('type_contract.*')
             ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
             ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
