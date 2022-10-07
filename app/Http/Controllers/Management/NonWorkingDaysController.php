@@ -48,16 +48,26 @@ class NonWorkingDaysController extends Controller
 
     public function store(NonWorkingDaysRequest $request): JsonResponse
     {
-        $non_working_days = new NonWorkingDays;
-        $non_working_days->day = $request->day; 
-        $non_working_days->description = $request->description; 
-        $non_working_days->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Dia no laboral creado exitosamente',
-            'data' => ['non_working_days' => $non_working_days->toArray()]
-        ]);
+        $validate = NonWorkingDays::select('non_working_days.*')
+            ->where('day',$request->day)->get()->toArray();
+        if(sizeof($validate) > 0){
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya existe registro',
+                // 'data' => ['non_working_days' => $non_working_days->toArray()]
+            ]);
+        } else {
+            $non_working_days = new NonWorkingDays;
+            $non_working_days->day = $request->day; 
+            $non_working_days->description = $request->description; 
+            $non_working_days->save();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Dia no laboral creado exitosamente',
+                'data' => ['non_working_days' => $non_working_days->toArray()]
+            ]);
+        }
     }
 
     /**
