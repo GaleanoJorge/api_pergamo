@@ -138,7 +138,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
     }
 
-
     public function deliveries()
     {
         return $this->hasMany(Delivery::class);
@@ -160,5 +159,10 @@ class User extends Authenticatable implements JWTSubject
     public function user_agreement()
     {
         return $this->hasMany(UserAgreement::class);
+    }
+
+    public function assistance_procedure()
+    {
+        return $this->hasMany(AssistanceProcedure::class);
     }
 }
