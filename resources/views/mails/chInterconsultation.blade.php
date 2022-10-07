@@ -271,9 +271,7 @@
 
         @if(count($ChInterconsultation) > 0)
 
-        <hr />
-
-        <hr />
+        <hr/>
 
         <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
             INTERCONSULTA<br>
@@ -325,7 +323,7 @@
 <div style="display: flex">
     <div style="width: 100%">
         <hr/>
-        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PROFESIONAL TRABAJO SOCIAL </b> </span>
+        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PERSONAL ASISTENCIAL </b> </span>
     
         @if($firm != null)
             <p style="margin-top:15pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt;">
