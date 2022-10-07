@@ -13,7 +13,8 @@ class SpecialtyController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $specialtys = Specialty::with('status');
+        $specialtys = Specialty::select('specialty.*')
+            ->with('status');
 
         if($request->_sort){
             $specialtys->orderBy($request->_sort, $request->_order);
@@ -29,6 +30,12 @@ class SpecialtyController extends Controller
         
         if ($request->status_id) {
             $specialtys->where('status_id', $request->status_id);
+        }
+
+        if($request->assistance){
+            $specialtys->leftJoin('assistance_special', 'specialty.id', 'assistance_special.specialty_id')
+                ->WhereNotNull('assistance_special.assistance_id')
+                ->groupBy('name');
         }
         
         if($request->query("pagination", true)=="false"){
