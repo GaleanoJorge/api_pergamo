@@ -1097,7 +1097,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
     Route::get('ch_r_n_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNValorationOTController@getByRecord');
-    
+
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::get('ch_e_occ_history_o_t/by_record/{id}/{type_record_id}', 'Management\ChEOccHistoryOTController@getByRecord');
 
@@ -1155,7 +1155,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
     Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
 
-    
+
 
     Route::apiResource('fixed_nom_product', 'Management\FixedNomProductController');
     Route::get(
@@ -1690,4 +1690,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //non-working days
     Route::apiResource('non_working_days', 'Management\NonWorkingDaysController');
+
+    //medical diary days
+    Route::apiResource('medical_diary_days', 'Management\MedicalDiaryDaysController');
+
+    //Estados de la cita medica
+    Route::apiResource('medical_status', 'Management\MedicalStatusController');
 });
