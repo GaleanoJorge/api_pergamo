@@ -9,6 +9,8 @@ namespace App\Models\Base;
 use App\Models\Assistance;
 use App\Models\Bed;
 use App\Models\MedicalDiaryDays;
+use App\Models\Procedure;
+use App\Models\Process;
 use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -60,5 +62,10 @@ class MedicalDiary extends Model
 	public function  medical_diary_days()
 	{
 		return $this->hasMany(MedicalDiaryDays::class,'medical_diary_id','id');
+	}
+
+	public function  procedure()
+	{
+		return $this->belongsTo(Procedure::class,'procedure_id','id');
 	}
 }
