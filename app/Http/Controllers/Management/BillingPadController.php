@@ -133,7 +133,7 @@ class BillingPadController extends Controller
     {
         $BillingPad = new BillingPad;
         $BillingPad->total_value = 0;
-        $BillingPad->validation_date = Carbon::now();
+        $BillingPad->validation_date = Carbon::now()->setTimezone('America/Bogota');
         $BillingPad->billing_pad_status_id = 1;
         $BillingPad->admissions_id = $request->admissions_id;
         $BillingPad->billing_pad_pgp_id = null;
@@ -210,8 +210,8 @@ class BillingPadController extends Controller
      */
     public function generatePgpBilling(Request $request, int $contract_id): JsonResponse
     {
-        $firstDateLastMonth = Carbon::now()->startOfMonth();
-        $lastDateLastMonth = Carbon::now()->endOfMonth();
+        $firstDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->startOfMonth();
+        $lastDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->endOfMonth();
 
         $checkBillingPgp = BillingPadPgp::where('contract_id', $contract_id)
             ->whereBetween('validation_date', [$firstDateLastMonth, $lastDateLastMonth])
@@ -232,7 +232,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>=', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now()->setTimezone('America/Bogota'))
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
@@ -262,8 +262,8 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
             $BillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $BillingPadPgp->consecutive = $consecutive;
-            $BillingPadPgp->validation_date = Carbon::now();
-            $BillingPadPgp->facturation_date = Carbon::now();
+            $BillingPadPgp->validation_date = Carbon::now()->setTimezone('America/Bogota');
+            $BillingPadPgp->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPadPgp->save();
 
             $this->generateBillingDat(2, $BillingPadPgp->id);
@@ -297,6 +297,7 @@ class BillingPadController extends Controller
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e->getMessage(),
+                'n' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -421,7 +422,7 @@ class BillingPadController extends Controller
             $billing_pad_pgp = BillingPadPgp::where('id', $request->billing_pad_pgp_id)->get()->first();
             $BillingPad = BillingPad::where('billing_pad_pgp_id', $request->billing_pad_pgp_id)
                 ->where('admissions_id', $admission_id)
-                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->startOfMonth(), Carbon::createFromFormat('Y-m-d', $billing_pad_pgp->validation_date)->endOfMonth()])
+                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::createFromFormat('Y-m-d', $billing_pad_pgp->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
                 ->get()->first();
         }
 
@@ -452,7 +453,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
             $eventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -479,7 +480,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -520,7 +521,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
             $MedicamentosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -546,7 +547,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -588,7 +589,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
             $InsumosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -614,7 +615,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -676,7 +677,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -745,7 +746,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorizationpackages);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorizationpackages);
                     } else {
                         array_push($AlreadyBilling, $Authorizationpackages);
@@ -1164,7 +1165,7 @@ class BillingPadController extends Controller
             $billing_pad_pgp = BillingPadPgp::where('id', $request->billing_pad_pgp_id)->get()->first();
             $BillingPad = BillingPad::where('billing_pad_pgp_id', $request->billing_pad_pgp_id)
                 ->where('admissions_id', $admission_id)
-                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->startOfMonth(), Carbon::parse($billing_pad_pgp->validation_date)->endOfMonth()])
+                ->whereBetween('validation_date', [Carbon::parse($billing_pad_pgp->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($billing_pad_pgp->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
                 ->get()->first();
         }
 
@@ -1199,7 +1200,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
         // $AlreadyBilling = []; // COSAS FACTURADAS
@@ -1250,7 +1251,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
@@ -1298,7 +1299,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
@@ -1884,7 +1885,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>=', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now()->setTimezone('America/Bogota'))
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
@@ -1952,7 +1953,7 @@ class BillingPadController extends Controller
             $BillingPad = BillingPad::where('id', $id)->first();
             $BillingPad->billing_pad_status_id = 2;
             $BillingPad->total_value = $total_value;
-            $BillingPad->facturation_date = Carbon::now();
+            $BillingPad->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPad->consecutive = $consecutive;
             $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
@@ -1975,6 +1976,7 @@ class BillingPadController extends Controller
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e->getMessage(),
+                'n' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -1993,7 +1995,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>=', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now()->setTimezone('America/Bogota'))
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
@@ -2022,8 +2024,8 @@ class BillingPadController extends Controller
             $NCBillingPad->total_value = $BillingPad->total_value;
             $NCBillingPad->admissions_id = $BillingPad->admissions_id;
             $NCBillingPad->billing_pad_pgp_id = $BillingPad->billing_pad_pgp_id;
-            $NCBillingPad->validation_date = Carbon::now();
-            $NCBillingPad->facturation_date = Carbon::now();
+            $NCBillingPad->validation_date = Carbon::now()->setTimezone('America/Bogota');
+            $NCBillingPad->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPad->consecutive = $consecutive;
             $NCBillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $NCBillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
@@ -2051,8 +2053,8 @@ class BillingPadController extends Controller
             )
                 ->where('billing_pad_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
-                if ($conponent['authorization']['services_briefcase']['location_id']) {
-                    $Location = Location::find($conponent['authorization']['services_briefcase']['location_id']);
+                if ($conponent['authorization']['location_id']) {
+                    $Location = Location::find($conponent['authorization']['location_id']);
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
                         $Auth_A = Authorization::find($conponent['authorization_id']);
                         $Auth_B = new Authorization;
@@ -2113,6 +2115,7 @@ class BillingPadController extends Controller
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e->getMessage(),
+                'n' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2132,7 +2135,7 @@ class BillingPadController extends Controller
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_credit_note_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
-            ->where('expiracy_date', '>=', Carbon::now())
+            ->where('expiracy_date', '>=', Carbon::now()->setTimezone('America/Bogota'))
             ->get()->first();
 
         if (!$BillingPadConsecutive) {
@@ -2163,8 +2166,8 @@ class BillingPadController extends Controller
             $NCBillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_credit_note_prefix_id'];
             $NCBillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $NCBillingPadPgp->consecutive = $consecutive;
-            $NCBillingPadPgp->validation_date = Carbon::now();
-            $NCBillingPadPgp->facturation_date = Carbon::now();
+            $NCBillingPadPgp->validation_date = Carbon::now()->setTimezone('America/Bogota');
+            $NCBillingPadPgp->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadPgp->save();
 
             $BillingPadPgp->billing_pad_status_id = 4;
@@ -2173,8 +2176,8 @@ class BillingPadController extends Controller
 
             $this->generateBillingDat(2, $BillingPadPgp->id);
 
-            $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->startOfMonth();
-            $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->endOfMonth();
+            $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->startOfMonth();
+            $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->endOfMonth();
 
             $BillingsPad = BillingPad::select('billing_pad.*')
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
@@ -2211,6 +2214,7 @@ class BillingPadController extends Controller
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
                 'm' => $e->getMessage(),
+                'n' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2388,8 +2392,8 @@ class BillingPadController extends Controller
                         $assistance_name = $Auth[0]['assigned_management_plan']['user']['firstname'] . ' ' . $Auth[0]['assigned_management_plan']['user']['lastname'];
                     }
                 } else if ($Auth[0]['location_id'] != null) {
-                    $A = Carbon::parse($Auth[0]['created_at']);
-                    $AA = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date']) : Carbon::now();
+                    $A = Carbon::parse($Auth[0]['created_at'])->setTimezone('America/Bogota');
+                    $AA = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
                     $b = '';
                     if ($assistance_name == '') {
                         $assistance_name = $b != null ? $b : '';
@@ -2442,16 +2446,15 @@ class BillingPadController extends Controller
                 }
 
                 $q = 1;
-                if ($Auth[0]['location_id']) {
-                    $start_date = Carbon::parse($Auth[0]['created_at']);
-                    $finish_date = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date']) : Carbon::now();
-                    $diff = $start_date->diffInDays($finish_date);
-                    $Auth[0]['quantity'] = $diff;
-                }
                 if ($Auth[0]['quantity']) {
                     $q = $Auth[0]['quantity'];
+                } else if ($Auth[0]['location_id']) {
+                    $start_date = Carbon::parse($Auth[0]['created_at'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $diff = $start_date->diffInDays($finish_date) + 1;
+                    $Auth[0]['quantity'] = $diff;
+                    $q = $Auth[0]['quantity'];
                 }
-
                 $value = $Auth[0]['services_briefcase']['value'] * $q;
                 $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
@@ -2531,9 +2534,9 @@ class BillingPadController extends Controller
             $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
             $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
         }
-        $now_date = Carbon::now();
+        $now_date = Carbon::now()->setTimezone('America/Bogota');
         $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
-        $year = Carbon::now()->year;
+        $year = Carbon::now()->setTimezone('America/Bogota')->year;
 
 
         $common_first_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
@@ -2850,13 +2853,13 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         foreach ($selected_procedures as $element) {
             $quantity = 0;
             $q = 1;
-            if ($element['location_id']) {
-                $start_date = Carbon::parse($element['created_at']);
-                $finish_date = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date']) : Carbon::now();
-                $diff = $start_date->diffInDays($finish_date);
-                $element['quantity'] = $diff;
-            }
             if ($element['quantity']) {
+                $q = $element['quantity'];
+            } else if ($element['location_id']) {
+                $start_date = Carbon::parse($element['created_at'])->setTimezone('America/Bogota')->startOfDay();
+                $finish_date = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                $diff = $start_date->diffInDays($finish_date) + 1;
+                $element['quantity'] = $diff;
                 $q = $element['quantity'];
             }
             $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
@@ -2871,8 +2874,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
                 $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'] : "";
             } if ($element['location_id']) {
-                $A = Carbon::parse($element['created_at']);
-                $AA = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date']) : Carbon::now();
+                $A = Carbon::parse($element['created_at'])->setTimezone('America/Bogota');
+                $AA = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
                 $b = "";
                 array_push($services_date, $AA);
             } else {
@@ -2953,9 +2956,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
         $collection = collect($services_date);
         $sortDates = $collection->sort()->toArray();
-        $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
-        $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
-        $generate_date  = Carbon::now();
+        $last_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
+        $first_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
+        $generate_date  = Carbon::now()->setTimezone('America/Bogota');
 
         $consecutive = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
 
