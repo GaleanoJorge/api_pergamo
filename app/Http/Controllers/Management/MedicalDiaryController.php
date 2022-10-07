@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Management;
 use App\Models\MedicalDiary;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MedicalDiaryDaysRequest;
 use App\Models\Bed;
 use App\Models\MedicalDiaryDays;
+use App\Models\NonWorkingDays;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -19,22 +24,36 @@ class MedicalDiaryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $medical_diary = MedicalDiary::select('medical_diary.*')
+        $medical_diary = MedicalDiary::select(
+            'medical_diary.*',
+            // DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )
+            // ->leftJoin('medical_diary_days', 'medical_diary.id', 'medical_diary_days.medical_diary_id')
+            // ->leftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
             ->with(
                 'assistance',
                 'diary_status',
-                'medical_diary_days',
                 'medical_diary_days.days',
+                'medical_diary_days.medical_status',
+                'medical_diary_days.patient',
+                'medical_diary_days.contract',
+                'medical_diary_days.briefcase',
+                'medical_diary_days.services_briefcase.manual_price.procedure',
                 'office',
-                'office.pavilion',
-                'office.pavilion.flat',
+                'procedure',
                 'office.pavilion.flat.campus',
             );
 
-        if ($request->assistance) {
-            $medical_diary->where('assistance_id', $request->assistance );
+        if ($request->user) {
+            $medical_diary
+                ->leftJoin('assistance', 'medical_diary.assistance_id', 'assistance.id')
+                ->leftJoin('users', 'assistance.user_id', 'users.id')
+                ->where('assistance.user_id', $request->user);
         }
 
+        if ($request->assistance_id) {
+            $medical_diary->where('assistance_id', $request->assistance_id);
+        }
 
         if ($request->_sort) {
             $medical_diary->orderBy($request->_sort, $request->_order);
@@ -67,16 +86,20 @@ class MedicalDiaryController extends Controller
      * @param  Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(MedicalDiaryDaysRequest $request): JsonResponse
     {
         $MedicalDiary = new MedicalDiary;
 
         $MedicalDiary->assistance_id = $request->assistance_id;
+        $MedicalDiary->procedure_id = $request->procedure_id;
         $MedicalDiary->start_time = $request->start_time;
         $MedicalDiary->finish_time = $request->finish_time;
         $MedicalDiary->start_date = $request->start_date;
         $MedicalDiary->finish_date = $request->finish_date;
         $MedicalDiary->interval = $request->interval;
+        $MedicalDiary->campus_id = $request->campus_id;
+        $MedicalDiary->flat_id = $request->flat_id;
+        $MedicalDiary->pavilion_id = $request->pavilion_id;
         $MedicalDiary->office_id = $request->office_id;
         $MedicalDiary->diary_status_id = 1;
 
@@ -86,16 +109,75 @@ class MedicalDiaryController extends Controller
         $Office->status_bed_id = 2;
         $Office->save();
 
-        $days = json_decode($request->weekdays);
-        foreach($days as $day){
-            
-            $MedicalDiaryDays = new MedicalDiaryDays;
+        $InitScheduling = new DateTime($request->start_date);
 
-            $MedicalDiaryDays->days_id = $day;
-            $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
 
-            $MedicalDiaryDays->save();
+        $ValidateWeekDays =  $InitScheduling->modify("-1 day")->format("Y-m-d");
+        $FinishScheduling = new DateTime($request->finish_date);
+
+
+        $diff = $InitScheduling->diff($FinishScheduling);
+
+
+        for ($i = 0; $i < $diff->days; $i++) {
+
+            if (gettype($ValidateWeekDays) == "string") {
+                $ValidateWeekDays = new DateTime($ValidateWeekDays);
+            }
+            $ValidateWeekDays = $ValidateWeekDays->modify("+1 day")->format("Y-m-d");
+            $dateTimeStart = $ValidateWeekDays . " " . $request->start_time;
+            $dateTimeFinish = $ValidateWeekDays . " " . $request->finish_time;
+
+            $start_diary_scheduling = new DateTime($dateTimeStart);
+            $finish_diary_scheduling = new DateTime($dateTimeFinish);
+
+            $dayInf = getdate(strtotime($ValidateWeekDays));
+            $numberDay = $dayInf['wday'] + 1;
+            $day = array_search($numberDay, $request->weekdays);
+
+            if (array_search($numberDay, $request->weekdays) === 0 || array_search($numberDay, $request->weekdays) != false) {
+
+                $non_working = NonWorkingDays::select('non_working_days.*')->where('day', $ValidateWeekDays)->get()->toArray();
+                $start = new DateTime($dateTimeStart);
+                $finish = new DateTime($dateTimeStart);
+                $finish = $finish->modify('+' . $request->interval . ' minutes');
+                $view = $start->format("Y-m-d H:i:s");
+                $view2 = $finish->format("Y-m-d H:i:s");
+
+                while (($finish < $finish_diary_scheduling || $finish == $finish_diary_scheduling) && sizeof($non_working) == 0) {
+
+                    $MedicalDiaryDays = new MedicalDiaryDays;
+
+                    $MedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+                    $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+                    $MedicalDiaryDays->medical_status_id = 1;
+                    // $view2 = $finish->format("Y-m-d H:i:s");
+                    // $view = $start->format("Y-m-d H:i:s");
+                    $MedicalDiaryDays->start_hour = $start->format("Y-m-d H:i:s");
+                    $start = $start->modify('+' . $request->interval . ' minutes');
+                    // $view = $start->format("Y-m-d H:i:s");
+                    // $view2 = $finish->format("Y-m-d H:i:s");
+                    $MedicalDiaryDays->finish_hour = $finish->format("Y-m-d H:i:s");
+                    $finish = $finish->modify('+' . $request->interval . ' minutes');
+                    // $view = $start->format("Y-m-d H:i:s");
+                    // $view2 = $finish->format("Y-m-d H:i:s");
+
+                    $MedicalDiaryDays->save();
+                }
+            }
         }
+
+
+        // $days = json_decode($request->weekdays);
+        // foreach($days as $day){
+
+        //     $MedicalDiaryDays = new MedicalDiaryDays;
+
+        //     $MedicalDiaryDays->days_id = $day;
+        //     $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+
+        //     $MedicalDiaryDays->save();
+        // }
 
         return response()->json([
             'status' => true,
@@ -130,7 +212,7 @@ class MedicalDiaryController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id)
+    public function update(MedicalDiaryDaysRequest $request, int $id)
     {
         $MedicalDiary = MedicalDiary::find($id);
         $MedicalDiary->assistance_id = $request->assistance_id;
