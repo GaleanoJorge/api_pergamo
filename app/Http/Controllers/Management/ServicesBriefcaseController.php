@@ -97,6 +97,11 @@ class ServicesBriefcaseController extends Controller
                 ->where('procedure.procedure_type_id', '!=', '3');
         }
 
+        //External consult CUPS atention
+        if($request->cups_selected_id){
+            $ServicesBriefcase->where('manual_price.procedure_id', $request->cups_selected_id);
+        }
+
         if ($request->search) {
             $ServicesBriefcase->where(function ($query) use ($request) {
                 $query->where('procedure.name', 'like', '%' . $request->search . '%')
