@@ -119,8 +119,18 @@ class BedController extends Controller
             ->where([
                 'bed.status_bed_id' => $request->status_bed_id,
                 'bed.bed_or_office' => '2',
-                'flat.campus_id' => $request->campus_id,
+                'bed.pavilion_id' => $request->pavilion_id
+                // 'flat.campus_id' => $request->campus_id,
             ]);
+
+        if ($request->assistance_id) {
+            $Bed->leftjoin('medical_diary', 'bed.id', 'medical_diary.office_id')
+                ->orwhere(function ($query) use ($request) {
+                    $query->orwhere('bed.bed_or_office', '2')
+                    ->WhereNotNull('medical_diary.office_id');
+                })
+            ;
+        }
 
         if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);
@@ -131,7 +141,8 @@ class BedController extends Controller
         }
 
         if ($request->query("pagination", true) == "false") {
-            $Bed = $Bed->get()->toArray();
+            $Bed = $Bed->groupBy('bed.id')
+            ->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
