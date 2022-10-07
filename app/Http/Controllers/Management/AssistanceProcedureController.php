@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\AssistanceProcedure;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceProcedureRequest;
+use App\Models\AssistanceProcedure;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class AssistanceProcedureController extends Controller
 {
@@ -22,6 +23,22 @@ class AssistanceProcedureController extends Controller
 
         if ($request->user_id) {
             $AssistanceProcedure->where('user_id', $request->user_id);
+        }
+
+        if($request->procedure_id){
+            $AssistanceProcedure
+            ->select('assistance_procedure.*',
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+            )
+            ->leftJoin('assistance', 'assistance_procedure.assistance_id', 'assistance.id')
+            ->leftJoin('users', 'assistance.user_id', 'users.id')
+            ->leftJoin('medical_diary', 'assistance.id', 'medical_diary.assistance_id')
+            ->groupBy('assistance.id')
+            ->where('assistance_procedure.procedure_id', $request->procedure_id)
+            ->whereNotNull('medical_diary.id')
+            ->with(
+                'assistance.user.user_role.role'
+            );
         }
 
         if ($request->_sort) {
@@ -110,22 +127,24 @@ class AssistanceProcedureController extends Controller
     public function updateCups(AssistanceProcedureRequest $request): JsonResponse
     {
 
-        $deleteAssistanceProcedure = AssistanceProcedure::select('assistance_procedure.*')->where('user_id', $request->user_id)->get()->toArray();
+        $deleteAssistanceProcedure = AssistanceProcedure::select('assistance_procedure.*')
+            ->where('assistance_id', $request->assistance_id)->get()->toArray();
 
         if (sizeof($deleteAssistanceProcedure) > 0) {
             foreach ($deleteAssistanceProcedure as $item) {
                 $AssistanceProcedure = AssistanceProcedure::find($item['id']);
                 $AssistanceProcedure->delete();
             }
-            $array_companies = json_decode($request->companies);
-            foreach ($array_companies as $company) {
-                $AssistanceProcedure = new AssistanceProcedure;
-                $AssistanceProcedure->company_id = $company;
-                $AssistanceProcedure->user_id = $request->user_id;
-                $AssistanceProcedure->save();
-            }
         }
-
+        $array_procedure = json_decode($request->procedure);
+        foreach ($array_procedure as $procedures) {
+            $AssistanceProcedure = new AssistanceProcedure;
+            // var_dump($procedures);
+            $AssistanceProcedure->procedure_id = $procedures;
+            $AssistanceProcedure->assistance_id = $request->assistance_id;
+            $AssistanceProcedure->save();
+        }
+        
         return response()->json([
             'status' => true,
             'message' => 'Procedimientos asociados al convenio exitosamente',
