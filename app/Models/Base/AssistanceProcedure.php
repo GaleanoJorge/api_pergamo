@@ -28,11 +28,6 @@ class AssistanceProcedure extends Model
 {
 	protected $table = 'assistance_procedure';
 
-	protected $casts = [
-		'assistance_id' => 'int',
-		'procedure_id' => 'int'
-	];
-
 	public function assistance()
 	{
 		return $this->belongsTo(Assistance::class);
