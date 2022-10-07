@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChAssChestTypeController extends Controller
 {
@@ -41,6 +42,31 @@ class ChAssChestTypeController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Tipo de torax obtenidos exitosamente',
+            'data' => ['ch_ass_chest_type' => $ChAssChestType]
+        ]);
+    }
+
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
+    {
+
+
+        $ChAssChestType = ChAssChestType::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChAssChestType = ChAssChestType::select('ch_ass_chest_type.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_ass_chest_type.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_ass_chest_type.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_ass_chest_type' => $ChAssChestType]
         ]);
     }

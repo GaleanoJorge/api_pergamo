@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChAssSigns;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChSwSupportNetworkController extends Controller
 {
@@ -57,17 +58,29 @@ class ChSwSupportNetworkController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChSwSupportNetwork = ChSwSupportNetwork::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-          ->with('ch_sw_network')->get()->toArray();
+          ->with(
+           'ch_sw_network',
+           'ch_sw_entity')->get()->toArray();
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwSupportNetwork = ChSwSupportNetwork::select('ch_sw_support_network.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_sw_support_network.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_support_network.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Red de apoyo obtenido exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_support_network' => $ChSwSupportNetwork]
         ]);
     }
@@ -79,6 +92,8 @@ class ChSwSupportNetworkController extends Controller
         $ChSwSupportNetwork->provided = $request->provided;
         $ChSwSupportNetwork->sw_note = $request->sw_note;
         $ChSwSupportNetwork->ch_sw_network_id = $request->ch_sw_network_id;
+        $ChSwSupportNetwork->ch_sw_entity_id = $request->ch_sw_entity_id;
+        $ChSwSupportNetwork->observation = $request->observation;
         $ChSwSupportNetwork->type_record_id = $request->type_record_id;
         $ChSwSupportNetwork->ch_record_id = $request->ch_record_id;
         $ChSwSupportNetwork->save();
@@ -121,6 +136,8 @@ class ChSwSupportNetworkController extends Controller
         $ChSwSupportNetwork->provided = $request->provided;
         $ChSwSupportNetwork->sw_note = $request->sw_note;
         $ChSwSupportNetwork->ch_sw_network_id = $request->ch_sw_network_id;
+        $ChSwSupportNetwork->ch_sw_entity_id = $request->ch_sw_entity_id;
+        $ChSwSupportNetwork->observation = $request->observation;
         $ChSwSupportNetwork->type_record_id = $request->type_record_id;
         $ChSwSupportNetwork->ch_record_id = $request->ch_record_id;
         $ChSwSupportNetwork->save();

@@ -53,7 +53,9 @@ class TlTherapyLanguageController extends Controller
      */
     public function getByRecord(Request $request, int $id,int $type_record_id): JsonResponse
     {
-        $TlTherapyLanguage = TlTherapyLanguage::with('medical_diagnostic','therapeutic_diagnosis') ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        $TlTherapyLanguage = TlTherapyLanguage::with('medical_diagnostic','therapeutic_diagnosis') 
+        ->where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id);
            
         if ($request->query("pagination", true) == "false") {
             $TlTherapyLanguage = $TlTherapyLanguage->get()->toArray();

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChObjectivesTherapyController extends Controller
 {
@@ -51,13 +52,27 @@ class ChObjectivesTherapyController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
-         ->get()->toArray();
+
+
+        $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChObjectivesTherapy = ChObjectivesTherapy::select('ch_objectives_therapy.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_objectives_therapy.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_objectives_therapy.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
         return response()->json([
             'status' => true,
-            'message' => 'Objetivos  obtenidos exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_objectives_therapy' => $ChObjectivesTherapy]
         ]);
     }

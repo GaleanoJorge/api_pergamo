@@ -79,6 +79,7 @@ class ChRecommendationsEvoController extends Controller
                     'ch_record'
                 )
                 ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                ->where('ch_recommendations_evo.type_record_id', 1)
                 ->leftJoin('ch_record', 'ch_record.id', 'ch_recommendations_evo.ch_record_id') //
                 // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
             ;

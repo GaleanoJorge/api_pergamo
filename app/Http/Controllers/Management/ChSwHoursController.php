@@ -56,7 +56,8 @@ class ChSwHoursController extends Controller
     {
         
        
-        $ChSwHours = ChSwHours::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChSwHours = ChSwHours::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

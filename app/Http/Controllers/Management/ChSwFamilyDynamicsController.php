@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChAssSigns;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChSwFamilyDynamicsController extends Controller
 {
@@ -53,20 +54,32 @@ class ChSwFamilyDynamicsController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
-        $ChSwFamilyDynamics = ChSwFamilyDynamics::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChSwFamilyDynamics = ChSwFamilyDynamics::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
             ->with(
                 'ch_sw_communications',
+                'authority',
+                'decisions',
                 'ch_sw_expression',)
             ->get()->toArray();
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwFamilyDynamics = ChSwFamilyDynamics::select('ch_sw_family_dynamics.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_family_dynamics.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Dinámica familiar obtenida exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_family_dynamics' => $ChSwFamilyDynamics]
         ]);
     }

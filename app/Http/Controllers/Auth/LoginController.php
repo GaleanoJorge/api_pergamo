@@ -74,7 +74,7 @@ class LoginController extends Controller
                 423
             );
         }
-        else if ($rolesCount == 1) {
+        else {
             $logLogin = new LogLogin;
             $logLogin->user_id = $user->id;
             $logLogin->role_id = $user->roles->first()->id;

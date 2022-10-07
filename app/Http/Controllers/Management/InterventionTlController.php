@@ -55,7 +55,8 @@ class InterventionTlController extends Controller
     {
         
        
-        $InterventionTl = InterventionTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $InterventionTl = InterventionTl::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

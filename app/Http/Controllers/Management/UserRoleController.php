@@ -98,20 +98,15 @@ class UserRoleController extends Controller
     public function updateRoles(Request $request)
     {
         
-        $deleteUserRoles = UserRole::select('user_role.*')->where('user_id', $request->user_id)->get()->toArray();
+        $deleteUserRoles = UserRole::select('user_role.*')->where('user_id', $request->user_id);
+        $deleteUserRoles->delete();
 
-        if (sizeof($deleteUserRoles) > 0) {
-            foreach ($deleteUserRoles as $item) {
-                $userRole = UserRole::find($item['id']);
-                $userRole->delete();
-            }
-            $array_role = json_decode($request->roles);
-            foreach($array_role as $rol){
-                $userRole = new UserRole;
-                $userRole->role_id = $rol;
-                $userRole->user_id = $request->user_id;
-                $userRole->save();
-            }
+        $array_role = json_decode($request->roles);
+        foreach($array_role as $rol){
+            $userRole = new UserRole;
+            $userRole->role_id = $rol;
+            $userRole->user_id = $request->user_id;
+            $userRole->save();
         }
 
         return response()->json([

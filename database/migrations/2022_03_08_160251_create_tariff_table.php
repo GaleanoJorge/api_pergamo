@@ -19,6 +19,7 @@ class CreateTariffTable extends Migration
             $table->double('amount');
             $table->integer('quantity')->nullable();
             $table->boolean('extra_dose')->nullable();
+            $table->boolean('has_car')->nullable();
             $table->boolean('phone_consult')->nullable();
             $table->boolean('failed')->nullable();
             $table->unsignedTinyInteger('status_id')->nullable();

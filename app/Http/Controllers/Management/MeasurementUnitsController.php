@@ -11,31 +11,35 @@ use Illuminate\Database\QueryException;
 
 class MeasurementUnitsController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $MeasurementUnits = MeasurementUnits::select();
+        $MeasurementUnits = MeasurementUnits::select('measurement_units.*');
 
-        if($request->_sort){
+        if ($request->_sort) {
+            if ($request->_sort != "actions") {
+
             $MeasurementUnits->orderBy($request->_sort, $request->_order);
-        }            
-
-        if ($request->search) {
-            $MeasurementUnits->where('name','like','%' . $request->search. '%');
         }
+    }
         
-        if($request->query("pagination", true)=="false"){
-            $MeasurementUnits=$MeasurementUnits->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $MeasurementUnits=$MeasurementUnits->paginate($per_page,'*','page',$page); 
-        }     
+        if ($request->search) {
+            $MeasurementUnits->where('code', 'like', '%' . $request->search . '%')
+                ->orWhere('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $MeasurementUnits = $MeasurementUnits->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $MeasurementUnits = $MeasurementUnits->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -43,13 +47,13 @@ class MeasurementUnitsController extends Controller
             'data' => ['measurement_units' => $MeasurementUnits]
         ]);
     }
-    
+
 
     public function store(MeasurementUnitsRequest $request): JsonResponse
     {
         $MeasurementUnits = new MeasurementUnits;
-        $MeasurementUnits->code = $request->code; 
-        $MeasurementUnits->name = $request->name;      
+        $MeasurementUnits->code = $request->code;
+        $MeasurementUnits->name = $request->name;
         $MeasurementUnits->save();
 
         return response()->json([
@@ -86,9 +90,9 @@ class MeasurementUnitsController extends Controller
      */
     public function update(MeasurementUnitsRequest $request, int $id): JsonResponse
     {
-        $MeasurementUnits = MeasurementUnits ::find($id);
+        $MeasurementUnits = MeasurementUnits::find($id);
         $MeasurementUnits->code = $request->code;
-        $MeasurementUnits->name = $request->name;   
+        $MeasurementUnits->name = $request->name;
         $MeasurementUnits->save();
 
         return response()->json([

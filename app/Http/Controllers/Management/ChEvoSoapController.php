@@ -55,7 +55,8 @@ class ChEvoSoapController extends Controller
     {
         
        
-        $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChEvoSoap = ChEvoSoap::where('ch_record_id', $id)->
+        where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

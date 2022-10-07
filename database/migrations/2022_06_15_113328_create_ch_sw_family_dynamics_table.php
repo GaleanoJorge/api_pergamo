@@ -20,7 +20,7 @@ class CreateChSwFamilyDynamicsTable extends Migration
             $table->unsignedBigInteger('authority_id')->nullable();
             $table->unsignedBigInteger('ch_sw_communications_id')->nullable();
             $table->unsignedBigInteger('ch_sw_expression_id')->nullable();
-            $table->string('observations');
+            $table->string('observations')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

@@ -98,7 +98,8 @@ class ConsentsInformedController extends Controller
             'admissions.patients',
             'admissions.patients.identification_type', 
             'assigned_user',
-            'assigned_user.assistance', 
+            'assigned_user.assistance',
+            'assigned_user.roles', 
             // 'assigned_user.assistance.medical_record', 
             // 'user_role.role',
             
@@ -244,7 +245,7 @@ class ConsentsInformedController extends Controller
         $options->set('isRemoteEnabled', TRUE);
         $dompdf = new PDF($options);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4','horizontal');
+        $dompdf->setPaper('Carta', 'vertical');
         $dompdf->render();
         //$this->injectPageCount($dompdf);
         $file = $dompdf->output();

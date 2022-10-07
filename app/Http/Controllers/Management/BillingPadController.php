@@ -24,6 +24,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
+use Illuminate\Filesystem\Filesystem;
+use Exception;
 
 class BillingPadController extends Controller
 {
@@ -34,8 +36,13 @@ class BillingPadController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $BillingPad = BillingPad::select('billing_pad.*')
+        $BillingPad = BillingPad::select(
+            'billing_pad.*',
+            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
+            )
             ->with(
+                'its_credit_note',
+                'its_credit_note.billing_pad_prefix',
                 'billing_pad_consecutive',
                 'billing_pad_prefix',
                 'billing_pad_status',
@@ -51,6 +58,9 @@ class BillingPadController extends Controller
                 'admissions.patients.admissions.contract.company',
             )
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->leftJoin('billing_pad as BPC', 'BPC.id', 'billing_pad.billing_credit_note_id')
+            ->leftJoin('billing_pad as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad.id')
+            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
             ->groupBy('billing_pad.id');
 
         if ($request->_sort) {
@@ -59,7 +69,10 @@ class BillingPadController extends Controller
         if ($request->search) {
             $BillingPad->where(function ($query) use ($request) {
                 $query->where('billing_pad.consecutive', 'like', '%' . $request->search . '%')
-                    ->orWhere('billing_pad_prefix.name', 'like', '%' . $request->search . '%');
+                    ->orWhere('BPCN.consecutive', 'like', '%' . $request->search . '%')
+                    ->orWhere('billing_pad_prefix.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('BPP.name', 'like', '%' . $request->search . '%')
+                    ;
             });
         }
 
@@ -201,6 +214,7 @@ class BillingPadController extends Controller
 
         $checkBillingPgp = BillingPadPgp::where('contract_id', $contract_id)
             ->whereBetween('validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+            ->whereNull('billing_credit_note_id')
             ->first();
 
         if ($checkBillingPgp) {
@@ -232,39 +246,59 @@ class BillingPadController extends Controller
         if ($consecutive == $BillingPadConsecutive->final_consecutive) {
             $BillingPadConsecutive->stats_id = 2;
         }
+        $BillingPadConsecutive->actual_consecutive = $consecutive;
+        $BillingPadConsecutive->save();
 
-        $Contract = Contract::find($contract_id);
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
+            }
+            $Contract = Contract::find($contract_id);
 
-        $BillingPadPgp = new BillingPadPgp;
-        $BillingPadPgp->total_value = $Contract->amount;
-        $BillingPadPgp->contract_id = $contract_id;
-        $BillingPadPgp->billing_pad_status_id = 1;
-        $BillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
-        $BillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPadPgp->consecutive = $consecutive;
-        $BillingPadPgp->validation_date = Carbon::now();
-        $BillingPadPgp->save();
+            $BillingPadPgp = new BillingPadPgp;
+            $BillingPadPgp->total_value = $Contract->amount;
+            $BillingPadPgp->contract_id = $contract_id;
+            $BillingPadPgp->billing_pad_status_id = 2;
+            $BillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
+            $BillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $BillingPadPgp->consecutive = $consecutive;
+            $BillingPadPgp->validation_date = Carbon::now();
+            $BillingPadPgp->facturation_date = Carbon::now();
+            $BillingPadPgp->save();
 
-        $this->generateBillingDat(2, $BillingPadPgp->id);
+            $this->generateBillingDat(2, $BillingPadPgp->id);
 
-        $BillingsPad = BillingPad::select('billing_pad.*')
-            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
-            ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
-            ->where('admissions.contract_id', $contract_id)
-            ->get()
-            ->toArray();
+            $BillingsPad = BillingPad::select('billing_pad.*')
+                ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+                ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+                ->where('admissions.contract_id', $contract_id)
+                ->get()
+                ->toArray();
 
-        foreach ($BillingsPad as $element) {
-            $BillingPad = BillingPad::where('id', $element['id'])->first();
-            $BillingPad->billing_pad_pgp_id = $BillingPadPgp->id;
-            $BillingPad->save();
+            foreach ($BillingsPad as $element) {
+                $BillingPad = BillingPad::where('id', $element['id'])->first();
+                $BillingPad->billing_pad_pgp_id = $BillingPadPgp->id;
+                $BillingPad->save();
+            }
+
+            $BillingPadLog = new BillingPadLog;
+            $BillingPadLog->billing_pad_pgp_id = $BillingPadPgp->id;
+            $BillingPadLog->billing_pad_status_id = 2;
+            $BillingPadLog->user_id = $request->user_id;
+            $BillingPadLog->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura creada exitosamente',
+                'data' => ['billing_pad' => $BillingPadPgp]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'm' => $e,
+                'data' => ['billing_pad' => []]
+            ]);
         }
-
-        return response()->json([
-            'status' => true,
-            'message' => 'factura creada exitosamente',
-            'data' => ['billing_pad' => $BillingPadPgp]
-        ]);
     }
 
     /**
@@ -375,6 +409,8 @@ class BillingPadController extends Controller
         ]);
     }
 
+
+    
     public function arraySupport(Request $request, int $admission_id)
     {
         if ($request->billing_id) {
@@ -424,11 +460,31 @@ class BillingPadController extends Controller
         $Authorizations = []; // COSAS NO FACTURADAS
         $AlreadyBilling = []; // COSAS FACTURADAS
         foreach ($eventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -470,11 +526,31 @@ class BillingPadController extends Controller
         $MedicamentosEventos = $MedicamentosEventos->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -517,11 +593,31 @@ class BillingPadController extends Controller
         $InsumosEventos = $InsumosEventos->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -558,11 +654,31 @@ class BillingPadController extends Controller
         $ActivosFijosEvento = $ActivosFijosEvento->get()->toArray();
 
         foreach ($ActivosFijosEvento as $Authorization) {
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorization['id'])->get()->first();
-            if (!$AuthBillingPad) {
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorization['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorization);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorization);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorization);
+                    } else {
+                        array_push($AlreadyBilling, $Authorization);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorization);
+                }
             }
         }
 
@@ -606,14 +722,31 @@ class BillingPadController extends Controller
         $i = 0;
         foreach ($Authorizationspackages as $Authorizationpackages) {
             $Authorizationpackages['auth_package'] = true;
-            $AuthBillingPad = AuthBillingPad::where('authorization_id', $Authorizationpackages['id'])->get()->first();
-            // if (!$AuthBillingPad) {
-            //     $hasPackages = true;
-            // }
-            if (!$AuthBillingPad) {
+            $AuthBillingPad = AuthBillingPad::select('auth_billing_pad.*')
+                ->with(
+                    'billing_pad', 
+                    'billing_pad.its_credit_note', 
+                    'authorization'
+                    )
+                ->where('auth_billing_pad.authorization_id', $Authorizationpackages['id'])
+                ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+                ->orderBy('auth_billing_pad.id', 'DESC')
+                ->groupBy('auth_billing_pad.id');
+            $AuthBillingPad = $AuthBillingPad->get()->toArray();
+            if (count($AuthBillingPad) == 0) {
                 array_push($Authorizations, $Authorizationpackages);
-            } else {
+            } else if (count($AuthBillingPad) == 1) {
                 array_push($AlreadyBilling, $Authorizationpackages);
+            } else if (count($AuthBillingPad) > 1) {
+                if ($request->bill) {
+                    if ($AuthBillingPad[0]['its_credit_note']) {
+                        array_push($Authorizations, $Authorizationpackages);
+                    } else {
+                        array_push($AlreadyBilling, $Authorizationpackages);
+                    }
+                } else {
+                    array_push($AlreadyBilling, $Authorizationpackages);
+                }
             }
             $i++;
         }
@@ -1658,8 +1791,7 @@ class BillingPadController extends Controller
             $BillingPad = BillingPad::where('id', $billing_id)->get()->first();
         }
 
-
-        $Authorizationspackages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
+        $result_packages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -1673,385 +1805,16 @@ class BillingPadController extends Controller
                 'manual_price',
                 'manual_price.procedure'
             )
-            ->where('authorization.id', $auth_package_id);
-        if ($request->route == 1) {
-            $Authorizationspackages->where('authorization.auth_status_id', 3);
-        } else if ($request->route == 2) {
-        }
-        $Authorizationspackages->whereNull('authorization.auth_package_id')
-            ->whereNull('authorization.supplies_com_id')
-            ->whereNull('authorization.fixed_add_id')
-            ->whereNull('authorization.product_com_id')
-            ->whereNull('authorization.application_id')
-            ->whereNull('authorization.assigned_management_plan_id')
-            ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
+            ->where('authorization.auth_package_id', $auth_package_id);
+        // if ($request->route == 1) {
+        //     $result_packages->where('authorization.auth_status_id', 3);
+        // } else if ($request->route == 2) {
+        // }
+        $result_packages->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
             ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
             ->groupBy('authorization.id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
-        $Authorizationspackages = $Authorizationspackages->get()->toArray();
-
-        // VALIDACIÓN SI LOS PAQUETES ENCONTRADOS CUMPLAN CON LAS CONDICIONES DESCRITAS EN EL MANUAL TARIFARIO
-        $result_packages = []; // VARIABLE QUE ALMACENA LOS PAQUETES RESULTANTES
-        foreach ($Authorizationspackages as $Authorizationspackage) {
-            // procedimientos
-            $AuthsPackedProc = Authorization::select(
-                'authorization.*',
-                'management_plan.procedure_id AS procedure_id',
-                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
-            )
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->whereNull('authorization.application_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            if ($request->route == 1) {
-                $AuthsPackedProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsPackedProc->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
-                ->groupby('authorization.services_briefcase_id');
-            $AuthsPackedProc = $AuthsPackedProc->get()->toArray();
-
-            // medicamentos
-            $AuthsPackedMed = Authorization::select(
-                'authorization.*',
-                'management_plan.procedure_id AS procedure_id',
-                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
-            )
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNotNull('authorization.product_com_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            if ($request->route == 1) {
-                $AuthsPackedMed->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsPackedMed->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
-                ->groupby('authorization.services_briefcase_id');
-            $AuthsPackedMed = $AuthsPackedMed->get()->toArray();
-
-
-
-            // insumos
-            $AuthsPackedSupp = Authorization::select(
-                'authorization.*',
-                'management_plan.procedure_id AS procedure_id',
-                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
-            )
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            if ($request->route == 1) {
-                $AuthsPackedSupp->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsPackedSupp->where('assigned_management_plan.created_at', '<=', Carbon::parse($BillingPad->validation_date)->endOfMonth())
-                ->groupby('authorization.services_briefcase_id');
-            $AuthsPackedSupp = $AuthsPackedSupp->get()->toArray();
-
-
-
-            // activos fijos
-            $AuthsPackedFixed = Authorization::select(
-                'authorization.*',
-                'management_plan.procedure_id AS procedure_id',
-                DB::raw('COUNT(authorization.services_briefcase_id) AS quantity')
-            )
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNotNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->whereNull('authorization.application_id')
-                ->whereNull('authorization.assigned_management_plan_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            //     ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            //     ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            // if ($request->route == 1) {
-            //     $AuthsPackedSupp->whereNotNull('authorization.application_id')
-            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            // } else if ($request->route == 2) {
-            // }
-            $AuthsPackedFixed->groupby('authorization.services_briefcase_id');
-            $AuthsPackedFixed = $AuthsPackedFixed->get()->toArray();
-
-
-
-            // procdimientos
-            $AuthsresponseProc = Authorization::select('authorization.*')
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->whereNull('authorization.application_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
-            if ($request->route == 1) {
-                $AuthsresponseProc->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsresponseProc->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
-            $AuthsresponseProc = $AuthsresponseProc->get()->toArray();
-
-
-            // Medicamentos
-            $AuthsresponseMed = Authorization::select('authorization.*')
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNotNull('authorization.product_com_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
-            if ($request->route == 1) {
-                $AuthsresponseMed->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsresponseMed->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
-            $AuthsresponseMed = $AuthsresponseMed->get()->toArray();
-
-            // Insumos
-            $AuthsresponseSupp = Authorization::select('authorization.*')
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNotNull('authorization.supplies_com_id')
-                ->whereNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id');
-            if ($request->route == 1) {
-                $AuthsresponseSupp->whereNotNull('authorization.application_id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            } else if ($request->route == 2) {
-            }
-            $AuthsresponseSupp->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()]);
-            $AuthsresponseSupp = $AuthsresponseSupp->get()->toArray();
-
-
-
-            // Activos Fijos
-            $AuthsresponseFixed = Authorization::select('authorization.*')
-                ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
-                    'supplies_com',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.user',
-                    'assigned_management_plan.management_plan.service_briefcase',
-                    'assigned_management_plan.management_plan.procedure',
-                    'manual_price',
-                    'manual_price.procedure'
-                )
-                ->where('authorization.admissions_id', $Authorizationspackage['admissions_id'])
-                ->where('authorization.auth_package_id', $Authorizationspackage['id'])
-                ->whereNull('authorization.supplies_com_id')
-                ->whereNotNull('authorization.fixed_add_id')
-                ->whereNull('authorization.product_com_id')
-                ->whereNull('authorization.application_id')
-                ->whereNull('authorization.assigned_management_plan_id');
-            //     ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            //     ->leftJoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id');
-            // if ($request->route == 1) {
-            //     $AuthsPackedSupp->whereNotNull('authorization.application_id')
-            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
-            // } else if ($request->route == 2) {
-            // }
-            $AuthsresponseFixed = $AuthsresponseFixed->get()->toArray();
-
-
-            $Authorizationspackage['auth_package'] = [];
-            // foreach ($AuthsresponseProc as $element) {
-            //     array_push($Authsresponse, $element);
-            // }
-            // foreach ($AuthsresponseMed as $element) {
-            //     array_push($Authsresponse, $element);
-            // }
-            // foreach ($AuthsresponseSupp as $element) {
-            //     array_push($Authsresponse, $element);
-            // }
-
-            $AuthsPacked = [];
-            foreach ($AuthsPackedProc as $element) {
-                array_push($AuthsPacked, $element);
-            }
-            foreach ($AuthsPackedMed as $element) {
-                array_push($AuthsPacked, $element);
-            }
-            foreach ($AuthsPackedSupp as $element) {
-                array_push($AuthsPacked, $element);
-            }
-            foreach ($AuthsPackedFixed as $element) {
-                array_push($AuthsPacked, $element);
-            }
-
-            $total_max = 0;
-            $total_done = 0;
-            foreach ($AuthsPacked as $AuthPacked) {
-                $type_validator = 0;
-                $ProcedurePackages = ProcedurePackage::select('procedure_package.*')
-                    ->where('procedure_package.procedure_package_id', $Authorizationspackage['manual_price_id']);
-                //
-                //
-                // el id de producto y el de insumo están permutados
-                // corrección por parte de ivan
-                //
-                //
-
-
-                if ($AuthPacked['product_com_id']) {
-                    $ProcedurePackages->where('procedure_package.product_com_id', $AuthPacked['product_com_id']);
-                    $type_validator = 1;
-                } else if ($AuthPacked['supplies_com_id']) {
-                    $ProcedurePackages->where('procedure_package.supplies_com_id', $AuthPacked['supplies_com_id']);
-                    $type_validator = 2;
-                } else if ($AuthPacked['procedure_id']) {
-                    $ProcedurePackages->where('procedure_package.procedure_id', $AuthPacked['services_briefcase']['manual_price']['procedure_id']);
-                    $type_validator = 3;
-                } else if ($AuthPacked['fixed_add_id']) {
-                    $ProcedurePackages->where('procedure_package.fixed_add_id', $AuthPacked['fixed_add_id']);
-                    $type_validator = 4;
-                }
-
-                $ProcedurePackages = $ProcedurePackages->get()->toArray();
-                if (count($ProcedurePackages) > 0) {
-
-                    if (!$ProcedurePackages[0]['min_quantity']) {
-                        $ProcedurePackages[0]['min_quantity'] = 1;
-                    }
-                    if (!$ProcedurePackages[0]['max_quantity']) {
-                        $ProcedurePackages[0]['max_quantity'] = log(0);
-                    }
-                    if ($AuthPacked['quantity'] >= $ProcedurePackages[0]['min_quantity'] && $AuthPacked['quantity'] <= $ProcedurePackages[0]['max_quantity']) {
-                        if ($ProcedurePackages[0]['dynamic_charge'] == 1) {
-                            $total_max += $ProcedurePackages[0]['max_quantity'];
-                            $total_done += $AuthPacked['quantity'];
-                        }
-                        if ($type_validator == 3) {
-                            foreach ($AuthsresponseProc as $element) {
-                                array_push($result_packages, $element);
-                            }
-                        } else if ($type_validator == 1) {
-                            foreach ($AuthsresponseMed as $element) {
-                                array_push($result_packages, $element);
-                            }
-                        } else if ($type_validator == 2) {
-                            foreach ($AuthsresponseSupp as $element) {
-                                array_push($result_packages, $element);
-                            }
-                        } else if ($type_validator == 4) {
-                            foreach ($AuthsresponseFixed as $element) {
-                                array_push($Authorizationspackage['auth_package'], $element);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        $result_packages = $result_packages->get()->toArray();
 
 
 
@@ -2104,21 +1867,197 @@ class BillingPadController extends Controller
             ]);
         }
 
-        $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
-        $AuthBillingPadDelete->delete();
-        $components = json_decode($request->authorizations);
-        $total_value = 0;
-        foreach ($components as $conponent) {
-            $AuthBillingPad = new AuthBillingPad;
-            $AuthBillingPad->billing_pad_id = $id;
-            $AuthBillingPad->authorization_id = $conponent->id;
-            if ($conponent->services_briefcase) {
-                $AuthBillingPad->value = $conponent->services_briefcase->value;
-            } else {
-                $AuthBillingPad->value = $conponent->manual_price->value;
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
-            $AuthBillingPad->save();
-            $total_value += $AuthBillingPad->value;
+            $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
+            $AuthBillingPadDelete->delete();
+            $components = json_decode($request->authorizations);
+            $total_value = 0;
+            foreach ($components as $conponent) {
+                $AuthBillingPad = new AuthBillingPad;
+                $AuthBillingPad->billing_pad_id = $id;
+                $AuthBillingPad->authorization_id = $conponent->id;
+                if ($conponent->services_briefcase) {
+                    $AuthBillingPad->value = $conponent->services_briefcase->value;
+                } else {
+                    $AuthBillingPad->value = $conponent->manual_price->value;
+                }
+                $AuthBillingPad->save();
+                $total_value += $AuthBillingPad->value;
+            }
+
+            $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
+            if ($consecutive == $BillingPadConsecutive->final_consecutive) {
+                $BillingPadConsecutive->stats_id = 2;
+            }
+            $BillingPadConsecutive->actual_consecutive = $consecutive;
+            $BillingPadConsecutive->save();
+
+            $BillingPad = BillingPad::where('id', $id)->first();
+            $BillingPad->billing_pad_status_id = 2;
+            $BillingPad->total_value = $total_value;
+            $BillingPad->facturation_date = Carbon::now();
+            $BillingPad->consecutive = $consecutive;
+            $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
+            $BillingPad->save();
+            $this->generateBillingDat(1, $id);
+
+            $BillingPadLog = new BillingPadLog;
+            $BillingPadLog->billing_pad_id = $id;
+            $BillingPadLog->billing_pad_status_id = 2;
+            $BillingPadLog->user_id = $request->user_id;
+            $BillingPadLog->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura actualizada exitosamente',
+                'data' => ['billing_pad' => $BillingPad]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'm' => $e,
+                'data' => ['billing_pad' => []]
+            ]);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function creditNoteNoPgp(Request $request, int $id): JsonResponse
+    {
+        $billingInfo = $this->getBillingPadInformation($id);
+
+        $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
+            ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'])
+            ->where('final_consecutive', '>', 'actual_consecutive')
+            ->where('expiracy_date', '>=', Carbon::now())
+            ->get()->first();
+
+        if (!$BillingPadConsecutive) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: ' . $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'],
+                'data' => ['billing_pad' => []]
+            ]);
+        }
+
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
+            }
+            $BillingPad = BillingPad::find($id);
+            
+            
+            $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
+            if ($consecutive == $BillingPadConsecutive->final_consecutive) {
+                $BillingPadConsecutive->stats_id = 2;
+            }
+            $BillingPadConsecutive->actual_consecutive = $consecutive;
+            $BillingPadConsecutive->save();
+            
+            $NCBillingPad = new BillingPad;
+            $NCBillingPad->billing_pad_status_id = 2;
+            $NCBillingPad->total_value = $BillingPad->total_value;
+            $NCBillingPad->admissions_id = $BillingPad->admissions_id;
+            $NCBillingPad->billing_pad_pgp_id = $BillingPad->billing_pad_pgp_id;
+            $NCBillingPad->validation_date = Carbon::now();
+            $NCBillingPad->facturation_date = Carbon::now();
+            $NCBillingPad->consecutive = $consecutive;
+            $NCBillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $NCBillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
+            $NCBillingPad->save();
+            
+            $BillingPad->billing_pad_status_id = 4;
+            $BillingPad->billing_credit_note_id = $NCBillingPad->id;
+            $BillingPad->save();
+
+            $AuthBillingPadDelete = AuthBillingPad::with(
+                'authorization',
+                'authorization.services_briefcase',
+                'authorization.services_briefcase.manual_price',
+                'authorization.product_com',
+                'authorization.supplies_com',
+                'authorization.services_briefcase.manual_price.procedure',
+                'authorization.assigned_management_plan',
+                'authorization.assigned_management_plan.management_plan',
+                'authorization.assigned_management_plan.user',
+                'authorization.assigned_management_plan.management_plan.service_briefcase',
+                'authorization.assigned_management_plan.management_plan.procedure',
+                'authorization.manual_price',
+                'authorization.manual_price.procedure',
+                )
+            ->where('billing_pad_id', $id)->get()->toArray();
+            foreach ($AuthBillingPadDelete as $conponent) {
+                $AuthBillingPad = new AuthBillingPad;
+                $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
+                $AuthBillingPad->authorization_id = $conponent['authorization_id'];
+                if ($conponent['authorization']['services_briefcase']) {
+                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'];
+                } else {
+                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'];
+                }
+                $AuthBillingPad->save();
+            }
+            
+            $this->generateBillingDat(1, $id);
+            
+            $BillingPadLog = new BillingPadLog;
+            $BillingPadLog->billing_pad_id = $id;
+            $BillingPadLog->billing_pad_status_id = 4;
+            $BillingPadLog->user_id = $request->user_id;
+            $BillingPadLog->save();
+
+            $BillingPadNCLog = new BillingPadLog;
+            $BillingPadNCLog->billing_pad_id = $NCBillingPad->id;
+            $BillingPadNCLog->billing_pad_status_id = 2;
+            $BillingPadNCLog->user_id = $request->user_id;
+            $BillingPadNCLog->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura actualizada exitosamente',
+                'data' => ['billing_pad' => $NCBillingPad]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'm' => $e,
+                'data' => ['billing_pad' => []]
+            ]);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function creditNotePgp(Request $request, int $id): JsonResponse
+    {
+        $campus = Campus::with('billing_pad_prefix')
+            ->where('id', $request->campus_id)->get()->toArray();
+
+        $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
+            ->where('billing_pad_prefix_id', $campus[0]['billing_pad_credit_note_prefix_id'])
+            ->where('final_consecutive', '>', 'actual_consecutive')
+            ->where('expiracy_date', '>=', Carbon::now())
+            ->get()->first();
+
+        if (!$BillingPadConsecutive) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible facturar ya que no se encuentran resoluciones activas para el prefijo: ' . $campus[0]['billing_pad_prefix']['name'],
+                'data' => ['billing_pad' => []]
+            ]);
         }
 
         $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
@@ -2128,26 +2067,70 @@ class BillingPadController extends Controller
         $BillingPadConsecutive->actual_consecutive = $consecutive;
         $BillingPadConsecutive->save();
 
-        $BillingPad = BillingPad::where('id', $id)->first();
-        $BillingPad->billing_pad_status_id = 2;
-        $BillingPad->total_value = $total_value;
-        $BillingPad->consecutive = $consecutive;
-        $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
-        $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
-        $BillingPad->save();
-        $this->generateBillingDat(1, $id);
+        try {
+            if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
+            }
+            
+            $BillingPadPgp = BillingPadPgp::find($id);
 
-        $BillingPadLog = new BillingPadLog;
-        $BillingPadLog->billing_pad_id = $id;
-        $BillingPadLog->billing_pad_status_id = 2;
-        $BillingPadLog->user_id = $request->user_id;
-        $BillingPadLog->save();
+            $NCBillingPadPgp = new BillingPadPgp;
+            $NCBillingPadPgp->total_value = $BillingPadPgp->total_value;
+            $NCBillingPadPgp->contract_id = $BillingPadPgp->contract_id;
+            $NCBillingPadPgp->billing_pad_status_id = 2;
+            $NCBillingPadPgp->billing_pad_prefix_id = $campus[0]['billing_pad_credit_note_prefix_id'];
+            $NCBillingPadPgp->billing_pad_consecutive_id = $BillingPadConsecutive->id;
+            $NCBillingPadPgp->consecutive = $consecutive;
+            $NCBillingPadPgp->validation_date = Carbon::now();
+            $NCBillingPadPgp->facturation_date = Carbon::now();
+            $NCBillingPadPgp->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'factura actualizada exitosamente',
-            'data' => ['billing_pad' => $BillingPad]
-        ]);
+            $BillingPadPgp->billing_pad_status_id = 4;
+            $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
+            $BillingPadPgp->save();
+
+            $this->generateBillingDat(2, $BillingPadPgp->id);
+
+            $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->startOfMonth();
+            $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->endOfMonth();
+
+            $BillingsPad = BillingPad::select('billing_pad.*')
+            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+            ->where('admissions.contract_id', $BillingPadPgp->contract_id)
+            ->get()
+            ->toArray();
+
+            foreach ($BillingsPad as $element) {
+                $BillingPad = BillingPad::where('id', $element['id'])->first();
+                $BillingPad->billing_pad_pgp_id = $BillingPadPgp->id;
+                $BillingPad->save();
+            }
+
+            $BillingPadLog = new BillingPadLog;
+            $BillingPadLog->billing_pad_pgp_id = $id;
+            $BillingPadLog->billing_pad_status_id = 4;
+            $BillingPadLog->user_id = $request->user_id;
+            $BillingPadLog->save();
+
+            $BillingPadNCLog = new BillingPadLog;
+            $BillingPadNCLog->billing_pad_pgp_id = $NCBillingPadPgp->id;
+            $BillingPadNCLog->billing_pad_status_id = 2;
+            $BillingPadNCLog->user_id = $request->user_id;
+            $BillingPadNCLog->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'factura actualizada exitosamente',
+                'data' => ['billing_pad' => $NCBillingPadPgp]
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'm' => $e,
+                'data' => ['billing_pad' => []]
+            ]);
+        }
     }
 
     /**
@@ -2182,10 +2165,23 @@ class BillingPadController extends Controller
      */
     public function generateBillingDat(int $bill_type, int $id): JsonResponse
     {
+        $BillingPadCreditNote = null;
         if ($bill_type == 1) {
-            $BillingPad = $this->getBillingPadInformation($id);
+            $BillingPadAux = BillingPad::where('id', $id)->with('its_credit_note')->get()->first();
+            if ($BillingPadAux->its_credit_note) {
+                $BillingPadCreditNote = $this->getBillingPadInformation($BillingPadAux->id);
+                $BillingPad = $this->getBillingPadInformation($BillingPadAux->its_credit_note->id);
+            } else {
+                $BillingPad = $this->getBillingPadInformation($id);
+            }
         } else if ($bill_type == 2) {
-            $BillingPad = $this->getBillingPadPgpInformation($id);
+            $BillingPadAux = BillingPadPgp::where('id', $id)->with('its_credit_note')->get()->first();
+            if ($BillingPadAux->its_credit_note) {
+                $BillingPadCreditNote = $this->getBillingPadPgpInformation($BillingPadAux->id);
+                $BillingPad = $this->getBillingPadPgpInformation($BillingPadAux->its_credit_note->id);
+            } else {
+                $BillingPad = $this->getBillingPadPgpInformation($id);
+            }
         }
 
         $billMaker = BillingPadLog::select(
@@ -2261,6 +2257,7 @@ class BillingPadController extends Controller
 
         if ($bill_type == 1) {
             $consecutivo = 1;
+            $services = array();
             $billing_line = '';
             $assistance_name = '';
             $services_date = array();
@@ -2269,6 +2266,7 @@ class BillingPadController extends Controller
                 $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                     ->select(
                         'authorization.id AS authorization_id',
+                        'authorization.quantity AS quantity',
                         'authorization.auth_number AS auth_number',
                         'authorization.observation AS observation',
                         'authorization.file_auth AS file_auth',
@@ -2307,6 +2305,7 @@ class BillingPadController extends Controller
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
                             'authorization.auth_number AS auth_number',
+                            'authorization.quantity AS quantity',
                             'authorization.observation AS observation',
                             'authorization.file_auth AS file_auth',
                             'authorization.services_briefcase_id AS services_briefcase_id',
@@ -2344,65 +2343,136 @@ class BillingPadController extends Controller
                     }
                 }
 
+                $q = 1;
+                if ($Auth[0]['quantity']) {
+                    $q = $Auth[0]['quantity'];
+                }
 
-                $value = $Auth[0]['services_briefcase']['value'];
+                $value = $Auth[0]['services_briefcase']['value'] * $q;
+                $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
                 $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
-                    $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
-                        $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
-                            $Auth[0]['product_com']['code_cum'] : null));
+                $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
+                    $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
+                        $Auth[0]['product_com']['code_cum'] : null));
 
-                $line = $consecutivo . ';' . $service . ';999;' . $code . ';94;;;;1;' . $value . ';' . $value . ';0;0;' . $value . ';0;0;01';
-                if (strlen($billing_line) == 0) {
-                    $billing_line = $line;
-                } else {
-                    $billing_line = $billing_line . '
-' . $line;
-                }
+                $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['quantity'] = $quantity;
+                $services[$consecutivo]['service'] = $service;
+                $services[$consecutivo]['code'] = $code;
                 $consecutivo++;
             }
+            $service_column  = array_column($services, 'service');
+            $code_column  = array_column($services, 'code');
+            array_multisort($service_column, SORT_DESC, $code_column, SORT_ASC, $services);
 
+            if (count($services) > 0) {
+                $line_service = array();
+                $line_service_aux = array();
+                // $line_service[0]['value'] = $services[0]['value'];
+                // $line_service[0]['value_unid'] = $services[0]['value'];
+                // $line_service[0]['amount'] = 1;
+                // $line_service[0]['service'] = $services[0]['service'];
+                // $line_service[0]['code'] = $services[0]['code'];
+                // $line_service_aux = $line_service;
+                foreach($services as $s) {
+                    $service_column  = array_column($line_service, 'service');
+                    $exist = false;
+                    foreach($service_column as $c) {
+                        if($c == $s['service']) {
+                            $exist = true;
+                        }
+                    }
+
+                    if ($exist) {
+                        for($i = 0; $i < count($line_service); $i++) {
+                            if($line_service[$i]['service'] == $s['service']) {
+                                $line_service_aux[$i]['value'] += $s['value'];
+                                $line_service_aux[$i]['amount'] += $s['quantity'];
+                            }
+                        }
+                    } else {
+                        $a['value'] = $s['value'];
+                        $a['value_unid'] = 0;
+                        $a['amount'] = $s['quantity'];
+                        $a['service'] = $s['service'];
+                        $a['code'] = $s['code'];
+                        array_push($line_service_aux, $a);
+                    }
+                    $line_service = $line_service_aux;
+                }
+                if (count($line_service) > 0) {
+                    $j = 0;
+                    foreach ($line_service as $e) {
+                        $line_service[$j]['value_unid'] = ($e['value']/$e['amount']);
+                        $j++;
+                    }
+                }
+                $consec = 1;
+                foreach($line_service as $sss) {
+                    $line = $consec . ';' . $sss['service'] . ';999;' . $sss['code'] . ';94;;;;' . $sss['amount'] . ';' . $sss['value_unid'] . ';' . $sss['value'] . ';0;0;' . $sss['value'] . ';0;0;01';
+                    if (strlen($billing_line) == 0) {
+                        $billing_line = $line;
+                    } else {
+                        $billing_line = $billing_line . '
+' . $line;
+                    }
+                    $consec++;
+                }
+            }
 
             $file = [];
             $collection = collect($services_date);
             $sortDates = $collection->sort()->toArray();
-            $first_date = (count($sortDates) > 0 ? $sortDates[0] : '');
-            $last_date = (count($sortDates) > 0 ? $sortDates[count($sortDates) - 1] : '');
+            $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
+            $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
         }
         $now_date = Carbon::now();
+        $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
         $year = Carbon::now()->year;
+
+
+        $common_first_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
+        $common_secont_line = ';;;';
+
+        $name_number = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
+        
+        if ($BillingPadCreditNote) {
+            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;10;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
+            $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
+            $name_number = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'];
+        }
 
         if ($bill_type == 1) {
             // FACTURAS NO PGP
-
             $file_no_pgp = [
-                $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;;COP;' . $now_date . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;;;;' . $BillingPad[0]['billing_resolution'] . ';;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
-;;;
+                $common_first_line . ';;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+' . $common_secont_line . '
 900900122-7;;;;;;;;;;;;;;;;;;;
 ' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
 A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
-2;1;;;;
+2;1;;;;' . $expiracy_date . '
 ;;;
 
-SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;;;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
             ];
             $file = $file_no_pgp;
         } else if ($bill_type == 2) {
             // FACTURAS PGP
             $file_pgp = [
-                $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;;COP;' . $now_date . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;;;;' . $BillingPad[0]['billing_resolution'] . ';;;;;' . $BillingPad[0]['campus_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
-;;;
+                $common_first_line . ';;;;;' . $BillingPad[0]['campus_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+' . $common_secont_line . '
 900900122-7;;;;;;;;;;;;;;;;;;;
 ' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
 A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
-2;1;;;;
+2;1;;;;' . $expiracy_date . '
 ;;;
 
 1;' . $BillingPad[0]['contract_objective'] . ';999;1-' . $BillingPad[0]['regimen_name'] . ';94;;;;1;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . ';0;0;' . $BillingPad[0]['billing_total_value'] . ';0;0;01',
@@ -2413,9 +2483,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
 
 
-        $name = '900900122-7_' . $year . '_' . $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . '_.dat';
+        $name = '900900122-7_' . $year . '_' . $name_number . '.dat';
 
         Storage::disk('public')->put($name, $file);
+        Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
             'status' => true,
@@ -2443,6 +2514,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'campus.address AS patient_admission_address',
                 'campus.enable_code AS patient_admission_enable_code',
                 'campus.billing_pad_prefix_id AS campus_billing_pad_prefix_id',
+                'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'billing_pad_prefix.name AS campus_billing_pad_prefix',
                 'briefcase.name AS briefcase_name',
                 'municipality.sga_origin_fk AS user_city_code',
@@ -2450,7 +2522,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'identification_type.code AS patient_identification_type',
                 'company.id AS eps_id',
                 'company.name AS eps_name', // --------------------------------------------------------
-                'company.identification AS eps_identification', //       PARA COPAGOS
+                DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'), //       PARA COPAGOS
                 'company.address AS eps_address', //              USAR INFORMACIÌN DEL PACIETE
                 'company.phone AS eps_phone', //
                 'company.mail AS eps_mail', // --------------------------------------------------------
@@ -2459,7 +2531,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'billing_pad.billing_pad_prefix_id AS billing_prefix_id',
                 'billing_pad.total_value AS billing_total_value',
                 'billing_pad.consecutive AS billing_consecutive',
+                'billing_pad.facturation_date AS billing_facturation_date',
                 'contract.name AS contract_name',
+                'contract.number_contract AS number_contract',
+                'contract.expiration_days_portafolio AS contract_expiration_days_portafolio',
                 'program.name AS program_name',
             )
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
@@ -2496,6 +2571,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             ->select(
                 'billing_pad_pgp.id AS billing_pad_pgp_id',
                 'campus.billing_pad_prefix_id AS campus_billing_pad_prefix_id',
+                'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'campus.address AS campus_address',
                 'region.code AS user_departament_code',
                 'municipality.sga_origin_fk AS user_city_code',
@@ -2509,8 +2585,11 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'billing_pad_pgp.total_value AS billing_total_value',
                 'PF.name AS billing_prefix',
                 'billing_pad_pgp.consecutive AS billing_consecutive',
+                'billing_pad_pgp.facturation_date AS billing_facturation_date',
                 'billing_pad_consecutive.resolution AS billing_resolution',
+                'contract.number_contract AS number_contract',
                 'contract.objective AS contract_objective',
+                'contract.expiration_days_portafolio AS contract_expiration_days_portafolio',
                 'type_briefcase.name AS regimen_name',
             )
             ->leftJoin('billing_pad_consecutive', 'billing_pad_consecutive.id', 'billing_pad_pgp.billing_pad_consecutive_id')
@@ -2642,10 +2721,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function generateBillingPdf(Request $request, int $id): JsonResponse
     {
         $BillingPad = $this->getBillingPadInformation($id);
+        $multiplicate = false;
         if ($request->selected_procedures) {
             $selected_procedures = json_decode($request->selected_procedures, true);
         } else if ($request->admission_id) {
             $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
+            $multiplicate = true;
         } else {
             return response()->json([
                 'status' => false,
@@ -2658,7 +2739,13 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $total_value = 0;
         $i = 0;
         foreach ($selected_procedures as $element) {
-            $total_value += $element['services_briefcase']['value'];
+            $quantity = 0;
+            $q = 1;
+            if ($element['quantity']) {
+                $q = $element['quantity'];
+            }
+            $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+            $quantity += $q;
             $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
                 $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
                     $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
@@ -2701,25 +2788,25 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     $j = 0;
                     foreach ($view_services as $e) {
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
-                            $view_services[$j]['amount']++;
-                            $view_services[$j]['value'] += $selected_procedures[$i]['services_briefcase']['value'];
+                            $view_services[$j]['amount'] += $quantity;
+                            $view_services[$j]['value'] += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                         }
                         $j++;
                     }
                 } else {
                     $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
-                    $a['amount'] = 1;
-                    $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
-                    $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                    $a['amount'] = $quantity;
+                    $a['val_und'] = 0;
+                    $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                     array_push($view_services, $a);
                 }
             } else {
                 $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
-                $a['amount'] = 1;
-                $a['val_und'] = $selected_procedures[$i]['services_briefcase']['value'];;
-                $a['value'] = $selected_procedures[$i]['services_briefcase']['value'];
+                $a['amount'] = $quantity;
+                $a['val_und'] = 0;
+                $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
                 array_push($view_services, $a);
             }
 
@@ -2730,7 +2817,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         if (count($view_services) > 0) {
             $j = 0;
             foreach ($view_services as $e) {
-                $view_services[$j]['val_und'] = $this->currencyTransform($e['val_und']);
+                $view_services[$j]['val_und'] = $this->currencyTransform(($e['value']/$e['amount']));
                 $view_services[$j]['value'] = $this->currencyTransform($e['value']);
                 $j++;
             }

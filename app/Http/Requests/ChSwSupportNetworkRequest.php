@@ -26,6 +26,8 @@ class ChSwSupportNetworkRequest extends FormRequest
         return [
             'provided' => '',
             'sw_note' => '',
+            'ch_sw_entity_id' => '',
+            'observation' => '',
             'ch_sw_network_id' => '',
             'type_record_id' => '',
             'ch_record_id' => ''

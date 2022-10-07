@@ -90,6 +90,7 @@ class AuthorizationPackageController extends Controller
     {
         $Authorization =  new Authorization;
         $Authorization->services_briefcase_id = $request->services_briefcase_id;
+        $Authorization->quantity = $request->quantity;
         $Authorization->admissions_id = $request->admissions_id;
         $serviceBriefcase = ServicesBriefcase::select('services_briefcase.*')->where('id',  $request->services_briefcase_id)->first();
         $Authorization->manual_price_id = $serviceBriefcase->manual_price_id;

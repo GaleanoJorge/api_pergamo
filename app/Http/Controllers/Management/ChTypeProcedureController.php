@@ -56,7 +56,8 @@ class ChTypeProcedureController extends Controller
         
        
         $ChTypeProcedure = ChTypeProcedure::with('type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        ->where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
             $ChTypeProcedure = $ChTypeProcedure->get()->toArray();

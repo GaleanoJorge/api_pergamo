@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "HOSPITAL DE KENNEDY"
+    },
+    {
+        "id": 2,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "HOSPITAL SIMON BOLIVAR"
+    },
+    {
+        "id": 3,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "HOSPITAL DE ENGATIVÁ"
+    },
+    {
+        "id": 4,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "CLÍNICA COLOMBIA"
+    },
+    {
+        "id": 5,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "CLÍNICA MÉDERY"
+    },
+    {
+        "id": 6,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "HOSPITAL DE MEISEN"
+    },
+    {
+        "id": 7,
+        "country_id": 1,
+        "region_id": 3,
+        "municipality_id": 11001,
+        "name": "CLÍNICA SHAIO"
+    }
+]

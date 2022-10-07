@@ -24,6 +24,18 @@ class DiagnosisController extends Controller
             $Diagnosis->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->id) {
+            $Diagnosis->where('id', $request->id);
+            $Diagnosis = $Diagnosis->get()->toArray();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Diagnósticos obtenidos exitosamente',
+            'data' => ['diagnosis' => $Diagnosis]
+        ]);
+        }
+
         if ($request->search) {
             if ($request->search == '') {
                 return response()->json([

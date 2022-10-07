@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChAssSigns;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChSwArmedConflictController extends Controller
 {
@@ -53,21 +54,27 @@ class ChSwArmedConflictController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
 
         $ChSwArmedConflict = ChSwArmedConflict::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
-            ->with(
-                'municipality',
-                'population_group',
-                'ethnicity'
-            )->get()->toArray();
+            ->get()->toArray();
 
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChSwArmedConflict = ChSwArmedConflict::select('ch_sw_armed_conflict.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_sw_armed_conflict.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_sw_armed_conflict.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Información conflicto armado obtenido exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_sw_armed_conflict' => $ChSwArmedConflict]
         ]);
     }

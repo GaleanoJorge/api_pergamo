@@ -123,16 +123,15 @@
 			line-height: 1.133789em;
 		}
 
+		
 		.stl_12 {
-			letter-spacing: -0.01em;
+			font-size: 0.80em;
+			font-family: "WTLLQE+FranklinGothic-Medium";
+			color: #000000;
+			line-height: 1.133789em;
 		}
-
 		.stl_13 {
-			-ms-transform: matrix(1, 0, 0, 1.052632, 0, -1.189118);
-			-moz-transform: scale(1, 1.052632);
-			-webkit-transform: scale(1, 1.052632);
-			transform: scale(1, 1.052632);
-			-o-transform: scale(1, 1.052632);
+			letter-spacing: 0.01em;
 		}
 
 		.stl_14 {
@@ -340,33 +339,38 @@
 				<div class="stl_01" style="top: 38.3327em; left:5.912em;"><span class="stl_11 stl_12" style="word-spacing:0.07em;">afectar la seguridad del paciente &nbsp;</span></div>
 				<div class="stl_01" style="top: 40.4227em; left:4.13em;"><span class="stl_11 stl_08" style="word-spacing:0.06em;">En consecuenci<span class="stl_12">a,</span></span><span class="stl_11 stl_12" style="word-spacing:0.12em;">&nbsp;firmo</span><span class="stl_11 stl_12" style="word-spacing:0.11em;">&nbsp;(amos), como</span><span class="stl_11 stl_12" style="word-spacing:0.08em;">&nbsp;</span><span class="stl_21 stl_08" style="font-style:italic; word-spacing:0.08em;">manifiest<span class="stl_12">a</span></span><span class="stl_21 stl_12" style="font-style:italic; word-spacing:0.12em;">&nbsp;aceptación</span><span class="stl_21 stl_12" style="word-spacing:0.04em;">&nbsp;</span><span class="stl_11" style="word-spacing:0.04em;">de</span><span class="stl_11 stl_12" style="word-spacing:0.12em;">&nbsp;realizar el estudio</span><span class="stl_11 stl_12" style="word-spacing:0.08em;">&nbsp;y</span><span class="stl_11 stl_12" style="word-spacing:0.11em;">&nbsp;manejo</span><span class="stl_11 stl_12" style="word-spacing:0.1em;">&nbsp;de</span><span class="stl_11 stl_12" style="word-spacing:0.08em;">&nbsp;mi</span><span class="stl_11 stl_12" style="word-spacing:0.12em;">&nbsp;(su) &nbsp;</span></div>
 				<div class="stl_01" style="top: 41.4627em; left:4.13em;"><span class="stl_11 stl_12" style="word-spacing:0.05em;">estado de salud actual siendo paciente de este Programa de Atención Domiciliaria - PAD. &nbsp;</span></div>
+				@if($consentsinformed[0]['confirmation']=="Paciente")
 				@if(isset($consentsinformed[0]['firm_patient']))
 				<div class="stl_01" style="top: 44.5827em; left:4.73em;"><span class="stl_11">Firma: &nbsp;</span></div>
-				<div class="stl_01" style="top: 44.5827em; left:14.6417em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['firm_patient']}}&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 44.5827em; left:12.6417em;"><span class="stl_11 stl_08"><img src="data:image/png;base64,{{$firmpatient}}" width="2000" height="300" alt="" style=""/><span class="stl_13">&nbsp;</span></span></div>
+				@endisset
 				@endisset
 				<div class="stl_01" style="top: 45.8626em; left:14.6417em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['admissions']['patients']['firstname']}} {{$consentsinformed[0]['admissions']['patients']['middlefirstname']}} {{$consentsinformed[0]['admissions']['patients']['lastname']}} {{$consentsinformed[0]['admissions']['patients']['middlelastname']}} &nbsp;</span></span></div>
 				
-
+				
 				<div class="stl_01" style="top: 47.1427em; left:14.6417em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['admissions']['patients'] ['identification']}}&nbsp;</span></span></div>
 				<div class="stl_01" style="top: 44.5827em; left:26.9558em;"><span class="stl_11">Firma: &nbsp;</span></div>
 
-				<div class="stl_01" style="top: 44.8227em; left:36.7183em;"><span class="stl_11 stl_08">_______________4__<span class="stl_12">__ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 44.8227em; left:36.7183em;"><span class="stl_11 stl_08"><img src="data:image/png;base64,{{$firmassistance}}" width="2000" height="300" alt="" style=""/><span class="stl_12"> &nbsp;</span></span></div>
+				
 				<div class="stl_01" style="top: 46.1027em; left:36.7183em;"><span class="stl_11 stl_08">
 						{{$consentsinformed[0]['assigned_user']['firstname']}} {{$consentsinformed[0]['assigned_user']['middlefirstname'] }} {{$consentsinformed[0]['assigned_user']['lastname'] }} {{$consentsinformed[0]['assigned_user']['middlelastname'] }} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 45.8626em; left:4.73em;"><span class="stl_11 stl_12" style="word-spacing:0.08em;">Nombre de Paciente: &nbsp;</span></div>
 				<div class="stl_01" style="top: 47.1427em; left:4.73em;"><span class="stl_11">Documento: &nbsp;</span></div>
 				<div class="stl_01" style="top: 45.8626em; left:26.9558em;"><span class="stl_11 stl_08" style="word-spacing:0em;">Nombre Profesiona<span class="stl_12">l: &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 47.2627em; left:26.9558em;"><span class="stl_11">T.P.: &nbsp;</span></div>
-				<div class="stl_01" style="top: 47.2627em; left:36.7183em;"><span class="stl_11 stl_08">__________6________<span class="stl_12">__ &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 47.2627em; left:36.7183em;"><span class="stl_11 stl_08">
+					{{$consentsinformed[0]['assigned_user']['assistance'][0]['medical_record']}}<span class="stl_12"> &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 48.5327em; left:26.9558em;"><span class="stl_11">Cargo: &nbsp;</span></div>
-				<div class="stl_01" style="top: 48.6527em; left:36.7183em;"><span class="stl_11 stl_08">Cargo &nbsp;</span></span></div>
+				<div class="stl_01" style="top: 48.6527em; left:36.7183em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['assigned_user']['roles'][0]['name']}} &nbsp;</span></span></div>
 
+				@if($consentsinformed[0]['confirmation']=="Responsable/Cuidador")
 				@if(isset($consentsinformed[0]['firm_responsible']))
 				<div class="stl_01" style="top: 49.6952em; left:4.73em;"><span class="stl_11">Firma: &nbsp;</span></div>
 
-				<div class="stl_01" style="top: 49.9352em; left:14.6417em;"><span class="stl_11 stl_08">{{$consentsinformed[0]['firm_responsible']}}&nbsp;</span></span></div>
+				<div class="stl_01" style="top: 49.9352em; left:14.6417em;"><span class="stl_11 stl_08"><img src="data:image/png;base64,{{$firmresponsible}}" width="2800" height="250" alt="" style=""/>&nbsp;</span></span></div>
 				@endisset
-
+				@endisset
 				@if(isset($consentsinformed[0]['relationship']))
 				<div class="stl_01" style="top: 51.6152em; left:14.6417em;"><span class="stl_11 stl_08"> {{$consentsinformed[0]['relationship'] ['name']}} &nbsp;</span></span></div>
 				<div class="stl_01" style="top: 50.9752em; left:4.73em;"><span class="stl_11">Parentesco: &nbsp;</span></div>
@@ -375,7 +379,7 @@
 
 				@if(isset($consentsinformed[0]['name_responsible']))
 				<div class="stl_01" style="top: 52.6552em; left:4.73em;"><span class="stl_11" style="word-spacing:-0.02em;">Nombre de familiar&nbsp;</span></div>
-				<div class="stl_01" style="top: 53.6952em; left:4.73em;"><span class="stl_11 stl_08" style="word-spacing:0.89em;">cuidador/responsable:<span class="stl_12"> &nbsp;</span>  {{$consentsinformed[0]['name_responsible']}} </span></div>
+				<div class="stl_01" style="top: 53.6952em; left:4.73em;"><span class="stl_11 stl_08" style="word-spacing:0.89em;">cuidador/responsable:<span class="stl_12"> &nbsp;</span>  &nbsp;</span>  {{$consentsinformed[0]['name_responsible']}} </span></div>
 				@endisset
 
 				

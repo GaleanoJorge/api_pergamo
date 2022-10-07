@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\ChRecord;
+use App\Models\ChSwEntity;
 use App\Models\ChTypeRecord;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $provided
  * @property string $sw_note
+* @property BigInteger $ch_sw_entity_id
+ * @property string $observation
  * @property BigInteger $ch_sw_network_id
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
@@ -35,6 +38,10 @@ class ChSwSupportNetwork extends Model
 	public function ch_sw_network()
 	{
 		return $this->belongsTo(ChSwNetwork::class);
+	}
+	public function ch_sw_entity()
+	{
+		return $this->belongsTo(ChSwEntity::class);
 	}
 	public function type_record()
 	{

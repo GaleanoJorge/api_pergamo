@@ -73,7 +73,7 @@ class ChCarePlanController extends Controller
 
         } else if(count($CarePlanArray) == $count) {
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => ' Los planes ya se encuentran asociados',
                 // 'data' => ['ch_care_plan' => $ChCarePlan->toArray()]
             ]);

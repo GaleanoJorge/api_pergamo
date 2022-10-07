@@ -57,7 +57,8 @@ class ChSwHygieneHousingController extends Controller
     {
 
 
-        $ChSwHygieneHousing = ChSwHygieneHousing::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChSwHygieneHousing = ChSwHygieneHousing::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
           ->get()->toArray();
 
 

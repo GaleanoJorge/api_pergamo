@@ -21,6 +21,8 @@ class CampusSeeder extends Seeder
                 'address' => $row->address,
                 'enable_code' => $row->enable_code,
                 'region_id' => $row->region_id,
+                'status_id' => $row->status_id,
+                'billing_pad_credit_note_prefix_id' => $row->billing_pad_credit_note_prefix_id,
                 'billing_pad_prefix_id' => $row->billing_pad_prefix_id,
                 'municipality_id' => $row->municipality_id,
             ]);

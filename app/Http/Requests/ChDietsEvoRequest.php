@@ -25,7 +25,7 @@ class ChDietsEvoRequest extends FormRequest
     {
         return [
             'enterally_diet_id' => '',
-            'diet_consistency_id' => '',
+            'diet_consistency' => '',
             'observation' =>'',
             'type_record_id' => '',
             'ch_record_id' => '',

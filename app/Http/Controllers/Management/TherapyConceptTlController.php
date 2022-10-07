@@ -55,7 +55,8 @@ class TherapyConceptTlController extends Controller
     {
         
        
-        $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

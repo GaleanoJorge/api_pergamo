@@ -6,6 +6,7 @@ use App\Models\ChNutritionGastrointestinal;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ChRecord;
 use App\Http\Requests\ChNutritionGastrointestinalRequest;
 use Illuminate\Database\QueryException;
 
@@ -49,6 +50,30 @@ class ChNutritionGastrointestinalController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Entrada de enfermeria asociadas exitosamente',
+            'data' => ['ch_nutrition_gastrointestinal' => $ChNutritionGastrointestinal]
+        ]);
+    }
+        public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
+    {
+
+
+        $ChNutritionGastrointestinal = ChNutritionGastrointestinal::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+            ->get()->toArray();
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $ChNutritionGastrointestinal = ChNutritionGastrointestinal::select('ch_nutrition_gastrointestinal.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_nutrition_gastrointestinal.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_nutrition_gastrointestinal.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['ch_nutrition_gastrointestinal' => $ChNutritionGastrointestinal]
         ]);
     }

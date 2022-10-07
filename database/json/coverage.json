@@ -1,61 +1,76 @@
 [
     {
+        "id": 1,
         "code": "01",
         "name": "Plan de beneficios en salud financiado con UPC"
     },
     {
+        "id": 2,
         "code": "02",
         "name": "Presupuesto máximo"
     },
     {
+        "id": 3,
         "code": "03",
         "name": "Prima EPS/EOC, no asegurados SOAT"
     },
     {
+        "id": 4,
         "code": "04",
         "name": "Cobertura Póliza SOAT"
     },
     {
+        "id": 5,
         "code": "05",
         "name": "Cobertura ARL"
     },
     {
+        "id": 6,
         "code": "06",
         "name": "Cobertura ADRES"
     },
     {
+        "id": 7,
         "code": "07",
         "name": "Cobertura Salud Pública"
     },
     {
+        "id": 8,
         "code": "08",
         "name": "Cobertura entidad territorial, recursos de oferta"
     },
     {
+        "id": 9,
         "code": "09",
         "name": "Urgencias población migrante"
     },
     {
+        "id": 10,
         "code": "10",
         "name": "Plan complementario en salud"
     },
     {
+        "id": 11,
         "code": "11",
         "name": "Plan medicina prepagada"
     },
     {
+        "id": 12,
         "code": "12",
         "name": "Otras pólizas en salud"
     },
     {
+        "id": 13,
         "code": "13",
         "name": "Cobertura Régimen Especial o Excepción"
     },
     {
+        "id": 14,
         "code": "14",
         "name": "Cobertura Fondo Nacional de Salud de las Personas Privadas de la Libertad"
     },
     {
+        "id": 15,
         "code": "15",
         "name": "Particular"
     }

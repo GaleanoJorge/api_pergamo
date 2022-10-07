@@ -104,6 +104,8 @@ class BillUserActivityController extends Controller
                 'tariff',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
                 'assigned_management_plan.management_plan.admissions',
                 'assigned_management_plan.management_plan.admissions.patients',
                 'assigned_management_plan.management_plan.admissions.patients.identification_type',

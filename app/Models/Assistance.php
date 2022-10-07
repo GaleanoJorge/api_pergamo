@@ -11,7 +11,7 @@ class Assistance extends BaseAssistance
 		'user_id',
     'medical_record',
     'contract_type_id',
-    // 'cost_center_id',
+    'has_car',
     'PAD_service', 
     'attends_external_consultation', 
     'serve_multiple_patients', 

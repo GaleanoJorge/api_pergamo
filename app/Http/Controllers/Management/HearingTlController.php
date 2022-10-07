@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class HearingTlController extends Controller
 {
@@ -51,17 +52,27 @@ class HearingTlController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $HearingTl = HearingTl::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+
+
+        $HearingTl = HearingTl::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
-        
+
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+                $chrecord = ChRecord::find($id); //
+                $HearingTl = HearingTl::select('hearing_tl.*')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('hearing_tl.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'hearing_tl.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
+            }
+        }
 
         return response()->json([
             'status' => true,
-            'message' => 'Audición asociado al paciente exitosamente',
+            'message' => 'Valoracion obtenidos exitosamente',
             'data' => ['hearing_tl' => $HearingTl]
         ]);
     }

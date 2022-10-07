@@ -21,6 +21,7 @@ use App\Models\User;
  * @property string $medical_record
  * @property BigInteger $contract_type_id
  * @property BigInteger $PAD_service
+ * @property BigInteger $has_car
  * @property string $attends_external_consultation
  * @property string $serve_multiple_patients
  * @property string $file_firm

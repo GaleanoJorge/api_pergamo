@@ -18,13 +18,22 @@ class CreateCampusTable extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('enable_code')->nullable();
+            $table->unsignedTinyInteger('status_id')->nullable();
             $table->unsignedBigInteger('billing_pad_prefix_id');
+            $table->unsignedBigInteger('billing_pad_credit_note_prefix_id')->nullable();
             $table->unsignedBigInteger('region_id');
             $table->unsignedBigInteger('municipality_id')->nullable();
             $table->timestamps();
 
+            $table->index('status_id');
+            $table->foreign('status_id')->references('id')
+                ->on('status');
+
             $table->index('billing_pad_prefix_id');
             $table->foreign('billing_pad_prefix_id')->references('id')->on('billing_pad_prefix');
+
+            $table->index('billing_pad_credit_note_prefix_id');
+            $table->foreign('billing_pad_credit_note_prefix_id')->references('id')->on('billing_pad_prefix');
 
             $table->index('region_id');
             $table->foreign('region_id')->references('id')->on('region');

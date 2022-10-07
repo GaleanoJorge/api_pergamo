@@ -56,7 +56,8 @@ class ChTypeInabilityController extends Controller
         
        
         $ChTypeInability = ChTypeInability::with('type_record', 'ch_record')
-        ->where('ch_record_id', $id)->where('type_record_id',$type_record_id);
+        ->where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id);
         
         if ($request->query("pagination", true) == "false") {
             $ChTypeInability = $ChTypeInability->get()->toArray();

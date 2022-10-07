@@ -18,6 +18,8 @@ class CreateChSwSupportNetworkTable extends Migration
             $table->bigIncrements('id');            
             $table->string('provided');
             $table->string('sw_note')->nullable();          
+            $table->unsignedBigInteger('ch_sw_entity_id')->nullable();        
+            $table->string('observation')->nullable();          
             
             $table->unsignedBigInteger('ch_sw_network_id');
             $table->unsignedBigInteger('type_record_id');
@@ -26,6 +28,10 @@ class CreateChSwSupportNetworkTable extends Migration
             $table->timestamps();
 
            
+            $table->index('ch_sw_entity_id');
+            $table->foreign('ch_sw_entity_id')->references('id')
+                ->on('ch_sw_entity');
+
             $table->index('ch_sw_network_id');
             $table->foreign('ch_sw_network_id')->references('id')
                 ->on('ch_sw_network');

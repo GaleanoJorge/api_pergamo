@@ -875,7 +875,7 @@
     {
         "id": "148",
         "item_parent_id": null,
-        "name": "Plan de atención domiciliario",
+        "name": "Programa de atención domiciliaria",
         "code": "pad",
         "route": "/pages/pad/list",
         "icon": "activity-outline",
@@ -1629,6 +1629,33 @@
         "show_menu": "1"
     },
     {
+        "id": "232",
+        "item_parent_id": null,
+        "name": "Gestión asistencial",
+        "code": "medical-records-list",
+        "route": "/pages/medical-records/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "234",
+        "item_parent_id": "174",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "235",
+        "item_parent_id": null,
+        "name": "Referencia",
+        "code": "reference",
+        "route": "/pages/reference/list",
+        "icon": "keypad-outline",
+        "show_menu": "1"
+    },
+    {
         "id": "236",
         "item_parent_id": "224",
         "name": "Itinerario asistencial",
@@ -1644,6 +1671,15 @@
         "code": "medical-diary",
         "route": "/pages/scheduling/medical-diary",
         "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "239",
+        "item_parent_id": "219",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
         "show_menu": "1"
     }
 ]

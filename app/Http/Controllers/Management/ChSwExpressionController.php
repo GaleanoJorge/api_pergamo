@@ -56,7 +56,8 @@ class ChSwExpressionController extends Controller
     {
         
        
-        $ChSwExpression = ChSwExpression::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChSwExpression = ChSwExpression::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

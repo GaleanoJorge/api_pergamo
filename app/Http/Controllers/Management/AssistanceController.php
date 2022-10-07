@@ -31,6 +31,7 @@ class AssistanceController extends Controller
             ->leftJoin('users', 'users.id', '=', 'assistance.user_id')
             ->leftJoin('user_role', 'user_role.user_id', '=', 'assistance.user_id')
             ->leftJoin('location_capacity', 'location_capacity.assistance_id', '=', 'assistance.id')
+            ->leftJoin('locality', 'locality.id', '=', 'location_capacity.locality_id')
             ->leftJoin('role', 'role.id', '=', 'user_role.role_id')
             ->select(
                 'assistance.*',
@@ -55,17 +56,23 @@ class AssistanceController extends Controller
             $Assistance->where('users.status_id', $request->status_id);
         }
 
+        if ($request->role_id) {
+            $Assistance->where('role.id', $request->role_id);
+        }
+
         if ($request->id) {
             $Assistance->where('assistance.id', $request->id);
         }
 
         if ($request->search) {
-            $Assistance->where(function($query) use ($request) {
+            $Assistance->where(function ($query) use ($request) {
                 $query->where('users.firstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%');
+                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('role.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('locality.name', 'like', '%' . $request->search . '%');
             });
         }
 
@@ -91,7 +98,7 @@ class AssistanceController extends Controller
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id = $request->contract_type_id;
-        // $Assistance->cost_center_id = $request->cost_center_id;
+        $Assistance->has_car = $request->has_car;
         $Assistance->PAD_service = $request->PAD_service;
         $Assistance->medium_signature_file_id = $request->medium_signature_file_id;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
@@ -136,7 +143,7 @@ class AssistanceController extends Controller
         $Assistance->user_id = $request->user_id;
         $Assistance->medical_record = $request->medical_record;
         $Assistance->contract_type_id = $request->contract_type_id;
-        // $Assistance->cost_center_id = $request->cost_center_id;
+        $Assistance->has_car = $request->has_car;
         $Assistance->PAD_service = $request->PAD_service;
         $Assistance->attends_external_consultation = $request->attends_external_consultation;
         $Assistance->serve_multiple_patients = $request->serve_multiple_patients;

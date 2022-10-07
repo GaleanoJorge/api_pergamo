@@ -18,7 +18,7 @@ class ChDietsEvoController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChDietsEvo = ChDietsEvo::with('enterally_diet', 'diet_consistency'); /// Cargar 
+        $ChDietsEvo = ChDietsEvo::with('enterally_diet'); /// Cargar 
 
         if ($request->_sort) {
             $ChDietsEvo->orderBy($request->_sort, $request->_order);
@@ -58,11 +58,11 @@ class ChDietsEvoController extends Controller
 
         $ChDietsEvo = ChDietsEvo::with(
             'enterally_diet',
-            'diet_consistency',
             'type_record',
             'ch_record'
         )
-            ->where('ch_record_id', $id)->where('type_record_id', $type_record_id);
+            ->where('ch_record_id', $id)
+            ->where('type_record_id', $type_record_id);
 
         if ($request->has_input) { //
             if ($request->has_input == 'true') { //
@@ -70,11 +70,11 @@ class ChDietsEvoController extends Controller
                 $ChDietsEvo = ChDietsEvo::select('ch_diets_evo.*')
                 ->with(
                     'enterally_diet',
-                    'diet_consistency',
                     'type_record',
                     'ch_record'
                 )
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->where('ch_diets_evo.type_record_id', 1)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_diets_evo.ch_record_id') //
                     // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
                 ;
@@ -100,13 +100,28 @@ class ChDietsEvoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if($request->diet_consistency != null){
+        $supplies = json_decode($request->diet_consistency);
+        foreach ($supplies as $element) {
+
+            $ChDietsEvo = new ChDietsEvo;
+            $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
+            $ChDietsEvo->observation =  $request ->observation;
+            $ChDietsEvo->diet_consistency  = $element;
+            $ChDietsEvo->type_record_id = $request->type_record_id;
+            $ChDietsEvo->ch_record_id = $request->ch_record_id;
+
+           
+        }
+    }else{
         $ChDietsEvo = new ChDietsEvo;
         $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
-        $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
-        $ChDietsEvo->observation = $request->observation;
+        $ChDietsEvo->observation =  $request ->observation;
+        $ChDietsEvo->diet_consistency  = $request->diet_consistency;
         $ChDietsEvo->type_record_id = $request->type_record_id;
         $ChDietsEvo->ch_record_id = $request->ch_record_id;
-        $ChDietsEvo->save();
+    }
+    $ChDietsEvo->save();
 
         return response()->json([
             'status' => true,
@@ -143,7 +158,7 @@ class ChDietsEvoController extends Controller
     {
         $ChDietsEvo = ChDietsEvo::find($id);
         $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
-        $ChDietsEvo->diet_consistency_id = $request->diet_consistency_id;
+        $ChDietsEvo->diet_consistency = $request->diet_consistency;
         $ChDietsEvo->observation = $request->observation;
         $ChDietsEvo->type_record_id = $request->type_record_id;
         $ChDietsEvo->ch_record_id = $request->ch_record_id;

@@ -56,7 +56,8 @@ class ChSwSeniorityController extends Controller
     {
         
        
-        $ChSwSeniority = ChSwSeniority::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+        $ChSwSeniority = ChSwSeniority::where('ch_record_id', $id)
+        ->where('type_record_id',$type_record_id)
             ->get()->toArray();
         
 

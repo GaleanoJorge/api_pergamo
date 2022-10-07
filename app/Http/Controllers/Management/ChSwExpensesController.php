@@ -56,7 +56,8 @@ class ChSwExpensesController extends Controller
     {
 
 
-        $ChSwExpenses = ChSwExpenses::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChSwExpenses = ChSwExpenses::where('ch_record_id', $id)
+        ->where('type_record_id', $type_record_id)
             ->get()->toArray();
 
 

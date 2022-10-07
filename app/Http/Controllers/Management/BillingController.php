@@ -21,18 +21,18 @@ class BillingController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Billing = Billing::select('billing.*',
-        DB::raw(
-            "SUM(billing_stock.amount_provitional)"
-        ),
-        )->with('company','pharmacy_stock')->leftJoin('billing_stock','billing_stock.billing_id', 'billing.id')->groupBy('billing.id');
-
-            
-
-            
+        $Billing = Billing::select(
+            'billing.*',
+            DB::raw(
+                "SUM(billing_stock.amount_provitional)"
+            ),
+        )->with('company', 'pharmacy_stock')->leftJoin('billing_stock', 'billing_stock.billing_id', 'billing.id')->groupBy('billing.id');
 
         if ($request->_sort) {
-            $Billing->orderBy($request->_sort, $request->_order);
+            if ($request->_sort != "actions" && $request->_sort != "company" && $request->_sort != "pharmacy_stock") {
+
+                $Billing->orderBy($request->_sort, $request->_order);
+            }
         }
 
         if ($request->search) {
@@ -40,7 +40,7 @@ class BillingController extends Controller
         }
 
         if ($request->type_billing_evidence_id) {
-            $Billing->where('type_billing_evidence_id', $request->type_billing_evidence_id)->where('amount_provitional','!=',0);
+            $Billing->where('type_billing_evidence_id', $request->type_billing_evidence_id)->where('amount_provitional', '!=', 0);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -52,14 +52,12 @@ class BillingController extends Controller
             $Billing = $Billing->paginate($per_page, '*', 'page', $page);
         }
 
-
         return response()->json([
             'status' => true,
             'message' => 'Registro de factura obtenidos exitosamente',
             'data' => ['billing' => $Billing]
         ]);
     }
-
 
     /**
      * Display a listing of the resource.

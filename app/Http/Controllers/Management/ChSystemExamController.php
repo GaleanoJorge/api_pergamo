@@ -69,6 +69,7 @@ class ChSystemExamController extends Controller
                 $ChSystemExam = ChSystemExam::select('ch_system_exam.*')
                     ->with('type_ch_system_exam')
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
+                    ->where('ch_system_exam.type_record_id', 1)
                 ->leftJoin('ch_record', 'ch_record.id', 'ch_system_exam.ch_record_id') //
                 ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }
@@ -85,27 +86,30 @@ class ChSystemExamController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $validate = ChSystemExam::where('ch_record_id', $request->ch_record_id)->where('type_ch_system_exam_id', $request->type_ch_system_exam_id)->first();
-        if (!$validate) {
-            $ChSystemExam = new ChSystemExam;
-            $ChSystemExam->revision = $request->revision;
-            $ChSystemExam->observation = $request->observation;
-            $ChSystemExam->type_ch_system_exam_id = $request->type_ch_system_exam_id;
-            $ChSystemExam->type_record_id = $request->type_record_id;
-            $ChSystemExam->ch_record_id = $request->ch_record_id;
-            $ChSystemExam->save();
+        $type_ch_system_exam = json_decode($request->type_ch_system_exam_id);
+        // $validate = ChBackground::where('ch_record_id', $request->ch_record_id)->where('ch_type_background_id', $request->ch_type_background_id)->first();
+        // if (!$validate) {
+            foreach($type_ch_system_exam as $element) {
+                    $ChSystemExam = new ChSystemExam;
+                    $ChSystemExam->type_ch_system_exam_id = $element->id;
+                    $ChSystemExam->revision = $element->revision;
+                    $ChSystemExam->observation = $element->description;
+                    $ChSystemExam->type_record_id = $request->type_record_id;
+                    $ChSystemExam->ch_record_id = $request->ch_record_id;
+                    $ChSystemExam->save();
+                } 
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Revisión Por  Sistema asociado al paciente exitosamente',
-                'data' => ['ch_system_exam' => $ChSystemExam->toArray()]
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Ya tiene observación'
-            ], 423);
-        }
+        // } else {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Ya tiene observación'
+        //     ], 423);
+        // }
+        return response()->json([
+            'status' => true,
+            'message' => 'Revisión Por  Sistema obtenido exitosamente',
+            'data' => ['ch_system_exam' => $ChSystemExam]
+        ]);
     }
 
     /**
