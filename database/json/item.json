@@ -1603,16 +1603,16 @@
     },
     {
         "id": "229",
-        "item_parent_id": "224",
+        "item_parent_id": "66",
         "name": "Consulta externa",
-        "code": "medical-diary",
-        "route": "/pages/scheduling/medical-diary",
-        "icon": "book-open-outline",
+        "code": null,
+        "route": null,
+        "icon": "",
         "show_menu": "1"
     },
     {
         "id": "230",
-        "item_parent_id": "224",
+        "item_parent_id": "229",
         "name": "Días no laborales",
         "code": "non-working-days",
         "route": "/pages/scheduling/non-working-days",
@@ -1623,9 +1623,27 @@
         "id": "231",
         "item_parent_id": "224",
         "name": "CUPS del asistencial",
-        "code": "Cups del asistencial",
+        "code": "healthcare-cups",
         "route": "/pages/scheduling/assitencial-procedure",
         "icon": "calendar-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "236",
+        "item_parent_id": "224",
+        "name": "Itinerario asistencial",
+        "code": "healthcare-itinerary",
+        "route": "/pages/scheduling/healthcare-itinerary",
+        "icon": "calendar-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "238",
+        "item_parent_id": "229",
+        "name": "Consulta externa",
+        "code": "medical-diary",
+        "route": "/pages/scheduling/medical-diary",
+        "icon": "book-open-outline",
         "show_menu": "1"
     }
 ]
