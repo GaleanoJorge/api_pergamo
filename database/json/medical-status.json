@@ -1,18 +1,26 @@
 [
     {
         "id": 1,
-        "name": "Agendada"
+        "name": "libre"
     },
     {
         "id": 2,
-        "name": "Confirmada"
+        "name": "Reservada"
     },
     {
         "id": 3,
-        "name": "facturada"
+        "name": "Confirmada"
     },
     {
         "id": 4,
+        "name": "facturada"
+    },
+    {
+        "id": 5,
+        "name": "Cancelada"
+    },
+    {
+        "id": 6,
         "name": "Cancelada"
     }
 ]
