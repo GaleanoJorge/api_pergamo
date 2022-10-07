@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\AssistanceProcedure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -38,9 +39,15 @@ class Assistance extends Model
 	{
 		return $this->hasMany(AssistanceSpecial::class);
 	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
+	}
+
+	public function assistance_procedure()
+	{
+		return $this->hasMany(AssistanceProcedure::class);
 	}
 	
 }
