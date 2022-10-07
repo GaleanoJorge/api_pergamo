@@ -108,9 +108,9 @@ class LocationController extends Controller
         $Location->discharge_date = Carbon::now();
         $Location->save();
 
-        $start_date = Carbon::parse($Location->entry_date);
-        $finish_date = Carbon::parse($Location->discharge_date);
-        $diff_days = $start_date->diffInDays($finish_date);
+        $start_date = Carbon::parse($Location->entry_date)->setTimezone('America/Bogota')->startOfDay();
+        $finish_date = Carbon::parse($Location->discharge_date)->setTimezone('America/Bogota')->startOfDay();
+        $diff_days = $start_date->diffInDays($finish_date) + 1;
 
         $Authorization_end = Authorization::where('location_id', $Location->id)->first();
         $Authorization_end->quantity = $diff_days;
