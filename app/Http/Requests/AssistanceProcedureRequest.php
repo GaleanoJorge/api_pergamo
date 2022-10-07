@@ -24,7 +24,7 @@ class AssistanceProcedureRequest extends FormRequest
     public function rules()
     {
         return [
-            'procedure_id' => '',
+            'procedure' => '',
             'assistance_id' => 'required',
         ];
     }
