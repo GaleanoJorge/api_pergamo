@@ -40,7 +40,7 @@ class MedicalDiaryDaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias de agenda obtenidos exitosamente',
-            'data' => ['Medical_diary_days' => $MedicalDiaryDays]
+            'data' => ['medical_diary_days' => $MedicalDiaryDays]
         ]);
     }
     
@@ -54,7 +54,7 @@ class MedicalDiaryDaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias de agenda creados exitosamente',
-            'data' => ['Medical_diary_days' => $MedicalDiaryDays->toArray()]
+            'data' => ['medical_diary_days' => $MedicalDiaryDays->toArray()]
         ]);
     }
 
@@ -72,7 +72,7 @@ class MedicalDiaryDaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias de agenda obtenidos exitosamente',
-            'data' => ['Medical_diary_days' => $MedicalDiaryDays]
+            'data' => ['medical_diary_days' => $MedicalDiaryDays]
         ]);
     }
 
@@ -83,16 +83,21 @@ class MedicalDiaryDaysController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(MedicalDiaryDaysRequest $request, int $id): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
-        $MedicalDiaryDays = MedicalDiaryDays ::find($id);
-        $MedicalDiaryDays->name = $request->name;      
+        $MedicalDiaryDays = MedicalDiaryDays::find($id);
+        $MedicalDiaryDays->medical_status_id = $request->state_id;    
+        $MedicalDiaryDays->eps_id = $request->eps_id;    
+        $MedicalDiaryDays->contract_id = $request->contract_id;      
+        $MedicalDiaryDays->briefcase_id = $request->briefcase_id;      
+        $MedicalDiaryDays->services_briefcase_id = $request->service_briefcase_id;      
+        $MedicalDiaryDays->patient_id = $request->patient_id;
         $MedicalDiaryDays->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Dia de agenda actualizados exitosamente',
-            'data' => ['Medical_diary_days' => $MedicalDiaryDays]
+            'data' => ['medical_diary_days' => $MedicalDiaryDays->get()->toArray()]
         ]);
     }
 
