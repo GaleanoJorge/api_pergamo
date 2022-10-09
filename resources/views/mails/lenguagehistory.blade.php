@@ -35,7 +35,7 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
                         <p> Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
