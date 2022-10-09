@@ -18,7 +18,7 @@ class CampusController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $campus = Campus::select('campus.*')->with('region', 'municipality', 'billing_pad_prefix', 'status')
+        $campus = Campus::select('campus.*')->with('region', 'municipality', 'billing_pad_prefix', 'billing_pad_credit_note_prefix', 'status')
             ->LeftJoin('region', 'region.id', 'campus.region_id')
             ->LeftJoin('municipality', 'municipality.id', 'campus.municipality_id')
             ->LeftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')

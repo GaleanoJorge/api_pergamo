@@ -18,6 +18,7 @@ class CreateManagementPlanTable extends Migration
             $table->unsignedTinyInteger('type_of_attention_id');
             $table->unsignedTinyInteger('frequency_id')->nullable();
             $table->Integer('quantity');
+            $table->Integer('hours');
             $table->unsignedBigInteger('specialty_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('procedure_id')->nullable();

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\LogAdmissions;
 use App\Models\Patient;
 use App\Models\Reference;
 use Illuminate\Database\QueryException;
@@ -515,6 +516,11 @@ class AdmissionsController extends Controller
             $Admissions->patient_id = $request->patient_id;
             $Admissions->entry_date = Carbon::now();
             $Admissions->save();
+            $LogAdmissions = new LogAdmissions;
+            $LogAdmissions->user_id = Auth::user()->id;;
+            $LogAdmissions->admissions_id = $Admissions->id; 
+            $LogAdmissions->status ='Admisión creada';
+            $LogAdmissions->save();
 
             $Location = new Location;
             $Location->admissions_id = $Admissions->id;
@@ -527,6 +533,11 @@ class AdmissionsController extends Controller
             $Location->user_id = Auth::user()->id;
             $Location->entry_date = Carbon::now();
             $Location->save();
+            $LogAdmissions = new LogAdmissions;
+            $LogAdmissions->user_id = Auth::user()->id;;
+            $LogAdmissions->admissions_id = $Admissions->id; 
+            $LogAdmissions->status ='Admisión creada';
+            $LogAdmissions->save();
 
             if ($Location->admission_route_id == 2) {
                 $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
@@ -633,6 +644,12 @@ class AdmissionsController extends Controller
             $Admissions->patient_id = $request->patient_id;
             $Admissions->save();
         }
+        
+        $LogAdmissions = new LogAdmissions;
+        $LogAdmissions->user_id = Auth::user()->id;;
+        $LogAdmissions->admissions_id = $Admissions->id; 
+        $LogAdmissions->status ='Admisión actualizada';
+        $LogAdmissions->save();
 
         return response()->json([
             'status' => true,
