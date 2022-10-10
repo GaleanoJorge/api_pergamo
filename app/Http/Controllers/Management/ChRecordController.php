@@ -1326,6 +1326,7 @@ class ChRecordController extends Controller
                 'ChNotesDescription' => $ChNotesDescription,
                 'PharmacyProductRequest' => $PharmacyProductRequest,
                 'AssistanceSupplies' => $AssistanceSupplies,
+                'fecharecord' => $fecharecord,
 
                 'firmPatient' => $imagenPAtient,
 
@@ -1471,6 +1472,7 @@ class ChRecordController extends Controller
                 'ChObjectivesTherapy' => $ChObjectivesTherapy,
                 'PharmacyProductRequest' => $PharmacyProductRequest,
                 'ChRtSessions' => $ChRtSessions,
+                'fecharecord' => $fecharecord,
 
                 'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
                 'ChBackgroundEvo' => $ChBackgroundEvo,
@@ -1610,6 +1612,7 @@ class ChRecordController extends Controller
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                 'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1717,6 +1720,7 @@ class ChRecordController extends Controller
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1819,6 +1823,7 @@ class ChRecordController extends Controller
                 'ChScaleFragility' => $ChScaleFragility,
 
                 'ChFailed' => $ChFailed,
+                'fecharecord' => $fecharecord,
 
 
 
@@ -1927,6 +1932,7 @@ class ChRecordController extends Controller
                 'ChEMarchFT' => $ChEMarchFT,
                 'ChEDiagnosisFT' => $ChEDiagnosisFT,
                 'ChETherGoalsFT' => $ChETherGoalsFT,
+                'fecharecord' => $fecharecord,
 
                 'ChEWeeklyFT' => $ChEWeeklyFT,
 
@@ -2049,6 +2055,7 @@ class ChRecordController extends Controller
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -2152,6 +2159,7 @@ class ChRecordController extends Controller
                 'ChPsSynthesis' => $ChPsSynthesis,
                 'ChPsMultiaxial' => $ChPsMultiaxial,
                 'ChPsIntervention' => $ChPsIntervention,
+                'fecharecord' => $fecharecord,
 
                 'ChPsAssessmentEvo' => $ChPsAssessmentEvo,
                 'ChPsOperationalization' => $ChPsOperationalization,
@@ -2273,7 +2281,8 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
 
                     array_push($hcAll, $ch);
 
@@ -2558,7 +2567,8 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
 
                     array_push($hcAll, $ch);
 
@@ -2706,6 +2716,7 @@ class ChRecordController extends Controller
                         'ChNotesDescription' => $ChNotesDescription,
                         'PharmacyProductRequest' => $PharmacyProductRequest,
                         'AssistanceSupplies' => $AssistanceSupplies,
+                        'fecharecord' => $fecharecord,
 
                         'firmPatient' => $imagenPAtient,
 
@@ -2764,7 +2775,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
 
                     array_push($hcAll, $ch);
 
@@ -2851,6 +2862,7 @@ class ChRecordController extends Controller
                         'ChScaleFragility' => $ChScaleFragility,
 
                         'ChFailed' => $ChFailed,
+                        'fecharecord' => $fecharecord,
 
 
 
@@ -2909,7 +2921,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
 
                     array_push($hcAll, $ch);
 
@@ -3026,6 +3038,7 @@ class ChRecordController extends Controller
                         'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                         'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
                         'firmPatient' => $imagenPAtient,
+                        'fecharecord' => $fecharecord,
 
                         'firm' => $imagenComoBase64,
                         'today' => $today,
@@ -3087,7 +3100,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
 
                     array_push($hcAll, $ch);
 
@@ -3214,6 +3227,7 @@ class ChRecordController extends Controller
                         'ChObjectivesTherapy' => $ChObjectivesTherapy,
                         'PharmacyProductRequest' => $PharmacyProductRequest,
                         'ChRtSessions' => $ChRtSessions,
+                        'fecharecord' => $fecharecord,
 
                         'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
                         'ChBackgroundEvo' => $ChBackgroundEvo,
@@ -3281,8 +3295,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
-
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
                     array_push($hcAll, $ch);
 
                     $count++;
@@ -3373,6 +3386,7 @@ class ChRecordController extends Controller
                         'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
+                        'fecharecord' => $fecharecord,
 
                         'firm' => $imagenComoBase64,
                         'today' => $today,
@@ -3432,7 +3446,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
 
                     array_push($hcAll, $ch);
 
@@ -3523,6 +3537,7 @@ class ChRecordController extends Controller
                         'ChETherGoalsFT' => $ChETherGoalsFT,
 
                         'ChEWeeklyFT' => $ChEWeeklyFT,
+                        'fecharecord' => $fecharecord,
 
                         'ChEValorationFTEvo' => $ChEValorationFTEvo,
                         'ChVitalSignsEvo' => $ChVitalSignsEvo,
@@ -3589,7 +3604,7 @@ class ChRecordController extends Controller
 
 
                     $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->format('d-m-Y h:i:s');
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
 
                     array_push($hcAll, $ch);
 
@@ -3684,6 +3699,7 @@ class ChRecordController extends Controller
                         'ChSwSupportNetwork' => $ChSwSupportNetwork,
                         'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
                         'firmPatient' => $imagenPAtient,
+                        'fecharecord' => $fecharecord,
 
                         'firm' => $imagenComoBase64,
                         'today' => $today,
