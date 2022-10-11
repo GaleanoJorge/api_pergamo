@@ -125,6 +125,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_armed_conflict/by_record/{id}/{type_record_id}', 'Management\ChSwArmedConflictController@getByRecord');
     Route::apiResource('ch_sw_support_network', 'Management\ChSwSupportNetworkController');
     Route::get('ch_sw_support_network/by_record/{id}/{type_record_id}', 'Management\ChSwSupportNetworkController@getByRecord');
+    Route::apiResource('sw_rights_duties', 'Management\SwRightsDutiesController');
+    Route::get('sw_rights_duties/by_record/{id}/{type_record_id}', 'Management\SwRightsDutiesController@getByRecord');
 
 
     Route::apiResource('ch_sw_activities', 'Management\ChSwActivitiesController');
@@ -153,6 +155,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_network/by_record/{id}/{type_record_id}', 'Management\ChSwNetworkController@getByRecord');
     Route::apiResource('ch_sw_entity', 'Management\ChSwEntityController');
     Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
+    Route::apiResource('sw_education', 'Management\SwEducationController');
+    Route::get('sw_education/by_record/{id}/{type_record_id}', 'Management\SwEducationController@getByRecord');
 
     //Ch Psicología
     Route::apiResource('ch_ps_episodes', 'Management\ChPsEpisodesController');

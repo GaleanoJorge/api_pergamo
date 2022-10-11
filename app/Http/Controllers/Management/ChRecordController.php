@@ -11,6 +11,7 @@ use App\Models\Assistance;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
+use App\Models\Base\SwEducation;
 use App\Models\ChNursingNote;
 use App\Models\ChSwSupportNetwork;
 use App\Models\ServicesBriefcase;
@@ -500,7 +501,12 @@ class ChRecordController extends Controller
         //Ordenes Médicas
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
-            'frequency'
+            'frequency',
+            // 'services_briefcase',
+            // 'services_briefcase.manual_price',
+            // 'services_briefcase.manual_price.procedure',
+    
+            
         )
             ->where('id', $id)->get()->toArray();
 
@@ -1044,7 +1050,10 @@ class ChRecordController extends Controller
             //Ordenes Médicas
             $ChMedicalOrders = ChMedicalOrders::with(
                 'procedure',
-                'frequency'
+                'frequency',
+                // 'services_briefcase',
+                // 'services_briefcase.manual_price',
+                // 'services_briefcase.manual_price.procedure',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
@@ -1328,6 +1337,7 @@ class ChRecordController extends Controller
                 'AssistanceSupplies' => $AssistanceSupplies,
 
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1481,6 +1491,7 @@ class ChRecordController extends Controller
                 'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                 'firmPatient' => $imagenPAtient,
 
+                'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -1610,6 +1621,7 @@ class ChRecordController extends Controller
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                 'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1717,6 +1729,7 @@ class ChRecordController extends Controller
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                 'firmPatient' => $imagenPAtient,
+                'fecharecord' => $fecharecord,
 
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -1821,7 +1834,7 @@ class ChRecordController extends Controller
                 'ChFailed' => $ChFailed,
 
 
-
+                'fecharecord' => $fecharecord,
                 'firmPatient' => $imagenPAtient,
 
                 'firm' => $imagenComoBase64,
@@ -1937,7 +1950,7 @@ class ChRecordController extends Controller
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
                 'firmPatient' => $imagenPAtient,
 
-
+                'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -2011,11 +2024,28 @@ class ChRecordController extends Controller
             $ChSwSupportNetwork = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $SwEducationDr = SwEducation::select('sw_education.*')->with(
+                'sw_rights_duties'
+            )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+            ->where('sw_rights_duties.code',1)->get()->toArray();
+            $SwEducationDb = SwEducation::select('sw_education.*')->with(
+                'sw_rights_duties'
+            )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+            ->where('sw_rights_duties.code',2)->get()->toArray();
 
             //Regular
+            $SwEducationEvoDr = SwEducation::select('sw_education.*')->with(
+                'sw_rights_duties'
+            )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+            ->where('sw_rights_duties.code',1)->get()->toArray();
+            $SwEducationEvoDb = SwEducation::select('sw_education.*')->with(
+                'sw_rights_duties'
+            )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+            ->where('sw_rights_duties.code',2)->get()->toArray();
             $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            
 
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -2047,9 +2077,14 @@ class ChRecordController extends Controller
                 'ChSwEconomicAspects' => $ChSwEconomicAspects,
                 'ChSwArmedConflict' => $ChSwArmedConflict,
                 'ChSwSupportNetwork' => $ChSwSupportNetwork,
+                'SwEducationDr' => $SwEducationDr,
+                'SwEducationDb' => $SwEducationDb,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                'SwEducationEvoDr' => $SwEducationEvoDr, 
+                'SwEducationEvoDb' => $SwEducationEvoDb, 
                 'firmPatient' => $imagenPAtient,
 
+                'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -2160,6 +2195,7 @@ class ChRecordController extends Controller
 
                 'firmPatient' => $imagenPAtient,
 
+                'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
                 //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
@@ -3643,11 +3679,28 @@ class ChRecordController extends Controller
                         'population_group',
                         'ethnicity'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $SwEducationDr = SwEducation::select('sw_education.*')->with(
+                        'sw_rights_duties'
+                    )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    ->where('sw_rights_duties.code',1)->get()->toArray();
+                    $SwEducationDb = SwEducation::select('sw_education.*')->with(
+                        'sw_rights_duties'
+                    )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    ->where('sw_rights_duties.code',2)->get()->toArray();
                     $ChSwSupportNetwork = ChSwSupportNetwork::with(
                         'ch_sw_network'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     //Regular
+                    $SwEducationEvoDr = SwEducation::select('sw_education.*')->with(
+                        'sw_rights_duties'
+                    )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    ->where('sw_rights_duties.code',1)->get()->toArray();
+                    $SwEducationEvoDb = SwEducation::select('sw_education.*')->with(
+                        'sw_rights_duties'
+                    )->leftJoin('sw_rights_duties','sw_education.sw_rights_duties_id','sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    ->where('sw_rights_duties.code',2)->get()->toArray();
+
                     $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                         'ch_sw_network'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3682,9 +3735,12 @@ class ChRecordController extends Controller
                         'ChSwEconomicAspects' => $ChSwEconomicAspects,
                         'ChSwArmedConflict' => $ChSwArmedConflict,
                         'ChSwSupportNetwork' => $ChSwSupportNetwork,
+                        'SwEducationDr' => $SwEducationDr,
+                        'SwEducationDb' => $SwEducationDb,
                         'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
                         'firmPatient' => $imagenPAtient,
-
+                        'SwEducationEvoDr' => $SwEducationEvoDr, 
+                        'SwEducationEvoDb' => $SwEducationEvoDb, 
                         'firm' => $imagenComoBase64,
                         'today' => $today,
                         //   asset('storage/'.$ch['user']['assistance'][0]['file_firm']),
