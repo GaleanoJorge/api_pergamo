@@ -35,8 +35,8 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
-                        <p> Folio: {{$chrecord[0]['id']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
+                        <p> Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -49,6 +49,9 @@
             </p>
         </div>
 
+    <!-- Encabezado-->
+    <div>
+            
         <h2 style="margin-top:70px; margin-bottom:1.9pt; widows:0; orphans:0; font-size:9pt;    background: #4472c4;
                 padding: 0.8em;font-family:Calibri;color: white;text-align: center;">EVOLUCIÓN HISTORIA CLINICA
         </h2>
@@ -63,7 +66,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} </span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname'] . ' ' . '' . $chrecord[0]['admissions']['patients']['middlefirstname'] . ($chrecord[0]['admissions']['patients']['middlefirstname'] ? ' ' : '') . '' . $chrecord[0]['admissions']['patients']['lastname'] . '' . ($chrecord[0]['admissions']['patients']['middlelastname'] ? ' ' : '') . $chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -73,11 +76,8 @@
                 </td>
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? $chrecord[0]['admissions']['patients']['identification'] : 'No registra'}}</span>
                         <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
-                        <span style="font-family:Calibri; font-weight:bold">Sexo:</span>
-                        <span style="font-family:Calibri; font-weight:bold; letter-spacing:-0.55pt"> </span>
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['gender']['name']}}</span>
                     </p>
                 </td>
             </tr>
@@ -89,27 +89,49 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['birthday']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? substr($chrecord[0]['admissions']['patients']['birthday'],0,10) : 'No registra'}}</span>
                         <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
-                        <span style="font-family:Calibri"> <b> Edad Actual: </b> </span>
-                        <span style="font-family:Calibri; letter-spacing:-0.35pt"> </span>
-                        <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['age']}}</span>
+                
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:45.4pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                         <span style="font-family:Calibri"> <b> Estado Civil: </b> </span>
                     </p>
-                </td>
-                @if($chrecord[0]['admissions']['patients']['marital_status'])
+                </td>      
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status_id'] ? $chrecord[0]['admissions']['patients']['marital_status']['name'] : 'No registra'}}</span>
                     </p>
                 </td>
-                @endisset
 
             </tr>
+            <tr style="height:11.95pt">
+                <td style="width:79.75pt; vertical-align:top">
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b>Edad: </b></span>
+                    </p>
+                </td>
+                <td style="width:203pt; vertical-align:top">
+                    <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}} Años</span>
+                    </p>
+                </td>
+            
+                <td style="width:106pt; vertical-align:top">
+                    <p style="margin-top:0.75pt; margin-left:45.4pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri"> <b>Género: </b> </span>
+                    </p>
+                </td>
+
+                <td style="width:141.6pt; vertical-align:top">
+                    <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender_id'] ? $chrecord[0]['admissions']['patients']['gender']['name'] : 'No registra'}}</span>
+                    </p>
+                </td>
+            
+            </tr>
+
             <tr style="height:12.7pt">
                 <td style="width:79.75pt; vertical-align:top">
                     <p style="margin-top:2.3pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
@@ -118,7 +140,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address'] ? $chrecord[0]['admissions']['patients']['residence_address'] : 'No registra'}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -128,7 +150,7 @@
                 </td>
                 <td style="width:141.6pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone'] ? $chrecord[0]['admissions']['patients']['phone'] : 'No registra'}}</span>
                     </p>
                 </td>
             </tr>
@@ -140,7 +162,7 @@
                 </td>
                 <td style="width:203pt; vertical-align:top">
                     <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality']['name']}}</span>
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality_id'] ? $chrecord[0]['admissions']['patients']['residence_municipality']['name'] : 'No registra'}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -148,21 +170,24 @@
                         <span style="font-family:Calibri"> <b> Ocupación: </b> </span>
                     </p>
                 </td>
+
                 <td style="width:141.6pt; vertical-align:top">
-                    <p style="margin-top:0pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities']['name']}}</span>
+                    <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities_id'] ? $chrecord[0]['admissions']['patients']['activities']['name'] : 'No registra'}}</span>
                     </p>
                 </td>
+            
             </tr>
             <tr style="height:11.95pt">
                 <td style="width:79.75pt; vertical-align:top">
-                    <p style="margin-top:2.3pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:8pt"> <b> Pertenencia etnica: </b> </span>
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b>Pertenencia étnica: </b></span>
                     </p>
                 </td>
+        
                 <td style="width:203pt; vertical-align:top">
-                    <p style="margin-top:0pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
+                    <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity_id'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : "No registra"}}</span>
                     </p>
                 </td>
                 <td style="width:106pt; vertical-align:top">
@@ -170,113 +195,74 @@
                         <span style="font-family:Calibri"> <b> Nivel Educativo: </b> </span>
                     </p>
                 </td>
+
                 <td style="width:141.6pt; vertical-align:top">
-                    <p style="margin-top:0pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level']['name']}}</span>
+                    <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level_id'] ? $chrecord[0]['admissions']['patients']['academic_level']['name'] : 'No registra'}}</span>
                     </p>
                 </td>
+                
             </tr>
         </table>
 
         <hr />
 
-        <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt"><span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">DATOS DEL
+        <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">DATOS DEL
                 INGRESO</span><span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
 
-
-
-        <p style="margin:4.1pt 15.15pt 0pt 9.45pt; text-indent:-1.45pt; line-height:162%; widows:0; orphans:0; font-size:8pt">
-            <span style="font-family:Calibri"> <b> Nº Ingreso: </b> </span><span style="font-family:Calibri; letter-spacing:4.4pt">
-            </span><span style="font-family:Calibri; font-weight:bold">{{$chrecord[0]['admissions']['consecutive']}}</span>
-            <span style="font-family:Calibri; font-weight:bold; letter-spacing:-1pt"> </span>
-            <span style="font-family:Calibri"> <b> Fecha: </b> </span><span style="font-family:Calibri; letter-spacing:-0.9pt">
-            </span><span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date']}}</span>
-            <span style="width:38.13pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:216.55pt">&#xa0;</span>
-            <span style="width:40.5pt; text-indent:0pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-            <span style="font-family:Calibri"> <b> Datos </b> </span><span style="font-family:Calibri; letter-spacing:-0.1pt">
-            </span><span style="font-family:Calibri"> <b> de </b> </span><span style="font-family:Calibri; letter-spacing:-0.05pt">
-            </span><span style="font-family:Calibri"> <b> Afiliación: </b> </span><span style="font-family:Calibri; letter-spacing:0.9pt"> </span>
-            <span style="font-family:Calibri"> <b> Entidad: </b> </span>
-            <span style="font-family:Calibri; letter-spacing:1pt">
-            </span><span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company']['name']}}</span><span style="font-family:Calibri; letter-spacing:-0.05pt"> </span><span style="font-family:Calibri; letter-spacing:-0.05pt">
-                <span style="font-family:Calibri; letter-spacing:-3pt"> </span><span style="font-family:Calibri"> <b> Tipo de régimen: </b> </span><span style="font-family:Calibri"></span><span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase']['name']}}</span><span style="font-family:Calibri">
-        </p>
-
-       
-        <hr />
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-
-        
-
-
+        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+            <tr style="height:11.95pt">
+                <td style="width:79.75pt; vertical-align:top">
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b>  Nº Ingreso:</b></span>
+                    </p>
+                </td>
+                <td style="width:203pt; vertical-align:top">
+                    <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive'] ? $chrecord[0]['admissions']['consecutive'] : 'No registra'}} </span>
+                    </p>
+                </td>
+                <td style="width:106pt; vertical-align:top">
+                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri"> <b> Fecha: </b> </span>
+                    </p>
+                </td>
+                <td style="width:141.6pt; vertical-align:top">
+                    <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date'] ? $chrecord[0]['admissions']['entry_date'] : 'No registra'}}</span>
+                        <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
+                    </p>
+                </td>
+            </tr>
+            <tr style="height:12.7pt">
+                <td style="width:79.75pt; vertical-align:top">
+                    <p style="margin-top:2.3pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"> <b>Entidad: </b> </span>
+                    </p>
+                </td>
+                <td style="width:203pt; vertical-align:top">
+                    <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company_id'] ? $chrecord[0]['admissions']['contract']['company']['name'] : 'No registra'}}</span>
+                        <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
+                
+                    </p>
+                </td>
+                <td style="width:106pt; vertical-align:top">
+                    <p style="margin-top:0.75pt; margin-left:45.4pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri"> <b> Tipo de régimen: </b> </span>
+                    </p>
+                </td>      
+                <td style="width:141.6pt; vertical-align:top">
+                    <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                        <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase'] ? $chrecord[0]['admissions']['contract']['type_briefcase']['name'] : 'No registra'}}</span>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
             
-
-
-
-
 
         <!-- Terapia Leguaje-->
         <div>
@@ -2876,7 +2862,7 @@
     <tr style="height:11.95pt">
         <td style="width:130pt; vertical-align:top">
     <div>
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
     
         @if($firm != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">

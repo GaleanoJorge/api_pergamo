@@ -36,8 +36,8 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
-                        <p>Folio: {{$chrecord[0]['id']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
+                        <p>Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -19926,7 +19926,7 @@
                 <br>
                 <br>
                 <hr />
-                <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+                <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
             
                 @if($firm != null)
                 <p style="margin-top:15pt; margin-left:8pt; margin-bottom:0pt;">

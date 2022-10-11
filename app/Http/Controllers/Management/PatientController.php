@@ -51,6 +51,7 @@ use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
 use App\Models\CostCenter;
+use App\Models\LogAdmissions;
 use App\Models\Specialty;
 use App\Models\TypeProfessional;
 use App\Models\Residence;
@@ -63,6 +64,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
+use App\Models\Reference;
 use App\Models\UserUser;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -978,6 +980,21 @@ class PatientController extends Controller
                 $patients->file = $path;
             }
             $patients->save();
+            $LogAdmissions = new LogAdmissions;
+            $LogAdmissions->user_id = Auth::user()->id;;
+            $LogAdmissions->patient_id = $patients->id; 
+            $LogAdmissions->status ='Paciente creado';
+            $LogAdmissions->save();
+
+            $ref = Reference::where('identification', $patients->identification)
+                ->whereNull('patient_id')
+                ->where('reference_status_id', 3)
+                ->orderBy('reference.id', 'DESC')
+                ->get()->first();
+            if ($ref) {
+                $ref->patient_id = $patients->id;
+                $ref->save();
+            }
         }
 
         DB::commit();
@@ -1107,6 +1124,11 @@ class PatientController extends Controller
             $patients->gender_type = $request->gender_type;
         }
         $patients->save();
+        $LogAdmissions = new LogAdmissions;
+        $LogAdmissions->user_id = Auth::user()->id;;
+        $LogAdmissions->patient_id = $patients->id; 
+        $LogAdmissions->status ='Paciente actualizado';
+        $LogAdmissions->save();
 
         DB::commit();
 

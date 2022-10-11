@@ -15,7 +15,7 @@ class GenderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $gender = Gender::orderBy('name', 'asc')->get()->toArray();
+        $gender = Gender::select()->get()->toArray();
 
         return response()->json([
             'status' => true,
