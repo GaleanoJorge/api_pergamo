@@ -1796,4 +1796,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('reference', 'Management\ReferenceController');
     Route::get('reference/getReferenceData/{id}', 'Management\ReferenceController@getReferenceData');
     Route::apiResource('denied_reason', 'Management\DeniedReasonController');
+
+    //Seguimiento
+    Route::apiResource('tracing', 'Management\TracingController');
+    Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
+
 });
