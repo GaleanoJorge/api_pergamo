@@ -298,6 +298,21 @@ class UserController extends Controller
      */
     public function indexByRoleLocation(int $locality, int $phone_consult, Request $request): JsonResponse
     {
+
+        if($request->type_of_attention==20){
+            $users = User::select(
+                'users.*',
+            )
+                ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+                ->where('users.status_id', 1)
+                ->where('user_role.role_id',23);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Usuarios',
+                    'data' => ['users' => $users->get()->toArray()]
+                ]);
+        }else{
         $roles = json_decode($request->roles);
 
         if (count($roles) == 0) {
@@ -454,12 +469,14 @@ class UserController extends Controller
                 'data' => ['users' => $usersfinal]
             ]);
         }
-
         return response()->json([
             'status' => true,
             'message' => 'Usuarios por locación obtenidos exitosamente',
             'data' => ['users' => $respose]
         ]);
+    }
+
+       
     }
 
     /**
