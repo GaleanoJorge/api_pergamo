@@ -123,5 +123,10 @@
         "role_id": "8",
         "specialty_id": null,
         "type_of_attention_id": "12"
+    },
+    {
+        "role_id": "23",
+        "specialty_id": null,
+        "type_of_attention_id": "20"
     }
 ]
