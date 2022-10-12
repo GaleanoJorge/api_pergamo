@@ -3814,6 +3814,7 @@ class ChRecordController extends Controller
             $count++;
         }
         $ChRecord = new ChRecord;
+        
         $ChRecord->consecutive = $count + 1;
         $ChRecord->status = $request->status;
         $ChRecord->date_attention = Carbon::now();
@@ -3867,8 +3868,8 @@ class ChRecordController extends Controller
                     break;
                 }
             case (8): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
+                   $ChRecord->ch_type_id = 5;
+                   break;
                 }
             case (9): {
                     $ChRecord->ch_type_id = 5;
@@ -3924,6 +3925,11 @@ class ChRecordController extends Controller
                 }
             case (19): {
                     $ChRecord->ch_type_id = 5;
+                    break;
+                }
+            case (20): {
+                //SEGUIMIENTO
+                    $ChRecord->ch_type_id = 10;
                     break;
                 }
         }
