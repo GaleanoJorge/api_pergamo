@@ -1713,60 +1713,83 @@
             </div>
 
 
-      <!-- Educacion -->
-      <div>
-        @if(count($SwEducationEvoDr) > 0 || count($SwEducationEvoDb) > 0)
+            <!-- Educacion -->
+            <div>
+                @if(count($SwEducationEvoDr) > 0 || count($SwEducationEvoDb) > 0)
+                    <hr />
+                    <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> EDUCACIÓN DEL PACIENTE</b></span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+                @endisset
+
+                @if(count($SwEducationEvoDr) > 0)
+                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:8pt"><b> DERECHOS:</b></span>
+                </p>
+            
+                    @foreach($SwEducationEvoDr as $ch)
+            
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+
+                    @if(count($SwEducationEvoDb) > 0)
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b> DEBERES:</b></span>
+                    </p>
+            
+                    @foreach($SwEducationEvoDb as $ch)
+                
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+            </div>
+
+
+        </div>
+
+        <!-- SEGUIMIENTO -->
+        <div> 
+                
+            @if(count($ChTracing) > 0 )
+
             <hr />
-            <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> EDUCACIÓN DEL PACIENTE</b></span>
-                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+
+            <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                    SEGUIMIENTO<br>
             </p>
-        @endisset
 
-        @if(count($SwEducationEvoDr) > 0)
-        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-            <span style="font-family:Calibri; font-size:8pt"><b> DERECHOS:</b></span>
-        </p>
-    
-            @foreach($SwEducationEvoDr as $ch)
-       
-            
-            <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
-                <tr style="height:11.95pt">
-                    <td style="width:79.75pt; vertical-align:top">
-                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
-                        </p>
-                    </td>
-                </tr>
-            </table>   
-            <br/>                       
-            @endforeach      
-            @endisset    
+                @foreach($ChTracing as $ch)
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
+                        <b>@if(isset($ch['observation'])) SEGUIMIENTO: </b> {{$ch['observation']}} @endisset</span>
+                </p>
 
-            @if(count($SwEducationEvoDb) > 0)
-            <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                <span style="font-family:Calibri; font-size:8pt"><b> DEBERES:</b></span>
-            </p>
-    
-            @foreach($SwEducationEvoDb as $ch)
-          
-            
-            <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
-                <tr style="height:11.95pt">
-                    <td style="width:79.75pt; vertical-align:top">
-                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
-                        </p>
-                    </td>
-                </tr>
-            </table>   
-            <br/>                       
-            @endforeach      
-            @endisset    
-    </div>
+                @endforeach
 
-
+            @endisset
         </div>
     
     @endisset
