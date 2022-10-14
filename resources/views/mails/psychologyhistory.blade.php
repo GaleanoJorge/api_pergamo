@@ -1365,6 +1365,29 @@
             @endforeach
             @endisset          
         </div>
+
+        <!-- SEGUIMIENTO -->
+        <div>
+                
+            @if(count($ChTracing) > 0 )
+
+            <hr />
+
+            <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                    SEGUIMIENTO<br>
+            </p>
+
+                @foreach($ChTracing as $ch)
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
+                        <b>@if(isset($ch['observation'])) SEGUIMIENTO: </b> {{$ch['observation']}} @endisset</span>
+                </p>
+
+                @endforeach
+
+            @endisset
+        </div>
     
     @endisset
 </div>

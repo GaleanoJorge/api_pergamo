@@ -565,10 +565,15 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_hour =  $finish_hour;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
+                    if ($request->type_of_attention_id != 20) {
                     $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    }else{
+                        $assignedManagement->user_id =  $request->assigned_user_id ;
+                    }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
 
+                    if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
@@ -576,6 +581,7 @@ class ManagementPlanController extends Controller
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
                 }
+            }
             } else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
@@ -650,10 +656,16 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_date =  $finish;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
-                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    if ($request->type_of_attention_id != 20) {
+                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                        }else{
+                            $assignedManagement->user_id =  $request->assigned_user_id ;
+                        }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
 
+                    
+                if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
@@ -661,6 +673,7 @@ class ManagementPlanController extends Controller
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
                 }
+            }
             } else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id == 13 || $request->type_of_attention_id == 12) {
                 $now = Carbon::createFromDate($request->start_date);
                 $finish = Carbon::createFromDate($request->finish_date);
@@ -717,16 +730,22 @@ class ManagementPlanController extends Controller
                 $assignedManagement->redo =  '00000000000000';
                 $assignedManagement->approved =  false;
                 $assignedManagement->finish_date =  $finish;
-                $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                if ($request->type_of_attention_id != 20) {
+                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    }else{
+                        $assignedManagement->user_id =  $request->assigned_user_id ;
+                    }
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
                 $assignedManagement->save();
 
+                if ($request->type_of_attention_id != 20) {
                 $Authorization = new Authorization;
                 $Authorization->services_briefcase_id =  $request->procedure_id;
                 $Authorization->admissions_id = $request->admissions_id;
                 $Authorization->assigned_management_plan_id = $assignedManagement->id;
                 $Authorization->auth_status_id = $auth_status;
                 $Authorization->save();
+                }
             } else {
                 $countam = 0;
                 $fechastartnow = $request->start_date . " " . $request->start_hours;
@@ -748,16 +767,22 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
-                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    if ($request->type_of_attention_id != 20) {
+                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                        }else{
+                            $assignedManagement->user_id =  $request->assigned_user_id ;
+                        }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
 
+                    if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
                     $Authorization->assigned_management_plan_id = $assignedManagement->id;
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
+                    }
                     // $assigned = false;
                     if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
                         if (!$request->phone_consult) {
@@ -1144,10 +1169,15 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_hour =  $finish_hour;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
-                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    if ($request->type_of_attention_id != 20) {
+                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                        }else{
+                            $assignedManagement->user_id =  $request->assigned_user_id ;
+                        }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
-
+                    
+                    if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
@@ -1155,6 +1185,7 @@ class ManagementPlanController extends Controller
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
                 }
+            }
                 
             }else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id != 13 && $request->type_of_attention_id != 12) {
                 $now = Carbon::createFromDate($request->start_date);
@@ -1230,16 +1261,22 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_date =  $finish;
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
-                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    if ($request->type_of_attention_id != 20) {
+                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                        }else{
+                            $assignedManagement->user_id =  $request->assigned_user_id ;
+                        }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
 
+                    if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
                     $Authorization->assigned_management_plan_id = $assignedManagement->id;
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
+                }
                 }
             } else if ($request->type_of_attention_id != 17 && $request->type_of_attention_id == 13 || $request->type_of_attention_id == 12) {
                 $now = Carbon::createFromDate($request->start_date);
@@ -1297,16 +1334,22 @@ class ManagementPlanController extends Controller
                 $assignedManagement->redo =  '00000000000000';
                 $assignedManagement->approved =  false;
                 $assignedManagement->finish_date =  $finish;
-                $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                if ($request->type_of_attention_id != 20) {
+                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    }else{
+                        $assignedManagement->user_id =  $request->assigned_user_id ;
+                    }
                 $assignedManagement->management_plan_id = $ManagementPlan->id;
                 $assignedManagement->save();
 
+                if ($request->type_of_attention_id != 20) {
                 $Authorization = new Authorization;
                 $Authorization->services_briefcase_id =  $request->procedure_id;
                 $Authorization->admissions_id = $request->admissions_id;
                 $Authorization->assigned_management_plan_id = $assignedManagement->id;
                 $Authorization->auth_status_id = $auth_status;
                 $Authorization->save();
+                }
             } else {
                 $countam = 0;
                 $fechastartnow = $request->start_date . " " . $request->start_hours;
@@ -1328,16 +1371,22 @@ class ManagementPlanController extends Controller
                     $assignedManagement->finish_hour =  $now->format('H:i:s');
                     $assignedManagement->redo =  '00000000000000';
                     $assignedManagement->approved =  false;
-                    $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                    if ($request->type_of_attention_id != 20) {
+                        $assignedManagement->user_id = !$error ? $request->assigned_user_id : null;
+                        }else{
+                            $assignedManagement->user_id =  $request->assigned_user_id ;
+                        }
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
-
+                    
+                    if ($request->type_of_attention_id != 20) {
                     $Authorization = new Authorization;
                     $Authorization->services_briefcase_id =  $request->procedure_id;
                     $Authorization->admissions_id = $request->admissions_id;
                     $Authorization->assigned_management_plan_id = $assignedManagement->id;
                     $Authorization->auth_status_id = $auth_status;
                     $Authorization->save();
+                    }
                     // $assigned = false;
                     if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
                         if (!$request->phone_consult) {
