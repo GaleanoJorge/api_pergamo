@@ -96,7 +96,8 @@ class BillUserActivityController extends Controller
      */
     public function getByAccountReceivable(Request $request, int $id): JsonResponse
     {
-        $BillUserActivity = BillUserActivity::where('account_receivable_id', $id)
+        $BillUserActivity = BillUserActivity::select('bill_user_activity.*')
+            ->where('account_receivable_id', $id)
             ->with(
                 'admissions',
                 'procedure',
@@ -116,7 +117,23 @@ class BillUserActivityController extends Controller
         }
 
         if ($request->search) {
-            $BillUserActivity->where('name', 'like', '%' . $request->search . '%');
+            $BillUserActivity->leftJoin('admissions', 'bill_user_activity.admissions_id', 'admissions.id')
+                ->leftJoin('patients', 'admissions.patient_id', 'patients.id')
+                ->leftJoin('services_briefcase', 'bill_user_activity.procedure_id', 'services_briefcase.id')
+                ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                ->leftJoin('procedure', 'manual_price.procedure_id', 'procedure.id');
+            $BillUserActivity->where(function ($query) use ($request) {
+                $query->where('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('bill_user_activity.observation', 'like', '%' . $request->search . '%')
+                    ->orWhere('bill_user_activity.status', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('manual_price.own_code', 'like', '%' . $request->search . '%')
+                    ->orWhere('procedure.name', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -169,8 +186,7 @@ class BillUserActivityController extends Controller
                     ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('users.identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%')
-                    ;
+                    ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
 
