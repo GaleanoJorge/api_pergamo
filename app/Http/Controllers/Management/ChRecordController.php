@@ -2778,6 +2778,11 @@ class ChRecordController extends Controller
                         ->whereNotNull('manual_price.product_id');
                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
+                                //Seguimiento
+            $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+            ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+            ->get()->toArray();
+
                     $html = view('mails.hcEnfermeria', [
                         'chrecord' => $ChRecord,
 
@@ -2805,7 +2810,7 @@ class ChRecordController extends Controller
                         'PharmacyProductRequest' => $PharmacyProductRequest,
                         'AssistanceSupplies' => $AssistanceSupplies,
                         'fecharecord' => $fecharecord,
-
+                        'ChTracing' => $ChTracing,
                         'firmPatient' => $imagenPAtient,
 
                         'firm' => $imagenComoBase64,
