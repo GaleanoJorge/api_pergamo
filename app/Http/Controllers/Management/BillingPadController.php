@@ -18,6 +18,7 @@ use App\Models\ProcedurePackage;
 use App\Actions\Transform\NumerosEnLetras;
 use App\Models\BillingPadConsecutive;
 use App\Models\Campus;
+use App\Models\Location;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -1903,28 +1904,31 @@ class BillingPadController extends Controller
             $total_value = 0;
             foreach ($components as $conponent) {
                 if ($conponent->location_id) {
-                    $Auth_A = Authorization::find($conponent->id);
-                    $Auth_B = new Authorization;
-                    $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
-                    $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
-                    $Auth_B->admissions_id = $Auth_A->admissions_id;
-                    $Auth_B->auth_number = $Auth_A->auth_number;
-                    $Auth_B->authorized_amount = $Auth_A->authorized_amount;
-                    $Auth_B->observation = $Auth_A->observation;
-                    $Auth_B->copay = $Auth_A->copay;
-                    $Auth_B->quantity = $Auth_A->quantity;
-                    $Auth_B->copay_value = $Auth_A->copay_value;
-                    $Auth_B->auth_status_id = $Auth_A->auth_status_id;
-                    $Auth_B->auth_package_id = $Auth_A->auth_package_id;
-                    $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
-                    $Auth_B->manual_price_id = $Auth_A->manual_price_id;
-                    $Auth_B->application_id = $Auth_A->application_id;
-                    $Auth_B->procedure_id = $Auth_A->procedure_id;
-                    $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
-                    $Auth_B->product_com_id = $Auth_A->product_com_id;
-                    $Auth_B->location_id = $Auth_A->location_id;
-                    $Auth_B->file_auth = $Auth_A->file_auth;
-                    $Auth_B->save();
+                    $Location = Location::find($conponent->location_id);
+                    if ($Location->discharge_date != '0000-00-00 00:00:00') {
+                        $Auth_A = Authorization::find($conponent->id);
+                        $Auth_B = new Authorization;
+                        $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
+                        $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
+                        $Auth_B->admissions_id = $Auth_A->admissions_id;
+                        $Auth_B->auth_number = $Auth_A->auth_number;
+                        $Auth_B->authorized_amount = $Auth_A->authorized_amount;
+                        $Auth_B->observation = $Auth_A->observation;
+                        $Auth_B->copay = $Auth_A->copay;
+                        $Auth_B->quantity = $Auth_A->quantity;
+                        $Auth_B->copay_value = $Auth_A->copay_value;
+                        $Auth_B->auth_status_id = $Auth_A->auth_status_id;
+                        $Auth_B->auth_package_id = $Auth_A->auth_package_id;
+                        $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
+                        $Auth_B->manual_price_id = $Auth_A->manual_price_id;
+                        $Auth_B->application_id = $Auth_A->application_id;
+                        $Auth_B->procedure_id = $Auth_A->procedure_id;
+                        $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
+                        $Auth_B->product_com_id = $Auth_A->product_com_id;
+                        $Auth_B->location_id = $Auth_A->location_id;
+                        $Auth_B->file_auth = $Auth_A->file_auth;
+                        $Auth_B->save();
+                    }
                 }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
@@ -2048,28 +2052,31 @@ class BillingPadController extends Controller
                 ->where('billing_pad_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
                 if ($conponent['authorization']['services_briefcase']['location_id']) {
-                    $Auth_A = Authorization::find($conponent['authorization_id']);
-                    $Auth_B = new Authorization;
-                    $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
-                    $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
-                    $Auth_B->admissions_id = $Auth_A->admissions_id;
-                    $Auth_B->auth_number = $Auth_A->auth_number;
-                    $Auth_B->authorized_amount = $Auth_A->authorized_amount;
-                    $Auth_B->observation = $Auth_A->observation;
-                    $Auth_B->copay = $Auth_A->copay;
-                    $Auth_B->quantity = $Auth_A->quantity;
-                    $Auth_B->copay_value = $Auth_A->copay_value;
-                    $Auth_B->auth_status_id = $Auth_A->auth_status_id;
-                    $Auth_B->auth_package_id = $Auth_A->auth_package_id;
-                    $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
-                    $Auth_B->manual_price_id = $Auth_A->manual_price_id;
-                    $Auth_B->application_id = $Auth_A->application_id;
-                    $Auth_B->procedure_id = $Auth_A->procedure_id;
-                    $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
-                    $Auth_B->product_com_id = $Auth_A->product_com_id;
-                    $Auth_B->location_id = $Auth_A->location_id;
-                    $Auth_B->file_auth = $Auth_A->file_auth;
-                    $Auth_B->save();
+                    $Location = Location::find($conponent['authorization']['services_briefcase']['location_id']);
+                    if ($Location->discharge_date != '0000-00-00 00:00:00') {
+                        $Auth_A = Authorization::find($conponent['authorization_id']);
+                        $Auth_B = new Authorization;
+                        $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
+                        $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
+                        $Auth_B->admissions_id = $Auth_A->admissions_id;
+                        $Auth_B->auth_number = $Auth_A->auth_number;
+                        $Auth_B->authorized_amount = $Auth_A->authorized_amount;
+                        $Auth_B->observation = $Auth_A->observation;
+                        $Auth_B->copay = $Auth_A->copay;
+                        $Auth_B->quantity = $Auth_A->quantity;
+                        $Auth_B->copay_value = $Auth_A->copay_value;
+                        $Auth_B->auth_status_id = $Auth_A->auth_status_id;
+                        $Auth_B->auth_package_id = $Auth_A->auth_package_id;
+                        $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
+                        $Auth_B->manual_price_id = $Auth_A->manual_price_id;
+                        $Auth_B->application_id = $Auth_A->application_id;
+                        $Auth_B->procedure_id = $Auth_A->procedure_id;
+                        $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
+                        $Auth_B->product_com_id = $Auth_A->product_com_id;
+                        $Auth_B->location_id = $Auth_A->location_id;
+                        $Auth_B->file_auth = $Auth_A->file_auth;
+                        $Auth_B->save();
+                    }
                 }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
