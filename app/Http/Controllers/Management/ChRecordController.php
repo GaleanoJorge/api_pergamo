@@ -2538,22 +2538,25 @@ class ChRecordController extends Controller
                     } else {
                         $imagenComoBase64 = null;
                     }
-
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
                     $today = Carbon::now();
-
-
-
+                    
+                    
+                    
                     // $patient=$ChRecord['admissions'];
-
+                    
                     $html = view('mails.medicalhistory', [
                         'chrecord' => $ChRecord,
-
+                        
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
                         'ChPhysicalExam' => $ChPhysicalExam,
                         'ChVitalSigns' => $ChVitalSigns,
                         'ChDiagnosis' => $ChDiagnosis,
                         'ChOstomies' => $ChOstomies,
+                        'ChTracing' => $ChTracing,
                         'ChAp' => $ChAp,
                         'ChRecommendations' => $ChRecommendations,
                         'ChDiets' => $ChDiets,
@@ -2932,10 +2935,15 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
 
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
+                    
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.nutritionhistory', [
                         'chrecord' => $ChRecord,
                         'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
+                        'ChTracing' => $ChTracing,
                         'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
                         'ChNutritionFoodHistory' => $ChNutritionFoodHistory,
                         'ChNutritionInterpretation' => $ChNutritionInterpretation,
@@ -3097,12 +3105,17 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                     }
                     $today = Carbon::now();
-                    $Patients = $ch['admissions']['patients'];
 
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
+                    $Patients = $ch['admissions']['patients'];
+                    
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.lenguagehistory', [
                         'chrecord' => $ChRecord,
-
+                        
+                        'ChTracing' => $ChTracing,
                         'TlTherapyLanguage' => $TlTherapyLanguage,
                         'OstomiesTl' => $OstomiesTl,
 
@@ -3299,12 +3312,15 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
                     $Patients = $ChRecord[0]['admissions']['patients'];
-
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
                     // $patient=$ChRecord['admissions'];
-
+                    
                     $html = view('mails.respiratoryhistory', [
                         'chrecord' => $ChRecord,
-
+                        
+                        'ChTracing' => $ChTracing,
                         'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
                         'ChBackground' => $ChBackground,
                         'ChGynecologists' => $ChGynecologists,
@@ -3449,12 +3465,16 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                     }
                     $today = Carbon::now();
-
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
+                    
                     $Patients = $ch['admissions']['patients'];
-
+                    
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.occupationalhistory', [
                         'chrecord' => $ChRecord,
+                        'ChTracing' => $ChTracing,
                         'ChEValorationOT' => $ChEValorationOT,
                         'ChVitalSigns' => $ChVitalSigns,
                         'ChEOccHistoryOT' => $ChEOccHistoryOT,
@@ -3605,13 +3625,18 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                     }
                     $today = Carbon::now();
+
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
                     $Patients = $ch['admissions']['patients'];
-
+                    
                     // $patient=$ChRecord['admissions'];
-
+                    
                     $html = view('mails.physicalhistory', [
                         'chrecord' => $ChRecord,
-
+                        
+                        'ChTracing' => $ChTracing,
                         'ChEValorationFT' => $ChEValorationFT,
                         'ChVitalSigns' => $ChVitalSigns,
                         'ChEValorationTherFT' => $ChEValorationTherFT,
@@ -3787,12 +3812,15 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
                     $Patients = $ch['admissions']['patients'];
-
+                    $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                    ->where('ch_record.admissions_id',$ChRecord[0]['admissions_id'])
+                    ->get()->toArray();
                     // $patient=$ChRecord['admissions'];
-
+                    
                     $html = view('mails.sworkhistory', [
                         'chrecord' => $hcAll,
-
+                        
+                        'ChTracing' => $ChTracing,
                         'ChSwDiagnosis' => $ChSwDiagnosis,
                         'ChSwFamily' => $ChSwFamily,
                         'ChSwNursing' => $ChSwNursing,
