@@ -108,7 +108,7 @@ class ProductSubcategoryController extends Controller
     {
         $ProductSubcategory = ProductSubcategory ::find($id);
         $ProductSubcategory->name = $request->name;
-        $ProductSubcategory->product_group_id = $request->product_group_id;     
+        $ProductSubcategory->product_category_id = $request->product_category_id;     
         $ProductSubcategory->save();
         
         return response()->json([
