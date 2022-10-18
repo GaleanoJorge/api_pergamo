@@ -271,6 +271,10 @@ class PharmacyProductRequestController extends Controller
             $PharmacyProductRequest->where(function ($query) use ($request) {
                 $query->where('pharmacy_product_request.status', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }

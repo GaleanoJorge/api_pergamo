@@ -297,7 +297,7 @@
 <div style="display: flex">
     <div style="width: 100%">
         <hr/>
-        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PROFESIONAL TRABAJO SOCIAL </b> </span>
+        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PERSONAL ASISTENCIAL </b> </span>
     
         @if($firm != null)
             <p style="margin-top:15pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt;">

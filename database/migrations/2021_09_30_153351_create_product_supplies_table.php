@@ -15,6 +15,9 @@ class CreateProductSuppliesTable extends Migration
         {
                 Schema::create('product_supplies', function (Blueprint $table) {
                         $table->bigIncrements('id');
+                        $table->unsignedBigInteger('product_group_id');
+                        $table->unsignedBigInteger('product_category_id');
+                        $table->unsignedBigInteger('product_subcategory_id');
                         $table->string('size')->nullable();
                         $table->string('measure')->nullable();
                         $table->string('stature')->nullable();
@@ -23,7 +26,7 @@ class CreateProductSuppliesTable extends Migration
                         $table->Integer('minimum_stock')->nullable();
                         $table->Integer('maximum_stock')->nullable();
                         $table->string('description');
-                        $table->string('code_gmdn');
+                        $table->string('code_gmdn')->nullable();
                         $table->unsignedBigInteger('product_dose_id')->nullable();
                         $table->string('dose')->nullable();
 
