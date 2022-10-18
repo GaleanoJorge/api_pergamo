@@ -933,8 +933,8 @@ class ManagementPlanController extends Controller
         if (str_contains($value, '/')) {
             $spl = explode('/', $value);
             $num = $spl[0];
-            $den = +$spl[1];
-            $rr = $this->numWithPlus($num) / $den;
+            // $den = +$spl[1];
+            $rr = $this->numWithPlus($num);
         } else {
             $rr = $this->numWithPlus($value);
         }
