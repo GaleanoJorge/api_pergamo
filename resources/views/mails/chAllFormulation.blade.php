@@ -340,6 +340,12 @@
             </p>
             <br/>
 
+            @if(count($ChFormulation) > 1)
+                {{-- @if($ChFormulation[count($ChFormulation)-1]['id'] != $ch['id']) --}}
+                    <hr/>
+                {{-- @endisset --}}
+            @endisset
+
             @endforeach
 
         @endisset
@@ -349,7 +355,7 @@
 <!-- Firma -->
 <div style="display: flex">
     <div style="width: 100%">
-        <hr/>
+        {{-- <hr/> --}}
         <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PERSONAL ASISTENCIAL </b> </span>
     
         @if($firm != null)
