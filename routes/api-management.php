@@ -896,6 +896,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('viewCertification/{id}', 'Management\ChRecordController@ViewCertification');
     Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
     Route::get('viewFormulation/{id}', 'Management\ChRecordController@ViewFormulation');
+    Route::get('viewAllFormulation/{id}', 'Management\ChRecordController@ViewAllFormulation');
     Route::get('viewMedicalOrder/{id}', 'Management\ChRecordController@ViewMedicalOrder');
     Route::get('viewInability/{id}', 'Management\ChRecordController@ViewInability');
     Route::get('viewCertificate/{id}', 'Management\ChRecordController@ViewCertificate');
