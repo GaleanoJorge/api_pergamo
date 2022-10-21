@@ -359,7 +359,9 @@ class AuthorizationController extends Controller
         $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
-            ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
+            ->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
@@ -385,7 +387,7 @@ class AuthorizationController extends Controller
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
-            );
+            )->where('management_plan.status_id',1);
 
         if ($request->edit) {
             $Authorization->where(function ($query) use ($request) {
