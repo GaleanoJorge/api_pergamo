@@ -883,6 +883,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
+    //Estado Plan de manejo 
+    Route::patch('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
@@ -898,6 +900,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('viewFormulation/{id}', 'Management\ChRecordController@ViewFormulation');
     Route::get('viewAllFormulation/{id}', 'Management\ChRecordController@ViewAllFormulation');
     Route::get('viewMedicalOrder/{id}', 'Management\ChRecordController@ViewMedicalOrder');
+    Route::get('ViewAllMedicalOrder/{id}', 'Management\ChRecordController@ViewAllMedicalOrder');
     Route::get('viewInability/{id}', 'Management\ChRecordController@ViewInability');
     Route::get('viewCertificate/{id}', 'Management\ChRecordController@ViewCertificate');
     Route::get('viewInterconsultation/{id}', 'Management\ChRecordController@ViewInterconsultation');
