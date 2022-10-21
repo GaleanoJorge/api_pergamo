@@ -238,7 +238,7 @@ class ManagementPlanController extends Controller
             )
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
-            ->where('admissions.patient_id', $id)
+            ->where('admissions.patient_id', $id)->where('management_plan.status_id', 1)
             ->groupBy('management_plan.id');
         if ($userId != 0) {
             $ManagementPlan
@@ -397,6 +397,7 @@ class ManagementPlanController extends Controller
             $ManagementPlan->blend = $request->blend;
             $ManagementPlan->administration_time = $request->administration_time;
             $ManagementPlan->observation = $request->observation;
+            $ManagementPlan->status = 1;
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
@@ -1461,6 +1462,30 @@ class ManagementPlanController extends Controller
         }
     }
 
+    public function changeStatus(Request $request, int $id): JsonResponse
+    {
+        $ManagementPlan = ManagementPlan::find($id);
+        $status_id = ManagementPlan::where('id', $id)->get()->first()->status_id;
+        if ($status_id == 1) {
+            $ManagementPlan->status_id = 2;
+        } else {
+            $ManagementPlan->status_id = 1;
+        }
+        $ManagementPlan->save();
+
+        $LogManagement = new LogManagement;
+        $LogManagement->management_plan_id =$ManagementPlan->id;
+        $LogManagement->user_id = Auth::user()->id;
+        $LogManagement->status ='Plan de manejo inactivo';
+        $LogManagement->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Plan de manejo eliminado exitosamente',
+            'data' => ['management_plan' => $ManagementPlan]
+        ]);
+    }
+   
     /**
      * Remove the specified resource from storage.
      *
@@ -1472,6 +1497,7 @@ class ManagementPlanController extends Controller
         try {
             $ManagementPlan = ManagementPlan::find($id);
             $ManagementPlan->delete();
+           
 
             return response()->json([
                 'status' => true,

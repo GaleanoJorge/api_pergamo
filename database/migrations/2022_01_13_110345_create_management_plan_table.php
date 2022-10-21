@@ -33,6 +33,7 @@ class CreateManagementPlanTable extends Migration
             $table->Integer('dosage_administer')->nullable();
             $table->boolean('phone_consult');
             $table->longText('observation')->nullable();
+            $table->unsignedTinyInteger('status_id')->nullable();
             $table->timestamps();
 
             $table->index('type_of_attention_id');
@@ -58,6 +59,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('services_briefcase');
                 $table->foreign('procedure_id')->references('id')
                 ->on('services_briefcase');
+                $table->foreign('status_id')->references('id')
+                ->on('status');
             // $table->foreign('authorization_id')->references('id')
             //     ->on('authorization');
         });
