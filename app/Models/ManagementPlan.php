@@ -25,5 +25,6 @@ class ManagementPlan extends BaseManagementPlan
 		'dosage_administer',
 		'phone_consult',
 		'observation',
+		'status_id',
 	];
 }
