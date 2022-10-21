@@ -397,7 +397,7 @@ class ManagementPlanController extends Controller
             $ManagementPlan->blend = $request->blend;
             $ManagementPlan->administration_time = $request->administration_time;
             $ManagementPlan->observation = $request->observation;
-            $ManagementPlan->status = 1;
+            $ManagementPlan->status_id = 1;
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
