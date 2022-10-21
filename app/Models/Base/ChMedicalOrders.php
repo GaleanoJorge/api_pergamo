@@ -60,8 +60,4 @@ class ChMedicalOrders extends Model
 	{
 		return $this->belongsTo(ServicesBriefcase::class);
 	}
-	public function admissions()
-	{
-		return $this->belongsTo(Admissions::class);
-	}
 }

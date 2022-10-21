@@ -108,6 +108,8 @@ class LocationController extends Controller
         $Location->discharge_date = Carbon::now();
         $Location->save();
 
+        $startAuth = Authorization::where('location_id',  $Location->id)->orderBy('created_at', 'desc')->first();
+
         $start_date = Carbon::parse($Location->entry_date)->setTimezone('America/Bogota')->startOfDay();
         $finish_date = Carbon::parse($Location->discharge_date)->setTimezone('America/Bogota')->startOfDay();
         $diff_days = $start_date->diffInDays($finish_date) + 1;
@@ -149,6 +151,7 @@ class LocationController extends Controller
             $Authorization->auth_number = $request->auth_number;
             $Authorization->file_auth = $request->file_auth;
             $Authorization->location_id = $Location2->id;
+            $Authorization->ch_interconsultation_id = $startAuth->ch_interconsultation_id;
             $Authorization->auth_status_id = 3;
             $Authorization->save();
 

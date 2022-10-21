@@ -11,7 +11,7 @@ use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\BillingPad;
 use App\Models\Briefcase;
-use App\Models\ChMedicalOrders;
+use App\Models\ChInterconsultation;
 use App\Models\LogAdmissions;
 use App\Models\Patient;
 use App\Models\Reference;
@@ -546,14 +546,6 @@ class AdmissionsController extends Controller
             if ($request->admission_route_id == 2) {
                 $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
             } else if ($request->admission_route_id == 1) {
-                $Authorization = new Authorization;
-                $Authorization->services_briefcase_id = $request->procedure_id;
-                $Authorization->admissions_id = $Admissions->id;
-                $Authorization->auth_number = $request->auth_number;
-                $Authorization->file_auth = $request->file_auth;
-                $Authorization->location_id = $Location->id;
-                $Authorization->auth_status_id = 3;
-                $Authorization->save();
 
                 $BillingPad = BillingPad::where('admissions_id', $Admissions->id)
                     ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
@@ -576,11 +568,20 @@ class AdmissionsController extends Controller
                     $BillingPad->save();
                 }
 
-                $ChMedicalOrders = new ChMedicalOrders;
-                $ChMedicalOrders->ambulatory_medical_order = true;
-                $ChMedicalOrders->services_briefcase_id = $request->procedure_id;
-                $ChMedicalOrders->admissions_id = $Admissions->id;
-                $ChMedicalOrders->save();
+                $ChInterconsultation = new ChInterconsultation;
+                $ChInterconsultation->services_briefcase_id = $request->procedure_id;
+                $ChInterconsultation->admissions_id = $Admissions->id;
+                $ChInterconsultation->save();
+
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $request->procedure_id;
+                $Authorization->admissions_id = $Admissions->id;
+                $Authorization->auth_number = $request->auth_number;
+                $Authorization->file_auth = $request->file_auth;
+                $Authorization->location_id = $Location->id;
+                $Authorization->ch_interconsultation_id = $ChInterconsultation->id;
+                $Authorization->auth_status_id = 3;
+                $Authorization->save();
             }
 
             // if ($Admissions->procedure_id) {

@@ -937,6 +937,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
         'Management\ServicesBriefcaseController@getByBriefcase'
     );
+    Route::get(
+        'ServiceBriefcase/getByChRecordId/{ch_record_id}',
+        'Management\ServicesBriefcaseController@getByChRecordId'
+    );
 
     //Portafolio de servicios
     Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
@@ -1136,6 +1140,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_signs', 'Management\ChVitalSignsController');
     Route::apiResource('ch_vital_temperature', 'Management\ChVitalTemperatureController');
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
+    Route::get('ch_record/byInterconsultation/{id}/{id2}', 'Management\ChRecordController@byInterconsultation');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
 

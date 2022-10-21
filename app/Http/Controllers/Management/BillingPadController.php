@@ -430,6 +430,8 @@ class BillingPadController extends Controller
         $eventos = Authorization::select('authorization.*')
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -498,6 +500,8 @@ class BillingPadController extends Controller
         $MedicamentosEventos = Authorization::select('authorization.*')
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -566,6 +570,8 @@ class BillingPadController extends Controller
         $InsumosEventos = Authorization::select('authorization.*')
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -631,6 +637,8 @@ class BillingPadController extends Controller
         $ActivosFijosEvento = Authorization::select('authorization.*')
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -693,6 +701,8 @@ class BillingPadController extends Controller
         $Authorizationspackages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -770,6 +780,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -803,6 +815,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -838,6 +852,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -872,6 +888,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -903,6 +921,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseProc = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -930,6 +950,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseMed = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -957,6 +979,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseSupp = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -985,6 +1009,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseFixed = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1173,6 +1199,8 @@ class BillingPadController extends Controller
         $eventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1224,6 +1252,8 @@ class BillingPadController extends Controller
         $MedicamentosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1272,6 +1302,8 @@ class BillingPadController extends Controller
         $InsumosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1317,6 +1349,8 @@ class BillingPadController extends Controller
         $ActivosFijosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1361,6 +1395,8 @@ class BillingPadController extends Controller
         $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'), DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1416,6 +1452,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1449,6 +1487,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1484,6 +1524,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1519,6 +1561,8 @@ class BillingPadController extends Controller
         //     )
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1553,6 +1597,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseProc = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1580,6 +1626,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseMed = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1607,6 +1655,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseSupp = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1635,6 +1685,8 @@ class BillingPadController extends Controller
         //     $AuthsresponseFixed = Authorization::select('authorization.*')
         //         ->with(
         // 'location',
+        // 'ch_interconsultation',
+        //                         'ch_interconsultation.many_ch_record',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1822,6 +1874,8 @@ class BillingPadController extends Controller
         $result_packages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
             ->with(
                 'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -2369,6 +2423,8 @@ class BillingPadController extends Controller
                     )
                     ->with(
                         'location',
+                        'ch_interconsultation',
+                        'ch_interconsultation.many_ch_record',
                         'services_briefcase',
                         'services_briefcase.manual_price',
                         'product_com',
@@ -2400,6 +2456,15 @@ class BillingPadController extends Controller
                     }
                     array_push($services_date, $A);
                     array_push($services_date, $AA);
+                } else if ($Auth[0]['ch_interconsultation'] != null) {
+                    foreach ($Auth[0]['ch_interconsultation']['many_ch_record'] as $rec) {
+                        if ($rec['status'] === 'CERRADO') {
+                            array_push($services_date, $rec['date_finish']);
+                            if ($assistance_name == '') {
+                                $assistance_name = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                            }
+                        }
+                    }
                 } else {
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
@@ -2422,6 +2487,8 @@ class BillingPadController extends Controller
                             'services_briefcase.manual_price',
                             'product_com',
                             'location',
+                            'ch_interconsultation',
+                            'ch_interconsultation.many_ch_record',
                             'supplies_com',
                             'services_briefcase.manual_price.procedure',
                             'assigned_management_plan',
@@ -2436,12 +2503,25 @@ class BillingPadController extends Controller
                         ->groupBy('authorization.id')
                         ->get()->toArray();
                     foreach ($packedAuths as $element) {
-                        $A = $element['assigned_management_plan']['execution_date'];
-                        $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
-                        if ($assistance_name == '') {
-                            $assistance_name = $b != null ? $b : '';
+                        if ($element['assigned_management_plan']) {
+                            $A = $element['assigned_management_plan']['execution_date'];
+                            $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];
+                            if ($assistance_name == '') {
+                                $assistance_name = $b != null ? $b : '';
+                            }
+                            array_push($services_date, $A);
+                        } else if ($element['ch_interconsultation']) {
+                            foreach ($element['ch_interconsultation']['many_ch_record'] as $rec) {
+                                if ($rec['status'] === 'CERRADO') {
+                                    $A = $rec['date_finish'];
+                                    $b = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                                    if ($assistance_name == '') {
+                                        $assistance_name = $b != null ? $b : '';
+                                    }
+                                    array_push($services_date, $A);
+                                }
+                            }
                         }
-                        array_push($services_date, $A);
                     }
                 }
 
@@ -2873,15 +2953,24 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             if ($element['assigned_management_plan'] || $element['fixed_add_id']) {
                 $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
                 $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'] : "";
-            } if ($element['location_id']) {
+            } else if ($element['location_id']) {
                 $A = Carbon::parse($element['created_at'])->setTimezone('America/Bogota');
                 $AA = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
                 $b = "";
                 array_push($services_date, $AA);
+            } else if ($element['ch_interconsultation'] != null) {
+                foreach ($element['ch_interconsultation']['many_ch_record'] as $rec) {
+                    if ($rec['status'] === 'CERRADO') {
+                        $A = $rec['date_finish'];
+                        $b = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                    }
+                }
             } else {
                 $packedAuthAux = Authorization::where('auth_package_id', $element['id'])->with(
                     'services_briefcase',
                     'location',
+                    'ch_interconsultation',
+                    'ch_interconsultation.many_ch_record',
                     'services_briefcase.manual_price',
                     'product_com',
                     'supplies_com',
@@ -2894,12 +2983,21 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'manual_price.procedure'
                 )->get()->toArray();
                 foreach ($packedAuthAux as $e) {
-                    $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
-                    $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                    if ($e['assigned_management_plan']) {
+                        $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
+                        $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                    } else if ($e['ch_interconsultation']) {
+                        foreach ($element['ch_interconsultation']['many_ch_record'] as $rec) {
+                            if ($rec['status'] === 'CERRADO') {
+                                $A = $rec['date_finish'];
+                                $b = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                            }
+                        }
+                    }
                 }
             }
-            if ($assistance_name == '') {
-                $assistance_name = $b != null ? $b : 'MARIANA RODRIGUEZ';
+            if ($assistance_name == '' || $b != "") {
+                $assistance_name = $b != "" ? $b : 'MARIANA RODRIGUEZ';
             }
             if (count($view_services) > 0) {
                 $exist = false;

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChInterconsultation;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Authorization;
+use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -17,7 +19,19 @@ class ChInterconsultationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChInterconsultation = ChInterconsultation::select();
+        $ChInterconsultation = ChInterconsultation::select('ch_interconsultation.*')
+            ->with(
+                'type_of_attention',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'specialty',
+                'frequency',
+                'type_record',
+                'ch_record',
+                'admissions',
+                'many_ch_record',
+            );
 
         if ($request->_sort) {
             $ChInterconsultation->orderBy($request->_sort, $request->_order);
@@ -25,6 +39,14 @@ class ChInterconsultationController extends Controller
 
         if ($request->search) {
             $ChInterconsultation->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->ambulatory_medical_order) {
+            $ChInterconsultation->whereNull('ch_interconsultation.ambulatory_medical_order');
+        }
+
+        if ($request->admissions_id) {
+            $ChInterconsultation->where('ch_interconsultation.admissions_id', $request->admissions_id);
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -44,21 +66,31 @@ class ChInterconsultationController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-       
+
         $ChInterconsultation = ChInterconsultation::where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id)
-        ->with('specialty','frequency')
+            ->where('type_record_id', $type_record_id)
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'specialty',
+                'frequency',
+                'type_record',
+                'ch_record',
+                'admissions',
+                'many_ch_record',
+            )
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -66,18 +98,59 @@ class ChInterconsultationController extends Controller
             'data' => ['ch_interconsultation' => $ChInterconsultation]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
+        $ChRecord = ChRecord::where('ch_record.id', $request->ch_record_id)
+            ->select(
+                'ch_record.*',
+                'location.admission_route_id AS admission_route_id'
+            )
+            ->with('ch_interconsultation')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->get()->toArray();
+
+        $ChInterconsultationExist = ChInterconsultation::where('admissions_id', $ChRecord[0]['admissions_id']);
+        if ($ChRecord[0]['ch_interconsultation_id']) {
+            $ChInterconsultationExist->where('ch_interconsultation.services_briefcase_id', $request->services_briefcase_id);
+        }
+        $ChInterconsultationExist = $ChInterconsultationExist->get()->toArray();
+
+        if (count($ChInterconsultationExist) > 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya existe una interconsulta con este procedimiento',
+                'data' => ['ch_interconsultation' => []]
+            ]);
+        }
+
         $ChInterconsultation = new ChInterconsultation;
         $ChInterconsultation->specialty_id = $request->specialty_id;
         $ChInterconsultation->amount = $request->amount;
+        $ChInterconsultation->ambulatory_medical_order = $request->ambulatory_medical_order;
+        $ChInterconsultation->type_of_attention_id = $request->type_of_attention_id;
         $ChInterconsultation->frequency_id = $request->frequency_id;
         $ChInterconsultation->observations = $request->observations;
         $ChInterconsultation->type_record_id = $request->type_record_id;
         $ChInterconsultation->ch_record_id = $request->ch_record_id;
+        $ChInterconsultation->services_briefcase_id = $request->services_briefcase_id;
+        if ($ChRecord[0]['admission_route_id'] == 1) {
+            $ChInterconsultation->admissions_id = $ChRecord[0]['admissions_id'];
+        } else {
+            $ChInterconsultation->admissions_id = null;
+        }
         $ChInterconsultation->save();
+
+        if ($ChRecord[0]['admission_route_id'] == 1) {
+            $Authorization = new Authorization;
+            $Authorization->services_briefcase_id = $request->services_briefcase_id;
+            $Authorization->ch_interconsultation_id = $ChInterconsultation->id;
+            $Authorization->admissions_id = $ChRecord[0]['admissions_id'];
+            $Authorization->auth_status_id = 1;
+            $Authorization->save();
+        }
 
         return response()->json([
             'status' => true,
@@ -115,10 +188,14 @@ class ChInterconsultationController extends Controller
         $ChInterconsultation = ChInterconsultation::find($id);
         $ChInterconsultation->specialty_id = $request->specialty_id;
         $ChInterconsultation->amount = $request->amount;
+        $ChInterconsultation->ambulatory_medical_order = $request->ambulatory_medical_order;
+        $ChInterconsultation->type_of_attention_id = $request->type_of_attention_id;
         $ChInterconsultation->frequency_id = $request->frequency_id;
         $ChInterconsultation->observations = $request->observations;
         $ChInterconsultation->type_record_id = $request->type_record_id;
         $ChInterconsultation->ch_record_id = $request->ch_record_id;
+        $ChInterconsultation->services_briefcase_id = $request->services_briefcase_id;
+        $ChInterconsultation->admissions_id = $request->admissions_id;
         $ChInterconsultation->save();
 
         return response()->json([

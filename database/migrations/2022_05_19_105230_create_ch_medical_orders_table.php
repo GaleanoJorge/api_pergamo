@@ -24,8 +24,6 @@ class CreateChMedicalOrdersTable extends Migration
             $table->unsignedBigInteger('type_record_id')->nullable();
             $table->unsignedBigInteger('ch_record_id')->nullable();
 
-            $table->unsignedBigInteger('admissions_id')->nullable();
-
             $table->timestamps();
 
             $table->index('procedure_id');
@@ -47,10 +45,6 @@ class CreateChMedicalOrdersTable extends Migration
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
-
-            $table->index('admissions_id');
-            $table->foreign('admissions_id')->references('id')
-                ->on('admissions');
         });
     }
 

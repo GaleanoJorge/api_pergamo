@@ -23,7 +23,6 @@ class ChMedicalOrdersController extends Controller
             'services_briefcase.manual_price',
             'services_briefcase.manual_price.procedure',
             'frequency',
-            'admissions',
         );
 
         if ($request->_sort) {
@@ -36,10 +35,6 @@ class ChMedicalOrdersController extends Controller
 
         if ($request->ambulatory_medical_order) {
             $ChMedicalOrders->where('ch_medical_orders.ambulatory_medical_order', $request->ambulatory_medical_order);
-        }
-
-        if ($request->admissions_id) {
-            $ChMedicalOrders->where('ch_medical_orders.admissions_id', $request->admissions_id);
         }
 
         if ($request->search) {
@@ -76,7 +71,13 @@ class ChMedicalOrdersController extends Controller
 
         $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)
             ->where('type_record_id', $type_record_id)
-            ->with('procedure', 'frequency')
+            ->with(
+                'procedure',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'frequency',
+            )
             ->get()->toArray();
 
 
@@ -99,7 +100,6 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
-        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([
@@ -144,7 +144,6 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
-        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([

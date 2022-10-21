@@ -22,6 +22,7 @@ class Authorization extends BaseAuthorization
 		'product_id',
 		'observation',
 		'file_auth',
+		'ch_interconsultation_id',
 	];
 
 	public function residence_municipality()
