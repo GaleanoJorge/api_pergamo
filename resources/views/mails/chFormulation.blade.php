@@ -294,8 +294,6 @@
                     <b>@if(isset($ch['product_generic'])) MEDICAMENTO: </b> {{$ch['product_generic']['description']}} @endisset <br/></span>
             </p>
 
-            <br/>
-
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                 <tr style="height:11.95pt">
                     {{-- comentareado provisionalemente --}}
@@ -335,12 +333,12 @@
                     </td>
                 </tr>
             </table>
-            <br/>
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
                 <b>@if(isset($ch['observation'])) OBSERVACIONES: </b> {{$ch['observation']}} @endisset</span>
             </p>
+            <br/>
 
             @endforeach
 
