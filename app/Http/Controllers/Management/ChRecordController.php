@@ -288,6 +288,7 @@ class ChRecordController extends Controller
     public function byInterconsultation(Request $request, int $id, int $id2): JsonResponse
     {
         $ChRecord = ChRecord::with(
+            'ch_type',
             'user',
             'admissions',
             'admissions.patients',
@@ -4393,6 +4394,17 @@ class ChRecordController extends Controller
                         }
                 }
 
+                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    ->where('status', 'ACTIVO')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+                 
+                if ($validate_ch_record) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
                 $ChRecord->save();
             }
             return response()->json([
@@ -4412,6 +4424,18 @@ class ChRecordController extends Controller
 
             $ChRecord->file_firm = $imagePath;
         }
+
+        $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    ->where('status', 'ACTIVO')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+                 
+                if ($validate_ch_record) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
 
         $ChRecord->save();
 

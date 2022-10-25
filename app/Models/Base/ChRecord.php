@@ -58,4 +58,8 @@ class ChRecord extends Model
 	{
 		return $this->belongsTo(ChInterconsultation::class, 'ch_interconsultation_id');
 	}
+	public function ch_type()
+	{
+		return $this->belongsTo(ChType::class, 'ch_type_id');
+	}
 }

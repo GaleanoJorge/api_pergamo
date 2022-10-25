@@ -9,6 +9,7 @@ use App\Models\Authorization;
 use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class ChInterconsultationController extends Controller
 {
@@ -19,7 +20,19 @@ class ChInterconsultationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChInterconsultation = ChInterconsultation::select('ch_interconsultation.*')
+        $ChInterconsultation = ChInterconsultation::select(
+            'ch_interconsultation.*',
+            DB::raw('
+                    SUM(
+                        IF( ch_record.id > 0,
+                            1,0
+                        )
+                    ) AS evolutions'),
+        )
+            ->leftJoin('ch_record', 'ch_record.ch_interconsultation_id', 'ch_interconsultation.id')
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'ch_interconsultation.services_briefcase_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('procedure', 'procedure.id', 'manual_price.procedure_id')
             ->with(
                 'type_of_attention',
                 'services_briefcase',
@@ -31,14 +44,15 @@ class ChInterconsultationController extends Controller
                 'ch_record',
                 'admissions',
                 'many_ch_record',
-            );
+            )
+            ->groupBy('ch_interconsultation.id');
 
         if ($request->_sort) {
             $ChInterconsultation->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $ChInterconsultation->where('name', 'like', '%' . $request->search . '%');
+            $ChInterconsultation->where('procedure.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->ambulatory_medical_order) {

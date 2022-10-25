@@ -457,6 +457,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
     Route::get('patient/byPAH/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAH');
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
+    Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
 
 
@@ -783,6 +784,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'bed/byPavilion/{pavilion_id}/{ambit}/{procedure}',
         'Management\BedController@getBedByPavilion'
+    );
+    Route::get(
+        'bed/getBedsByCampus/{campus_id}',
+        'Management\BedController@getBedsByCampus'
     );
 
     //Estados de la cama

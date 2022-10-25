@@ -355,6 +355,7 @@ class ReferenceController extends Controller
             $Reference->stay_type_id = $request->stay_type_id;
             $Reference->request_campus_id = $request->request_campus_id;
             $Reference->request_regime_id = $request->request_regime_id;
+            $Reference->request_regime_level = $request->request_regime_level;
             $Reference->request_technological_medium_id = $request->request_technological_medium_id;
             $Reference->request_admission_route_id = $request->request_admission_route_id;
             $Reference->request_specialty_id = $request->request_specialty_id;
@@ -419,7 +420,7 @@ class ReferenceController extends Controller
             $Reference->providers_of_health_services_id = $request->providers_of_health_services_id;
             $Reference->stay_type_id = $request->stay_type_id;
             $Reference->request_campus_id = $request->request_campus_id;
-            $Reference->request_regime_id = $request->request_regime_id;
+            $Reference->request_regime_level = $request->request_regime_level;
             $Reference->request_technological_medium_id = $request->request_technological_medium_id;
             $Reference->request_admission_route_id = $request->request_admission_route_id;
             $Reference->request_specialty_id = $request->request_specialty_id;
@@ -434,7 +435,7 @@ class ReferenceController extends Controller
 
             $Reference->acceptance_date = Carbon::now();
             $Reference->acceptance_campus_id = $request->acceptance_campus_id;
-            $Reference->acceptance_regime_id = $request->acceptance_regime_id;
+            $Reference->acceptance_regime_level = $request->acceptance_regime_level;
             $Reference->acceptance_user_id = $request->acceptance_user_id;
             $Reference->acceptance_technological_medium_id = $request->acceptance_technological_medium_id;
             $Reference->acceptance_admission_route_id = $request->acceptance_admission_route_id;

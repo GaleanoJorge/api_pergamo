@@ -76,9 +76,69 @@ class BedController extends Controller
      * @param integer $pavilion_id
      * @return JsonResponse
      */
+    public function getBedsByCampus(int $campus_id): JsonResponse
+    {
+        $AvailableBeds = Bed::select('bed.*')
+            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
+            ->leftJoin('flat','flat.id','pavilion.flat_id')
+            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->where('campus.id', $campus_id)
+            ->where('bed.status_bed_id', '=', 1)
+            ->where('bed.bed_or_office', '=', 1);
+        $AvailableBeds->orderBy('bed.name', 'asc');
+        $AvailableBeds = $AvailableBeds->get()->toArray();
+
+        $BusyBeds = Bed::select('bed.*')
+            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
+            ->leftJoin('flat','flat.id','pavilion.flat_id')
+            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->where('campus.id', $campus_id)
+            ->where('bed.status_bed_id', '=', 2)
+            ->where('bed.bed_or_office', '=', 1);
+        $BusyBeds->orderBy('bed.name', 'asc');
+        $BusyBeds = $BusyBeds->get()->toArray();
+
+        $FixBeds = Bed::select('bed.*')
+            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
+            ->leftJoin('flat','flat.id','pavilion.flat_id')
+            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->where('campus.id', $campus_id)
+            ->where('bed.status_bed_id', '=', 3)
+            ->where('bed.bed_or_office', '=', 1);
+        $FixBeds->orderBy('bed.name', 'asc');
+        $FixBeds = $FixBeds->get()->toArray();
+
+        $CleanBeds = Bed::select('bed.*')
+            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
+            ->leftJoin('flat','flat.id','pavilion.flat_id')
+            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->where('campus.id', $campus_id)
+            ->where('bed.status_bed_id', '=', 4)
+            ->where('bed.bed_or_office', '=', 1);
+        $CleanBeds->orderBy('bed.name', 'asc');
+        $CleanBeds = $CleanBeds->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas obtenidos exitosamente',
+            'data' => [
+                'available_bed' => $AvailableBeds,
+                'busy_bed' => $BusyBeds,
+                'fix_bed' => $FixBeds,
+                'clean_bed' => $CleanBeds,
+            ]
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param integer $pavilion_id
+     * @return JsonResponse
+     */
     public function getBedByPacient(Request $request): JsonResponse
     {
-        $Bed = Bed::with('status_bed', 'location', 'location.admissions', 'location.admissions.users')->where('bed_or_office', 1);
+        $Bed = Bed::with('status_bed', 'location', 'location.admissions', 'location.admissions.patients')->where('bed_or_office', 1);
 
         if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);

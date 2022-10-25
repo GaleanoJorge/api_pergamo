@@ -144,6 +144,49 @@ class PatientController extends Controller
     }
 
     /**
+     * Get patient by identification
+     * 
+     * @param int $identification
+     * @return JsonResponse
+     */
+    public function GetPatientByIdentification(Request $request, int $identification): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            DB::raw('SUM(IF(reference.id > 0, 1, 0)) AS rr'),
+        )
+            ->with(
+                'status',
+                'gender',
+                'inability',
+                'academic_level',
+                'identification_type',
+                'admissions',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )
+            ->Leftjoin('reference', 'reference.identification', 'patients.identification')
+            ->where('patients.identification', $identification)
+            ->groupBy('patients.id')->get()->first();
+
+        // $patients = $patients->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patients]
+        ]);
+    }
+
+    /**
      * Display a listing of the resource
      *
      * @param Request $request
@@ -584,7 +627,7 @@ class PatientController extends Controller
             });
         }
 
-        if($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null'){
+        if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
             $patients->where('admissions.campus_id', $request->campus_id);
         }
 
@@ -673,10 +716,14 @@ class PatientController extends Controller
                 'admissions',
                 'admissions.management_plan',
                 'admissions.management_plan.assigned_management_plan',
+                'admissions.diagnosis',
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location',
+                'admissions.location.procedure',
+                'admissions.location.procedure.manual_price',
+                'admissions.location.procedure.manual_price.procedure',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
@@ -1080,8 +1127,8 @@ class PatientController extends Controller
             $patients->save();
             $LogAdmissions = new LogAdmissions;
             $LogAdmissions->user_id = Auth::user()->id;;
-            $LogAdmissions->patient_id = $patients->id; 
-            $LogAdmissions->status ='Paciente creado';
+            $LogAdmissions->patient_id = $patients->id;
+            $LogAdmissions->status = 'Paciente creado';
             $LogAdmissions->save();
 
             $ref = Reference::where('identification', $patients->identification)
@@ -1224,8 +1271,8 @@ class PatientController extends Controller
         $patients->save();
         $LogAdmissions = new LogAdmissions;
         $LogAdmissions->user_id = Auth::user()->id;;
-        $LogAdmissions->patient_id = $patients->id; 
-        $LogAdmissions->status ='Paciente actualizado';
+        $LogAdmissions->patient_id = $patients->id;
+        $LogAdmissions->status = 'Paciente actualizado';
         $LogAdmissions->save();
 
         DB::commit();
