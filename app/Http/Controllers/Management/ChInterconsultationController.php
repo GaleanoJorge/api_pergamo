@@ -44,6 +44,7 @@ class ChInterconsultationController extends Controller
                 'ch_record',
                 'admissions',
                 'many_ch_record',
+                'roles',
             )
             ->groupBy('ch_interconsultation.id');
 
@@ -53,6 +54,10 @@ class ChInterconsultationController extends Controller
 
         if ($request->search) {
             $ChInterconsultation->where('procedure.name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->id) {
+            $ChInterconsultation->where('ch_interconsultation.id', $request->id);
         }
 
         if ($request->ambulatory_medical_order) {

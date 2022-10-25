@@ -75,4 +75,9 @@ class ChInterconsultation extends Model
 		return $this->hasMany(ChRecord::class, 'ch_interconsultation_id', 'id')
 			->with('user');
 	}
+	public function roles()
+	{
+		return $this->hasMany(RoleAttention::class, 'type_of_attention_id', 'type_of_attention_id')
+			->with('role');
+	}
 }
