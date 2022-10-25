@@ -338,6 +338,11 @@ class DatabaseSeeder extends Seeder
                 //
                 $this->call(SuppliesStatusSeeder::class);
                 
+                //Dashboard
+                $this->call(DashboardSeeder::class);
+                $this->call(DashboardRoleSeeder::class);
+                
+                
                 //Semillas Referencia y contrareferencia
                 $this->call(ProvidersOfHealthServicesSeeder::class);
                 $this->call(DeniedReasonSeeder::class);

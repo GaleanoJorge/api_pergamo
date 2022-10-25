@@ -192,7 +192,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_ps_prospecting', 'Management\ChPsProspectingController');
     Route::apiResource('ch_ps_intelligence', 'Management\ChPsIntelligenceController');
     Route::apiResource('diagnosis_dms', 'Management\DiagnosisDmsController');
-    
+
     Route::apiResource('ch_ps_assessment', 'Management\ChPsAssessmentController');
     Route::get('ch_ps_assessment/by_record/{id}/{type_record_id}', 'Management\ChPsAssessmentController@getByRecord');
     Route::apiResource('ch_ps_relationship', 'Management\ChPsRelationshipController');
@@ -219,7 +219,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_ps_objectives/by_record/{id}/{type_record_id}', 'Management\ChPsObjectivesController@getByRecord');
 
 
-    
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -883,6 +883,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
+    //Estado Plan de manejo 
+    Route::patch('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
@@ -896,7 +898,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('viewCertification/{id}', 'Management\ChRecordController@ViewCertification');
     Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
     Route::get('viewFormulation/{id}', 'Management\ChRecordController@ViewFormulation');
+    Route::get('viewAllFormulation/{id}', 'Management\ChRecordController@ViewAllFormulation');
     Route::get('viewMedicalOrder/{id}', 'Management\ChRecordController@ViewMedicalOrder');
+    Route::get('ViewAllMedicalOrder/{id}', 'Management\ChRecordController@ViewAllMedicalOrder');
     Route::get('viewInability/{id}', 'Management\ChRecordController@ViewInability');
     Route::get('viewCertificate/{id}', 'Management\ChRecordController@ViewCertificate');
     Route::get('viewInterconsultation/{id}', 'Management\ChRecordController@ViewInterconsultation');
@@ -1176,7 +1180,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_e_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChEValorationOTController@getByRecord');
     Route::apiResource('ch_r_n_valoration_o_t', 'Management\ChRNValorationOTController');
     Route::get('ch_r_n_valoration_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNValorationOTController@getByRecord');
-    
+
     Route::apiResource('ch_e_occ_history_o_t', 'Management\ChEOccHistoryOTController');
     Route::get('ch_e_occ_history_o_t/by_record/{id}/{type_record_id}', 'Management\ChEOccHistoryOTController@getByRecord');
 
@@ -1234,7 +1238,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_r_n_materials_o_t', 'Management\ChRNMaterialsOTController');
     Route::get('ch_r_n_materials_o_t/by_record/{id}/{type_record_id}', 'Management\ChRNMaterialsOTController@getByRecord');
 
-    
+
 
     Route::apiResource('fixed_nom_product', 'Management\FixedNomProductController');
     Route::get(
@@ -1752,7 +1756,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
     Route::get('ch_nutrition_food_history/by_record/{id}/{type_record_id}', 'Management\ChNutritionFoodHistoryController@getByRecord');
 
-    
+
     Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
     Route::get('ch_nutrition_parenteral/by_record/{id}/{type_record_id}', 'Management\ChNutritionParenteralController@getByRecord');
 
@@ -1780,12 +1784,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('user_agreement', 'Management\UserAgreementController');
     Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
 
-    
+
     //days
     Route::apiResource('days', 'Management\DaysController');
 
     //interoperabilidad
     Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
+
+    //Dashboard
+    Route::apiResource('dashboard', 'Management\DashboardController');
+    Route::apiResource('dashboard_role', 'Management\DashboardRoleController');
 
     //hospitalización
     Route::apiResource('technological_medium', 'Management\TechnologicalMediumController');

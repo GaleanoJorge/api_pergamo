@@ -31,6 +31,7 @@ class ManagementPlanRequest extends FormRequest
             'admissions_id' => 'required',
             'assigned_user_id' => '',
             'procedure_id' => 'required',
+            'status_id' => 'required',
         ];
     }
 }
