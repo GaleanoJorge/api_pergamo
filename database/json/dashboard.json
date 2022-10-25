@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "REPORTE FRT",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMzk2Y2EzYTktNmNlMS00Yzk2LWE2N2UtMjZmYjNiODQzNWMwIiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9&pageName=ReportSection4f160b5b90102c0c0395"
+    },
+    {
+        "id": 2,
+        "name": "INICIO DE SESIÓN",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMWJmZDc3ZTQtMzM5Ny00ZjYwLTlmYWEtMDdlZTc0MGZiMTM2IiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 3,
+        "name": "REPORTE GLOSAS",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiOWUzZmMzN2MtNjY4Yy00ODY1LTgwYzQtOGMwZWQwMjBjNWI3IiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 4,
+        "name": "REPORTE VEHICULOS",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiNjNhOGU4YjAtOTM1NS00NzJkLThhYjItNjdkN2IxNzFiNmM2IiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9&pageName=ReportSection"
+    },
+    {
+        "id": 5,
+        "name": "REPORTE JURIDICA",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiZDZlMjk0MDItZWYyMS00YjMyLWEwM2MtNzhiMThmYWNjMmEyIiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 6,
+        "name": "REPORTE PBX",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiNjllN2U3NTktNTQ0MS00ZjFlLWI0ZGItYmQzZjJjNTlkNWI0IiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 7,
+        "name": "REPORTE EPIDEMIOLOGICO",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiOTA0YWVkMjQtZGNjNi00OWZiLWFjMmQtNzk4MTg5NjkxNTUzIiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 8,
+        "name": "REPORTE ADMISIONES",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMzJiNWMyYWEtNzk4YS00Mzk5LTg4NWItNDFhMTJiYzIxZDg3IiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9"
+    },
+    {
+        "id": 9,
+        "name": "REPORTE PAD",
+        "link": "https://app.powerbi.com/view?r=eyJrIjoiMWQ1NGQ4ZmItM2NkOC00OTZhLWJkN2EtYmZlZTU3ZDIyNmFkIiwidCI6IjRlNmU0ZWQ1LTFhN2UtNGFmYi1iMzIwLTVkOTAzM2IwZGYxMyJ9&pageName=ReportSectionaafdcbbcba4a793ec492"
+    }
+]

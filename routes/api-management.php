@@ -125,6 +125,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_armed_conflict/by_record/{id}/{type_record_id}', 'Management\ChSwArmedConflictController@getByRecord');
     Route::apiResource('ch_sw_support_network', 'Management\ChSwSupportNetworkController');
     Route::get('ch_sw_support_network/by_record/{id}/{type_record_id}', 'Management\ChSwSupportNetworkController@getByRecord');
+    Route::apiResource('sw_rights_duties', 'Management\SwRightsDutiesController');
+    Route::get('sw_rights_duties/by_record/{id}/{type_record_id}', 'Management\SwRightsDutiesController@getByRecord');
 
 
     Route::apiResource('ch_sw_activities', 'Management\ChSwActivitiesController');
@@ -153,6 +155,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_sw_network/by_record/{id}/{type_record_id}', 'Management\ChSwNetworkController@getByRecord');
     Route::apiResource('ch_sw_entity', 'Management\ChSwEntityController');
     Route::get('ch_sw_entity/by_record/{id}/{type_record_id}', 'Management\ChSwEntityController@getByRecord');
+    Route::apiResource('sw_education', 'Management\SwEducationController');
+    Route::get('sw_education/by_record/{id}/{type_record_id}', 'Management\SwEducationController@getByRecord');
 
     //Ch Psicología
     Route::apiResource('ch_ps_episodes', 'Management\ChPsEpisodesController');
@@ -188,7 +192,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_ps_prospecting', 'Management\ChPsProspectingController');
     Route::apiResource('ch_ps_intelligence', 'Management\ChPsIntelligenceController');
     Route::apiResource('diagnosis_dms', 'Management\DiagnosisDmsController');
-    
+
     Route::apiResource('ch_ps_assessment', 'Management\ChPsAssessmentController');
     Route::get('ch_ps_assessment/by_record/{id}/{type_record_id}', 'Management\ChPsAssessmentController@getByRecord');
     Route::apiResource('ch_ps_relationship', 'Management\ChPsRelationshipController');
@@ -215,7 +219,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('ch_ps_objectives/by_record/{id}/{type_record_id}', 'Management\ChPsObjectivesController@getByRecord');
 
 
-    
+
     //SectionalCouncil
     Route::apiResource('sectionalCouncil', 'Management\SectionalCouncilController');
 
@@ -881,6 +885,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
+    //Estado Plan de manejo 
+    Route::patch('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
@@ -894,7 +900,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('viewCertification/{id}', 'Management\ChRecordController@ViewCertification');
     Route::get('viewAllHC', 'Management\ChRecordController@ViewAllHC');
     Route::get('viewFormulation/{id}', 'Management\ChRecordController@ViewFormulation');
+    Route::get('viewAllFormulation/{id}', 'Management\ChRecordController@ViewAllFormulation');
     Route::get('viewMedicalOrder/{id}', 'Management\ChRecordController@ViewMedicalOrder');
+    Route::get('ViewAllMedicalOrder/{id}', 'Management\ChRecordController@ViewAllMedicalOrder');
     Route::get('viewInability/{id}', 'Management\ChRecordController@ViewInability');
     Route::get('viewCertificate/{id}', 'Management\ChRecordController@ViewCertificate');
     Route::get('viewInterconsultation/{id}', 'Management\ChRecordController@ViewInterconsultation');
@@ -1750,7 +1758,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_nutrition_food_history', 'Management\ChNutritionFoodHistoryController');
     Route::get('ch_nutrition_food_history/by_record/{id}/{type_record_id}', 'Management\ChNutritionFoodHistoryController@getByRecord');
 
-    
+
     Route::apiResource('ch_nutrition_parenteral', 'Management\ChNutritionParenteralController');
     Route::get('ch_nutrition_parenteral/by_record/{id}/{type_record_id}', 'Management\ChNutritionParenteralController@getByRecord');
 
@@ -1797,6 +1805,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //interoperabilidad
     Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
 
+    //Dashboard
+    Route::apiResource('dashboard', 'Management\DashboardController');
+    Route::apiResource('dashboard_role', 'Management\DashboardRoleController');
+
     //hospitalización
     Route::apiResource('technological_medium', 'Management\TechnologicalMediumController');
 
@@ -1806,4 +1818,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('reference', 'Management\ReferenceController');
     Route::get('reference/getReferenceData/{id}', 'Management\ReferenceController@getReferenceData');
     Route::apiResource('denied_reason', 'Management\DeniedReasonController');
+
+    //Seguimiento
+    Route::apiResource('tracing', 'Management\TracingController');
+    Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
+
 });

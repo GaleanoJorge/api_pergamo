@@ -290,6 +290,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChSwServicesSeeder::class);
                 $this->call(ChSwNetworkSeeder::class);
                 $this->call(ChSwEntitySeeder::class);
+                $this->call(SwRightsDutiesSeeder::class);
                 
                 //Semillas HC Psicologia
                 $this->call(ChPsEpisodesSeeder::class);
@@ -336,6 +337,11 @@ class DatabaseSeeder extends Seeder
                 $this->call(HumanTalentRequestObservationSeeder::class);
                 //
                 $this->call(SuppliesStatusSeeder::class);
+                
+                //Dashboard
+                $this->call(DashboardSeeder::class);
+                $this->call(DashboardRoleSeeder::class);
+                
                 
                 //Semillas Referencia y contrareferencia
                 $this->call(ProvidersOfHealthServicesSeeder::class);

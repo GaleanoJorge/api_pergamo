@@ -74,5 +74,9 @@
     {
         "id": 19,
         "name": "TERAPIA FÍSICO-RESPIRATORIA"
+    },
+    {
+        "id": 20,
+        "name": "SEGUIMIENTO"
     }
 ]

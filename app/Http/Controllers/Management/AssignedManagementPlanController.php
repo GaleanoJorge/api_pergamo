@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Management;
 use App\Models\AssignedManagementPlan;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\LogAssignedManagementPlan;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -186,6 +188,7 @@ class AssignedManagementPlanController extends Controller
         $AssignedManagementPlan->management_plan_id = $request->management_plan_id;
         $AssignedManagementPlan->save();
 
+
         return response()->json([
             'status' => true,
             'message' => 'Plan creado exitosamente',
@@ -222,6 +225,15 @@ class AssignedManagementPlanController extends Controller
     public function update(Request $request, int $id)
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
+        $LogAssignedManagementPlan = new LogAssignedManagementPlan;
+        $LogAssignedManagementPlan->assigned_management_plan_id =$AssignedManagementPlan->id;
+        $LogAssignedManagementPlan->user_id = Auth::user()->id;
+        $LogAssignedManagementPlan->i_start_date = $AssignedManagementPlan->start_date;
+        $LogAssignedManagementPlan->i_finish_date = $AssignedManagementPlan->finish_date;
+        $LogAssignedManagementPlan->i_user_id = $AssignedManagementPlan->user_id;
+        $LogAssignedManagementPlan->i_start_hour = $AssignedManagementPlan->start_hour;
+        $LogAssignedManagementPlan->i_finish_hour = $AssignedManagementPlan->finish_hour;
+
         if ($request->type_of_attention_id == 17 || $request->type_of_attention_id == 12) {
             $AssignedManagementPlan->start_date = $request->start_date;
             $AssignedManagementPlan->finish_date = $request->finish_date;
@@ -235,6 +247,17 @@ class AssignedManagementPlanController extends Controller
         }
 
         $AssignedManagementPlan->save();
+        
+
+        $LogAssignedManagementPlan->assigned_management_plan_id =$AssignedManagementPlan->id;
+        $LogAssignedManagementPlan->user_id = Auth::user()->id;
+        $LogAssignedManagementPlan->status ='Plan de manejo actualizado';
+        $LogAssignedManagementPlan->f_start_date = $request->start_date;
+        $LogAssignedManagementPlan->f_finish_date = $request->finish_date;
+        $LogAssignedManagementPlan->f_user_id = $request->user_id;
+        $LogAssignedManagementPlan->f_start_hour = $request->start_hour;
+        $LogAssignedManagementPlan->f_finish_hour = $request->finish_hour;
+        $LogAssignedManagementPlan->save();
 
         return response()->json([
             'status' => true,

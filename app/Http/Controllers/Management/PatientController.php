@@ -588,9 +588,8 @@ class PatientController extends Controller
             });
         }
 
-        if($request->campus && isset($request->campus) && $request->campus != 'null'){
-            $patients->where('admissions.campus_id', $request->campus);
-            // var_dump($insu = "monda'");
+        if($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null'){
+            $patients->where('admissions.campus_id', $request->campus_id);
         }
 
         if($request->eps && isset($request->eps) && $request->eps != 'null'){
