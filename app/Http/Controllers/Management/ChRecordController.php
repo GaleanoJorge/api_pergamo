@@ -4113,8 +4113,8 @@ class ChRecordController extends Controller
     public function store(Request $request): JsonResponse
     {
         $count = 0;
-        $chrecord = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
-        foreach ($chrecord as $ch) {
+        $chrecord_val = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
+        foreach ($chrecord_val as $ch) {
             $count++;
         }
         $ChRecord = new ChRecord;
@@ -4247,6 +4247,10 @@ class ChRecordController extends Controller
             Storage::disk('public')->put($imagePath, base64_decode($image));
 
             $ChRecord->file_firm = $imagePath;
+        } else {
+            if (count($chrecord_val) > 0) {
+                $ChRecord->file_firm = $chrecord_val[count($chrecord_val) - 1]['file_firm'];
+            }
         }
 
         $ChRecord->save();
