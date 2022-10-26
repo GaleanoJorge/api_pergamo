@@ -54,7 +54,7 @@
 <div>
         
     <h2 style="margin-top:70px; margin-bottom:1.9pt; widows:0; orphans:0; font-size:9pt;    background: #4472c4;
-            padding: 0.8em;font-family:Calibri;color: white;text-align: center;">ORDEN MÉDICA
+            padding: 0.8em;font-family:Calibri;color: white;text-align: center;">FORMULACIÓN
     </h2>
     <hr />
     <h2 style=" text-align: center; margin-top:7.25pt; margin-bottom:1.9pt; widows:0; orphans:0; font-size:9pt"><span style="font-family:Calibri; color:#057591; background-color:#ffffff"> DATOS PERSONALES</span></h2>
