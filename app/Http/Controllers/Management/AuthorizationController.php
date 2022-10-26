@@ -104,7 +104,11 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
-            );
+            )->when('authorization.assigned_management_plan_id' == null, function ($query) use ($request) {
+                return $query->where('management_plan.status_id', 1);
+            }, function ($query) {
+                return $query;
+            });
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
@@ -116,8 +120,7 @@ class AuthorizationController extends Controller
                         ->WhereNull('auth_number');
                 });
             });
-        } 
-        else if($request->status_id === 'E'){
+        } else if ($request->status_id === 'E') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -127,12 +130,12 @@ class AuthorizationController extends Controller
                         ->WhereNull('auth_number');
                 });
             });
-            $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
+            $Authorization->when('assigned_management_plan_id' != null, function ($que) use ($request) {
                 $que
-                //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->where('assigned_management_plan.execution_date','!=', '0000-00-00 00:00:00');
+                    //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
             });
-        } else if($request->status_id === 'P'){
+        } else if ($request->status_id === 'P') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -142,10 +145,10 @@ class AuthorizationController extends Controller
                         ->WhereNull('auth_number');
                 });
             });
-            $Authorization->when('assigned_management_plan_id' != null,function ($que) use ($request){
-                $que->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
+            $Authorization->when('assigned_management_plan_id' != null, function ($que) use ($request) {
+                $que->where('assigned_management_plan.execution_date', '=', '0000-00-00 00:00:00');
             });
-        } else if($request->status_id == 'PAQ'){
+        } else if ($request->status_id == 'PAQ') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
@@ -161,8 +164,7 @@ class AuthorizationController extends Controller
                         ->WhereNull('authorization.auth_number');
                 });
             });
-        } 
-        else {
+        } else {
             $Authorization
                 ->where('auth_status_id', $request->status_id);
             $Authorization->orwhere(function ($query) use ($request) {
@@ -193,7 +195,7 @@ class AuthorizationController extends Controller
         }
 
         if ($request->type_of_attention_id != 'null' && isset($request->type_of_attention_id)) {
-            $Authorization->when('assigned_management_plan_id' != null,function ($query) use ($request){
+            $Authorization->when('assigned_management_plan_id' != null, function ($query) use ($request) {
                 $query->where('management_plan.type_of_attention_id', $request->type_of_attention_id);
             });
         }
@@ -232,7 +234,7 @@ class AuthorizationController extends Controller
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
-        
+
 
         if ($request->query("pagination", true) == "false") {
             $Authorization = $Authorization->get()->toArray();
@@ -250,7 +252,7 @@ class AuthorizationController extends Controller
         ]);
     }
 
-    
+
 
     /**
      * Display a listing of the resource.
@@ -387,7 +389,7 @@ class AuthorizationController extends Controller
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
-            )->where('management_plan.status_id',1);
+            )->where('management_plan.status_id', 1);
 
         if ($request->edit) {
             $Authorization->where(function ($query) use ($request) {
@@ -535,7 +537,6 @@ class AuthorizationController extends Controller
                 $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
                 $Authorization->file_auth = $path;
             }
-
         } else {
             $Authorization->auth_number = $request->auth_number;
             $Authorization->observation = $request->observation;
