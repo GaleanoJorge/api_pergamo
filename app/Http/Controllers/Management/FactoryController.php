@@ -18,7 +18,7 @@ class FactoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Factory = Factory::select();
+        $Factory = Factory::select()->orderBy('factory.name', 'asc');
 
         if($request->_sort){
             if($request->_sort!="actions"){
