@@ -104,11 +104,8 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
-            )->when('authorization.assigned_management_plan_id' == null, function ($query) use ($request) {
-                return $query->where('management_plan.status_id', 1);
-            }, function ($query) {
-                return $query;
-            });
+            )->where(
+               'management_plan.status_id', 1);
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
@@ -189,7 +186,7 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
-            )->where('management_plan.status_id',1);
+            );
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
