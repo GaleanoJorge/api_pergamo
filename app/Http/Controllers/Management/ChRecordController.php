@@ -4452,20 +4452,20 @@ class ChRecordController extends Controller
                 }
         }
 
-        if ($request->firm_file) {
-            $image = $request->get('firm_file'); // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+        // if ($request->firm_file) {
+        //     $image = $request->get('firm_file'); // your base64 encoded
+        //     $image = str_replace('data:image/png;base64,', '', $image);
+        //     $image = str_replace(' ', '+', $image);
+        //     $random = Str::random(10);
+        //     $imagePath = 'firmas/' . $random . '.png';
+        //     Storage::disk('public')->put($imagePath, base64_decode($image));
 
-            $ChRecord->file_firm = $imagePath;
-        } else {
-            if (count($chrecord_val) > 0) {
-                $ChRecord->file_firm = $chrecord_val[count($chrecord_val) - 1]['file_firm'];
-            }
-        }
+        //     $ChRecord->file_firm = $imagePath;
+        // } else {
+        //     if (count($chrecord_val) > 0) {
+        //         $ChRecord->file_firm = $chrecord_val[count($chrecord_val) - 1]['file_firm'];
+        //     }
+        // }
 
         $ChRecord->save();
 
