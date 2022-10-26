@@ -236,7 +236,7 @@ class AssignedManagementPlanController extends Controller
 
         if ($request->type_of_attention_id == 17 || $request->type_of_attention_id == 12) {
             $AssignedManagementPlan->start_date = $request->start_date;
-            $AssignedManagementPlan->finish_date = $request->finish_date;
+            $AssignedManagementPlan->finish_date = $request->start_date;
             $AssignedManagementPlan->user_id = $request->user_id;
             $AssignedManagementPlan->start_hour = $request->start_hour;
             $AssignedManagementPlan->finish_hour = $request->finish_hour;
