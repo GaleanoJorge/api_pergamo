@@ -402,6 +402,7 @@ class AuthorizationController extends Controller
             // ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
             ->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+            ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->select(
                 'authorization.*',
