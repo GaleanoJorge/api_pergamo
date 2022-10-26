@@ -104,7 +104,7 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
-            );
+            )->where('management_plan.status_id',1);
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
@@ -146,6 +146,47 @@ class AuthorizationController extends Controller
                 $que->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
             });
         } else if($request->status_id == 'PAQ'){
+            $Authorization = Authorization::leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
+            ->leftjoin('location', 'admissions.id', 'location.admissions_id')
+            ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
+            ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
+            ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+            ->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+            ->select(
+                'authorization.*',
+                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+                DB::raw('DATE(authorization.created_at) as date'),
+            )
+            ->wherenull('auth_package_id')
+            ->leftjoin('auth_billing_pad', 'authorization.id', 'auth_billing_pad.authorization_id')
+            ->whereNull('auth_billing_pad.authorization_id')
+            ->with(
+                'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.status',
+                'admissions.patients.gender',
+                'admissions.patients.inability',
+                'admissions.patients.academic_level',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.neighborhood_or_residence',
+                'admissions.patients.residence',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'auth_status',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.user',
+                'assigned_management_plan.ch_record',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
+                'applications.users',
+            )->where('management_plan.status_id',1);
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
