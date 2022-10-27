@@ -2595,6 +2595,7 @@ class ChRecordController extends Controller
      */
     public function ViewAllHC(Request $request)
     {
+        $i=0;
         $documentos = [];
 
         $ChRecord = ChRecord::select('ch_record.*')->with(
@@ -2929,7 +2930,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     
                     $html = view('mails.medicalhistory', [
-                        'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
@@ -3004,6 +3005,8 @@ class ChRecordController extends Controller
                     Storage::disk('public')->put($name, $file);
 
                     array_push($documentos, $name);
+
+                    $i++;
                 }
 
 
@@ -3179,7 +3182,7 @@ class ChRecordController extends Controller
             ->get()->toArray();
 
                     $html = view('mails.hcEnfermeria', [
-                        'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         'ChPosition' => $ChPosition,
                         'ChNursingNote' => $ChNursingNote,
                         'ChHairValoration' => $ChHairValoration,
@@ -3229,6 +3232,7 @@ class ChRecordController extends Controller
                     Storage::disk('public')->put($name, $file);
 
                     array_push($documentos, $name);
+                    $i++;
                 }
                 # Crear el "combinador"
                 $combinador = new Merger;
