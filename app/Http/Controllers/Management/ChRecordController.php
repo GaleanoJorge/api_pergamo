@@ -4532,15 +4532,37 @@ class ChRecordController extends Controller
 
         $ChRecord->status = $request->status;
 
-        if ($request->firm_file != "null") {
-            $image = $request->get('firm_file'); // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+        if ($request->firm_file) {
+            if ($request->firm_file != "null" && $request->firm_file != "undefined") {
+                $image = $request->get('firm_file'); // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
 
-            $ChRecord->firm_file = $imagePath;
+                $ChRecord->firm_file = $imagePath;
+            } else {
+                if ($ChRecord->assigned_management_plan_id) {
+                    $firm_ch_record = ChRecord::select('ch_record.*')
+                    ->whereNotNull('firm_file')
+                    ->where('admissions_id', $admissions_id)
+                    ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                    ->orderBy('created_at', 'ASC')->get()->toArray();
+        
+                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                }
+            }
+        } else {
+            if ($ChRecord->assigned_management_plan_id) {
+                $firm_ch_record = ChRecord::select('ch_record.*')
+                ->whereNotNull('firm_file')
+                ->where('admissions_id', $admissions_id)
+                ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                ->orderBy('created_at', 'ASC')->get()->toArray();
+    
+                $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+            }
         }
 
         // if ($request->file('firm_file')) {
