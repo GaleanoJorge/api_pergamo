@@ -1381,7 +1381,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.medicalhistory', [
                 'chrecord' => $ChRecord,
-
+                'chrecord2' => $ChRecord[0],
                 'ChReasonConsultation' => $ChReasonConsultation,
                 'ChSystemExam' => $ChSystemExam,
                 'ChPhysicalExam' => $ChPhysicalExam,
