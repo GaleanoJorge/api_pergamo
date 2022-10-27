@@ -3049,6 +3049,9 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
+    
                     }
 
 
@@ -3176,8 +3179,7 @@ class ChRecordController extends Controller
             ->get()->toArray();
 
                     $html = view('mails.hcEnfermeria', [
-                        'chrecord' => $ChRecord,
-
+                        'chrecord' => $ch,
                         'ChPosition' => $ChPosition,
                         'ChNursingNote' => $ChNursingNote,
                         'ChHairValoration' => $ChHairValoration,
