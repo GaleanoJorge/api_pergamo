@@ -3114,7 +3114,10 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
 
-
+if ($ch['assigned_management_plan']){
+$management = $ch['assigned_management_plan']['management_plan_id'];
+}
+else{$management =null;}
                     //busqueda medicamentos
                     $PharmacyProductRequest = PharmacyProductRequest::select(
                         'pharmacy_product_request.*',
@@ -3163,7 +3166,7 @@ class ChRecordController extends Controller
                         )->groupBy('pharmacy_product_request.id');
                     $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                         ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-                        ->where('pharmacy_product_request.management_plan_id', $ch['assigned_management_plan']['management_plan_id'])
+                        ->where('pharmacy_product_request.management_plan_id', $management)
                         ->whereNotNull('manual_price.product_id');
                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
