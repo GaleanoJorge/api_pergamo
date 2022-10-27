@@ -256,7 +256,7 @@ class AuthorizationController extends Controller
 
         if ($request->number_id != 'null' && isset($request->number_id)) {
             $Authorization
-                ->where('identification', 'like', '%' . $request->number_id . '%');
+                ->where('identification',$request->number_id);
         }
 
         if ($request->search) {
@@ -279,6 +279,7 @@ class AuthorizationController extends Controller
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 30);
+
 
             $Authorization = $Authorization->paginate($per_page, '*', 'page', $page);
         }
