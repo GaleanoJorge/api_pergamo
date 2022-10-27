@@ -3114,61 +3114,61 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
 
-if ($ch['assigned_management_plan']){
-$management = $ch['assigned_management_plan']['management_plan_id'];
-}
-else{$management =null;}
-                    //busqueda medicamentos
-                    $PharmacyProductRequest = PharmacyProductRequest::select(
-                        'pharmacy_product_request.*',
-                        DB::raw('
-        SUM(
-            IF( assistance_supplies.supplies_status_id = 1,
-                1,0
-            )
-        ) AS disponibles'),
-                        DB::raw('
-        SUM(
-            IF( assistance_supplies.supplies_status_id = 3,
-               1,0
-            )
-       ) AS dañadas'),
-                        DB::raw('
-       SUM(
-           IF( assistance_supplies.supplies_status_id = 2,
-               1,0
-           )
-       ) AS Usadas'),
-                    )
-                        ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+// if ($ch['assigned_management_plan']){
+// $management = $ch['assigned_management_plan']['management_plan_id'];
+// }
+// else{$management =null;}
+//                     //busqueda medicamentos
+//                     $PharmacyProductRequest = PharmacyProductRequest::select(
+//                         'pharmacy_product_request.*',
+//                         DB::raw('
+//         SUM(
+//             IF( assistance_supplies.supplies_status_id = 1,
+//                 1,0
+//             )
+//         ) AS disponibles'),
+//                         DB::raw('
+//         SUM(
+//             IF( assistance_supplies.supplies_status_id = 3,
+//                1,0
+//             )
+//        ) AS dañadas'),
+//                         DB::raw('
+//        SUM(
+//            IF( assistance_supplies.supplies_status_id = 2,
+//                1,0
+//            )
+//        ) AS Usadas'),
+//                     )
+//                         ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
 
-                        ->with(
-                            'product_generic',
-                            'product_supplies',
-                            'admissions',
-                            'admissions.patients',
-                            'services_briefcase',
-                            'services_briefcase.briefcase',
-                            'services_briefcase.manual_price',
-                            'user_request_pad',
-                            'management_plan',
-                            'own_pharmacy_stock',
-                            'request_pharmacy_stock',
-                            'request_pharmacy_stock.campus',
-                            'own_pharmacy_stock.campus',
-                            'pharmacy_request_shipping',
-                            'pharmacy_request_shipping.pharmacy_lot_stock',
-                            'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
-                            'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product.product_generic',
-                            'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
-                            'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
-                            'user_request'
-                        )->groupBy('pharmacy_product_request.id');
-                    $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-                        ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-                        ->where('pharmacy_product_request.management_plan_id', $management)
-                        ->whereNotNull('manual_price.product_id');
-                    $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+//                         ->with(
+//                             'product_generic',
+//                             'product_supplies',
+//                             'admissions',
+//                             'admissions.patients',
+//                             'services_briefcase',
+//                             'services_briefcase.briefcase',
+//                             'services_briefcase.manual_price',
+//                             'user_request_pad',
+//                             'management_plan',
+//                             'own_pharmacy_stock',
+//                             'request_pharmacy_stock',
+//                             'request_pharmacy_stock.campus',
+//                             'own_pharmacy_stock.campus',
+//                             'pharmacy_request_shipping',
+//                             'pharmacy_request_shipping.pharmacy_lot_stock',
+//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
+//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product.product_generic',
+//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
+//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
+//                             'user_request'
+//                         )->groupBy('pharmacy_product_request.id');
+//                     $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+//                         ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+//                         ->where('pharmacy_product_request.management_plan_id', $management)
+//                         ->whereNotNull('manual_price.product_id');
+//                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
                                 //Seguimiento
             $ChTracing =Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -3199,7 +3199,7 @@ else{$management =null;}
                         'ChScaleBraden' => $ChScaleBraden,
                         'ChOxigenNE' => $ChOxigenNE,
                         'ChNotesDescription' => $ChNotesDescription,
-                        'PharmacyProductRequest' => $PharmacyProductRequest,
+                        // 'PharmacyProductRequest' => $PharmacyProductRequest,
                         'AssistanceSupplies' => $AssistanceSupplies,
                         'fecharecord' => $fecharecord,
                         'ChTracing' => $ChTracing,
