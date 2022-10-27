@@ -1381,7 +1381,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.medicalhistory', [
                 'chrecord' => $ChRecord,
-
+                'chrecord2' => $ChRecord[0],
                 'ChReasonConsultation' => $ChReasonConsultation,
                 'ChSystemExam' => $ChSystemExam,
                 'ChPhysicalExam' => $ChPhysicalExam,
@@ -1583,7 +1583,7 @@ class ChRecordController extends Controller
             $patient = $ChRecord[0]['admissions'];
             $html = view('mails.hcEnfermeria', [
                 'chrecord' => $ChRecord,
-
+                'chrecord2' => $ChRecord[0],
                 'ChPosition' => $ChPosition,
                 'ChNursingNote' => $ChNursingNote,
                 'ChHairValoration' => $ChHairValoration,
@@ -1748,6 +1748,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.respiratoryhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
 
                 'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
                 'ChBackground' => $ChBackground,
@@ -1887,6 +1888,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.lenguagehistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
 
                 'TlTherapyLanguage' => $TlTherapyLanguage,
                 'OstomiesTl' => $OstomiesTl,
@@ -2011,6 +2013,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.occupationalhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
                 'ChEValorationOT' => $ChEValorationOT,
                 'ChVitalSigns' => $ChVitalSigns,
                 'ChEOccHistoryOT' => $ChEOccHistoryOT,
@@ -2129,6 +2132,7 @@ class ChRecordController extends Controller
             // $patient=$ChRecord['admissions'];
             $html = view('mails.nutritionhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
                 'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
                 'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
                 'ChNutritionFoodHistory' => $ChNutritionFoodHistory,
@@ -2252,6 +2256,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.physicalhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
 
                 'ChEValorationFT' => $ChEValorationFT,
                 'ChVitalSigns' => $ChVitalSigns,
@@ -2403,6 +2408,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.sworkhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
 
                 'ChSwDiagnosis' => $ChSwDiagnosis,
                 'ChSwFamily' => $ChSwFamily,
@@ -2529,6 +2535,7 @@ class ChRecordController extends Controller
 
             $html = view('mails.psychologyhistory', [
                 'chrecord' => $ChRecord,
+                'chrecord2' => $ChRecord[0],
 
                 'ChPsAssessment' => $ChPsAssessment,
                 'ChPsRelationship' => $ChPsRelationship,
@@ -2595,6 +2602,7 @@ class ChRecordController extends Controller
      */
     public function ViewAllHC(Request $request)
     {
+        $i=0;
         $documentos = [];
 
         $ChRecord = ChRecord::select('ch_record.*')->with(
@@ -2930,6 +2938,7 @@ class ChRecordController extends Controller
                     
                     $html = view('mails.medicalhistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
                         
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
@@ -3004,6 +3013,8 @@ class ChRecordController extends Controller
                     Storage::disk('public')->put($name, $file);
 
                     array_push($documentos, $name);
+
+                    $i++;
                 }
 
 
@@ -3049,6 +3060,9 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
+    
                     }
 
 
@@ -3177,7 +3191,7 @@ class ChRecordController extends Controller
 
                     $html = view('mails.hcEnfermeria', [
                         'chrecord' => $ChRecord,
-
+                        'chrecord2' => $ChRecord[$i],
                         'ChPosition' => $ChPosition,
                         'ChNursingNote' => $ChNursingNote,
                         'ChHairValoration' => $ChHairValoration,
@@ -3227,6 +3241,7 @@ class ChRecordController extends Controller
                     Storage::disk('public')->put($name, $file);
 
                     array_push($documentos, $name);
+                    $i++;
                 }
                 # Crear el "combinador"
                 $combinador = new Merger;
@@ -3336,6 +3351,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.nutritionhistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
                         'ChTracing' => $ChTracing,
                         'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
@@ -3513,6 +3529,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.lenguagehistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         
                         'ChTracing' => $ChTracing,
                         'TlTherapyLanguage' => $TlTherapyLanguage,
@@ -3723,6 +3740,7 @@ class ChRecordController extends Controller
                     
                     $html = view('mails.respiratoryhistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         
                         'ChTracing' => $ChTracing,
                         'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
@@ -3883,6 +3901,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.occupationalhistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         'ChTracing' => $ChTracing,
                         'ChEValorationOT' => $ChEValorationOT,
                         'ChVitalSigns' => $ChVitalSigns,
@@ -4049,6 +4068,7 @@ class ChRecordController extends Controller
                     
                     $html = view('mails.physicalhistory', [
                         'chrecord' => $ChRecord,
+                        'chrecord' => $ChRecord[$i],
                         
                         'ChTracing' => $ChTracing,
                         'ChEValorationFT' => $ChEValorationFT,
