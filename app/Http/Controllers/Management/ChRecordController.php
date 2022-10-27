@@ -3182,7 +3182,8 @@ class ChRecordController extends Controller
             ->get()->toArray();
 
                     $html = view('mails.hcEnfermeria', [
-                        'chrecord' => $ChRecord[$i],
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
                         'ChPosition' => $ChPosition,
                         'ChNursingNote' => $ChNursingNote,
                         'ChHairValoration' => $ChHairValoration,
