@@ -2655,7 +2655,7 @@ class ChRecordController extends Controller
         $ChRecord = $ChRecord->get()->toArray();
 
 
-        $imagenComoBase64 = null;
+
         $count = 0;
 
         if($request->ch_type==20){
