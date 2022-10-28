@@ -2705,7 +2705,8 @@ class ChRecordController extends Controller
                 'administration_route',
                 'hourly_frequency'
             )->leftJoin('ch_record','ch_formulation.ch_record_id','ch_record.id')
-                ->where('ch_record.admissions_id',$request->admissions)->where('type_record_id', 5)->get()->toArray();
+            ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->where('admissions.patient_id',$request->admissions)->where('type_record_id', 5)->get()->toArray();
 
                 $html = view('mails.chAllFormulation', [
                     'chrecord' => $ChRecord2,
