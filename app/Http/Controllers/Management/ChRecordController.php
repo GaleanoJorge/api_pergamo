@@ -2661,6 +2661,20 @@ class ChRecordController extends Controller
         if($request->ch_type==20){
 
             $today= Carbon::now();
+
+            
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            } else {
+                $imagenComoBase64 = null;
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+    
+                ]);
+            }
                                   
             $ChRecord2 = ChRecord::select('ch_record.*')->with(
                 'user',
