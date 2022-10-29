@@ -406,7 +406,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
 
@@ -518,7 +518,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -624,7 +624,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -729,7 +729,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -836,7 +836,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -943,7 +943,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -1044,7 +1044,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -1146,7 +1146,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -1234,7 +1234,7 @@ class ChRecordController extends Controller
             $imagenPAtient = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -1418,7 +1418,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -1569,7 +1569,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
 
@@ -1787,7 +1787,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -1928,7 +1928,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2052,7 +2052,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2171,7 +2171,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2295,7 +2295,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2447,7 +2447,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2574,7 +2574,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
             }
@@ -2974,7 +2974,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -3173,7 +3173,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -3389,7 +3389,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -3566,7 +3566,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -3777,7 +3777,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -3936,7 +3936,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -4102,7 +4102,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
@@ -4293,7 +4293,7 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
             
                         ]);
                     }
