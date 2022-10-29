@@ -401,11 +401,19 @@ class ManagementPlanController extends Controller
             $ManagementPlan->number_doses = $request->number_doses;
             $ManagementPlan->dosage_administer = $request->dosage_administer;
 
-            $admissions = Admissions::where('admissions.id', $request->admissions_id)->select('location.scope_of_attention_id')->leftJoin('location', 'location.admissions_id', 'admissions.id')->get()->toArray();
+            $admissions = Admissions::where('admissions.id', $request->admissions_id)->select(
+                'admissions.*',
+                'campus.id AS campus_id',
+                'location.scope_of_attention_id AS scope_of_attention_id',
+            )
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
+            ->get()->toArray();
 
 
 
             $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
+                ->where('pharmacy_stock.campus_id', $admissions[0]['campus_id'])
                 ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
                 ->get()->toArray();
             if ($PharmacyServices) {

@@ -455,6 +455,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+            ->groupBy('authorization.id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
             $eventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -524,6 +525,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
@@ -594,6 +596,7 @@ class BillingPadController extends Controller
             ->whereNotNull('authorization.application_id')
             ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
         if ($request->show) {
@@ -659,6 +662,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
+            ->groupBy('authorization.id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
         if ($request->show) {
             $ActivosFijosEvento->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
@@ -1228,6 +1232,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->groupBy('authorization.id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
@@ -1281,6 +1286,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->groupBy('authorization.id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
 
@@ -1331,6 +1337,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->groupBy('authorization.id')
             ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
             ->get()->toArray();
 
@@ -1377,6 +1384,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->groupBy('authorization.id')
             ->get()->toArray();
 
         foreach ($ActivosFijosEventos as $Authorization) {
