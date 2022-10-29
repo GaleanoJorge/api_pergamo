@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class ProgramController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,23 +20,22 @@ class ProgramController extends Controller
     {
         $Program = Program::select();
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Program->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Program->where('name','like','%' . $request->search. '%');
+            $Program->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Program=$Program->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Program = $Program->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Program = $Program->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Program=$Program->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -45,8 +44,8 @@ class ProgramController extends Controller
             'data' => ['program' => $Program]
         ]);
     }
-    
-              /**
+
+    /**
      * Display a listing of the resource
      *
      * @param integer $scope_of_attention_id
@@ -56,6 +55,26 @@ class ProgramController extends Controller
     {
         $Program = Program::where('scope_of_attention_id', $scope_of_attention_id)
             ->orderBy('name', 'asc')->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Programas obtenidos exitosamente',
+            'data' => ['program' => $Program]
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param integer $scope_of_attention_id
+     * @return JsonResponse
+     */
+    public function getProgramByAmbit(int $admission_route_id): JsonResponse
+    {
+        $Program = Program::select('program.*')
+            ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'program.scope_of_attention_id')
+            ->where('scope_of_attention.admission_route_id', $admission_route_id)
+            ->orderBy('program.name', 'asc')->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -104,11 +123,11 @@ class ProgramController extends Controller
      */
     public function update(ProgramRequest $request, int $id): JsonResponse
     {
-        $Program = Program::find($id); 
+        $Program = Program::find($id);
         $Program->scope_of_attention_id = $request->scope_of_attention_id;
-        $Program->name = $request->name; 
-        
-        
+        $Program->name = $request->name;
+
+
         $Program->save();
 
         return response()->json([

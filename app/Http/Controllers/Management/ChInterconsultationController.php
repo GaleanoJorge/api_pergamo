@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Authorization;
 use App\Models\ChRecord;
+use App\Models\Role;
+use App\Models\RoleAttention;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +35,7 @@ class ChInterconsultationController extends Controller
             ->leftJoin('services_briefcase', 'services_briefcase.id', 'ch_interconsultation.services_briefcase_id')
             ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
             ->leftJoin('procedure', 'procedure.id', 'manual_price.procedure_id')
+            ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
             ->with(
                 'type_of_attention',
                 'services_briefcase',
@@ -62,6 +65,15 @@ class ChInterconsultationController extends Controller
 
         if ($request->ambulatory_medical_order) {
             $ChInterconsultation->whereNull('ch_interconsultation.ambulatory_medical_order');
+        }
+
+        if ($request->role_id) {
+            $rr = Role::find($request->role_id);
+            if ($rr->role_type_id != 1) {
+                $ChInterconsultation->where('role_attention.role_id', $request->role_id);
+            } else {
+                $ChInterconsultation->whereNotNull('ch_interconsultation.ch_record_id');
+            }
         }
 
         if ($request->admissions_id) {
@@ -118,7 +130,6 @@ class ChInterconsultationController extends Controller
         ]);
     }
 
-
     public function store(Request $request): JsonResponse
     {
         $ChRecord = ChRecord::where('ch_record.id', $request->ch_record_id)
@@ -161,15 +172,6 @@ class ChInterconsultationController extends Controller
             $ChInterconsultation->admissions_id = null;
         }
         $ChInterconsultation->save();
-
-        if ($ChRecord[0]['admission_route_id'] == 1) {
-            $Authorization = new Authorization;
-            $Authorization->services_briefcase_id = $request->services_briefcase_id;
-            $Authorization->ch_interconsultation_id = $ChInterconsultation->id;
-            $Authorization->admissions_id = $ChRecord[0]['admissions_id'];
-            $Authorization->auth_status_id = 1;
-            $Authorization->save();
-        }
 
         return response()->json([
             'status' => true,

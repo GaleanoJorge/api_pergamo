@@ -65,6 +65,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
 use App\Models\Reference;
+use App\Models\Role;
+use App\Models\RoleAttention;
 use App\Models\UserUser;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -162,6 +164,7 @@ class PatientController extends Controller
                 'academic_level',
                 'identification_type',
                 'admissions',
+                'admissions.ch_interconsultation',
                 'admissions.location',
                 'admissions.contract',
                 'admissions.contract.company',
@@ -512,6 +515,7 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
+                'admissions.ch_interconsultation',
                 'admissions.management_plan',
                 'admissions.management_plan.assigned_management_plan',
                 'admissions.contract',
@@ -696,6 +700,8 @@ class PatientController extends Controller
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
             ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id')
+            ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
@@ -714,6 +720,7 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
+                'admissions.ch_interconsultation',
                 'admissions.management_plan',
                 'admissions.management_plan.assigned_management_plan',
                 'admissions.diagnosis',
@@ -736,7 +743,14 @@ class PatientController extends Controller
 
         if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
             $patients->where('admissions.campus_id', $request->campus_id);
-            // var_dump($insu = "monda'");
+        }
+
+        if ($request->role_id && isset($request->role_id) && $request->role_id != 'null') {
+            $patients->whereNotNull('ch_interconsultation.ch_record_id');
+            $rr = Role::find($request->role_id);
+            if ($rr->role_type_id != 1) {
+                $patients->where('role_attention.role_id', $request->role_id);
+            }
         }
 
         if ($request->eps && isset($request->eps) && $request->eps != 'null') {
@@ -1395,6 +1409,11 @@ class PatientController extends Controller
                 'identification_type',
                 // 'all_admissions',
                 'admissions',
+                'admissions.ch_interconsultation',
+                'admissions.ch_interconsultation.many_ch_record',
+                'admissions.ch_interconsultation.services_briefcase',
+                'admissions.ch_interconsultation.services_briefcase.manual_price',
+                'admissions.ch_interconsultation.services_briefcase.manual_price.procedure',
                 'admissions.briefcase',
                 'admissions.location',
                 'admissions.contract',

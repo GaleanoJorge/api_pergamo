@@ -754,6 +754,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'program/byScope/{scope_of_attention_id}',
         'Management\ProgramController@getProgramByScope'
     );
+    Route::get(
+        'program/byAmbit/{admission_route_id}',
+        'Management\ProgramController@getProgramByAmbit'
+    );
     //Piso 
     Route::apiResource('flat', 'Management\FlatController');
 

@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BedRequest;
+use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 
 class BedController extends Controller
@@ -18,15 +20,35 @@ class BedController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Bed = Bed::with('pavilion', 'pavilion.flat', 'pavilion.flat.campus', 'status_bed', 'procedure');
+        $Bed = Bed::select('bed.*')
+            ->with(
+                'pavilion',
+                'pavilion.flat',
+                'pavilion.flat.campus',
+                'status_bed',
+                'procedure'
+            )
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
+            ->groupBy('bed.id');
 
         if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->campus_id) {
+            $Bed->where('campus.id', $request->campus_id);
+        }
+
         if ($request->search) {
-            $Bed->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('code', 'like', '%' . $request->search . '%');
+            $Bed->where(function ($query) use ($request) {
+                $query->where('bed.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('bed.code', 'like', '%' . $request->search . '%')
+                    ->orWhere('campus.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('flat.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('pavilion.name', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -52,10 +74,32 @@ class BedController extends Controller
      * @param integer $pavilion_id
      * @return JsonResponse
      */
-    public function getBedByPavilion(int $pavilion_id, int $ambit, int $procedure): JsonResponse
+    public function getBedByPavilion(Request $request, int $pavilion_id, int $ambit, int $procedure): JsonResponse
     {
+        $identification = '';
+        if ($request->patient_id) {
+            $pat = Patient::find($request->patient_id);
+            $identification = $pat->identification;
+        } else if ($request->identification) {
+            $identification = $request->identification;
+        }
+
+        $date = Carbon::now()->setTimezone('America/Bogota')->subHours(6)->format('Y-m-d h:i:s');
+
         $Bed = Bed::where('pavilion_id', $pavilion_id)
-            ->where('status_bed_id', '=', '1')
+            ->where(function ($query) use ($identification, $date) {
+                $query->where('bed.status_bed_id', '=', '1')
+                    ->orWhere(function ($q) use ($identification, $date) {
+                        $q->where('bed.identification', $identification)
+                            ->where('bed.status_bed_id', '=', '6')
+                            // ->where('bed.reservation_date', '<=', $date)
+                            ;
+                    })
+                    ->orWhere(function ($q) use ($date) {
+                        $q->where('bed.status_bed_id', '=', '6')
+                            ->where('bed.reservation_date', '<=', $date);
+                    });
+            })
             ->where('bed_or_office', '=', $ambit);
         if ($procedure != 0) {
             $Bed->where('procedure_id', '=', $procedure);
@@ -76,45 +120,57 @@ class BedController extends Controller
      * @param integer $pavilion_id
      * @return JsonResponse
      */
-    public function getBedsByCampus(int $campus_id): JsonResponse
+    public function getBedsByCampus(Request $request, int $campus_id): JsonResponse
     {
+        $date = Carbon::now()->setTimezone('America/Bogota')->subHours(6)->format('Y-m-d h:i:s');
         $AvailableBeds = Bed::select('bed.*')
-            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
-            ->leftJoin('flat','flat.id','pavilion.flat_id')
-            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
             ->where('campus.id', $campus_id)
-            ->where('bed.status_bed_id', '=', 1)
-            ->where('bed.bed_or_office', '=', 1);
+            ->where(function ($query) use ($date) {
+                $query->where('bed.status_bed_id', '=', '1')
+                    ->orWhere(function ($q) use ($date) {
+                        $q
+                            ->where('bed.status_bed_id', '=', '6')
+                            ->where('bed.reservation_date', '<=', $date);
+                    });
+            })
+            ->where('bed.bed_or_office', '=', 1)
+            ->groupBy('bed.id');
         $AvailableBeds->orderBy('bed.name', 'asc');
         $AvailableBeds = $AvailableBeds->get()->toArray();
 
         $BusyBeds = Bed::select('bed.*')
-            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
-            ->leftJoin('flat','flat.id','pavilion.flat_id')
-            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
             ->where('campus.id', $campus_id)
             ->where('bed.status_bed_id', '=', 2)
-            ->where('bed.bed_or_office', '=', 1);
+            ->where('bed.bed_or_office', '=', 1)
+            ->groupBy('bed.id');
         $BusyBeds->orderBy('bed.name', 'asc');
         $BusyBeds = $BusyBeds->get()->toArray();
 
         $FixBeds = Bed::select('bed.*')
-            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
-            ->leftJoin('flat','flat.id','pavilion.flat_id')
-            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
             ->where('campus.id', $campus_id)
             ->where('bed.status_bed_id', '=', 3)
-            ->where('bed.bed_or_office', '=', 1);
+            ->where('bed.bed_or_office', '=', 1)
+            ->groupBy('bed.id');
         $FixBeds->orderBy('bed.name', 'asc');
         $FixBeds = $FixBeds->get()->toArray();
 
         $CleanBeds = Bed::select('bed.*')
-            ->leftJoin('pavilion','pavilion.id','bed.pavilion_id')
-            ->leftJoin('flat','flat.id','pavilion.flat_id')
-            ->leftJoin('campus','campus.id','flat.campus_id')
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
             ->where('campus.id', $campus_id)
             ->where('bed.status_bed_id', '=', 4)
-            ->where('bed.bed_or_office', '=', 1);
+            ->where('bed.bed_or_office', '=', 1)
+            ->groupBy('bed.id');
         $CleanBeds->orderBy('bed.name', 'asc');
         $CleanBeds = $CleanBeds->get()->toArray();
 
@@ -126,6 +182,7 @@ class BedController extends Controller
                 'busy_bed' => $BusyBeds,
                 'fix_bed' => $FixBeds,
                 'clean_bed' => $CleanBeds,
+                'date' => $date,
             ]
         ]);
     }
@@ -138,14 +195,30 @@ class BedController extends Controller
      */
     public function getBedByPacient(Request $request): JsonResponse
     {
-        $Bed = Bed::with('status_bed', 'location', 'location.admissions', 'location.admissions.patients')->where('bed_or_office', 1);
+        $Bed = Bed::select('bed.*')
+            ->with(
+                'status_bed',
+                'location',
+                'location.admissions',
+                'location.admissions.patients',
+                'reference'
+            )
+            ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
+            ->where('bed_or_office', 1)
+            ->groupBy('bed.id');
 
         if ($request->_sort) {
             $Bed->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->campus_id) {
+            $Bed->where('campus.id', $request->campus_id);
+        }
+
         if ($request->search) {
-            $Bed->where('name', 'like', '%' . $request->search . '%');
+            $Bed->where('bed.name', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -213,7 +286,7 @@ class BedController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        if ($request == true) {
+        if ($request->update == true) {
             $Bed = Bed::find($id);
             $Bed->status_bed_id = $request->status_bed_id;
             $Bed->save();

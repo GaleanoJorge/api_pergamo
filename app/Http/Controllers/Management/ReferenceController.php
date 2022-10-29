@@ -10,6 +10,7 @@ use App\Models\IdentificationType;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\AdmissionRoute;
+use App\Models\Bed;
 use App\Models\Campus;
 use App\Models\Company;
 use App\Models\DeniedReason;
@@ -56,6 +57,9 @@ class ReferenceController extends Controller
                 'request_specialty',
                 'request_program',
                 'acceptance_campus',
+                'acceptance_flat',
+                'acceptance_pavilion',
+                'acceptance_bed',
                 'acceptance_regime',
                 'acceptance_user',
                 'acceptance_technological_medium',
@@ -157,6 +161,18 @@ class ReferenceController extends Controller
 
         if ($request->acceptance_campus_id) {
             $Reference->where('reference.acceptance_campus_id', $request->acceptance_campus_id);
+        }
+
+        if ($request->acceptance_flat_id) {
+            $Reference->where('reference.acceptance_flat_id', $request->acceptance_flat_id);
+        }
+
+        if ($request->acceptance_pavilion_id) {
+            $Reference->where('reference.acceptance_pavilion_id', $request->acceptance_pavilion_id);
+        }
+
+        if ($request->acceptance_bed_id) {
+            $Reference->where('reference.acceptance_bed_id', $request->acceptance_bed_id);
         }
 
         if ($request->acceptance_regime_id) {
@@ -271,7 +287,7 @@ class ReferenceController extends Controller
 
         $procedure = Procedure::select()->get()->toArray();
 
-        $Company = Company::select('company.*');
+        $Company = Company::select('company.*')->orderBy('company.name', 'ASC');
 
         if ($request->eps) {
             $Company->where(function ($query) use ($request) {
@@ -286,25 +302,25 @@ class ReferenceController extends Controller
 
         $Company = $Company->get()->toArray();
 
-        $ProvidersOfHealthServices = ProvidersOfHealthServices::select()->get()->toArray();
+        $ProvidersOfHealthServices = ProvidersOfHealthServices::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $ReferenceStatus = ReferenceStatus::select()->get()->toArray();
+        $ReferenceStatus = ReferenceStatus::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $StayType = StayType::select()->get()->toArray();
+        $StayType = StayType::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $campus = Campus::select()->get()->toArray();
+        $campus = Campus::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $TypeBriefcase = TypeBriefcase::select()->get()->toArray();
+        $TypeBriefcase = TypeBriefcase::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $TechnologicalMedium = TechnologicalMedium::select()->get()->toArray();
+        $TechnologicalMedium = TechnologicalMedium::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $AdmissionRoute = AdmissionRoute::select()->get()->toArray();
+        $AdmissionRoute = AdmissionRoute::select()->orderBy('name', 'ASC')->get()->toArray();
 
         $specialtys = Specialty::with('status')->orderBy('specialty.name', 'DESC')->get()->toArray();
 
-        $Program = Program::select()->get()->toArray();
+        $Program = Program::select()->orderBy('name', 'ASC')->get()->toArray();
 
-        $RoleType = RoleType::select()->get()->toArray();
+        $RoleType = RoleType::select()->orderBy('name', 'ASC')->get()->toArray();
 
         $response = array();
 
@@ -435,6 +451,10 @@ class ReferenceController extends Controller
 
             $Reference->acceptance_date = Carbon::now();
             $Reference->acceptance_campus_id = $request->acceptance_campus_id;
+            $Reference->acceptance_flat_id = $request->acceptance_flat_id;
+            $Reference->acceptance_pavilion_id = $request->acceptance_pavilion_id;
+            $Reference->acceptance_bed_id = $request->acceptance_bed_id;
+            $Reference->acceptance_regime_id = $request->acceptance_regime_id;
             $Reference->acceptance_regime_level = $request->acceptance_regime_level;
             $Reference->acceptance_user_id = $request->acceptance_user_id;
             $Reference->acceptance_technological_medium_id = $request->acceptance_technological_medium_id;
@@ -447,6 +467,13 @@ class ReferenceController extends Controller
             $Reference->tutor_id = $request->tutor_id;
 
             $Reference->save();
+
+            $Bed = Bed::find($request->acceptance_bed_id);
+            $Bed->status_bed_id = 6;
+            $Bed->identification = $request->identification;
+            $Bed->reservation_date = Carbon::now();
+            $Bed->save();
+
         } else if ($request->route == 3) {
 
             $Reference = Reference::find($id);

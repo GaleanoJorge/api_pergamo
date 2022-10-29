@@ -613,6 +613,8 @@ class AdmissionsController extends Controller
             if ($request->bed_id) {
                 $Bed = Bed::find($request->bed_id);
                 $Bed->status_bed_id = 2;
+                $Bed->identification = null;
+                $Bed->reservation_date = null;
                 $Bed->save();
             }
 
@@ -665,6 +667,8 @@ class AdmissionsController extends Controller
             if ($request->bed_id != null) {
                 $Bed = Bed::find($request->bed_id);
                 $Bed->status_bed_id = 1;
+                $Bed->identification = null;
+                $Bed->reservation_date = null;
                 $Bed->save();
             }
         } else if ($request->reversion == true) {

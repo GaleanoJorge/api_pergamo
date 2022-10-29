@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\BillingPad;
+use App\Models\ChInterconsultation;
 use App\Models\TypeContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -121,6 +122,8 @@ class LocationController extends Controller
         if ($Location->bed_id) {
             $Bed = Bed::find($Location->bed_id);
             $Bed->status_bed_id = 1;
+            $Bed->identification = null;
+            $Bed->reservation_date = null;
             $Bed->save();
         }
 
@@ -141,10 +144,17 @@ class LocationController extends Controller
 
             $Bed = Bed::find($request->bed_id);
             $Bed->status_bed_id = 2;
+            $Bed->identification = null;
+            $Bed->reservation_date = null;
             $Bed->save();
         }
 
         if ($request->admission_route_id == 1) {
+            $ChInterconsultation = new ChInterconsultation();
+            $ChInterconsultation->services_briefcase_id = $request->procedure_id;
+            $ChInterconsultation->admissions_id = $request->admissions_id;
+            $ChInterconsultation->save();
+
             $Authorization = new Authorization;
             $Authorization->services_briefcase_id = $request->procedure_id;
             $Authorization->admissions_id = $request->admissions_id;
