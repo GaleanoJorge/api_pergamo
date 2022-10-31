@@ -2052,7 +2052,7 @@
                         <tr>                        
                   
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{$chrecord[0]['assigned_management_plan']['management_plan']['service_briefcase']['manual_price']['name']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{$ch['pharmacy_product_request']['services_briefcase']['manual_price']['name']}}</span>
                             </td>
                             <td>
                                 <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
