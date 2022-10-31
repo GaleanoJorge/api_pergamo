@@ -1232,11 +1232,6 @@ class ChRecordController extends Controller
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
         } else {
             $imagenPAtient = null;
-            return response()->json([
-                'status' => false,
-                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-
-            ]);
         }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
