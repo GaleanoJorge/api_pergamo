@@ -243,7 +243,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'facturas obtenidas exitosamente',
+            'message' => 'Referencias obtenidas exitosamente',
             'data' => ['reference' => $Reference]
         ]);
     }
@@ -344,7 +344,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'facturas obtenidas exitosamente',
+            'message' => 'Referencias obtenidas exitosamente',
             'data' => ['reference' => $response]
         ]);
     }
@@ -386,7 +386,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'facturas creadas exitosamente',
+            'message' => 'Referencias creadas exitosamente',
             'data' => ['reference' => $Reference]
         ]);
     }
@@ -404,7 +404,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'facturas obtenidas exitosamente',
+            'message' => 'Referencias obtenidas exitosamente',
             'data' => ['reference' => $Reference]
         ]);
     }
@@ -514,12 +514,12 @@ class ReferenceController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'facturas eliminadas exitosamente'
+                'message' => 'Referencias eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'facturas esta en uso, no es posible eliminarlo'
+                'message' => 'Referencias esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }
