@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceProcedureRequest;
 use App\Models\AssistanceProcedure;
 use Illuminate\Database\QueryException;
+use DateTime;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AssistanceProcedureController extends Controller
@@ -25,21 +27,45 @@ class AssistanceProcedureController extends Controller
             $AssistanceProcedure->where('user_id', $request->user_id);
         }
 
-        if($request->procedure_id){
+        if ($request->procedure_id) {
             $AssistanceProcedure
-            ->select('assistance_procedure.*',
-            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-            )
-            ->leftJoin('assistance', 'assistance_procedure.assistance_id', 'assistance.id')
-            ->leftJoin('users', 'assistance.user_id', 'users.id')
-            ->leftJoin('medical_diary', 'assistance.id', 'medical_diary.assistance_id')
-            ->groupBy('assistance.id')
-            ->where('assistance_procedure.procedure_id', $request->procedure_id)
-            ->whereNotNull('medical_diary.id')
-            ->with(
-                'assistance.user.user_role.role'
-            );
+                ->select(
+                    'assistance_procedure.*',
+                    DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                )
+                ->leftJoin('assistance', 'assistance_procedure.assistance_id', 'assistance.id')
+                ->leftJoin('users', 'assistance.user_id', 'users.id')
+                ->leftJoin('medical_diary', 'assistance.id', 'medical_diary.assistance_id')
+                ->leftJoin('medical_diary_days', 'medical_diary.id', 'medical_diary_days.medical_diary_id')
+                // ->where('medical_diary_days.medical_status_id', 1)
+                ->groupBy('assistance.id')
+                ->where('assistance_procedure.procedure_id', $request->procedure_id)
+                ->whereNotNull('medical_diary.id')
+                ->with(
+                    'assistance.user.user_role.role'
+                );
         }
+
+        if($request->medical_status_id && $request->medical_status_id != 'null'){
+            $AssistanceProcedure
+                ->where('medical_diary_days.medical_status_id', $request->medical_status_id);
+        }
+
+        if ($request->campus_id && $request->campus_id != 'null') {
+            $AssistanceProcedure->where('campus_id', $request->campus_id);
+        }
+
+        if ($request->init_date != 'null' && isset($request->init_date)) {
+            $init_date = Carbon::parse($request->init_date);
+            $AssistanceProcedure
+                ->where('medical_diary_days.start_hour', '>=', $init_date);
+        }
+
+        if ($request->finish_date != 'null' && isset($request->finish_date)) {
+            $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+            $AssistanceProcedure->where('medical_diary_days.finish_hour', '<=', $finish_date);
+        }
+
 
         if ($request->_sort) {
             $AssistanceProcedure->orderBy($request->_sort, $request->_order);
@@ -144,7 +170,7 @@ class AssistanceProcedureController extends Controller
             $AssistanceProcedure->assistance_id = $request->assistance_id;
             $AssistanceProcedure->save();
         }
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Procedimientos asociados al convenio exitosamente',
