@@ -2058,7 +2058,7 @@
                                 <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
                             </td>
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">@if(isset($ch['observation'])) {{$ch['observation']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">@if(isset($ch['observation'])) {{$ch['observation']}} @endisset</span>
                             </td>
                             <td>
                                 <span style="font-family:Calibri; font-size:9pt">{{$ch['users']['firstname']}} {{$ch['users']['middlefirstname']}} {{$ch['users']['lastname']}} {{$ch['users']['middlelastname']}}</span>
