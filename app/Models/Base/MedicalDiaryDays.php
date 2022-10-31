@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\Contract;
 use App\Models\Days;
+use App\Models\MedicalDiary;
 use App\Models\MedicalStatus;
 use App\Models\Patient;
 use App\Models\ServicesBriefcase;
@@ -66,5 +67,10 @@ class MedicalDiaryDays extends Model
 	public function services_briefcase()
 	{
 		return $this->belongsTo(ServicesBriefcase::class, 'services_briefcase_id');
+	}
+
+	public function medical_diary()
+	{
+		return $this->belongsTo(MedicalDiary::class, 'medical_diary_id');
 	}
 }
