@@ -11,6 +11,7 @@ use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
 use App\Models\Briefcase;
 use App\Models\LogAdmissions;
+use App\Models\MedicalDiaryDays;
 use App\Models\Patient;
 use App\Models\Reference;
 use Illuminate\Database\QueryException;
@@ -573,6 +574,15 @@ class AdmissionsController extends Controller
                 $Bed = Bed::find($request->bed_id);
                 $Bed->status_bed_id = 2;
                 $Bed->save();
+            }
+
+            if($request->ambulatory_data && $request->ambulatory_data != 'null'){
+
+                $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
+                $medical_diary_days->admissions_id = $Admissions->id;
+                $medical_diary_days->medical_status_id = 4;
+                $medical_diary_days->save();
+                
             }
 
 
