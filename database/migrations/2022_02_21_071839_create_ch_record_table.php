@@ -20,7 +20,7 @@
                 $table->date('date_attention');
                 $table->string('firm_file')->nullable();
                 $table->unsignedBigInteger('admissions_id');
-                $table->unsignedBigInteger('assigned_management_plan_id');
+                $table->unsignedBigInteger('assigned_management_plan_id')->nullable();
                 $table->unsignedBigInteger('user_id');
                 $table->unsignedBigInteger('ch_type_id');
                 $table->date('date_finish');
