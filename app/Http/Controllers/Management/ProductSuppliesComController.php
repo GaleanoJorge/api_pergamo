@@ -20,7 +20,7 @@ class ProductSuppliesComController extends Controller
     {
         $Products = ProductSuppliesCom::select('product_supplies_com.*')
         ->leftJoin('product_supplies', 'product_supplies_com.product_supplies_id', 'product_supplies.id')
-        ->with('product_supplies', 'factory');
+        ->with('product_supplies', 'factory', 'packing');
 
         if ($request->_sort) {
             if ($request->_sort != "actions" && $request->_sort != "product_supplies" && $request->_sort != "factory") {

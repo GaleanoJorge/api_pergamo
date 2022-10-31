@@ -4367,8 +4367,8 @@ class ChRecordController extends Controller
     public function store(Request $request): JsonResponse
     {
         $count = 0;
-        $chrecord = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
-        foreach ($chrecord as $ch) {
+        $chrecord_val = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
+        foreach ($chrecord_val as $ch) {
             $count++;
         }
         $ChRecord = new ChRecord;
@@ -4492,16 +4492,20 @@ class ChRecordController extends Controller
                 }
         }
 
-        if ($request->firm_file) {
-            $image = $request->get('firm_file'); // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+        // if ($request->firm_file) {
+        //     $image = $request->get('firm_file'); // your base64 encoded
+        //     $image = str_replace('data:image/png;base64,', '', $image);
+        //     $image = str_replace(' ', '+', $image);
+        //     $random = Str::random(10);
+        //     $imagePath = 'firmas/' . $random . '.png';
+        //     Storage::disk('public')->put($imagePath, base64_decode($image));
 
-            $ChRecord->file_firm = $imagePath;
-        }
+        //     $ChRecord->file_firm = $imagePath;
+        // } else {
+        //     if (count($chrecord_val) > 0) {
+        //         $ChRecord->file_firm = $chrecord_val[count($chrecord_val) - 1]['file_firm'];
+        //     }
+        // }
 
         $ChRecord->save();
 
@@ -4545,15 +4549,37 @@ class ChRecordController extends Controller
 
         $ChRecord->status = $request->status;
 
-        if ($request->firm_file != "null") {
-            $image = $request->get('firm_file'); // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+        if ($request->firm_file) {
+            if ($request->firm_file != "null" && $request->firm_file != "undefined") {
+                $image = $request->get('firm_file'); // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
 
-            $ChRecord->firm_file = $imagePath;
+                $ChRecord->firm_file = $imagePath;
+            } else {
+                if ($ChRecord->assigned_management_plan_id) {
+                    $firm_ch_record = ChRecord::select('ch_record.*')
+                    ->whereNotNull('firm_file')
+                    ->where('admissions_id', $admissions_id)
+                    ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                    ->orderBy('created_at', 'ASC')->get()->toArray();
+        
+                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                }
+            }
+        } else {
+            if ($ChRecord->assigned_management_plan_id) {
+                $firm_ch_record = ChRecord::select('ch_record.*')
+                ->whereNotNull('firm_file')
+                ->where('admissions_id', $admissions_id)
+                ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                ->orderBy('created_at', 'ASC')->get()->toArray();
+    
+                $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+            }
         }
 
         // if ($request->file('firm_file')) {
