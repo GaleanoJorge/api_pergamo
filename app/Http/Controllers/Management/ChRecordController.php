@@ -4875,6 +4875,9 @@ class ChRecordController extends Controller
                 $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
                 if ($billActivity) {
                     if ($billActivity->status == 'RECHAZADO') {
+                        $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                        $assigned_redo->redo = '00000000000000';
+                        $assigned_redo->save();
                         $billActivity->status = 'REENVIADO';
                         $billActivity->save();
                     } else {
