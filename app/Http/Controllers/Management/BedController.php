@@ -52,15 +52,20 @@ class BedController extends Controller
      * @param integer $pavilion_id
      * @return JsonResponse
      */
-    public function getBedByPavilion(int $pavilion_id, int $ambit): JsonResponse
+    public function getBedByPavilion(Request $request, int $pavilion_id, int $ambit): JsonResponse
     {
-        $Bed = Bed::where('pavilion_id', $pavilion_id)->where('status_bed_id', '=', '1')->where('bed_or_office', '=', $ambit)
-            ->orderBy('name', 'asc')->get()->toArray();
+        $Bed = Bed::where('pavilion_id', $pavilion_id)
+            ->where('bed_or_office', '=', $ambit)
+            ->orderBy('name', 'asc');
+        if (!$request->office) {
+            // $Bed->where('id', $request->office);
+            $Bed->where('status_bed_id', '=', '1');
+        }
 
         return response()->json([
             'status' => true,
             'message' => 'Camas obtenidos exitosamente',
-            'data' => ['bed' => $Bed]
+            'data' => ['bed' => $Bed->get()->toArray()]
         ]);
     }
 
@@ -127,9 +132,8 @@ class BedController extends Controller
             $Bed->leftjoin('medical_diary', 'bed.id', 'medical_diary.office_id')
                 ->orwhere(function ($query) use ($request) {
                     $query->orwhere('bed.bed_or_office', '2')
-                    ->WhereNotNull('medical_diary.office_id');
-                })
-            ;
+                        ->WhereNotNull('medical_diary.office_id');
+                });
         }
 
         if ($request->_sort) {
@@ -142,7 +146,7 @@ class BedController extends Controller
 
         if ($request->query("pagination", true) == "false") {
             $Bed = $Bed->groupBy('bed.id')
-            ->get()->toArray();
+                ->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
