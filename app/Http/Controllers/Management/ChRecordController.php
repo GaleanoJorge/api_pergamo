@@ -1509,7 +1509,11 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)
+            ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+            ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
