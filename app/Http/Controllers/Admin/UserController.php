@@ -811,7 +811,9 @@ class UserController extends Controller
                 'residence',
                 'user_role',
                 'user_role.role',
-                'assistance'
+                'assistance',
+                'assistance.assistance_procedure',
+
             );
             $users->Join('assistance', 'users.id', 'assistance.user_id');
             $users = $users->where('assistance.attends_external_consultation', 1);
@@ -830,6 +832,7 @@ class UserController extends Controller
                         ->orWhere('users.firstname', 'like', '%' . $element . '%')
                         ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
                         ->orWhere('users.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
                         ->orWhere('users.middlelastname', 'like', '%' . $element . '%');
                 }
                 // $users->where(function ($query) use ($request) {
@@ -841,6 +844,7 @@ class UserController extends Controller
                         ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
                         ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                         ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
                         ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
                 });
             }
