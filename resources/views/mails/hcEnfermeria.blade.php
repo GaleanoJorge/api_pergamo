@@ -2036,13 +2036,13 @@
                     <hr />
 
                     <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">APLICACIÓN DE MEDICAMENTOS</span>
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">APLICACIÓN DE MEDICAMENTOS E INSUMOS</span>
                         <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                     </p>
 
                     <table class="tablehc">
                         <tr>
-                            <th><span style="font-family:Calibri; font-size:9pt">MEDICAMENTO</th>
+                            <th><span style="font-family:Calibri; font-size:9pt">MEDICAMENTO E INSUMO</th>
                             <th><span style="font-family:Calibri; font-size:9pt">FECHA Y HORA DE APLICACIÓN</th>
                                 <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</th>
                             <th><span style="font-family:Calibri; font-size:9pt">RESPONSABLE</th>
@@ -2058,7 +2058,7 @@
                                 <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
                             </td>
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['observation']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">@if(isset($ch['observation'])) {{$ch['observation']}}</span>
                             </td>
                             <td>
                                 <span style="font-family:Calibri; font-size:9pt">{{$ch['users']['firstname']}} {{$ch['users']['middlefirstname']}} {{$ch['users']['lastname']}} {{$ch['users']['middlelastname']}}</span>
