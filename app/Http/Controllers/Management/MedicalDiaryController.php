@@ -32,7 +32,7 @@ class MedicalDiaryController extends Controller
             // ->leftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
             ->with(
                 'assistance',
-                'diary_status',
+                'status',
                 'medical_diary_days.days',
                 'medical_diary_days.medical_status',
                 'medical_diary_days.patient',
@@ -54,6 +54,12 @@ class MedicalDiaryController extends Controller
         if ($request->assistance_id) {
             $medical_diary->where('assistance_id', $request->assistance_id);
         }
+        
+        if($request->status_id){
+            // var_dump($request->status_id);
+            $medical_diary->where('medical_diary.diary_status_id', $request->status_id);
+        }
+
 
         if ($request->_sort) {
             $medical_diary->orderBy($request->_sort, $request->_order);
@@ -184,6 +190,38 @@ class MedicalDiaryController extends Controller
             'message' => 'Agendas medicas creada exitosamente',
             'data' => ['medical_diary' => $MedicalDiary->toArray()]
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function changeStatus(Request $request, int $id): JsonResponse
+    {
+        $MedicalDiary = MedicalDiary::find($id);
+        $validate_diary =  MedicalDiaryDays::select('medical_diary_days.*')
+            ->where('medical_diary_days.medical_diary_id', $id)
+            ->where('medical_diary_days.medical_status_id', '!=', 1)->get()->toArray();
+
+        if(count($validate_diary) >0 ){
+            return response()->json([
+                'status' => false,
+                'message' => 'No se puede inactivar la agenda, cuenta con citaciones en ejecución',
+            ]);
+        }
+
+        ($request->status_id == 1) ?  $message= 'Agenda activada exitosamente': $message= 'Agenda inactivada exitosamente';
+        $MedicalDiary->diary_status_id = $request->status_id;
+        $MedicalDiary->save();
+
+        return response()->json([
+            'status' => true,
+            'message' =>  $message,
+            'data' => ['medical_diary' => $MedicalDiary]
+        ]);
+
     }
 
     /**
