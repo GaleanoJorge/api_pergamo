@@ -81,7 +81,7 @@ class AuthorizationController extends Controller
             ->leftjoin('auth_billing_pad', 'authorization.id', 'auth_billing_pad.authorization_id')
             ->whereNull('auth_billing_pad.authorization_id')
             ->with(
-                'admissions',
+                'admissions.location.scope_of_attention',
                 'admissions.patients',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
@@ -105,7 +105,21 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
             )->where(
-               'management_plan.status_id', 1);
+               function ($query) use ($request) {
+                $query->where('management_plan.status_id', 1);
+                // ->WhereNull('auth_number');
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WhereNull('authorization.assigned_management_plan_id')
+                    ->WhereNull('authorization.auth_package_id')
+                    ->WhereNull('authorization.fixed_add_id')
+                    ->WhereNotNull('authorization.manual_price_id')
+                    ->WhereNull('authorization.application_id')
+                    ->WhereNull('authorization.procedure_id')
+                    ->WhereNull('authorization.supplies_com_id')
+                    ->WhereNull('authorization.product_com_id')
+                    ->WhereNull('authorization.auth_number');
+                });
+            });
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
@@ -164,6 +178,7 @@ class AuthorizationController extends Controller
             ->whereNull('auth_billing_pad.authorization_id')
             ->with(
                 'admissions',
+                'admissions.location.scope_of_attention',
                 'admissions.patients',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
