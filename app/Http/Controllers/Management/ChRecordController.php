@@ -164,6 +164,7 @@ use App\Models\ChPsOperationalization;
 use App\Models\ChPsSphere;
 use App\Models\ChPsSynthesis;
 use App\Models\Tracing;
+use App\Models\ChNRMaterialsFT;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -2216,6 +2217,8 @@ class ChRecordController extends Controller
             $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+
 
             ///Regular
             $ChEValorationFTEvo = ChEValorationFT::with(
@@ -2289,7 +2292,8 @@ class ChRecordController extends Controller
                 'ChTracing' => $ChTracing,
 
                 'firmPatient' => $imagenPAtient,
-
+                'ChNRMaterialsFT' => $ChNRMaterialsFT,
+                
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -3884,6 +3888,7 @@ class ChRecordController extends Controller
                     $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3952,7 +3957,8 @@ class ChRecordController extends Controller
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
-
+                        'ChNRMaterialsFT' => $ChNRMaterialsFT,
+                        
                         'firm' => $imagenComoBase64,
                         'today' => $today,
                         //   asset('storage/'.$ch['user']['assistance'][0]['file_firm']),
