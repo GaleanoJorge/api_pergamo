@@ -2217,7 +2217,7 @@ class ChRecordController extends Controller
             $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+            $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
 
             ///Regular
@@ -3888,7 +3888,6 @@ class ChRecordController extends Controller
                     $ChEMSTestOT = ChEMSTestOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEMSCommunicationOT = ChEMSCommunicationOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEMSAssessmentOT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3958,7 +3957,6 @@ class ChRecordController extends Controller
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
-                        'ChNRMaterialsFT' => $ChNRMaterialsFT,
                         
                         'firm' => $imagenComoBase64,
                         'today' => $today,
@@ -4057,7 +4055,7 @@ class ChRecordController extends Controller
                     $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-
+                    $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     ///Regular
                     $ChEValorationFTEvo = ChEValorationFT::with(
                         'ch_diagnosis'
@@ -4119,6 +4117,7 @@ class ChRecordController extends Controller
                         'ChEDiagnosisFT' => $ChEDiagnosisFT,
                         'ChETherGoalsFT' => $ChETherGoalsFT,
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                        'ChNRMaterialsFT' => $ChNRMaterialsFT,
                         
                         'ChEWeeklyFT' => $ChEWeeklyFT,
                         'fecharecord' => $fecharecord,
