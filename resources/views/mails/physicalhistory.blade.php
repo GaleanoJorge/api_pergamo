@@ -2583,7 +2583,7 @@
 
               <!-- Intervención -->
               <div>
-                @if(count($ChEMSAssessmentOT) > 0)
+                @if(count($ChEMSAssessmentOTNT) > 0)
     
                 <hr />
     
@@ -2598,7 +2598,7 @@
                         <th><span style="font-family:Calibri; font-size:9pt">INTERVENCIÓN</th>
                     </tr>
     
-                    @foreach($ChEMSAssessmentOT as $ch)
+                    @foreach($ChEMSAssessmentOTNT as $ch)
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>

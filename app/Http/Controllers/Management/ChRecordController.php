@@ -32,7 +32,7 @@ use App\Models\ChEDiagnosisFT;
 use App\Models\ChEFlexibilityFT;
 use App\Models\ChEMarchFT;
 use App\Models\ChEMSAcuityOT;
-use App\Models\Base\ChEMSAssessmentOT;
+use App\Models\ChEMSAssessmentOT;
 use App\Models\ChEMSCommunicationOT;
 use App\Models\ChEMSComponentOT;
 use App\Models\ChEMSDisAuditoryOT;
