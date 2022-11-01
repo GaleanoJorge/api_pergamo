@@ -3904,9 +3904,10 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
