@@ -3907,7 +3907,7 @@ class ChRecordController extends Controller
                 
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $CHINTER = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
@@ -3953,7 +3953,7 @@ class ChRecordController extends Controller
                         'ChEValorationOTNT' => $ChEValorationOTNT,
                         'ChRNValorationOT' => $ChRNValorationOT,
                         'ChVitalSignsNT' => $ChVitalSignsNT,
-                        'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                        'Intervention' => $CHINTER,
                         'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
