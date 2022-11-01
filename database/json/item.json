@@ -1667,7 +1667,7 @@
     {
         "id": "238",
         "item_parent_id": "229",
-        "name": "Consulta externa",
+        "name": "Programación de agenda",
         "code": "medical-diary",
         "route": "/pages/scheduling/medical-diary",
         "icon": "book-open-outline",
@@ -1679,6 +1679,33 @@
         "name": "Cuarentena",
         "code": "product-damaged",
         "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "240",
+        "item_parent_id": "229",
+        "name": "Categorias",
+        "code": "copay-category",
+        "route": "/pages/scheduling/copay-category",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "242",
+        "item_parent_id": "224",
+        "name": "Agenda asistencial",
+        "code": "assitencial-view",
+        "route": "/pages/scheduling/assistance-view",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "243",
+        "item_parent_id": "229",
+        "name": "Motivos de cancelación",
+        "code": "reason-cancel",
+        "route": "/pages/scheduling/reason-cancel",
         "icon": "",
         "show_menu": "1"
     }
