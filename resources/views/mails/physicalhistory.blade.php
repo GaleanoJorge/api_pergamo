@@ -2651,8 +2651,7 @@
                         <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
                     </td>
                     @endisset
-    
-                @if(isset($ch['biosecurity_elements']) || isset($ch['didactic_materials']) || isset($ch['liquid_food']) || isset($ch['stationery'])   )
+  
                     <td>
                         <span style="font-family:Calibri; font-size:9pt">
                             @if(isset($ch['Material_1'])) {{$ch['Material_1']}} @endisset 
@@ -2687,7 +2686,7 @@
 
                           
                     </span> 
-                    @endisset                
+                 
                                         
                 </tr>
                 @endforeach
