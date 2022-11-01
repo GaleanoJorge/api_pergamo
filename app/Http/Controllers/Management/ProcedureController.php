@@ -181,6 +181,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type = $request->payment_type;
 
         $Procedure->save();
 
@@ -231,6 +232,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type = $request->payment_type;
         $Procedure->save();
 
         return response()->json([
