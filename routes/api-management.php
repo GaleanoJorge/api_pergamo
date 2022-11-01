@@ -881,8 +881,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //frecuencia para plan de manejo PAD
     Route::apiResource('frequency', 'Management\FrequencyController');
 
-
+    //consulta externa
     Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
+    Route::patch('medical_diary/{id}/changeStatus', 'Management\MedicalDiaryController@changeStatus');
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
     //Estado Plan de manejo 
@@ -1799,6 +1800,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //medical diary days
     Route::apiResource('medical_diary_days', 'Management\MedicalDiaryDaysController');
+    Route::patch('medical_diary_days/{id}/changeStatus', 'Management\MedicalDiaryDaysController@ChangeStatus');
+
 
     //Estados de la cita medica
     Route::apiResource('medical_status', 'Management\MedicalStatusController');
@@ -1823,4 +1826,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('tracing', 'Management\TracingController');
     Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
 
+    //Parametros de copago
+    Route::apiResource('copay_parameters', 'Management\CopayParametersController');
+    Route::patch('copay_parameters/{id}/changeStatus', 'Management\CopayParametersController@ChangeStatus');
+
+    //reason cancel
+    Route::apiResource('reason_cancel', 'Management\ReasonCancelController');
+    Route::patch('reason_cancel/{id}/changeStatus', 'Management\ReasonCancelController@ChangeStatus');
 });
