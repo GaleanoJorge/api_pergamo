@@ -2641,6 +2641,8 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+         ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+
 
 
             ->where('admissions.patient_id', $request->admissions)
@@ -2658,6 +2660,16 @@ class ChRecordController extends Controller
         if ($request->finish_date != 'null' && isset($request->finish_date)) {
             $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
             $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
+        }
+
+        if ($request->admission_route_id) {   
+            $ChRecord         
+                ->where('location.admission_route_id', $request->admission_route_id );
+        }
+
+        if ($request->scope_of_attention_id) {   
+            $ChRecord         
+                ->where('location.scope_of_attention_id', $request->scope_of_attention_id );
         }
 
         $ChRecord = $ChRecord->get()->toArray();
