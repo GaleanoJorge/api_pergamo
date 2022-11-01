@@ -2743,6 +2743,13 @@ class ChRecordController extends Controller
                 ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
                 ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
 
+            if (count($ChFormulation) == 0){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Formulaciones asociadas al paciente',
+
+                ]);
+            }
             $html = view('mails.chAllFormulation', [
                 'chrecord' => $ChRecord2,
                 'ChFormulation' => $ChFormulation,
