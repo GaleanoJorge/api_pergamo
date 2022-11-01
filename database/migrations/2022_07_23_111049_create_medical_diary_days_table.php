@@ -26,6 +26,9 @@ class CreateMedicalDiaryDaysTable extends Migration
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
             $table->longText('observations')->nullable();
+            $table->unsignedBigInteger('reason_cancel_id')->nullable();
+            $table->string('cancel_description')->nullable();
+
             $table->dateTime('start_hour');
             $table->dateTime('finish_hour');
             $table->timestamps();
