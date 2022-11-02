@@ -1577,8 +1577,6 @@ class ChRecordController extends Controller
                     'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
     
                 ]);
-
-                ]);
             }
             $today = Carbon::now();
 
