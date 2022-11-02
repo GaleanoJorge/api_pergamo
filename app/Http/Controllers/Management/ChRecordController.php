@@ -166,6 +166,7 @@ use App\Models\ChPsSphere;
 use App\Models\ChPsSynthesis;
 use App\Models\RoleAttention;
 use App\Models\Tracing;
+use App\Models\ChNRMaterialsFT;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -409,7 +410,6 @@ class ChRecordController extends Controller
                 'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
-
         }
 
         $today = Carbon::now();
@@ -505,61 +505,64 @@ class ChRecordController extends Controller
 
             ->get()->toArray();
 
+
+
         $imagenComoBase64 = null;
 
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chFormulation', [
-                'chrecord' => $ChRecord,
-                'ChFormulation' => $ChFormulation,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'formula.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChFormulation,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chFormulation', [
+            'chrecord' => $ChRecord,
+            'ChFormulation' => $ChFormulation,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'formula.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChFormulation,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewAllFormulation(int $id)
@@ -616,56 +619,57 @@ class ChRecordController extends Controller
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chAllFormulation', [
-                'chrecord' => $ChRecord,
-                'ChFormulation' => $ChFormulation,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'formulaciones.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChFormulation,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chAllFormulation', [
+            'chrecord' => $ChRecord,
+            'ChFormulation' => $ChFormulation,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'formulaciones.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChFormulation,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewMedicalOrder(int $id)
@@ -721,56 +725,57 @@ class ChRecordController extends Controller
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chMedicalOrder', [
-                'chrecord' => $ChRecord,
-                'ChMedicalOrders' => $ChMedicalOrders,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'ordenmedica.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChMedicalOrders,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chMedicalOrder', [
+            'chrecord' => $ChRecord,
+            'ChMedicalOrders' => $ChMedicalOrders,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'ordenmedica.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChMedicalOrders,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewAllMedicalOrder(int $id)
@@ -827,57 +832,56 @@ class ChRecordController extends Controller
 
 
 
-
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chAllMedicalOrder', [
-                'chrecord' => $ChRecord,
-                'ChMedicalOrders' => $ChMedicalOrders,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'ordenesmedicas.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChMedicalOrders,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chAllMedicalOrder', [
+            'chrecord' => $ChRecord,
+            'ChMedicalOrders' => $ChMedicalOrders,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'ordenesmedicas.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChMedicalOrders,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewInability(int $id)
@@ -935,56 +939,56 @@ class ChRecordController extends Controller
 
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chInability', [
-                'chrecord' => $ChRecord,
-                'ChInability' => $ChInability,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'Incapacidad Médica.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChInability,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chInability', [
+            'chrecord' => $ChRecord,
+            'ChInability' => $ChInability,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'Incapacidad Médica.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChInability,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewCertificate(int $id)
@@ -1036,56 +1040,56 @@ class ChRecordController extends Controller
 
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chMedicalCertificate', [
-                'chrecord' => $ChRecord,
-                'ChMedicalCertificate' => $ChMedicalCertificate,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'Certificado Médico.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChMedicalCertificate,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chMedicalCertificate', [
+            'chrecord' => $ChRecord,
+            'ChMedicalCertificate' => $ChMedicalCertificate,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'Certificado Médico.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChMedicalCertificate,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
     public function ViewInterconsultation(int $id)
@@ -1138,56 +1142,57 @@ class ChRecordController extends Controller
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
-    
-                ]);
-            }
-    
-            $today = Carbon::now();
-    
-            $Patients = $ChRecord[0]['admissions']['patients'];
-    
-    
-            $html = view('mails.chInterconsultation', [
-                'chrecord' => $ChRecord,
-                'ChInterconsultation' => $ChInterconsultation,
-                'fecharecord' => $fecharecord,
-                'firm' => $imagenComoBase64,
-                'today' => $today,
-    
-            ])->render();
-    
-            $options = new Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new PDF($options);
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('Carta', 'portrait');
-            $dompdf->render();
-            $this->injectPageCount($dompdf);
-            $file = $dompdf->output();
-    
-            $name = 'Interconsulta.pdf';
-    
-            Storage::disk('public')->put($name, $file);
-    
-    
-    
-    
+
+        if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
+            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            $contenidoBinario = file_get_contents($rutaImagen);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        } else {
+            $imagenComoBase64 = null;
             return response()->json([
-                'status' => true,
-                'persona' => $ChInterconsultation,
-                'ch' => $ChRecord,
-                'message' => 'Reporte generado exitosamente',
-                'url' => asset('/storage' . '/' . $name),
+                'status' => false,
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
             ]);
+        }
+
+        $today = Carbon::now();
+
+        $Patients = $ChRecord[0]['admissions']['patients'];
+
+
+        $html = view('mails.chInterconsultation', [
+            'chrecord' => $ChRecord,
+            'ChInterconsultation' => $ChInterconsultation,
+            'fecharecord' => $fecharecord,
+            'firm' => $imagenComoBase64,
+            'today' => $today,
+
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'portrait');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'Interconsulta.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+
+
+
+        return response()->json([
+            'status' => true,
+            'persona' => $ChInterconsultation,
+            'ch' => $ChRecord,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
     }
 
 
@@ -1554,7 +1559,12 @@ class ChRecordController extends Controller
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $id)->get()->toArray();
+            $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id', $id)
+
+                // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                ->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -1568,6 +1578,7 @@ class ChRecordController extends Controller
     
                 ]);
 
+                ]);
             }
             $today = Carbon::now();
 
@@ -2258,6 +2269,8 @@ class ChRecordController extends Controller
             $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+
 
             ///Regular
             $ChEValorationFTEvo = ChEValorationFT::with(
@@ -2331,7 +2344,8 @@ class ChRecordController extends Controller
                 'ChTracing' => $ChTracing,
 
                 'firmPatient' => $imagenPAtient,
-
+                'ChNRMaterialsFT' => $ChNRMaterialsFT,
+                
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -2647,7 +2661,7 @@ class ChRecordController extends Controller
      */
     public function ViewAllHC(Request $request)
     {
-        $i=0;
+        $i = 0;
         $documentos = [];
 
         $ChRecord = ChRecord::select('ch_record.*')->with(
@@ -2678,6 +2692,8 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+         ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+
 
 
             ->where('admissions.patient_id', $request->admissions)
@@ -2697,16 +2713,29 @@ class ChRecordController extends Controller
             $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
         }
 
+        if ($request->admission_route_id) {   
+            $ChRecord         
+                ->where('location.admission_route_id', $request->admission_route_id );
+        }
+
+        if ($request->scope_of_attention_id) {   
+            $ChRecord         
+                ->where('location.scope_of_attention_id', $request->scope_of_attention_id );
+        }
+
         $ChRecord = $ChRecord->get()->toArray();
 
 
-        $imagenComoBase64 = null;
+
         $count = 0;
 
-        if($request->ch_type==20){
+        if ($request->ch_type == 20) {
 
-            $today= Carbon::now();
-                                  
+            $today = Carbon::now();
+
+
+
+
             $ChRecord2 = ChRecord::select('ch_record.*')->with(
                 'user',
                 'user.assistance',
@@ -2734,14 +2763,27 @@ class ChRecordController extends Controller
                 // 'assistance_supplies',
                 // 'assistance_supplies.user_incharge_id',
                 // 'assistance_supplies.application_hour',
-                )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
-                
-                
-                ->where('admissions.patient_id', $request->admissions);
-            
-                $ChRecord2 = $ChRecord2->get()->toArray();
+            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
 
-                $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+
+                ->where('admissions.patient_id', $request->admissions);
+
+            $ChRecord2 = $ChRecord2->get()->toArray();
+
+            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+
+            if (isset($ChRecord2[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChRecord2[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            } else {
+                $imagenComoBase64 = null;
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+
+                ]);
+            }
 
             $ChFormulation = ChFormulation::with(
                 'product_generic',
@@ -2749,43 +2791,50 @@ class ChRecordController extends Controller
                 'product_generic.multidose_concentration',
                 'administration_route',
                 'hourly_frequency'
-            )->leftJoin('ch_record','ch_formulation.ch_record_id','ch_record.id')
-                ->where('ch_record.admissions_id',$request->admissions)->where('type_record_id', 5)->get()->toArray();
+            )->leftJoin('ch_record', 'ch_formulation.ch_record_id', 'ch_record.id')
+                ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
 
-                $html = view('mails.chAllFormulation', [
-                    'chrecord' => $ChRecord2,
-                    'ChFormulation' => $ChFormulation,
-                    'fecharecord' => $fecharecord,
-                    'firm' => $imagenComoBase64,
-                    'today' => $today,
-        
-                ])->render();
-        
-                $options = new Options();
-                $options->set('isRemoteEnabled', true);
-                $dompdf = new PDF($options);
-                $dompdf->loadHtml($html);
-                $dompdf->setPaper('Carta', 'portrait');
-                $dompdf->render();
-                $this->injectPageCount($dompdf);
-                $file = $dompdf->output();
-        
-                $name = 'formulaciones.pdf';
-        
-                Storage::disk('public')->put($name, $file);
-        
-        
-        
-        
+            if (count($ChFormulation) == 0){
                 return response()->json([
-                    'status' => true,
-                    'persona' => $ChFormulation,
-                    'ch' => $ChRecord,
-                    'message' => 'Reporte generado exitosamente',
-                    'url' => asset('/storage' . '/' . $name),
-                ]);
+                    'status' => false,
+                    'message' => 'No se encuentran Formulaciones asociadas al paciente',
 
-    }
+                ]);
+            }
+            $html = view('mails.chAllFormulation', [
+                'chrecord' => $ChRecord2,
+                'ChFormulation' => $ChFormulation,
+                'fecharecord' => $fecharecord,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', true);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'formulaciones.pdf';
+
+            Storage::disk('public')->put($name, $file);
+
+
+
+
+            return response()->json([
+                'status' => true,
+                'persona' => $ChFormulation,
+                'ch' => $ChRecord,
+                'message' => 'Reporte generado exitosamente',
+                'url' => asset('/storage' . '/' . $name),
+            ]);
+        }
         if ($request->ch_type == 1) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
@@ -2985,7 +3034,7 @@ class ChRecordController extends Controller
                     $html = view('mails.medicalhistory', [
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
-                        
+
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
                         'ChPhysicalExam' => $ChPhysicalExam,
@@ -3108,7 +3157,6 @@ class ChRecordController extends Controller
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
                     } else {
                         $imagenPAtient = null;
-    
                     }
 
 
@@ -3158,7 +3206,13 @@ class ChRecordController extends Controller
 
                     //APLICACION DE MEDICAMENTOS
 
-                    $AssistanceSupplies = AssistanceSupplies::with('users')->where('ch_record_id', $ch['id'])->get()->toArray();
+
+                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id',  $ch['id'])
+
+                        // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                        // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                        // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                        ->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
@@ -3174,61 +3228,61 @@ class ChRecordController extends Controller
                     }
                     $today = Carbon::now();
 
-// if ($ch['assigned_management_plan']){
-// $management = $ch['assigned_management_plan']['management_plan_id'];
-// }
-// else{$management =null;}
-//                     //busqueda medicamentos
-//                     $PharmacyProductRequest = PharmacyProductRequest::select(
-//                         'pharmacy_product_request.*',
-//                         DB::raw('
-//         SUM(
-//             IF( assistance_supplies.supplies_status_id = 1,
-//                 1,0
-//             )
-//         ) AS disponibles'),
-//                         DB::raw('
-//         SUM(
-//             IF( assistance_supplies.supplies_status_id = 3,
-//                1,0
-//             )
-//        ) AS dañadas'),
-//                         DB::raw('
-//        SUM(
-//            IF( assistance_supplies.supplies_status_id = 2,
-//                1,0
-//            )
-//        ) AS Usadas'),
-//                     )
-//                         ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                    // if ($ch['assigned_management_plan']){
+                    // $management = $ch['assigned_management_plan']['management_plan_id'];
+                    // }
+                    // else{$management =null;}
+                    //                     //busqueda medicamentos
+                    //                     $PharmacyProductRequest = PharmacyProductRequest::select(
+                    //                         'pharmacy_product_request.*',
+                    //                         DB::raw('
+                    //         SUM(
+                    //             IF( assistance_supplies.supplies_status_id = 1,
+                    //                 1,0
+                    //             )
+                    //         ) AS disponibles'),
+                    //                         DB::raw('
+                    //         SUM(
+                    //             IF( assistance_supplies.supplies_status_id = 3,
+                    //                1,0
+                    //             )
+                    //        ) AS dañadas'),
+                    //                         DB::raw('
+                    //        SUM(
+                    //            IF( assistance_supplies.supplies_status_id = 2,
+                    //                1,0
+                    //            )
+                    //        ) AS Usadas'),
+                    //                     )
+                    //                         ->leftJoin('assistance_supplies', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
 
-//                         ->with(
-//                             'product_generic',
-//                             'product_supplies',
-//                             'admissions',
-//                             'admissions.patients',
-//                             'services_briefcase',
-//                             'services_briefcase.briefcase',
-//                             'services_briefcase.manual_price',
-//                             'user_request_pad',
-//                             'management_plan',
-//                             'own_pharmacy_stock',
-//                             'request_pharmacy_stock',
-//                             'request_pharmacy_stock.campus',
-//                             'own_pharmacy_stock.campus',
-//                             'pharmacy_request_shipping',
-//                             'pharmacy_request_shipping.pharmacy_lot_stock',
-//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
-//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product.product_generic',
-//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
-//                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
-//                             'user_request'
-//                         )->groupBy('pharmacy_product_request.id');
-//                     $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-//                         ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-//                         ->where('pharmacy_product_request.management_plan_id', $management)
-//                         ->whereNotNull('manual_price.product_id');
-//                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+                    //                         ->with(
+                    //                             'product_generic',
+                    //                             'product_supplies',
+                    //                             'admissions',
+                    //                             'admissions.patients',
+                    //                             'services_briefcase',
+                    //                             'services_briefcase.briefcase',
+                    //                             'services_briefcase.manual_price',
+                    //                             'user_request_pad',
+                    //                             'management_plan',
+                    //                             'own_pharmacy_stock',
+                    //                             'request_pharmacy_stock',
+                    //                             'request_pharmacy_stock.campus',
+                    //                             'own_pharmacy_stock.campus',
+                    //                             'pharmacy_request_shipping',
+                    //                             'pharmacy_request_shipping.pharmacy_lot_stock',
+                    //                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product',
+                    //                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product.product_generic',
+                    //                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
+                    //                             'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
+                    //                             'user_request'
+                    //                         )->groupBy('pharmacy_product_request.id');
+                    //                     $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+                    //                         ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+                    //                         ->where('pharmacy_product_request.management_plan_id', $management)
+                    //                         ->whereNotNull('manual_price.product_id');
+                    //                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
                     //Seguimiento
                     $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -3397,7 +3451,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.nutritionhistory', [
                         'chrecord' => $ChRecord,
-                        'chrecord' => $ChRecord[$i],
+                        'chrecord2' => $ChRecord[$i],
                         'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
                         'ChTracing' => $ChTracing,
                         'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
@@ -3574,8 +3628,9 @@ class ChRecordController extends Controller
 
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.lenguagehistory', [
-                        'chrecord' => $ChRecord[$i],
-                        
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
+
                         'ChTracing' => $ChTracing,
                         'TlTherapyLanguage' => $TlTherapyLanguage,
                         'OstomiesTl' => $OstomiesTl,
@@ -3784,8 +3839,9 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
 
                     $html = view('mails.respiratoryhistory', [
-                        'chrecord' => $ChRecord[$i],
-                        
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
+
                         'ChTracing' => $ChTracing,
                         'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
                         'ChBackground' => $ChBackground,
@@ -3919,9 +3975,10 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
@@ -3945,7 +4002,7 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.occupationalhistory', [
                         'chrecord' => $ChRecord,
-                        'chrecord' => $ChRecord[$i],
+                        'chrecord2' => $ChRecord[$i],
                         'ChTracing' => $ChTracing,
                         'ChEValorationOT' => $ChEValorationOT,
                         'ChVitalSigns' => $ChVitalSigns,
@@ -3972,7 +4029,7 @@ class ChRecordController extends Controller
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
-
+                        
                         'firm' => $imagenComoBase64,
                         'today' => $today,
                         //   asset('storage/'.$ch['user']['assistance'][0]['file_firm']),
@@ -4070,7 +4127,7 @@ class ChRecordController extends Controller
                     $ChEDiagnosisFT = ChEDiagnosisFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChETherGoalsFT = ChETherGoalsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChEWeeklyFT = ChEWeeklyFT::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-
+                    $ChNRMaterialsFT = ChNRMaterialsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     ///Regular
                     $ChEValorationFTEvo = ChEValorationFT::with(
                         'ch_diagnosis'
@@ -4088,7 +4145,7 @@ class ChRecordController extends Controller
                     $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
+                    $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
@@ -4111,8 +4168,9 @@ class ChRecordController extends Controller
                     // $patient=$ChRecord['admissions'];
 
                     $html = view('mails.physicalhistory', [
-                        'chrecord' => $ChRecord[$i],
-                        
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
+
                         'ChTracing' => $ChTracing,
                         'ChEValorationFT' => $ChEValorationFT,
                         'ChVitalSigns' => $ChVitalSigns,
@@ -4130,7 +4188,9 @@ class ChRecordController extends Controller
                         'ChEMarchFT' => $ChEMarchFT,
                         'ChEDiagnosisFT' => $ChEDiagnosisFT,
                         'ChETherGoalsFT' => $ChETherGoalsFT,
-
+                        'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                        'ChNRMaterialsFT' => $ChNRMaterialsFT,
+                        
                         'ChEWeeklyFT' => $ChEWeeklyFT,
                         'fecharecord' => $fecharecord,
 
@@ -4301,7 +4361,7 @@ class ChRecordController extends Controller
 
                     $html = view('mails.sworkhistory', [
                         'chrecord' => $hcAll,
-
+                        'chrecord2' => $ChRecord[$i],
                         'ChTracing' => $ChTracing,
                         'ChSwDiagnosis' => $ChSwDiagnosis,
                         'ChSwFamily' => $ChSwFamily,
@@ -4772,22 +4832,22 @@ class ChRecordController extends Controller
             } else {
                 if ($ChRecord->assigned_management_plan_id) {
                     $firm_ch_record = ChRecord::select('ch_record.*')
-                    ->whereNotNull('firm_file')
-                    ->where('admissions_id', $admissions_id)
-                    ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-                    ->orderBy('created_at', 'ASC')->get()->toArray();
-        
+                        ->whereNotNull('firm_file')
+                        ->where('admissions_id', $admissions_id)
+                        ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                        ->orderBy('created_at', 'ASC')->get()->toArray();
+
                     $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
                 }
             }
         } else {
             if ($ChRecord->assigned_management_plan_id) {
                 $firm_ch_record = ChRecord::select('ch_record.*')
-                ->whereNotNull('firm_file')
-                ->where('admissions_id', $admissions_id)
-                ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-                ->orderBy('created_at', 'ASC')->get()->toArray();
-    
+                    ->whereNotNull('firm_file')
+                    ->where('admissions_id', $admissions_id)
+                    ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
+                    ->orderBy('created_at', 'ASC')->get()->toArray();
+
                 $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
             }
         }
