@@ -1200,6 +1200,12 @@ class PharmacyProductRequestController extends Controller
                     }
                 }
             }
+            if ($request->status == "RECHAZADO") {
+                $PharmacyProductRequest->status = $request->status;
+                $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->user_request_id = $request->user_request_id;
+                $PharmacyProductRequest->save();
+            }
         } else {
 
             $PharmacyProductRequest = new PharmacyProductRequest;
