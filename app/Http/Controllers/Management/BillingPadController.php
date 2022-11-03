@@ -2461,7 +2461,7 @@ class BillingPadController extends Controller
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2517,6 +2517,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'patients.residence_address AS residence_address',
                 'patients.email AS email',
                 'patients.phone AS phone',
+                'type_briefcase.name AS regimen_name',
                 'type_briefcase.code AS regimen_code',
                 'coverage.code AS coverage_code',
                 'campus.address AS patient_admission_address',
@@ -2525,6 +2526,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'billing_pad_prefix.name AS campus_billing_pad_prefix',
                 'briefcase.name AS briefcase_name',
+                'municipality.name AS user_city_name',
                 'municipality.sga_origin_fk AS user_city_code',
                 'region.code AS user_departament_code',
                 'identification_type.code AS patient_identification_type',
