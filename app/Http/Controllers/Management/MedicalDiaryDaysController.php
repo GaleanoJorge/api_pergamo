@@ -7,6 +7,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MedicalDiaryDaysRequest;
+use App\Models\MedicalDiary;
+use App\Models\ServicesBriefcase;
 use Illuminate\Database\QueryException;
 use DateTime;
 use Carbon\Carbon;
@@ -56,9 +58,13 @@ class MedicalDiaryDaysController extends Controller
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
         } else {
             $MedicalDiaryDays->where([
-                // ['medical_diary_days.medical_status_id', '!=', 4],
+                // ['medical_diary_days.medical_status_id', '!=', 1],
                 ['medical_diary_days.medical_status_id', '!=', 5]
             ]);
+        }
+
+        if ($request->scheduling && $request->scheduling != 'null') {
+            $MedicalDiaryDays->where('medical_diary_days.medical_status_id', '!=', 1);
         }
 
         if ($request->init_date != 'null' && isset($request->init_date)) {
@@ -191,6 +197,33 @@ class MedicalDiaryDaysController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        $procedure = ServicesBriefcase::select('services_briefcase.*')
+            ->where('id', $request->service_briefcase_id)
+            ->with(
+                'manual_price.procedure'
+            )->get()->first();
+
+        $validate = MedicalDiaryDays::select('medical_diary_days.*')
+            ->where([
+                ['medical_diary_days.patient_id', '=',  $request->patient_id]
+            ])->where(function ($query) use ($request) {
+                $query
+                    ->where('medical_diary_days.medical_status_id', 2)
+                    ->orWhere('medical_diary_days.medical_status_id', 3);
+            })->leftjoin('services_briefcase', 'medical_diary_days.services_briefcase_id', 'services_briefcase.id')
+            ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+            ->where('manual_price.procedure_id', $procedure->manual_price->procedure_id)
+            ->get()->toArray();
+
+        if (sizeof($validate) > 0) {
+
+            return response()->json([
+                'status' => false,
+                'message' => 'El usuario ya tiene citas activas para este CUPS',
+                // 'data' => ['medical_diary_days' => $MedicalDiaryDays->get()->toArray()]
+            ]);
+        }
+        
         $MedicalDiaryDays = MedicalDiaryDays::find($id);
         $MedicalDiaryDays->medical_status_id = $request->state_id;
         $MedicalDiaryDays->eps_id = $request->eps_id;
@@ -198,6 +231,8 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays->briefcase_id = $request->briefcase_id;
         $MedicalDiaryDays->services_briefcase_id = $request->service_briefcase_id;
         $MedicalDiaryDays->patient_id = $request->patient_id;
+        $MedicalDiaryDays->copay_id = $request->copay_id;
+        $MedicalDiaryDays->copay_value = $request->copay_value;
         $MedicalDiaryDays->save();
 
         return response()->json([
