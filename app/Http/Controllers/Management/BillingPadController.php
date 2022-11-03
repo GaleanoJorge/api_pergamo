@@ -2479,7 +2479,7 @@ SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2584,6 +2584,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'campus.address AS campus_address',
                 'region.code AS user_departament_code',
+                'municipality.name AS user_city_name',
                 'municipality.sga_origin_fk AS user_city_code',
                 'company.id AS eps_id',
                 'company.identification AS eps_identification',
