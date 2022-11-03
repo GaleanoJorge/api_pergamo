@@ -17,15 +17,12 @@ class CreateCopayParametersTable extends Migration
         Schema::create('copay_parameters', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('type_contract_id');
-            $table->unsignedTinyInteger('status_id');
+            // $table->unsignedBigInteger('type_contract_id');
+            $table->integer('payment_type')->nullable(); // 1 cuota moderadora - 2 copago - 3 exento
             $table->string('category');
-            $table->bigInteger('value');
+            $table->float('value');
+            $table->unsignedTinyInteger('status_id');
             $table->timestamps();
-
-            $table->index('type_contract_id');
-            $table->foreign('type_contract_id')->references('id')
-                ->on('type_contract');
 
             $table->index('status_id');
             $table->foreign('status_id')->references('id')
