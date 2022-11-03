@@ -478,7 +478,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -545,7 +545,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -613,7 +613,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -675,7 +675,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -743,7 +743,7 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorizationpackages);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['its_credit_note']) {
+                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
                         array_push($Authorizations, $Authorizationpackages);
                     } else {
                         array_push($AlreadyBilling, $Authorizationpackages);
