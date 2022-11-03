@@ -24,7 +24,7 @@ class CopayParametersRequest extends FormRequest
     public function rules()
     {
         return [
-            'type_contract_id' => 'required',
+            'payment_type' => 'required',
             'category' => 'required',
             'value' => 'required',
         ];
