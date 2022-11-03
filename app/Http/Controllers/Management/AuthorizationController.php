@@ -104,7 +104,7 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
-            )->where('management_plan.status_id',1);
+            );
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
@@ -114,6 +114,9 @@ class AuthorizationController extends Controller
                     $que->WherenotNull('application_id')
                         ->where('auth_status_id', '=', 3)
                         ->WhereNull('auth_number');
+                });
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('medical_diary_days_id');
                 });
             });
         } 
