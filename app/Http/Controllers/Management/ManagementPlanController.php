@@ -16,6 +16,7 @@ use App\Http\Requests\ManagementPlanRequest;
 use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
 use App\Models\BillingPad;
+use App\Models\ChFormulation;
 use App\Models\LocationCapacity;
 use App\Models\ManagementProcedure;
 use App\Models\TypeContract;
@@ -451,6 +452,12 @@ class ManagementPlanController extends Controller
                 }
             } else {
                 $ManagementPlan->save();
+
+                $LogManagement = new LogManagement;
+                    $LogManagement->management_plan_id =$ManagementPlan->id;
+                    $LogManagement->user_id = Auth::user()->id;
+                    $LogManagement->status ='Plan de manejo creado';
+                    $LogManagement->save();
             }
         } else {
             $ManagementPlan->save();
@@ -462,6 +469,11 @@ class ManagementPlanController extends Controller
             $LogManagement->save();
         }
 
+        if ($request->ch_formulation_id) {
+            $ch_formulation = ChFormulation::find($request->ch_formulation_id);
+            $ch_formulation->management_plan_id = $ManagementPlan->id;
+            $ch_formulation->save();
+        }
 
         if (!$request->hospital) {
             if ($request->isnewrequest == 1) {

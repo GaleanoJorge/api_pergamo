@@ -695,12 +695,15 @@ class PatientController extends Controller
             'patients.*',
             'company.name AS company',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('SUM(IF(ch_formulation.id > 0, IF(ch_formulation.management_plan_id = NULL , 1, 0), 0)) AS new_formulations'),
         )
             ->leftjoin('locality', 'patients.locality_id', 'locality.id')
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
             ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id')
+            ->leftjoin('ch_record', 'ch_record.ch_interconsultation_id', 'ch_interconsultation.id')
+            ->leftjoin('ch_formulation', 'ch_formulation.ch_record_id', 'ch_record.id')
             ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')

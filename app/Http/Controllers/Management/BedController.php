@@ -41,6 +41,14 @@ class BedController extends Controller
             $Bed->where('campus.id', $request->campus_id);
         }
 
+        if ($request->bed_or_office) {
+            $Bed->where('bed.bed_or_office', $request->bed_or_office);
+        }
+
+        if ($request->pavilion_id) {
+            $Bed->where('pavilion.id', $request->pavilion_id);
+        }
+
         if ($request->search) {
             $Bed->where(function ($query) use ($request) {
                 $query->where('bed.name', 'like', '%' . $request->search . '%')
@@ -86,14 +94,15 @@ class BedController extends Controller
 
         $date = Carbon::now()->setTimezone('America/Bogota')->subHours(6)->format('Y-m-d h:i:s');
 
-        $Bed = Bed::where('pavilion_id', $pavilion_id)
+        $Bed = Bed::select('bed.*')
+            ->where('bed.pavilion_id', $pavilion_id)
             ->where(function ($query) use ($identification, $date) {
                 $query->where('bed.status_bed_id', '=', '1')
                     ->orWhere(function ($q) use ($identification, $date) {
                         $q->where('bed.identification', $identification)
                             ->where('bed.status_bed_id', '=', '6')
                             // ->where('bed.reservation_date', '<=', $date)
-                            ;
+                        ;
                     })
                     ->orWhere(function ($q) use ($date) {
                         $q->where('bed.status_bed_id', '=', '6')
