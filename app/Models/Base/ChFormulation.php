@@ -10,6 +10,7 @@ use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
+use App\Models\PharmacyProductRequest;
 use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $dose
  * @property string $observation
  * @property Integer $number_mipres
+ * @property unsignedBigInteger $pharmacy_product_request_id
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
  * @property Carbon $created_at
@@ -61,6 +63,10 @@ class ChFormulation extends Model
 	public function hourly_frequency()
 	{
 		return $this->belongsTo(HourlyFrequency::class);
+	}
+	public function pharmacy_product_request()
+	{
+		return $this->belongsTo(PharmacyProductRequest::class);
 	}
 	public function type_record()
 	{
