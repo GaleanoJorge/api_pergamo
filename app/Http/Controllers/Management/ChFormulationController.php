@@ -58,8 +58,8 @@ class ChFormulationController extends Controller
     public function getByAdmission(int $admission_id): JsonResponse
     {
         $ChFormulation = ChFormulation::select('ch_formulation.*')
-            ->leftJoin('ch_record','ch_record.id','ch_formulation.ch_record_id')
-            ->leftJoin('admissions','admissions.id','ch_record.admissions_id')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
             ->where('admissions.id', $admission_id)
             ->where('ch_formulation.medical_formula', 0)
             ->with(
@@ -101,6 +101,7 @@ class ChFormulationController extends Controller
                 'administration_route',
                 'hourly_frequency',
                 'product_generic',
+                'product_generic.measurement_units',
             )
             ->get()->toArray();
 
