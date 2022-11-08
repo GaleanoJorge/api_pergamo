@@ -157,12 +157,12 @@ class AssistanceSuppliesController extends Controller
 
                     $applicated = AssistanceSupplies::select('assistance_supplies.*')
                         ->where('supplies_status_id', 2)
-                        ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get();
+                        ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get()->toArray();
 
-                    $product =  Product::select('product.*' , 'product_concentration.value AS value')
-                        ->leftjoin('product_generic','product.product_generic_id','product_generic.id')
-                        ->leftjoin('product_concentration','product_generic.drug_concentration_id','product_concentration.id')
-                        ->where('product.id',$request->product_comercial)->get()->toArray();
+                    $product =  Product::select('product.*', 'product_concentration.value AS value')
+                        ->leftjoin('product_generic', 'product.product_generic_id', 'product_generic.id')
+                        ->leftjoin('product_concentration', 'product_generic.drug_concentration_id', 'product_concentration.id')
+                        ->where('product.id', $request->product_comercial)->get()->toArray();
 
                     $management_plan = ManagementPlan::select('management_plan.*', 'management_plan.dosage_administer AS dosage_administer')
                         ->leftjoin('assigned_management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
@@ -172,15 +172,18 @@ class AssistanceSuppliesController extends Controller
                     $product_dose = intval($product[0]['value']);
                     $management_plan_dose = intval($management_plan[0]['dosage_administer']);
 
+                    $aplicated = 0;
+
+
                     foreach ($applicated as $item) {
-                        $compare = ChRecord::find($item->ch_record_id);
+                        $compare = ChRecord::where('id', $item['ch_record_id']);
                         if ($ch_record->assigned_management_plan_id == $compare->assigned_management_plan_id) {
                             $aplicated++;
                         }
                     }
 
-                    
-                    $value = $product_dose*$aplicated;
+
+                    $value = $product_dose * $aplicated;
                     if ($value >= $management_plan_dose) {
                         return response()->json([
                             'status' => false,
