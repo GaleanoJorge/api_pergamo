@@ -59,6 +59,11 @@ class ChSwHousingAspectController extends Controller
 
 
         $ChSwHousingAspect = ChSwHousingAspect::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        ->with(
+            'ch_sw_housing_type',
+            'ch_sw_housing'
+        )
+
             ->get()->toArray();
 
         if ($request->has_input) { //

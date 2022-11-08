@@ -456,7 +456,7 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->groupBy('authorization.id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
         if ($request->show) {
             $eventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -527,7 +527,7 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
         if ($request->show) {
             $MedicamentosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -598,7 +598,7 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()]);
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
         if ($request->show) {
             $InsumosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -947,7 +947,7 @@ class BillingPadController extends Controller
         //         ->whereNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
         //     // Medicamentos
@@ -976,7 +976,7 @@ class BillingPadController extends Controller
         //         ->whereNotNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
         //     // Insumos
@@ -1005,7 +1005,7 @@ class BillingPadController extends Controller
         //         ->whereNotNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
 
@@ -1036,7 +1036,7 @@ class BillingPadController extends Controller
         //         ->whereNull('authorization.assigned_management_plan_id')
         //         // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         // ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
         //     $Authorizationspackage['auth_package'] = [];
@@ -1233,7 +1233,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
         // $AlreadyBilling = []; // COSAS FACTURADAS
@@ -1287,7 +1287,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
@@ -1338,7 +1338,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->startOfMonth(), Carbon::parse($BillingPad->validation_date)->setTimezone('America/Bogota')->endOfMonth()])
+            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
@@ -1627,7 +1627,7 @@ class BillingPadController extends Controller
         //         ->whereNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
         //     // Medicamentos
@@ -1656,7 +1656,7 @@ class BillingPadController extends Controller
         //         //  ->whereNotNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
         //     // Insumos
@@ -1685,7 +1685,7 @@ class BillingPadController extends Controller
         //         //  ->whereNotNull('authorization.application_id')
         //         ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
         //         //  ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-        //         ->whereBetween('assigned_management_plan.created_at', [Carbon::parse($BillingPad->validation_date)->startOfMonth(), Carbon::parse($BillingPad->validation_date)->endOfMonth()])
+        //         ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
         //         ->get()->toArray();
 
 
@@ -2396,7 +2396,7 @@ class BillingPadController extends Controller
             $payer_phone = $BillingPad[0]['eps_phone'];
             $payer_address = $BillingPad[0]['eps_address'];
             $payer_departament_code = ($CompanyLocationInfo[0]['eps_departament_code'] == 5 || $CompanyLocationInfo[0]['eps_departament_code'] == 8 ? "0" . $CompanyLocationInfo[0]['eps_departament_code'] : $CompanyLocationInfo[0]['eps_departament_code']);
-            $payer_city_code = $CompanyLocationInfo[0]['company_city_code'];
+            $payer_city_code = $CompanyLocationInfo[0]['company_city_code'] ? $CompanyLocationInfo[0]['company_city_code'] : '11001' ;
         }
 
         $full_name = $bill_type == 1 ? $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']) : "";
@@ -2651,7 +2651,7 @@ class BillingPadController extends Controller
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2669,7 +2669,7 @@ SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12
+A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2707,6 +2707,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'patients.residence_address AS residence_address',
                 'patients.email AS email',
                 'patients.phone AS phone',
+                'type_briefcase.name AS regimen_name',
                 'type_briefcase.code AS regimen_code',
                 'coverage.code AS coverage_code',
                 'campus.address AS patient_admission_address',
@@ -2715,6 +2716,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'billing_pad_prefix.name AS campus_billing_pad_prefix',
                 'briefcase.name AS briefcase_name',
+                'municipality.name AS user_city_name',
                 'municipality.sga_origin_fk AS user_city_code',
                 'region.code AS user_departament_code',
                 'identification_type.code AS patient_identification_type',
@@ -2772,6 +2774,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'campus.billing_pad_credit_note_prefix_id AS campus_billing_pad_credit_note_prefix_id',
                 'campus.address AS campus_address',
                 'region.code AS user_departament_code',
+                'municipality.name AS user_city_name',
                 'municipality.sga_origin_fk AS user_city_code',
                 'company.id AS eps_id',
                 'company.identification AS eps_identification',
