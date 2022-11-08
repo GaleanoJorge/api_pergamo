@@ -59,6 +59,7 @@ class MedicalDiaryDaysController extends Controller
         } else {
             $MedicalDiaryDays->where([
                 // ['medical_diary_days.medical_status_id', '!=', 1],
+                // ['medical_diary_days.medical_status_id', '!=', 4],
                 ['medical_diary_days.medical_status_id', '!=', 5]
             ]);
         }
