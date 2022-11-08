@@ -4650,10 +4650,12 @@ class ChRecordController extends Controller
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();
-            $assigned->save();
             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
                 $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+            } else {
+                $assigned->approved = true;
             }
+            $assigned->save();
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
             if ($assistance) {
