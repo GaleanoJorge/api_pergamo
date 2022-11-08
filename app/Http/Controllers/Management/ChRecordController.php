@@ -245,7 +245,6 @@ class ChRecordController extends Controller
      */
     public function ValidateSpeciality()
     {
-        // var_dump('1');
         $array_aux = array(
             137 => 5,
             135 => 7,
@@ -267,7 +266,22 @@ class ChRecordController extends Controller
         } else {
 
             return  $AssitanceSpecial;
+            // $this->SendSelect($AssitanceSpecial);
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function SendSelect($selectorsend): JsonResponse
+    {
+        return response()->json([
+            'status' => false,
+            'message' => 'Se requiere seleccionar especialización',
+            'data' => ['assictance_special' => $selectorsend],
+        ]);
     }
 
     /**
