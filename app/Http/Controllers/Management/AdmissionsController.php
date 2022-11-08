@@ -599,6 +599,15 @@ class AdmissionsController extends Controller
                 $Bed->save();
             }
 
+            if($request->ambulatory_data && $request->ambulatory_data != 'null'){
+
+                $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
+                $medical_diary_days->admissions_id = $Admissions->id;
+                $medical_diary_days->medical_status_id = 4;
+                $medical_diary_days->save();
+                
+            }
+
 
             return response()->json([
                 'status' => true,
