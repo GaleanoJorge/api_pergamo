@@ -21,6 +21,7 @@ use App\Models\RoleAttention;
 use App\Models\Specialty;
 use App\Models\User;
 use App\Models\ServicesBriefcase;
+use App\Models\Status;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $admissions_id
  * @property int $assigned_user_id
  * @property int $route_of_administration
+ * @property int $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -80,6 +82,10 @@ class ManagementPlan extends Model
 	public function procedure()
 	{
 		return $this->belongsTo(ServicesBriefcase::class, 'procedure_id');
+	}
+	public function status()
+	{
+		return $this->belongsTo(Status::class);
 	}
 	public function briefcase()
 	{

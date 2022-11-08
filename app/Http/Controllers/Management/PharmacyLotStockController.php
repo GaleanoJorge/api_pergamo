@@ -23,13 +23,13 @@ class PharmacyLotStockController extends Controller
     public function index(Request $request): JsonResponse
     {
         $PharmacyLotStock = PharmacyLotStock::select('pharmacy_lot_stock.*')
-            ->leftJoin('billing_stock', 'pharmacy_lot_stock.billing_stock_id', 'billing_stock.id')
-            ->leftJoin('product', 'billing_stock.product_id', 'product.id')
-            ->leftJoin('factory', 'product.factory_id', 'factory.id')
-            ->leftJoin('product_supplies_com', 'billing_stock.product_supplies_com_id', 'product_supplies_com.id')
-            ->leftJoin('factory AS fc', 'product_supplies_com.factory_id', 'fc.id')
-            ->leftJoin('pharmacy_lot', 'pharmacy_lot_stock.pharmacy_lot_id', 'pharmacy_lot.id')
-            ->leftJoin('pharmacy_stock', 'pharmacy_lot.pharmacy_stock_id', 'pharmacy_stock.id')
+            ->leftJoin('billing_stock', 'billing_stock.id', 'pharmacy_lot_stock.billing_stock_id')
+            ->leftJoin('product', 'product.id', 'billing_stock.product_id')
+            ->leftJoin('factory', 'factory.id', 'product.factory_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'billing_stock.product_supplies_com_id')
+            ->leftJoin('factory AS fc', 'fc.id', 'product_supplies_com.factory_id')
+            ->leftJoin('pharmacy_lot', 'pharmacy_lot.id', 'pharmacy_lot_stock.pharmacy_lot_id')
+            ->leftJoin('pharmacy_stock', 'pharmacy_stock.id', 'pharmacy_lot.pharmacy_stock_id')
             ->with(
                 'pharmacy_lot',
                 'billing_stock',
@@ -40,7 +40,7 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product_supplies_com.factory',
                 'billing_stock.product_supplies_com.product_supplies'
 
-            )->orderBy('expiration_date', 'asc')->groupBy('pharmacy_lot_stock.id');
+            )->groupBy('pharmacy_lot_stock.id');
 
         if ($request->islot == true) {
             $PharmacyLotStock->groupby('pharmacy_lot_id');

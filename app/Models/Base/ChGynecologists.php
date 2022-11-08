@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
 *@property int $id 
 *@property string  $pregnancy_status
-*@property number  $gestational_age
+*@property int  $gestational_age
 *@property date  $date_childbirth
 *@property number  $menarche_years
 *@property date  $last_menstruation

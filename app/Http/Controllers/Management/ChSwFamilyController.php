@@ -21,6 +21,11 @@ class ChSwFamilyController extends Controller
         $ChSwFamily = ChSwFamily::select('ch_sw_family.*')
         ->with('relationship');
 
+
+        if ($request->record_id) {
+            $ChSwFamily->where('ch_record_id', $request->record_id);
+        }
+
         if ($request->_sort) {
             $ChSwFamily->orderBy($request->_sort, $request->_order);
         }

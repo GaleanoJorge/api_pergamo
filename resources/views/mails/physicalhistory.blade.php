@@ -36,8 +36,8 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$chrecord[0]['date_attention']}}</p>
-                        <p>Folio: {{$chrecord[0]['id']}}</p>
+                        <p>Fecha de registro: {{$fecharecord}}</p>
+                        <p>Folio: {{$chrecord[0]['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -67,7 +67,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['firstname'] . ' ' . '' . $chrecord[0]['admissions']['patients']['middlefirstname'] . ($chrecord[0]['admissions']['patients']['middlefirstname'] ? ' ' : '') . '' . $chrecord[0]['admissions']['patients']['lastname'] . '' . ($chrecord[0]['admissions']['patients']['middlelastname'] ? ' ' : '') . $chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -77,7 +77,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? $chrecord[0]['admissions']['patients']['identification'] : 'No registra'}}</span>
                     <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                 </p>
             </td>
@@ -90,7 +90,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{substr($chrecord[0]['admissions']['patients']['birthday'],0,10)}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['identification'] ? substr($chrecord[0]['admissions']['patients']['birthday'],0,10) : 'No registra'}}</span>
                     <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
             
                 </p>
@@ -102,7 +102,7 @@
             </td>      
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['marital_status_id'] ? $chrecord[0]['admissions']['patients']['marital_status']['name'] : 'No registra'}}</span>
                 </p>
             </td>
 
@@ -115,7 +115,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['age']}} Años</span>
                 </p>
             </td>
         
@@ -127,7 +127,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender']['name']}}</span>
+                    <span style="font-family:Calibri; vertical-align:1pt">{{$chrecord[0]['admissions']['patients']['gender_id'] ? $chrecord[0]['admissions']['patients']['gender']['name'] : 'No registra'}}</span>
                 </p>
             </td>
         
@@ -141,7 +141,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_address'] ? $chrecord[0]['admissions']['patients']['residence_address'] : 'No registra'}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -151,7 +151,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['phone'] ? $chrecord[0]['admissions']['patients']['phone'] : 'No registra'}}</span>
                 </p>
             </td>
         </tr>
@@ -163,7 +163,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['residence_municipality_id'] ? $chrecord[0]['admissions']['patients']['residence_municipality']['name'] : 'No registra'}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -174,7 +174,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['activities_id'] ? $chrecord[0]['admissions']['patients']['activities']['name'] : 'No registra'}}</span>
                 </p>
             </td>
            
@@ -188,7 +188,7 @@
     
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['ethnicity_id'] ? $chrecord[0]['admissions']['patients']['ethnicity']['name'] : "No registra"}}</span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -199,7 +199,7 @@
 
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.9pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['patients']['academic_level_id'] ? $chrecord[0]['admissions']['patients']['academic_level']['name'] : 'No registra'}}</span>
                 </p>
             </td>
             
@@ -222,7 +222,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive']}} </span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive'] ? $chrecord[0]['admissions']['consecutive'] : 'No registra'}} </span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -232,7 +232,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date'] ? $chrecord[0]['admissions']['entry_date'] : 'No registra'}}</span>
                     <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                 </p>
             </td>
@@ -245,7 +245,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0.3pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['company_id'] ? $chrecord[0]['admissions']['contract']['company']['name'] : 'No registra'}}</span>
                     <span style="font-family:Calibri; letter-spacing:4.45pt"> </span>
             
                 </p>
@@ -257,7 +257,7 @@
             </td>      
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0.75pt; margin-left:2.45pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase']['name']}}</span>
+                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['contract']['type_briefcase'] ? $chrecord[0]['admissions']['contract']['type_briefcase']['name'] : 'No registra'}}</span>
                 </p>
             </td>
         </tr>
@@ -722,19 +722,18 @@
                         
                         @if(isset($ch['burning']) || isset($ch['stinging']) || isset($ch['locatedi']) || isset($ch['oppressive']) )
                     
-                        <p style=" text-align: left ; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                            <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>TIPO DOLOR </b> </span>
-                            <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                        <p style=" text-align: left ; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff"> <b>TIPO DOLOR: </b> </span>
+                            <span style="font-family:Calibri; font-size:8pt"> 
+                                @if(isset($ch['burning']))   {{$ch['burning']}} @endisset
+                                @if(isset($ch['stinging']))   {{$ch['stinging']}} @endisset
+                                @if(isset($ch['locatedi']))  {{$ch['locatedi']}} @endisset
+                                @if(isset($ch['oppressive'])) {{$ch['oppressive']}} @endisset</span>
                         </p>
+                       
                         @endisset
                 
-                    <p style= "margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:8pt"> 
-                            @if(isset($ch['burning']))   {{$ch['burning']}} @endisset
-                            @if(isset($ch['stinging']))   {{$ch['stinging']}} @endisset
-                            @if(isset($ch['locatedi']))  {{$ch['locatedi']}} @endisset
-                            @if(isset($ch['oppressive'])) {{$ch['oppressive']}} @endisset</span>
-                    </p>                         
+              
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">
                             <td style="width:100pt; vertical-align:top">
@@ -2581,6 +2580,147 @@
             @endisset
         </div>
 
+
+              <!-- Intervención -->
+              <div>
+                @if(count($ChEMSAssessmentOTNT) > 0)
+    
+                <hr />
+    
+                <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>INTERVENCIÓN</b></span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+    
+                <table class="tablehc">
+                    <tr>
+                        <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                        <th><span style="font-family:Calibri; font-size:9pt">INTERVENCIÓN</th>
+                    </tr>
+    
+                    @foreach($ChEMSAssessmentOTNT as $ch)
+                    <tr>                        
+                    @if(isset($ch['created_at']))
+                        <td>
+                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        </td>
+                        @endisset
+    
+                    @if(isset($ch['occupational_con'])  )
+                        <td>
+                            <span style="font-family:Calibri; font-size:9pt">
+                                @if(isset($ch['occupational_con'])) {{$ch['occupational_con']}} @endisset 
+                             </span> 
+                        @endisset                
+                                            
+                    </tr>
+                    @endforeach
+    
+                </table>
+    
+    
+               
+                @endisset
+            </div> 
+    
+    
+    
+    
+             <!-- Materiales Utilizados-->
+             <div>
+                @if(count($ChNRMaterialsFT) > 0)
+    
+                <hr />
+    
+                <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> MATERIALES E INSUMOS UTILIZADOS</b></span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+    
+    
+            <table class="tablehc">
+                <tr>
+                    <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                    <th><span style="font-family:Calibri; font-size:9pt">MATERIALES E INSUMOS UTILIZADOS</th>
+                </tr>
+    
+                @foreach($ChNRMaterialsFT as $ch)
+                <tr>                        
+                @if(isset($ch['created_at']))
+                    <td>
+                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                    </td>
+                    @endisset
+  
+                    <td>
+                        <span style="font-family:Calibri; font-size:9pt">
+                            @if(isset($ch['Material_1'])) {{$ch['Material_1']}} @endisset 
+                            @if(isset($ch['Material_2']))<br/>  {{$ch['Material_2']}} @endisset 
+                            @if(isset($ch['Material_3']))  <br/>{{$ch['Material_3']}} @endisset 
+                            @if(isset($ch['Material_4'])) <br/> {{$ch['Material_4']}} @endisset 
+                            @if(isset($ch['Material_5'])) {{$ch['Material_5']}} @endisset 
+                            @if(isset($ch['Material_6']))<br/>  {{$ch['Material_6']}} @endisset 
+                            @if(isset($ch['Material_7']))  <br/>{{$ch['Material_7']}} @endisset 
+                            @if(isset($ch['Material_8'])) <br/> {{$ch['Material_8']}} @endisset 
+                            @if(isset($ch['Material_9'])) {{$ch['Material_9']}} @endisset 
+                            @if(isset($ch['Material_10']))<br/>  {{$ch['Material_10']}} @endisset 
+                            @if(isset($ch['Material_11']))  <br/>{{$ch['Material_11']}} @endisset 
+                            @if(isset($ch['Material_12'])) <br/> {{$ch['Material_12']}} @endisset 
+                            @if(isset($ch['Material_13'])) {{$ch['Material_13']}} @endisset 
+                            @if(isset($ch['Material_14']))<br/>  {{$ch['Material_14']}} @endisset 
+                            @if(isset($ch['Material_15']))  <br/>{{$ch['Material_15']}} @endisset 
+                            @if(isset($ch['Material_16'])) <br/> {{$ch['Material_16']}} @endisset 
+                            @if(isset($ch['Material_17'])) {{$ch['Material_17']}} @endisset 
+                            @if(isset($ch['Material_18']))<br/>  {{$ch['Material_18']}} @endisset 
+                            @if(isset($ch['Material_19']))  <br/>{{$ch['Material_19']}} @endisset 
+                            @if(isset($ch['Material_20'])) <br/> {{$ch['Material_20']}} @endisset 
+                            @if(isset($ch['Material_21'])) {{$ch['Material_21']}} @endisset 
+                            @if(isset($ch['Material_22']))<br/>  {{$ch['Material_22']}} @endisset 
+                            @if(isset($ch['Material_23']))  <br/>{{$ch['Material_23']}} @endisset 
+                            @if(isset($ch['Material_24'])) <br/> {{$ch['Material_24']}} @endisset 
+                            @if(isset($ch['Material_25'])) {{$ch['Material_25']}} @endisset 
+                            @if(isset($ch['Material_26']))<br/>  {{$ch['Material_26']}} @endisset 
+                            @if(isset($ch['Material_27']))  <br/>{{$ch['Material_27']}} @endisset 
+                            @if(isset($ch['Material_28'])) <br/> {{$ch['Material_28']}} @endisset 
+                            @if(isset($ch['Material_29'])) <br/> {{$ch['Material_29']}} @endisset 
+
+                          
+                    </span> 
+                 
+                                        
+                </tr>
+                @endforeach
+    
+            </table>
+    
+            @endisset
+            </div> 
+    
+    
+
+    </div>
+    
+    <!-- SEGUIMIENTO -->
+    <div>
+                
+        @if(count($ChTracing) > 0 )
+
+        <hr />
+
+        <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                SEGUIMIENTO<br>
+        </p>
+
+            @foreach($ChTracing as $ch)
+            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                <span style="font-family:Calibri; font-size:9pt">
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
+                    <b>@if(isset($ch['observation'])) SEGUIMIENTO: </b> {{$ch['observation']}} @endisset</span>
+            </p>
+
+            @endforeach
+
+        @endisset
     </div>
     
     @endisset
@@ -2595,7 +2735,7 @@
     <tr style="height:11.95pt">
         <td style="width:130pt; vertical-align:top">
     <div>
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA MEDICO </b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA PERSONAL ASISTENCIAL</b> </span>
     
         @if($firm != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
@@ -2606,16 +2746,16 @@
             </p>
             @endisset
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['user_role'][0]['role']['name']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['user_role'][0]['role']['name']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             @if(count($chrecord[0]['user']['assistance']) > 0)
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord2['user']['assistance'][0]['medical_record']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             

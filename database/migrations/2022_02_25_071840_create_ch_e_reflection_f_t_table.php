@@ -23,7 +23,7 @@ class CreateChEReflectionFTTable extends Migration
             $table->string('patellar');
             $table->string('aquilano');
             $table->string('reflexes');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

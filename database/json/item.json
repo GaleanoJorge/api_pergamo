@@ -1602,11 +1602,47 @@
         "show_menu": "1"
     },
     {
-        "id": "234",
+        "id": "229",
+        "item_parent_id": "219",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "230",
+        "item_parent_id": "174",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "232",
         "item_parent_id": null,
         "name": "Gestión asistencial",
         "code": "medical-records-list",
         "route": "/pages/medical-records/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "235",
+        "item_parent_id": null,
+        "name": "Referencia",
+        "code": "reference",
+        "route": "/pages/reference/list",
+        "icon": "keypad-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "236",
+        "item_parent_id": "91",
+        "name": "Und.medida Insumos",
+        "code": "supplies-measure",
+        "route": "/pages/setting/supplies-measure",
         "icon": "",
         "show_menu": "1"
     }

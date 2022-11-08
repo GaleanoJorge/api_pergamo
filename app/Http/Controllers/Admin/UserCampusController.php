@@ -17,11 +17,16 @@ class UserCampusController extends Controller
      * @param integer $roleId
      * @return JsonResponse
      */
-    public function getByUser(int $userId): JsonResponse
+    public function getByUser(Request $request, int $userId): JsonResponse
     {
-        $campus = UserCampus::where('user_id', $userId)
-            ->with('campus','campus.region')
-            ->get()->toArray();
+        $campus = UserCampus::where('user_campus.user_id', $userId)
+            ->with('campus', 'campus.region')
+            ->Leftjoin('campus', 'campus.id', 'user_campus.campus_id');
+
+        // if ($request->status_id) {
+        //     $campus->where('campus.status_id', $request->status_id);
+        // }
+        $campus = $campus->get()->toArray();
 
         return response()->json([
             'status' => true,

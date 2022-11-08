@@ -24,7 +24,8 @@ class ProductController extends Controller
             ->with(
                 'product_generic',
                 'product_generic.product_presentation',
-                'factory'
+                'factory',
+                'packing'
             )->groupBy('product.id');
 
         if ($request->_sort) {

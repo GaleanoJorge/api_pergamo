@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
+use App\Models\ChRecord;
 
 class ChSignsController extends Controller
 {
@@ -44,6 +45,7 @@ class ChSignsController extends Controller
             'data' => ['ch_signs' => $ChSigns]
         ]);
     }
+
     
 
     public function store(Request $request): JsonResponse

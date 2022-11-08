@@ -20,34 +20,70 @@ class DiagnosisController extends Controller
     {
         $Diagnosis = Diagnosis::select();
 
-        if ($request->_sort) {
-            $Diagnosis->orderBy($request->_sort, $request->_order);
-        }
+        if($request->all != 1){
 
-        if ($request->id) {
-            $Diagnosis->where('id', $request->id);
-        }
-
-        if ($request->search) {
-            if ($request->search == '') {
-                return response()->json([
-                    'status' => true,
-                    'message' => 'Diagnósticos obtenidos exitosamente, aaaa',
-                    'data' => ['diagnosis' => []]
-                ]);
-            } else {
-                $Diagnosis->where(function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request->search . '%')
-                        ->orWhere('code', 'like', '%' . $request->search . '%');
-                });
+            if ($request->_sort) {
+                $Diagnosis->orderBy($request->_sort, $request->_order);
             }
-        } else {
+    
+            if ($request->id) {
+                $Diagnosis->where('id', $request->id);
+                $Diagnosis = $Diagnosis->get()->toArray();
+    
+    
             return response()->json([
                 'status' => true,
-                'message' => 'Diagnósticos obtenidos exitosamente, bbb',
-                'data' => ['diagnosis' => []]
+                'message' => 'Diagnósticos obtenidos exitosamente',
+                'data' => ['diagnosis' => $Diagnosis]
             ]);
+            }
+    
+            if ($request->search) {
+                if ($request->search == '') {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Diagnósticos obtenidos exitosamente, aaaa',
+                        'data' => ['diagnosis' => []]
+                    ]);
+                } else {
+                    $Diagnosis->where(function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->search . '%')
+                            ->orWhere('code', 'like', '%' . $request->search . '%');
+                    });
+                }
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Diagnósticos obtenidos exitosamente, bbb',
+                    'data' => ['diagnosis' => []]
+                ]);
+            }
+
+        }else{
+            if ($request->_sort) {
+                $Diagnosis->orderBy($request->_sort, $request->_order);
+            }
+    
+            if ($request->search) {
+                $Diagnosis->where('name', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->id) {
+                $Diagnosis->where('id', $request->id);
+                $Diagnosis = $Diagnosis->get()->toArray();
+
+    
+            if ($request->query("pagination", true) == "false") {
+                $Diagnosis = $Diagnosis->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+    
+                $Diagnosis = $Diagnosis->paginate($per_page, '*', 'page', $page);
+            }
+
         }
+    }
 
         $Diagnosis = $Diagnosis->get()->toArray();
         // if($request->query("pagination", true)=="false"){

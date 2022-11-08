@@ -73,7 +73,7 @@ class ChCarePlanController extends Controller
 
         } else if(count($CarePlanArray) == $count) {
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => ' Los planes ya se encuentran asociados',
                 // 'data' => ['ch_care_plan' => $ChCarePlan->toArray()]
             ]);
@@ -98,7 +98,6 @@ class ChCarePlanController extends Controller
 
         $ChCarePlan = ChCarePlan::select('ch_care_plan.*')
             ->with('nursing_care_plan')
-            ->where('ch_care_plan.type_record_id', 1)
             ->where('ch_record_id', $id);
 
 

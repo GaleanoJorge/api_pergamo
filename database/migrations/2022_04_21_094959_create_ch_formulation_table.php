@@ -17,7 +17,7 @@ class CreateChFormulationTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('product_generic_id')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
-            $table->unsignedBigInteger('administration_route_id');
+            $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->unsignedBigInteger('hourly_frequency_id');
             $table->boolean('medical_formula')->nullable();
             $table->Integer('treatment_days');
@@ -25,6 +25,7 @@ class CreateChFormulationTable extends Migration
             $table->string('dose');
             $table->string('observation')->nullable();
             $table->Integer('number_mipres')->nullable();
+            $table->unsignedBigInteger('pharmacy_product_request_id')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -44,6 +45,10 @@ class CreateChFormulationTable extends Migration
             $table->index('hourly_frequency_id');
             $table->foreign('hourly_frequency_id')->references('id')
                 ->on('hourly_frequency');
+
+            $table->index('pharmacy_product_request_id');
+            $table->foreign('pharmacy_product_request_id')->references('id')
+                ->on('pharmacy_product_request');
 
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')

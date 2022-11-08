@@ -23,7 +23,7 @@ class CreateProductSuppliesTable extends Migration
                         $table->Integer('minimum_stock')->nullable();
                         $table->Integer('maximum_stock')->nullable();
                         $table->string('description');
-                        $table->string('code_gmdn');
+                        $table->string('code_gmdn')->nullable();
                         $table->unsignedBigInteger('product_dose_id')->nullable();
                         $table->string('dose')->nullable();
 
