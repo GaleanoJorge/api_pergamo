@@ -7,8 +7,10 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChFormulationRequest;
+use App\Models\Admissions;
 use App\Models\ChRecord;
 use App\Models\PharmacyProductRequest;
+use App\Models\PharmacyStock;
 use Illuminate\Database\QueryException;
 
 class ChFormulationController extends Controller
@@ -81,11 +83,36 @@ class ChFormulationController extends Controller
 
             $ChRecordVal = ChRecord::find($request->ch_record_id);
 
+            $Admission = Admissions::select('admissions.*')
+                ->with(
+                    'campus',
+                    'location',
+                    'location.admission_route',
+                    'location.scope_of_attention',
+                    'location.program',
+                )
+                ->where('id', $ChRecordVal->admissions_id)
+                ->groupBy('admissions.id')
+                ->get()->toArray();
+
+            $campus_id =  $Admission[0]['campus_id'];
+            $scope_of_attention_id =  $Admission[0]['location'][count($Admission[0]['location']) - 1]['scope_of_attention_id'];
+
+            $pharmacy = PharmacyStock::select('pharmacy_stock.*')
+                ->leftJoin('services_pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
+                ->where('pharmacy_stock.campus_id', $campus_id)
+                ->where('services_pharmacy_stock.scope_of_attention_id', $scope_of_attention_id)
+                ->groupBy('pharmacy_stock.id')
+                ->get()->toArray();
+
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
             $PharmacyProductRequest->request_amount = $request->request_amount;
             $PharmacyProductRequest->observation = $request->observation;
             $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
+            $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
+            $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
+            $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy[0]['id'];
             $PharmacyProductRequest->status = 'PATIENT';
             $PharmacyProductRequest->save();
 
