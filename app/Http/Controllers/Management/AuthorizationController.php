@@ -31,7 +31,7 @@ class AuthorizationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Authorization = Authorization::select();
+        $Authorization = Authorization::select('authorization.*');
 
         if ($request->_sort) {
             $Authorization->orderBy($request->_sort, $request->_order);
@@ -149,6 +149,7 @@ class AuthorizationController extends Controller
                 $que->where('assigned_management_plan.execution_date','=', '0000-00-00 00:00:00');
             });
         } else if($request->status_id == 'PAQ'){
+            // var_dump($Authorization);
             $Authorization->where(function ($query) use ($request) {
                 $query->where('auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
