@@ -2241,6 +2241,7 @@ class ChRecordController extends Controller
             $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             //Seguimiento
             $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -2293,6 +2294,7 @@ class ChRecordController extends Controller
                 'ChETherGoalsFTEvo' => $ChETherGoalsFTEvo,
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
+                'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChTracing' => $ChTracing,
 
                 'firmPatient' => $imagenPAtient,
