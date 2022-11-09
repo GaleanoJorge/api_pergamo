@@ -1174,6 +1174,8 @@ class ChRecordController extends Controller
         $imagenComoBase64 = null;
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->setTimezone('America/Bogota');
 
+        if ($ChRecord[0]['ch_type_id'] != 10) {
+
         if ($ChRecord[0]['firm_file']) {
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
             $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
@@ -1186,6 +1188,8 @@ class ChRecordController extends Controller
 
             ]);
         }
+
+    }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
 
@@ -2237,6 +2241,7 @@ class ChRecordController extends Controller
             $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             //Seguimiento
             $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -2289,6 +2294,7 @@ class ChRecordController extends Controller
                 'ChETherGoalsFTEvo' => $ChETherGoalsFTEvo,
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
+                'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChTracing' => $ChTracing,
 
                 'firmPatient' => $imagenPAtient,
@@ -2587,9 +2593,45 @@ class ChRecordController extends Controller
 
             Storage::disk('public')->put($name, $file);
 
-            // Trabajo Social
+            // Seguimiento
             //////////////////////////////////
 
+        } else if ($ChRecord[0]['ch_type_id'] == 10) {
+            //Seguimiento
+            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                ->get()->toArray();
+
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.tracing', [
+                'chrecord' => $ChRecord,
+                'fecharecord' => $fecharecord,
+                'ChTracing' => $ChTracing,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
         }
 
         return response()->json([
@@ -4380,12 +4422,77 @@ class ChRecordController extends Controller
         }
 
 
+        ///Seguimiento
+        /////////////////////////////////
+
+        else if ($request->ch_type == 10) {
+            if (count($ChRecord) > 0) {
+                foreach ($ChRecord as $ch) {
+
+                    $hcAll = [];
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
+                    array_push($hcAll, $ch);
+
+                    $count++;
+
+                    //Seguimiento
+                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                        ->get()->toArray();
+
+                    $today = Carbon::now();
+                    $Patients = $ChRecord[0]['admissions']['patients'];
+
+                    // $patient=$ChRecord['admissions'];
+
+                    $html = view('mails.tracing', [
+                        'chrecord' => $ChRecord,
+                        'ChTracing' => $ChTracing,
+                        'today' => $today,
+                        //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                        //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                        //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
 
 
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', TRUE);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+                    $name = 'prueba.pdf';
+
+                    Storage::disk('public')->put($name, $file);
+                    array_push($documentos, $name);
+                }
 
 
+                # Crear el "combinador"
+                $combinador = new Merger;
 
+                # Agregar archivo en cada iteración
+                foreach ($documentos as $documento) {
+                    $combinador->addFile('storage' . '/' . $documento);
+                }
 
+                # Y combinar o unir
+                $salida = $combinador->merge();
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                Storage::disk('public')->put($name2, $salida);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Historias clinicas asociadas al paciente',
+
+                ]);
+            }
+        }
 
         return response()->json([
             'status' => true,
@@ -4610,8 +4717,9 @@ class ChRecordController extends Controller
                     ->where('admissions_id', $admissions_id)
                     ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                     ->orderBy('created_at', 'ASC')->get()->toArray();
-
-                $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                if ($ChRecord->ch_type_id != 10) {
+                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                }
             }
         }
 

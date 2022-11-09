@@ -107,7 +107,7 @@ class ChFormulationController extends Controller
 
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
-            $PharmacyProductRequest->request_amount = $request->request_amount;
+            $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
             $PharmacyProductRequest->observation = $request->observation;
             $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
             $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
