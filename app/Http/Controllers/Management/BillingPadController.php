@@ -294,7 +294,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -1927,7 +1927,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2038,7 +2038,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2137,7 +2137,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
