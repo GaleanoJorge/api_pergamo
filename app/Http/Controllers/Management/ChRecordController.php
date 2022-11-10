@@ -1231,6 +1231,8 @@ class ChRecordController extends Controller
         $imagenComoBase64 = null;
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->setTimezone('America/Bogota');
 
+        if ($ChRecord[0]['ch_type_id'] != 10) {
+
         if ($ChRecord[0]['firm_file']) {
             $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
             $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
@@ -1238,6 +1240,8 @@ class ChRecordController extends Controller
         } else {
             $imagenPAtient = null;
         }
+
+    }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
 
@@ -2287,6 +2291,7 @@ class ChRecordController extends Controller
             $ChETherGoalsFTEvo = ChETherGoalsFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             //Seguimiento
             $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -2339,6 +2344,7 @@ class ChRecordController extends Controller
                 'ChETherGoalsFTEvo' => $ChETherGoalsFTEvo,
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
+                'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChTracing' => $ChTracing,
 
                 'firmPatient' => $imagenPAtient,
@@ -2637,9 +2643,45 @@ class ChRecordController extends Controller
 
             Storage::disk('public')->put($name, $file);
 
-            // Trabajo Social
+            // Seguimiento
             //////////////////////////////////
 
+        } else if ($ChRecord[0]['ch_type_id'] == 10) {
+            //Seguimiento
+            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                ->get()->toArray();
+
+            $today = Carbon::now();
+            $Patients = $ChRecord[0]['admissions']['patients'];
+
+            // $patient=$ChRecord['admissions'];
+
+            $html = view('mails.tracing', [
+                'chrecord' => $ChRecord,
+                'fecharecord' => $fecharecord,
+                'ChTracing' => $ChTracing,
+                'firm' => $imagenComoBase64,
+                'today' => $today,
+                //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+            ])->render();
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'portrait');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+
+            $name = 'prueba.pdf';
+
+            Storage::disk('public')->put($name, $file);
         }
 
         return response()->json([
@@ -4431,12 +4473,77 @@ class ChRecordController extends Controller
         }
 
 
+        ///Seguimiento
+        /////////////////////////////////
+
+        else if ($request->ch_type == 10) {
+            if (count($ChRecord) > 0) {
+                foreach ($ChRecord as $ch) {
+
+                    $hcAll = [];
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
+                    array_push($hcAll, $ch);
+
+                    $count++;
+
+                    //Seguimiento
+                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                        ->get()->toArray();
+
+                    $today = Carbon::now();
+                    $Patients = $ChRecord[0]['admissions']['patients'];
+
+                    // $patient=$ChRecord['admissions'];
+
+                    $html = view('mails.tracing', [
+                        'chrecord' => $ChRecord,
+                        'ChTracing' => $ChTracing,
+                        'today' => $today,
+                        //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                        //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                        //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
 
 
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', TRUE);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+                    $name = 'prueba.pdf';
+
+                    Storage::disk('public')->put($name, $file);
+                    array_push($documentos, $name);
+                }
 
 
+                # Crear el "combinador"
+                $combinador = new Merger;
 
+                # Agregar archivo en cada iteración
+                foreach ($documentos as $documento) {
+                    $combinador->addFile('storage' . '/' . $documento);
+                }
 
+                # Y combinar o unir
+                $salida = $combinador->merge();
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                Storage::disk('public')->put($name2, $salida);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Historias clinicas asociadas al paciente',
+
+                ]);
+            }
+        }
 
         return response()->json([
             'status' => true,
@@ -4823,8 +4930,9 @@ class ChRecordController extends Controller
                     ->where('admissions_id', $admissions_id)
                     ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                     ->orderBy('created_at', 'ASC')->get()->toArray();
-
-                $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                if ($ChRecord->ch_type_id != 10) {
+                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                }
             }
         }
 
@@ -4841,14 +4949,15 @@ class ChRecordController extends Controller
             $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
             $admissions = Admissions::find($admissions_id);
-            $Location = Location::where('admissions_id', $admissions->id)->first();
+            $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
             $user_id = $admissions->patient_id;
             $locality = Patient::find($admissions->patient_id)->locality_id;
             $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
             $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
             $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-            if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+            
+            $valuetariff = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan) : null;
+            if ($valuetariff != null) {
                 if (count($valuetariff) == 0) {
                     return response()->json([
                         'status' => false,
@@ -4858,6 +4967,7 @@ class ChRecordController extends Controller
                 }
             }
         }
+        
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
 
@@ -4866,10 +4976,8 @@ class ChRecordController extends Controller
 
                 $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
                 $assigned->execution_date = Carbon::now();
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
                 $assigned->save();
-                if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                    $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
-                }
 
                 $assistance = Assistance::where('user_id', $request->user_id)->first();
                 if ($assistance) {
@@ -4923,9 +5031,7 @@ class ChRecordController extends Controller
                     }
                 } else {
                     if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
-                        }
+                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
                     }
                 }
             }
@@ -4966,7 +5072,7 @@ class ChRecordController extends Controller
     public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+        if (($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) && $ManagementPlan->procedure_id) {
             if (!$validate) {
                 $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
@@ -5037,15 +5143,60 @@ class ChRecordController extends Controller
             }
         }
         if ($request->is_failed) {
-            $valuetariff = Tariff::where('failed', 1)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('pad_risk_id', $tariff)
-                ->where('status_id', 1)->get()->toArray();
+            if ($request->is_failed === true || $request->is_failed === "true") {
+                $valuetariff = Tariff::where('failed', 1)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('pad_risk_id', $tariff)
+                    ->where('status_id', 1)->get()->toArray();
+            } else {
+                $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('phone_consult', $ManagementPlan->phone_consult)
+                    ->whereNotNull('failed')->where('failed', 0)
+                    ->where('status_id', 1);
+                $valuetariff = $valuetariff->get()->toArray();
+                if (count($valuetariff) == 0) {
+                    if ($ManagementPlan->phone_consult == 1) {
+                        $valuetariff = Tariff::whereNull('pad_risk_id')
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    } else {
+                        $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    }
+                    // definir cuando la atención es fallida
+                    if ($request->is_failed) {
+                        if ($request->is_failed === true || $request->is_failed === "true") {
+                            $valuetariff->whereNotNull('failed')->where('failed', 1);
+                        } else {
+                            $valuetariff->whereNotNull('failed')->where('failed', 0);
+                        }
+                    } else {
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
+                    }
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                            $valuetariff->where('quantity', $ManagementPlan->hours);
+                        }
+                    } else {
+                        $valuetariff->whereNull('quantity');
+                    }
+                    $valuetariff->where('extra_dose', $extra_dose);
+                    $valuetariff->where('program_id', $Location->program_id);
+                    $valuetariff->where('has_car', $has_car);
+                    $valuetariff = $valuetariff->get()->toArray();
+                }
+            }
         } else {
             $valuetariff = Tariff::where('admissions_id', $admissions_id)
                 ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                 ->where('phone_consult', $ManagementPlan->phone_consult)
-                ->where('failed', 0)
+                ->whereNotNull('failed')->where('failed', 0)
                 ->where('status_id', 1);
             $valuetariff = $valuetariff->get()->toArray();
             if (count($valuetariff) == 0) {
@@ -5054,25 +5205,23 @@ class ChRecordController extends Controller
                         ->where('phone_consult', $ManagementPlan->phone_consult)
                         ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                         ->where('status_id', 1)
-                        ->where('failed', 0)
-                        ->where('program_id', $Location->program_id);
+                        ->whereNotNull('failed')->where('failed', 0);
                 } else {
                     $valuetariff = Tariff::where('pad_risk_id', $tariff)
                         ->where('phone_consult', $ManagementPlan->phone_consult)
                         ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                         ->where('status_id', 1)
-                        ->where('failed', 0)
-                        ->where('program_id', $Location->program_id);
+                        ->whereNotNull('failed')->where('failed', 0);
                 }
                 // definir cuando la atención es fallida
                 if ($request->is_failed) {
-                    if ($request->is_failed == true) {
-                        $valuetariff->where('failed', 1);
+                    if ($request->is_failed === true || $request->is_failed === "true") {
+                        $valuetariff->whereNotNull('failed')->where('failed', 1);
                     } else {
-                        $valuetariff->where('failed', 0);
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
                     }
                 } else {
-                    $valuetariff->where('failed', 0);
+                    $valuetariff->whereNotNull('failed')->where('failed', 0);
                 }
                 if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
                     if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
@@ -5082,6 +5231,7 @@ class ChRecordController extends Controller
                     $valuetariff->whereNull('quantity');
                 }
                 $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff->where('program_id', $Location->program_id);
                 $valuetariff->where('has_car', $has_car);
                 $valuetariff = $valuetariff->get()->toArray();
             }

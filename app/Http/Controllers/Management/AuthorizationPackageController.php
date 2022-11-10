@@ -120,7 +120,7 @@ class AuthorizationPackageController extends Controller
         $Authorization_array = json_decode($request->auth_array);
         $count = 0;
         foreach ($Authorization_array as $item) {
-            $auth_up = Authorization::find($item->id);
+            $auth_up = Authorization::find($item);
             if ($auth_up) {
                 if ($auth_up->location_id) {
                     $Authorization->location_id = $auth_up->location_id;

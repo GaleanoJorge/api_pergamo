@@ -1638,6 +1638,15 @@
         "show_menu": "1"
     },
     {
+        "id": "236",
+        "item_parent_id": "91",
+        "name": "Und.medida Insumos",
+        "code": "supplies-measure",
+        "route": "/pages/setting/supplies-measure",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
         "id": "237",
         "item_parent_id": null,
         "name": "Hospitalizaciones",

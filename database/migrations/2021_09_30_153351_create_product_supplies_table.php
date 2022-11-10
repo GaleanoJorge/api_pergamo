@@ -15,9 +15,6 @@ class CreateProductSuppliesTable extends Migration
         {
                 Schema::create('product_supplies', function (Blueprint $table) {
                         $table->bigIncrements('id');
-                        $table->unsignedBigInteger('product_group_id');
-                        $table->unsignedBigInteger('product_category_id');
-                        $table->unsignedBigInteger('product_subcategory_id');
                         $table->string('size')->nullable();
                         $table->string('measure')->nullable();
                         $table->string('stature')->nullable();

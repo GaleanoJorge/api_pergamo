@@ -1659,13 +1659,13 @@
         </div>
 
         <!-- Insumos -->
-        <div>
+        {{-- <div>
                 @if(count($PharmacyProductRequest) > 0)
 
                 <hr />
 
                 <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">SESIONES</span>
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">ISUMOS</span>
                     <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                 </p>
 
@@ -1676,7 +1676,7 @@
                         <th><span style="font-family:Calibri; font-size:9pt">CANTIDAD</th>
                     </tr>
 
-                    @foreach($ChRtSessions as $ch)
+                    @foreach($PharmacyProductRequest as $ch)
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
@@ -1686,7 +1686,7 @@
 
                     @if(isset($ch['product_supplies']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{$ch['product_supplies']['name']}} </span>
+                            <span style="font-family:Calibri; font-size:9pt">{{ $ch['product_supplies']['description']}} </span>
                         </td>
                         @endisset
 
@@ -1708,7 +1708,7 @@
                 </table>         
 
                 @endisset
-        </div>
+        </div> --}}
 
         <!-- Sesiones -->
         <div>
@@ -2666,7 +2666,7 @@
                         <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</th>
                     </tr>
     
-                    @foreach($ChOxygenTherapy as $ch)
+                    @foreach($ChOxygenTherapyEvo as $ch)
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
@@ -2696,7 +2696,7 @@
         </div>
 
          <!-- Insumos -->
-         <div>
+         {{-- <div>
             @if(count($PharmacyProductRequestEvo) > 0)
 
             <hr />
@@ -2713,7 +2713,7 @@
                     <th><span style="font-family:Calibri; font-size:9pt">CANTIDAD</th>
                 </tr>
 
-                @foreach($ChRtSessionsEvo as $ch)
+                @foreach($PharmacyProductRequestEvo as $ch)
                 <tr>                        
                 @if(isset($ch['created_at']))
                     <td>
@@ -2745,7 +2745,7 @@
             </table>         
 
             @endisset
-        </div>
+        </div> --}}
 
         <!-- Sesiones Evo-->
         <div>

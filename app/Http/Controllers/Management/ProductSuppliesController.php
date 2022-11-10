@@ -51,9 +51,6 @@ class ProductSuppliesController extends Controller
     public function store(ProductSuppliesRequest $request): JsonResponse
     {
         $ProductSupplies = new ProductSupplies;
-        $ProductSupplies->product_group_id = $request->product_group_id;
-        $ProductSupplies->product_category_id = $request->product_category_id;
-        $ProductSupplies->product_subcategory_id = $request->product_subcategory_id;
         $ProductSupplies->size = $request->size;
         $ProductSupplies->measure = $request->measure;
         $ProductSupplies->stature = $request->stature;
@@ -102,9 +99,6 @@ class ProductSuppliesController extends Controller
     public function update(ProductSuppliesRequest $request, int $id): JsonResponse
     {
         $ProductSupplies = ProductSupplies::find($id);
-        $ProductSupplies->product_group_id = $request->product_group_id;
-        $ProductSupplies->product_category_id = $request->product_category_id;
-        $ProductSupplies->product_subcategory_id = $request->product_subcategory_id;
         $ProductSupplies->size = $request->size;
         $ProductSupplies->measure = $request->measure;
         $ProductSupplies->stature = $request->stature;

@@ -578,15 +578,17 @@ class PharmacyProductRequestController extends Controller
             ->groupBy('admissions.id')
             ->get()->toArray();
 
-        $campus_id =  $Admission[0]['campus_id'];
-        $scope_of_attention_id =  $Admission[0]['location'][count($Admission[0]['location']) - 1]['scope_of_attention_id'];
+    $campus_id = count($Admission) > 0 ? $Admission[0]['campus_id'] : null;
+    $scope_of_attention_id = count($Admission) > 0 ? $Admission[0]['location'][count($Admission[0]['location']) - 1]['scope_of_attention_id'] : null;
 
+    if ($campus_id) {
         $pharmacy = PharmacyStock::select('pharmacy_stock.*')
             ->leftJoin('services_pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
             ->where('pharmacy_stock.campus_id', $campus_id)
             ->where('services_pharmacy_stock.scope_of_attention_id', $scope_of_attention_id)
             ->groupBy('pharmacy_stock.id')
             ->get()->toArray();
+    }
 
         $PharmacyProductRequest = new PharmacyProductRequest;
         $PharmacyProductRequest->request_amount = $request->request_amount;
@@ -1225,6 +1227,13 @@ class PharmacyProductRequestController extends Controller
                         }
                     }
                 }
+            }
+            if ($request->status == "RECHAZADO") {
+                //$PharmacyProductRequest->status = $request->status;
+                $PharmacyProductRequest->request_amount = 0;
+                $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->user_request_id = $request->user_request_id;
+                $PharmacyProductRequest->save();
             }
         } else {
 
