@@ -91,6 +91,14 @@ class AssignedManagementPlanController extends Controller
             ->orderBy('assigned_management_plan.start_hour', 'ASC')
             ;
 
+        if ($request->start_date) {
+            $assigned_management_plan->where('assigned_management_plan.start_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $assigned_management_plan->where('assigned_management_plan.start_date', '<=', $request->finish_date);
+        }
+
         if ($campus_id != 0) {
             $assigned_management_plan->where('admissions.campus_id', $campus_id);
         }

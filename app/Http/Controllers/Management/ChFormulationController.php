@@ -68,6 +68,8 @@ class ChFormulationController extends Controller
                 'administration_route',
                 'hourly_frequency',
                 'product_generic',
+                'pharmacy_product_request',
+                'pharmacy_product_request.many_pharmacy_request_shipping',
                 'product_generic.drug_concentration',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',

@@ -4747,30 +4747,6 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
 
-        if ($request->ch_interconsultation_id) {
-            $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
-                ->select(
-                    'ch_record.*',
-                    'location.admission_route_id AS admission_route_id'
-                )
-                ->with('ch_interconsultation')
-                ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
-                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
-                ->get()->toArray();
-
-            $ch_interconsultation_val = ChInterconsultation::find($request->ch_interconsultation_id);
-
-            if ($ChRecord_val[0]['admission_route_id'] == 1) {
-                $Authorization = new Authorization;
-                $Authorization->services_briefcase_id = $ch_interconsultation_val->services_briefcase_id;
-                $Authorization->ch_interconsultation_id = $request->ch_interconsultation_id;
-                $Authorization->admissions_id = $ChRecord_val[0]['admissions_id'];
-                $Authorization->auth_status_id = 1;
-                $Authorization->save();
-            }
-        }
-
-
         return response()->json([
             'status' => true,
             'message' => 'Registro paciente asociado al paciente exitosamente',
@@ -4806,14 +4782,15 @@ class ChRecordController extends Controller
     {
         $ChRecord = ChRecord::find($id);
         $admissions_id = $ChRecord->admissions_id;
-        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id);
+        $ChRecordExist = ChRecord::select('ch_record.*')->where('admissions_id', $admissions_id);
         if ($ChRecord->assigned_management_plan_id) {
             $ChRecordExist->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id);
         }
         if ($ChRecord->ch_interconsultation_id) {
             $ChRecordExist->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id);
         }
-        $ChRecordExist->orderBy('created_at', 'ASC')->first();
+        $ChRecordExist->orderBy('created_at', 'ASC');
+        $ChRecordExist = $ChRecordExist->get()->toArray();
 
         $ChRecord->status = $request->status;
 
@@ -4834,8 +4811,9 @@ class ChRecordController extends Controller
                         ->where('admissions_id', $admissions_id)
                         ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                         ->orderBy('created_at', 'ASC')->get()->toArray();
-
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    if (count ($firm_ch_record) > 0) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         } else {
@@ -4884,7 +4862,7 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
         if ($ChRecord->assigned_management_plan_id) {
-            if ($ChRecordExist->date_finish == '0000-00-00') {
+            if ($ChRecordExist[0]['date_finish'] == '0000-00-00 00:00:00') {
 
                 $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
                 $assigned->execution_date = Carbon::now();
@@ -4950,6 +4928,29 @@ class ChRecordController extends Controller
                         }
                     }
                 }
+            }
+        }
+
+        $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
+        ->select(
+            'ch_record.*',
+            'location.admission_route_id AS admission_route_id'
+            )
+            ->with('ch_interconsultation')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->get()->toArray();
+            
+        if ($ChRecord_val[0]['ch_interconsultation_id'] != null) {
+            $ch_interconsultation_val = ChInterconsultation::find($ChRecord_val[0]['ch_interconsultation_id']);
+
+            if ($ChRecord_val[0]['admission_route_id'] == 1) {
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $ch_interconsultation_val->services_briefcase_id;
+                $Authorization->ch_interconsultation_id = $ChRecord_val[0]['ch_interconsultation_id'];
+                $Authorization->admissions_id = $ChRecord_val[0]['admissions_id'];
+                $Authorization->auth_status_id = 1;
+                $Authorization->save();
             }
         }
 

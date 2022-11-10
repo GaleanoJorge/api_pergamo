@@ -2924,7 +2924,26 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $BillingPad = $this->getBillingPadInformation($id);
         $multiplicate = false;
         if ($request->selected_procedures) {
-            $selected_procedures = json_decode($request->selected_procedures, true);
+            $ids = json_decode($request->selected_procedures, true);
+            $selected_procedures = Authorization::select('authorization.*')
+            ->with(
+                'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
+                'services_briefcase.manual_price.procedure',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'manual_price.procedure',
+            )
+            ->whereIn('authorization.admissions_id', $ids)->get()->toArray();
         } else if ($request->admission_id) {
             $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
             $multiplicate = true;
@@ -2961,6 +2980,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         $selected_procedures[$i]['product_com']['code_cum'] : null));
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
             $selected_procedures[$i]['services_briefcase']['value'] = $element['services_briefcase']['value'];
+            $b = '';
             if ($element['assigned_management_plan'] || $element['fixed_add_id']) {
                 $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
                 $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'] : "";
@@ -2985,13 +3005,14 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'services_briefcase.manual_price',
                     'product_com',
                     'supplies_com',
+                    'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
                     'assigned_management_plan.management_plan',
                     'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
-                    'manual_price.procedure'
+                    'manual_price.procedure',
                 )->get()->toArray();
                 foreach ($packedAuthAux as $e) {
                     if ($e['assigned_management_plan']) {

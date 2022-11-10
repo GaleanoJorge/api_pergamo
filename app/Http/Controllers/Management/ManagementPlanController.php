@@ -473,6 +473,10 @@ class ManagementPlanController extends Controller
             $ch_formulation = ChFormulation::find($request->ch_formulation_id);
             $ch_formulation->management_plan_id = $ManagementPlan->id;
             $ch_formulation->save();
+
+            $PharmacyProductRequest =  PharmacyProductRequest::find($ch_formulation->pharmacy_product_request_id);
+            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+            $PharmacyProductRequest->save();
         }
 
         if (!$request->hospital) {
