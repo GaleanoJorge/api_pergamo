@@ -1239,7 +1239,14 @@ class ChRecordController extends Controller
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
         } else {
             $imagenPAtient = null;
+            return response()->json([
+                'status' => false,
+                'message' => 'No se cuenta con la firma del paciente para generar este documento',
+
+            ]);
+    
         }
+
 
     }
 
