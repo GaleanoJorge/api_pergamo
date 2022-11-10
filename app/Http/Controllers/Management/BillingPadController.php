@@ -295,7 +295,8 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
-                'm' => $e,
+                'm' => $e->getMessage(),
+                'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -1927,7 +1928,8 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
-                'm' => $e,
+                'm' => $e->getMessage(),
+                'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2037,7 +2039,8 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
-                'm' => $e,
+                'm' => $e->getMessage(),
+                'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
@@ -2135,7 +2138,8 @@ class BillingPadController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
-                'm' => $e,
+                'm' => $e->getMessage(),
+                'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
             ]);
         }
