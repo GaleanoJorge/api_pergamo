@@ -4736,7 +4736,7 @@ class ChRecordController extends Controller
         $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
         $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
         $admissions = Admissions::find($admissions_id);
-        $Location = Location::where('admissions_id', $admissions->id)->first();
+        $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
         $user_id = $admissions->patient_id;
         $locality = Patient::find($admissions->patient_id)->locality_id;
         $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
@@ -4827,33 +4827,35 @@ class ChRecordController extends Controller
     public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        if (!$validate) {
-            $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
-            //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
-            $AccountReceivable = new AccountReceivable;
-            $AccountReceivable->user_id = $request->user_id;
-            $AccountReceivable->status_bill_id = 1;
-            $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-            $AccountReceivable->save();
-            $billActivity = new BillUserActivity;
-            $billActivity->procedure_id = $ManagementPlan->procedure_id;
-            $billActivity->account_receivable_id = $AccountReceivable->id;
-            $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-            $billActivity->admissions_id = $admissions_id;
-            $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $valuetariff[0]['id'] : null;
-            $billActivity->ch_record_id = $id;
-            $billActivity->save();
-        } else {
-            $AccountReceivable = AccountReceivable::find($validate[0]['id']);
-            $billActivity = new BillUserActivity;
-            $billActivity->procedure_id = $ManagementPlan->procedure_id;
-            $billActivity->account_receivable_id = $validate[0]['id'];
-            $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
-            $billActivity->admissions_id = $admissions_id;
-            $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $valuetariff[0]['id'] : null;
-            $billActivity->ch_record_id = $id;
-            $billActivity->save();
-        };
+        if (($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) && $ManagementPlan->procedure_id) {
+            if (!$validate) {
+                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
+                //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $request->user_id;
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->save();
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $AccountReceivable->id;
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            } else {
+                $AccountReceivable = AccountReceivable::find($validate[0]['id']);
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $ManagementPlan->procedure_id;
+                $billActivity->account_receivable_id = $validate[0]['id'];
+                $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->ch_record_id = $id;
+                $billActivity->save();
+            };
+        }
     }
 
     public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
@@ -4896,15 +4898,60 @@ class ChRecordController extends Controller
             }
         }
         if ($request->is_failed) {
-            $valuetariff = Tariff::where('failed', 1)
-                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
-                ->where('pad_risk_id', $tariff)
-                ->where('status_id', 1)->get()->toArray();
+            if ($request->is_failed === true || $request->is_failed === "true") {
+                $valuetariff = Tariff::where('failed', 1)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('pad_risk_id', $tariff)
+                    ->where('status_id', 1)->get()->toArray();
+            } else {
+                $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('phone_consult', $ManagementPlan->phone_consult)
+                    ->whereNotNull('failed')->where('failed', 0)
+                    ->where('status_id', 1);
+                $valuetariff = $valuetariff->get()->toArray();
+                if (count($valuetariff) == 0) {
+                    if ($ManagementPlan->phone_consult == 1) {
+                        $valuetariff = Tariff::whereNull('pad_risk_id')
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    } else {
+                        $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    }
+                    // definir cuando la atención es fallida
+                    if ($request->is_failed) {
+                        if ($request->is_failed === true || $request->is_failed === "true") {
+                            $valuetariff->whereNotNull('failed')->where('failed', 1);
+                        } else {
+                            $valuetariff->whereNotNull('failed')->where('failed', 0);
+                        }
+                    } else {
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
+                    }
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                            $valuetariff->where('quantity', $ManagementPlan->hours);
+                        }
+                    } else {
+                        $valuetariff->whereNull('quantity');
+                    }
+                    $valuetariff->where('extra_dose', $extra_dose);
+                    $valuetariff->where('program_id', $Location->program_id);
+                    $valuetariff->where('has_car', $has_car);
+                    $valuetariff = $valuetariff->get()->toArray();
+                }
+            }
         } else {
             $valuetariff = Tariff::where('admissions_id', $admissions_id)
                 ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                 ->where('phone_consult', $ManagementPlan->phone_consult)
-                ->where('failed', 0)
+                ->whereNotNull('failed')->where('failed', 0)
                 ->where('status_id', 1);
             $valuetariff = $valuetariff->get()->toArray();
             if (count($valuetariff) == 0) {
@@ -4913,25 +4960,23 @@ class ChRecordController extends Controller
                         ->where('phone_consult', $ManagementPlan->phone_consult)
                         ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                         ->where('status_id', 1)
-                        ->where('failed', 0)
-                        ->where('program_id', $Location->program_id);
+                        ->whereNotNull('failed')->where('failed', 0);
                 } else {
                     $valuetariff = Tariff::where('pad_risk_id', $tariff)
                         ->where('phone_consult', $ManagementPlan->phone_consult)
                         ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                         ->where('status_id', 1)
-                        ->where('failed', 0)
-                        ->where('program_id', $Location->program_id);
+                        ->whereNotNull('failed')->where('failed', 0);
                 }
                 // definir cuando la atención es fallida
                 if ($request->is_failed) {
-                    if ($request->is_failed == true) {
-                        $valuetariff->where('failed', 1);
+                    if ($request->is_failed === true || $request->is_failed === "true") {
+                        $valuetariff->whereNotNull('failed')->where('failed', 1);
                     } else {
-                        $valuetariff->where('failed', 0);
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
                     }
                 } else {
-                    $valuetariff->where('failed', 0);
+                    $valuetariff->whereNotNull('failed')->where('failed', 0);
                 }
                 if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
                     if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
@@ -4941,6 +4986,7 @@ class ChRecordController extends Controller
                     $valuetariff->whereNull('quantity');
                 }
                 $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff->where('program_id', $Location->program_id);
                 $valuetariff->where('has_car', $has_car);
                 $valuetariff = $valuetariff->get()->toArray();
             }
