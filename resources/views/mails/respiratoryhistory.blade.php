@@ -1659,7 +1659,7 @@
         </div>
 
         <!-- Insumos -->
-        <div>
+        {{-- <div>
                 @if(count($PharmacyProductRequest) > 0)
 
                 <hr />
@@ -1708,7 +1708,7 @@
                 </table>         
 
                 @endisset
-        </div>
+        </div> --}}
 
         <!-- Sesiones -->
         <div>
