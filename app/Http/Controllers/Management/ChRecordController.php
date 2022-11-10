@@ -1184,10 +1184,12 @@ class ChRecordController extends Controller
             $imagenPAtient = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se cuenta con la firma del paciente para generar este documento',
 
             ]);
+    
         }
+
 
     }
 
