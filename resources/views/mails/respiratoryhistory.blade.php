@@ -1686,7 +1686,7 @@
 
                     @if(isset($ch['product_supplies']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{$ch['product_supplies']['description'] ? $ch['product_supplies']['description'] : 'No registra'}} </span>
+                            <span style="font-family:Calibri; font-size:9pt">{{ $ch['product_supplies']['description']}} </span>
                         </td>
                         @endisset
 
