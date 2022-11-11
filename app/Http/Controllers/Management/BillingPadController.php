@@ -295,7 +295,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2036,7 +2036,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2142,18 +2142,24 @@ class BillingPadController extends Controller
                         $Auth_B->save();
                     }
                 }
+                $a = 1;
+                if ($conponent['authorization']['quantity']) {
+                    if ($conponent['authorization']['quantity'] >= 1) {
+                        $a = $conponent['authorization']['quantity']; 
+                    }
+                }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
                 if ($conponent['authorization']['services_briefcase']) {
-                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'] * $a;
                 } else {
-                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'] * $a;
                 }
                 $AuthBillingPad->save();
             }
 
-            $this->generateBillingDat(1, $id);
+            $this->generateBillingDat(1, $NCBillingPad->id);
 
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
@@ -2169,13 +2175,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPad]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2236,7 +2242,7 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $BillingPadPgp->id);
+            $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->startOfMonth();
             $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->endOfMonth();
@@ -2268,13 +2274,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPadPgp]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -3018,11 +3024,13 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     if ($e['assigned_management_plan']) {
                         $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
                         $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                        array_push($services_date, $A);
                     } else if ($e['ch_interconsultation']) {
                         foreach ($element['ch_interconsultation']['many_ch_record'] as $rec) {
                             if ($rec['status'] === 'CERRADO') {
                                 $A = $rec['date_finish'];
                                 $b = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                                array_push($services_date, $A);
                             }
                         }
                     }
