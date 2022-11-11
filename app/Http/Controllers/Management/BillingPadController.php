@@ -2115,7 +2115,21 @@ class BillingPadController extends Controller
             )
                 ->where('billing_pad_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
+
+                $a = 1;
+                if ($conponent['authorization']['quantity']) {
+                    if ($conponent['authorization']['quantity'] >= 1) {
+                        $a = $conponent['authorization']['quantity']; 
+                    }
+                }
+
                 if ($conponent['authorization']['location_id']) {
+                    $start_date = Carbon::parse($conponent['authorization']['created_at'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = $conponent['authorization']['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($conponent['authorization']['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $diff = $start_date->diffInDays($finish_date) + 1;
+                    $conponent['authorization']['quantity'] = $diff;
+                    $a = $conponent['authorization']['quantity'];
+                    
                     $Location = Location::find($conponent['authorization']['location_id']);
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
                         $Auth_A = Authorization::find($conponent['authorization_id']);
@@ -2142,12 +2156,7 @@ class BillingPadController extends Controller
                         $Auth_B->save();
                     }
                 }
-                $a = 1;
-                if ($conponent['authorization']['quantity']) {
-                    if ($conponent['authorization']['quantity'] >= 1) {
-                        $a = $conponent['authorization']['quantity']; 
-                    }
-                }
+
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
