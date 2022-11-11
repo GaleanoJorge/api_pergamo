@@ -294,7 +294,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -1927,7 +1927,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2038,13 +2038,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPad]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2137,13 +2137,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPadPgp]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ocurrió un error al momento de facturar:' . $e->getLine() . ' - ' . $e->getMessage(),
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
