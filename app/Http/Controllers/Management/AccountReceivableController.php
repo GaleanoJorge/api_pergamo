@@ -259,6 +259,8 @@ class AccountReceivableController extends Controller
         $AccountReceivable->file_payment = $request->file_payment;
         $AccountReceivable->observation = $request->observation;
         $AccountReceivable->gross_value_activities = $request->gross_value_activities;
+        $AccountReceivable->source_retention = $request->source_retention;
+        $AccountReceivable->ica_retention = $request->ica_retention;
         $AccountReceivable->net_value_activities = $request->net_value_activities;
         $AccountReceivable->user_id = $request->user_id;
         $AccountReceivable->status_bill_id = $request->status_bill_id;

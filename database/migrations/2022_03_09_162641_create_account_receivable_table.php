@@ -18,6 +18,8 @@ class CreateAccountReceivableTable extends Migration
             $table->string('file_payment')->nullable();
             $table->string('observation')->nullable();
             $table->double('gross_value_activities')->nullable();
+            $table->double('source_retention')->nullable();
+            $table->double('ica_retention')->nullable();
             $table->double('net_value_activities')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('status_bill_id')->nullable();
