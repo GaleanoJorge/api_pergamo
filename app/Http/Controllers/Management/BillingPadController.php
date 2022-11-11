@@ -2005,13 +2005,19 @@ class BillingPadController extends Controller
                 )
             ->where('billing_pad_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
+                $a = 1;
+                if ($conponent['authorization']['quantity']) {
+                    if ($conponent['authorization']['quantity'] >= 1) {
+                        $a = $conponent['authorization']['quantity']; 
+                    }
+                }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
                 if ($conponent['authorization']['services_briefcase']) {
-                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'] * $a;
                 } else {
-                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'] * $a;
                 }
                 $AuthBillingPad->save();
             }
