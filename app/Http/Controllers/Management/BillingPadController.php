@@ -2369,8 +2369,8 @@ class BillingPadController extends Controller
                 $value = $Auth[0]['services_briefcase']['value'] * $q;
                 $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
-                $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
-                $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
+                $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
+                $Auth[0]['services_briefcase']['manual_price']['own_code'] : ($Auth[0]['supplies_com'] ?
                     $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
                         $Auth[0]['product_com']['code_cum'] : null));
 
@@ -2767,8 +2767,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             }
             $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
             $quantity += $q;
-            $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
-                $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
+            $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
+                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : ($selected_procedures[$i]['supplies_com'] ?
                     $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
                         $selected_procedures[$i]['product_com']['code_cum'] : null));
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
@@ -2816,7 +2816,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         $j++;
                     }
                 } else {
-                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
@@ -2824,7 +2824,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     array_push($view_services, $a);
                 }
             } else {
-                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
