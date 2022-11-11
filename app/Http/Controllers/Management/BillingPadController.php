@@ -2015,9 +2015,9 @@ class BillingPadController extends Controller
                 }
                 $AuthBillingPad->save();
             }
-            
-            $this->generateBillingDat(1, $id);
-            
+
+            $this->generateBillingDat(1, $NCBillingPad->id);
+
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -2099,7 +2099,7 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $BillingPadPgp->id);
+            $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->startOfMonth();
             $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->endOfMonth();
