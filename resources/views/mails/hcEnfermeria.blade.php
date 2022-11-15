@@ -1123,9 +1123,7 @@
             </div>
             <!-- Rx Signos Vitales-->
         <div>
-                @if(count($ChVitalSigns) > 0)
-                @foreach($ChVitalSigns as $ch)
-
+                @if(count($ChVitalSignsNE) > 0)            
                 <hr />
 
                 <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
@@ -1133,6 +1131,8 @@
                     <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
                 </p>
                 <br>
+                @foreach($ChVitalSignsNE as $ch)
+              
         <!-- Requeridos-->
         <div>
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
