@@ -98,7 +98,9 @@ class AccountReceivableController extends Controller
                 DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
                 // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
                 DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
+                DB::raw("SUM(IF(bill_user_activity.status != 'APROBADO',1,0)) AS pendientes"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
+            ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
             ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
@@ -109,6 +111,10 @@ class AccountReceivableController extends Controller
             $AccountReceivable->orderBy('account_receivable.id', 'desc');
         } else {
             $AccountReceivable->groupBy('users.id');
+        }
+
+        if ($request->contract_type_id) {
+            $AccountReceivable->where('assistance.contract_type_id', $request->contract_type_id);
         }
 
         if ($request->_sort) {
