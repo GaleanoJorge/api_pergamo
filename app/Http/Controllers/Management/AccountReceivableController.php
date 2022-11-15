@@ -103,7 +103,9 @@ class AccountReceivableController extends Controller
             ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
-            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
+            ->LeftJoin('user_campus', 'user_campus.user_id', 'users.id')
+            ;
 
         if ($user_id != 0) {
             $AccountReceivable->groupBy('account_receivable.id');
@@ -111,6 +113,10 @@ class AccountReceivableController extends Controller
             $AccountReceivable->orderBy('account_receivable.id', 'desc');
         } else {
             $AccountReceivable->groupBy('users.id');
+        }
+
+        if ($request->campus_id) {
+            $AccountReceivable->where('user_campus.campus_id', $request->campus_id);
         }
 
         if ($request->contract_type_id) {
@@ -196,8 +202,8 @@ class AccountReceivableController extends Controller
             });
         }
 
-        if ($request->campus && isset($request->campus) && $request->campus != 'null') {
-            $Patients->where('admissions.campus_id', $request->campus);
+        if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
+            $Patients->where('admissions.campus_id', $request->campus_id);
         }
 
         if ($request->query("pagination", true) == "false") {
