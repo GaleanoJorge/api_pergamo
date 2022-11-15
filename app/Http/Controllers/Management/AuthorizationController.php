@@ -247,6 +247,11 @@ class AuthorizationController extends Controller
                 ->where('location.program_id', $request->program_id);
         }
 
+        if ($request->scope_of_attention_id != 'null' && isset($request->scope_of_attention_id)) {
+            $Authorization
+                ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
+        }
+
         if ($request->type_of_attention_id != 'null' && isset($request->type_of_attention_id)) {
             $Authorization->when('assigned_management_plan_id' != null, function ($query) use ($request) {
                 $query->where('management_plan.type_of_attention_id', $request->type_of_attention_id);

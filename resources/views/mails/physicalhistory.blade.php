@@ -2097,7 +2097,7 @@
         <div>
             @if(count($ChEValorationFTEvo) > 0 || count($ChVitalSignsEvo) > 0  || 
                  
-                 count($ChETherGoalsFTEvo) > 0 || count($ChEDiagnosisFTEvo) > 0 || count($ChEWeeklyFTEvo) > 0  )
+                count($ChETherGoalsFTEvo) > 0 || count($ChEDiagnosisFTEvo) > 0 || count($ChEWeeklyFTEvo) > 0  || count($ChEMSAssessmentOTNT) > 0 )
 
             <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                 REGULAR<br>
@@ -2580,9 +2580,8 @@
             @endisset
         </div>
 
-
-              <!-- Intervención -->
-              <div>
+        <!-- Intervención -->
+        <div>
                 @if(count($ChEMSAssessmentOTNT) > 0)
     
                 <hr />
@@ -2621,13 +2620,11 @@
     
                
                 @endisset
-            </div> 
+        </div> 
+        
     
-    
-    
-    
-             <!-- Materiales Utilizados-->
-             <div>
+        <!-- Materiales Utilizados-->
+        <div>
                 @if(count($ChNRMaterialsFT) > 0)
     
                 <hr />
@@ -2638,63 +2635,63 @@
                 </p>
     
     
-            <table class="tablehc">
-                <tr>
-                    <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
-                    <th><span style="font-family:Calibri; font-size:9pt">MATERIALES E INSUMOS UTILIZADOS</th>
-                </tr>
+                <table class="tablehc">
+                    <tr>
+                        <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
+                        <th><span style="font-family:Calibri; font-size:9pt">MATERIALES E INSUMOS UTILIZADOS</th>
+                    </tr>
+        
+                    @foreach($ChNRMaterialsFT as $ch)
+                    <tr>                        
+                    @if(isset($ch['created_at']))
+                        <td>
+                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        </td>
+                        @endisset
     
-                @foreach($ChNRMaterialsFT as $ch)
-                <tr>                        
-                @if(isset($ch['created_at']))
-                    <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
-                    </td>
-                    @endisset
-  
-                    <td>
-                        <span style="font-family:Calibri; font-size:9pt">
-                            @if(isset($ch['Material_1'])) {{$ch['Material_1']}} @endisset 
-                            @if(isset($ch['Material_2']))<br/>  {{$ch['Material_2']}} @endisset 
-                            @if(isset($ch['Material_3']))  <br/>{{$ch['Material_3']}} @endisset 
-                            @if(isset($ch['Material_4'])) <br/> {{$ch['Material_4']}} @endisset 
-                            @if(isset($ch['Material_5'])) {{$ch['Material_5']}} @endisset 
-                            @if(isset($ch['Material_6']))<br/>  {{$ch['Material_6']}} @endisset 
-                            @if(isset($ch['Material_7']))  <br/>{{$ch['Material_7']}} @endisset 
-                            @if(isset($ch['Material_8'])) <br/> {{$ch['Material_8']}} @endisset 
-                            @if(isset($ch['Material_9'])) {{$ch['Material_9']}} @endisset 
-                            @if(isset($ch['Material_10']))<br/>  {{$ch['Material_10']}} @endisset 
-                            @if(isset($ch['Material_11']))  <br/>{{$ch['Material_11']}} @endisset 
-                            @if(isset($ch['Material_12'])) <br/> {{$ch['Material_12']}} @endisset 
-                            @if(isset($ch['Material_13'])) {{$ch['Material_13']}} @endisset 
-                            @if(isset($ch['Material_14']))<br/>  {{$ch['Material_14']}} @endisset 
-                            @if(isset($ch['Material_15']))  <br/>{{$ch['Material_15']}} @endisset 
-                            @if(isset($ch['Material_16'])) <br/> {{$ch['Material_16']}} @endisset 
-                            @if(isset($ch['Material_17'])) {{$ch['Material_17']}} @endisset 
-                            @if(isset($ch['Material_18']))<br/>  {{$ch['Material_18']}} @endisset 
-                            @if(isset($ch['Material_19']))  <br/>{{$ch['Material_19']}} @endisset 
-                            @if(isset($ch['Material_20'])) <br/> {{$ch['Material_20']}} @endisset 
-                            @if(isset($ch['Material_21'])) {{$ch['Material_21']}} @endisset 
-                            @if(isset($ch['Material_22']))<br/>  {{$ch['Material_22']}} @endisset 
-                            @if(isset($ch['Material_23']))  <br/>{{$ch['Material_23']}} @endisset 
-                            @if(isset($ch['Material_24'])) <br/> {{$ch['Material_24']}} @endisset 
-                            @if(isset($ch['Material_25'])) {{$ch['Material_25']}} @endisset 
-                            @if(isset($ch['Material_26']))<br/>  {{$ch['Material_26']}} @endisset 
-                            @if(isset($ch['Material_27']))  <br/>{{$ch['Material_27']}} @endisset 
-                            @if(isset($ch['Material_28'])) <br/> {{$ch['Material_28']}} @endisset 
-                            @if(isset($ch['Material_29'])) <br/> {{$ch['Material_29']}} @endisset 
+                        <td>
+                            <span style="font-family:Calibri; font-size:9pt">
+                                @if(isset($ch['Material_1'])) {{$ch['Material_1']}} @endisset 
+                                @if(isset($ch['Material_2']))<br/>  {{$ch['Material_2']}} @endisset 
+                                @if(isset($ch['Material_3']))  <br/>{{$ch['Material_3']}} @endisset 
+                                @if(isset($ch['Material_4'])) <br/> {{$ch['Material_4']}} @endisset 
+                                @if(isset($ch['Material_5'])) {{$ch['Material_5']}} @endisset 
+                                @if(isset($ch['Material_6']))<br/>  {{$ch['Material_6']}} @endisset 
+                                @if(isset($ch['Material_7']))  <br/>{{$ch['Material_7']}} @endisset 
+                                @if(isset($ch['Material_8'])) <br/> {{$ch['Material_8']}} @endisset 
+                                @if(isset($ch['Material_9'])) {{$ch['Material_9']}} @endisset 
+                                @if(isset($ch['Material_10']))<br/>  {{$ch['Material_10']}} @endisset 
+                                @if(isset($ch['Material_11']))  <br/>{{$ch['Material_11']}} @endisset 
+                                @if(isset($ch['Material_12'])) <br/> {{$ch['Material_12']}} @endisset 
+                                @if(isset($ch['Material_13'])) {{$ch['Material_13']}} @endisset 
+                                @if(isset($ch['Material_14']))<br/>  {{$ch['Material_14']}} @endisset 
+                                @if(isset($ch['Material_15']))  <br/>{{$ch['Material_15']}} @endisset 
+                                @if(isset($ch['Material_16'])) <br/> {{$ch['Material_16']}} @endisset 
+                                @if(isset($ch['Material_17'])) {{$ch['Material_17']}} @endisset 
+                                @if(isset($ch['Material_18']))<br/>  {{$ch['Material_18']}} @endisset 
+                                @if(isset($ch['Material_19']))  <br/>{{$ch['Material_19']}} @endisset 
+                                @if(isset($ch['Material_20'])) <br/> {{$ch['Material_20']}} @endisset 
+                                @if(isset($ch['Material_21'])) {{$ch['Material_21']}} @endisset 
+                                @if(isset($ch['Material_22']))<br/>  {{$ch['Material_22']}} @endisset 
+                                @if(isset($ch['Material_23']))  <br/>{{$ch['Material_23']}} @endisset 
+                                @if(isset($ch['Material_24'])) <br/> {{$ch['Material_24']}} @endisset 
+                                @if(isset($ch['Material_25'])) {{$ch['Material_25']}} @endisset 
+                                @if(isset($ch['Material_26']))<br/>  {{$ch['Material_26']}} @endisset 
+                                @if(isset($ch['Material_27']))  <br/>{{$ch['Material_27']}} @endisset 
+                                @if(isset($ch['Material_28'])) <br/> {{$ch['Material_28']}} @endisset 
+                                @if(isset($ch['Material_29'])) <br/> {{$ch['Material_29']}} @endisset 
 
-                          
-                    </span> 
-                 
-                                        
-                </tr>
-                @endforeach
+                            
+                        </span> 
+                    
+                                            
+                    </tr>
+                    @endforeach
+        
+                </table>
     
-            </table>
-    
-            @endisset
-            </div> 
+                @endisset
+        </div> 
     
     
 
