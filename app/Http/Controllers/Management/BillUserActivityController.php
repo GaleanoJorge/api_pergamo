@@ -121,7 +121,7 @@ class BillUserActivityController extends Controller
                 $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
-                $tariff_id = $valuetariff;
+                $tariff_id = $valuetariff[0]['id'];
                 $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
 
                 $aaa++;
