@@ -118,6 +118,10 @@ class PatientController extends Controller
             $patients->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->identification) {
+            $patients->where('identification', $request->identification);
+        }
+
         if ($request->search) {
             $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')

@@ -778,6 +778,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
+    //Consultorio
+    Route::get('office_by_campus', 'Management\BedController@getOfficeByCampus');
 
     Route::get(
         'bedbyPacient',
@@ -889,8 +891,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //frecuencia para plan de manejo PAD
     Route::apiResource('frequency', 'Management\FrequencyController');
 
-
+    //consulta externa
     Route::apiResource('medical_diary', 'Management\MedicalDiaryController');
+    Route::patch('medical_diary/{id}/changeStatus', 'Management\MedicalDiaryController@changeStatus');
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
     //Estado Plan de manejo 
@@ -1801,10 +1804,24 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('user_agreement', 'Management\UserAgreementController');
     Route::post('AgreementPackage', 'Management\UserAgreementController@updateAgreement');
 
+    //CUPS por asistencial
+    Route::apiResource('assistance_procedure', 'Management\AssistanceProcedureController');
+    Route::post('cups_package', 'Management\AssistanceProcedureController@updateCups');
+
 
     //days
     Route::apiResource('days', 'Management\DaysController');
 
+    //non-working days
+    Route::apiResource('non_working_days', 'Management\NonWorkingDaysController');
+
+    //medical diary days
+    Route::apiResource('medical_diary_days', 'Management\MedicalDiaryDaysController');
+    Route::patch('medical_diary_days/{id}/changeStatus', 'Management\MedicalDiaryDaysController@ChangeStatus');
+
+
+    //Estados de la cita medica
+    Route::apiResource('medical_status', 'Management\MedicalStatusController');
     //interoperabilidad
     Route::post('interoperavility', 'Management\ChRecordController@interoperavility');
 
@@ -1826,4 +1843,11 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('tracing', 'Management\TracingController');
     Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
 
+    //Parametros de copago
+    Route::apiResource('copay_parameters', 'Management\CopayParametersController');
+    Route::patch('copay_parameters/{id}/changeStatus', 'Management\CopayParametersController@ChangeStatus');
+
+    //reason cancel
+    Route::apiResource('reason_cancel', 'Management\ReasonCancelController');
+    Route::patch('reason_cancel/{id}/changeStatus', 'Management\ReasonCancelController@ChangeStatus');
 });

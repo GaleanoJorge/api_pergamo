@@ -103,6 +103,11 @@ class ServicesBriefcaseController extends Controller
             }
         }
 
+        //External consult CUPS atention
+        if($request->cups_selected_id){
+            $ServicesBriefcase->where('manual_price.procedure_id', $request->cups_selected_id);
+        }
+
         if ($request->search) {
             $ServicesBriefcase->where(function ($query) use ($request) {
                 $query->where('procedure.name', 'like', '%' . $request->search . '%')
@@ -226,7 +231,8 @@ class ServicesBriefcaseController extends Controller
             ->with('manual_price')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->where('services_briefcase.briefcase_id', $briefcaseId)
-            ->where('manual_price.manual_procedure_type_id', 3)->get()->toArray();
+            ->where('manual_price.manual_procedure_type_id', 3)
+            ->groupBy('services_briefcase.id')->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Portafolio por contrato obtenido exitosamente',

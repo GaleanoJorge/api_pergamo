@@ -13,6 +13,7 @@ use App\Models\BillingPad;
 use App\Models\Briefcase;
 use App\Models\ChInterconsultation;
 use App\Models\LogAdmissions;
+use App\Models\MedicalDiaryDays;
 use App\Models\Patient;
 use App\Models\Reference;
 use App\Models\TypeContract;
@@ -587,6 +588,43 @@ class AdmissionsController extends Controller
                 $Authorization->save();
             }
 
+            if ($Admissions->procedure_id) {
+                if($request->ambulatory_data && $request->ambulatory_data != 'null'){
+
+                    $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
+                    $medical_diary_days->admissions_id = $Admissions->id;
+                    $medical_diary_days->medical_status_id = 4;
+                    $medical_diary_days->copay_id = $request->copay_id;
+                    $medical_diary_days->copay_value = $request->copay_value;
+                    $medical_diary_days->save();
+    
+                    $Authorization = new Authorization;
+                    $Authorization->services_briefcase_id =  $medical_diary_days->services_briefcase_id;
+                    $Authorization->admissions_id = $Admissions->id;
+                    $Authorization->medical_diary_days_id = $request->ambulatory_data;
+                    $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+                    if ($validate->type_auth == 1) {
+                        $Authorization->auth_status_id =  2;
+                    } else {
+                        $Authorization->auth_status_id =  1;
+                    }
+                    $Authorization->save();
+                    
+                } else {
+                    $Authorization = new  Authorization;
+                    $Authorization->services_briefcase_id =  $Admissions->procedure_id;
+                    $Authorization->admissions_id =  $Admissions->id;
+                    $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+                    if ($validate->type_auth == 1) {
+                        $Authorization->auth_status_id =  2;
+                    } else {
+                        $Authorization->auth_status_id =  1;
+                    }
+    
+                    $Authorization->save();
+                }
+            }
+
             // if ($Admissions->procedure_id) {
             //     $Authorization = new  Authorization;
             //     $Authorization->services_briefcase_id =  $Admissions->procedure_id;
@@ -619,6 +657,15 @@ class AdmissionsController extends Controller
                 $Bed->identification = null;
                 $Bed->reservation_date = null;
                 $Bed->save();
+            }
+
+            if($request->ambulatory_data && $request->ambulatory_data != 'null'){
+
+                $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
+                $medical_diary_days->admissions_id = $Admissions->id;
+                $medical_diary_days->medical_status_id = 4;
+                $medical_diary_days->save();
+                
             }
 
 

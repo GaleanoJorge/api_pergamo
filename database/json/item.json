@@ -1560,8 +1560,8 @@
         "id": "224",
         "item_parent_id": null,
         "name": "Consulta externa",
-        "code": "medical-diary",
-        "route": "/pages/setting/medical-diary",
+        "code": null,
+        "route": null,
         "icon": "book-open-outline",
         "show_menu": "1"
     },
@@ -1603,20 +1603,29 @@
     },
     {
         "id": "229",
-        "item_parent_id": "219",
-        "name": "Cuarentena",
-        "code": "product-damaged",
-        "route": "/pages/setting/product-damaged",
+        "item_parent_id": "66",
+        "name": "Consulta externa",
+        "code": null,
+        "route": null,
         "icon": "",
         "show_menu": "1"
     },
     {
         "id": "230",
-        "item_parent_id": "174",
-        "name": "Cuarentena",
-        "code": "product-damaged",
-        "route": "/pages/setting/product-damaged",
-        "icon": "",
+        "item_parent_id": "229",
+        "name": "Días no laborales",
+        "code": "non-working-days",
+        "route": "/pages/scheduling/non-working-days",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "231",
+        "item_parent_id": "224",
+        "name": "CUPS del asistencial",
+        "code": "healthcare-cups",
+        "route": "/pages/scheduling/assitencial-procedure",
+        "icon": "calendar-outline",
         "show_menu": "1"
     },
     {
@@ -1625,6 +1634,15 @@
         "name": "Gestión asistencial",
         "code": "medical-records-list",
         "route": "/pages/medical-records/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "234",
+        "item_parent_id": "174",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
         "icon": "",
         "show_menu": "1"
     },
@@ -1639,11 +1657,11 @@
     },
     {
         "id": "236",
-        "item_parent_id": "91",
-        "name": "Und.medida Insumos",
-        "code": "supplies-measure",
-        "route": "/pages/setting/supplies-measure",
-        "icon": "",
+        "item_parent_id": "224",
+        "name": "Itinerario asistencial",
+        "code": "healthcare-itinerary",
+        "route": "/pages/scheduling/healthcare-itinerary",
+        "icon": "calendar-outline",
         "show_menu": "1"
     },
     {
@@ -1652,6 +1670,60 @@
         "name": "Hospitalizaciones",
         "code": "pah",
         "route": "/pages/pah/list",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "238",
+        "item_parent_id": "229",
+        "name": "Programación de agenda",
+        "code": "medical-diary",
+        "route": "/pages/scheduling/medical-diary",
+        "icon": "book-open-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "239",
+        "item_parent_id": "219",
+        "name": "Cuarentena",
+        "code": "product-damaged",
+        "route": "/pages/setting/product-damaged",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "240",
+        "item_parent_id": "229",
+        "name": "Categorias",
+        "code": "copay-category",
+        "route": "/pages/scheduling/copay-category",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "242",
+        "item_parent_id": "224",
+        "name": "Agenda asistencial",
+        "code": "assitencial-view",
+        "route": "/pages/scheduling/assistance-view",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "243",
+        "item_parent_id": "229",
+        "name": "Motivos de cancelación",
+        "code": "reason-cancel",
+        "route": "/pages/scheduling/reason-cancel",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "244",
+        "item_parent_id": "91",
+        "name": "Und.medida Insumos",
+        "code": "supplies-measure",
+        "route": "/pages/setting/supplies-measure",
         "icon": "",
         "show_menu": "1"
     }

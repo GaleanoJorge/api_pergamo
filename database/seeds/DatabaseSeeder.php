@@ -350,5 +350,10 @@ class DatabaseSeeder extends Seeder
                 $this->call(StayTypeSeeder::class);
                 $this->call(TechnologicalMediumSeeder::class);
 
+                //seeding ext-consult
+                $this->call(DaysSeeder::class);
+                $this->call(MedicalStatusSeeder::class);
+
+
         }
 }

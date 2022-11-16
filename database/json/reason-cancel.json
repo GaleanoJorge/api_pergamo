@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name": "Disponibilidad de personal",
+        "status_id": 1
+    },
+    {
+        "id": 2,
+        "name": "Disponibilidad de planta física",
+        "status_id": 1
+    },
+    {
+        "id": 3,
+        "name": "Otro",
+        "status_id": 1
+    },
+    {
+        "id": 4,
+        "name": "Asistencial cancela por motivos personales/urgencia",
+        "status_id": 1
+    },
+    {
+        "id": 5,
+        "name": "Estado de salud del paciente",
+        "status_id": 1
+    },
+    {
+        "id": 6,
+        "name": "Muerte del paciente",
+        "status_id": 1
+    },
+    {
+        "id": 7,
+        "name": "No cumple con indicaciones médicas [preparación] para la atención",
+        "status_id": 1
+    },
+    {
+        "id": 8,
+        "name": "Orden equivocada",
+        "status_id": 1
+    },
+    {
+        "id": 9,
+        "name": "Paciente canceló",
+        "status_id": 1
+    },
+    {
+        "id": 10,
+        "name": "Inasistencia del paciente",
+        "status_id": 2
+    },
+    {
+        "id": 11,
+        "name": "Proceso administrativo incompleto",
+        "status_id": 1
+    }
+]

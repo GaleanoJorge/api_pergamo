@@ -22,7 +22,12 @@ class ProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Procedures = Procedure::select();
+        $Procedures = Procedure::select('procedure.*');
+
+        if($request->assistance_id){
+            $Procedures->leftJoin('assistance_procedure', 'procedure.id', 'assistance_procedure.procedure_id')
+                ->where('assistance_id', $request->assistance_id);
+        }
 
         if ($request->_sort) {
             $Procedures->orderBy($request->_sort, $request->_order);
@@ -176,6 +181,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type = $request->payment_type;
 
         $Procedure->save();
 
@@ -226,6 +232,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type = $request->payment_type;
         $Procedure->save();
 
         return response()->json([
