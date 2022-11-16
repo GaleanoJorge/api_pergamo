@@ -100,7 +100,7 @@ class BillUserActivityController extends Controller
             $validate = null;
             $mes = Carbon::parse('2022-10-06 00:12:27')->month;
 
-            $validate = AccountReceivable::whereRaw("created_at >= '2022-10-01 00:00:00'")->whereRaw("created_at <= '2022-10-31 23:59:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at >= '2022-10-01 00:00:00'")->whereRaw("created_at <= '2022-11-30 23:59:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
@@ -122,7 +122,7 @@ class BillUserActivityController extends Controller
 
             if (count($valuetariff) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
-                // $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
+                // $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[count($validate) - 1]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
                 $tariff_id = $valuetariff[0]['id'];
