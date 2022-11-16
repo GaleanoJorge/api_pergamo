@@ -3198,12 +3198,12 @@ class ChRecordController extends Controller
 
                     //APLICACION DE MEDICAMENTOS
 
-
-                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id',  $ch['id'])
-
-                        // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
-                        // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
-                        // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
+                    ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                        ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                        ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                        ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                        ->where('ch_record_id', $ch['id'])->whereNotNull('manual_price.product_id')
                         ->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
