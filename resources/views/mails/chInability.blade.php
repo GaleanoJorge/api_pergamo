@@ -277,6 +277,7 @@
             INCAPACIDAD MÉDICA<br>
         </p>
 
+        <hr />
                    
         @foreach($ChInability as $ch)
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -316,7 +317,7 @@
             <tr style="height:11.95pt">
                 <td style="width:200pt; vertical-align:top">
                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['name']}} @endisset </span>
+                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset </span>
                     </p>
                 </td>
             </tr>
