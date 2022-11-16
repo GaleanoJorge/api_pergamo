@@ -124,7 +124,7 @@ class BillUserActivityController extends Controller
 
             if (count($valuetariff) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
-                $account_receivable_id = $validate[count($validate) - 1]['id'];
+                $account_receivable_id = $validate[0]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
                 $tariff_id = $valuetariff[0]['id'];
