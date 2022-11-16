@@ -455,7 +455,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('PacientInscription/{id}', 'Management\PatientController@update');
     Route::get('patient/{id}', 'Management\PatientController@show');
     Route::get('patient/byPAD/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAD');
+    Route::get('patient/byPAH/{roleId}/{userId}', 'Management\PatientController@indexPacientByPAH');
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
+    Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
 
 
@@ -752,6 +754,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'program/byScope/{scope_of_attention_id}',
         'Management\ProgramController@getProgramByScope'
     );
+    Route::get(
+        'program/byAmbit/{admission_route_id}',
+        'Management\ProgramController@getProgramByAmbit'
+    );
     //Piso 
     Route::apiResource('flat', 'Management\FlatController');
 
@@ -780,8 +786,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
 
     Route::get(
-        'bed/byPavilion/{pavilion_id}/{ambit}',
+        'bed/byPavilion/{pavilion_id}/{ambit}/{procedure}',
         'Management\BedController@getBedByPavilion'
+    );
+    Route::get(
+        'bed/getBedsByCampus/{campus_id}',
+        'Management\BedController@getBedsByCampus'
     );
 
     //Estados de la cama
@@ -892,6 +902,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('type_consents', 'Management\TypeConsentsController');
     Route::apiResource('assigned_management_plan', 'Management\AssignedManagementPlanController');
     Route::get('assigned_management_plan/getByUserPatient/{user_id}/{patient_id}', 'Management\AssignedManagementPlanController@getByUserPatient');
+    Route::get('assigned_management_plan/getByPah/{campus_id}/{flat_id}/{pavilion_id}/{bed_id}', 'Management\AssignedManagementPlanController@getByPah');
 
 
     Route::get('viewHC/{id}', 'Management\ChRecordController@ViewHC');
@@ -939,6 +950,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'ServiceBriefcase/ServicesByBriefcase/{briefcaseId}',
         'Management\ServicesBriefcaseController@getByBriefcase'
+    );
+    Route::get(
+        'ServiceBriefcase/getByChRecordId/{ch_record_id}',
+        'Management\ServicesBriefcaseController@getByChRecordId'
     );
 
     //Portafolio de servicios
@@ -1139,6 +1154,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_vital_signs', 'Management\ChVitalSignsController');
     Route::apiResource('ch_vital_temperature', 'Management\ChVitalTemperatureController');
     Route::apiResource('ch_vital_ventilated', 'Management\ChVitalVentilatedController');
+    Route::get('ch_record/byInterconsultation/{id}/{id2}', 'Management\ChRecordController@byInterconsultation');
     Route::get('ch_record/byadmission/{id}/{id2}', 'Management\ChRecordController@byadmission');
     Route::get('ch_vital_signs/byrecord/{id}', 'Management\ChVitalSignsController@byrecord');
 
@@ -1380,6 +1396,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('ch_formulation', 'Management\ChFormulationController');
     Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
     Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
+    Route::get('ch_formulation/getByAdmission/{admission_id}', 'Management\ChFormulationController@getByAdmission');
 
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');

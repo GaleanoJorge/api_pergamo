@@ -9,10 +9,13 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
 use App\Models\Authorization;
+use App\Models\BillingPad;
 use App\Models\Briefcase;
+use App\Models\ChInterconsultation;
 use App\Models\LogAdmissions;
 use App\Models\Patient;
 use App\Models\Reference;
+use App\Models\TypeContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -40,15 +43,19 @@ class AdmissionsController extends Controller
                 'contract',
                 'contract.company',
                 'location',
+                'location.flat',
+                'location.pavilion',
+                'location.bed',
                 'location.admission_route',
                 'location.scope_of_attention',
                 'location.program',
                 'diagnosis',
+                'regime',
             );
         if ($request->admissions_id) {
-            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
+            $Admissions->orderBy('created_at', 'desc')->where('admissions.id', $request->admissions_id);
         } else {
-            $Admissions->with('patients', 'regime')->orderBy('created_at', 'desc');
+            $Admissions->orderBy('created_at', 'desc');
         }
         if ($request->_sort) {
             $Admissions->orderBy($request->_sort, $request->_order);
@@ -511,7 +518,6 @@ class AdmissionsController extends Controller
             $Admissions->campus_id = $request->campus_id;
             $Admissions->contract_id = $request->contract_id;
             $Admissions->briefcase_id = $request->briefcase_id;
-            $Admissions->procedure_id = $request->procedure_id;
             $Admissions->regime_id = $request->regime_id;
             $Admissions->patient_id = $request->patient_id;
             $Admissions->entry_date = Carbon::now();
@@ -526,6 +532,7 @@ class AdmissionsController extends Controller
             $Location->admissions_id = $Admissions->id;
             $Location->admission_route_id = $request->admission_route_id;
             $Location->scope_of_attention_id = $request->scope_of_attention_id;
+            $Location->procedure_id = $request->procedure_id;
             $Location->program_id = $request->program_id;
             $Location->pavilion_id = $request->pavilion_id;
             $Location->flat_id = $request->flat_id;
@@ -539,23 +546,60 @@ class AdmissionsController extends Controller
             $LogAdmissions->status ='Admisión creada';
             $LogAdmissions->save();
 
-            if ($Location->admission_route_id == 2) {
+            if ($request->admission_route_id == 2) {
                 $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
-            }
+            } else if ($request->admission_route_id == 1) {
 
-            if ($Admissions->procedure_id) {
-                $Authorization = new  Authorization;
-                $Authorization->services_briefcase_id =  $Admissions->procedure_id;
-                $Authorization->admissions_id =  $Admissions->id;
-                $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-                if ($validate->type_auth == 1) {
-                    $Authorization->auth_status_id =  2;
-                } else {
-                    $Authorization->auth_status_id =  1;
+                $BillingPad = BillingPad::where('admissions_id', $Admissions->id)
+                    ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->first();
+                $TypeContract = TypeContract::select('type_contract.*')
+                    ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                    ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                    ->where('admissions.id', $Admissions->id)
+                    ->first();
+                if (!$BillingPad) {
+                    $BillingPad = new BillingPad;
+                    $BillingPad->admissions_id = $Admissions->id;
+                    $BillingPad->validation_date = Carbon::now();
+                    if ($TypeContract->id == 5) {
+                        $BillingPad->billing_pad_status_id = 2;
+                    } else {
+                        $BillingPad->billing_pad_status_id = 1;
+                    }
+                    $BillingPad->total_value = 0;
+                    $BillingPad->save();
                 }
 
+                $ChInterconsultation = new ChInterconsultation;
+                $ChInterconsultation->services_briefcase_id = $request->procedure_id;
+                $ChInterconsultation->admissions_id = $Admissions->id;
+                $ChInterconsultation->save();
+
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $request->procedure_id;
+                $Authorization->admissions_id = $Admissions->id;
+                $Authorization->auth_number = $request->auth_number;
+                $Authorization->file_auth = $request->file_auth;
+                $Authorization->location_id = $Location->id;
+                $Authorization->ch_interconsultation_id = $ChInterconsultation->id;
+                $Authorization->auth_status_id = 3;
                 $Authorization->save();
             }
+
+            // if ($Admissions->procedure_id) {
+            //     $Authorization = new  Authorization;
+            //     $Authorization->services_briefcase_id =  $Admissions->procedure_id;
+            //     $Authorization->admissions_id =  $Admissions->id;
+            //     $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+            //     if ($validate->type_auth == 1) {
+            //         $Authorization->auth_status_id =  2;
+            //     } else {
+            //         $Authorization->auth_status_id =  1;
+            //     }
+
+            //     $Authorization->save();
+            // }
 
             $pattient = Patient::where('id', $request->patient_id)->get()->toArray();
             $ref = Reference::where('identification', $pattient[0]['identification'])
@@ -572,6 +616,8 @@ class AdmissionsController extends Controller
             if ($request->bed_id) {
                 $Bed = Bed::find($request->bed_id);
                 $Bed->status_bed_id = 2;
+                $Bed->identification = null;
+                $Bed->reservation_date = null;
                 $Bed->save();
             }
 
@@ -624,6 +670,8 @@ class AdmissionsController extends Controller
             if ($request->bed_id != null) {
                 $Bed = Bed::find($request->bed_id);
                 $Bed->status_bed_id = 1;
+                $Bed->identification = null;
+                $Bed->reservation_date = null;
                 $Bed->save();
             }
         } else if ($request->reversion == true) {
@@ -640,7 +688,7 @@ class AdmissionsController extends Controller
             $Admissions->campus_id = $request->campus_id;
             $Admissions->contract_id = $request->contract_id;
             $Admissions->briefcase_id = $request->briefcase_id;
-            $Admissions->procedure_id = $request->procedure_id;
+            // $Admissions->procedure_id = $request->procedure_id;
             $Admissions->patient_id = $request->patient_id;
             $Admissions->save();
         }

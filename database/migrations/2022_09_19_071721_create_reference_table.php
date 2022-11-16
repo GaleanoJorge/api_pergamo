@@ -41,6 +41,7 @@ class CreateReferenceTable extends Migration
 
             $table->unsignedBigInteger('request_campus_id')->nullable();
             $table->unsignedBigInteger('request_regime_id')->nullable();
+            $table->integer('request_regime_level')->nullable();
             $table->unsignedBigInteger('request_user_id')->nullable();
             $table->unsignedBigInteger('request_technological_medium_id')->nullable();
             $table->unsignedBigInteger('request_admission_route_id')->nullable();
@@ -49,7 +50,11 @@ class CreateReferenceTable extends Migration
             $table->string('request_observation')->nullable();
 
             $table->unsignedBigInteger('acceptance_campus_id')->nullable();
+            $table->unsignedBigInteger('acceptance_flat_id')->nullable();
+            $table->unsignedBigInteger('acceptance_pavilion_id')->nullable();
+            $table->unsignedBigInteger('acceptance_bed_id')->nullable();
             $table->unsignedBigInteger('acceptance_regime_id')->nullable();
+            $table->integer('acceptance_regime_level')->nullable();
             $table->unsignedBigInteger('acceptance_user_id')->nullable();
             $table->unsignedBigInteger('acceptance_technological_medium_id')->nullable();
             $table->unsignedBigInteger('acceptance_admission_route_id')->nullable();
@@ -138,6 +143,18 @@ class CreateReferenceTable extends Migration
             $table->index('acceptance_campus_id');
             $table->foreign('acceptance_campus_id')->references('id')
                 ->on('campus');
+                
+            $table->index('acceptance_flat_id');
+            $table->foreign('acceptance_flat_id')->references('id')
+                ->on('flat');
+
+            $table->index('acceptance_pavilion_id');
+            $table->foreign('acceptance_pavilion_id')->references('id')
+                ->on('pavilion');
+                
+            $table->index('acceptance_bed_id');
+            $table->foreign('acceptance_bed_id')->references('id')
+                ->on('bed');
 
 
 

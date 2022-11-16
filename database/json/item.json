@@ -1645,5 +1645,14 @@
         "route": "/pages/setting/supplies-measure",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "237",
+        "item_parent_id": null,
+        "name": "Hospitalizaciones",
+        "code": "pah",
+        "route": "/pages/pah/list",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

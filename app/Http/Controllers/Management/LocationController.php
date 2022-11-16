@@ -7,6 +7,10 @@ use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdmissionsRequest;
+use App\Models\Authorization;
+use App\Models\BillingPad;
+use App\Models\ChInterconsultation;
+use App\Models\TypeContract;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -58,6 +62,7 @@ class LocationController extends Controller
         $Location->admission_route_id = $request->admission_route_id;
         $Location->scope_of_attention_id = $request->scope_of_attention_id;
         $Location->program_id = $request->program_id;
+        $Location->authorization_id = $request->authorization_id;
         $Location->pavilion_id = $request->pavilion_id;
         $Location->flat_id = $request->flat_id;
         $Location->bed_id = $request->bed_id;
@@ -104,14 +109,27 @@ class LocationController extends Controller
         $Location->discharge_date = Carbon::now();
         $Location->save();
 
+        $startAuth = Authorization::where('location_id',  $Location->id)->orderBy('created_at', 'desc')->first();
+
+        $start_date = Carbon::parse($Location->entry_date)->setTimezone('America/Bogota')->startOfDay();
+        $finish_date = Carbon::parse($Location->discharge_date)->setTimezone('America/Bogota')->startOfDay();
+        $diff_days = $start_date->diffInDays($finish_date) + 1;
+
+        $Authorization_end = Authorization::where('location_id', $Location->id)->first();
+        $Authorization_end->quantity = $diff_days;
+        $Authorization_end->save();
+
         if ($Location->bed_id) {
             $Bed = Bed::find($Location->bed_id);
             $Bed->status_bed_id = 1;
+            $Bed->identification = null;
+            $Bed->reservation_date = null;
             $Bed->save();
         }
 
         $Location2 = new Location;
         $Location2->admissions_id = $request->admissions_id;
+        $Location2->procedure_id = $request->procedure_id;
         $Location2->admission_route_id = $request->admission_route_id;
         $Location2->scope_of_attention_id = $request->scope_of_attention_id;
         $Location2->program_id = $request->program_id;
@@ -126,7 +144,47 @@ class LocationController extends Controller
 
             $Bed = Bed::find($request->bed_id);
             $Bed->status_bed_id = 2;
+            $Bed->identification = null;
+            $Bed->reservation_date = null;
             $Bed->save();
+        }
+
+        if ($request->admission_route_id == 1) {
+            $ChInterconsultation = new ChInterconsultation();
+            $ChInterconsultation->services_briefcase_id = $request->procedure_id;
+            $ChInterconsultation->admissions_id = $request->admissions_id;
+            $ChInterconsultation->save();
+
+            $Authorization = new Authorization;
+            $Authorization->services_briefcase_id = $request->procedure_id;
+            $Authorization->admissions_id = $request->admissions_id;
+            $Authorization->auth_number = $request->auth_number;
+            $Authorization->file_auth = $request->file_auth;
+            $Authorization->location_id = $Location2->id;
+            $Authorization->ch_interconsultation_id = $startAuth->ch_interconsultation_id;
+            $Authorization->auth_status_id = 3;
+            $Authorization->save();
+
+            $BillingPad = BillingPad::where('admissions_id', $request->admissions_id)
+                ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->first();
+            $TypeContract = TypeContract::select('type_contract.*')
+                ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                ->where('admissions.id', $request->admissions_id)
+                ->first();
+            if (!$BillingPad) {
+                $BillingPad = new BillingPad;
+                $BillingPad->admissions_id = $request->admissions_id;
+                $BillingPad->validation_date = Carbon::now();
+                if ($TypeContract->id == 5) {
+                    $BillingPad->billing_pad_status_id = 2;
+                } else {
+                    $BillingPad->billing_pad_status_id = 1;
+                }
+                $BillingPad->total_value = 0;
+                $BillingPad->save();
+            }
         }
 
         return response()->json([

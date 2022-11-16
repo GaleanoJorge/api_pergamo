@@ -164,22 +164,22 @@ class AssistanceSuppliesController extends Controller
                         ->leftjoin('product_concentration','product_generic.drug_concentration_id','product_concentration.id')
                         ->where('product.id',$request->product_comercial)->get()->toArray();
 
-                    $management_plan = ManagementPlan::select('management_plan.*', 'management_plan.dosage_administer AS dosage_administer')
-                        ->leftjoin('assigned_management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
-                        ->leftjoin('ch_record', 'assigned_management_plan.id', 'ch_record.assigned_management_plan_id')
-                        ->where('ch_record.id', $request->ch_record_id)->get()->toArray();
-
-                    $product_dose = intval($product[0]['value']);
-                    $management_plan_dose = intval($management_plan[0]['dosage_administer']);
-
-                    foreach ($applicated as $item) {
-                        $compare = ChRecord::find($item->ch_record_id);
-                        if ($ch_record->assigned_management_plan_id == $compare->assigned_management_plan_id) {
-                            $aplicated++;
+                        $management_plan = ManagementPlan::select('management_plan.*', 'management_plan.dosage_administer AS dosage_administer')
+                            ->leftjoin('assigned_management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                            ->leftjoin('ch_record', 'assigned_management_plan.id', 'ch_record.assigned_management_plan_id')
+                            ->where('ch_record.id', $request->ch_record_id)->get()->toArray();
+    
+                        $product_dose = intval($product[0]['value']);
+                        $management_plan_dose = intval($management_plan[0]['dosage_administer']);
+    
+                        foreach ($applicated as $item) {
+                            $compare = ChRecord::find($item->ch_record_id);
+                            if ($ch_record->assigned_management_plan_id == $compare->assigned_management_plan_id) {
+                                $aplicated++;
+                            }
                         }
-                    }
-
-                    
+                        
+                        
                     $value = $product_dose*$aplicated;
                     if ($value >= $management_plan_dose) {
                         return response()->json([
@@ -199,6 +199,7 @@ class AssistanceSuppliesController extends Controller
                         $auth = new Authorization;
 
                         $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                        $auth->ch_interconsultation_id = $ch_record->ch_interconsultation_id;
                         $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
                         $auth->admissions_id = $ch_record->admissions_id;
                         $auth->auth_status_id = 3;
@@ -210,6 +211,8 @@ class AssistanceSuppliesController extends Controller
 
                         $AssistanceSupplies->save();
                     }
+                    
+
 
 
                     return response()->json([
@@ -230,6 +233,7 @@ class AssistanceSuppliesController extends Controller
                     $auth = new Authorization;
 
                     $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                    $auth->ch_interconsultation_id = $ch_record->ch_interconsultation_id;
                     $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
                     $auth->admissions_id = $PharmacyProductRequest[0]['admissions_id'];
                     $auth->auth_status_id = 3;

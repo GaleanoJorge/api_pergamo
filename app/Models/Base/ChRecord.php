@@ -9,6 +9,7 @@ namespace App\Models\Base;
 
 use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
+use App\Models\ChInterconsultation;
 use App\Models\RoleAttention;
 use App\Models\User;
 
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property BigInteger $admissions_id
  * @property BigInteger $user_id
  * @property BigInteger $ch_type_id
+ * @property BigInteger $ch_interconsultation_id
  * @property date $date_finish
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -51,5 +53,13 @@ class ChRecord extends Model
 	public function role_attention()
 	{
 		return $this->belongsTo(RoleAttention::class, 'type_of_attention_id');
+	}
+	public function ch_interconsultation()
+	{
+		return $this->belongsTo(ChInterconsultation::class, 'ch_interconsultation_id');
+	}
+	public function ch_type()
+	{
+		return $this->belongsTo(ChType::class, 'ch_type_id');
 	}
 }

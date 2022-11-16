@@ -8,6 +8,7 @@ use App\Models\AccountReceivable;
 use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Assistance;
+use App\Models\AssistanceSpecial;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
@@ -163,6 +164,7 @@ use App\Models\ChPsObjectives;
 use App\Models\ChPsOperationalization;
 use App\Models\ChPsSphere;
 use App\Models\ChPsSynthesis;
+use App\Models\RoleAttention;
 use App\Models\Tracing;
 use App\Models\ChNRMaterialsFT;
 use Carbon\Carbon;
@@ -285,6 +287,65 @@ class ChRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function byInterconsultation(Request $request, int $id, int $id2): JsonResponse
+    {
+
+        $ChInterconsultation = ChInterconsultation::find($id2);
+
+        $ChRecord = ChRecord::select('ch_record.*')
+            ->with(
+                'ch_type',
+                'user',
+                'admissions',
+                'admissions.patients',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+            )
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('ch_interconsultation', 'ch_interconsultation.id', 'ch_record.ch_interconsultation_id')
+            ->where('ch_record.admissions_id', $id)
+            ->where(function ($q) use ($ChInterconsultation, $id2) {
+                if ($ChInterconsultation->ch_record_id) {
+                    $q->where('ch_record.ch_interconsultation_id', $id2);
+                } else {
+                    $q->whereNull('ch_interconsultation.ch_record_id');
+                }
+            })
+            ->groupBy('ch_record.id');
+
+        $ChRecord->orderBy('ch_record.created_at', 'DESC');
+
+        if ($request->_sort) {
+            $ChRecord->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $ChRecord->where('ch_record.status', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ChRecord = $ChRecord->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChRecord = $ChRecord->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Registro paciente obtenidos exitosamente',
+            'data' => ['ch_record' => $ChRecord],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function ViewCertification(int $id)
     {
         $fecharecord = 0;
@@ -346,7 +407,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -460,7 +521,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -567,7 +628,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -621,11 +682,7 @@ class ChRecordController extends Controller
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
             'frequency',
-            // 'services_briefcase',
-            // 'services_briefcase.manual_price',
-            // 'services_briefcase.manual_price.procedure',
-
-
+            'services_briefcase',
         )
             ->where('id', $id)->get()->toArray();
 
@@ -677,7 +734,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -783,7 +840,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -890,7 +947,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -991,7 +1048,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -1094,7 +1151,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -1307,9 +1364,7 @@ class ChRecordController extends Controller
             $ChMedicalOrders = ChMedicalOrders::with(
                 'procedure',
                 'frequency',
-                // 'services_briefcase',
-                // 'services_briefcase.manual_price',
-                // 'services_briefcase.manual_price.procedure',
+                'services_briefcase',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
@@ -1374,8 +1429,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
 
@@ -1531,8 +1586,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -1748,8 +1803,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -1889,8 +1944,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2013,8 +2068,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2132,8 +2187,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2259,8 +2314,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2413,8 +2468,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2540,8 +2595,8 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = null;
                 return response()->json([
                     'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                    'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+    
                 ]);
             }
             $today = Carbon::now();
@@ -2950,7 +3005,8 @@ class ChRecordController extends Controller
                     //Ordenes Médicas
                     $ChMedicalOrders = ChMedicalOrders::with(
                         'procedure',
-                        'frequency'
+                        'frequency',
+                        'services_briefcase',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Interconsulta
@@ -3010,8 +3066,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -3214,8 +3270,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -3430,8 +3486,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -3607,8 +3663,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -3819,8 +3875,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -3980,8 +4036,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -4146,8 +4202,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -4340,8 +4396,8 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = null;
                         return response()->json([
                             'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
+                            'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+            
                         ]);
                     }
                     $today = Carbon::now();
@@ -4521,7 +4577,7 @@ class ChRecordController extends Controller
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
         $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
-        $ChRecord->admissions_id = $request->admissions_id;
+        $ChRecord->ch_interconsultation_id = $request->ch_interconsultation_id;
 
         $ChRecord->user_id = Auth::user()->id;
         // $validate = RoleAttention::where('role_id', $request->role_id)->get()->toArray();
@@ -4536,103 +4592,241 @@ class ChRecordController extends Controller
         //     // }
 
         // }
-        switch ($request->type_of_attention_id) {
-            case (1): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (2): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (3): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (4): {
-                    $ChRecord->ch_type_id = 3;
-                    break;
-                }
-            case (5): {
-                    // PSICOLOGÍA
-                    $ChRecord->ch_type_id = 9;
-                    break;
-                }
-            case (6): {
-                    // TRABAJO SOCIAL
-                    $ChRecord->ch_type_id = 8;
-                    break;
-                }
-            case (7): {
-                    // TERAPIA FÍSICA
-                    $ChRecord->ch_type_id = 7;
-                    break;
-                }
-            case (8): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (9): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (10): {
+        if ($request->type_of_attention_id && $request->type_of_attention_id != -1) {
+            switch ($request->type_of_attention_id) {
+                case (1): {
+                        $ChRecord->ch_type_id = 1;
+                        break;
+                    }
+                case (2): {
+                        $ChRecord->ch_type_id = 1;
+                        break;
+                    }
+                case (3): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (4): {
+                        $ChRecord->ch_type_id = 3;
+                        break;
+                    }
+                case (5): {
+                        // PSICOLOGÍA
+                        $ChRecord->ch_type_id = 9;
+                        break;
+                    }
+                case (6): {
+                        // TRABAJO SOCIAL
+                        $ChRecord->ch_type_id = 8;
+                        break;
+                    }
+                case (7): {
+                        // TERAPIA FÍSICA
+                        $ChRecord->ch_type_id = 7;
+                        break;
+                    }
+                case (8): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+                case (9): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+                case (10): {
 
-                    // TERAPIA OCUPACIONAL
-                    $ChRecord->ch_type_id = 6;
-                    break;
+                        // TERAPIA OCUPACIONAL
+                        $ChRecord->ch_type_id = 6;
+                        break;
+                    }
+                case (11): {
+                        $ChRecord->ch_type_id = 4;
+                        break;
+                    }
+                case (12): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (13): {
+                        // SERVICIO DE CUIDADOR
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'No hay historia clínica para esta atención',
+                            'data' => ['ch_record' => []],
+                        ]);
+                        break;
+                    }
+                case (14): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (15): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (16): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (17): {
+                        $ChRecord->ch_type_id = 2;
+                        break;
+                    }
+                case (18): {
+                        // DEPORTOLOGO
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'No hay historia clínica para esta atención',
+                            'data' => ['ch_record' => []],
+                        ]);
+                        break;
+                    }
+                case (19): {
+                        $ChRecord->ch_type_id = 5;
+                        break;
+                    }
+            }
+        } else if ($request->ch_type_id) {
+            $ChRecord->ch_type_id = $request->ch_type_id;
+        } else if ($request->type_of_attention_id == -1) {
+            $Assistance = Assistance::where('user_id', $request->user_id)
+                ->get()->toArray();
+
+            $type_of_attention = RoleAttention::where('role_id', $request->role);
+            if ($request->role == 7 || $request->role == 14) {
+                $AssistanceSpecial = AssistanceSpecial::where('assistance_id', $Assistance[0]['id'])
+                    ->get()->toArray();
+                if (count($AssistanceSpecial) > 0) {
+                    $type_of_attention->where(function ($query) use ($AssistanceSpecial) {
+                        foreach ($AssistanceSpecial as $As) {
+                            $first = true;
+                            if ($first) {
+                                $query->where('specialty_id', $As['specialty_id']);
+                                $first = false;
+                            } else {
+                                $query->orWhere('specialty_id', $As['specialty_id']);
+                            }
+                        }
+                    });
                 }
-            case (11): {
-                    $ChRecord->ch_type_id = 4;
-                    break;
+            }
+
+            $type_of_attention = $type_of_attention->get()->toArray();
+
+            foreach ($type_of_attention as $ta) {
+
+                switch ($ta['type_of_attention_id']) {
+                    case (1): {
+                            $ChRecord->ch_type_id = 1;
+                            break;
+                        }
+                    case (2): {
+                            $ChRecord->ch_type_id = 1;
+                            break;
+                        }
+                    case (3): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (4): {
+                            $ChRecord->ch_type_id = 3;
+                            break;
+                        }
+                    case (5): {
+                            // PSICOLOGÍA
+                            $ChRecord->ch_type_id = 9;
+                            break;
+                        }
+                    case (6): {
+                            // TRABAJO SOCIAL
+                            $ChRecord->ch_type_id = 8;
+                            break;
+                        }
+                    case (7): {
+                            // TERAPIA FÍSICA
+                            $ChRecord->ch_type_id = 7;
+                            break;
+                        }
+                    case (8): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
+                    case (9): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
+                    case (10): {
+
+                            // TERAPIA OCUPACIONAL
+                            $ChRecord->ch_type_id = 6;
+                            break;
+                        }
+                    case (11): {
+                            $ChRecord->ch_type_id = 4;
+                            break;
+                        }
+                    case (12): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (13): {
+                            // SERVICIO DE CUIDADOR
+                            // return response()->json([
+                            //     'status' => false,
+                            //     'message' => 'No hay historia clínica para esta atención',
+                            //     'data' => ['ch_record' => []],
+                            // ]);
+                            break;
+                        }
+                    case (14): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (15): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (16): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (17): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (18): {
+                            // DEPORTOLOGO
+                            // return response()->json([
+                            //     'status' => false,
+                            //     'message' => 'No hay historia clínica para esta atención',
+                            //     'data' => ['ch_record' => []],
+                            // ]);
+                            break;
+                        }
+                    case (19): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
                 }
-            case (12): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (13): {
-                    // SERVICIO DE CUIDADOR
+
+                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    ->where('status', 'ACTIVO')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                if ($validate_ch_record) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
                         'data' => ['ch_record' => []],
                     ]);
-                    break;
                 }
-            case (14): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (15): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (16): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (17): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (18): {
-                    // DEPORTOLOGO
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
-                    break;
-                }
-            case (19): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (20): {
-                    //SEGUIMIENTO
-                    $ChRecord->ch_type_id = 10;
-                    break;
-                }
+                $ChRecord->save();
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Registro paciente asociado al paciente exitosamente',
+                'data' => ['ch_record' => $ChRecord->toArray()],
+            ]);
         }
 
         // if ($request->firm_file) {
@@ -4650,7 +4844,23 @@ class ChRecordController extends Controller
         //     }
         // }
 
+        if ($request->type_of_attention_id != -1) {
+            $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                ->where('status', 'ACTIVO')
+                ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+    
+            if ($validate_ch_record) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                    'data' => ['ch_record' => []],
+                ]);
+            }
+        }
+
+
         $ChRecord->save();
+
 
         return response()->json([
             'status' => true,
@@ -4687,8 +4897,15 @@ class ChRecordController extends Controller
     {
         $ChRecord = ChRecord::find($id);
         $admissions_id = $ChRecord->admissions_id;
-        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-            ->orderBy('created_at', 'ASC')->first();
+        $ChRecordExist = ChRecord::select('ch_record.*')->where('admissions_id', $admissions_id);
+        if ($ChRecord->assigned_management_plan_id) {
+            $ChRecordExist->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id);
+        }
+        if ($ChRecord->ch_interconsultation_id) {
+            $ChRecordExist->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id);
+        }
+        $ChRecordExist->orderBy('created_at', 'ASC');
+        $ChRecordExist = $ChRecordExist->get()->toArray();
 
         $ChRecord->status = $request->status;
 
@@ -4709,8 +4926,9 @@ class ChRecordController extends Controller
                         ->where('admissions_id', $admissions_id)
                         ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                         ->orderBy('created_at', 'ASC')->get()->toArray();
-
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    if (count ($firm_ch_record) > 0) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         } else {
@@ -4731,89 +4949,121 @@ class ChRecordController extends Controller
         //     $ChRecord->firm_file = $path;
         // }
 
-
-        $mes = Carbon::now()->month;
-
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
-        $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
-        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-        $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
-        $admissions = Admissions::find($admissions_id);
-        $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
-        $user_id = $admissions->patient_id;
-        $locality = Patient::find($admissions->patient_id)->locality_id;
-        $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
-        $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        
-        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-        
-        if (count($valuetariff) == 0) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                'data' => ['ch_record' => $ChRecord],
-            ]);
+        if ($ChRecord->assigned_management_plan_id) {
+            $mes = Carbon::now()->month;
+    
+            $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
+            $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
+            $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+            $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+            $admissions = Admissions::find($admissions_id);
+            $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
+            $user_id = $admissions->patient_id;
+            $locality = Patient::find($admissions->patient_id)->locality_id;
+            $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
+            $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
+            $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+            
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+            
+            if (count($valuetariff) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                    'data' => ['ch_record' => $ChRecord],
+                ]);
+            }
         }
         
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00') {
 
-            $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-            $assigned->execution_date = Carbon::now();
-            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
-            $assigned->save();
+        if ($ChRecord->assigned_management_plan_id) {
+            if ($ChRecordExist[0]['date_finish'] == '0000-00-00 00:00:00') {
 
-            $assistance = Assistance::where('user_id', $request->user_id)->first();
-            if ($assistance) {
-                $LocationCapacity = LocationCapacity::where('locality_id', $locality)
-                    ->where('assistance_id', $assistance->id)
-                    ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-                    ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-                    ->first();
-                if ($LocationCapacity) {
-                    $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                    $LocationCapacity->save();
+                $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                $assigned->execution_date = Carbon::now();
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                $assigned->save();
+
+                $assistance = Assistance::where('user_id', $request->user_id)->first();
+                if ($assistance) {
+                    $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+                        ->where('assistance_id', $assistance->id)
+                        ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+                        ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+                        ->first();
+                    if ($LocationCapacity) {
+                        $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                        $LocationCapacity->save();
+                    }
                 }
-            }
 
-            $TypeContract = TypeContract::select('type_contract.*')
-                ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
-                ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
-                ->where('admissions.id', $admissions_id)
-                ->first();
-
-            if ($TypeContract->id == 5) {
-                $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
-                $BillingPad = BillingPad::where('admissions_id', $admissions_id)
-                    ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->first();
-                $Authorization = Authorization::where('admissions_id', $admissions_id)
-                    ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
+                $TypeContract = TypeContract::select('type_contract.*')
+                    ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                    ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                    ->where('admissions.id', $admissions_id)
                     ->first();
 
-                $AuthBillingPad = new AuthBillingPad;
-                $AuthBillingPad->billing_pad_id = $BillingPad->id;
-                $AuthBillingPad->authorization_id = $Authorization->id;
-                $AuthBillingPad->value = $ServicesBriefcase->value;
-                $AuthBillingPad->save();
-            }
-        } else {
-            $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
-            if ($billActivity) {
-                if ($billActivity->status == 'RECHAZADO') {
-                    $billActivity->status = 'REENVIADO';
-                    $billActivity->save();
+                if ($TypeContract->id == 5) {
+                    $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
+                    $BillingPad = BillingPad::where('admissions_id', $admissions_id)
+                        ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                        ->first();
+                    $Authorization = Authorization::where('admissions_id', $admissions_id)
+                        ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
+                        ->first();
+
+                    $AuthBillingPad = new AuthBillingPad;
+                    $AuthBillingPad->billing_pad_id = $BillingPad->id;
+                    $AuthBillingPad->authorization_id = $Authorization->id;
+                    $AuthBillingPad->value = $ServicesBriefcase->value;
+                    $AuthBillingPad->save();
+                }
+            } else {
+                $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+                if ($billActivity) {
+                    if ($billActivity->status == 'RECHAZADO') {
+                        $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                        $assigned_redo->redo = '00000000000000';
+                        $assigned_redo->save();
+                        $billActivity->status = 'REENVIADO';
+                        $billActivity->save();
+                    } else {
+                        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                            if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                            }
+                        }
+                    }
                 } else {
                     if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
                         $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
                     }
                 }
-            } else {
-                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                    $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
-                }
+            }
+        }
+
+        $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
+        ->select(
+            'ch_record.*',
+            'location.admission_route_id AS admission_route_id'
+            )
+            ->with('ch_interconsultation')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->get()->toArray();
+            
+        if ($ChRecord_val[0]['ch_interconsultation_id'] != null) {
+            $ch_interconsultation_val = ChInterconsultation::find($ChRecord_val[0]['ch_interconsultation_id']);
+
+            if ($ChRecord_val[0]['admission_route_id'] == 1) {
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $ch_interconsultation_val->services_briefcase_id;
+                $Authorization->ch_interconsultation_id = $ChRecord_val[0]['ch_interconsultation_id'];
+                $Authorization->admissions_id = $ChRecord_val[0]['admissions_id'];
+                $Authorization->auth_status_id = 1;
+                $Authorization->save();
             }
         }
 

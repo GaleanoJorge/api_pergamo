@@ -74,6 +74,14 @@ class PharmacyProductRequest extends Model
 			'pharmacy_product_request_id'
 		);
 	}
+	public function many_pharmacy_request_shipping()
+	{
+		return $this->hasMany(
+			PharmacyRequestShipping::class,
+			'pharmacy_product_request_id',
+			'id',
+		);
+	}
 	public function user_request()
 	{
 		return $this->belongsTo(User::class, 'user_request_id');
