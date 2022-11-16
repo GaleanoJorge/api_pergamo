@@ -104,11 +104,11 @@ class BillUserActivityController extends Controller
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-                // $AccountReceivable = new AccountReceivable;
-                // $AccountReceivable->user_id = $element['user_id'];
-                // $AccountReceivable->status_bill_id = 1;
-                // $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                // $AccountReceivable->save();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $element['user_id'];
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
