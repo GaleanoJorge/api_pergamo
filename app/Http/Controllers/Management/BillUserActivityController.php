@@ -91,6 +91,8 @@ class BillUserActivityController extends Controller
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
+            $aaa = 0;
+
         foreach ($Amp as $element) {
 
             $mes = Carbon::parse($element['execution_date'])->month;
@@ -121,6 +123,8 @@ class BillUserActivityController extends Controller
                 $admissions_id = $element['management_plan']['admissions_id'];
                 $tariff_id = $valuetariff;
                 $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
+
+                $aaa++;
     
                 // $billActivity = new BillUserActivity;
                 // $billActivity->procedure_id = $procedure_id;
@@ -136,7 +140,7 @@ class BillUserActivityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
-            'data' => ['bill_user_activity' => count($Amp)]
+            'data' => ['bill_user_activity' => count($Amp), 'aa' => $aaa]
         ]);
     }
 
