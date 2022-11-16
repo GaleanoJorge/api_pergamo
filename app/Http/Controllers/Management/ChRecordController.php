@@ -4746,20 +4746,19 @@ class ChRecordController extends Controller
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
         
-        $valuetariff = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan) : null;
-        if ($valuetariff != null) {
-            if (count($valuetariff) == 0) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                    'data' => ['ch_record' => $ChRecord],
-                ]);
-            }
+        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+        
+        if (count($valuetariff) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                'data' => ['ch_record' => $ChRecord],
+            ]);
         }
         
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00') {
+        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00') {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();
