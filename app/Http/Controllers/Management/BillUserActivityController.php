@@ -98,15 +98,10 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $validate = AccountReceivable::            
-               where(function($query) use ($element) {
-                    $query->where('user_id', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])
-                    ->where('created_at', '>=', '2022-10-01 00:00:00')
-                    ->where('created_at', '<=', '2022-10-31 23:59:00')
-                    ;
-                })
-                ->get()->toArray();
-            if (count($validate) < 1) {
+            $mes = Carbon::parse('2022-10-06 00:12:27')->month;
+
+            $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $element['user_id'])->get()->toArray();
+            if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
                 // $AccountReceivable = new AccountReceivable;
