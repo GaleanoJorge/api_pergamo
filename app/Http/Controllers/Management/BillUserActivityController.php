@@ -100,9 +100,9 @@ class BillUserActivityController extends Controller
             $validate = null;
             $validate = AccountReceivable::            
                where(function($query) use ($element) {
-                    $mes = Carbon::parse('2022-10-06 00:12:27')->month;
                     $query->where('user_id', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])
-                    ->whereMonth('created_at', $mes)
+                    ->where('created_at', '>=', '2022-10-01 00:00:00')
+                    ->where('created_at', '<=', '2022-10-31 23:59:00')
                     ;
                 })
                 ->get()->toArray();
