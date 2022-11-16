@@ -93,12 +93,15 @@ class BillUserActivityController extends Controller
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
-            $aaa = 0;
-            $bbb = 0;
+        $aaa = 0;
+        $bbb = 0;
 
         foreach ($Amp as $element) {
 
-            $validate = AccountReceivable::where('created_at', '>=', '2022-10-01 00:00:00')->where('created_at', '<=', '2022-10-31 23:59:00')->where('user_id', $element['user_id'])->get()->toArray();
+            $validate = AccountReceivable::where('created_at', '>=', '2022-10-01 00:00:00')
+                ->where('created_at', '<=', '2022-10-31 23:59:00')
+                ->where('user_id', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])
+                ->get()->toArray();
             if (count($validate) == 0) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
@@ -127,7 +130,7 @@ class BillUserActivityController extends Controller
                 $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
 
                 $aaa++;
-    
+
                 // $billActivity = new BillUserActivity;
                 // $billActivity->procedure_id = $procedure_id;
                 // $billActivity->account_receivable_id = $account_receivable_id;
