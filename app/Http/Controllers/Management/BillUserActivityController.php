@@ -86,8 +86,10 @@ class BillUserActivityController extends Controller
                 'ch_record',
             )
             ->leftJoin('bill_user_activity', 'bill_user_activity.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
+            ->whereNotNull('management_plan.procedure_id')
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
