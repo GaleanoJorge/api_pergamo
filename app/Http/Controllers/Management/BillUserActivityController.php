@@ -98,9 +98,8 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $validate = AccountReceivable::where('created_at', '>=', '2022-10-01 00:00:00')
-                ->where('created_at', '<=', '2022-10-31 23:59:00')
-                ->where('user_id', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])
+            $validate = AccountReceivable::            
+                where('user_id', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])
                 ->get()->toArray();
             if (count($validate) < 1) {
                 $bbb++;
