@@ -294,7 +294,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -1927,7 +1927,7 @@ class BillingPadController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2005,19 +2005,25 @@ class BillingPadController extends Controller
                 )
             ->where('billing_pad_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
+                $a = 1;
+                if ($conponent['authorization']['quantity']) {
+                    if ($conponent['authorization']['quantity'] >= 1) {
+                        $a = $conponent['authorization']['quantity']; 
+                    }
+                }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $NCBillingPad->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
                 if ($conponent['authorization']['services_briefcase']) {
-                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'] * $a;
                 } else {
-                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'];
+                    $AuthBillingPad->value = $conponent['authorization']['manual_price']['value'] * $a;
                 }
                 $AuthBillingPad->save();
             }
-            
-            $this->generateBillingDat(1, $id);
-            
+
+            $this->generateBillingDat(1, $NCBillingPad->id);
+
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -2032,13 +2038,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPad]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2099,7 +2105,7 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $BillingPadPgp->id);
+            $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->startOfMonth();
             $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->endOfMonth();
@@ -2131,13 +2137,13 @@ class BillingPadController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'factura actualizada exitosamente',
+                'message' => 'Factura cancelada exitosamente',
                 'data' => ['billing_pad' => $NCBillingPadPgp]
             ]);
         } catch (Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'No es posible realizar esta acción ya que no se puede establecer conexión con el servidor del proveedor de facturación',
+                'message' => 'Ocurrió un error al momento de facturar: ' . $e->getLine() . ' - ' . $e->getMessage(),
                 'm' => $e->getMessage(),
                 'l' => $e->getLine(),
                 'data' => ['billing_pad' => []]
@@ -2363,8 +2369,8 @@ class BillingPadController extends Controller
                 $value = $Auth[0]['services_briefcase']['value'] * $q;
                 $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
-                $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
-                $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
+                $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
+                $Auth[0]['services_briefcase']['manual_price']['own_code'] : ($Auth[0]['supplies_com'] ?
                     $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
                         $Auth[0]['product_com']['code_cum'] : null));
 
@@ -2761,8 +2767,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             }
             $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
             $quantity += $q;
-            $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] ?
-                $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'] : ($selected_procedures[$i]['supplies_com'] ?
+            $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
+                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : ($selected_procedures[$i]['supplies_com'] ?
                     $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
                         $selected_procedures[$i]['product_com']['code_cum'] : null));
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
@@ -2787,6 +2793,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 foreach ($packedAuthAux as $e) {
                     $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
                     $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                    array_push($services_date, $A);
                 }
             }
             if ($assistance_name == '') {
@@ -2809,7 +2816,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         $j++;
                     }
                 } else {
-                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
@@ -2817,7 +2824,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     array_push($view_services, $a);
                 }
             } else {
-                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['homologous_id'];
+                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
