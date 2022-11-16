@@ -126,14 +126,14 @@ class BillUserActivityController extends Controller
 
                 $aaa++;
     
-                // $billActivity = new BillUserActivity;
-                // $billActivity->procedure_id = $procedure_id;
-                // $billActivity->account_receivable_id = $account_receivable_id;
-                // $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
-                // $billActivity->admissions_id = $admissions_id;
-                // $billActivity->tariff_id = $tariff_id;
-                // $billActivity->ch_record_id = $ch_record_id;
-                // $billActivity->save();
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $procedure_id;
+                $billActivity->account_receivable_id = $account_receivable_id;
+                $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $tariff_id;
+                $billActivity->ch_record_id = $ch_record_id;
+                $billActivity->save();
             }
         }
 
