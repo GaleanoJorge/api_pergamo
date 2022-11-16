@@ -94,19 +94,19 @@ class BillUserActivityController extends Controller
             ->get()->toArray();
 
             $aaa = 0;
+            $bbb = 0;
 
         foreach ($Amp as $element) {
 
-            $mes = Carbon::parse($element['execution_date'])->month;
-
-            $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $element['user_id'])->get()->toArray();
+            $validate = AccountReceivable::where('created_at', '>=', '2022-10-01 00:00:00')->where('created_at', '<=', '2022-10-31 23:59:00')->where('user_id', $element['user_id'])->get()->toArray();
             if (count($validate) == 0) {
+                $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-                $AccountReceivable = new AccountReceivable;
-                $AccountReceivable->user_id = $element['user_id'];
-                $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->save();
+                // $AccountReceivable = new AccountReceivable;
+                // $AccountReceivable->user_id = $element['user_id'];
+                // $AccountReceivable->status_bill_id = 1;
+                // $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                // $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
@@ -120,7 +120,7 @@ class BillUserActivityController extends Controller
 
             if (count($valuetariff) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
-                $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
+                // $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
                 $tariff_id = $valuetariff[0]['id'];
@@ -128,21 +128,21 @@ class BillUserActivityController extends Controller
 
                 $aaa++;
     
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $procedure_id;
-                $billActivity->account_receivable_id = $account_receivable_id;
-                $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $tariff_id;
-                $billActivity->ch_record_id = $ch_record_id;
-                $billActivity->save();
+                // $billActivity = new BillUserActivity;
+                // $billActivity->procedure_id = $procedure_id;
+                // $billActivity->account_receivable_id = $account_receivable_id;
+                // $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                // $billActivity->admissions_id = $admissions_id;
+                // $billActivity->tariff_id = $tariff_id;
+                // $billActivity->ch_record_id = $ch_record_id;
+                // $billActivity->save();
             }
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
-            'data' => ['bill_user_activity' => count($Amp), 'aa' => $aaa]
+            'data' => ['bill_user_activity' => count($Amp), 'aa' => $aaa, 'bb' => $bbb]
         ]);
     }
 
