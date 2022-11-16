@@ -114,23 +114,23 @@ class BillUserActivityController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
 
-            // if (count($valuetariff) > 0) {
-            //     $procedure_id = $element['management_plan']['procedure_id'];
-            //     $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
-            //     $assigned_management_plan_id = $element['id'];
-            //     $admissions_id = $element['management_plan']['admissions_id'];
-            //     $tariff_id = $valuetariff;
-            //     $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
+            if (count($valuetariff) > 0) {
+                $procedure_id = $element['management_plan']['procedure_id'];
+                $account_receivable_id = count($validate) == 0 ? $AccountReceivable->id : $validate[0]['id'];
+                $assigned_management_plan_id = $element['id'];
+                $admissions_id = $element['management_plan']['admissions_id'];
+                $tariff_id = $valuetariff;
+                $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
     
-            //     $billActivity = new BillUserActivity;
-            //     $billActivity->procedure_id = $procedure_id;
-            //     $billActivity->account_receivable_id = $account_receivable_id;
-            //     $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
-            //     $billActivity->admissions_id = $admissions_id;
-            //     $billActivity->tariff_id = $tariff_id;
-            //     $billActivity->ch_record_id = $ch_record_id;
-            //     $billActivity->save();
-            // }
+                // $billActivity = new BillUserActivity;
+                // $billActivity->procedure_id = $procedure_id;
+                // $billActivity->account_receivable_id = $account_receivable_id;
+                // $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                // $billActivity->admissions_id = $admissions_id;
+                // $billActivity->tariff_id = $tariff_id;
+                // $billActivity->ch_record_id = $ch_record_id;
+                // $billActivity->save();
+            }
         }
 
         return response()->json([
