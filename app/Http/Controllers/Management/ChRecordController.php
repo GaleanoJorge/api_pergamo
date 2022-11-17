@@ -4668,7 +4668,6 @@ class ChRecordController extends Controller
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();
-            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
             $assigned->save();
 
             $assistance = Assistance::where('user_id', $request->user_id)->first();
@@ -4705,6 +4704,7 @@ class ChRecordController extends Controller
                 $AuthBillingPad->value = $ServicesBriefcase->value;
                 $AuthBillingPad->save();
             }
+            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
         } else {
             $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
             if ($billActivity) {
