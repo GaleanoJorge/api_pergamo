@@ -30,15 +30,15 @@ class PatientRequest extends FormRequest
         return [
             'status_id' => 'required',
             'gender_id' => 'required',
-            'academic_level_id' => 'required',
+            'academic_level_id' => '',
             'identification_type_id' => 'required',
-            'birthplace_municipality_id' => 'required',
+            'birthplace_municipality_id' => '',
             'username' => 'required',
             'email' => '',
             'firstname' => 'required',
             'lastname' => 'required',
             'birthday' => 'nullable|date|before:0 years ago',
-            'activities_id' =>'required',
+            'activities_id' => '',
             'age' => 'required',
             'phone' => 'nullable|numeric',
             //'identification' => ['required', Rule::unique('patients')->ignore($this->patient)->where('identification_type_id', $this->identification_type_id)]
@@ -56,8 +56,8 @@ class PatientRequest extends FormRequest
             'password.required_if' => 'La contraseña es obligatoria.',
             'password.regex' => 'La contraseña debe contener como mínimo: un número, un carácter especial, una letra mayúscula y una letra minúscula.',
             'confirm_password.required_if'  => 'La confirmación de la contraseña es obligatoria.',
-             'birthday.before' => 'La fecha de nacimiento no es valida',
-             'identification.unique' => 'El número y tipo de documento ya estan registrados',
+            'birthday.before' => 'La fecha de nacimiento no es valida',
+            'identification.unique' => 'El número y tipo de documento ya estan registrados',
             'confirm_password.same' => 'Los campos contraseña y confirmar contraseña no coinciden',
         ];
     }

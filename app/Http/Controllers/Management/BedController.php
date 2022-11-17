@@ -113,13 +113,19 @@ class BedController extends Controller
         if ($procedure != 0) {
             $Bed->where('procedure_id', '=', $procedure);
         }
+
+        if (!$request->office) {
+            // $Bed->where('id', $request->office);
+            $Bed->where('status_bed_id', '=', '1');
+        }
+        
         $Bed->orderBy('name', 'asc');
         $Bed = $Bed->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Camas obtenidos exitosamente',
-            'data' => ['bed' => $Bed]
+            'data' => ['bed' => $Bed->get()->toArray()]
         ]);
     }
 
@@ -246,6 +252,66 @@ class BedController extends Controller
             'data' => ['bed' => $Bed]
         ]);
     }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param integer $pavilion_id
+     * @return JsonResponse
+     */
+    public function getOfficeByCampus(Request $request): JsonResponse
+    {
+        $Bed = Bed::select('bed.*')
+            ->leftJoin('pavilion', 'bed.pavilion_id', 'pavilion.id')
+            ->leftjoin('flat', 'pavilion.flat_id', 'flat.id')
+            ->with(
+                'status_bed',
+                'pavilion',
+                'pavilion.flat',
+                'pavilion.flat.campus',
+            )
+            ->where([
+                'bed.status_bed_id' => $request->status_bed_id,
+                'bed.bed_or_office' => '2',
+                'bed.pavilion_id' => $request->pavilion_id
+                // 'flat.campus_id' => $request->campus_id,
+            ]);
+
+        if ($request->assistance_id) {
+            $Bed->leftjoin('medical_diary', 'bed.id', 'medical_diary.office_id')
+                ->orwhere(function ($query) use ($request) {
+                    $query->orwhere('bed.bed_or_office', '2')
+                        ->WhereNotNull('medical_diary.office_id');
+                });
+        }
+
+        if ($request->_sort) {
+            $Bed->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $Bed->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $Bed = $Bed->groupBy('bed.id')
+                ->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Bed = $Bed->paginate($per_page, '*', 'page', $page);
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas obtenidos exitosamente',
+            'data' => ['bed' => $Bed]
+        ]);
+    }
+
+
 
 
 

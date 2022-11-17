@@ -31,7 +31,7 @@ class AuthorizationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Authorization = Authorization::select();
+        $Authorization = Authorization::select('authorization.*');
 
         if ($request->_sort) {
             $Authorization->orderBy($request->_sort, $request->_order);
@@ -129,6 +129,9 @@ class AuthorizationController extends Controller
                     $que->WherenotNull('application_id')
                         ->where('auth_status_id', '=', 3)
                         ->WhereNull('auth_number');
+                });
+                $query->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('medical_diary_days_id');
                 });
             });
         } else if ($request->status_id === 'E') {

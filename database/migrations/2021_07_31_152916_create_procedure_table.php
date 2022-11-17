@@ -27,6 +27,7 @@ class CreateProcedureTable extends Migration
             $table->unsignedTinyInteger('gender_id');
             $table->unsignedTinyInteger('status_id');
             $table->unsignedBigInteger('procedure_purpose_id');
+            $table->integer('payment_type')->nullable(); // 1 cuota moderadora - 2 copago - 3 excento
             $table->time('time')->nullable();
             $table->timestamps();
             
