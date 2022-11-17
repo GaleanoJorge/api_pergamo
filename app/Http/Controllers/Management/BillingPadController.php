@@ -2352,12 +2352,14 @@ class BillingPadController extends Controller
                         ->groupBy('authorization.id')
                         ->get()->toArray();
                     foreach ($packedAuths as $element) {
-                        $A = $element['assigned_management_plan']['execution_date'];
-                        $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
-                        if ($assistance_name == '') {
-                            $assistance_name = $b;
-                        }
-                        array_push($services_date, $A);
+                        try {
+                            $A = $element['assigned_management_plan']['execution_date'];
+                            $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+                            if ($assistance_name == '') {
+                                $assistance_name = $b;
+                            }
+                            array_push($services_date, $A);
+                        } catch (QueryException $e) {}
                     }
                 }
 
@@ -2791,9 +2793,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'manual_price.procedure'
                 )->get()->toArray();
                 foreach ($packedAuthAux as $e) {
-                    $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
+                    try {
+                        $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
                     $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
                     array_push($services_date, $A);
+                    } catch (QueryException $e) {}
+                    
                 }
             }
             if ($assistance_name == '') {

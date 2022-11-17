@@ -371,7 +371,8 @@ class PharmacyProductRequestController extends Controller
                 'admissions.patients',
                 'services_briefcase',
                 'services_briefcase.briefcase',
-                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.product.multidose_concentration',
+                'services_briefcase.manual_price.product.measurement_units',
                 'user_request_pad',
                 'management_plan',
                 'own_pharmacy_stock',
@@ -418,6 +419,8 @@ class PharmacyProductRequestController extends Controller
                         });
                     });
             }
+            $PharmacyProductRequest->Having('disponibles', '>', 0);
+
         }
 
         //desde suministros
@@ -491,18 +494,18 @@ class PharmacyProductRequestController extends Controller
         //     $PharmacyProductRequest = $PharmacyProductRequest->paginate($per_page, '*', 'page', $page);
         // }
         $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
-        foreach ($PharmacyProductRequest as $item) {
-            if ($item['disponibles'] == 0) {
-            } else {
-                array_push($arreglo, $item);
-            }
-        }
+        // foreach ($PharmacyProductRequest as $item) {
+        //     if ($item['disponibles'] == 0) {
+        //     } else {
+        //         array_push($arreglo, $item);
+        //     }
+        // }
 
         return response()->json([
 
             'status' => true,
             'message' => 'Producto solicitado obtenidos exitosamente',
-            'data' => ['pharmacy_product_request' => $arreglo]
+            'data' => ['pharmacy_product_request' => $PharmacyProductRequest]
         ]);
     }
 
