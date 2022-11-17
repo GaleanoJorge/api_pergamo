@@ -266,8 +266,6 @@ class BillingPadController extends Controller
             $BillingPadPgp->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $BillingPadPgp->id);
-
             $BillingsPad = BillingPad::select('billing_pad.*')
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
                 ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
@@ -286,6 +284,8 @@ class BillingPadController extends Controller
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
+
+            $this->generateBillingDat(2, $BillingPadPgp->id);
 
             return response()->json([
                 'status' => true,
@@ -2020,13 +2020,14 @@ class BillingPadController extends Controller
             $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
             $BillingPad->save();
-            $this->generateBillingDat(1, $id);
-
+            
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
+
+            $this->generateBillingDat(1, $id);
 
             return response()->json([
                 'status' => true,
@@ -2168,8 +2169,6 @@ class BillingPadController extends Controller
                 $AuthBillingPad->save();
             }
 
-            $this->generateBillingDat(1, $NCBillingPad->id);
-
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -2181,6 +2180,8 @@ class BillingPadController extends Controller
             $BillingPadNCLog->billing_pad_status_id = 2;
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
+
+            $this->generateBillingDat(1, $NCBillingPad->id);
 
             return response()->json([
                 'status' => true,
@@ -2251,7 +2252,7 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $NCBillingPadPgp->id);
+            
 
             $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->startOfMonth();
             $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->setTimezone('America/Bogota')->endOfMonth();
@@ -2280,6 +2281,8 @@ class BillingPadController extends Controller
             $BillingPadNCLog->billing_pad_status_id = 2;
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
+
+            $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             return response()->json([
                 'status' => true,
@@ -2358,7 +2361,7 @@ class BillingPadController extends Controller
         if ($billMaker) {
             $billMakerName = $this->nameBuilder($billMaker[0]['billing_maker_firstname'], null, $billMaker[0]['billing_maker_lastname'], null);
         } else {
-            $billMakerName = $this->nameBuilder('PEPITO', null, 'PEREZ', null);
+            $billMakerName = $this->nameBuilder('MARIANA', null, 'RODRIGUEZ', null);
         }
 
         $CompanyLocationInfo = Company::where('company.id', $BillingPad[0]['eps_id'])
