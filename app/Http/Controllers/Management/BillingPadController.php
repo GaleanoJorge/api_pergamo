@@ -265,8 +265,6 @@ class BillingPadController extends Controller
             $BillingPadPgp->facturation_date = Carbon::now();
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $BillingPadPgp->id);
-
             $BillingsPad = BillingPad::select('billing_pad.*')
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
                 ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
@@ -285,6 +283,8 @@ class BillingPadController extends Controller
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
+
+            $this->generateBillingDat(2, $BillingPadPgp->id);
 
             return response()->json([
                 'status' => true,
@@ -1911,13 +1911,14 @@ class BillingPadController extends Controller
             $BillingPad->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
             $BillingPad->save();
-            $this->generateBillingDat(1, $id);
-
+            
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
+
+            $this->generateBillingDat(1, $id);
 
             return response()->json([
                 'status' => true,
@@ -2022,8 +2023,6 @@ class BillingPadController extends Controller
                 $AuthBillingPad->save();
             }
 
-            $this->generateBillingDat(1, $NCBillingPad->id);
-
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -2035,6 +2034,8 @@ class BillingPadController extends Controller
             $BillingPadNCLog->billing_pad_status_id = 2;
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
+
+            $this->generateBillingDat(1, $NCBillingPad->id);
 
             return response()->json([
                 'status' => true,
@@ -2105,7 +2106,7 @@ class BillingPadController extends Controller
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
 
-            $this->generateBillingDat(2, $NCBillingPadPgp->id);
+            
 
             $firstDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->startOfMonth();
             $lastDateLastMonth = Carbon::parse($BillingPadPgp->facturation_date)->endOfMonth();
@@ -2134,6 +2135,8 @@ class BillingPadController extends Controller
             $BillingPadNCLog->billing_pad_status_id = 2;
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
+
+            $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             return response()->json([
                 'status' => true,
@@ -2212,7 +2215,7 @@ class BillingPadController extends Controller
         if ($billMaker) {
             $billMakerName = $this->nameBuilder($billMaker[0]['billing_maker_firstname'], null, $billMaker[0]['billing_maker_lastname'], null);
         } else {
-            $billMakerName = $this->nameBuilder('PEPITO', null, 'PEREZ', null);
+            $billMakerName = $this->nameBuilder('MARIANA', null, 'RODRIGUEZ', null);
         }
 
         $CompanyLocationInfo = Company::where('company.id', $BillingPad[0]['eps_id'])
@@ -2352,12 +2355,18 @@ class BillingPadController extends Controller
                         ->groupBy('authorization.id')
                         ->get()->toArray();
                     foreach ($packedAuths as $element) {
-                        $A = $element['assigned_management_plan']['execution_date'];
-                        $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
-                        if ($assistance_name == '') {
-                            $assistance_name = $b;
-                        }
-                        array_push($services_date, $A);
+                        try {
+                            if ($element['assigned_management_plan']) {
+                                $A = $element['assigned_management_plan']['execution_date'] ? $element['assigned_management_plan']['execution_date'] : null;
+                                $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+                                if ($assistance_name == '') {
+                                    $assistance_name = $b;
+                                }
+                                if ($A) {
+                                    array_push($services_date, $A);
+                                } 
+                            }
+                        } catch (QueryException $e) {}
                     }
                 }
 
@@ -2791,9 +2800,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'manual_price.procedure'
                 )->get()->toArray();
                 foreach ($packedAuthAux as $e) {
-                    $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
-                    $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
-                    array_push($services_date, $A);
+                    try {
+                        $A = $e['assigned_management_plan'] ? ($e['assigned_management_plan']['execution_date'] ? $e['assigned_management_plan']['execution_date']: "") : "";
+                        $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                        array_push($services_date, $A);
+                    } catch (QueryException $e) {}
+                    
                 }
             }
             if ($assistance_name == '') {
