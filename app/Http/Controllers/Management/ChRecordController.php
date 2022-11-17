@@ -1182,11 +1182,6 @@ class ChRecordController extends Controller
             $imagenPAtient = base64_encode($contenidoBinarioPatient);
         } else {
             $imagenPAtient = null;
-            return response()->json([
-                'status' => false,
-                'message' => 'No se cuenta con la firma del paciente para generar este documento',
-
-            ]);
     
         }
 
@@ -1372,11 +1367,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
 
             $today = Carbon::now();
@@ -1529,11 +1519,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -1746,11 +1731,6 @@ class ChRecordController extends Controller
                 }
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -1887,11 +1867,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2011,11 +1986,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -2130,11 +2100,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -2257,11 +2222,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2302,7 +2262,7 @@ class ChRecordController extends Controller
 
                 'firmPatient' => $imagenPAtient,
                 'ChNRMaterialsFT' => $ChNRMaterialsFT,
-                
+
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -2411,11 +2371,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2538,11 +2493,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2685,7 +2635,7 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
-         ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+            ->leftJoin('location', 'admissions.id', 'location.admissions_id')
 
 
 
@@ -2706,14 +2656,14 @@ class ChRecordController extends Controller
             $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
         }
 
-        if ($request->admission_route_id) {   
-            $ChRecord         
-                ->where('location.admission_route_id', $request->admission_route_id );
+        if ($request->admission_route_id) {
+            $ChRecord
+                ->where('location.admission_route_id', $request->admission_route_id);
         }
 
-        if ($request->scope_of_attention_id) {   
-            $ChRecord         
-                ->where('location.scope_of_attention_id', $request->scope_of_attention_id );
+        if ($request->scope_of_attention_id) {
+            $ChRecord
+                ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
         }
 
         $ChRecord = $ChRecord->get()->toArray();
@@ -2771,11 +2721,7 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
+                
             }
 
             $ChFormulation = ChFormulation::with(
@@ -2788,7 +2734,7 @@ class ChRecordController extends Controller
                 ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
                 ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
 
-            if (count($ChFormulation) == 0){
+            if (count($ChFormulation) == 0) {
                 return response()->json([
                     'status' => false,
                     'message' => 'No se encuentran Formulaciones asociadas al paciente',
@@ -3008,11 +2954,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
                         ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
@@ -3198,12 +3139,12 @@ class ChRecordController extends Controller
 
                     //APLICACION DE MEDICAMENTOS
 
-
-                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id',  $ch['id'])
-
-                        // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
-                        // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
-                        // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
+                    ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                        ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                        ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                        ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                        ->where('ch_record_id', $ch['id'])->whereNotNull('manual_price.product_id')
                         ->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
@@ -3212,11 +3153,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
@@ -3428,11 +3364,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
@@ -3605,11 +3536,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
@@ -3817,11 +3743,6 @@ class ChRecordController extends Controller
                         }
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
                     $Patients = $ChRecord[0]['admissions']['patients'];
@@ -3967,7 +3888,7 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                
+
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3978,11 +3899,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
                     $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
@@ -4021,7 +3937,7 @@ class ChRecordController extends Controller
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
-                        
+
                         'firm' => $imagenComoBase64,
                         'today' => $today,
                         //   asset('storage/'.$ch['user']['assistance'][0]['file_firm']),
@@ -4144,11 +4060,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
@@ -4182,7 +4093,7 @@ class ChRecordController extends Controller
                         'ChETherGoalsFT' => $ChETherGoalsFT,
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                         'ChNRMaterialsFT' => $ChNRMaterialsFT,
-                        
+
                         'ChEWeeklyFT' => $ChEWeeklyFT,
                         'fecharecord' => $fecharecord,
 
@@ -4338,11 +4249,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
                     $Patients = $ch['admissions']['patients'];
@@ -4686,11 +4592,53 @@ class ChRecordController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChRecord = ChRecord::find($id);
+        $validate_aplication = ChRecord::select('ch_record.*')
+            ->where('id', $id)
+            ->with(
+                'assigned_management_plan.management_plan'
+            )->first();
+
+        // var_dump($validate_aplication);
+
+        if ($validate_aplication->assigned_management_plan->management_plan->type_of_attention_id == 17) {
+
+            $pharmacy = PharmacyProductRequest::select('pharmacy_product_request.*')
+            ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+            ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->where('ch_record.id', $id)->first();
+
+            $applicated = AssistanceSupplies::select('assistance_supplies.*')
+            ->where('supplies_status_id', 2)
+            ->where('pharmacy_product_request_id', $pharmacy->id)->get()->toArray();
+
+            $applicatedCount = 0;
+
+            foreach ($applicated as $item) {
+
+                $compare = ChRecord::find($item['ch_record_id']);
+                if ($validate_aplication->assigned_management_plan_id == $compare->assigned_management_plan_id) {
+                    $applicatedCount++;
+                    break;
+                }
+            }
+
+                if($applicatedCount == 0){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe registrar aplicación de medicamento',
+                ]);
+            }
+
+        }
+
         $admissions_id = $ChRecord->admissions_id;
         $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
             ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
+
+
 
         if ($request->firm_file) {
             if ($request->firm_file != "null" && $request->firm_file != "undefined") {
@@ -4755,7 +4703,7 @@ class ChRecordController extends Controller
                 'data' => ['ch_record' => $ChRecord],
             ]);
         }
-        
+
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
         if ($ChRecordExist->date_finish == '0000-00-00 00:00:00') {

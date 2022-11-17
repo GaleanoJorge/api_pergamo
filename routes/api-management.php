@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+Route::get('bill_user_activity/createMissedActivities/{Id}', 'Management\BillUserActivityController@createMissedActivities');
+
 //Routes free for the render and finished the survey
 Route::apiResource('survey_detail', 'Management\SurveyDetailController');
 Route::apiResource('user_assig_survey', 'Management\UserAssignSurveyController');
@@ -1773,6 +1775,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Aplicaciones
     Route::apiResource('assistance_supplies', 'Management\AssistanceSuppliesController');
+    Route::get('assistance_supplies_app', 'Management\AssistanceSuppliesController@applicatedByAssigned');
 
     //Aplicaciones indiviuales medicamentos
     Route::get('pharmacy_product_request_for_use', 'Management\PharmacyProductRequestController@forUse');
