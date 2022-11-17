@@ -2353,12 +2353,16 @@ class BillingPadController extends Controller
                         ->get()->toArray();
                     foreach ($packedAuths as $element) {
                         try {
-                            $A = $element['assigned_management_plan']['execution_date'];
-                            $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
-                            if ($assistance_name == '') {
-                                $assistance_name = $b;
+                            if ($element['assigned_management_plan']) {
+                                $A = $element['assigned_management_plan']['execution_date'] ? $element['assigned_management_plan']['execution_date'] : null;
+                                $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+                                if ($assistance_name == '') {
+                                    $assistance_name = $b;
+                                }
+                                if ($A) {
+                                    array_push($services_date, $A);
+                                } 
                             }
-                            array_push($services_date, $A);
                         } catch (QueryException $e) {}
                     }
                 }
@@ -2794,9 +2798,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 )->get()->toArray();
                 foreach ($packedAuthAux as $e) {
                     try {
-                        $A = $e['assigned_management_plan'] ? $e['assigned_management_plan']['execution_date'] : "";
-                    $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
-                    array_push($services_date, $A);
+                        $A = $e['assigned_management_plan'] ? ($e['assigned_management_plan']['execution_date'] ? $e['assigned_management_plan']['execution_date']: "") : "";
+                        $b = $e['assigned_management_plan'] ? $e['assigned_management_plan']['user']['firstname'] . ' ' . $e['assigned_management_plan']['user']['lastname'] : "";
+                        array_push($services_date, $A);
                     } catch (QueryException $e) {}
                     
                 }
