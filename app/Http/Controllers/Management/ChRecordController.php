@@ -4695,13 +4695,14 @@ class ChRecordController extends Controller
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
         
         $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-        
-        if (count($valuetariff) == 0) {
-            return response()->json([
-                'status' => false,
-                'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                'data' => ['ch_record' => $ChRecord],
-            ]);
+        if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (count($valuetariff) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
+                    'data' => ['ch_record' => $ChRecord],
+                ]);
+            }
         }
 
         $ChRecord->date_finish = Carbon::now();
@@ -4777,7 +4778,7 @@ class ChRecordController extends Controller
     public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        if (($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) && $ManagementPlan->procedure_id) {
+        if ($ManagementPlan->procedure_id) {
             if (!$validate) {
                 $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
@@ -4791,7 +4792,7 @@ class ChRecordController extends Controller
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $valuetariff[0]['id'] : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -4801,7 +4802,7 @@ class ChRecordController extends Controller
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $valuetariff[0]['id'] : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };
