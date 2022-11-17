@@ -2743,6 +2743,7 @@ class ChRecordController extends Controller
             }
             $html = view('mails.chAllFormulation', [
                 'chrecord' => $ChRecord2,
+                // 'chrecord2' => $ChRecord[$i],
                 'ChFormulation' => $ChFormulation,
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
@@ -4402,6 +4403,8 @@ class ChRecordController extends Controller
                 ]);
             }
         }
+
+        
 
         return response()->json([
             'status' => true,
