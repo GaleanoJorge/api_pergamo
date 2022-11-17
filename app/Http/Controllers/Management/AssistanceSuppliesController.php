@@ -125,6 +125,13 @@ class AssistanceSuppliesController extends Controller
                     'pharmacy_product_request.services_briefcase.manual_price.product.measurement_units',
                 )->first();
 
+            if(!$product){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Sin medicamentos despachados. Contacte con farmacia',
+                ]);
+            }
+
 
             $applicatedCount = 0;
 
