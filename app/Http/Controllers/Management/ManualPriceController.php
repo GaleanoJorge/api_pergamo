@@ -403,6 +403,7 @@ class ManualPriceController extends Controller
             $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
             $ManualPrice->homologous_id = $request->code_atc;
             $ManualPrice->description = $request->description;
+            $ManualPrice->has_auth = $request->has_auth;
             $ManualPrice->save();
 
 
@@ -505,6 +506,8 @@ class ManualPriceController extends Controller
         $ManualPrice->manual_procedure_type_id = $request->manual_procedure_type_id;
         $ManualPrice->homologous_id = $request->homologous_id;
         $ManualPrice->description = $request->description;
+        $ManualPrice->has_auth = $request->has_auth;
+
         $ManualPrice->save();
 
         return response()->json([

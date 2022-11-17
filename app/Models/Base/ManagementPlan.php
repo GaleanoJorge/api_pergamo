@@ -88,6 +88,12 @@ class ManagementPlan extends Model
 	{
 		return $this->belongsTo(Status::class);
 	}
+
+	public function single_assigned_management_plan()
+	{
+		return $this->belongsTo(AssignedManagementPlan::class, 'id', 'managemen_plan_id');
+	}
+
 	public function briefcase()
 	{
 		return $this->hasOneThrough(
