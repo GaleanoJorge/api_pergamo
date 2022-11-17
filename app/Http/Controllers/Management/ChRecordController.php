@@ -5054,7 +5054,7 @@ class ChRecordController extends Controller
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
             ->get()->toArray();
             
-        if ($ChRecord_val[0]['ch_interconsultation_id'] != null) {
+        if ($ChRecord_val[0]['ch_interconsultation'] != null && $ChRecord_val[0]['ch_interconsultation']['type_of_attention_id'] != null) {
             $ch_interconsultation_val = ChInterconsultation::find($ChRecord_val[0]['ch_interconsultation_id']);
 
             if ($ChRecord_val[0]['admission_route_id'] == 1) {
