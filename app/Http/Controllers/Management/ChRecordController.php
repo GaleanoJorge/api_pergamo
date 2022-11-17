@@ -2672,7 +2672,7 @@ class ChRecordController extends Controller
 
         $count = 0;
 
-        if ($request->ch_type == 11) {
+        if ($request->ch_type == 20) {
 
             $today = Carbon::now();
 
