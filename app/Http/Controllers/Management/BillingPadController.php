@@ -1887,13 +1887,14 @@ class BillingPadController extends Controller
             $components = json_decode($request->authorizations);
             $total_value = 0;
             foreach ($components as $conponent) {
+                $Auth_A = Authorization::find($conponent);
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
-                $AuthBillingPad->authorization_id = $conponent['id'];
-                if ($conponent['services_briefcase']) {
-                    $AuthBillingPad->value = $conponent['services_briefcase']['value'];
+                $AuthBillingPad->authorization_id = $Auth_A->id;
+                if ($Auth_A->services_briefcase) {
+                    $AuthBillingPad->value = $Auth_A->services_briefcase->value;
                 } else {
-                    $AuthBillingPad->value = $conponent['manual_price']['value'];
+                    $AuthBillingPad->value = $Auth_A->manual_price->value;
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
