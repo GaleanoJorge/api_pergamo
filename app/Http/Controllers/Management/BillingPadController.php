@@ -1904,7 +1904,7 @@ class BillingPadController extends Controller
                     'manual_price',
                     'manual_price.procedure',
                 )
-                ->whereIn('authorization.id', $conponent)->get()->toArray();
+                ->where('authorization.id', $conponent)->get()->toArray();
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
                 $AuthBillingPad->authorization_id = $Auth_A['id'];
