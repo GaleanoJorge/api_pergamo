@@ -1907,15 +1907,15 @@ class BillingPadController extends Controller
                 ->where('authorization.id', $conponent)->get()->toArray();
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
-                $AuthBillingPad->authorization_id = $Auth_A['id'];
+                $AuthBillingPad->authorization_id = $Auth_A[0]['id'];
                 $q = 1;
-                if ($Auth_A['quantity']) {
-                    $q = $Auth_A['quantity'];
+                if ($Auth_A[0]['quantity']) {
+                    $q = $Auth_A[0]['quantity'];
                 }
-                if ($Auth_A['services_briefcase']) {
-                    $AuthBillingPad->value = $Auth_A['services_briefcase']['value'] * $q;
+                if ($Auth_A[0]['services_briefcase']) {
+                    $AuthBillingPad->value = $Auth_A[0]['services_briefcase']['value'] * $q;
                 } else {
-                    $AuthBillingPad->value = $Auth_A['manual_price']['value'] * $q;
+                    $AuthBillingPad->value = $Auth_A[0]['manual_price']['value'] * $q;
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
