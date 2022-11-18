@@ -418,7 +418,11 @@ class AuthorizationController extends Controller
      */
     public function GetByAdmissions(Request $request, int $admissionsId): JsonResponse
     {
-        $Authorization = Authorization::select('authorization.*')
+        $Authorization = Authorization::select(
+            'authorization.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('DATE(authorization.created_at) as date'),
+        )
             ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
@@ -427,10 +431,7 @@ class AuthorizationController extends Controller
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-            ->select(
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
-                DB::raw('DATE(authorization.created_at) as date'),
-            )
+            
             // ->wherenull('auth_package_id')
             ->with(
                 'admissions',
