@@ -2410,7 +2410,7 @@ class BillingPadController extends Controller
                     $Auth[0]['supplies_com']['code_udi'] : 
                     $Auth[0]['product_com']['code_cum']);
 
-                $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['value'] = $value2;
                 $services[$consecutivo]['quantity'] = $quantity;
                 $services[$consecutivo]['service'] = $service;
                 $services[$consecutivo]['code'] = $code;
