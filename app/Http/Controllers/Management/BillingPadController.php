@@ -2296,6 +2296,7 @@ class BillingPadController extends Controller
             foreach ($components as $component) {
                 $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                     ->select(
+                        'authorization.*',
                         'authorization.id AS authorization_id',
                         'authorization.quantity AS quantity',
                         'authorization.auth_number AS auth_number',
@@ -2392,19 +2393,7 @@ class BillingPadController extends Controller
                 $Auth[0]['services_briefcase']['manual_price']['own_code'] : 
                     ($Auth[0]['supplies_com'] ?
                     $Auth[0]['supplies_com']['code_udi'] : 
-                    ($Auth[0]['product_com'] ? 
-                    $Auth[0]['product_com']['code_cum'] : -1));
-
-                if ($code == -1) {
-                    if ($Auth[0]['product_com_id']) {
-                        $product = Product::find($Auth[0]['product_com_id']);
-                        $code = $product->code_cum;
-                    }
-                    if ($Auth[0]['supplies_com_id']) {
-                        $product = ProductSuppliesCom::find($Auth[0]['supplies_com_id']);
-                        $code = $product->code_udi;
-                    }
-                }
+                    $Auth[0]['product_com']['code_cum']);
 
                 $services[$consecutivo]['value'] = $value;
                 $services[$consecutivo]['quantity'] = $quantity;
