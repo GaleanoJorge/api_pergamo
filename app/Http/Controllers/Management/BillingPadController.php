@@ -2384,7 +2384,8 @@ class BillingPadController extends Controller
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
                 $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
                 $Auth[0]['services_briefcase']['manual_price']['own_code'] : ($Auth[0]['supplies_com'] ?
-                    $Auth[0]['supplies_com']['code_udi'] : $Auth[0]['product_com']['code_cum']);
+                    $Auth[0]['supplies_com']['code_udi'] : 
+                    $Auth[0]['product_com']['code_cum']);
 
                 $services[$consecutivo]['value'] = $value;
                 $services[$consecutivo]['quantity'] = $quantity;
@@ -2797,8 +2798,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             $total_value += ($element['services_briefcase']['value'] * $q);
             $quantity += $q;
             $code = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
-                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : ($selected_procedures[$i]['supplies_com'] ?
-                    $selected_procedures[$i]['supplies_com']['code_udi'] : $selected_procedures[$i]['product_com']['code_cum']);
+                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : 
+                    ($selected_procedures[$i]['supplies_com'] ?
+                    $selected_procedures[$i]['supplies_com']['code_udi'] : 
+                    $selected_procedures[$i]['product_com']['code_cum']);
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
             $selected_procedures[$i]['services_briefcase']['value'] = $element['services_briefcase']['value'];
             if ($element['assigned_management_plan'] || $element['fixed_add_id']) {
