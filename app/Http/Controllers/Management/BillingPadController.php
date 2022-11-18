@@ -1889,18 +1889,33 @@ class BillingPadController extends Controller
             $components = json_decode($request->authorizations);
             $total_value = 0;
             foreach ($components as $conponent) {
-                $Auth_A = Authorization::find($conponent);
+                $Auth_A = Authorization::select('authorization.*')
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'services_briefcase.manual_price.procedure',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure',
+                )
+                ->whereIn('authorization.id', $conponent)->get()->toArray();
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
-                $AuthBillingPad->authorization_id = $Auth_A->id;
+                $AuthBillingPad->authorization_id = $Auth_A['id'];
                 $q = 1;
-                if ($Auth_A->quantity) {
-                    $q = $Auth_A->quantity;
+                if ($Auth_A['quantity']) {
+                    $q = $Auth_A['quantity'];
                 }
-                if ($Auth_A->services_briefcase) {
-                    $AuthBillingPad->value = $Auth_A->services_briefcase->value * $q;
+                if ($Auth_A['services_briefcase']) {
+                    $AuthBillingPad->value = $Auth_A['services_briefcase']['value'] * $q;
                 } else {
-                    $AuthBillingPad->value = $Auth_A->manual_price->value * $q;
+                    $AuthBillingPad->value = $Auth_A['manual_price']['value'] * $q;
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
