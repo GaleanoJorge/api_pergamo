@@ -452,7 +452,8 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->groupBy('authorization.id')
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            ;
         if ($request->show) {
             $eventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -520,7 +521,8 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            ;
         if ($request->show) {
             $MedicamentosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -588,7 +590,8 @@ class BillingPadController extends Controller
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->groupBy('authorization.id')
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth());
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            ;
         if ($request->show) {
             $InsumosEventos->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1190,7 +1193,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
         $Authorizations = []; // COSAS NO FACTURADAS
         // $AlreadyBilling = []; // COSAS FACTURADAS
@@ -1241,7 +1244,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
 
         foreach ($MedicamentosEventos as $Authorization) {
@@ -1289,7 +1292,7 @@ class BillingPadController extends Controller
             ->leftJoin('billing_pad_status', 'billing_pad_status.id', 'billing_pad.billing_pad_status_id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
             ->groupBy('authorization.id')
-            ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
+            // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ->get()->toArray();
 
         foreach ($InsumosEventos as $Authorization) {
