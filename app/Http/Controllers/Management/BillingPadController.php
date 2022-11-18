@@ -1889,11 +1889,11 @@ class BillingPadController extends Controller
             foreach ($components as $conponent) {
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
-                $AuthBillingPad->authorization_id = $conponent->id;
-                if ($conponent->services_briefcase) {
-                    $AuthBillingPad->value = $conponent->services_briefcase->value;
+                $AuthBillingPad->authorization_id = $conponent['id'];
+                if ($conponent['services_briefcase']) {
+                    $AuthBillingPad->value = $conponent['services_briefcase']['value'];
                 } else {
-                    $AuthBillingPad->value = $conponent->manual_price->value;
+                    $AuthBillingPad->value = $conponent['manual_price']['value'];
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
