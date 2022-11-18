@@ -2755,7 +2755,23 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $BillingPad = $this->getBillingPadInformation($id);
         $multiplicate = false;
         if ($request->selected_procedures) {
-            $selected_procedures = json_decode($request->selected_procedures, true);
+            $ids = json_decode($request->selected_procedures, true);
+            $selected_procedures = Authorization::select('authorization.*')
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'product_com',
+                'supplies_com',
+                'services_briefcase.manual_price.procedure',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'manual_price.procedure',
+            )
+            ->whereIn('authorization.id', $ids)->get()->toArray();
         } else if ($request->admission_id) {
             $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
             $multiplicate = true;
@@ -2777,7 +2793,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             if ($element['quantity']) {
                 $q = $element['quantity'];
             }
-            $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+            $total_value += ($element['services_briefcase']['value'] * $q);
             $quantity += $q;
             $code = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
                 $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : ($selected_procedures[$i]['supplies_com'] ?
@@ -2825,7 +2841,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     foreach ($view_services as $e) {
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
                             $view_services[$j]['amount'] += $quantity;
-                            $view_services[$j]['value'] += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                            $view_services[$j]['value'] += ($element['services_briefcase']['value'] * $q);
                         }
                         $j++;
                     }
@@ -2834,7 +2850,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
-                    $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                    $a['value'] = ($element['services_briefcase']['value'] * $q);
                     array_push($view_services, $a);
                 }
             } else {
@@ -2842,7 +2858,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
-                $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                $a['value'] = ($element['services_briefcase']['value'] * $q);
                 array_push($view_services, $a);
             }
 
