@@ -17,6 +17,10 @@ class ChScalePainController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        if ($request->latest) {
+            $ChScalePain = ChScalePain::where('ch_record_id', $request->ch_record_id)->orderBy('created_at', 'desc')->take(1)->get()->toArray();
+        } else {
+
         $ChScalePain = ChScalePain::select();
 
         if ($request->_sort) {
@@ -27,6 +31,13 @@ class ChScalePainController extends Controller
             $ChScalePain->where('name', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->ch_record_id) {
+            $ChScalePain->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->latest  && isset($request->latest)) {
+        }
+
         if ($request->query("pagination", true) == "false") {
             $ChScalePain = $ChScalePain->get()->toArray();
         } else {
@@ -35,6 +46,8 @@ class ChScalePainController extends Controller
 
             $ChScalePain = $ChScalePain->paginate($per_page, '*', 'page', $page);
         }
+    
+    }
 
 
         return response()->json([
