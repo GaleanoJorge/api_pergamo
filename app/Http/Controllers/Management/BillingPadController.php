@@ -18,6 +18,8 @@ use App\Models\ProcedurePackage;
 use App\Actions\Transform\NumerosEnLetras;
 use App\Models\BillingPadConsecutive;
 use App\Models\Campus;
+use App\Models\Product;
+use App\Models\ProductSuppliesCom;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -1891,10 +1893,14 @@ class BillingPadController extends Controller
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
                 $AuthBillingPad->authorization_id = $Auth_A->id;
+                $q = 1;
+                if ($Auth_A->quantity) {
+                    $q = $Auth_A->quantity;
+                }
                 if ($Auth_A->services_briefcase) {
-                    $AuthBillingPad->value = $Auth_A->services_briefcase->value;
+                    $AuthBillingPad->value = $Auth_A->services_briefcase->value * $q;
                 } else {
-                    $AuthBillingPad->value = $Auth_A->manual_price->value;
+                    $AuthBillingPad->value = $Auth_A->manual_price->value * $q;
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
@@ -2383,9 +2389,22 @@ class BillingPadController extends Controller
                 $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
                 $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
-                $Auth[0]['services_briefcase']['manual_price']['own_code'] : ($Auth[0]['supplies_com'] ?
+                $Auth[0]['services_briefcase']['manual_price']['own_code'] : 
+                    ($Auth[0]['supplies_com'] ?
                     $Auth[0]['supplies_com']['code_udi'] : 
-                    $Auth[0]['product_com']['code_cum']);
+                    ($Auth[0]['product_com'] ? 
+                    $Auth[0]['product_com']['code_cum'] : -1));
+
+                if ($code == -1) {
+                    if ($Auth[0]['product_com_id']) {
+                        $product = Product::find($Auth[0]['product_com_id']);
+                        $code = $product->code_cum;
+                    }
+                    if ($Auth[0]['supplies_com_id']) {
+                        $product = ProductSuppliesCom::find($Auth[0]['supplies_com_id']);
+                        $code = $product->code_udi;
+                    }
+                }
 
                 $services[$consecutivo]['value'] = $value;
                 $services[$consecutivo]['quantity'] = $quantity;
