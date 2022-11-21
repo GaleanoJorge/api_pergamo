@@ -19,6 +19,8 @@ use App\Actions\Transform\NumerosEnLetras;
 use App\Models\BillingPadConsecutive;
 use App\Models\Campus;
 use App\Models\Location;
+use App\Models\Product;
+use App\Models\ProductSuppliesCom;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -1996,13 +1998,33 @@ class BillingPadController extends Controller
                         $Auth_B->save();
                     }
                 }
+                $Auth_A = Authorization::select('authorization.*')
+                ->with(
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
+                    'supplies_com',
+                    'services_briefcase.manual_price.procedure',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'manual_price.procedure',
+                )
+                ->where('authorization.id', $conponent)->get()->toArray();
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
-                $AuthBillingPad->authorization_id = $conponent->id;
-                if ($conponent->services_briefcase) {
-                    $AuthBillingPad->value = $conponent->services_briefcase->value;
+                $AuthBillingPad->authorization_id = $Auth_A[0]['id'];
+                $q = 1;
+                if ($Auth_A[0]['quantity']) {
+                    $q = $Auth_A[0]['quantity'];
+                }
+                if ($Auth_A[0]['services_briefcase']) {
+                    $AuthBillingPad->value = $Auth_A[0]['services_briefcase']['value'] * $q;
                 } else {
-                    $AuthBillingPad->value = $conponent->manual_price->value;
+                    $AuthBillingPad->value = $Auth_A[0]['manual_price']['value'] * $q;
                 }
                 $AuthBillingPad->save();
                 $total_value += $AuthBillingPad->value;
@@ -2435,6 +2457,7 @@ class BillingPadController extends Controller
             foreach ($components as $component) {
                 $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                     ->select(
+                        'authorization.*',
                         'authorization.id AS authorization_id',
                         'authorization.quantity AS quantity',
                         'authorization.location_id AS location_id',
@@ -2571,10 +2594,11 @@ class BillingPadController extends Controller
                 $value = $Auth[0]['services_briefcase']['value'] * $q;
                 $quantity = $q;
                 $service = $Auth[0]['services_briefcase']['manual_price']['name'];
-                $code = $Auth[0]['services_briefcase']['manual_price']['homologous_id'] ?
-                    $Auth[0]['services_briefcase']['manual_price']['homologous_id'] : ($Auth[0]['supplies_com'] ?
-                        $Auth[0]['supplies_com']['code_cum'] : ($Auth[0]['product_com'] ?
-                            $Auth[0]['product_com']['code_cum'] : null));
+                $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
+                $Auth[0]['services_briefcase']['manual_price']['own_code'] : 
+                    ($Auth[0]['supplies_com'] ?
+                    $Auth[0]['supplies_com']['code_udi'] : 
+                    $Auth[0]['product_com']['code_cum']);
 
                 $services[$consecutivo]['value'] = $value;
                 $services[$consecutivo]['quantity'] = $quantity;
@@ -2968,7 +2992,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'manual_price',
                 'manual_price.procedure',
             )
-            ->whereIn('authorization.admissions_id', $ids)->get()->toArray();
+            ->whereIn('authorization.id', $ids)->get()->toArray();
         } else if ($request->admission_id) {
             $selected_procedures = $this->arraySupport($request, $request->admission_id)['already_billing'];
             $multiplicate = true;
@@ -2987,6 +3011,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $A = null;
         foreach ($selected_procedures as $element) {
             $quantity = 0;
+            $code = '';
             $q = 1;
             if ($element['quantity']) {
                 $q = $element['quantity'];
@@ -2997,12 +3022,13 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $element['quantity'] = $diff;
                 $q = $element['quantity'];
             }
-            $total_value += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+            $total_value += ($element['services_briefcase']['value'] * $q);
             $quantity += $q;
-            $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
-                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : ($selected_procedures[$i]['supplies_com'] ?
-                    $selected_procedures[$i]['supplies_com']['code_cum'] : ($selected_procedures[$i]['product_com'] ?
-                        $selected_procedures[$i]['product_com']['code_cum'] : null));
+            $code = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] ?
+                $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'] : 
+                    ($selected_procedures[$i]['supplies_com'] ?
+                    $selected_procedures[$i]['supplies_com']['code_udi'] : 
+                    $selected_procedures[$i]['product_com']['code_cum']);
             // $selected_procedures[$i]['services_briefcase']['value'] = $this->currencyTransform($element['services_briefcase']['value']);
             $selected_procedures[$i]['services_briefcase']['value'] = $element['services_briefcase']['value'];
             $b = '';
@@ -3072,24 +3098,24 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     foreach ($view_services as $e) {
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
                             $view_services[$j]['amount'] += $quantity;
-                            $view_services[$j]['value'] += ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                            $view_services[$j]['value'] += ($element['services_briefcase']['value'] * $q);
                         }
                         $j++;
                     }
                 } else {
-                    $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
+                    $a['code'] = $code;
                     $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
-                    $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                    $a['value'] = ($element['services_briefcase']['value'] * $q);
                     array_push($view_services, $a);
                 }
             } else {
-                $a['code'] = $selected_procedures[$i]['services_briefcase']['manual_price']['own_code'];
+                $a['code'] = $code;
                 $a['service'] = $selected_procedures[$i]['services_briefcase']['manual_price']['name'];
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
-                $a['value'] = ($multiplicate ? $element['services_briefcase']['value'] * $q : $element['services_briefcase']['value']);
+                $a['value'] = ($element['services_briefcase']['value'] * $q);
                 array_push($view_services, $a);
             }
 
