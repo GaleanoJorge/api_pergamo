@@ -453,7 +453,23 @@ class AuthorizationController extends Controller
                 'assigned_management_plan.management_plan.type_of_attention',
             )
             ->where('authorization.admissions_id', $admissionsId)
-            ->where('management_plan.status_id', 1);
+            ->where(
+                function ($query) use ($request) {
+                    $query->where('management_plan.status_id', 1);
+                    // ->WhereNull('auth_number');
+                    $query->orWhere(function ($que) use ($request) {
+                        $que->WhereNull('authorization.assigned_management_plan_id')
+                            ->WhereNull('authorization.auth_package_id')
+                            ->WhereNull('authorization.fixed_add_id')
+                            ->WhereNotNull('authorization.manual_price_id')
+                            ->WhereNull('authorization.application_id')
+                            ->WhereNull('authorization.procedure_id')
+                            ->WhereNull('authorization.supplies_com_id')
+                            ->WhereNull('authorization.product_com_id')
+                            ->WhereNull('authorization.auth_number');
+                    });
+                }
+            );
 
         if ($request->edit) {
             $Authorization->where(function ($query) use ($request, $admissionsId) {
