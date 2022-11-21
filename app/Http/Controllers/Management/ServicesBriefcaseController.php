@@ -104,7 +104,7 @@ class ServicesBriefcaseController extends Controller
         }
 
         //External consult CUPS atention
-        if($request->cups_selected_id != null && isset($request->cups_selected_id)){
+        if($request->cups_selected_id != null && isset($request->cups_selected_id) && $request->cups_selected_id != 'null'){
             $ServicesBriefcase->where('manual_price.procedure_id', $request->cups_selected_id);
         }
 
