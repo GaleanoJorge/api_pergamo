@@ -15,6 +15,7 @@ use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\ChFormulation;
 use App\Models\ManagementProcedure;
 use App\Models\Procedure;
 use App\Models\RoleAttention;
@@ -123,5 +124,9 @@ class ManagementPlan extends Model
 	public function management_procedure()
 	{
 		return $this->hasMany(ManagementProcedure::class);
+	}
+	public function ch_formulation()
+	{
+		return $this->belongsTo(ChFormulation::class, 'id', 'management_plan_id');
 	}
 }

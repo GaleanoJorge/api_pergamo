@@ -6,11 +6,13 @@
 
 namespace App\Models\Base;
 
+use App\Models\Admissions;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Frequency;
 
 use App\Models\Procedure;
+use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $observations
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
+ * @property BigInteger $admissions_id
+ * @property BigInteger $services_briefcase_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -51,5 +55,9 @@ class ChMedicalOrders extends Model
 	public function ch_record()
 	{
 		return $this->belongsTo(ChRecord::class);
+	}
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
 	}
 }

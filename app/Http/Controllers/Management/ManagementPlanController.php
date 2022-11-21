@@ -16,6 +16,7 @@ use App\Http\Requests\ManagementPlanRequest;
 use App\Models\Authorization;
 use App\Models\BaseLocationCapacity;
 use App\Models\BillingPad;
+use App\Models\ChFormulation;
 use App\Models\LocationCapacity;
 use App\Models\ManagementProcedure;
 use App\Models\TypeContract;
@@ -381,15 +382,7 @@ class ManagementPlanController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        // $Authorization = new Authorization;
-        // $Authorization->procedure_id =  $request->procedure_id;
-        // $Authorization->admissions_id =  $request->admissions_id;
-        // if ($request->type_auth == 1) {
-        //     $Authorization->auth_status_id =  2;
-        // } else {
-        //     $Authorization->auth_status_id =  1;
-        // }
-        // $Authorization->save();
+
         $TypeContract = TypeContract::select('type_contract.*')
             ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
             ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
@@ -428,43 +421,52 @@ class ManagementPlanController extends Controller
                 ->get()->toArray();
 
 
-
-            $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
-                ->where('pharmacy_stock.campus_id', $admissions[0]['campus_id'])
-                ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
-                ->get()->toArray();
-            if ($PharmacyServices) {
-                $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
-
-                $PharmacyProductRequest = new PharmacyProductRequest;
-                $PharmacyProductRequest->admissions_id = $request->admissions_id;
-                $PharmacyProductRequest->services_briefcase_id = $request->product_id;
-
-                $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
-                if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
-                    $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+            if (!$request->hospital) {
+                $PharmacyServices = ServicesPharmacyStock::where('scope_of_attention_id', $admissions[0]['scope_of_attention_id'])
+                    ->where('pharmacy_stock.campus_id', $admissions[0]['campus_id'])
+                    ->leftjoin('pharmacy_stock', 'services_pharmacy_stock.pharmacy_stock_id', 'pharmacy_stock.id')
+                    ->get()->toArray();
+                if ($PharmacyServices) {
+                    $pharmacy = $PharmacyServices[0]['pharmacy_stock_id'];
+    
+                    $PharmacyProductRequest = new PharmacyProductRequest;
+                    $PharmacyProductRequest->admissions_id = $request->admissions_id;
+                    $PharmacyProductRequest->services_briefcase_id = $request->product_id;
+    
+                    $ServicesBriefcase = ServicesBriefcase::where('id', $request->product_id)->with('manual_price.product.measurement_units', 'manual_price.product.drug_concentration')->get()->toArray();
+                    if ($ServicesBriefcase[0]['manual_price']['product']['product_dose_id'] == 2) {
+                        $elementos_x_aplicacion =  $request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['dose']);
+                    } else {
+                        $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                    }
+    
+                    $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
+                    $PharmacyProductRequest->request_amount = $quantity;
+                    $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy;
+                    $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
+                    $ManagementPlan->save();
+                    $LogManagement = new LogManagement;
+                    $LogManagement->management_plan_id =$ManagementPlan->id;
+                    $LogManagement->user_id = Auth::user()->id;
+                    $LogManagement->status ='Plan de manejo creado';
+                    $LogManagement->save();
+                    $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+                    $PharmacyProductRequest->status = 'PATIENT';
+                    $PharmacyProductRequest->save();
                 } else {
-                    $elementos_x_aplicacion =  ceil($request->dosage_administer / $this->getConcentration($ServicesBriefcase[0]['manual_price']['product']['drug_concentration']['value']));
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Se debe asociar farmacia al servicio para poder dispensar el medicamento.',
+                    ], 423);
                 }
-
-                $quantity = ceil($elementos_x_aplicacion * $request->number_doses);
-                $PharmacyProductRequest->request_amount = $quantity;
-                $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy;
-                $PharmacyProductRequest->user_request_pad_id = Auth::user()->id;
-                $ManagementPlan->save();
-                $LogManagement = new LogManagement;
-                $LogManagement->management_plan_id = $ManagementPlan->id;
-                $LogManagement->user_id = Auth::user()->id;
-                $LogManagement->status = 'Plan de manejo creado';
-                $LogManagement->save();
-                $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
-                $PharmacyProductRequest->status = 'PATIENT';
-                $PharmacyProductRequest->save();
             } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Se debe asociar farmacia al servicio para poder dispensar el medicamento.',
-                ], 423);
+                $ManagementPlan->save();
+
+                $LogManagement = new LogManagement;
+                    $LogManagement->management_plan_id =$ManagementPlan->id;
+                    $LogManagement->user_id = Auth::user()->id;
+                    $LogManagement->status ='Plan de manejo creado';
+                    $LogManagement->save();
             }
         } else {
             $ManagementPlan->save();
@@ -476,31 +478,41 @@ class ManagementPlanController extends Controller
             $LogManagement->save();
         }
 
+        if ($request->ch_formulation_id) {
+            $ch_formulation = ChFormulation::find($request->ch_formulation_id);
+            $ch_formulation->management_plan_id = $ManagementPlan->id;
+            $ch_formulation->save();
 
-
-        if ($request->isnewrequest == 1) {
-            $HumanTalentRequest = new HumanTalentRequest;
-            $HumanTalentRequest->admissions_id = $request->admissions_id;
-            $HumanTalentRequest->management_plan_id = $ManagementPlan->id;
-            $HumanTalentRequest->status = 'Creada';
-            $HumanTalentRequest->save();
+            $PharmacyProductRequest =  PharmacyProductRequest::find($ch_formulation->pharmacy_product_request_id);
+            $PharmacyProductRequest->management_plan_id = $ManagementPlan->id;
+            $PharmacyProductRequest->save();
         }
 
-
-        $BillingPad = BillingPad::where('admissions_id', $request->admissions_id)
-            ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-            ->first();
-        if (!$BillingPad) {
-            $BillingPad = new BillingPad;
-            $BillingPad->admissions_id = $request->admissions_id;
-            $BillingPad->validation_date = Carbon::now();
-            if ($TypeContract->id == 5) {
-                $BillingPad->billing_pad_status_id = 2;
-            } else {
-                $BillingPad->billing_pad_status_id = 1;
+        if (!$request->hospital) {
+            if ($request->isnewrequest == 1) {
+                $HumanTalentRequest = new HumanTalentRequest;
+                $HumanTalentRequest->admissions_id = $request->admissions_id;
+                $HumanTalentRequest->management_plan_id = $ManagementPlan->id;
+                $HumanTalentRequest->status = 'Creada';
+                $HumanTalentRequest->save();
             }
-            $BillingPad->total_value = 0;
-            $BillingPad->save();
+    
+    
+            $BillingPad = BillingPad::where('admissions_id', $request->admissions_id)
+                ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->first();
+            if (!$BillingPad) {
+                $BillingPad = new BillingPad;
+                $BillingPad->admissions_id = $request->admissions_id;
+                $BillingPad->validation_date = Carbon::now();
+                if ($TypeContract->id == 5) {
+                    $BillingPad->billing_pad_status_id = 2;
+                } else {
+                    $BillingPad->billing_pad_status_id = 1;
+                }
+                $BillingPad->total_value = 0;
+                $BillingPad->save();
+            }
         }
 
         $error = 0;
@@ -801,54 +813,58 @@ class ManagementPlanController extends Controller
                     $assignedManagement->management_plan_id = $ManagementPlan->id;
                     $assignedManagement->save();
 
-                    if ($request->type_of_attention_id != 20) {
-                        $Authorization = new Authorization;
-                        $Authorization->services_briefcase_id =  $request->procedure_id;
-                        $Authorization->admissions_id = $request->admissions_id;
-                        $Authorization->assigned_management_plan_id = $assignedManagement->id;
-                        $Authorization->auth_status_id = $auth_status;
-                        $Authorization->save();
+                    if (!$request->hospital) {
+                        if ($request->type_of_attention_id != 20) {
+                            $Authorization = new Authorization;
+                            $Authorization->services_briefcase_id =  $request->procedure_id;
+                            $Authorization->admissions_id = $request->admissions_id;
+                            $Authorization->assigned_management_plan_id = $assignedManagement->id;
+                            $Authorization->auth_status_id = $auth_status;
+                            $Authorization->save();
+                        }
                     }
                     // $assigned = false;
                     if (Carbon::parse($start)->between($firstDateMonth, $lastDateMonth)) {
-                        if (!$request->phone_consult) {
-                            $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
-                                ->where('locality_id', $request->locality_id)
-                                ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
-                        } else {
-                            $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
-                                ->whereNull('locality_id')
-                                ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
-                        }
-                        if ($locattionCapacity) {
-                            if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
-                                $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
-                                $locattionCapacity->save();
-                                // $assigned = true;
-                            } else {
-                                $error = 1;
-                                $error_count = $request->quantity - $i;
-                            }
-                        } else {
+                        if (!$request->hospital) {
                             if (!$request->phone_consult) {
-                                $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
-                                    ->where('locality_id', $request->locality_id)->first();
+                                $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                                    ->where('locality_id', $request->locality_id)
+                                    ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
                             } else {
-                                $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
-                                    ->whereNull('locality_id')->first();
+                                $locattionCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
+                                    ->whereNull('locality_id')
+                                    ->where('validation_date', '>=', $firstDateMonth)->where('validation_date', '<=', $lastDateMonth)->first();
                             }
-                            if ($baseLocationCapacity) {
-                                $newLocationCapacity = new LocationCapacity;
-                                $newLocationCapacity->assistance_id = $request->assistance_id;
-                                $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
-                                $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
-                                $newLocationCapacity->PAD_patient_attended = 0;
-                                $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
-                                $newLocationCapacity->validation_date = $start;
-                                $newLocationCapacity->save();
-                                // $assigned = true;
+                            if ($locattionCapacity) {
+                                if ($locattionCapacity->PAD_patient_actual_capacity > 0) {
+                                    $locattionCapacity->PAD_patient_actual_capacity = $locattionCapacity->PAD_patient_actual_capacity - 1;
+                                    $locattionCapacity->save();
+                                    // $assigned = true;
+                                } else {
+                                    $error = 1;
+                                    $error_count = $request->quantity - $i;
+                                }
                             } else {
-                                $error = 2;
+                                if (!$request->phone_consult) {
+                                    $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                                        ->where('locality_id', $request->locality_id)->first();
+                                } else {
+                                    $baseLocationCapacity = BaseLocationCapacity::where('assistance_id', $request->assistance_id)
+                                        ->whereNull('locality_id')->first();
+                                }
+                                if ($baseLocationCapacity) {
+                                    $newLocationCapacity = new LocationCapacity;
+                                    $newLocationCapacity->assistance_id = $request->assistance_id;
+                                    $newLocationCapacity->locality_id = $baseLocationCapacity->locality_id;
+                                    $newLocationCapacity->PAD_patient_quantity = $baseLocationCapacity->PAD_base_patient_quantity;
+                                    $newLocationCapacity->PAD_patient_attended = 0;
+                                    $newLocationCapacity->PAD_patient_actual_capacity = $baseLocationCapacity->PAD_base_patient_quantity - 1;
+                                    $newLocationCapacity->validation_date = $start;
+                                    $newLocationCapacity->save();
+                                    // $assigned = true;
+                                } else {
+                                    $error = 2;
+                                }
                             }
                         }
                     } else {

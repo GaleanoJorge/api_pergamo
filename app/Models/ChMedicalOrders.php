@@ -15,5 +15,6 @@ class ChMedicalOrders extends BaseChMedicalOrders
     'observations',
     'type_record_id',
     'ch_record_id',
+    'services_briefcase_id',
   ];
 }

@@ -55,6 +55,44 @@ class ChFormulationController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
+    public function getByAdmission(int $admission_id): JsonResponse
+    {
+        $ChFormulation = ChFormulation::select('ch_formulation.*')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->where('admissions.id', $admission_id)
+            ->where('ch_formulation.medical_formula', 0)
+            ->with(
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'administration_route',
+                'hourly_frequency',
+                'product_generic',
+                'pharmacy_product_request',
+                'pharmacy_product_request.many_pharmacy_request_shipping',
+                'product_generic.drug_concentration',
+                'product_generic.measurement_units',
+                'product_generic.multidose_concentration',
+            )
+            ->orderBy('ch_formulation.created_at', 'DESC')
+            ->groupBy('ch_formulation.id')
+            ->get()->toArray();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Formula del paciente exitosamente',
+            'data' => ['ch_formulation' => $ChFormulation]
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
         $ChFormulation = ChFormulation::where('ch_record_id', $id)
@@ -65,6 +103,7 @@ class ChFormulationController extends Controller
                 'administration_route',
                 'hourly_frequency',
                 'product_generic',
+                'product_generic.measurement_units',
             )
             ->get()->toArray();
 

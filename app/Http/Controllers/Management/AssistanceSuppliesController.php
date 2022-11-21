@@ -301,7 +301,7 @@ class AssistanceSuppliesController extends Controller
 
                     $applicated = AssistanceSupplies::select('assistance_supplies.*')
                         ->where('supplies_status_id', 2)
-                        ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get();
+                        ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get()->toArray();
 
                     $product =  Product::select('product.*', 'product_concentration.value AS value')
                         ->leftjoin('product_generic', 'product.product_generic_id', 'product_generic.id')
@@ -318,6 +318,8 @@ class AssistanceSuppliesController extends Controller
 
                     $product_dose = $product[0]['product_generic']['product_dose_id'] == 2 ? 1 : (float) $product[0]['value'];
                     $management_plan_dose = floatval($management_plan[0]['dosage_administer']);
+
+                    $aplicated = 0;
 
                     foreach ($applicated as $item) {
                         $compare = ChRecord::find($item->ch_record_id);
@@ -405,9 +407,23 @@ class AssistanceSuppliesController extends Controller
                         $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
                         $AssistanceSupplies->user_incharge_id = $request->user_incharge_id;
 
+                        $auth = new Authorization;
+
+                        $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                        $auth->ch_interconsultation_id = $ch_record->ch_interconsultation_id;
+                        $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
+                        $auth->admissions_id = $ch_record->admissions_id;
+                        $auth->auth_status_id = 3;
+                        $auth->application_id = $AssistanceSupplies->id;
+                        $auth->product_com_id =  $request->product_comercial;
+                        $auth->supplies_com_id = $request->insume_comercial;
+
+                        $auth->save();
 
                         $AssistanceSupplies->save();
                     }
+                    
+
 
 
                     return response()->json([
@@ -431,6 +447,7 @@ class AssistanceSuppliesController extends Controller
                         $auth = new Authorization;
     
                         $auth->services_briefcase_id = $PharmacyProductRequest[0]['services_briefcase_id'];
+                        $auth->ch_interconsultation_id = $ch_record->ch_interconsultation_id;
                         $auth->assigned_management_plan_id = $ch_record->assigned_management_plan_id;
                         $auth->admissions_id = $PharmacyProductRequest[0]['admissions_id'];
                         $auth->auth_status_id = 3;
