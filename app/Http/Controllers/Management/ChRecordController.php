@@ -264,7 +264,7 @@ class ChRecordController extends Controller
             ->where('assistance.user_id', $user_id)
             ->get()->toArray();
 
-        if (count($AssitanceSpecial) == 1) {
+        if (count($AssitanceSpecial) > 0) {
             return $array_aux[$AssitanceSpecial[0]['specialty_id']];
         } else {
 
@@ -4547,21 +4547,6 @@ class ChRecordController extends Controller
         $ChRecord->medical_diary_days_id = $request->medical_diary_days_id;
         $ChRecord->user_id = Auth::user()->id;
 
-        $array = array(
-            3 => 1,
-            7 => 1,
-            8 => 2,
-            9 => 2,
-            10 => 3, 
-            11 => 9, 
-            12 => 8, 
-            14 => $this->ValidateSpeciality(),
-            134 => 4,
-            135 => 7,
-            136 => 6,
-            137 => 5,
-        );
-
         // }
         if ($request->type_of_attention_id && $request->type_of_attention_id != -1) {
             switch ($request->type_of_attention_id) {
@@ -4662,6 +4647,20 @@ class ChRecordController extends Controller
                     break;
                 }
                 default: {
+                        $array = array(
+                            3 => 1,
+                            7 => 1,
+                            8 => 2,
+                            9 => 2,
+                            10 => 3, 
+                            11 => 9, 
+                            12 => 8, 
+                            14 => $this->ValidateSpeciality(),
+                            134 => 4,
+                            135 => 7,
+                            136 => 6,
+                            137 => 5,
+                        );
                         if ($request->speciality_id == null || $request->speciality_id == 'null') {
                             $register = $array[$request->role_id];
                         } else {
@@ -4810,6 +4809,20 @@ class ChRecordController extends Controller
                         break;
                     }
                     default: {
+                            $array = array(
+                                3 => 1,
+                                7 => 1,
+                                8 => 2,
+                                9 => 2,
+                                10 => 3, 
+                                11 => 9, 
+                                12 => 8, 
+                                14 => $this->ValidateSpeciality(),
+                                134 => 4,
+                                135 => 7,
+                                136 => 6,
+                                137 => 5,
+                            );
                             if ($request->speciality_id == null || $request->speciality_id == 'null') {
                                 $register = $array[$request->role_id];
                             } else {
@@ -5146,7 +5159,7 @@ class ChRecordController extends Controller
     public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        if ($ManagementPlan->procedure_id) {
+        if ($ManagementPlan->type_of_attention_id != 20) {
             if (!$validate) {
                 $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();

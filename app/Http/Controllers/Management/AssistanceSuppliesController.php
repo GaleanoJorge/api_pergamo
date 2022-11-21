@@ -322,7 +322,7 @@ class AssistanceSuppliesController extends Controller
                     $aplicated = 0;
 
                     foreach ($applicated as $item) {
-                        $compare = ChRecord::find($item->ch_record_id);
+                        $compare = ChRecord::find($item['ch_record_id']);
                         if ($ch_record->assigned_management_plan_id == $compare->assigned_management_plan_id) {
                             $aplicated++;
                         }

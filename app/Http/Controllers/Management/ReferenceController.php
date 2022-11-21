@@ -386,7 +386,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Referencias creadas exitosamente',
+            'message' => 'Referencia creada exitosamente',
             'data' => ['reference' => $Reference]
         ]);
     }
@@ -495,7 +495,7 @@ class ReferenceController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'factura actualizada exitosamente',
+            'message' => 'Referencia actualizada exitosamente',
             'data' => ['reference' => $Reference]
         ]);
     }

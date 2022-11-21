@@ -125,7 +125,7 @@ class BedController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Camas obtenidos exitosamente',
-            'data' => ['bed' => $Bed->get()->toArray()]
+            'data' => ['bed' => $Bed]
         ]);
     }
 
