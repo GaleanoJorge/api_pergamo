@@ -17,7 +17,7 @@ class ChRNValorationOTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChRNValorationOT = ChRNValorationOT::with('ch_diagnosis');
+        $ChRNValorationOT = ChRNValorationOT::select('ch_r_n_valoration_o_t.*');
 
 
 //    if ($request->ch_record_id) {
@@ -61,7 +61,7 @@ class ChRNValorationOTController extends Controller
     {
         $ChRNValorationOT = ChRNValorationOT::where('ch_record_id', $id)
         ->where('type_record_id', $type_record_id)
-            ->with('ch_diagnosis')->get()->toArray();
+        ->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -76,10 +76,9 @@ class ChRNValorationOTController extends Controller
         $validate = ChRNValorationOT::select('ch_r_n_valoration_o_t.*')->where('ch_record_id', $request->ch_record_id)
         ->where('type_record_id', $request->type_record_id)
         ->get()->toArray();
-         $validate=ChRNValorationOT::where('ch_record_id', $request->ch_record_id)->where('ch_diagnosis_id',$request->ch_diagnosis)->first();
+         $validate=ChRNValorationOT::where('ch_record_id', $request->ch_record_id)->first();
          if(!$validate){
         $ChRNValorationOT = new ChRNValorationOT;
-        $ChRNValorationOT->ch_diagnosis_id = $request->ch_diagnosis_id;
         $ChRNValorationOT->patient_state = $request->patient_state;
         $ChRNValorationOT->type_record_id = $request->type_record_id;
         $ChRNValorationOT->ch_record_id = $request->ch_record_id;
@@ -139,7 +138,6 @@ class ChRNValorationOTController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChRNValorationOT = ChRNValorationOT::find($id);
-        $ChRNValorationOT->ch_diagnosis_id = $request->ch_diagnosis_id;
         $ChRNValorationOT->patient_state = $request->patient_state;
         $ChRNValorationOT->type_record_id = $request->type_record_id;
         $ChRNValorationOT->ch_record_id = $request->ch_record_id;
