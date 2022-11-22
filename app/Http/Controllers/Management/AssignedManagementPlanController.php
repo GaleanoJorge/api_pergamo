@@ -75,6 +75,7 @@ class AssignedManagementPlanController extends Controller
                 'management_plan.ch_formulation',
                 'management_plan.admissions',
                 'management_plan.admissions.patients',
+                'management_plan.admissions.patients.identification_type',
                 'management_plan.admissions.location',
                 'management_plan.admissions.location.flat',
                 'management_plan.admissions.location.pavilion',
@@ -82,6 +83,7 @@ class AssignedManagementPlanController extends Controller
             )
             ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
             ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
             ->where('location.admission_route_id', 1)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
@@ -113,6 +115,16 @@ class AssignedManagementPlanController extends Controller
 
         if ($bed_id != 0) {
             $assigned_management_plan->where('location.bed_id', $bed_id);
+        }
+
+        if ($request->search) {
+            $assigned_management_plan->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
