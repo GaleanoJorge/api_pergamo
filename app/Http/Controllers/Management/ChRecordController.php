@@ -4531,6 +4531,7 @@ class ChRecordController extends Controller
     {
 
 
+        $created = false;
         $count = 0;
         $chrecord_val = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
         foreach ($chrecord_val as $ch) {
@@ -4845,18 +4846,21 @@ class ChRecordController extends Controller
                         }
                 }
 
-                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
-                    ->where('status', 'ACTIVO')
-                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
-
-                if ($validate_ch_record) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
-                        'data' => ['ch_record' => []],
-                    ]);
+                if ($created == false) {
+                    $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                        ->where('status', 'ACTIVO')
+                        ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+    
+                    if ($validate_ch_record) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                            'data' => ['ch_record' => []],
+                        ]);
+                    }
                 }
                 $ChRecord->save();
+                $created = true;
             }
             return response()->json([
                 'status' => true,
@@ -4880,22 +4884,23 @@ class ChRecordController extends Controller
         //     }
         // }
 
-        if ($request->type_of_attention_id != -1) {
-            $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
-                ->where('status', 'ACTIVO')
-                ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
-    
-            if ($validate_ch_record) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
-                    'data' => ['ch_record' => []],
-                ]);
+        if ($created == false) {
+            if ($request->type_of_attention_id != -1) {
+                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    ->where('status', 'ACTIVO')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+        
+                if ($validate_ch_record) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
             }
+    
+            $ChRecord->save();
         }
-
-
-        $ChRecord->save();
 
 
         return response()->json([
