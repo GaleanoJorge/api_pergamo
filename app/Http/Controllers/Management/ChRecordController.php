@@ -4936,11 +4936,11 @@ class ChRecordController extends Controller
             ->where('id', $id)
             ->with(
                 'assigned_management_plan.management_plan'
-            )->get()->toArray();
+            )->first();
 
         // var_dump($validate_aplication);
 
-        if ($validate_aplication[0]['assigned_management_plan']['management_plan']['type_of_attention_id'] == 17) {
+        if ($validate_aplication->assigned_management_plan_id && $validate_aplication->assigned_management_plan->management_plan->type_of_attention_id == 17) {
 
             $pharmacy = PharmacyProductRequest::select('pharmacy_product_request.*')
             ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
@@ -4957,7 +4957,7 @@ class ChRecordController extends Controller
             foreach ($applicated as $item) {
 
                 $compare = ChRecord::find($item['ch_record_id']);
-                if ($validate_aplication[0]['assigned_management_plan_id'] == $compare->assigned_management_plan_id) {
+                if ($validate_aplication->assigned_management_plan_id == $compare->assigned_management_plan_id) {
                     $applicatedCount++;
                     break;
                 }
