@@ -144,6 +144,14 @@ class ChFormulationController extends Controller
                 ->groupBy('pharmacy_stock.id')
                 ->get()->toArray();
 
+            if (count($pharmacy) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No hay farmacias en esta cede y este ambito',
+                    'data' => ['ch_formulation' => []]
+                ]);
+            }
+
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
             $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
