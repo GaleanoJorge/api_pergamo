@@ -5058,7 +5058,7 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
         if ($ChRecord->assigned_management_plan_id) {
-            if ($ChRecordExist[0]['date_finish'] == '0000-00-00 00:00:00') {
+            if ($ChRecordExist[0]['date_finish'] == '0000-00-00 00:00:00' || $ChRecordExist[0]['date_finish'] == '0000-00-00') {
 
                 $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
                 $assigned->execution_date = Carbon::now();

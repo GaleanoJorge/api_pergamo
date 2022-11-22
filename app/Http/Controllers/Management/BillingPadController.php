@@ -2985,6 +2985,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -3034,7 +3036,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             $b = '';
             if ($element['assigned_management_plan'] || $element['fixed_add_id']) {
                 $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
-                $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'] : "";
+                $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['ch_record'][0]['user']['firstname'] . ' ' . $element['assigned_management_plan']['ch_record'][0]['user']['lastname'] : "";
             } else if ($element['location_id']) {
                 $A = Carbon::parse($element['created_at'])->setTimezone('America/Bogota');
                 $AA = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
