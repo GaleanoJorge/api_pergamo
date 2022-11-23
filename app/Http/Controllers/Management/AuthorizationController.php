@@ -118,6 +118,13 @@ class AuthorizationController extends Controller
                             ->WhereNull('authorization.supplies_com_id')
                             ->WhereNull('authorization.product_com_id')
                             ->WhereNull('authorization.auth_number');
+                    })->orWhere(function ($que) use ($request) {
+                        $que->WhereNull('authorization.assigned_management_plan_id')
+                            ->WhereNull('authorization.auth_package_id')
+                            ->WhereNotNull('authorization.medical_diary_days_id')
+                            ->orWhere(function ($que) use ($request) {
+                                $que->WhereNotNull('authorization.ch_interconsultation_id');
+                            });
                     });
                 }
             );
@@ -130,9 +137,14 @@ class AuthorizationController extends Controller
                     $que->WherenotNull('application_id')
                         ->where('auth_status_id', '=', 3)
                         ->WhereNull('auth_number');
-                });
-                $query->orWhere(function ($que) use ($request) {
-                    $que->WherenotNull('medical_diary_days_id');
+                })->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('medical_diary_days_id')
+                        ->where('auth_status_id', '=', 3)
+                        ->WhereNull('auth_number');
+                })->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('ch_interconsultation_id')
+                        ->where('auth_status_id', '<', 3)
+                        ->WhereNull('auth_number');
                 });
             });
         } else if ($request->status_id === 'E') {
@@ -434,7 +446,7 @@ class AuthorizationController extends Controller
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-            
+
             // ->wherenull('auth_package_id')
             ->with(
                 'admissions',
