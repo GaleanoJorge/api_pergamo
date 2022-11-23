@@ -62,7 +62,7 @@ class CopayParametersController extends Controller
 
         if ($request->procedure_id) {
             $procedure = ServicesBriefcase::select('services_briefcase.*')
-            ->where('id', $request->services_briefcase_id)
+            ->where('id', $request->procedure_id)
             ->with(
                 'manual_price.procedure'
             )->get()->first();
