@@ -107,13 +107,13 @@ class BillUserActivityController extends Controller
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-                $AccountReceivable = new AccountReceivable;
-                $AccountReceivable->user_id = $element['user_id'];
-                $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->created_at = '2022-'.$mes.'-06 00:12:27';
-                $AccountReceivable->updated_at = '2022-'.$mes.'-06 00:12:27';
-                $AccountReceivable->save();
+                // $AccountReceivable = new AccountReceivable;
+                // $AccountReceivable->user_id = $element['user_id'];
+                // $AccountReceivable->status_bill_id = 1;
+                // $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                // $AccountReceivable->created_at = '2022-'.$mes.'-06 00:12:27';
+                // $AccountReceivable->updated_at = '2022-'.$mes.'-06 00:12:27';
+                // $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
@@ -135,14 +135,14 @@ class BillUserActivityController extends Controller
 
                 $aaa++;
 
-                // $billActivity = new BillUserActivity;
-                // $billActivity->procedure_id = $procedure_id;
-                // $billActivity->account_receivable_id = $account_receivable_id;
-                // $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
-                // $billActivity->admissions_id = $admissions_id;
-                // $billActivity->tariff_id = $tariff_id;
-                // $billActivity->ch_record_id = $ch_record_id;
-                // $billActivity->save();
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $procedure_id;
+                $billActivity->account_receivable_id = $account_receivable_id;
+                $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $tariff_id;
+                $billActivity->ch_record_id = $ch_record_id;
+                $billActivity->save();
             }
         }
 
