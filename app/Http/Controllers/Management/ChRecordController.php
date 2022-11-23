@@ -2672,7 +2672,7 @@ class ChRecordController extends Controller
 
         $count = 0;
 
-        if ($request->ch_type == 11) {
+        if ($request->ch_type == 20) {
 
             $today = Carbon::now();
 
@@ -4671,8 +4671,10 @@ class ChRecordController extends Controller
                     ->where('admissions_id', $admissions_id)
                     ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                     ->orderBy('created_at', 'ASC')->get()->toArray();
-                if ($ChRecord->ch_type_id != 10) {
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                if (count($firm_ch_record) > 0) {
+                    if ($ChRecord->ch_type_id != 10) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         }
@@ -4710,7 +4712,7 @@ class ChRecordController extends Controller
 
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00') {
+        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00' || $ChRecordExist->date_finish == '0000-00-00' ) {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();

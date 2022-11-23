@@ -125,6 +125,13 @@ class AssistanceSuppliesController extends Controller
                     'pharmacy_product_request.services_briefcase.manual_price.product.measurement_units',
                 )->first();
 
+            if(!$product){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Sin medicamentos despachados. Contacte con farmacia',
+                ]);
+            }
+
 
             $applicatedCount = 0;
 
@@ -136,7 +143,7 @@ class AssistanceSuppliesController extends Controller
                 }
             }
 
-            $dose = $product->pharmacy_product_request->services_briefcase->manual_price->product->product_dose_id == 2 ? 1 : floatval($product->pharmacy_product_request->services_briefcase->manual_price->product->drug_concentration->value);
+            $dose = $product->pharmacy_product_request->services_briefcase->manual_price->product->product_dose_id == 2 ? 1 : $this->getConcentration($product->pharmacy_product_request->services_briefcase->manual_price->product->drug_concentration->value);
             $appli = $product->pharmacy_product_request->services_briefcase->manual_price->product->product_dose_id == 2 ? $product->pharmacy_product_request->management_plan->dosage_administer - ($dose * $applicatedCount) 
                 : ceil(($product->pharmacy_product_request->management_plan->dosage_administer - ($dose * $applicatedCount))/ $dose);
 
@@ -149,6 +156,8 @@ class AssistanceSuppliesController extends Controller
 
             // $appli = $management_dose > $administer ? ceil($management_dose - $administer) : 0;
         }
+
+        
 
 
         // $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
@@ -181,6 +190,46 @@ class AssistanceSuppliesController extends Controller
         ]);
     }
 
+    public function getConcentration($value)
+    {
+        $rr = 0;
+        if (str_contains($value, '/')) {
+            $spl = explode('/', $value);
+            $num = $spl[0];
+            // $den = +$spl[1];
+            $rr = $this->numWithPlus($num);
+        } else {
+            $rr = $this->numWithPlus($value);
+        }
+        return $rr;
+    }
+
+    public function numWithPlus($num)
+    {
+        if (str_contains($num, '(') || str_contains($num, ')')) {
+            $num = substr($num, 1, -1);
+            //   $num = $num.slice($num.length - 1, $num.length);
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            }
+        } else {
+            if (str_contains($num, '+')) {
+                $spl2 = explode('+', $num);
+                $r = 0;
+                foreach ($spl2 as $element) {
+                    $r += $element;
+                };
+                return $r;
+            } else {
+                return $num;
+            }
+        }
+    }
 
     public function store(AssistanceSuppliesRequest $request)
     {

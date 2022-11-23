@@ -79,6 +79,7 @@ class BillUserActivityController extends Controller
 
     public function createMissedActivities(Request $request, int $id): JsonResponse
     {
+        $mes = 10;
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
@@ -90,6 +91,8 @@ class BillUserActivityController extends Controller
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
             ->whereNotNull('management_plan.procedure_id')
+            ->whereRaw("assigned_management_plan.created_at < '2022-".($mes+1)."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.created_at >= '2022-".$mes."-01 00:00:00'")
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
@@ -100,18 +103,18 @@ class BillUserActivityController extends Controller
             $validate = null;
             $mes = Carbon::parse('2022-10-06 00:12:27')->month;
 
-            $validate = AccountReceivable::whereRaw("created_at >= '2022-10-01 00:00:00'")->whereRaw("created_at <= '2022-10-31 23:59:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
-            // if (!$validate) {
-            //     $bbb++;
-            //     $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-            //     $AccountReceivable = new AccountReceivable;
-            //     $AccountReceivable->user_id = $element['user_id'];
-            //     $AccountReceivable->status_bill_id = 1;
-            //     $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-            //     $AccountReceivable->created_at = '2022-10-06 00:12:27';
-            //     $AccountReceivable->updated_at = '2022-10-06 00:12:27';
-            //     $AccountReceivable->save();
-            // }
+            $validate = AccountReceivable::whereRaw("created_at >= '2022-".$mes."-01 00:00:00'")->whereRaw("created_at < '2022-".($mes+1)."-01 00:00:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
+            if (!$validate) {
+                $bbb++;
+                $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $element['user_id'];
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->created_at = '2022-'.$mes.'-06 00:12:27';
+                $AccountReceivable->updated_at = '2022-'.$mes.'-06 00:12:27';
+                $AccountReceivable->save();
+            }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
             $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
@@ -132,14 +135,14 @@ class BillUserActivityController extends Controller
 
                 $aaa++;
 
-                $billActivity = new BillUserActivity;
-                $billActivity->procedure_id = $procedure_id;
-                $billActivity->account_receivable_id = $account_receivable_id;
-                $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
-                $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $tariff_id;
-                $billActivity->ch_record_id = $ch_record_id;
-                $billActivity->save();
+                // $billActivity = new BillUserActivity;
+                // $billActivity->procedure_id = $procedure_id;
+                // $billActivity->account_receivable_id = $account_receivable_id;
+                // $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                // $billActivity->admissions_id = $admissions_id;
+                // $billActivity->tariff_id = $tariff_id;
+                // $billActivity->ch_record_id = $ch_record_id;
+                // $billActivity->save();
             }
         }
 

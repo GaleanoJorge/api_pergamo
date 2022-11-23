@@ -418,7 +418,11 @@ class AuthorizationController extends Controller
      */
     public function GetByAdmissions(Request $request, int $admissionsId): JsonResponse
     {
-        $Authorization = Authorization::select('authorization.*')
+        $Authorization = Authorization::select(
+            'authorization.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('DATE(authorization.created_at) as date'),
+        )
             ->leftjoin('admissions', 'authorization.admissions_id', 'admissions.id')
             ->leftjoin('patients', 'admissions.patient_id', 'patients.id')
             ->leftjoin('briefcase', 'admissions.briefcase_id', 'briefcase.id')
@@ -427,11 +431,7 @@ class AuthorizationController extends Controller
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-            ->select(
-                'authorization.*',
-                DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
-                DB::raw('DATE(authorization.created_at) as date'),
-            )
+            
             // ->wherenull('auth_package_id')
             ->with(
                 'admissions',
@@ -452,27 +452,27 @@ class AuthorizationController extends Controller
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
             )
-            ->where('admissions_id', $admissionsId)
+            ->where('authorization.admissions_id', $admissionsId)
             ->where('management_plan.status_id', 1);
 
         if ($request->edit) {
             $Authorization->where(function ($query) use ($request, $admissionsId) {
-                $query->where('auth_package_id', $request->id)
-                    ->orWhere('auth_package_id', null)
+                $query->where('authorization.auth_package_id', $request->id)
+                    ->orWhere('authorization.auth_package_id', null)
                     ->whereNotNull('authorization.assigned_management_plan_id');
                 $query->where(function ($que) use ($request) {
-                    $que->where('auth_status_id', '<', 3);
+                    $que->where('authorization.auth_status_id', '<', 3);
                     $que->orWhere(function ($q) use ($request) {
-                        $q->WherenotNull('application_id')
-                            ->where('auth_status_id', '<=', 3)
-                            ->WhereNull('auth_number');
+                        $q->WherenotNull('authorization.application_id')
+                            ->where('authorization.auth_status_id', '<=', 3)
+                            ->WhereNull('authorization.auth_number');
                     });
                 });
             });
         }
 
         if ($request->view) {
-            $Authorization->where('auth_package_id', $request->id);
+            $Authorization->where('authorization.auth_package_id', $request->id);
         };
 
         if ($request->_sort) {
@@ -481,13 +481,13 @@ class AuthorizationController extends Controller
 
         if ($request->search) {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%');
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('authorization.auth_number', 'like', '%' . $request->search . '%');
             });
         }
 
