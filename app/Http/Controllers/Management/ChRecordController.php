@@ -4671,8 +4671,10 @@ class ChRecordController extends Controller
                     ->where('admissions_id', $admissions_id)
                     ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                     ->orderBy('created_at', 'ASC')->get()->toArray();
-                if ($ChRecord->ch_type_id != 10) {
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                if (count($firm_ch_record) > 0) {
+                    if ($ChRecord->ch_type_id != 10) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         }
