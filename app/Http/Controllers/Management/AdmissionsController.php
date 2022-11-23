@@ -668,6 +668,12 @@ class AdmissionsController extends Controller
                 
             }
 
+            if ($request->reference_id) {
+                $Reference = Reference::find($request->reference_id);
+                $Reference->reference_status_id = 4;
+                $Reference->save();
+            }
+
 
             return response()->json([
                 'status' => true,
