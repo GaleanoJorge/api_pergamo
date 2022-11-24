@@ -21,6 +21,10 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological');
         $ChVitalSigns = ChVitalSigns::select();
 
+        if ($request->ch_record_id) {
+            $ChVitalSigns->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChVitalSigns->orderBy($request->_sort, $request->_order);
         }

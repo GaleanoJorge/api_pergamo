@@ -21,6 +21,10 @@ class ChDiagnosisController extends Controller
         $ChDiagnosis = ChDiagnosis::select()
             ->with('diagnosis');
 
+        if ($request->ch_record_id) {
+            $ChDiagnosis->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChDiagnosis->orderBy($request->_sort, $request->_order);
         }

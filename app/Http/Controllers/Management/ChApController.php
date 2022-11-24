@@ -20,6 +20,10 @@ class ChApController extends Controller
     {
         $ChAp = ChAp::select();
 
+        if ($request->ch_record_id) {
+            $ChAp->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChAp->orderBy($request->_sort, $request->_order);
         }
