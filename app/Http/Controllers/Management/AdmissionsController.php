@@ -612,7 +612,7 @@ class AdmissionsController extends Controller
                 $Authorization->save();
             } else {
                 $Authorization = new  Authorization;
-                $Authorization->services_briefcase_id =  $Admissions->procedure_id;
+                $Authorization->services_briefcase_id =  $request->procedure_id;
                 $Authorization->admissions_id =  $Admissions->id;
                 $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
                 if ($validate->type_auth == 1) {
