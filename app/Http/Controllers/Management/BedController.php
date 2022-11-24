@@ -10,6 +10,7 @@ use App\Http\Requests\BedRequest;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 class BedController extends Controller
 {
@@ -28,6 +29,7 @@ class BedController extends Controller
                 'status_bed',
                 'procedure'
             )
+            ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('pavilion', 'pavilion.id', 'bed.pavilion_id')
             ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
             ->leftJoin('campus', 'campus.id', 'flat.campus_id')
@@ -50,13 +52,34 @@ class BedController extends Controller
         }
 
         if ($request->search) {
-            $Bed->where(function ($query) use ($request) {
-                $query->where('bed.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('bed.code', 'like', '%' . $request->search . '%')
-                    ->orWhere('campus.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('flat.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('pavilion.name', 'like', '%' . $request->search . '%');
+            if (Str::contains('libre', strtolower($request->search))) {
+                $Bed->where(function ($query) use ($request) {
+                    $query->where(function($q) use ($request) {
+                        $q->where('status_bed.name', 'like', '%Reservada%')
+                        ->where('bed.reservation_date', '<', Carbon::now()->subHours(6))
+                        ;
+                    })
+                    ->orWhere('status_bed.name', 'like', '%' . $request->search . '%');
             });
+            } else if (Str::contains('reservada', strtolower($request->search))) {
+                $Bed->where(function ($query) use ($request) {
+                    $query->where(function($q) use ($request) {
+                        $q->where('status_bed.name', 'like', '%Reservada%')
+                        ->where('bed.reservation_date', '>=', Carbon::now()->subHours(6))
+                        ;
+                    });
+            });
+            } else {
+                $Bed->where(function ($query) use ($request) {
+                    $query->where('bed.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('bed.code', 'like', '%' . $request->search . '%')
+                        ->orWhere('campus.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('flat.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('pavilion.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('status_bed.name', 'like', '%' . $request->search . '%')
+                        ;
+            });
+            }
         }
 
         if ($request->query("pagination", true) == "false") {
