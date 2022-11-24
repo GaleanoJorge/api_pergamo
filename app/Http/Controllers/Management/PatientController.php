@@ -534,7 +534,15 @@ class PatientController extends Controller
                 'admissions.location.bed'
             )->groupBy('patients.id');
 
-        if ($request->userId != 0) {
+        if ($request->start_date) {
+            $patients->where('assigned_management_plan.start_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $patients->where('assigned_management_plan.start_date', '<=', $request->finish_date);
+        }
+
+        if ($userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
             $patients->where('assigned_management_plan.user_id', $userId);
 

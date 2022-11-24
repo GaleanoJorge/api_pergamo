@@ -40,7 +40,7 @@ class PatientRequest extends FormRequest
             'birthday' => 'nullable|date|before:0 years ago',
             'activities_id' => '',
             'age' => 'required',
-            'phone' => 'nullable|numeric',
+            // 'phone' => 'nullable|numeric',
             //'identification' => ['required', Rule::unique('patients')->ignore($this->patient)->where('identification_type_id', $this->identification_type_id)]
         ];
     }
