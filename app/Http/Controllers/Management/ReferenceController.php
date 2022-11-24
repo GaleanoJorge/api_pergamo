@@ -351,6 +351,22 @@ class ReferenceController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        $validate = Patient::select('admissions.*')
+            ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->where('patients.identification', $request->identification)
+            ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
+            ->where('location.admission_route_id', $request->request_admission_route_id)
+            ->get()->toArray();
+
+        if (count($validate) > 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El paciente ya cuenta con una admisión para el mismo ámbito',
+                'data' => ['reference' => []]
+            ]);
+        }
+
         if ($request->route == 1) {
 
             $Reference = new Reference;
@@ -473,7 +489,6 @@ class ReferenceController extends Controller
             $Bed->identification = $request->identification;
             $Bed->reservation_date = Carbon::now();
             $Bed->save();
-
         } else if ($request->route == 3) {
 
             $Reference = Reference::find($id);
