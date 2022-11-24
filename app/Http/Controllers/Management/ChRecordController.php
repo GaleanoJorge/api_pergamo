@@ -214,61 +214,61 @@ class ChRecordController extends Controller
             $ChRecord = $ChRecord->get()->toArray();
             if ($request->record_id) {
                 $validate = ChRecord::select()
-                    ->leftJoin('ch_reason_consultation','ch_reason_consultation.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_position','ch_position.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_e_valoration_o_t','ch_e_valoration_o_t.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_nutrition_anthropometry','ch_nutrition_anthropometry.ch_record_id','ch_record.id')
-                    ->leftJoin('tl_therapy_language','tl_therapy_language.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_respiratory_therapy','ch_respiratory_therapy.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_e_valoration_f_t','ch_e_valoration_f_t.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_sw_diagnosis','ch_sw_diagnosis.ch_record_id','ch_record.id')
-                    ->leftJoin('ch_ps_assessment','ch_ps_assessment.ch_record_id','ch_record.id')
+                    // ->leftJoin('ch_reason_consultation', 'ch_reason_consultation.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_position', 'ch_position.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_e_valoration_o_t', 'ch_e_valoration_o_t.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_nutrition_anthropometry', 'ch_nutrition_anthropometry.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('tl_therapy_language', 'tl_therapy_language.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_respiratory_therapy', 'ch_respiratory_therapy.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_e_valoration_f_t', 'ch_e_valoration_f_t.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_sw_diagnosis', 'ch_sw_diagnosis.ch_record_id', 'ch_record.id')
+                    // ->leftJoin('ch_ps_assessment', 'ch_ps_assessment.ch_record_id', 'ch_record.id')
 
 
 
-                    
-                    ->where(function($query){
-                        $query->where(function($q) {
-                            $q->where('ch_reason_consultation.type_record_id', 1)
-                            ->whereNotNull('ch_reason_consultation.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_position.type_record_id', 1)
-                            ->whereNotNull('ch_position.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_e_valoration_o_t.type_record_id', 1)
-                            ->whereNotNull('ch_e_valoration_o_t.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_nutrition_anthropometry.type_record_id', 1)
-                            ->whereNotNull('ch_nutrition_anthropometry.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('tl_therapy_language.type_record_id', 1)
-                            ->whereNotNull('tl_therapy_language.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_respiratory_therapy.type_record_id', 1)
-                            ->whereNotNull('ch_respiratory_therapy.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_e_valoration_f_t.type_record_id', 1)
-                            ->whereNotNull('ch_e_valoration_f_t.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_sw_diagnosis.type_record_id', 1)
-                            ->whereNotNull('ch_sw_diagnosis.id');
-                        })
-                        ->orWhere(function($q) {
-                            $q->where('ch_ps_assessment.type_record_id', 1)
-                            ->whereNotNull('ch_ps_assessment.id');
-                        })
-                        ;
-                    })
+
+                    // ->where(function ($query) {
+                    //     $query->where(function ($q) {
+                    //         $q->where('ch_reason_consultation.type_record_id', 1)
+                    //             ->whereNotNull('ch_reason_consultation.id');
+                    //     })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_position.type_record_id', 1)
+                    //                 ->whereNotNull('ch_position.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_e_valoration_o_t.type_record_id', 1)
+                    //                 ->whereNotNull('ch_e_valoration_o_t.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_nutrition_anthropometry.type_record_id', 1)
+                    //                 ->whereNotNull('ch_nutrition_anthropometry.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('tl_therapy_language.type_record_id', 1)
+                    //                 ->whereNotNull('tl_therapy_language.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_respiratory_therapy.type_record_id', 1)
+                    //                 ->whereNotNull('ch_respiratory_therapy.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_e_valoration_f_t.type_record_id', 1)
+                    //                 ->whereNotNull('ch_e_valoration_f_t.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_sw_diagnosis.type_record_id', 1)
+                    //                 ->whereNotNull('ch_sw_diagnosis.id');
+                    //         })
+                    //         ->orWhere(function ($q) {
+                    //             $q->where('ch_ps_assessment.type_record_id', 1)
+                    //                 ->whereNotNull('ch_ps_assessment.id');
+                    //         });
+                    // })
 
                     ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
                     ->where('ch_record.ch_type_id', $ChRecord[0]['ch_type_id'])
+                    ->where('status', 'CERRADO')
                     ->get()->toArray();
                 if (count($validate) > 0 || $ChRecord[0]['ch_type_id'] == 20) {
                     $ChRecord[0]['has_input'] = true;
@@ -1230,17 +1230,14 @@ class ChRecordController extends Controller
 
         if ($ChRecord[0]['ch_type_id'] != 10) {
 
-        if ($ChRecord[0]['firm_file']) {
-            $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
-            $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
-            $imagenPAtient = base64_encode($contenidoBinarioPatient);
-        } else {
-            $imagenPAtient = null;
-    
+            if ($ChRecord[0]['firm_file']) {
+                $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
+                $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                $imagenPAtient = base64_encode($contenidoBinarioPatient);
+            } else {
+                $imagenPAtient = null;
+            }
         }
-
-
-    }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
 
@@ -1561,7 +1558,7 @@ class ChRecordController extends Controller
             //APLICACION DE MEDICAMENTOS
 
             $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
-            ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
                 ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
                 ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
                 ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
@@ -2768,16 +2765,9 @@ class ChRecordController extends Controller
 
             $ChRecord2 = $ChRecord2->get()->toArray();
 
-            $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->setTimezone('America/Bogota');
+            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
 
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                
-            }
+           
 
             $ChFormulation = ChFormulation::with(
                 'product_generic',
@@ -2797,9 +2787,16 @@ class ChRecordController extends Controller
 
                 ]);
             }
+            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            } else {
+                $imagenComoBase64 = null;
+            }
             $html = view('mails.chAllFormulation', [
-                'chrecord' => $ChRecord,
-                // 'chrecord2' => $ChRecord[$i],
+                'chrecord' => $ChRecord2,
+                'chrecord2' => $ChRecord[$i],
                 'ChFormulation' => $ChFormulation,
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
@@ -3197,7 +3194,7 @@ class ChRecordController extends Controller
                     //APLICACION DE MEDICAMENTOS
 
                     $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
-                    ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                        ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
                         ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
                         ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
                         ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
@@ -4460,7 +4457,7 @@ class ChRecordController extends Controller
             }
         }
 
-        
+
 
         return response()->json([
             'status' => true,
@@ -4662,14 +4659,14 @@ class ChRecordController extends Controller
         if ($validate_aplication->assigned_management_plan->management_plan->type_of_attention_id == 17) {
 
             $pharmacy = PharmacyProductRequest::select('pharmacy_product_request.*')
-            ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
-            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
-            ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->where('ch_record.id', $id)->first();
+                ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->where('ch_record.id', $id)->first();
 
             $applicated = AssistanceSupplies::select('assistance_supplies.*')
-            ->where('supplies_status_id', 2)
-            ->where('pharmacy_product_request_id', $pharmacy->id)->get()->toArray();
+                ->where('supplies_status_id', 2)
+                ->where('pharmacy_product_request_id', $pharmacy->id)->get()->toArray();
 
             $applicatedCount = 0;
 
@@ -4682,13 +4679,12 @@ class ChRecordController extends Controller
                 }
             }
 
-                if($applicatedCount == 0){
+            if ($applicatedCount == 0) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe registrar aplicación de medicamento',
                 ]);
             }
-
         }
 
         $admissions_id = $ChRecord->admissions_id;
@@ -4754,7 +4750,7 @@ class ChRecordController extends Controller
         $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
         $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        
+
         $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
         if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
             if (count($valuetariff) == 0) {
@@ -4768,7 +4764,7 @@ class ChRecordController extends Controller
 
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00' || $ChRecordExist->date_finish == '0000-00-00' ) {
+        if ($ChRecordExist->date_finish == '0000-00-00 00:00:00' || $ChRecordExist->date_finish == '0000-00-00') {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();

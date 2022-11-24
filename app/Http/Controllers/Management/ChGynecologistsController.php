@@ -24,6 +24,10 @@ class ChGynecologistsController extends Controller
             $ChGynecologists->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->ch_record_id) {
+            $ChGynecologists->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->search) {
             $ChGynecologists->where('name', 'like', '%' . $request->search . '%');
         }
