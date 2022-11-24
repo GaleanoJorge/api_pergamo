@@ -96,11 +96,7 @@ class BedController extends Controller
 
         $Bed = Bed::select('bed.*')
             ->where('bed.pavilion_id', $pavilion_id)
-            ->where('bed_or_office', '=', $ambit);
-
-        if (!$request->office) {
-            // $Bed->where('id', $request->office);
-            $Bed->where(function ($query) use ($identification, $date) {
+            ->where(function ($query) use ($identification, $date) {
                 $query->where('bed.status_bed_id', '=', '1')
                     ->orWhere(function ($q) use ($identification, $date) {
                         $q->where('bed.identification', $identification)
@@ -112,13 +108,19 @@ class BedController extends Controller
                         $q->where('bed.status_bed_id', '=', '6')
                             ->where('bed.reservation_date', '<=', $date);
                     });
-            });
+            })
+            ->where('bed_or_office', '=', $ambit);
 
-            if ($procedure != 0) {
-                $Bed->where('procedure_id', '=', $procedure);
-            }
+
+        if ($procedure != 0) {
+            $Bed->where('procedure_id', '=', $procedure);
         }
 
+        if ($request->office) {
+            $Bed = Bed::select('bed.*')
+            ->where('id', $request->office);
+        }
+        
         $Bed->orderBy('name', 'asc');
         $Bed = $Bed->get()->toArray();
 

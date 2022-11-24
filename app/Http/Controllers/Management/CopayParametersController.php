@@ -61,10 +61,13 @@ class CopayParametersController extends Controller
         }
 
         if ($request->procedure_id) {
-            $procedure = Procedure::select('procedure.*')
-                ->where('id', $request->procedure_id)->get()->first();
+            $procedure = ServicesBriefcase::select('services_briefcase.*')
+            ->where('id', $request->procedure_id)
+            ->with(
+                'manual_price.procedure'
+            )->get()->first();
             // 1 cuota moderadora - 2 copago - 3 exento
-            $CopayParameters->where('payment_type', $procedure->payment_type);
+            $CopayParameters->where('payment_type', $procedure->manual_price->procedure->payment_type);
             // var_dump($procedure);
         }
 

@@ -1,0 +1,17 @@
+Listado de tablas
+
+days - 2022_07_23_111049_create_medical_diary_days_table - DaysSeeder
+medical_status - 2022_07_23_110330_create_medical_status_table - MedicalStatusSeeder ---
+medical_diary - 2022_07_23_110345_create_medical_diary_table
+medical_diary_days - 2022_07_23_111049_create_medical_diary_days_table
+non_working_days - 2022_07_23_110345_create_non_working_days_table  ---
+medical_citation - 2022_07_24_110345_create_medical_citation_table
+assistance_procedure - 2022_07_24_110345_create_assistance_procedure_table   --
+management_procedure - 2022_07_24_110345_create_assistance_procedure_table
+reason_cancel - 2022_07_23_110999_create_reason_cancel_table - ReasonCancelSeeder  --
+procedure - 2021_07_31_152916_create_procedure_table
+copay_parameters - 2022_09_19_071721_create_copay_parameters_table ---
+ch_record - 2022_02_21_071839_create_ch_record_table porner nulleable assigned
+AddMedicalToChRecordTable - 2022_07_23_111050_add_medical_to_ch_record_table
+AddCopayToMedicalDiaryDaysTable - 2022_11_01_111050_add_copay_to_medical_diary_days_table
+AddMedicalDiaryDaysToAuthorizationTable - 2022_11_01_111050_add_medical_diary_days_to_authorization_table

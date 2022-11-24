@@ -1705,7 +1705,7 @@
         "item_parent_id": "224",
         "name": "Agenda asistencial",
         "code": "assitencial-view",
-        "route": "/pages/scheduling/assistance-view",
+        "route": "/pages/scheduling/assitencial-view",
         "icon": "",
         "show_menu": "1"
     },

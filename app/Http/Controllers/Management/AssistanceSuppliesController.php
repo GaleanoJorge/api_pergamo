@@ -378,7 +378,7 @@ class AssistanceSuppliesController extends Controller
                             $AssistanceSupplies->observation = $request->observation;
                             $AssistanceSupplies->application_hour = $request->clock;
                             $AssistanceSupplies->ch_record_id = $request->ch_record_id;
-                            // $AssistanceSupplies->authorization_id =  $auth->id;
+                            $AssistanceSupplies->authorization_id =  $auth->id;
                             $AssistanceSupplies->supplies_status_id = $request->supplies_status_id;
                             $AssistanceSupplies->user_incharge_id = $request->user_incharge_id;
 
