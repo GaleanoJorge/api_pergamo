@@ -20,6 +20,10 @@ class ChPhysicalExamController extends Controller
     {
         $ChPhysicalExam = ChPhysicalExam::select('ch_physical_exam.*');
 
+        if ($request->ch_record_id) {
+            $ChPhysicalExam->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChPhysicalExam->orderBy($request->_sort, $request->_order);
         }
