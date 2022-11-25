@@ -17,7 +17,6 @@ class AddCopayToMedicalDiaryDaysTable extends Migration
             $table->unsignedBigInteger('copay_id')->after('cancel_description')->nullable();
             $table->unsignedBigInteger('copay_value')->after('copay_id')->nullable();
 
-            
             $table->index('copay_id');
             $table->foreign('copay_id')->references('id')
                 ->on('copay_parameters');
