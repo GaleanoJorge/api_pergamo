@@ -165,6 +165,7 @@ use App\Models\ChPsSphere;
 use App\Models\ChPsSynthesis;
 use App\Models\Tracing;
 use App\Models\ChNRMaterialsFT;
+use App\Models\User;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -2727,49 +2728,9 @@ class ChRecordController extends Controller
         if ($request->ch_type == 20) {
 
             $today = Carbon::now();
-
-
-
-
-            $ChRecord2 = ChRecord::select('ch_record.*')->with(
-                'user',
-                'user.assistance',
-                'user.user_role.role',
-                'admissions.contract',
-                'admissions.contract.company',
-                'admissions',
-                'admissions.patients',
-                'admissions.patients.academic_level',
-                'admissions.patients.municipality',
-                'admissions.patients.ethnicity',
-                'admissions.patients.gender',
-                'admissions.patients.identification_type',
-                'admissions.patients.residence_municipality',
-                'admissions.patients.residence',
-                'admissions.patients.marital_status',
-                'admissions.patients.population_group',
-                'admissions.patients.activities',
-                'admissions.contract.type_briefcase',
-                'assigned_management_plan',
-                'assigned_management_plan.management_plan',
-                'assigned_management_plan.management_plan.type_of_attention',
-                'assigned_management_plan.management_plan.procedure.manual_price',
-                'assigned_management_plan.management_plan.service_briefcase.manual_price',
-                // 'assistance_supplies',
-                // 'assistance_supplies.user_incharge_id',
-                // 'assistance_supplies.application_hour',
-            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
-
-
-                ->where('admissions.patient_id', $request->admissions);
-
-            $ChRecord2 = $ChRecord2->get()->toArray();
-
-            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
-
            
 
-            $ChFormulation = ChFormulation::with(
+            $ChFormulation = ChFormulation::select('ch_formulation.*','assistance.file_firm','ch_record.id as record_id')->with(
                 'product_generic',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
@@ -2778,7 +2739,42 @@ class ChRecordController extends Controller
                 'product_supplies'
             )->leftJoin('ch_record', 'ch_formulation.ch_record_id', 'ch_record.id')
                 ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
                 ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
+
+                $ChRecord2 = ChRecord::select('ch_record.*')->with(
+                    'user',
+                    'user.assistance',
+                    'user.user_role.role',
+                    'admissions.contract',
+                    'admissions.contract.company',
+                    'admissions',
+                    'admissions.patients',
+                    'admissions.patients.academic_level',
+                    'admissions.patients.municipality',
+                    'admissions.patients.ethnicity',
+                    'admissions.patients.gender',
+                    'admissions.patients.identification_type',
+                    'admissions.patients.residence_municipality',
+                    'admissions.patients.residence',
+                    'admissions.patients.marital_status',
+                    'admissions.patients.population_group',
+                    'admissions.patients.activities',
+                    'admissions.contract.type_briefcase',
+                    'assigned_management_plan',
+                    'assigned_management_plan.management_plan',
+                    'assigned_management_plan.management_plan.type_of_attention',
+                    'assigned_management_plan.management_plan.procedure.manual_price',
+                    'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                    // 'assistance_supplies',
+                    // 'assistance_supplies.user_incharge_id',
+                    // 'assistance_supplies.application_hour',
+                )->where('ch_record.id', $ChFormulation[0]['record_id']);
+    
+                $ChRecord2 = $ChRecord2->get()->toArray();
+
+                $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
 
             if (count($ChFormulation) == 0) {
                 return response()->json([
@@ -2787,8 +2783,8 @@ class ChRecordController extends Controller
 
                 ]);
             }
-            if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
+            if (isset($ChFormulation[0]['file_firm']) && $ChFormulation[0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChFormulation[0]['file_firm']);
                 $contenidoBinario = file_get_contents($rutaImagen);
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
@@ -2796,7 +2792,6 @@ class ChRecordController extends Controller
             }
             $html = view('mails.chAllFormulation', [
                 'chrecord' => $ChRecord2,
-                'chrecord2' => $ChRecord[$i],
                 'ChFormulation' => $ChFormulation,
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
