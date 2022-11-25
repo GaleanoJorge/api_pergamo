@@ -5005,17 +5005,19 @@ class ChRecordController extends Controller
         // }
 
         if ($created == false) {
-            if ($request->type_of_attention_id != -1) {
-                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
-                    ->where('status', 'ACTIVO')
-                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
-
-                if ($validate_ch_record) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
-                        'data' => ['ch_record' => []],
-                    ]);
+            if (!($request->type_of_attention_id && $request->type_of_attention_id != -1)) {
+                if ($request->type_of_attention_id != -1) {
+                    $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                        ->where('status', 'ACTIVO')
+                        ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+    
+                    if ($validate_ch_record) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                            'data' => ['ch_record' => []],
+                        ]);
+                    }
                 }
             }
 

@@ -551,7 +551,7 @@ class AdmissionsController extends Controller
 
             if ($request->admission_route_id == 2) {
                 $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
-            } else if ($request->admission_route_id == 1 && !$request->ambulatory_data && $request->ambulatory_data == 'null') {
+            } else if ($request->admission_route_id == 1 && (!isset($request->ambulatory_data) || !$request->ambulatory_data || $request->ambulatory_data == 'null')) {
 
                 $BillingPad = BillingPad::where('admissions_id', $Admissions->id)
                     ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
