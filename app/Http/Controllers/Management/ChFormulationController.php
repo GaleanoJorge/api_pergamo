@@ -65,6 +65,8 @@ class ChFormulationController extends Controller
                 'administration_route',
                 'hourly_frequency',
                 'product_generic',
+                'product_generic.measurement_units',
+                'product_supplies'
             )
             ->get()->toArray();
 
@@ -105,6 +107,14 @@ class ChFormulationController extends Controller
                 ->groupBy('pharmacy_stock.id')
                 ->get()->toArray();
 
+            if (count($pharmacy) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No hay farmacias en esta cede y este ambito',
+                    'data' => ['ch_formulation' => []]
+                ]);
+            }
+
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
             $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
@@ -128,6 +138,9 @@ class ChFormulationController extends Controller
             $ChFormulation->observation = $request->observation;
             $ChFormulation->pharmacy_product_request_id = $PharmacyProductRequest->id;
             $ChFormulation->number_mipres = $request->number_mipres;
+            $ChFormulation->product_supplies_id = $request->product_supplies_id;
+            $ChFormulation->required = $request->required;
+            $ChFormulation->num_supplies = $request->num_supplies;
             $ChFormulation->type_record_id = $request->type_record_id;
             $ChFormulation->ch_record_id = $request->ch_record_id;
 
@@ -147,6 +160,9 @@ class ChFormulationController extends Controller
             $ChFormulation->dose = $request->dose;
             $ChFormulation->observation = $request->observation;
             $ChFormulation->number_mipres = $request->number_mipres;
+            $ChFormulation->product_supplies_id = $request->product_supplies_id;
+            $ChFormulation->required = $request->required;
+            $ChFormulation->num_supplies = $request->num_supplies;
             $ChFormulation->type_record_id = $request->type_record_id;
             $ChFormulation->ch_record_id = $request->ch_record_id;
 
@@ -198,6 +214,9 @@ class ChFormulationController extends Controller
         $ChFormulation->dose = $request->dose;
         $ChFormulation->observation = $request->observation;
         $ChFormulation->number_mipres = $request->number_mipres;
+        $ChFormulation->product_supplies_id = $request->product_supplies_id;
+        $ChFormulation->required = $request->required;
+        $ChFormulation->num_supplies = $request->num_supplies;
         $ChFormulation->type_record_id = $request->type_record_id;
         $ChFormulation->ch_record_id = $request->ch_record_id;
         $ChFormulation->save();
@@ -215,14 +234,21 @@ class ChFormulationController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy(int $id, Request $request): JsonResponse
     {
         try {
+
             $ChFormulation = ChFormulation::find($id);
-            $PharmacyProductRequest = PharmacyProductRequest::find($ChFormulation->pharmacy_product_request_id);
-            $PharmacyProductRequest->status = 'CANCELADO';
-            $PharmacyProductRequest->save();
-            $ChFormulation->delete();
+            if ($ChFormulation->product_supplies_id) {
+                $ChFormulation->delete();
+            } else {
+                if ($ChFormulation->pharmacy_product_request_id) {
+                    $PharmacyProductRequest = PharmacyProductRequest::find($ChFormulation->pharmacy_product_request_id);
+                    $PharmacyProductRequest->status = 'CANCELADO';
+                    $PharmacyProductRequest->save();
+                }
+                $ChFormulation->delete();
+            }
 
             return response()->json([
                 'status' => true,

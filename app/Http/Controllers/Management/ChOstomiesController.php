@@ -20,6 +20,11 @@ class ChOstomiesController extends Controller
     {
         $ChOstomies = ChOstomies::with('ostomy', 'type_record', 'ch_record');
 
+        
+        if ($request->ch_record_id) {
+            $ChOstomies->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChOstomies->orderBy($request->_sort, $request->_order);
         }

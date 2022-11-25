@@ -2079,8 +2079,8 @@
 
         <!-- Rx Signos Vitales-->
         <div>
-            @if(count($ChVitalSigns) > 0)
-            @foreach($ChVitalSigns as $ch)
+            @if(count($ChVitalSignsEvo) > 0)
+            @foreach($ChVitalSignsEvo as $ch)
 
             <hr />
 
@@ -4422,7 +4422,7 @@
                 <tr style="height:11.95pt">
                     <td style="width:200pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['name']}} @endisset </span>
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset </span>
                         </p>
                     </td>
                 </tr>

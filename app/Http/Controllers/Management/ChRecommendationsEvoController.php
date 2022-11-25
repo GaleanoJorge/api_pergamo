@@ -20,6 +20,10 @@ class ChRecommendationsEvoController extends Controller
     {
         $ChRecommendationsEvo = ChRecommendationsEvo::select();
 
+        if ($request->ch_record_id) {
+            $ChRecommendationsEvo->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChRecommendationsEvo->orderBy($request->_sort, $request->_order);
         }

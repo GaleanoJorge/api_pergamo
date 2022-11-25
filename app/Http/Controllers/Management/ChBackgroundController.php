@@ -21,6 +21,10 @@ class ChBackgroundController extends Controller
     {
         $ChBackground = ChBackground::with('ch_type_background');
 
+        if ($request->ch_record_id) {
+            $ChBackground->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChBackground->orderBy($request->_sort, $request->_order);
         }
