@@ -165,4 +165,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(AssistanceProcedure::class);
     }
+
+    public function assistance_simple()
+    {
+        return $this->belongsTo(Assistance::class, 'id', 'user_id');
+    }
 }
