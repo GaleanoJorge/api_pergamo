@@ -109,6 +109,10 @@ class MedicalDiaryController extends Controller
         $MedicalDiary->office_id = $request->office_id;
         $MedicalDiary->diary_status_id = 1;
 
+        $MedicalDiary->patient_quantity = $request->patient_quantity;
+
+        // $validate_multiple_patients = 
+
         $MedicalDiary->save();
 
         $Office = Bed::find($request->office_id);
@@ -147,8 +151,8 @@ class MedicalDiaryController extends Controller
                 $start = new DateTime($dateTimeStart);
                 $finish = new DateTime($dateTimeStart);
                 $finish = $finish->modify('+' . $request->interval . ' minutes');
-                $view = $start->format("Y-m-d H:i:s");
-                $view2 = $finish->format("Y-m-d H:i:s");
+                // $view = $start->format("Y-m-d H:i:s");
+                // $view2 = $finish->format("Y-m-d H:i:s");
 
                 while (($finish < $finish_diary_scheduling || $finish == $finish_diary_scheduling) && sizeof($non_working) == 0) {
 
@@ -169,6 +173,23 @@ class MedicalDiaryController extends Controller
                     // $view2 = $finish->format("Y-m-d H:i:s");
 
                     $MedicalDiaryDays->save();
+
+                    //multiple_patients
+                    for($i = 0; $i < $request->patient_quantity; $i){
+
+                        $MultiMedicalDiaryDays = new MedicalDiaryDays;
+
+                        $MultiMedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+                        $MultiMedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+                        $MultiMedicalDiaryDays->medical_status_id = 1;
+                        $MultiMedicalDiaryDays->start_hour =  $MedicalDiaryDays->start_hour;
+                        $MultiMedicalDiaryDays->finish_hour =  $MedicalDiaryDays->finish_hour;
+                        $MultiMedicalDiaryDays->diary_days_id =  $MedicalDiaryDays->id;
+    
+                        $MedicalDiaryDays->save();
+                    }
+
+
                 }
             }
         }
