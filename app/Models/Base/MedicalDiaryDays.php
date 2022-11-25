@@ -6,6 +6,7 @@
 
 namespace App\Models\Base;
 
+use App\Models\ChRecord;
 use App\Models\Contract;
 use App\Models\Days;
 use App\Models\MedicalDiary;
@@ -72,5 +73,10 @@ class MedicalDiaryDays extends Model
 	public function medical_diary()
 	{
 		return $this->belongsTo(MedicalDiary::class, 'medical_diary_id');
+	}
+
+	public function ch_record()
+	{
+		return $this->hasMany(ChRecord::class);
 	}
 }
