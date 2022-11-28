@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCopayToMedicalDiaryDaysTable extends Migration
+class AddPackageDiaryToMedicalDiaryDaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,12 @@ class AddCopayToMedicalDiaryDaysTable extends Migration
     public function up()
     {
         Schema::table('medical_diary_days', function (Blueprint $table) {
-            $table->unsignedBigInteger('copay_id')->after('cancel_description')->nullable();
-            $table->unsignedBigInteger('copay_value')->after('copay_id')->nullable();
 
-            $table->index('copay_id');
-            $table->foreign('copay_id')->references('id')
-                ->on('copay_parameters');
+            $table->unsignedBigInteger('diary_days_id')->after('copay_value')->nullable();
 
+            $table->index('diary_days_id');
+            $table->foreign('diary_days_id')->references('id')
+                ->on('medical_diary_days');
         });
     }
 
@@ -32,9 +31,9 @@ class AddCopayToMedicalDiaryDaysTable extends Migration
     public function down()
     {
         Schema::table('medical_diary_days', function (Blueprint $table) {
-            $table->dropForeign('copay_id');
-            $table->dropColumn('copay_id');
-            $table->dropColumn('copay_value');
+            $table->dropForeign('diary_days_id');
+            $table->dropColumn('diary_days_id');
+            // $table->dropColumn('copay_value');
         });
     }
 }

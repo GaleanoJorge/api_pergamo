@@ -15,6 +15,7 @@ use App\Models\FixedAdd;
 use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\ManualPrice;
+use App\Models\MedicalDiaryDays;
 use App\Models\Procedure;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
@@ -103,5 +104,10 @@ class Authorization extends Model
 	public function ch_interconsultation()
 	{
 		return $this->belongsTo(ChInterconsultation::class, 'ch_interconsultation_id', 'id');
+	}
+
+	public function medical_diary_days()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'medical_diary_days_id', 'id');
 	}
 }

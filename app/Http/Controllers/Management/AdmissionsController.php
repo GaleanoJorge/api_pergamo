@@ -22,6 +22,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdmissionsController extends Controller
 {
@@ -597,10 +599,35 @@ class AdmissionsController extends Controller
                 $medical_diary_days->copay_value = $request->copay_value;
                 $medical_diary_days->save();
 
+                $BillingPad = BillingPad::where('admissions_id', $Admissions->id)
+                    ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                    ->first();
+                $TypeContract = TypeContract::select('type_contract.*')
+                    ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                    ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                    ->where('admissions.id', $Admissions->id)
+                    ->first();
+                if (!$BillingPad) {
+                    $BillingPad = new BillingPad;
+                    $BillingPad->admissions_id = $Admissions->id;
+                    $BillingPad->validation_date = Carbon::now();
+                    if ($TypeContract->id == 5) {
+                        $BillingPad->billing_pad_status_id = 2;
+                    } else {
+                        $BillingPad->billing_pad_status_id = 1;
+                    }
+                    $BillingPad->total_value = 0;
+                    $BillingPad->save();
+                }
+
                 $Authorization = new Authorization;
                 $Authorization->services_briefcase_id =  $medical_diary_days->services_briefcase_id;
                 $Authorization->admissions_id = $Admissions->id;
                 $Authorization->medical_diary_days_id = $request->ambulatory_data;
+                if ($request->file('file_auth')) {
+                    $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
+                    $Authorization->file_auth = $path;
+                }
                 $Authorization->file_auth = $request->file_auth;
                 $Authorization->auth_number = $request->auth_number;
                 $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
@@ -609,6 +636,7 @@ class AdmissionsController extends Controller
                 } else {
                     $Authorization->auth_status_id =  1;
                 }
+                $Authorization->auth_status_id = $request->auth_number == null ? $Authorization->auth_status_id : 3;
                 $Authorization->save();
             } else {
                 $Authorization = new  Authorization;

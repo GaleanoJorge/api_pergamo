@@ -811,8 +811,8 @@ class UserController extends Controller
                 'residence',
                 'user_role',
                 'user_role.role',
-                'assistance',
-                'assistance.assistance_procedure',
+                'assistance_simple',
+                'assistance_simple.assistance_procedure',
 
             );
             $users->Join('assistance', 'users.id', 'assistance.user_id');

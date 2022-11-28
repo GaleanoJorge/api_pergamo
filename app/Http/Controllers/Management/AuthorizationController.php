@@ -104,6 +104,7 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
+                'medical_diary_days.ch_record'
             )->where(
                 function ($query) use ($request) {
                     $query->where('management_plan.status_id', 1);

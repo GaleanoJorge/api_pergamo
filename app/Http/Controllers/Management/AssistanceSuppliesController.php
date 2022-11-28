@@ -106,7 +106,16 @@ class AssistanceSuppliesController extends Controller
                 ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->where('ch_record.id', $request->ch_record)->first();
+
+                if(!$pharmacy){
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Sin medicamentos despachados. Contacte con farmacia',
+                    ]);
+                }
+                
                 $pharmacy_product_request_id =  $pharmacy->id;
+    
             }
 
             $applicated = AssistanceSupplies::select('assistance_supplies.*')
