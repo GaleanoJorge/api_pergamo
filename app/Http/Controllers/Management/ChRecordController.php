@@ -3232,7 +3232,7 @@ class ChRecordController extends Controller
             // Efermeria
             ///////////////////////////////////////////////////
 
-        } else if ($request->ch_type == 2) {
+        } else if ($request->ch_type_id == 2) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
 
