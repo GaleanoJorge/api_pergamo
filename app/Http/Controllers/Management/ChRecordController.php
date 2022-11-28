@@ -5106,7 +5106,7 @@ class ChRecordController extends Controller
             foreach ($records_on_assigned as $item) {
 
                 $compare = ChNursingNote::select('ch_nursing_note.*')
-                    ->where('ch_record_id', $item['ch_record_id'])->first();
+                    ->where('ch_record_id', $item['id'])->first();
                 if ($compare) {
                     $nursering_notes++;
                     break;
