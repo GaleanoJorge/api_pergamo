@@ -5095,7 +5095,7 @@ class ChRecordController extends Controller
         }
 
         //validar nota de enfermeria
-        if ($validate_aplication->ch_type == 2) {
+        if ($validate_aplication->ch_type_id == 2) {
 
             $records_on_assigned = ChRecord::select('ch_record.*')
                 ->where('assigned_management_plan_id', $validate_aplication->assigned_management_plan_id)
