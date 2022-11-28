@@ -45,6 +45,7 @@ class AssistanceController extends Controller
                     "SUM(IF(location_capacity.validation_date <= " . $endDate . ",IF(" . $startDate . "<=location_capacity.validation_date,location_capacity.PAD_patient_attended,0),0)) AS total3"
                 ),
                 'role.name as role_name',
+                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
             )
             ->groupBy('assistance.id');
 
@@ -65,15 +66,30 @@ class AssistanceController extends Controller
         }
 
         if ($request->search) {
-            $Assistance->where(function ($query) use ($request) {
-                $query->where('users.firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('role.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('locality.name', 'like', '%' . $request->search . '%');
-            });
+            if (str_contains($request->search, ' ')) {
+                $spl = explode(' ', $request->search);
+                foreach ($spl as $element) {
+                    $Assistance->where('users.identification', 'like', '%' . $element . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $element . '%')
+                        ->orWhere('role.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('locality.name', 'like', '%' . $request->search . '%');
+                }
+            } else {
+                $Assistance->where(function ($query) use ($request) {
+                    $query->where('users.identification', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
+                        ->orWhere('role.name', 'like', '%' . $request->search . '%')
+                        ->orWhere('locality.name', 'like', '%' . $request->search . '%');
+                });
+            }
         }
 
         if ($request->query("pagination", true) == "false") {
