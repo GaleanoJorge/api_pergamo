@@ -772,6 +772,17 @@ class PatientController extends Controller
             $patients->where('contract.company_id', $request->eps);
         }
 
+        if ($request->flat_id && isset($request->flat_id) && $request->flat_id != 'null') {
+            $patients->where('location.flat_id', $request->flat_id);
+        }
+
+        if ($request->pavilion_id && isset($request->pavilion_id) && $request->pavilion_id != 'null') {
+            $patients->where('location.pavilion_id', $request->pavilion_id);
+        }
+
+        if ($request->bed_id && isset($request->bed_id) && $request->bed_id != 'null') {
+            $patients->where('location.bed_id', $request->bed_id);
+        }
 
         if ($request->_sort) {
             if ($request->_sort == 'flat' || $request->_sort == 'pavilion' || $request->_sort == 'bed') {

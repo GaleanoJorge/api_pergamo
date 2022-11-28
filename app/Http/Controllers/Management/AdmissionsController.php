@@ -638,19 +638,26 @@ class AdmissionsController extends Controller
                 }
                 $Authorization->auth_status_id = $request->auth_number == null ? $Authorization->auth_status_id : 3;
                 $Authorization->save();
-            } else {
-                $Authorization = new  Authorization;
-                $Authorization->services_briefcase_id =  $request->procedure_id;
-                $Authorization->admissions_id =  $Admissions->id;
-                $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-                if ($validate->type_auth == 1) {
-                    $Authorization->auth_status_id =  2;
-                } else {
-                    $Authorization->auth_status_id =  1;
-                }
+            } 
+            
+            /**
+             * se quita Else para creación de auth pad
+             * @param int $procedure_id
+             */
+            // else {
+            //     $Authorization = new  Authorization;
+            //     $Authorization->services_briefcase_id =  $request->procedure_id;
+            //     $Authorization->admissions_id =  $Admissions->id;
+            //     $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
+            //     if ($validate->type_auth == 1) {
+            //         $Authorization->auth_status_id =  2;
+            //     } else {
+            //         $Authorization->auth_status_id =  1;
+            //     }
 
-                $Authorization->save();
-            }
+            //     $Authorization->save();
+            // }
+
             // if ($Admissions->procedure_id) {
             //     $Authorization = new  Authorization;
             //     $Authorization->services_briefcase_id =  $Admissions->procedure_id;
