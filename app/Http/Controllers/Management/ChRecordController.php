@@ -2728,9 +2728,9 @@ class ChRecordController extends Controller
         if ($request->ch_type == 20) {
 
             $today = Carbon::now();
-           
 
-            $ChFormulation = ChFormulation::select('ch_formulation.*','assistance.file_firm','ch_record.id as record_id')->with(
+
+            $ChFormulation = ChFormulation::select('ch_formulation.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
                 'product_generic',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
@@ -2743,38 +2743,38 @@ class ChRecordController extends Controller
                 ->leftJoin('assistance', 'assistance.user_id', 'users.id')
                 ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
 
-                $ChRecord2 = ChRecord::select('ch_record.*')->with(
-                    'user',
-                    'user.assistance',
-                    'user.user_role.role',
-                    'admissions.contract',
-                    'admissions.contract.company',
-                    'admissions',
-                    'admissions.patients',
-                    'admissions.patients.academic_level',
-                    'admissions.patients.municipality',
-                    'admissions.patients.ethnicity',
-                    'admissions.patients.gender',
-                    'admissions.patients.identification_type',
-                    'admissions.patients.residence_municipality',
-                    'admissions.patients.residence',
-                    'admissions.patients.marital_status',
-                    'admissions.patients.population_group',
-                    'admissions.patients.activities',
-                    'admissions.contract.type_briefcase',
-                    'assigned_management_plan',
-                    'assigned_management_plan.management_plan',
-                    'assigned_management_plan.management_plan.type_of_attention',
-                    'assigned_management_plan.management_plan.procedure.manual_price',
-                    'assigned_management_plan.management_plan.service_briefcase.manual_price',
-                    // 'assistance_supplies',
-                    // 'assistance_supplies.user_incharge_id',
-                    // 'assistance_supplies.application_hour',
-                )->where('ch_record.id', $ChFormulation[0]['record_id']);
-    
-                $ChRecord2 = $ChRecord2->get()->toArray();
+            $ChRecord2 = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->where('ch_record.id', $ChFormulation[0]['record_id']);
 
-                $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+            $ChRecord2 = $ChRecord2->get()->toArray();
+
+            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
 
             if (count($ChFormulation) == 0) {
                 return response()->json([
@@ -4678,6 +4678,33 @@ class ChRecordController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe registrar aplicación de medicamento',
+                ]);
+            }
+        }
+
+        //validar nota de enfermeria
+        if ($validate_aplication->ch_type == 2) {
+
+            $records_on_assigned = ChRecord::select('ch_record.*')
+                ->where('assigned_management_plan_id', $validate_aplication->assigned_management_plan_id)
+                ->get()->toArray();
+
+            $nursering_notes = 0;
+
+            foreach ($records_on_assigned as $item) {
+
+                $compare = ChNursingNote::select('ch_nursing_note.*')
+                    ->where('ch_record_id', $item['ch_record_id'])->first();
+                if ($compare) {
+                    $nursering_notes++;
+                    break;
+                }
+            }
+
+            if ($nursering_notes == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe registrar nota de enfermeria',
                 ]);
             }
         }
