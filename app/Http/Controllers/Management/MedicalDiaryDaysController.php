@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\MedicalDiaryDays;
-use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\MedicalDiaryDaysRequest;
-use App\Models\MedicalDiary;
 use App\Models\ServicesBriefcase;
+use App\Models\MedicalDiaryDays;
+use App\Models\Authorization;
+use App\Models\MedicalDiary;
+use App\Models\User;
+use App\Actions\Transform\NumerosEnLetras;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
-use DateTime;
+use Dompdf\Dompdf as PDF;
+use Dompdf\Options;
 use Carbon\Carbon;
+use DateTime;
+
 
 class MedicalDiaryDaysController extends Controller
 {
@@ -158,6 +167,191 @@ class MedicalDiaryDaysController extends Controller
             'message' => 'Estado actualizado exitosamente',
             'data' => ['medical_diary_days' => $MedicalDiaryDays]
         ]);
+    }
+
+    /**
+     * Generating PDF's, printing copay cash receipt
+     * 
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function generateCashReceiptPDF(
+        // Resquest $request, 
+        int $id
+        ): JsonResponse
+    {
+
+        $medical_date = MedicalDiaryDays::select('medical_diary_days.*')
+        ->with(
+            'copay_parameters',
+            'patient.gender',
+            'patient.identification_type',
+            'medical_status',
+            'contract.company',
+            'briefcase.coverage',
+            'services_briefcase.manual_price.procedure',
+            'medical_diary.assistance.user',
+            'days'
+        )
+        ->where('id', $id)
+        ->first();
+
+        $authorization = Authorization::select('authorization.*')
+        ->with(
+            'admissions.location.scope_of_attention',
+            'admissions.patients',
+            'admissions.patients.identification_type',
+            'admissions.patients.status',
+            'admissions.patients.gender',
+            'admissions.patients.inability',
+            'admissions.patients.academic_level',
+            'admissions.patients.residence_municipality',
+            'admissions.patients.neighborhood_or_residence',
+            'admissions.patients.residence',
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'auth_status',
+            'assigned_management_plan',
+            'assigned_management_plan.management_plan',
+            'assigned_management_plan.management_plan.type_of_attention',
+            'assigned_management_plan.user',
+            'assigned_management_plan.ch_record',
+            'fixed_add',
+            'fixed_add.fixed_assets',
+            'fixed_add.fixed_assets.fixed_nom_product',
+            'fixed_add.fixed_assets.fixed_clasification',
+            'applications.users',
+            'medical_diary_days.ch_record'
+        )
+        ->where('medical_diary_days_id', $id)
+        ->first();
+
+        //nombre de tipo de pago asociado al procedimiento
+        $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' :
+                    ( $medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
+        //Valor pagado
+        $pay_value = $authorization->copay ? $authorization->copay : 0;
+        
+        //Numero a letras
+        $letter_value = $this->NumToLettersBill($pay_value);
+
+        //fecha de generación
+        $generate_date  = Carbon::now()->setTimezone('America/Bogota');
+
+        //Nombre del ususairoo que genera
+            $nombre_completo = User::select(
+            'users.*',
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+        )
+        ->where('id', Auth::user()->id)
+        ->first();
+
+        //
+        
+        // $start = new DateTime($dateTimeStart);
+        setlocale(LC_MONETARY, 'en_US.UTF-8');
+
+        $html = view('layouts.cashreceipt', [
+            'authorization' => $authorization,
+            'medical_date' => $medical_date,
+            'pay_name' => $pay_name,
+            'letter_value' => $letter_value,
+            'generate_date' =>  $generate_date,
+            'user_name_complete' => $nombre_completo->nombre_completo,
+            'pay_value' =>  $this->currencyTransform($pay_value)
+        ])->render();
+
+        $options = new Options();
+        $options->set('isRemoteEnabled', TRUE);
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper( [0, 0, 612.00, 396.00], 'vertical');
+        $dompdf->render();
+        $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        $name = 'recibo_de_caja/Ambulatorio.pdf';
+
+        Storage::disk('public')->put($name, $file);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Factura generada exitosamente',
+            'url' => asset('/storage' .  '/' . $name),
+        ]);
+    }
+
+    private function currencyTransform($value): string
+    {
+        $millions = '';
+        $millionsNum = 0;
+        $thousands = '';
+        $thousandsNum = 0;
+        $hundreds = '';
+        $hundredsNum = 0;
+        if ($value >= 1000000) {
+            $millions = floor($value / 1000000) . '.';
+            $millionsNum = floor($value / 1000000);
+            $thousands = floor(($value / 1000) - (floor($value / 1000000) * 1000)) . '.';
+            $thousandsNum = floor(($value / 1000) - (floor($value / 1000000) * 1000));
+        } else {
+            if (floor($value / 1000) > 0) {
+                $thousands = floor($value / 1000) . '.';
+            }
+            $thousandsNum = floor($value / 1000);
+        }
+        $hundreds = ($value - (floor($value / 1000) * 1000)) . '';
+        $hundredsNum = ($value - (floor($value / 1000) * 1000));
+
+        if ($millionsNum > 0) {
+            if ($thousandsNum < 100 && $thousandsNum >= 10) {
+                $thousands = '0' . $thousands;
+            } else if ($thousandsNum < 10 && $thousandsNum >= 0) {
+                $thousands = '00' . $thousands;
+            }
+        }
+        if ($thousandsNum > 0 || $millionsNum > 0) {
+            if ($hundredsNum < 100 && $hundredsNum >= 10) {
+                $hundreds = '0' . $hundreds;
+            } else if ($hundredsNum < 10 && $hundredsNum >= 0) {
+                $hundreds = '00' . $hundreds;
+            }
+        }
+
+        $Response = '$' . $millions . $thousands . $hundreds . '.00';
+
+        return $Response;
+    }
+
+    /**
+     * Injects page number on PDF
+     * 
+     * @param PDF $dompdf
+     */
+    private function injectPageCount(PDF $dompdf): void
+    {
+        /** @var CPDF $canvas */
+        $canvas = $dompdf->getCanvas();
+        $pdf = $canvas->get_cpdf();
+
+        foreach ($pdf->objects as &$o) {
+            if ($o['t'] === 'contents') {
+                $o['c'] = str_replace('DOMPDF_PAGE_COUNT_PLACEHOLDER', $canvas->get_page_count(), $o['c']);
+            }
+        }
+    }
+
+    /**
+     * Converts a given number on his equivalent name in letters
+     * 
+     * @param int $value
+     * @return String $res
+     */
+    public function NumToLettersBill(int $value)
+    {
+        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
+
+        return $res;
     }
 
     /**

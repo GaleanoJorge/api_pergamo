@@ -39,7 +39,7 @@ class CopayParametersController extends Controller
                 ->where('id', $request->services_briefcase_id)
                 ->with(
                     'manual_price.procedure'
-                )->get()->first();
+                )->first();
 
             $CopayParameters->where('payment_type', $procedure->manual_price->procedure->payment_type);
 
