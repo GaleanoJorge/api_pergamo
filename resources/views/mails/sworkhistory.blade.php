@@ -1769,28 +1769,32 @@
 
         </div>
 
-        <!-- SEGUIMIENTO -->
-        <div> 
-                
-            @if(count($ChTracing) > 0 )
+    <!-- NOTA ACLARATORIA -->
+    <div>
+
+        @if (count($Disclaimer) > 0)
 
             <hr />
-
-            <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
-                    SEGUIMIENTO<br>
+            <p
+                style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                NOTA ACLARATORIA<br>
             </p>
+            
+            <hr />
 
-                @foreach($ChTracing as $ch)
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            @foreach ($Disclaimer as $ch)
+                <p
+                    style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
-                        <b>@if(isset($ch['observation'])) SEGUIMIENTO: </b> {{$ch['observation']}} @endisset</span>
+                    <b> @if (isset($ch['created_at'])) FECHA:</b>{{ mb_substr($ch['created_at'], 0, 10) }} @endisset
+                    <br />
+                    <b> @if (isset($ch['observation'])) NOTA ACLARATORIA:</b> {{ $ch['observation'] }} @endisset
+                    </span>
                 </p>
+            @endforeach
 
-                @endforeach
-
-            @endisset
-        </div>
+        @endisset
+    </div>
     
     @endisset
 </div>

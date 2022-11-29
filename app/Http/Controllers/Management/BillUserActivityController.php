@@ -79,7 +79,7 @@ class BillUserActivityController extends Controller
 
     public function createMissedActivities(Request $request, int $id): JsonResponse
     {
-        $mes = 10;
+        $mes = 11;
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
@@ -101,19 +101,19 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $mes = Carbon::parse('2022-10-06 00:12:27')->month;
+            $mes = Carbon::parse('2022-'.$mes.'-06 00:12:27')->month;
 
             $validate = AccountReceivable::whereRaw("created_at >= '2022-".$mes."-01 00:00:00'")->whereRaw("created_at < '2022-".($mes+1)."-01 00:00:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-                // $AccountReceivable = new AccountReceivable;
-                // $AccountReceivable->user_id = $element['user_id'];
-                // $AccountReceivable->status_bill_id = 1;
-                // $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                // $AccountReceivable->created_at = '2022-'.$mes.'-06 00:12:27';
-                // $AccountReceivable->updated_at = '2022-'.$mes.'-06 00:12:27';
-                // $AccountReceivable->save();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $element['user_id'];
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->created_at = '2022-'.$mes.'-29 00:12:27';
+                $AccountReceivable->updated_at = '2022-'.$mes.'-29 00:12:27';
+                $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);

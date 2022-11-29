@@ -1858,4 +1858,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //reason cancel
     Route::apiResource('reason_cancel', 'Management\ReasonCancelController');
     Route::patch('reason_cancel/{id}/changeStatus', 'Management\ReasonCancelController@ChangeStatus');
+    //Nota aclaratoria
+    Route::apiResource('disclaimer', 'Management\DisclaimerController');
+    Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+
+
 });
