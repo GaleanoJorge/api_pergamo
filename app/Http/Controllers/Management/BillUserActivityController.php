@@ -97,8 +97,8 @@ class BillUserActivityController extends Controller
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
             ->whereNotNull('management_plan.procedure_id')
-            ->whereRaw("assigned_management_plan.created_at < '2022-".($mes+1)."-01 00:00:00'")
-            ->whereRaw("assigned_management_plan.created_at >= '2022-".$mes."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.execution_date < '2022-".($mes+1)."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.execution_date >= '2022-".$mes."-01 00:00:00'")
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
