@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LocationCapacityRequest;
+use App\Models\Assistance;
 use App\Models\BaseLocationCapacity;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -47,6 +48,60 @@ class LocationCapacityController extends Controller
             'status' => true,
             'message' => 'Comunas, Localidades o Veredas obtenidas exitosamente',
             'data' => ['location_capacity' => $LocationCapacity]
+        ]);
+    }
+
+    /**
+     * Renovate locaion capacity
+     * 
+     */
+    public function renovateLocationCapacity(Request $request, int $campus_id): JsonResponse
+    {
+        $assistances = Assistance::select('assistance.*')
+            ->with(
+                'user',
+            )
+            ->leftJoin('users', 'users.id', 'assistance.user_id')
+            ->leftJoin('user_campus', 'users.id', 'user_campus.user_id')
+            ->where('user_campus.campus_id', $campus_id)
+            ->whereIn('assistance.contract_type_id', [1, 2, 3])
+            // ->whereIn('assistance.contract_type_id', [4, 5])
+            ->groupBy('assistance.id')
+            ->get()->toArray();
+
+        $startDateOfMaonth = Carbon::now()->startOfMonth();
+        $endDateOfMaonth = Carbon::now()->endOfMonth();
+
+        foreach ($assistances as $element) {
+            $BaseLocationCapacity = BaseLocationCapacity::select('base_location_capacity.*')
+                ->where('assistance_id', $element['id'])
+                ->get()->toArray();
+            foreach ($BaseLocationCapacity as $localitiaes) {
+                $LocationCapacity = LocationCapacity::select('location_capacity.*')
+                ->where('assistance_id', $localitiaes['assistance_id'])
+                ->where('phone_consult', $localitiaes['phone_consult'])
+                ->where('locality_id', $localitiaes['locality_id'])
+                ->where('PAD_patient_quantity', $localitiaes['PAD_base_patient_quantity'])
+                ->whereBetween('validation_date', [$startDateOfMaonth, $endDateOfMaonth])
+                ->get()->toArray();
+                if (count($LocationCapacity) == 0) {
+                    $newLocCap = new LocationCapacity;
+                    $newLocCap->phone_consult = $localitiaes['phone_consult'];
+                    $newLocCap->assistance_id = $localitiaes['assistance_id'];
+                    $newLocCap->locality_id = $localitiaes['locality_id'];
+                    $newLocCap->validation_date = Carbon::now();
+                    $newLocCap->PAD_patient_quantity = $localitiaes['PAD_base_patient_quantity'];
+                    $newLocCap->PAD_patient_actual_capacity = $localitiaes['PAD_base_patient_quantity'];
+                    $newLocCap->PAD_patient_attended = 0;
+                    $newLocCap->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Capacidad instalada de asistenciales de planta acualizada exitosamente.',
+            'data' => ['location_capacity' => $assistances],
         ]);
     }
 
