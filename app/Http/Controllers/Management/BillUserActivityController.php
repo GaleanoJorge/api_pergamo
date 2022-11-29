@@ -101,7 +101,7 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $mes = Carbon::parse('2022-10-06 00:12:27')->month;
+            $mes = Carbon::parse('2022-'.$mes.'-06 00:12:27')->month;
 
             $validate = AccountReceivable::whereRaw("created_at >= '2022-".$mes."-01 00:00:00'")->whereRaw("created_at < '2022-".($mes+1)."-01 00:00:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
