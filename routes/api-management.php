@@ -1815,4 +1815,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Seguimiento
     Route::apiResource('tracing', 'Management\TracingController');
     Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
+
+    //Nota aclaratoria
+    Route::apiResource('disclaimer', 'Management\DisclaimerController');
+    Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+
+
 });
