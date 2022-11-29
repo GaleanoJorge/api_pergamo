@@ -77,9 +77,15 @@ class BillUserActivityController extends Controller
     }
 
 
-    public function createMissedActivities(Request $request, int $id): JsonResponse
+    public function createMissedActivities(Request $request, int $mes): JsonResponse
     {
-        $mes = 11;
+        if ($mes == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El mes debe ser mayor a 0',
+                'data' => ['bill_user_activity' => []]
+            ]);
+        }
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
