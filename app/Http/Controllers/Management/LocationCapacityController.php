@@ -78,12 +78,12 @@ class LocationCapacityController extends Controller
                 ->get()->toArray();
             foreach ($BaseLocationCapacity as $localitiaes) {
                 $LocationCapacity = LocationCapacity::select('location_capacity.*')
-                ->where('assistance_id', $localitiaes['assistance_id'])
-                ->where('phone_consult', $localitiaes['phone_consult'])
-                ->where('locality_id', $localitiaes['locality_id'])
-                ->where('PAD_patient_quantity', $localitiaes['PAD_base_patient_quantity'])
-                ->whereBetween('validation_date', [$startDateOfMaonth, $endDateOfMaonth])
-                ->get()->toArray();
+                    ->where('assistance_id', $localitiaes['assistance_id'])
+                    ->where('phone_consult', $localitiaes['phone_consult'])
+                    ->where('locality_id', $localitiaes['locality_id'])
+                    ->where('PAD_patient_quantity', $localitiaes['PAD_base_patient_quantity'])
+                    ->whereBetween('validation_date', [$startDateOfMaonth, $endDateOfMaonth])
+                    ->get()->toArray();
                 if (count($LocationCapacity) == 0) {
                     $newLocCap = new LocationCapacity;
                     $newLocCap->phone_consult = $localitiaes['phone_consult'];
@@ -151,8 +151,10 @@ class LocationCapacityController extends Controller
         $BaseDelete->delete();
         $lastDayNextMonth = Carbon::now()->addMonth()->endOfMonth();
         $firstDayNextMonth = Carbon::now()->addMonth()->startOfMonth();
-        $lastDayMonth = Carbon::now()->endOfMonth();
-        $firstDayMonth = Carbon::now()->startOfMonth();
+        $actualMonth = Carbon::now()->month;
+        $year = $actualMonth <= $request->month ?  Carbon::now()->year : Carbon::now()->addYear()->year;
+        $lastDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->endOfMonth();
+        $firstDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->startOfMonth();
 
         $array = json_decode($request->localities_id);
         foreach ($array as $item) {
@@ -166,12 +168,13 @@ class LocationCapacityController extends Controller
                 $CurrentMonthLocationCapacity = LocationCapacity::where('assistance_id', $request->assistance_id)
                     ->where('locality_id', $item->locality_id);
 
-                $validationDate = Carbon::now();
-                if ($request->procedence == 2) {
+                    if ($request->procedence == 2) {
+                    $validationDate = Carbon::now();
                     $CurrentMonthLocationCapacity->where('validation_date', '>=', $firstDayNextMonth)
-                        ->where('validation_date', '<=', $lastDayNextMonth);
+                    ->where('validation_date', '<=', $lastDayNextMonth);
                     $validationDate->addMonth();
                 } else if ($request->procedence == 1) {
+                    $validationDate = Carbon::parse($year . '-' . $request->month . '-15');
                     $CurrentMonthLocationCapacity->where('validation_date', '>=', $firstDayMonth)
                         ->where('validation_date', '<=', $lastDayMonth);
                 }
