@@ -258,6 +258,13 @@ class ManagementPlanController extends Controller
             ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
             ->where('admissions.patient_id', $id)->where('management_plan.status_id', 1)
             ->groupBy('management_plan.id');
+        if ($request->start_date) {
+            $ManagementPlan->where('assigned_management_plan.start_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $ManagementPlan->where('assigned_management_plan.start_date', '<=', $request->finish_date);
+        }
         if ($userId != 0) {
             $ManagementPlan
                 ->where('assigned_management_plan.user_id', $userId);
