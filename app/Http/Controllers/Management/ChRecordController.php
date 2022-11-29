@@ -4891,7 +4891,7 @@ class ChRecordController extends Controller
                 }
 
                 if ($created == false) {
-                    $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
@@ -4951,7 +4951,7 @@ class ChRecordController extends Controller
             $ChRecord->ch_type_id = $register;
 
             if ($created == false) {
-                $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                     ->where('status', 'ACTIVO')
                     ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
@@ -4991,7 +4991,7 @@ class ChRecordController extends Controller
         if ($created == false) {
             if (!($request->type_of_attention_id && $request->type_of_attention_id != -1)) {
                 if ($request->type_of_attention_id != -1) {
-                    $validate_ch_record = ChRecord::where('ch_type_id', $ChRecord->ch_type_id)
+                    $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
     
