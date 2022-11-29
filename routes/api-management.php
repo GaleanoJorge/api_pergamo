@@ -989,6 +989,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\BaseLocationCapacityController@getByLocality'
     );
     Route::apiResource('location_capacity', 'Management\LocationCapacityController');
+    Route::post(
+        'location_capacity/renovateLocationCapacity/{campus_id}',
+        'Management\LocationCapacityController@renovateLocationCapacity'
+    );
     Route::apiResource('base_location_capacity', 'Management\BaseLocationCapacityController');
     Route::apiResource('role_attention', 'Management\RoleAttentionController');
 

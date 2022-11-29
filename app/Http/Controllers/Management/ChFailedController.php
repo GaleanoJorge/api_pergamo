@@ -82,23 +82,32 @@ class ChFailedController extends Controller
 
     public function store(ChFailedRequest $request): JsonResponse
     {
-        $ChFailed = new ChFailed;
-        $ChFailed->descriptions = $request->descriptions;
-        if ($request->file('file_evidence')) {
-            $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
-            $ChFailed->file_evidence = $path;
+        try {
+            $ChFailed = new ChFailed;
+            $ChFailed->descriptions = $request->descriptions;
+            if ($request->file('file_evidence')) {
+                $path = Storage::disk('public')->put('fallida', $request->file('file_evidence'));
+                $ChFailed->file_evidence = $path;
+            }
+            $ChFailed->ch_reason_id = $request->ch_reason_id;
+            $ChFailed->type_record_id = $request->type_record_id;
+            $ChFailed->ch_record_id = $request->ch_record_id;
+    
+            $ChFailed->save();
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Visita Fallida  creado exitosamente',
+                'data' => ['ch_failed' => $ChFailed->toArray()]
+            ]);
+        } catch (QueryException $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'La imagen cargada es demasiado grande para ser guardada, intente con un archivo más liviano',
+                'data' => ['ch_failed' => []]
+            ]);
         }
-        $ChFailed->ch_reason_id = $request->ch_reason_id;
-        $ChFailed->type_record_id = $request->type_record_id;
-        $ChFailed->ch_record_id = $request->ch_record_id;
-
-        $ChFailed->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Visita Fallida  creado exitosamente',
-            'data' => ['ch_failed' => $ChFailed->toArray()]
-        ]);
+        
     }
 
     /**
