@@ -3232,7 +3232,7 @@ class ChRecordController extends Controller
             // Efermeria
             ///////////////////////////////////////////////////
 
-        } else if ($request->ch_type == 2) {
+        } else if ($request->ch_type_id == 2) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
 
@@ -5095,7 +5095,7 @@ class ChRecordController extends Controller
         }
 
         //validar nota de enfermeria
-        if ($validate_aplication->ch_type == 2) {
+        if ($validate_aplication->ch_type_id == 2) {
 
             $records_on_assigned = ChRecord::select('ch_record.*')
                 ->where('assigned_management_plan_id', $validate_aplication->assigned_management_plan_id)
@@ -5106,7 +5106,7 @@ class ChRecordController extends Controller
             foreach ($records_on_assigned as $item) {
 
                 $compare = ChNursingNote::select('ch_nursing_note.*')
-                    ->where('ch_record_id', $item['ch_record_id'])->first();
+                    ->where('ch_record_id', $item['id'])->first();
                 if ($compare) {
                     $nursering_notes++;
                     break;

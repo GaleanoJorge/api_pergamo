@@ -1825,6 +1825,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //medical diary days
     Route::apiResource('medical_diary_days', 'Management\MedicalDiaryDaysController');
     Route::patch('medical_diary_days/{id}/changeStatus', 'Management\MedicalDiaryDaysController@ChangeStatus');
+    Route::get('medical_diary_days/generateCashReceiptPDF/{id}', 'Management\MedicalDiaryDaysController@generateCashReceiptPDF');
 
 
     //Estados de la cita medica

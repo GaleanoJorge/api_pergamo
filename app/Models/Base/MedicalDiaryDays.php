@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 use App\Models\ChRecord;
 use App\Models\Contract;
+use App\Models\CopayParameters;
 use App\Models\Days;
 use App\Models\MedicalDiary;
 use App\Models\MedicalStatus;
@@ -78,5 +79,14 @@ class MedicalDiaryDays extends Model
 	public function ch_record()
 	{
 		return $this->hasMany(ChRecord::class);
+	}
+
+	public function copay_parameters()
+	{
+		return $this->belongsTo(
+			CopayParameters::class, 
+			'copay_id',
+			'id'
+		);
 	}
 }
