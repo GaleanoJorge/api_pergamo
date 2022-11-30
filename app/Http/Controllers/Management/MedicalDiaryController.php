@@ -175,7 +175,7 @@ class MedicalDiaryController extends Controller
                     $MedicalDiaryDays->save();
 
                     //multiple_patients
-                    for($i = 0; $i < $request->patient_quantity; $i){
+                    for($i = 0; $i < intval($request->patient_quantity); $i++){
 
                         $MultiMedicalDiaryDays = new MedicalDiaryDays;
 
