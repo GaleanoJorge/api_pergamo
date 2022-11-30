@@ -173,9 +173,10 @@ class MedicalDiaryController extends Controller
                     // $view2 = $finish->format("Y-m-d H:i:s");
 
                     $MedicalDiaryDays->save();
+                    $ar = intval($request->patient_quantity);
 
                     //multiple_patients
-                    for($i = 0; $i < intval($request->patient_quantity); $i++){
+                     for($j = 0; $j < intval($request->patient_quantity); $j++){
 
                         $MultiMedicalDiaryDays = new MedicalDiaryDays;
 
