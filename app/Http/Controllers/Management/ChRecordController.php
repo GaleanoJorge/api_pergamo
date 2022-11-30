@@ -4367,11 +4367,11 @@ class ChRecordController extends Controller
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $SwEducationDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
                     $ChSwSupportNetwork = ChSwSupportNetwork::with(
                         'ch_sw_network'
@@ -4380,11 +4380,11 @@ class ChRecordController extends Controller
                     //Regular
                     $SwEducationEvoDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationEvoDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
 
                     $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
