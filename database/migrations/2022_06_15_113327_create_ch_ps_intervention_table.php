@@ -16,7 +16,7 @@ class CreateChPsInterventionTable extends Migration
         Schema::create('ch_ps_intervention', function (Blueprint $table) {
             $table->bigIncrements('id');   
 
-            $table->string('assessment');
+            $table->longText('assessment');
 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
