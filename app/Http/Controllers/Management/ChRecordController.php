@@ -5110,15 +5110,6 @@ class ChRecordController extends Controller
         }
 
         $admissions_id = $ChRecord->admissions_id;
-        $ChRecordExist = ChRecord::select('ch_record.*')->where('admissions_id', $admissions_id);
-        if ($ChRecord->assigned_management_plan_id) {
-            $ChRecordExist->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id);
-        }
-        if ($ChRecord->ch_interconsultation_id) {
-            $ChRecordExist->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id);
-        }
-        $ChRecordExist->orderBy('created_at', 'ASC');
-        $ChRecordExist = $ChRecordExist->get()->toArray();
 
         $ChRecord->status = $request->status;
 
@@ -5166,12 +5157,13 @@ class ChRecordController extends Controller
         //     $ChRecord->firm_file = $path;
         // }
 
+        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+
         if ($ChRecord->assigned_management_plan_id) {
             $mes = Carbon::now()->month;
 
             $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
             $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
-            $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
             $admissions = Admissions::find($admissions_id);
             $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
@@ -5197,7 +5189,7 @@ class ChRecordController extends Controller
         $ChRecord->save();
 
         if ($ChRecord->assigned_management_plan_id) {
-            if ($ChRecordExist[0]['date_finish'] == '0000-00-00') {
+            if ($AssignedManagementPlan->execution_date == '0000-00-00 00:00:00') {
 
                 $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
                 $assigned->execution_date = Carbon::now();
