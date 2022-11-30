@@ -119,7 +119,7 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if ($request->medical_formula == 0) {
+        if ($request->medical_formula == "" || $request->medical_formula == false) {
 
             $ChRecordVal = ChRecord::find($request->ch_record_id);
 
@@ -169,7 +169,7 @@ class ChFormulationController extends Controller
             $ChFormulation->administration_route_id = $request->administration_route_id;
             $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id;
             $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
-            $ChFormulation->medical_formula = $request->medical_formula;
+            $ChFormulation->medical_formula = 0;
             $ChFormulation->treatment_days = $request->treatment_days;
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
             $ChFormulation->dose = $request->dose;
