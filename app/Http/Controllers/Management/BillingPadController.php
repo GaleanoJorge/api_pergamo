@@ -1971,38 +1971,14 @@ class BillingPadController extends Controller
             $components = json_decode($request->authorizations);
             $total_value = 0;
             foreach ($components as $conponent) {
-                if ($conponent->location_id) {
-                    $Location = Location::find($conponent->location_id);
-                    if ($Location->discharge_date != '0000-00-00 00:00:00') {
-                        $Auth_A = Authorization::find($conponent->id);
-                        $Auth_B = new Authorization;
-                        $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
-                        $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
-                        $Auth_B->admissions_id = $Auth_A->admissions_id;
-                        $Auth_B->auth_number = $Auth_A->auth_number;
-                        $Auth_B->authorized_amount = $Auth_A->authorized_amount;
-                        $Auth_B->observation = $Auth_A->observation;
-                        $Auth_B->copay = $Auth_A->copay;
-                        $Auth_B->quantity = $Auth_A->quantity;
-                        $Auth_B->copay_value = $Auth_A->copay_value;
-                        $Auth_B->auth_status_id = $Auth_A->auth_status_id;
-                        $Auth_B->auth_package_id = $Auth_A->auth_package_id;
-                        $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
-                        $Auth_B->manual_price_id = $Auth_A->manual_price_id;
-                        $Auth_B->application_id = $Auth_A->application_id;
-                        $Auth_B->procedure_id = $Auth_A->procedure_id;
-                        $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
-                        $Auth_B->product_com_id = $Auth_A->product_com_id;
-                        $Auth_B->location_id = $Auth_A->location_id;
-                        $Auth_B->file_auth = $Auth_A->file_auth;
-                        $Auth_B->save();
-                    }
-                }
                 $Auth_A = Authorization::select('authorization.*')
                 ->with(
                     'services_briefcase',
                     'services_briefcase.manual_price',
                     'product_com',
+                    'location',
+                    'ch_interconsultation',
+                    'ch_interconsultation.many_ch_record',
                     'supplies_com',
                     'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
@@ -2014,11 +1990,48 @@ class BillingPadController extends Controller
                     'manual_price.procedure',
                 )
                 ->where('authorization.id', $conponent)->get()->toArray();
+                if ($Auth_A[0]['location_id']) {
+                    $Location = Location::find($Auth_A[0]['location_id']);
+                    if ($Location->discharge_date != '0000-00-00 00:00:00') {
+                        $Auth_B = new Authorization;
+                        $Auth_B->services_briefcase_id = $Auth_A[0]['services_briefcase_id'];
+                        $Auth_B->assigned_management_plan_id = $Auth_A[0]['assigned_management_plan_id'];
+                        $Auth_B->admissions_id = $Auth_A[0]['admissions_id'];
+                        $Auth_B->auth_number = $Auth_A[0]['auth_number'];
+                        $Auth_B->authorized_amount = $Auth_A[0]['authorized_amount'];
+                        $Auth_B->observation = $Auth_A[0]['observation'];
+                        $Auth_B->copay = $Auth_A[0]['copay'];
+                        $Auth_B->quantity = $Auth_A[0]['quantity'];
+                        $Auth_B->copay_value = $Auth_A[0]['copay_value'];
+                        $Auth_B->auth_status_id = $Auth_A[0]['auth_status_id'];
+                        $Auth_B->auth_package_id = $Auth_A[0]['auth_package_id'];
+                        $Auth_B->fixed_add_id = $Auth_A[0]['fixed_add_id'];
+                        $Auth_B->manual_price_id = $Auth_A[0]['manual_price_id'];
+                        $Auth_B->application_id = $Auth_A[0]['application_id'];
+                        $Auth_B->procedure_id = $Auth_A[0]['procedure_id'];
+                        $Auth_B->supplies_com_id = $Auth_A[0]['supplies_com_id'];
+                        $Auth_B->product_com_id = $Auth_A[0]['product_com_id'];
+                        $Auth_B->location_id = $Auth_A[0]['location_id'];
+                        $Auth_B->file_auth = $Auth_A[0]['file_auth'];
+                        $Auth_B->save();
+                        
+                        $initial_date = Carbon::parse($Location->entry_date);
+                        $finish_date = Carbon::parse($Location->discharge_date);
+                        $days = $initial_date->diffInDays($finish_date + 1);
+                        $Auth_A[0]['quantity'] = $days;
+                    }
+                }
                 $AuthBillingPad = new AuthBillingPad;
                 $AuthBillingPad->billing_pad_id = $id;
                 $AuthBillingPad->authorization_id = $Auth_A[0]['id'];
                 $q = 1;
                 if ($Auth_A[0]['quantity']) {
+                    $q = $Auth_A[0]['quantity'];
+                } else if ($Auth_A[0]['location_id']) {
+                    $start_date = Carbon::parse($Auth_A[0]['created_at'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = $Auth_A[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth_A[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $diff = $start_date->diffInDays($finish_date) + 1;
+                    $Auth_A[0]['quantity'] = $diff;
                     $q = $Auth_A[0]['quantity'];
                 }
                 if ($Auth_A[0]['services_briefcase']) {
@@ -2497,7 +2510,9 @@ class BillingPadController extends Controller
                 if ($Auth[0]['assigned_management_plan'] != null) {
                     array_push($services_date, $Auth[0]['assigned_management_plan']['execution_date']);
                     if ($assistance_name == '') {
-                        $assistance_name = $Auth[0]['assigned_management_plan']['user']['firstname'] . ' ' . $Auth[0]['assigned_management_plan']['user']['lastname'];
+                        if ($Auth[0]['assigned_management_plan']['user']) {
+                            $assistance_name = $Auth[0]['assigned_management_plan']['user']['firstname'] . ' ' . $Auth[0]['assigned_management_plan']['user']['lastname'];
+                        }
                     }
                 } else if ($Auth[0]['location_id'] != null) {
                     $A = Carbon::parse($Auth[0]['created_at'])->setTimezone('America/Bogota');
@@ -2704,7 +2719,7 @@ A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $
 2;1;;;;' . $expiracy_date . '
 ;;;
 
-SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';12;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';04;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
             ];
             $file = $file_no_pgp;
