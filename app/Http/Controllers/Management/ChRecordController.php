@@ -5157,13 +5157,16 @@ class ChRecordController extends Controller
         //     $ChRecord->firm_file = $path;
         // }
 
-        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-
+        $ChRecord->date_finish = Carbon::now();
+        $ChRecord->save();
+        
         if ($ChRecord->assigned_management_plan_id) {
+        
             $mes = Carbon::now()->month;
-
+            
             $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
             $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
+            $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
             $admissions = Admissions::find($admissions_id);
             $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
@@ -5183,12 +5186,9 @@ class ChRecordController extends Controller
                     ]);
                 }
             }
-        }
+        
 
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
 
-        if ($ChRecord->assigned_management_plan_id) {
             if ($AssignedManagementPlan->execution_date == '0000-00-00 00:00:00') {
 
                 $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
