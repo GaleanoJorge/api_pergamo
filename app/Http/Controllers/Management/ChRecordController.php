@@ -4698,8 +4698,6 @@ class ChRecordController extends Controller
         }
 
         $admissions_id = $ChRecord->admissions_id;
-        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-            ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
 
@@ -4774,7 +4772,7 @@ class ChRecordController extends Controller
 
         $ChRecord->date_finish = Carbon::now();
         $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00') {
+        if ($AssignedManagementPlan->execution_date == '0000-00-00 00:00:00') {
 
             $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
             $assigned->execution_date = Carbon::now();
