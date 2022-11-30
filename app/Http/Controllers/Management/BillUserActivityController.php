@@ -155,7 +155,7 @@ class BillUserActivityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
-            'data' => ['bill_user_activity' => count($Amp), 'aa' => $aaa, 'bb' => $bbb]
+            'data' => ['assigneds' => count($Amp), 'activities' => $aaa, 'accounts' => $bbb]
         ]);
     }
 
