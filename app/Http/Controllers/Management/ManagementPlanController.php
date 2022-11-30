@@ -1491,6 +1491,7 @@ class ManagementPlanController extends Controller
         $ManagementPlan = ManagementPlan::find($id);
         $status_id = ManagementPlan::where('id', $id)->get()->first()->status_id;
         if ($status_id == 1) {
+            $ManagementPlan->note = $request->note;
             $ManagementPlan->status_id = 2;
         } else {
             $ManagementPlan->status_id = 1;

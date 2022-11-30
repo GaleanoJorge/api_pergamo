@@ -26,5 +26,6 @@ class ManagementPlan extends BaseManagementPlan
 		'phone_consult',
 		'observation',
 		'status_id',
+		'note'
 	];
 }
