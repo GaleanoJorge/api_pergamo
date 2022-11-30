@@ -47,7 +47,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedBigInteger('request_admission_route_id')->nullable();
             $table->unsignedBigInteger('request_specialty_id')->nullable();
             $table->unsignedBigInteger('request_program_id')->nullable();
-            $table->string('request_observation')->nullable();
+            $table->longText('request_observation')->nullable();
 
             $table->unsignedBigInteger('acceptance_campus_id')->nullable();
             $table->unsignedBigInteger('acceptance_flat_id')->nullable();
@@ -61,7 +61,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedBigInteger('acceptance_specialty_id')->nullable();
             $table->unsignedBigInteger('acceptance_program_id')->nullable();
             $table->unsignedBigInteger('tutor_id')->nullable();
-            $table->string('acceptance_observation')->nullable();
+            $table->longText('acceptance_observation')->nullable();
 
 
             $table->unsignedBigInteger('denied_user_id')->nullable();
@@ -71,7 +71,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedTinyInteger('denied_type_id')->nullable();
             $table->unsignedBigInteger('denied_reason_id')->nullable();
             $table->unsignedBigInteger('denied_program_id')->nullable();
-            $table->string('denied_observation')->nullable();
+            $table->longText('denied_observation')->nullable();
 
             $table->unsignedBigInteger('admissions_id')->nullable();
 
