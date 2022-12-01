@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $assigned_user_id
  * @property int $route_of_administration
  * @property int $status_id
+ * @property string $note
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

@@ -34,6 +34,7 @@ class CreateManagementPlanTable extends Migration
             $table->boolean('phone_consult');
             $table->longText('observation')->nullable();
             $table->unsignedTinyInteger('status_id')->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
 
             $table->index('type_of_attention_id');
