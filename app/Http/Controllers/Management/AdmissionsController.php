@@ -624,22 +624,27 @@ class AdmissionsController extends Controller
                 $Authorization->services_briefcase_id =  $medical_diary_days->services_briefcase_id;
                 $Authorization->admissions_id = $Admissions->id;
                 $Authorization->medical_diary_days_id = $request->ambulatory_data;
+                // $Authorization->medical_diary_days_id = $request->ambulatory_data;
                 if ($request->file('file_auth')) {
                     $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
                     $Authorization->file_auth = $path;
                 }
-                $Authorization->file_auth = $request->file_auth;
+
                 $Authorization->auth_number = $request->auth_number;
-                $validate = Briefcase::select('briefcase.*')->where('id',  $request->briefcase_id)->first();
-                if ($validate->type_auth == 1) {
-                    $Authorization->auth_status_id =  2;
+
+                $Authorization->auth_status_id =  2;
+                if($request->copay_value != 0){
+                    $Authorization->copay = 1;
                 } else {
-                    $Authorization->auth_status_id =  1;
+                    $Authorization->copay = null;
                 }
+
+
+                $Authorization->copay_value =  $medical_diary_days->copay_value;
                 $Authorization->auth_status_id = $request->auth_number == null ? $Authorization->auth_status_id : 3;
                 $Authorization->save();
-            } 
-            
+            }
+
             /**
              * se quita Else para creación de auth pad
              * @param int $procedure_id
