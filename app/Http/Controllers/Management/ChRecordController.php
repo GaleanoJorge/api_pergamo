@@ -413,6 +413,7 @@ class ChRecordController extends Controller
         $html = view('mails.SWCertification', [
             'chrecord' => $ChRecord,
             'ChSwSupportNetwork' => $ChSwSupportNetwork,
+            'fecharecord' => $fecharecord,
 
             'firm' => $imagenComoBase64,
             'today' => $today,
@@ -431,6 +432,8 @@ class ChRecordController extends Controller
         $name = 'prueba.pdf';
 
         Storage::disk('public')->put($name, $file);
+
+        $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
 
