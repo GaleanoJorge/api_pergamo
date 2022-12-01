@@ -4732,21 +4732,9 @@ class ChRecordController extends Controller
 
             $type_of_attention = RoleAttention::where('role_id', $request->role);
             if ($request->role == 7 || $request->role == 14) {
-                $AssistanceSpecial = AssistanceSpecial::where('assistance_id', $Assistance[0]['id'])
-                    ->get()->toArray();
-                if (count($AssistanceSpecial) > 0) {
-                    $type_of_attention->where(function ($query) use ($AssistanceSpecial) {
-                        foreach ($AssistanceSpecial as $As) {
-                            $first = true;
-                            if ($first) {
-                                $query->where('specialty_id', $As['specialty_id']);
-                                $first = false;
-                            } else {
-                                $query->orWhere('specialty_id', $As['specialty_id']);
-                            }
-                        }
-                    });
-                }
+                $type_of_attention->where(function ($query) use ($request) {
+                    $query->where('specialty_id', $request->specialty_id);
+                });
             }
 
             $type_of_attention = $type_of_attention->get()->toArray();
