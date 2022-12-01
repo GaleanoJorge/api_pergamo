@@ -30,6 +30,10 @@ class ChRNValorationOT extends Model
 {
 	protected $table = 'ch_r_n_valoration_o_t';
 
+	public function ch_diagnosis()
+	{
+		return $this->belongsTo(Diagnosis::class);
+	}
 	public function type_record()
 	{
 		return $this->belongsTo(ChTypeRecord::class);
