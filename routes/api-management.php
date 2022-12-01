@@ -886,7 +886,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
     //Estado Plan de manejo 
-    Route::patch('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
+    Route::get('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
