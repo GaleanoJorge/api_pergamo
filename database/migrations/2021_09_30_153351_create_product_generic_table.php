@@ -29,6 +29,8 @@ class CreateProductGenericTable extends Migration
             $table->string ('code_atc')->nullable();
             $table->unsignedBigInteger('product_dose_id');
             $table->string('dose')->nullable();
+            $table->string('prod_domiciliary')->nullable();
+            $table->string('prod_ambulatory')->nullable();
             $table->unsignedBigInteger('multidose_concentration_id')->nullable();
             $table->timestamps();
 
