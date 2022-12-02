@@ -85,7 +85,7 @@ class DisclaimerController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Nota aclaratoria asociado al paciente exitosamente',
-            'data' => ['disclaimer' => $Disclaimer->toArray()]
+            'data' => ['disclaimer' => $Disclaimer->get()->toArray()]
         ]);
     }
 
