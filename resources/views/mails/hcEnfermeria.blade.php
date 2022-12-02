@@ -947,9 +947,11 @@
                     <hr />
                     <!-- Validación Ingreso -->
                     <div>
-                        @if(count($ChPositionNE) > 0 || count($ChHairValorationNE) > 0
-                         || count($ChPhysicalExamNE) > 0
-                         || count($ChNursingNote) > 0
+                        @if(count($ChPositionNE) > 0 
+                        || count($ChHairValorationNE) > 0
+                        || count($ChPhysicalExamNE) > 0
+                        || count($ChOstomiesNE) > 0
+                        || count($ChNursingNote) > 0
                         || count($ChVitalSignsNE) > 0  )
 
                         <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
@@ -1023,6 +1025,30 @@
 
                         @endisset
                 </div>
+
+                 <!-- Ostomias -->
+                <div>
+                    @if(count($ChOstomiesNE) > 0)                
+
+                    <hr />
+
+                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> OSTOMIAS </b> </span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+
+                    @foreach($ChOstomiesNE as $ch)
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
+                            <b>@if(isset($ch['ostomy'])) OSTOMIA: </b> {{$ch['ostomy']['name']}} @endisset<br/>
+                            <b>@if(isset($ch['observation'])) OBSERVACIÓN : </b> {{$ch['observation']}} @endisset</span>
+                    </p>
+                    @endforeach
+
+                    @endisset
+                </div>
+
                 <!-- ¿Tiene Oxigeno?            -->
                 <div>
                     @if(count($ChOxigenNE) > 0)
