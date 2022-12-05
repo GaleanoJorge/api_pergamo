@@ -1769,6 +1769,8 @@ class ChRecordController extends Controller
                 'request_pharmacy_stock'
             )->get()->toArray();
             $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -1814,6 +1816,8 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'ChPsIntervention' => $ChPsIntervention,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                 'firmPatient' => $imagenPAtient,
 
@@ -3771,6 +3775,8 @@ class ChRecordController extends Controller
                         'request_pharmacy_stock'
                     )->get()->toArray();
                     $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
                     if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                         if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
@@ -3816,6 +3822,8 @@ class ChRecordController extends Controller
                         'ChVitalSignsEvo' => $ChVitalSignsEvo,
                         'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                         'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                        'ChPsIntervention' => $ChPsIntervention,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                         'firmPatient' => $imagenPAtient,
 
