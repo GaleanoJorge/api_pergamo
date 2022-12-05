@@ -106,7 +106,7 @@ class LocationController extends Controller
     public function changeService(Request $request, int $id): JsonResponse
     {
         $Location = Location::where('admissions_id', $id)->orderBy('created_at', 'desc')->first();
-        $Location->discharge_date = Carbon::now();
+        $Location->discharge_date = Carbon::now()->format('Y-m-d H:i:s');
         $Location->save();
 
         $startAuth = Authorization::where('location_id',  $Location->id)->orderBy('created_at', 'desc')->first();
