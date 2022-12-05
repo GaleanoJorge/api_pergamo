@@ -416,7 +416,7 @@ class ChRecordController extends Controller
                 if ($ChInterconsultation->ch_record_id) {
                     $q->where('ch_record.ch_interconsultation_id', $id2);
                 } else {
-                    $q->whereNull('ch_interconsultation.ch_record_id');
+                    // $q->whereNull('ch_interconsultation.ch_record_id');
                 }
             })
             ->groupBy('ch_record.id');
@@ -4724,6 +4724,20 @@ class ChRecordController extends Controller
                         break;
                     }
             }
+            if ($created == false && $request->ch_interconsultation_id) {
+                $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
+                    ->where('status', 'ACTIVO')
+                    ->whereNotNull('ch_interconsultation_id')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                if ($validate_ch_record) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
+            }
         } else if ($request->ch_type_id) {
             $ChRecord->ch_type_id = $request->ch_type_id;
         } else if ($request->type_of_attention_id == -1) {
@@ -4881,6 +4895,7 @@ class ChRecordController extends Controller
                 if ($created == false) {
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
                     if ($validate_ch_record) {
@@ -4941,6 +4956,7 @@ class ChRecordController extends Controller
             if ($created == false) {
                 $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                     ->where('status', 'ACTIVO')
+                    ->whereNotNull('medical_diary_days_id')
                     ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
                 if ($validate_ch_record) {
@@ -4981,6 +4997,7 @@ class ChRecordController extends Controller
                 if ($request->type_of_attention_id != -1) {
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
     
                     if ($validate_ch_record) {

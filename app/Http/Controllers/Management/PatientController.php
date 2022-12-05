@@ -762,9 +762,20 @@ class PatientController extends Controller
 
         if ($request->role_id && isset($request->role_id) && $request->role_id != 'null') {
             $patients->whereNotNull('ch_interconsultation.ch_record_id');
-            $rr = Role::find($request->role_id);
-            if ($rr->role_type_id != 1) {
-                $patients->where('role_attention.role_id', $request->role_id);
+            $patients->where('role_attention.role_id', $request->role_id);
+
+            $assistance = Assistance::select('assistance_special.*')
+                ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+                ->where('assistance.user_id', $userId)
+                ->groupBy('assistance_special.id')
+                ->get()->toArray();
+
+            if (count($assistance) > 0) {
+                $specielties = [];
+                foreach ($assistance as $e) {
+                    array_push($specielties, $e['specialty_id']);
+                }
+                $patients->whereIn('role_attention.specialty_id', $specielties);
             }
         }
 
