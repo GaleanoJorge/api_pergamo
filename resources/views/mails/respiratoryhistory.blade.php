@@ -1789,7 +1789,7 @@
         <!-- Validación Regular -->
         <div>
             @if(count($ChRespiratoryTherapyEvo) > 0 || count($ChBackgroundEvo) > 0 || count($ChGynecologistsEvo) > 0 || count($ChVitalSignsEvo) > 0  
-            || count($ChOxygenTherapyEvo) > 0 || count($PharmacyProductRequestEvo) > 0 || count($ChRtSessionsEvo) > 0 )
+            || count($ChOxygenTherapyEvo) > 0 || count($PharmacyProductRequestEvo) > 0 || count($ChRtSessionsEvo) > 0  || count($ChPsIntervention) > 0 || count($ChRecommendationsEvo) > 0 )
             <hr/>
             <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                 REGULAR<br>
@@ -2837,6 +2837,59 @@
             </table>         
 
             @endisset
+        </div>
+
+        {{-- Intervención--}}
+        <div>
+
+            @if(count($ChPsIntervention) > 0)
+
+            <hr />
+
+            <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">INTERVENCIÓN</span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
+
+
+            @foreach($ChPsIntervention as $ch)
+
+            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                <span style="font-family:Calibri; font-size:9pt">
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
+                <b>@if(isset($ch['assessment'])) ANÁLISIS Y PLAN DE TRATAMIENTO: </b>{{$ch['assessment']}} @endisset </span> 
+            </p>
+
+                        
+            @endforeach
+            @endisset
+            
+        </div> 
+
+        <!-- Recomendaciones -->
+        <div>
+            @if(count($ChRecommendationsEvo) > 0)
+
+
+            <hr />
+
+            <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> RECOMENDACIONES </b> </span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
+
+            @foreach($ChRecommendationsEvo as $ch)
+            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                <span style=" text-align: justify; font-family:Calibri; font-size:9pt">
+                    <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
+                    <b>@if(isset($ch['recommendations_evo'])) RECOMENDACION: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
+                    <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
+                    <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
+            </p>
+            @endforeach
+            
+            @endisset
+
         </div>
 
     </div>
