@@ -2301,8 +2301,6 @@ class BillingPadController extends Controller
 
         $totalToPay = $this->NumToLetters($BillingPad[0]['billing_total_value']);
 
-        $billed_authorizations = '';
-
         if ($bill_type == 1) {
             $consecutivo = 1;
             $services = array();
@@ -2446,7 +2444,6 @@ class BillingPadController extends Controller
                             if($line_service[$i]['service'] == $s['service']) {
                                 $line_service_aux[$i]['value'] += $s['value'];
                                 $line_service_aux[$i]['amount'] += $s['quantity'];
-                                $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ', ' . $s['auth_number'] : $s['auth_number'] . '';
                             }
                         }
                     } else {
@@ -2455,7 +2452,6 @@ class BillingPadController extends Controller
                         $a['amount'] = $s['quantity'];
                         $a['service'] = $s['service'];
                         $a['code'] = $s['code'];
-                        $billed_authorizations = $s['auth_number'] . '';
                         array_push($line_service_aux, $a);
                     }
                     $line_service = $line_service_aux;
@@ -2512,7 +2508,7 @@ class BillingPadController extends Controller
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;' . $billed_authorizations . ';11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2812,6 +2808,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             ]);
         }
         $assistance_name = '';
+        $billed_authorizations = '';
         $services_date = array();
         $view_services = array();
         $total_value = 0;
@@ -2874,6 +2871,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
                             $view_services[$j]['amount'] += $quantity;
                             $view_services[$j]['value'] += ($element['services_briefcase']['value'] * $q);
+                            $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                         }
                         $j++;
                     }
@@ -2883,6 +2881,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
                     $a['value'] = ($element['services_briefcase']['value'] * $q);
+                    $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                     array_push($view_services, $a);
                 }
             } else {
@@ -2891,6 +2890,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
                 $a['value'] = ($element['services_briefcase']['value'] * $q);
+                $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                 array_push($view_services, $a);
             }
 
@@ -2932,6 +2932,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'program_name' => $BillingPad[0]['program_name'],
             'billing_resolution' => $BillingPad[0]['billing_resolution'],
             'selected_procedures' => $sort_view_services,
+            'billed_authorizations' => $billed_authorizations,
             'assistance_name' => $assistance_name,
             'first_date' => $first_date,
             'last_date' => $last_date,

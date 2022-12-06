@@ -94,12 +94,23 @@
 
     <!-- ---------------------------------------- -->
 
+    <table>
+        <tr>
+            <td>
+                <div><span>AUTORIZACIONES&nbsp;</span></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                    <div><span>{{$billed_authorizations}}&nbsp;</span></div>
+            </td>
+        </tr>
+    </table>
 
 
 
 
-
-
+    <hr />
 
     <!-- ---------------------------------------- -->
 
