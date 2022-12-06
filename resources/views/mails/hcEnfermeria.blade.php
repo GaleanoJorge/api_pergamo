@@ -965,7 +965,8 @@
                         || count($ChOstomiesNE) > 0
                         || count($ChNursingNote) > 0
                         || count($ChVitalSignsNE) > 0  
-                        || count($ChRecommendationsEvo) > 0  )
+                        || count($ChRecommendationsEvo) > 0  
+                        || count($ChNotesDescription) > 0  )
 
                         <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9pt">
                             NOTA DE ENFERMERÍA<br>
@@ -1098,8 +1099,8 @@
                         <span style="font-family:Calibri; font-size:9pt">
                             <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
                             <b>@if(isset($ch['patient_position']))POSICIÓN ACTUAL: </b> {{$ch['patient_position']['name']}} @endisset <br/>
-                            <b>@if(isset($ch['patient_dry'])) UNIDAD: </b> {{$ch['patient_dry']}} @endisset <br/>
-                            <b>@if(isset($ch['unit_arrangement'])) BAÑAR: </b> {{$ch['unit_arrangement']}} @endisset</span>
+                            <b>@if(isset($ch['unit_arrangement'])) UNIDAD: </b> {{$ch['unit_arrangement']}} @endisset <br/>
+                            <b>@if(isset($ch['patient_dry'])) BAÑAR: </b> {{$ch['patient_dry']}} @endisset</span>
                     </p>
                     @endforeach
                     @endisset
