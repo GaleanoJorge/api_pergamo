@@ -301,7 +301,7 @@
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['ch_diagnosis']['name']}} @endisset</span>
+                <b>@if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['ch_diagnosis']['code']}} -  {{$ch['ch_diagnosis']['name']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -2109,7 +2109,7 @@
         <div>
             @if(count($ChEValorationFTEvo) > 0 || count($ChVitalSignsEvo) > 0  || 
                  
-                count($ChETherGoalsFTEvo) > 0 || count($ChEDiagnosisFTEvo) > 0 || count($ChEWeeklyFTEvo) > 0  || count($ChEMSAssessmentOTNT) > 0 )
+                count($ChETherGoalsFTEvo) > 0 || count($ChEDiagnosisFTEvo) > 0 || count($ChEWeeklyFTEvo) > 0  || count($ChEMSAssessmentOTNT) > 0 || count($ChRecommendationsEvo) > 0)
 
             <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                 REGULAR<br>
@@ -2135,7 +2135,7 @@
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['ch_diagnosis']['name']}} @endisset</span>
+                <b>@if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['ch_diagnosis']['code']}} - {{$ch['ch_diagnosis']['name']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -2645,6 +2645,31 @@
                
                 @endisset
         </div> 
+
+         <!-- Recomendaciones -->
+         <div>
+            @if(count($ChRecommendationsEvo) > 0)  
+
+            <hr />
+
+            <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> RECOMENDACIONES </b> </span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
+
+            @foreach($ChRecommendationsEvo as $ch)
+            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                <span style="text-align: justify; font-family:Calibri; font-size:9pt">
+                    <b>@if(isset($ch['created_at'])) FECHA: </b> {{substr($ch['created_at'],0,10) }} @endisset <br/>
+                    <b>@if(isset($ch['recommendations_evo'])) RECOMENDACIÓN: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
+                    <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
+                    <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
+            </p>
+            @endforeach
+            
+            @endisset
+
+        </div>
         
     
         <!-- Materiales Utilizados-->
@@ -2716,6 +2741,8 @@
     
                 @endisset
         </div> 
+
+
     
     
 
