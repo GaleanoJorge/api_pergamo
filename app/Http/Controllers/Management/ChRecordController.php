@@ -1542,6 +1542,7 @@ class ChRecordController extends Controller
             $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
             $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
             $ChNotesDescription = ChNotesDescription::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             // VALORACIÓN EN LA PIEL
             $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $id)->get()->toArray();
 
@@ -1652,6 +1653,7 @@ class ChRecordController extends Controller
                 'ChScaleBraden' => $ChScaleBraden,
                 'ChOxigenNE' => $ChOxigenNE,
                 'ChNotesDescription' => $ChNotesDescription,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'PharmacyProductRequest' => $PharmacyProductRequest,
                 'AssistanceSupplies' => $AssistanceSupplies,
                 'Disclaimer' => $Disclaimer,
@@ -1909,6 +1911,7 @@ class ChRecordController extends Controller
             $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -1955,6 +1958,7 @@ class ChRecordController extends Controller
                 'TherapyConceptTl' => $TherapyConceptTl,
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                 'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'Disclaimer' => $Disclaimer,
 
                 'firmPatient' => $imagenPAtient,
@@ -2027,6 +2031,7 @@ class ChRecordController extends Controller
             $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -2069,6 +2074,8 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+
                 'Disclaimer' => $Disclaimer,
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
@@ -2260,7 +2267,8 @@ class ChRecordController extends Controller
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+  
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -2306,6 +2314,8 @@ class ChRecordController extends Controller
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                
                 'Disclaimer' => $Disclaimer,
 
                 'firmPatient' => $imagenPAtient,
@@ -2406,7 +2416,8 @@ class ChRecordController extends Controller
             $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -2445,6 +2456,7 @@ class ChRecordController extends Controller
                 'SwEducationDr' => $SwEducationDr,
                 'SwEducationDb' => $SwEducationDb,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                'ChPsIntervention' => $ChPsIntervention,
                 'SwEducationEvoDr' => $SwEducationEvoDr,
                 'SwEducationEvoDb' => $SwEducationEvoDb,
                 'Disclaimer' => $Disclaimer,
@@ -2529,6 +2541,8 @@ class ChRecordController extends Controller
             $ChPsOperationalization = ChPsOperationalization::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPsConsciousness = ChPsConsciousness::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPsObjectives = ChPsObjectives::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+        
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -2563,6 +2577,7 @@ class ChRecordController extends Controller
                 'ChPsOperationalization' => $ChPsOperationalization,
                 'ChPsConsciousness' => $ChPsConsciousness,
                 'ChPsObjectives' => $ChPsObjectives,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'Disclaimer' => $Disclaimer,
 
 
@@ -3172,6 +3187,8 @@ class ChRecordController extends Controller
                     $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $ch['id'])->get()->toArray();
                     $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $ch['id'])->get()->toArray();
                     $ChNotesDescription = ChNotesDescription::with('patient_position')->where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    
                     // VALORACIÓN EN LA PIEL
                     $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $ch['id'])->get()->toArray();
 
@@ -3283,6 +3300,7 @@ class ChRecordController extends Controller
                         'ChScaleBraden' => $ChScaleBraden,
                         'ChOxigenNE' => $ChOxigenNE,
                         'ChNotesDescription' => $ChNotesDescription,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         // 'PharmacyProductRequest' => $PharmacyProductRequest,
                         'AssistanceSupplies' => $AssistanceSupplies,
                         'fecharecord' => $fecharecord,
@@ -3571,6 +3589,7 @@ class ChRecordController extends Controller
                     $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
@@ -3618,6 +3637,7 @@ class ChRecordController extends Controller
                         'TherapyConceptTl' => $TherapyConceptTl,
                         'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                         'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
 
@@ -3776,7 +3796,7 @@ class ChRecordController extends Controller
                     )->get()->toArray();
                     $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                         if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
@@ -3937,7 +3957,7 @@ class ChRecordController extends Controller
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $ch['id'])->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
@@ -3980,6 +4000,7 @@ class ChRecordController extends Controller
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                         'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
 
@@ -4099,6 +4120,7 @@ class ChRecordController extends Controller
                     $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $ch['id'])->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
@@ -4137,6 +4159,7 @@ class ChRecordController extends Controller
                         'ChEDiagnosisFT' => $ChEDiagnosisFT,
                         'ChETherGoalsFT' => $ChETherGoalsFT,
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'ChNRMaterialsFT' => $ChNRMaterialsFT,
 
                         'ChEWeeklyFT' => $ChEWeeklyFT,
@@ -4263,11 +4286,11 @@ class ChRecordController extends Controller
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $SwEducationDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
                     $ChSwSupportNetwork = ChSwSupportNetwork::with(
                         'ch_sw_network'
@@ -4276,17 +4299,18 @@ class ChRecordController extends Controller
                     //Regular
                     $SwEducationEvoDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationEvoDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
 
                     $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                         'ch_sw_network'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
+                    
+                    $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
@@ -4323,6 +4347,7 @@ class ChRecordController extends Controller
                         'SwEducationDr' => $SwEducationDr,
                         'SwEducationDb' => $SwEducationDb,
                         'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                        'ChPsIntervention' => $ChPsIntervention,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
 
