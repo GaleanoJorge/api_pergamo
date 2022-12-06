@@ -2301,6 +2301,8 @@ class BillingPadController extends Controller
 
         $totalToPay = $this->NumToLetters($BillingPad[0]['billing_total_value']);
 
+        $billed_authorizations = '';
+
         if ($bill_type == 1) {
             $consecutivo = 1;
             $services = array();
@@ -2411,6 +2413,7 @@ class BillingPadController extends Controller
                     $Auth[0]['product_com']['code_cum']);
 
                 $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['auth_number'] = $Auth[0]['auth_number'];
                 $services[$consecutivo]['quantity'] = $quantity;
                 $services[$consecutivo]['service'] = $service;
                 $services[$consecutivo]['code'] = $code;
@@ -2443,6 +2446,7 @@ class BillingPadController extends Controller
                             if($line_service[$i]['service'] == $s['service']) {
                                 $line_service_aux[$i]['value'] += $s['value'];
                                 $line_service_aux[$i]['amount'] += $s['quantity'];
+                                $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ', ' . $s['auth_number'] : $s['auth_number'] . '';
                             }
                         }
                     } else {
@@ -2451,6 +2455,7 @@ class BillingPadController extends Controller
                         $a['amount'] = $s['quantity'];
                         $a['service'] = $s['service'];
                         $a['code'] = $s['code'];
+                        $billed_authorizations = $s['auth_number'] . '';
                         array_push($line_service_aux, $a);
                     }
                     $line_service = $line_service_aux;
@@ -2507,7 +2512,7 @@ class BillingPadController extends Controller
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
 ' . $BillingPad[0]['billing_total_value'] . ';0;0;01
 ;;;
-A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;' . $billed_authorizations . ';11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
 2;1;;;;' . $expiracy_date . '
 ;;;
 
@@ -2540,7 +2545,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $name = '900900122-7_' . $year . '_' . $name_number . '.dat';
 
         Storage::disk('public')->put($name, $file);
-        Storage::disk('sftp')->put($name, $file[0]);
+        // Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
             'status' => true,
