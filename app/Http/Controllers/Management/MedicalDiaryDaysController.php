@@ -31,8 +31,34 @@ class MedicalDiaryDaysController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $MedicalDiaryDays = MedicalDiaryDays::select('medical_diary_days.*')
+        $MedicalDiaryDays = MedicalDiaryDays::select(
+            'medical_diary_days.*',
+            'medical_diary_days.id AS Id',
+            // DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw("IF(medical_diary_days.medical_status_id = 1, 
+                            'Libre',
+                            IF(medical_diary_days.medical_status_id = 2,
+                                CONCAT('Reservada por :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                IF(medical_diary_days.medical_status_id = 3,
+                                    CONCAT('Confirmada :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                    IF(medical_diary_days.medical_status_id = 4,
+                                            'Facturada',
+                                            'Cancelada')))) AS Subject"),
+            DB::raw("IF(medical_diary_days.medical_status_id = 1, 
+                            '#37B24D',
+                            IF(medical_diary_days.medical_status_id = 2,
+                                '#D8E926',
+                                IF(medical_diary_days.medical_status_id = 3,
+                                    '#09DBD4',
+                                    IF(medical_diary_days.medical_status_id = 4,
+                                            '#F44C01',
+                                            '#7309DB')))) AS CategoryColor"),
+            'assistance.id AS assistance_id',
+            'start_hour AS StartTime',
+            'finish_hour AS EndTime'
+        )
             ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
+            ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
             ->leftJoin('assistance', 'medical_diary.assistance_id', 'assistance.id')
             ->with(
                 // 'days',
@@ -45,6 +71,7 @@ class MedicalDiaryDaysController extends Controller
                 'services_briefcase.manual_price.manual',
                 'services_briefcase.manual_price.procedure'
             )
+            ->whereNull('diary_days_id')
             ->orderBy('start_hour', 'ASC');
 
         if ($request->assistance_id && $request->assistance_id != 'null') {
@@ -62,6 +89,11 @@ class MedicalDiaryDaysController extends Controller
                     ['medical_diary_days.medical_status_id', '=', 4]
                 ]);
         }
+
+        // if()
+        // {
+
+        // }
 
         if ($request->medical_status_id && $request->medical_status_id != 'null') {
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
@@ -178,60 +210,58 @@ class MedicalDiaryDaysController extends Controller
     public function generateCashReceiptPDF(
         // Resquest $request, 
         int $id
-        ): JsonResponse
-    {
+    ): JsonResponse {
 
         $medical_date = MedicalDiaryDays::select('medical_diary_days.*')
-        ->with(
-            'copay_parameters',
-            'patient.gender',
-            'patient.identification_type',
-            'medical_status',
-            'contract.company',
-            'briefcase.coverage',
-            'services_briefcase.manual_price.procedure',
-            'medical_diary.assistance.user',
-            'days'
-        )
-        ->where('id', $id)
-        ->first();
+            ->with(
+                'copay_parameters',
+                'patient.gender',
+                'patient.identification_type',
+                'medical_status',
+                'contract.company',
+                'briefcase.coverage',
+                'services_briefcase.manual_price.procedure',
+                'medical_diary.assistance.user',
+                'days'
+            )
+            ->where('id', $id)
+            ->first();
 
         $authorization = Authorization::select('authorization.*')
-        ->with(
-            'admissions.location.scope_of_attention',
-            'admissions.patients',
-            'admissions.patients.identification_type',
-            'admissions.patients.status',
-            'admissions.patients.gender',
-            'admissions.patients.inability',
-            'admissions.patients.academic_level',
-            'admissions.patients.residence_municipality',
-            'admissions.patients.neighborhood_or_residence',
-            'admissions.patients.residence',
-            'services_briefcase',
-            'services_briefcase.manual_price',
-            'auth_status',
-            'assigned_management_plan',
-            'assigned_management_plan.management_plan',
-            'assigned_management_plan.management_plan.type_of_attention',
-            'assigned_management_plan.user',
-            'assigned_management_plan.ch_record',
-            'fixed_add',
-            'fixed_add.fixed_assets',
-            'fixed_add.fixed_assets.fixed_nom_product',
-            'fixed_add.fixed_assets.fixed_clasification',
-            'applications.users',
-            'medical_diary_days.ch_record'
-        )
-        ->where('medical_diary_days_id', $id)
-        ->first();
+            ->with(
+                'admissions.location.scope_of_attention',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.status',
+                'admissions.patients.gender',
+                'admissions.patients.inability',
+                'admissions.patients.academic_level',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.neighborhood_or_residence',
+                'admissions.patients.residence',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'auth_status',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.user',
+                'assigned_management_plan.ch_record',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
+                'applications.users',
+                'medical_diary_days.ch_record'
+            )
+            ->where('medical_diary_days_id', $id)
+            ->first();
 
         //nombre de tipo de pago asociado al procedimiento
-        $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' :
-                    ( $medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
+        $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
         //Valor pagado
         $pay_value = $authorization->copay_value ? $authorization->copay_value : 0;
-        
+
         //Numero a letras
         $letter_value = $this->NumToLettersBill($pay_value);
 
@@ -239,15 +269,15 @@ class MedicalDiaryDaysController extends Controller
         $generate_date  = Carbon::now()->setTimezone('America/Bogota');
 
         //Nombre del ususairoo que genera
-            $nombre_completo = User::select(
+        $nombre_completo = User::select(
             'users.*',
             DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
         )
-        ->where('id', Auth::user()->id)
-        ->first();
+            ->where('id', Auth::user()->id)
+            ->first();
 
         //
-        
+
         // $start = new DateTime($dateTimeStart);
         setlocale(LC_MONETARY, 'en_US.UTF-8');
 
@@ -265,7 +295,7 @@ class MedicalDiaryDaysController extends Controller
         $options->set('isRemoteEnabled', TRUE);
         $dompdf = new PDF($options);
         $dompdf->loadHtml($html);
-        $dompdf->setPaper( [0, 0, 612.00, 396.00], 'vertical');
+        $dompdf->setPaper([0, 0, 612.00, 396.00], 'vertical');
         $dompdf->render();
         $this->injectPageCount($dompdf);
         $file = $dompdf->output();
@@ -418,7 +448,7 @@ class MedicalDiaryDaysController extends Controller
                 // 'data' => ['medical_diary_days' => $MedicalDiaryDays->get()->toArray()]
             ]);
         }
-        
+
         $MedicalDiaryDays = MedicalDiaryDays::find($id);
         $MedicalDiaryDays->medical_status_id = $request->state_id;
         $MedicalDiaryDays->eps_id = $request->eps_id;
