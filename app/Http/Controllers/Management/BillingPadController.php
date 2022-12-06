@@ -2411,7 +2411,6 @@ class BillingPadController extends Controller
                     $Auth[0]['product_com']['code_cum']);
 
                 $services[$consecutivo]['value'] = $value;
-                $services[$consecutivo]['auth_number'] = $Auth[0]['auth_number'];
                 $services[$consecutivo]['quantity'] = $quantity;
                 $services[$consecutivo]['service'] = $service;
                 $services[$consecutivo]['code'] = $code;
@@ -2541,7 +2540,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $name = '900900122-7_' . $year . '_' . $name_number . '.dat';
 
         Storage::disk('public')->put($name, $file);
-        // Storage::disk('sftp')->put($name, $file[0]);
+        Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
             'status' => true,
@@ -2808,7 +2807,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             ]);
         }
         $assistance_name = '';
-        $billed_authorizations = '';
         $services_date = array();
         $view_services = array();
         $total_value = 0;
@@ -2871,7 +2869,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         if ($e['service'] == $element['services_briefcase']['manual_price']['name']) {
                             $view_services[$j]['amount'] += $quantity;
                             $view_services[$j]['value'] += ($element['services_briefcase']['value'] * $q);
-                            $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                         }
                         $j++;
                     }
@@ -2881,7 +2878,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     $a['amount'] = $quantity;
                     $a['val_und'] = 0;
                     $a['value'] = ($element['services_briefcase']['value'] * $q);
-                    $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                     array_push($view_services, $a);
                 }
             } else {
@@ -2890,7 +2886,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $a['amount'] = $quantity;
                 $a['val_und'] = 0;
                 $a['value'] = ($element['services_briefcase']['value'] * $q);
-                $billed_authorizations = $billed_authorizations != '' ? $billed_authorizations . ' - ' .  $element['auth_number'] : $element['auth_number'] . '';
                 array_push($view_services, $a);
             }
 
@@ -2932,7 +2927,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             'program_name' => $BillingPad[0]['program_name'],
             'billing_resolution' => $BillingPad[0]['billing_resolution'],
             'selected_procedures' => $sort_view_services,
-            'billed_authorizations' => $billed_authorizations,
             'assistance_name' => $assistance_name,
             'first_date' => $first_date,
             'last_date' => $last_date,
