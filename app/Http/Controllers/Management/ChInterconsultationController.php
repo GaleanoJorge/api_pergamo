@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\ChInterconsultation;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\Assistance;
 use App\Models\Authorization;
 use App\Models\ChRecord;
 use App\Models\Role;
@@ -12,6 +13,7 @@ use App\Models\RoleAttention;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ChInterconsultationController extends Controller
 {
@@ -69,10 +71,22 @@ class ChInterconsultationController extends Controller
 
         if ($request->role_id) {
             $rr = Role::find($request->role_id);
+            $ChInterconsultation->whereNotNull('ch_interconsultation.ch_record_id');
             if ($rr->role_type_id != 1) {
                 $ChInterconsultation->where('role_attention.role_id', $request->role_id);
-            } else {
-                $ChInterconsultation->whereNotNull('ch_interconsultation.ch_record_id');
+                $assistance = Assistance::select('assistance_special.*')
+                ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+                ->where('assistance.user_id', Auth::user()->id)
+                ->groupBy('assistance_special.id')
+                ->get()->toArray();
+
+            if (count($assistance) > 0) {
+                $specielties = [];
+                foreach ($assistance as $e) {
+                    array_push($specielties, $e['specialty_id']);
+                }
+                $ChInterconsultation->whereIn('role_attention.specialty_id', $specielties);
+            }
             }
         }
 

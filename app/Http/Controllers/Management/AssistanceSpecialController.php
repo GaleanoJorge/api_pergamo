@@ -34,6 +34,10 @@ class AssistanceSpecialController extends Controller
             $A_special->where('assistance.user_id', $request->user_id);
         }
 
+        if ($request->specialty_id) {
+            $A_special->where('assistance_special.specialty_id', $request->specialty_id);
+        }
+
         if ($request->search) {
             $A_special->where('name', 'like', '%' . $request->search . '%');
         }

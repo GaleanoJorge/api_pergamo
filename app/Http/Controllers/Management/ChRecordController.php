@@ -416,7 +416,7 @@ class ChRecordController extends Controller
                 if ($ChInterconsultation->ch_record_id) {
                     $q->where('ch_record.ch_interconsultation_id', $id2);
                 } else {
-                    $q->whereNull('ch_interconsultation.ch_record_id');
+                    // $q->whereNull('ch_interconsultation.ch_record_id');
                 }
             })
             ->groupBy('ch_record.id');
@@ -502,7 +502,7 @@ class ChRecordController extends Controller
 
         $imagenComoBase64 = null;
 
-
+        $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
         if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -526,6 +526,7 @@ class ChRecordController extends Controller
         $html = view('mails.SWCertification', [
             'chrecord' => $ChRecord,
             'ChSwSupportNetwork' => $ChSwSupportNetwork,
+            'fecharecord' => $fecharecord,
 
             'firm' => $imagenComoBase64,
             'today' => $today,
@@ -544,7 +545,6 @@ class ChRecordController extends Controller
         $name = 'prueba.pdf';
 
         Storage::disk('public')->put($name, $file);
-
 
 
 
@@ -1845,7 +1845,7 @@ class ChRecordController extends Controller
                 'product_supplies',
                 'request_pharmacy_stock'
             )->get()->toArray();
-            $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChRtSessions = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -1879,7 +1879,9 @@ class ChRecordController extends Controller
                 'product_supplies',
                 'request_pharmacy_stock'
             )->get()->toArray();
-            $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             //Nota aclaratoria
             $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
@@ -1925,6 +1927,8 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'ChPsIntervention' => $ChPsIntervention,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                 'firmPatient' => $imagenPAtient,
 
@@ -3848,7 +3852,7 @@ class ChRecordController extends Controller
                         'product_supplies',
                         'request_pharmacy_stock'
                     )->get()->toArray();
-                    $ChRtSessions = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChRtSessions = ChRtSessions::with('frequency')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
                     //Regular
                     $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3882,7 +3886,9 @@ class ChRecordController extends Controller
                         'product_supplies',
                         'request_pharmacy_stock'
                     )->get()->toArray();
-                    $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
                     if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                         if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
@@ -3928,6 +3934,8 @@ class ChRecordController extends Controller
                         'ChVitalSignsEvo' => $ChVitalSignsEvo,
                         'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                         'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                        'ChPsIntervention' => $ChPsIntervention,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                         'firmPatient' => $imagenPAtient,
 
@@ -4724,6 +4732,20 @@ class ChRecordController extends Controller
                         break;
                     }
             }
+            if ($created == false && $request->ch_interconsultation_id) {
+                $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
+                    ->where('status', 'ACTIVO')
+                    ->whereNotNull('ch_interconsultation_id')
+                    ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                if ($validate_ch_record) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
+            }
         } else if ($request->ch_type_id) {
             $ChRecord->ch_type_id = $request->ch_type_id;
         } else if ($request->type_of_attention_id == -1) {
@@ -4881,6 +4903,7 @@ class ChRecordController extends Controller
                 if ($created == false) {
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
                     if ($validate_ch_record) {
@@ -4941,6 +4964,7 @@ class ChRecordController extends Controller
             if ($created == false) {
                 $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                     ->where('status', 'ACTIVO')
+                    ->whereNotNull('medical_diary_days_id')
                     ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
                 if ($validate_ch_record) {
@@ -4981,6 +5005,7 @@ class ChRecordController extends Controller
                 if ($request->type_of_attention_id != -1) {
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
     
                     if ($validate_ch_record) {

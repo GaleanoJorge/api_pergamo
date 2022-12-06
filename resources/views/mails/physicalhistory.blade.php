@@ -325,13 +325,13 @@
             </p>
             <br>
                     
-             <!-- Requeridos-->
-             <div>
+            <!-- Requeridos-->
+            <div>
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -414,7 +414,7 @@
                     </tr>   
                 </table> 
             </div>                         
-    
+
             <!-- Otros-->
             <div>
                     @if (isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
@@ -585,7 +585,7 @@
 
                     @endisset
 
-        
+
                     @if(($ch['has_oxigen']) == 1 )
 
                     <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
@@ -617,7 +617,19 @@
                                 </p>
                             </td>
                         </tr>
-                    </table>                           
+                        
+                    </table>       
+                    
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt">
+                            <b>@if(isset($ch['observations_vital_ventilated'])) OBSERVACIÓN MODO VENTILATORIO: </b> {{$ch['observations_vital_ventilated']}} @endisset</span>
+                    </p>
+                    
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt">
+                            <b>@if(isset($ch['observations_parameters_signs'])) OBSERVACIÓN PARAMETROS: </b> {{$ch['observations_parameters_signs']}} @endisset</span>
+                    </p>
+
                     @endisset
 
 
@@ -2153,7 +2165,7 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -2236,7 +2248,7 @@
                     </tr>   
                 </table> 
             </div>                         
-    
+
             <!-- Otros-->
             <div>
                     @if (isset($ch['pupil_size_left']) || isset($ch['pupil_size_right']) || isset($ch['left_reaction']) || isset($ch['right_reaction']) ||
@@ -2407,7 +2419,7 @@
 
                     @endisset
 
-        
+
                     @if(($ch['has_oxigen']) == 1 )
 
                     <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
@@ -2439,7 +2451,19 @@
                                 </p>
                             </td>
                         </tr>
-                    </table>                           
+                        
+                    </table>       
+                    
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt">
+                            <b>@if(isset($ch['observations_vital_ventilated'])) OBSERVACIÓN MODO VENTILATORIO: </b> {{$ch['observations_vital_ventilated']}} @endisset</span>
+                    </p>
+                    
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt">
+                            <b>@if(isset($ch['observations_parameters_signs'])) OBSERVACIÓN PARAMETROS: </b> {{$ch['observations_parameters_signs']}} @endisset</span>
+                    </p>
+
                     @endisset
 
 
