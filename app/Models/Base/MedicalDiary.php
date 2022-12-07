@@ -64,6 +64,14 @@ class MedicalDiary extends Model
 		return $this->hasMany(MedicalDiaryDays::class,'medical_diary_id','id');
 	}
 
+	public function  medical_diary_days_grouped()
+	{
+		return $this->hasMany(MedicalDiaryDays::class,'medical_diary_id','id')
+		// ->groupBy('medical_diary_days.days_id')
+		->orderBY('medical_diary_days.days_id', 'ASC')
+		;
+	}
+
 	public function  procedure()
 	{
 		return $this->belongsTo(Procedure::class,'procedure_id','id');

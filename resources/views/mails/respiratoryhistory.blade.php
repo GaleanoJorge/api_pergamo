@@ -300,7 +300,7 @@
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['medical_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['medical_diagnosis']['name']}} @endisset</span>
+                <b>@if(isset($ch['medical_diagnosis'])) DIAGNÓSTICO MÉDICO: </b>  {{$ch['medical_diagnosis']['code']}} - {{$ch['medical_diagnosis']['name']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -1815,7 +1815,7 @@
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['medical_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['medical_diagnosis']['name']}} @endisset</span>
+                    <b>@if(isset($ch['medical_diagnosis'])) DIAGNÓSTICO MÉDICO: </b> {{$ch['medical_diagnosis']['code']}} - {{$ch['medical_diagnosis']['name']}} @endisset</span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">

@@ -1296,24 +1296,48 @@
                         <tr style="height:11.95pt">                                 
                             <td style="width:79.75pt; vertical-align:top">
                                 <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> @endisset</span>
                                 </p>
                             </td>
-                            <td style="width:106pt; vertical-align:top">
+                            <td style="width:400pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b>{{$ch['diagnosis']['name']}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['created_at'])) {{mb_substr($ch['created_at'],0,10)}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
                         <tr style="height:11.95pt">                                 
                             <td style="width:79.75pt; vertical-align:top">
                                 <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_diagnosis_class'])) CLASE: </b> {{$ch['ch_diagnosis_class'] ['name']}} @endisset</span>
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b> @endisset</span>
                                 </p>
                             </td>
-                            <td style="width:106pt; vertical-align:top">
+                            <td style="width:400pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri"><b>@if(isset($ch['ch_diagnosis_type'])) TIPO: </b> {{$ch['ch_diagnosis_type'] ['name']}} @endisset </span>
+                                    <span style="font-family:Calibri">@if(isset($ch['diagnosis'])) {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                                 
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_diagnosis_class'])) CLASE: </b> @endisset</span>
+                                </p>
+                            </td>
+                            <td style="width:400pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['ch_diagnosis_class'])) {{$ch['ch_diagnosis_class'] ['name']}}@endisset </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr style="height:11.95pt">                                 
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_diagnosis_type'])) TIPO: </b> @endisset</span>
+                                </p>
+                            </td>
+                            <td style="width:400pt; vertical-align:top">
+                                <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                    <span style="font-family:Calibri">@if(isset($ch['ch_diagnosis_type'])) {{$ch['ch_diagnosis_type'] ['name']}} @endisset </span>
                                 </p>
                             </td>
                         </tr>
@@ -1369,7 +1393,7 @@
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
                             <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset<br/>
-                            <b>@if(isset($ch['analisys'])) ANÁISIS: </b> {{$ch['analisys']}} @endisset<br/>
+                            <b>@if(isset($ch['analisys'])) ANÁLISIS: </b> {{$ch['analisys']}} @endisset<br/>
                             <b>@if(isset($ch['plan'])) PLAN : </b> {{$ch['plan']}} @endisset</span>
                     </p>
                     @endforeach
@@ -2418,30 +2442,79 @@
         </div>
            
         <!-- Diagnóstico -->
-            <div>
-                @if(count($ChDiagnosisEvo) > 0)
-            
-                <hr />
+        <div>
+            @if(count($ChDiagnosisEvo) > 0)
+           
 
-                <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> DIAGNÓSTICO </b> </span>
-                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                </p>
+            <hr />
 
-                @foreach($ChDiagnosisEvo as $ch)
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
-                        <b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b>{{$ch['diagnosis']['name']}} @endisset <br/>
-                        <b>@if(isset($ch['ch_diagnosis_class'])) CLASE: </b> {{$ch['ch_diagnosis_class'] ['name']}} @endisset <br/>
-                        <b>@if(isset($ch['ch_diagnosis_type'])) TIPO: </b> {{$ch['ch_diagnosis_type'] ['name']}} @endisset <br/>
-                        <b>@if(isset($ch['diagnosis_observation'])) OBSERVACIÓN: </b> {{$ch['diagnosis_observation']}} @endisset</span>
-                </p>
-                @endforeach
+            <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> DIAGNÓSTICO </b> </span>
+                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            </p>
 
-                @endisset
+            @foreach($ChDiagnosisEvo as $ch)
+            <br/>
+            <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                <tr style="height:11.95pt">                                 
+                    <td style="width:79.75pt; vertical-align:top">
+                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA: </b> @endisset</span>
+                        </p>
+                    </td>
+                    <td style="width:400pt; vertical-align:top">
+                        <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri">@if(isset($ch['created_at'])) {{mb_substr($ch['created_at'],0,10)}} @endisset</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:11.95pt">                                 
+                    <td style="width:79.75pt; vertical-align:top">
+                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO: </b> @endisset</span>
+                        </p>
+                    </td>
+                    <td style="width:400pt; vertical-align:top">
+                        <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri">@if(isset($ch['diagnosis'])) {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:11.95pt">                                 
+                    <td style="width:79.75pt; vertical-align:top">
+                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_diagnosis_class'])) CLASE: </b> @endisset</span>
+                        </p>
+                    </td>
+                    <td style="width:400pt; vertical-align:top">
+                        <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri">@if(isset($ch['ch_diagnosis_class'])) {{$ch['ch_diagnosis_class'] ['name']}}@endisset </span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height:11.95pt">                                 
+                    <td style="width:79.75pt; vertical-align:top">
+                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['ch_diagnosis_type'])) TIPO: </b> @endisset</span>
+                        </p>
+                    </td>
+                    <td style="width:400pt; vertical-align:top">
+                        <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                            <span style="font-family:Calibri">@if(isset($ch['ch_diagnosis_type'])) {{$ch['ch_diagnosis_type'] ['name']}} @endisset </span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                <span style="font-family:Calibri; font-size:9pt">
+                    <b>@if(isset($ch['diagnosis_observation'])) OBSERVACIÓN: </b> {{$ch['diagnosis_observation']}} @endisset</span>
+            </p>
+          
+            @endforeach
 
-            </div>
+            @endisset
+
+        </div>
 
         <!-- Ostomias -->
             <div>
@@ -2482,7 +2555,7 @@
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
                         <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
-                        <b>@if(isset($ch['analisys'])) ANÁISIS: </b> {{$ch['analisys']}} @endisset <br/>
+                        <b>@if(isset($ch['analisys'])) ANÁLISIS: </b> {{$ch['analisys']}} @endisset <br/>
                         <b>@if(isset($ch['plan'])) PLAN : </b> {{$ch['plan']}} @endisset</span>
                 </p>
                 @endforeach
@@ -4571,18 +4644,18 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO INGRESO </b>{{$ch['ch_diagnosis']['name']}} @endisset </span>
+                                <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['ch_diagnosis'])) DIAGNÓSTICO INGRESO </b>{{$ch['ch_diagnosis']['code']}} - {{$ch['ch_diagnosis'] ['name']}} @endisset </span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                <span style="font-family:Calibri"><b> @if(isset($ch['exit_diagnosis'])) DIAGNÓSTICO SALIDA </b>{{$ch['exit_diagnosis']['name']}} @endisset </span>
+                                <span style="font-family:Calibri"><b> @if(isset($ch['exit_diagnosis'])) DIAGNÓSTICO SALIDA </b>{{$ch['exit_diagnosis']['code']}} - {{$ch['exit_diagnosis']['name']}} @endisset </span>
                                             
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                <span style="font-family:Calibri"><b> @if(isset($ch['relations_diagnosis'])) DIAGNÓSTICO RELACIONADO  </b>{{$ch['relations_diagnosis']['name']}}  @endisset  </span>
+                                <span style="font-family:Calibri"><b> @if(isset($ch['relations_diagnosis'])) DIAGNÓSTICO RELACIONADO  </b>{{$ch['relations_diagnosis']['code']}} - {{$ch['relations_diagnosis']['name']}}  @endisset  </span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
