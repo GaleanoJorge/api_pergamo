@@ -15,7 +15,7 @@ class CreateChEValorationFTTable extends Migration
     {
         Schema::create('ch_e_valoration_f_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('patient_state');
+            $table->longText('patient_state');
             $table->unsignedBigInteger('ch_diagnosis_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

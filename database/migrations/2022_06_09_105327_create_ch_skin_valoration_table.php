@@ -23,7 +23,7 @@ class CreateChSkinValorationTable extends Migration
             $table->string('concentrated')->nullable();
             $table->string('infection_sign')->nullable();
             $table->string('surrounding_skin')->nullable();
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

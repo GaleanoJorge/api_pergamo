@@ -15,7 +15,7 @@ class CreateChNutritionFoodHistoryTable extends Migration
     {
         Schema::create('ch_nutrition_food_history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('is_allergic')->nullable();
             $table->string('allergy')->nullable();
             $table->string('appetite')->nullable();
@@ -23,7 +23,7 @@ class CreateChNutritionFoodHistoryTable extends Migration
             $table->string('swallowing')->nullable();
             $table->string('diet_type')->nullable();
             $table->string('parenteral_nutrition')->nullable();
-            $table->string('intake_control')->nullable();
+            $table->longText('intake_control')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -35,9 +35,9 @@ class CreateChEDailyActivitiesOTTable extends Migration
             $table->string('look')->nullable();
             $table->string('arrange')->nullable();
             $table->string('travel')->nullable();
-            $table->string('observation_activity')->nullable();
+            $table->longText('observation_activity')->nullable();
             $table->string('test')->nullable();
-            $table->string('observation_test')->nullable();
+            $table->longText('observation_test')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

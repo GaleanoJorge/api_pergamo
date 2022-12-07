@@ -17,10 +17,10 @@ class CreateChEPositionFTTable extends Migration
             $table->bigIncrements('id');
             //$table->string('family_base');
             /////////////////////////////////////////
-            $table->string('front_view');
-            $table->string('right_view');
-            $table->string('left_view');
-            $table->string('rear_view');
+            $table->longText('front_view');
+            $table->longText('right_view');
+            $table->longText('left_view');
+            $table->longText('rear_view');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
