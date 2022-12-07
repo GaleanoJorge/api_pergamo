@@ -17,7 +17,7 @@ class CreateChEMSWeeklyOTTable extends Migration
             $table->bigIncrements('id');
             $table->string('monthly_sessions');
             $table->string('weekly_intensity');
-            $table->string('recommendations');
+            $table->longText('recommendations');
 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

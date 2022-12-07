@@ -19,7 +19,7 @@ class CreateChEValorationTherFTTable extends Migration
             /////////////////////////////////////////
             $table->string('illness');
             $table->string('sports');
-            $table->string('obsertations');
+            $table->longText('obsertations');
             $table->string('days_number');
             $table->string('minutes_number');
             
