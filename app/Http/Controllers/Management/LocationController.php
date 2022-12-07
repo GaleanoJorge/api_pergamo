@@ -115,9 +115,7 @@ class LocationController extends Controller
         $finish_date = Carbon::parse($Location->discharge_date)->setTimezone('America/Bogota')->startOfDay();
         $diff_days = $start_date->diffInDays($finish_date) + 1;
 
-        $Authorization_end = Authorization::where('location_id', $Location->id)->first();
-        $Authorization_end->quantity = $diff_days;
-        $Authorization_end->save();
+        
 
         if ($Location->bed_id) {
             $Bed = Bed::find($Location->bed_id);
@@ -140,6 +138,18 @@ class LocationController extends Controller
         $Location2->entry_date = Carbon::now();
         $Location2->save();
 
+        $Authorization_end = Authorization::where('location_id', $Location->id)->whereNull('close_date')->where('services_briefcase_id', '!=', $request->procedure_id)->first();
+        if ($Authorization_end) {
+            $Authorization_end->quantity = $diff_days;
+            $Authorization_end->close_date = Carbon::now();
+            $Authorization_end->save();
+        } else {
+            $Authorization_old = Authorization::where('location_id', $Location->id)->whereNull('close_date')->first();
+            $Authorization_old->location_id = $Location2->id;
+            $Authorization_old->save();
+        }
+
+
         if ($request->bed_id) {
 
             $Bed = Bed::find($request->bed_id);
@@ -155,15 +165,18 @@ class LocationController extends Controller
             $ChInterconsultation->admissions_id = $request->admissions_id;
             $ChInterconsultation->save();
 
-            $Authorization = new Authorization;
-            $Authorization->services_briefcase_id = $request->procedure_id;
-            $Authorization->admissions_id = $request->admissions_id;
-            $Authorization->auth_number = $Authorization_end->auth_number;
-            $Authorization->file_auth = $request->file_auth;
-            $Authorization->location_id = $Location2->id;
-            $Authorization->ch_interconsultation_id = $startAuth->ch_interconsultation_id;
-            $Authorization->auth_status_id = 3;
-            $Authorization->save();
+            if ($Authorization_end) {
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $request->procedure_id;
+                $Authorization->admissions_id = $request->admissions_id;
+                $Authorization->auth_number = $Authorization_end->auth_number;
+                $Authorization->file_auth = $request->file_auth;
+                $Authorization->location_id = $Location2->id;
+                $Authorization->ch_interconsultation_id = $startAuth->ch_interconsultation_id;
+                $Authorization->auth_status_id = 3;
+                $Authorization->open_date = Carbon::now();
+                $Authorization->save();
+            }
 
             $BillingPad = BillingPad::where('admissions_id', $request->admissions_id)
                 ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])

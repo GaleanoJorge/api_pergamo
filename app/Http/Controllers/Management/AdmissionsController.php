@@ -587,6 +587,7 @@ class AdmissionsController extends Controller
                 $Authorization->location_id = $Location->id;
                 $Authorization->ch_interconsultation_id = $ChInterconsultation->id;
                 $Authorization->auth_status_id = 3;
+                $Authorization->open_date = Carbon::now();
                 $Authorization->save();
             }
 
