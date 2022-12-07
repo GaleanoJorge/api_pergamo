@@ -4917,6 +4917,8 @@ class ChRecordController extends Controller
                 $ChRecord->save();
                 $created = true;
             }
+
+            $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
             return response()->json([
                 'status' => true,
                 'message' => 'Registro paciente asociado al paciente exitosamente',
@@ -4978,6 +4980,8 @@ class ChRecordController extends Controller
             $ChRecord->save();
             $created = true;
 
+            $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+
             return response()->json([
                 'status' => true,
                 'message' => 'Registro paciente asociado al paciente exitosamente',
@@ -5020,6 +5024,8 @@ class ChRecordController extends Controller
 
             $ChRecord->save();
         }
+
+        $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
 
 
         return response()->json([
@@ -5300,6 +5306,8 @@ class ChRecordController extends Controller
             $ambulatory_admission->save();
         }
 
+        $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+
         // $validate_ambulatory = MedicalDiaryDays::find('medical_diary_days.*')->where('admissions_id',)
 
         // $hola = $this->interoperavility($id);
@@ -5309,6 +5317,60 @@ class ChRecordController extends Controller
             'message' => 'Registro paciente actualizado exitosamente',
             'data' => ['ch_record' => $ChRecord],
         ]);
+    }
+
+    public function newAuthorizationInternationHospitalization(int $admissions_id) {
+        $start_of_actual_day = Carbon::now()->startOfDay();
+        $finish_of_last_day = Carbon::now()->subDay()->endOfDay();
+        $start_of_last_day = Carbon::now()->subDay()->startOfDay();
+
+        $location = Location::select('location.*')
+            ->where('admissions_id', $admissions_id)
+            ->where('discharge_date', '0000-00-00 00:00:00')
+            ->get()->toArray();
+
+        $compare_date = $location[count($location) - 1]['entry_date'];
+
+        $LastAuth = Authorization::select('authorization.*')
+            ->where('admissions_id', $admissions_id)
+            ->where('open_date', '<', $start_of_actual_day)
+            ->where(function($query) use ($start_of_last_day, $compare_date) {
+                $query->where('open_date', $start_of_last_day)
+                    ->orWhere('open_date', $compare_date);
+            })
+            ->whereNull('close_date')
+            ->whereNotNull('location_id')
+            ->get()->toArray();
+
+        if (count($LastAuth) > 0) {
+            $lA = Authorization::find($LastAuth[0]['id']);
+            $lA->close_date = $finish_of_last_day;
+            $lA->save();
+
+            $new_auth_day = new Authorization;
+            $new_auth_day->services_briefcase_id = $LastAuth[0]['services_briefcase_id'];
+            $new_auth_day->assigned_management_plan_id = $LastAuth[0]['assigned_management_plan_id'];
+            $new_auth_day->admissions_id = $LastAuth[0]['admissions_id'];
+            $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
+            $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
+            $new_auth_day->observation = $LastAuth[0]['observation'];
+            $new_auth_day->copay = $LastAuth[0]['copay'];
+            $new_auth_day->quantity = $LastAuth[0]['quantity'];
+            $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
+            $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];
+            $new_auth_day->auth_package_id = $LastAuth[0]['auth_package_id'];
+            $new_auth_day->fixed_add_id = $LastAuth[0]['fixed_add_id'];
+            $new_auth_day->manual_price_id = $LastAuth[0]['manual_price_id'];
+            $new_auth_day->application_id = $LastAuth[0]['application_id'];
+            $new_auth_day->procedure_id = $LastAuth[0]['procedure_id'];
+            $new_auth_day->supplies_com_id = $LastAuth[0]['supplies_com_id'];
+            $new_auth_day->product_com_id = $LastAuth[0]['product_com_id'];
+            $new_auth_day->location_id = $LastAuth[0]['location_id'];
+            $new_auth_day->ch_interconsultation_id = $LastAuth[0]['ch_interconsultation_id'];
+            $new_auth_day->file_auth = $LastAuth[0]['file_auth'];
+            $new_auth_day->open_date = $start_of_actual_day;
+            $new_auth_day->save();
+        }
     }
 
     public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
