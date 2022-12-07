@@ -33,12 +33,7 @@ class MedicalDiaryController extends Controller
             ->with(
                 'assistance',
                 'status',
-                'medical_diary_days.days',
-                'medical_diary_days.medical_status',
-                'medical_diary_days.patient',
-                'medical_diary_days.contract',
-                'medical_diary_days.briefcase',
-                'medical_diary_days.services_briefcase.manual_price.procedure',
+                'medical_diary_days_grouped.days',
                 'office',
                 'procedure',
                 'office.pavilion.flat.campus',
@@ -54,8 +49,8 @@ class MedicalDiaryController extends Controller
         if ($request->assistance_id) {
             $medical_diary->where('assistance_id', $request->assistance_id);
         }
-        
-        if($request->status_id){
+
+        if ($request->status_id) {
             // var_dump($request->status_id);
             $medical_diary->where('medical_diary.diary_status_id', $request->status_id);
         }
@@ -94,14 +89,41 @@ class MedicalDiaryController extends Controller
      */
     public function store(MedicalDiaryDaysRequest $request): JsonResponse
     {
+
+
+        $calendar_days = json_decode($request->calendar_array);
+        foreach ($calendar_days as $item) {
+            $validate_schedule_range =  MedicalDiaryDays::select('medical_diary_days.*')
+                ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
+                ->where('assistance_id', $request->assistance_id)
+                ->where(function ($query) use ($request, $item) {
+                    $low_border = Carbon::parse($item . $request->start_time);
+                    $high_border = Carbon::parse($item . $request->finish_time);
+                    $query->where('start_hour', '>=', $low_border)
+                        ->Where('start_hour', '<', $high_border)
+                        ->orWhere(function ($que) use ($low_border, $high_border) {
+                            $que->Where('finish_hour', '>=', $low_border)
+                                ->Where('finish_hour', '<', $high_border);
+
+                        });
+                })->first();
+            
+            if($validate_schedule_range){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Conflicto horario de '. $validate_schedule_range->start_hour .' a ' .  $validate_schedule_range->finish_hour,
+                ]);
+            }
+        }
+
         $MedicalDiary = new MedicalDiary;
 
         $MedicalDiary->assistance_id = $request->assistance_id;
         $MedicalDiary->procedure_id = $request->procedure_id;
         $MedicalDiary->start_time = $request->start_time;
         $MedicalDiary->finish_time = $request->finish_time;
-        $MedicalDiary->start_date = $request->start_date;
-        $MedicalDiary->finish_date = $request->finish_date;
+        $MedicalDiary->finish_date = $calendar_days[0];
+        $MedicalDiary->start_date = $calendar_days[count($calendar_days) - 1];
         $MedicalDiary->interval = $request->interval;
         $MedicalDiary->campus_id = $request->campus_id;
         $MedicalDiary->flat_id = $request->flat_id;
@@ -119,6 +141,58 @@ class MedicalDiaryController extends Controller
         $Office->status_bed_id = 2;
         $Office->save();
 
+        foreach($calendar_days as $item_dates){
+            $non_working = NonWorkingDays::select('non_working_days.*')->where('day', $item_dates)->first();
+            if(!$non_working)
+            {
+                $dateTimeStart = $item_dates . " " . $request->start_time;
+                $dateTimeFinish = $item_dates . " " . $request->finish_time;
+
+                $start_diary_scheduling = new DateTime($dateTimeStart);
+                $finish_diary_scheduling = new DateTime($dateTimeFinish);
+
+                $start = new DateTime($dateTimeStart);
+                $finish = new DateTime($dateTimeStart);
+                $finish = $finish->modify('+' . $request->interval . ' minutes');
+
+                $dayInf = getdate(strtotime($item_dates));
+                $numberDay = $dayInf['wday'] + 1;
+
+                while (($finish <= $finish_diary_scheduling)) {
+
+                    $MedicalDiaryDays = new MedicalDiaryDays;
+
+                    $MedicalDiaryDays->days_id = $numberDay;
+                    $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+                    $MedicalDiaryDays->medical_status_id = 1;
+                    $MedicalDiaryDays->start_hour = $start->format("Y-m-d H:i:s");
+                    $start = $start->modify('+' . $request->interval . ' minutes');
+                    $MedicalDiaryDays->finish_hour = $finish->format("Y-m-d H:i:s");
+                    $finish = $finish->modify('+' . $request->interval . ' minutes');
+
+                    $MedicalDiaryDays->save();
+
+                    $pq = intval($request->patient_quantity);
+
+                    //multiple_patients
+                    for ($j = 0; $j < $pq; $j++) {
+
+                        $MultiMedicalDiaryDays = new MedicalDiaryDays;
+
+                        $MultiMedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+                        $MultiMedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+                        $MultiMedicalDiaryDays->medical_status_id = 1;
+                        $MultiMedicalDiaryDays->start_hour =  $MedicalDiaryDays->start_hour;
+                        $MultiMedicalDiaryDays->finish_hour =  $MedicalDiaryDays->finish_hour;
+                        $MultiMedicalDiaryDays->diary_days_id =  $MedicalDiaryDays->id;
+
+                        $MultiMedicalDiaryDays->save();
+                    }
+                }
+
+            }
+        }
+
         $InitScheduling = new DateTime($request->start_date);
 
 
@@ -129,72 +203,70 @@ class MedicalDiaryController extends Controller
         $diff = $InitScheduling->diff($FinishScheduling);
 
 
-        for ($i = 0; $i < $diff->days; $i++) {
+        // for ($i = 0; $i < $diff->days; $i++) {
 
-            if (gettype($ValidateWeekDays) == "string") {
-                $ValidateWeekDays = new DateTime($ValidateWeekDays);
-            }
-            $ValidateWeekDays = $ValidateWeekDays->modify("+1 day")->format("Y-m-d");
-            $dateTimeStart = $ValidateWeekDays . " " . $request->start_time;
-            $dateTimeFinish = $ValidateWeekDays . " " . $request->finish_time;
+        //     if (gettype($ValidateWeekDays) == "string") {
+        //         $ValidateWeekDays = new DateTime($ValidateWeekDays);
+        //     }
+        //     $ValidateWeekDays = $ValidateWeekDays->modify("+1 day")->format("Y-m-d");
+        //     $dateTimeStart = $ValidateWeekDays . " " . $request->start_time;
+        //     $dateTimeFinish = $ValidateWeekDays . " " . $request->finish_time;
 
-            $start_diary_scheduling = new DateTime($dateTimeStart);
-            $finish_diary_scheduling = new DateTime($dateTimeFinish);
+        //     $start_diary_scheduling = new DateTime($dateTimeStart);
+        //     $finish_diary_scheduling = new DateTime($dateTimeFinish);
 
-            $dayInf = getdate(strtotime($ValidateWeekDays));
-            $numberDay = $dayInf['wday'] + 1;
-            $day = array_search($numberDay, $request->weekdays);
+        //     $dayInf = getdate(strtotime($ValidateWeekDays));
+        //     $numberDay = $dayInf['wday'] + 1;
+        //     $day = array_search($numberDay, $request->weekdays);
 
-            if (array_search($numberDay, $request->weekdays) === 0 || array_search($numberDay, $request->weekdays) != false) {
+        //     if (array_search($numberDay, $request->weekdays) === 0 || array_search($numberDay, $request->weekdays) != false) {
 
-                $non_working = NonWorkingDays::select('non_working_days.*')->where('day', $ValidateWeekDays)->get()->toArray();
-                $start = new DateTime($dateTimeStart);
-                $finish = new DateTime($dateTimeStart);
-                $finish = $finish->modify('+' . $request->interval . ' minutes');
-                // $view = $start->format("Y-m-d H:i:s");
-                // $view2 = $finish->format("Y-m-d H:i:s");
+        //         $non_working = NonWorkingDays::select('non_working_days.*')->where('day', $ValidateWeekDays)->get()->toArray();
+        //         $start = new DateTime($dateTimeStart);
+        //         $finish = new DateTime($dateTimeStart);
+        //         $finish = $finish->modify('+' . $request->interval . ' minutes');
+        //         // $view = $start->format("Y-m-d H:i:s");
+        //         // $view2 = $finish->format("Y-m-d H:i:s");
 
-                while (($finish < $finish_diary_scheduling || $finish == $finish_diary_scheduling) && sizeof($non_working) == 0) {
+        //         while (($finish < $finish_diary_scheduling || $finish == $finish_diary_scheduling) && sizeof($non_working) == 0) {
 
-                    $MedicalDiaryDays = new MedicalDiaryDays;
+        //             $MedicalDiaryDays = new MedicalDiaryDays;
 
-                    $MedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
-                    $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
-                    $MedicalDiaryDays->medical_status_id = 1;
-                    // $view2 = $finish->format("Y-m-d H:i:s");
-                    // $view = $start->format("Y-m-d H:i:s");
-                    $MedicalDiaryDays->start_hour = $start->format("Y-m-d H:i:s");
-                    $start = $start->modify('+' . $request->interval . ' minutes');
-                    // $view = $start->format("Y-m-d H:i:s");
-                    // $view2 = $finish->format("Y-m-d H:i:s");
-                    $MedicalDiaryDays->finish_hour = $finish->format("Y-m-d H:i:s");
-                    $finish = $finish->modify('+' . $request->interval . ' minutes');
-                    // $view = $start->format("Y-m-d H:i:s");
-                    // $view2 = $finish->format("Y-m-d H:i:s");
+        //             $MedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+        //             $MedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+        //             $MedicalDiaryDays->medical_status_id = 1;
+        //             // $view2 = $finish->format("Y-m-d H:i:s");
+        //             // $view = $start->format("Y-m-d H:i:s");
+        //             $MedicalDiaryDays->start_hour = $start->format("Y-m-d H:i:s");
+        //             $start = $start->modify('+' . $request->interval . ' minutes');
+        //             // $view = $start->format("Y-m-d H:i:s");
+        //             // $view2 = $finish->format("Y-m-d H:i:s");
+        //             $MedicalDiaryDays->finish_hour = $finish->format("Y-m-d H:i:s");
+        //             $finish = $finish->modify('+' . $request->interval . ' minutes');
+        //             // $view = $start->format("Y-m-d H:i:s");
+        //             // $view2 = $finish->format("Y-m-d H:i:s");
 
-                    $MedicalDiaryDays->save();
+        //             $MedicalDiaryDays->save();
 
-                    $pq = intval($request->patient_quantity);
+        //             $pq = intval($request->patient_quantity);
 
-                    //multiple_patients
-                     for($j = 0; $j < $pq; $j++){
+        //             //multiple_patients
+        //             for ($j = 0; $j < $pq; $j++) {
 
-                        $MultiMedicalDiaryDays = new MedicalDiaryDays;
+        //                 $MultiMedicalDiaryDays = new MedicalDiaryDays;
 
-                        $MultiMedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
-                        $MultiMedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
-                        $MultiMedicalDiaryDays->medical_status_id = 1;
-                        $MultiMedicalDiaryDays->start_hour =  $MedicalDiaryDays->start_hour;
-                        $MultiMedicalDiaryDays->finish_hour =  $MedicalDiaryDays->finish_hour;
-                        $MultiMedicalDiaryDays->diary_days_id =  $MedicalDiaryDays->id;
-    
-                        $MultiMedicalDiaryDays->save();
-                    }
+        //                 $MultiMedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+        //                 $MultiMedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
+        //                 $MultiMedicalDiaryDays->medical_status_id = 1;
+        //                 $MultiMedicalDiaryDays->start_hour =  $MedicalDiaryDays->start_hour;
+        //                 $MultiMedicalDiaryDays->finish_hour =  $MedicalDiaryDays->finish_hour;
+        //                 $MultiMedicalDiaryDays->diary_days_id =  $MedicalDiaryDays->id;
 
-
-                }
-            }
-        }
+        //                 $MultiMedicalDiaryDays->save();
+        //             }
+        //         }
+        //     }
+        // }
 
 
         // $days = json_decode($request->weekdays);
@@ -228,14 +300,14 @@ class MedicalDiaryController extends Controller
             ->where('medical_diary_days.medical_diary_id', $id)
             ->where('medical_diary_days.medical_status_id', '!=', 1)->get()->toArray();
 
-        if(count($validate_diary) >0 ){
+        if (count($validate_diary) > 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'No se puede inactivar la agenda, cuenta con citaciones en ejecución',
             ]);
         }
 
-        ($request->status_id == 1) ?  $message= 'Agenda activada exitosamente': $message= 'Agenda inactivada exitosamente';
+        ($request->status_id == 1) ?  $message = 'Agenda activada exitosamente' : $message = 'Agenda inactivada exitosamente';
         $MedicalDiary->diary_status_id = $request->status_id;
         $MedicalDiary->save();
 
@@ -244,7 +316,6 @@ class MedicalDiaryController extends Controller
             'message' =>  $message,
             'data' => ['medical_diary' => $MedicalDiary]
         ]);
-
     }
 
     /**
@@ -301,7 +372,37 @@ class MedicalDiaryController extends Controller
     public function destroy(int $id)
     {
         try {
+            $MedicalDiaryDays = MedicalDiaryDays::select('medical_diary_days.*')
+                ->where('medical_diary_id', $id)
+                ->where('medical_status_id', '!=', 1)->get()->toArray();
+
+            if (count($MedicalDiaryDays) > 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Agenda esta en uso, no es posible eliminar'
+                ], 423);
+            }
             $MedicalDiary = MedicalDiary::find($id);
+            $MedicalDiaryDays = MedicalDiaryDays::where('medical_diary_id', $id)->get()->toArray();
+
+
+            if (isset($MedicalDiary->patient_quantity)) {
+
+                foreach ($MedicalDiaryDays as $item) {
+                    $medical_diary_days_update = MedicalDiaryDays::find($item['id']);
+                    $medical_diary_days_update->diary_days_id = null;
+                    $medical_diary_days_update->save();
+                }
+            }
+
+
+            foreach ($MedicalDiaryDays as $item) {
+                $medical_diary_days_delete = MedicalDiaryDays::find($item['id']);
+                $medical_diary_days_delete->delete();
+            }
+            // $MedicalDiaryDays = DB::table('medical_diary_id')->where('medical_diary_id', $id);
+            // $MedicalDiaryDays->delete();
+
             $MedicalDiary->delete();
 
             return response()->json([
@@ -309,6 +410,7 @@ class MedicalDiaryController extends Controller
                 'message' => 'Agenda eliminada exitosamente'
             ]);
         } catch (QueryException $e) {
+            $e;
             return response()->json([
                 'status' => false,
                 'message' => 'Agenda esta en uso, no es posible eliminar'

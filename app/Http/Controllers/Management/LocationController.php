@@ -158,7 +158,7 @@ class LocationController extends Controller
             $Authorization = new Authorization;
             $Authorization->services_briefcase_id = $request->procedure_id;
             $Authorization->admissions_id = $request->admissions_id;
-            $Authorization->auth_number = $request->auth_number;
+            $Authorization->auth_number = $Authorization_end->auth_number;
             $Authorization->file_auth = $request->file_auth;
             $Authorization->location_id = $Location2->id;
             $Authorization->ch_interconsultation_id = $startAuth->ch_interconsultation_id;
