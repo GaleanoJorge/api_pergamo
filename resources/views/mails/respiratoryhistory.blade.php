@@ -296,7 +296,7 @@
             @foreach($ChRespiratoryTherapy as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -343,7 +343,7 @@
                 
                     @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                     </td>
                     @endisset
 
@@ -387,7 +387,7 @@
                     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
 
                     @if(($ch['pregnancy_status']) == 'EMBARAZADA' )
@@ -856,7 +856,7 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -1187,7 +1187,7 @@
                     <tr>                        
                         @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
     
@@ -1229,7 +1229,7 @@
                 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>                    
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt"><b> @if(isset($ch['ch_ass_signs'])) SIGNOS DE DIFICULTAD RESPIRATORIA </b> @endisset </span>
@@ -1354,7 +1354,7 @@
                         <tr>                        
                         @if(isset($ch['created_at']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                             </td>
                             @endisset
 
@@ -1400,7 +1400,7 @@
                         <tr>                        
                         @if(isset($ch['created_at']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                             </td>
                             @endisset
 
@@ -1438,7 +1438,7 @@
                 @foreach($ChRtInspection as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">
@@ -1550,7 +1550,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
 
@@ -1596,7 +1596,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
 
@@ -1643,7 +1643,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
 
@@ -1693,7 +1693,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
 
@@ -1747,7 +1747,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
 
@@ -1811,7 +1811,7 @@
             @foreach($ChRespiratoryTherapyEvo as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
             </p>
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -1858,7 +1858,7 @@
                 
                     @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                     </td>
                     @endisset
 
@@ -1902,7 +1902,7 @@
                     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
 
                     @if(($ch['pregnancy_status']) == 'EMBARAZADA' )
@@ -2371,7 +2371,7 @@
                     <tr style="height:11.95pt">
                         <td style="width:79.75pt; vertical-align:top">
                             <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                                <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA REGISTRO: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
                             </p>
                         </td>
                         <td style="width:106pt; vertical-align:top">
@@ -2702,7 +2702,7 @@
                     <tr>                        
                     @if(isset($ch['created_at']))
                         <td>
-                            <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                            <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                         </td>
                         @endisset
     
@@ -2749,7 +2749,7 @@
                 <tr>                        
                 @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                     </td>
                     @endisset
 
@@ -2803,7 +2803,7 @@
                 <tr>                        
                 @if(isset($ch['created_at']))
                     <td>
-                        <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                        <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                     </td>
                     @endisset
 
@@ -2856,7 +2856,7 @@
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
                 <b>@if(isset($ch['assessment'])) ANÁLISIS Y PLAN DE TRATAMIENTO: </b>{{$ch['assessment']}} @endisset </span> 
             </p>
 
@@ -2881,7 +2881,7 @@
             @foreach($ChRecommendationsEvo as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style=" text-align: justify; font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b> {{mb_substr($ch['created_at'],0,10) }} @endisset <br/>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b> {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
                     <b>@if(isset($ch['recommendations_evo'])) RECOMENDACION: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
                     <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
                     <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
@@ -2964,7 +2964,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE</b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
