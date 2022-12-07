@@ -6,6 +6,7 @@ use App\Models\ChInterconsultation;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Assistance;
+use App\Models\AssistanceSpecial;
 use App\Models\Authorization;
 use App\Models\ChRecord;
 use App\Models\Role;
@@ -47,6 +48,7 @@ class ChInterconsultationController extends Controller
                 'frequency',
                 'type_record',
                 'ch_record',
+                'ch_record.user',
                 'admissions',
                 'many_ch_record',
                 'roles',
@@ -74,8 +76,8 @@ class ChInterconsultationController extends Controller
             $ChInterconsultation->whereNotNull('ch_interconsultation.ch_record_id');
             if ($rr->role_type_id != 1) {
                 $ChInterconsultation->where('role_attention.role_id', $request->role_id);
-                $assistance = Assistance::select('assistance_special.*')
-                ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+                $assistance = AssistanceSpecial::select('assistance_special.*')
+                ->leftJoin('assistance', 'assistance_special.assistance_id', 'assistance.id')
                 ->where('assistance.user_id', Auth::user()->id)
                 ->groupBy('assistance_special.id')
                 ->get()->toArray();
@@ -120,9 +122,9 @@ class ChInterconsultationController extends Controller
      */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-
-        $ChInterconsultation = ChInterconsultation::where('ch_record_id', $id)
-            ->where('type_record_id', $type_record_id)
+        $chrecord = ChRecord::find($id);
+        $ChInterconsultation = ChInterconsultation::select('ch_interconsultation.*')
+        ->leftJoin('ch_record', 'ch_record.id', 'ch_interconsultation.ch_record_id')
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -131,9 +133,11 @@ class ChInterconsultationController extends Controller
                 'frequency',
                 'type_record',
                 'ch_record',
+                'ch_record.user',
                 'admissions',
                 'many_ch_record',
             )
+            ->where('ch_record.admissions_id', $chrecord->admissions_id)
             ->get()->toArray();
 
 
