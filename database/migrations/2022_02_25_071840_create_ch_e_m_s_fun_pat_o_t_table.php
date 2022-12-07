@@ -15,20 +15,20 @@ class CreateChEMSFunPatOTTable extends Migration
     {
         Schema::create('ch_e_m_s_fun_pat_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('head_right')->nullable();
-            $table->string('head_left')->nullable();
-            $table->string('mouth_right')->nullable();
-            $table->string('mouth_left')->nullable();
-            $table->string('shoulder_right')->nullable();
-            $table->string('shoulder_left')->nullable();
-            $table->string('back_right')->nullable();
-            $table->string('back_left')->nullable();
-            $table->string('waist_right')->nullable();
-            $table->string('waist_left')->nullable();
-            $table->string('knee_right')->nullable();
-            $table->string('knee_left')->nullable();
-            $table->string('foot_right')->nullable();
-            $table->string('foot_left')->nullable();
+            $table->string('head_right');
+            $table->string('head_left');
+            $table->string('mouth_right');
+            $table->string('mouth_left');
+            $table->string('shoulder_right');
+            $table->string('shoulder_left');
+            $table->string('back_right');
+            $table->string('back_left');
+            $table->string('waist_right');
+            $table->string('waist_left');
+            $table->string('knee_right');
+            $table->string('knee_left');
+            $table->string('foot_right');
+            $table->string('foot_left');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

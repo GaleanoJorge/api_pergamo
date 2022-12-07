@@ -25,7 +25,7 @@ class CreateChFormulationTable extends Migration
             $table->Integer('treatment_days')->nullable();
             $table->string('outpatient_formulation')->nullable();
             $table->string('dose')->nullable();
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->Integer('number_mipres')->nullable();
             $table->Integer('num_supplies')->nullable();
             $table->unsignedBigInteger('pharmacy_product_request_id')->nullable();

@@ -1327,7 +1327,7 @@
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
                     <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
-                    <b>@if(isset($ch['description'])) OBSERVACIÓN </b>{{$ch['description']}} @endisset 
+                    <b>@if(isset($ch['observation'])) OBSERVACIÓN </b>{{$ch['observation']}} @endisset 
                     </span>
                 </p>
                 
@@ -1711,7 +1711,7 @@
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
                     <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
-                    <b>@if(isset($ch['description'])) OBSERVACIÓN </b>{{$ch['description']}} @endisset 
+                    <b>@if(isset($ch['observation'])) OBSERVACIÓN </b>{{$ch['observation']}} @endisset 
                     </span>
                 </p>
                 
