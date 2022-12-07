@@ -26,7 +26,7 @@ class CreateChSwRiskFactorsTable extends Migration
             $table->string('stigmatization')->nullable();
             $table->string('interference')->nullable();
             $table->string('spaces')->nullable();                        
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

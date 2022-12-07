@@ -15,9 +15,9 @@ class CreateOstomiesTlTable extends Migration
     {
         Schema::create('ostomies_tl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('jejunostomy')->nullable();
-            $table->string('colostomy')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('jejunostomy')->nullable();
+            $table->longText('colostomy')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

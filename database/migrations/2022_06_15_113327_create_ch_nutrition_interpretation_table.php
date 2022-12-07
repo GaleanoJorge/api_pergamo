@@ -15,7 +15,7 @@ class CreateChNutritionInterpretationTable extends Migration
     {
         Schema::create('ch_nutrition_interpretation', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

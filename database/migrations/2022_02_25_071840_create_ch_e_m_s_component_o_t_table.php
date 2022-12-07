@@ -17,7 +17,7 @@ class CreateChEMSComponentOTTable extends Migration
             $table->bigIncrements('id');
             $table->string('dynamic_balance');
             $table->string('static_balance');
-            $table->string('observation_component');
+            $table->longText('observation_component');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

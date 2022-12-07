@@ -19,11 +19,11 @@ class CreateChEOccHistoryOTTable extends Migration
             $table->string('enterprice_employee')->nullable();
             $table->string('work_employee')->nullable();
             $table->string('shift_employee')->nullable();
-            $table->string('observation_employee')->nullable();
+            $table->longText('observation_employee')->nullable();
             $table->string('work_independent')->nullable();
             $table->string('shift_independent')->nullable();
-            $table->string('observation_independent')->nullable();
-            $table->string('observation_home')->nullable();
+            $table->longText('observation_independent')->nullable();
+            $table->longText('observation_home')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

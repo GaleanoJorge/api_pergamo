@@ -16,7 +16,7 @@ class CreateChSystemExamTable extends Migration
         Schema::create('ch_system_exam', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('revision');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_ch_system_exam_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

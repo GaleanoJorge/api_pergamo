@@ -19,7 +19,7 @@ class CreateChNutritionGastrointestinalTable extends Migration
             $table->boolean('vomit')->nullable();
             $table->double('amount_of_vomit')->nullable();
             $table->boolean('nausea')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

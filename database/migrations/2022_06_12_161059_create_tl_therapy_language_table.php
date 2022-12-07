@@ -17,7 +17,7 @@ class CreateTlTherapyLanguageTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('medical_diagnostic_id')->nullable();
             $table->unsignedBigInteger('therapeutic_diagnosis_id')->nullable();
-            $table->string('reason_consultation')->nullable();
+            $table->longText('reason_consultation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

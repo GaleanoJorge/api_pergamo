@@ -18,7 +18,7 @@ class CreateCognitiveTlTable extends Migration
             $table->string('memory')->nullable();
             $table->string('attention')->nullable();
             $table->string('concentration')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -28,7 +28,7 @@ class CreateChEMarchFTTable extends Migration
             $table->string('prebalance');
             $table->string('medium_balance');
             $table->string('finish_balance');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

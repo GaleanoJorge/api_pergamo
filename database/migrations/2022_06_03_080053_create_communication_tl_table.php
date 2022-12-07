@@ -23,7 +23,7 @@ class CreateCommunicationTlTable extends Migration
             $table->string('written_verb_modality');
             $table->string('nonsymbolic_nonverbal_modality');
             $table->string('symbolic_nonverbal_modality')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
