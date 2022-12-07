@@ -1993,27 +1993,28 @@ class BillingPadController extends Controller
                 if ($Auth_A[0]['location_id']) {
                     $Location = Location::find($Auth_A[0]['location_id']);
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
-                        $Auth_B = new Authorization;
-                        $Auth_B->services_briefcase_id = $Auth_A[0]['services_briefcase_id'];
-                        $Auth_B->assigned_management_plan_id = $Auth_A[0]['assigned_management_plan_id'];
-                        $Auth_B->admissions_id = $Auth_A[0]['admissions_id'];
-                        $Auth_B->auth_number = $Auth_A[0]['auth_number'];
-                        $Auth_B->authorized_amount = $Auth_A[0]['authorized_amount'];
-                        $Auth_B->observation = $Auth_A[0]['observation'];
-                        $Auth_B->copay = $Auth_A[0]['copay'];
-                        $Auth_B->quantity = $Auth_A[0]['quantity'];
-                        $Auth_B->copay_value = $Auth_A[0]['copay_value'];
-                        $Auth_B->auth_status_id = $Auth_A[0]['auth_status_id'];
-                        $Auth_B->auth_package_id = $Auth_A[0]['auth_package_id'];
-                        $Auth_B->fixed_add_id = $Auth_A[0]['fixed_add_id'];
-                        $Auth_B->manual_price_id = $Auth_A[0]['manual_price_id'];
-                        $Auth_B->application_id = $Auth_A[0]['application_id'];
-                        $Auth_B->procedure_id = $Auth_A[0]['procedure_id'];
-                        $Auth_B->supplies_com_id = $Auth_A[0]['supplies_com_id'];
-                        $Auth_B->product_com_id = $Auth_A[0]['product_com_id'];
-                        $Auth_B->location_id = $Auth_A[0]['location_id'];
-                        $Auth_B->file_auth = $Auth_A[0]['file_auth'];
-                        $Auth_B->save();
+                        // $Auth_B = new Authorization;
+                        // $Auth_B->services_briefcase_id = $Auth_A[0]['services_briefcase_id'];
+                        // $Auth_B->assigned_management_plan_id = $Auth_A[0]['assigned_management_plan_id'];
+                        // $Auth_B->admissions_id = $Auth_A[0]['admissions_id'];
+                        // $Auth_B->auth_number = $Auth_A[0]['auth_number'];
+                        // $Auth_B->authorized_amount = $Auth_A[0]['authorized_amount'];
+                        // $Auth_B->observation = $Auth_A[0]['observation'];
+                        // $Auth_B->copay = $Auth_A[0]['copay'];
+                        // $Auth_B->quantity = $Auth_A[0]['quantity'];
+                        // $Auth_B->copay_value = $Auth_A[0]['copay_value'];
+                        // $Auth_B->auth_status_id = $Auth_A[0]['auth_status_id'];
+                        // $Auth_B->auth_package_id = $Auth_A[0]['auth_package_id'];
+                        // $Auth_B->fixed_add_id = $Auth_A[0]['fixed_add_id'];
+                        // $Auth_B->manual_price_id = $Auth_A[0]['manual_price_id'];
+                        // $Auth_B->application_id = $Auth_A[0]['application_id'];
+                        // $Auth_B->procedure_id = $Auth_A[0]['procedure_id'];
+                        // $Auth_B->supplies_com_id = $Auth_A[0]['supplies_com_id'];
+                        // $Auth_B->product_com_id = $Auth_A[0]['product_com_id'];
+                        // $Auth_B->location_id = $Auth_A[0]['location_id'];
+                        // $Auth_B->file_auth = $Auth_A[0]['file_auth'];
+                        // $Auth_B->open_date = Carbon::now();
+                        // $Auth_B->save();
                         
                         $initial_date = Carbon::parse($Location->entry_date);
                         $finish_date = Carbon::parse($Location->discharge_date);
@@ -2028,8 +2029,8 @@ class BillingPadController extends Controller
                 if ($Auth_A[0]['quantity']) {
                     $q = $Auth_A[0]['quantity'];
                 } else if ($Auth_A[0]['location_id']) {
-                    $start_date = Carbon::parse($Auth_A[0]['created_at'])->setTimezone('America/Bogota')->startOfDay();
-                    $finish_date = $Auth_A[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth_A[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $start_date = Carbon::parse($Auth_A[0]['open_date'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = /*$Auth_A[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth_A[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() :*/ ($Auth_A[0]['close_date'] ? Carbon::parse($Auth_A[0]['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
                     $diff = $start_date->diffInDays($finish_date) + 1;
                     $Auth_A[0]['quantity'] = $diff;
                     $q = $Auth_A[0]['quantity'];
@@ -2163,8 +2164,8 @@ class BillingPadController extends Controller
                 }
 
                 if ($conponent['authorization']['location_id']) {
-                    $start_date = Carbon::parse($conponent['authorization']['created_at'])->setTimezone('America/Bogota')->startOfDay();
-                    $finish_date = $conponent['authorization']['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($conponent['authorization']['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $start_date = Carbon::parse($conponent['authorization']['open_date'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = /*$conponent['authorization']['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($conponent['authorization']['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : */($conponent['authorization']['close_date'] ? Carbon::parse($conponent['authorization']['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
                     $diff = $start_date->diffInDays($finish_date) + 1;
                     $conponent['authorization']['quantity'] = $diff;
                     $a = $conponent['authorization']['quantity'];
@@ -2475,6 +2476,8 @@ class BillingPadController extends Controller
                         'authorization.quantity AS quantity',
                         'authorization.location_id AS location_id',
                         'authorization.created_at AS created_at',
+                        'authorization.open_date AS open_date',
+                        'authorization.cloese_date AS cloese_date',
                         'authorization.auth_number AS auth_number',
                         'authorization.observation AS observation',
                         'authorization.file_auth AS file_auth',
@@ -2515,8 +2518,8 @@ class BillingPadController extends Controller
                         }
                     }
                 } else if ($Auth[0]['location_id'] != null) {
-                    $A = Carbon::parse($Auth[0]['created_at'])->setTimezone('America/Bogota');
-                    $AA = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
+                    $A = Carbon::parse($Auth[0]['open_date'])->setTimezone('America/Bogota');
+                    $AA = /*$Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota') : */( $Auth[0]['close_date'] ? Carbon::parse($Auth[0]['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota'));
                     $b = '';
                     if ($assistance_name == '') {
                         $assistance_name = $b != null ? $b : '';
@@ -2537,6 +2540,8 @@ class BillingPadController extends Controller
                         ->select(
                             'authorization.auth_number AS auth_number',
                             'authorization.quantity AS quantity',
+                            'authorization.open_date AS open_date',
+                            'authorization.cloese_date AS cloese_date',
                             'authorization.location_id AS location_id',
                             'authorization.created_at AS created_at',
                             'authorization.observation AS observation',
@@ -2600,8 +2605,8 @@ class BillingPadController extends Controller
                 if ($Auth[0]['quantity']) {
                     $q = $Auth[0]['quantity'];
                 } else if ($Auth[0]['location_id']) {
-                    $start_date = Carbon::parse($Auth[0]['created_at'])->setTimezone('America/Bogota')->startOfDay();
-                    $finish_date = $Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                    $start_date = Carbon::parse($Auth[0]['open_date'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = /*$Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : */($Auth[0]['close_date'] ? Carbon::parse($Auth[0]['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
                     $diff = $start_date->diffInDays($finish_date) + 1;
                     $Auth[0]['quantity'] = $diff;
                     $q = $Auth[0]['quantity'];
@@ -3033,8 +3038,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             if ($element['quantity']) {
                 $q = $element['quantity'];
             } else if ($element['location_id']) {
-                $start_date = Carbon::parse($element['created_at'])->setTimezone('America/Bogota')->startOfDay();
-                $finish_date = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay();
+                $start_date = Carbon::parse($element['open_date'])->setTimezone('America/Bogota')->startOfDay();
+                $finish_date = /*$element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : */($element['close_date'] ? Carbon::parse($element['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
                 $diff = $start_date->diffInDays($finish_date) + 1;
                 $element['quantity'] = $diff;
                 $q = $element['quantity'];
@@ -3053,8 +3058,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 $A = $element['assigned_management_plan'] ? $element['assigned_management_plan']['execution_date'] : "";
                 $b = $element['assigned_management_plan'] ? $element['assigned_management_plan']['ch_record'][0]['user']['firstname'] . ' ' . $element['assigned_management_plan']['ch_record'][0]['user']['lastname'] : "";
             } else if ($element['location_id']) {
-                $A = Carbon::parse($element['created_at'])->setTimezone('America/Bogota');
-                $AA = $element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota');
+                $A = Carbon::parse($element['open_date'])->setTimezone('America/Bogota');
+                $AA = /*$element['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($element['location']['discharge_date'])->setTimezone('America/Bogota') : */($element['close_date'] ? Carbon::parse($element['close_date'])->setTimezone('America/Bogota') : Carbon::now()->setTimezone('America/Bogota'));
                 $b = "";
                 array_push($services_date, $AA);
             } else if ($element['ch_interconsultation'] != null) {
