@@ -764,8 +764,8 @@ class PatientController extends Controller
             $patients->whereNotNull('ch_interconsultation.ch_record_id');
             $patients->where('role_attention.role_id', $request->role_id);
 
-            $assistance = Assistance::select('assistance_special.*')
-                ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+            $assistance = AssistanceSpecial::select('assistance_special.*')
+                ->leftJoin('assistance', 'assistance_special.assistance_id', 'assistance.id')
                 ->where('assistance.user_id', $userId)
                 ->groupBy('assistance_special.id')
                 ->get()->toArray();
