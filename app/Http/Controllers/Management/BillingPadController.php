@@ -2150,33 +2150,16 @@ class BillingPadController extends Controller
                 if ($Auth_A[0]['location_id']) {
                     $Location = Location::find($Auth_A[0]['location_id']);
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
-                        // $Auth_B = new Authorization;
-                        // $Auth_B->services_briefcase_id = $Auth_A[0]['services_briefcase_id'];
-                        // $Auth_B->assigned_management_plan_id = $Auth_A[0]['assigned_management_plan_id'];
-                        // $Auth_B->admissions_id = $Auth_A[0]['admissions_id'];
-                        // $Auth_B->auth_number = $Auth_A[0]['auth_number'];
-                        // $Auth_B->authorized_amount = $Auth_A[0]['authorized_amount'];
-                        // $Auth_B->observation = $Auth_A[0]['observation'];
-                        // $Auth_B->copay = $Auth_A[0]['copay'];
-                        // $Auth_B->quantity = $Auth_A[0]['quantity'];
-                        // $Auth_B->copay_value = $Auth_A[0]['copay_value'];
-                        // $Auth_B->auth_status_id = $Auth_A[0]['auth_status_id'];
-                        // $Auth_B->auth_package_id = $Auth_A[0]['auth_package_id'];
-                        // $Auth_B->fixed_add_id = $Auth_A[0]['fixed_add_id'];
-                        // $Auth_B->manual_price_id = $Auth_A[0]['manual_price_id'];
-                        // $Auth_B->application_id = $Auth_A[0]['application_id'];
-                        // $Auth_B->procedure_id = $Auth_A[0]['procedure_id'];
-                        // $Auth_B->supplies_com_id = $Auth_A[0]['supplies_com_id'];
-                        // $Auth_B->product_com_id = $Auth_A[0]['product_com_id'];
-                        // $Auth_B->location_id = $Auth_A[0]['location_id'];
-                        // $Auth_B->file_auth = $Auth_A[0]['file_auth'];
-                        // $Auth_B->open_date = Carbon::now();
-                        // $Auth_B->save();
-                        
                         $initial_date = Carbon::parse($Location->entry_date);
                         $finish_date = Carbon::parse($Location->discharge_date);
                         $days = $initial_date->diffInDays($finish_date + 1);
                         $Auth_A[0]['quantity'] = $days;
+                    } else {
+                        $Auth_B = Authorization::find($Auth_A[0]['id']);
+                        $Auth_B->close_date = Carbon::now()->endOfDay()->format('Y-m-d H:i:s');
+                        $Auth_B->save();
+
+                        $Auth_A[0]['close_date'] = Carbon::now()->endOfDay()->format('Y-m-d H:i:s');
                     }
                 }
                 $AuthBillingPad = new AuthBillingPad;
