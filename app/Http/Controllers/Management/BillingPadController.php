@@ -2306,6 +2306,7 @@ class BillingPadController extends Controller
             $services = array();
             $billing_line = '';
             $assistance_name = '';
+            $b = '';
             $services_date = array();
             $components = AuthBillingPad::where('billing_pad_id', $id)->get()->toArray();
             foreach ($components as $component) {
@@ -2480,6 +2481,9 @@ class BillingPadController extends Controller
             $sortDates = $collection->sort()->toArray();
             $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
             $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
+            if ($assistance_name == '') {
+                $assistance_name = $b != '' ? $b : 'MARIANA RODRIGUEZ';
+            }
         }
         $now_date = Carbon::now();
         $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
@@ -2815,6 +2819,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         foreach ($selected_procedures as $element) {
             $quantity = 0;
             $code = '';
+            $b = '';
             $q = 1;
             if ($element['quantity']) {
                 $q = $element['quantity'];
@@ -2855,7 +2860,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 }
             }
             if ($assistance_name == '') {
-                $assistance_name = $b;
+                $assistance_name = $b != '' ? $b : 'MARIANA RODRIGUEZ';
             }
             if (count($view_services) > 0) {
                 $exist = false;
