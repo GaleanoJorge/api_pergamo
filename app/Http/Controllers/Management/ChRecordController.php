@@ -1471,6 +1471,7 @@ class ChRecordController extends Controller
                 'procedure',
                 'frequency',
                 'services_briefcase',
+                'services_briefcase.manual_price',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
