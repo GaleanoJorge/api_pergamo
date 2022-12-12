@@ -1317,7 +1317,6 @@ class BillingPadController extends Controller
         $eventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
-                'ch_record',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
@@ -1326,6 +1325,7 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -1373,7 +1373,6 @@ class BillingPadController extends Controller
             ->with(
                 'location',
                 'ch_interconsultation',
-                'ch_record',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -1381,6 +1380,7 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -1424,7 +1424,6 @@ class BillingPadController extends Controller
         $InsumosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
-                'ch_record',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
@@ -1433,6 +1432,7 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -1473,7 +1473,6 @@ class BillingPadController extends Controller
         $ActivosFijosEventos = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
-                'ch_record',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
@@ -1482,6 +1481,7 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -1521,20 +1521,21 @@ class BillingPadController extends Controller
         $InternacionesHospitalarias = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'), DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
-                'ch_record',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             // ->where('authorization.auth_status_id', 3)
@@ -1569,20 +1570,21 @@ class BillingPadController extends Controller
         $Authorizationspackages = Authorization::select('authorization.*', 'billing_pad_status.name AS billing_pad_status', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'), DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'))
             ->with(
                 'location',
-                'ch_record',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             // ->where('authorization.auth_status_id', 3)
