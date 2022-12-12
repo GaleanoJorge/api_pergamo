@@ -17,7 +17,7 @@ class CreateChEDiagnosisFTTable extends Migration
             $table->bigIncrements('id');
             //$table->string('family_base');
             /////////////////////////////////////////
-            $table->string('diagnosis');
+            $table->longText('diagnosis');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

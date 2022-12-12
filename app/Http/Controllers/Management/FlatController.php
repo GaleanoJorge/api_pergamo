@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class FlatController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,23 +20,22 @@ class FlatController extends Controller
     {
         $Flat = Flat::with('campus');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Flat->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Flat->where('name','like','%' . $request->search. '%');
+            $Flat->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Flat=$Flat->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Flat = $Flat->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Flat = $Flat->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Flat=$Flat->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -47,16 +46,24 @@ class FlatController extends Controller
     }
 
 
-                 /**
+    /**
      * Display a listing of the resource
      *
      * @param integer $campus_id
      * @return JsonResponse
      */
-    public function getFlatByCampus(int $campus_id): JsonResponse
+    public function getFlatByCampus(Request $request, int $campus_id): JsonResponse
     {
-        $Flat = Flat::where('campus_id', $campus_id)
-            ->orderBy('name', 'asc')->get()->toArray();
+        $Flat = Flat::select('flat.*')
+            ->leftJoin('pavilion', 'pavilion.flat_id', 'flat.id')
+            ->leftJoin('bed', 'bed.pavilion_id', 'pavilion.id')
+            ->where('flat.campus_id', $campus_id)
+            ->orderBy('name', 'asc')
+            ->groupBy('flat.id');
+        if ($request->bed_or_office) {
+            $Flat->where('bed.bed_or_office', $request->bed_or_office);
+        }
+        $Flat = $Flat->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -64,15 +71,15 @@ class FlatController extends Controller
             'data' => ['flat' => $Flat]
         ]);
     }
-    
+
 
     public function store(FlatRequest $request): JsonResponse
     {
         $Flat = new Flat;
-        $Flat->code = $request->code; 
-        $Flat->name = $request->name; 
-        $Flat->campus_id = $request->campus_id; 
-        
+        $Flat->code = $request->code;
+        $Flat->name = $request->name;
+        $Flat->campus_id = $request->campus_id;
+
         $Flat->save();
 
         return response()->json([
@@ -108,11 +115,11 @@ class FlatController extends Controller
      */
     public function update(FlatRequest $request, int $id): JsonResponse
     {
-        $Flat = Flat::find($id); 
-        $Flat->code = $request->code; 
-        $Flat->name = $request->name; 
-        $Flat->campus_id = $request->campus_id; 
-        
+        $Flat = Flat::find($id);
+        $Flat->code = $request->code;
+        $Flat->name = $request->name;
+        $Flat->campus_id = $request->campus_id;
+
         $Flat->save();
 
         return response()->json([

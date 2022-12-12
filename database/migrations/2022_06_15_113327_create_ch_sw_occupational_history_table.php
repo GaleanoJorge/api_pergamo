@@ -23,7 +23,7 @@ class CreateChSwOccupationalHistoryTable extends Migration
             $table->unsignedBigInteger('ch_sw_seniority_id')->nullable();
             $table->unsignedBigInteger('ch_sw_hours_id')->nullable();
             $table->unsignedBigInteger('ch_sw_turn_id')->nullable();
-            $table->string('observations')->nullable()->nullable();
+            $table->longText('observations')->nullable()->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

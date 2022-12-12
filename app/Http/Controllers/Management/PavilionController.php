@@ -11,32 +11,31 @@ use Illuminate\Database\QueryException;
 
 class PavilionController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Pavilion = Pavilion::with('flat','flat.campus');
+        $Pavilion = Pavilion::with('flat', 'flat.campus');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Pavilion->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Pavilion->where('name','like','%' . $request->search. '%');
+            $Pavilion->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Pavilion=$Pavilion->get()->toArray();    
+
+        if ($request->query("pagination", true) == "false") {
+            $Pavilion = $Pavilion->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Pavilion = $Pavilion->paginate($per_page, '*', 'page', $page);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Pavilion=$Pavilion->paginate($per_page,'*','page',$page); 
-        } 
 
 
         return response()->json([
@@ -47,16 +46,23 @@ class PavilionController extends Controller
     }
 
 
-                 /**
+    /**
      * Display a listing of the resource
      *
      * @param integer $flat_id
      * @return JsonResponse
      */
-    public function getPavilionByFlat(int $flat_id): JsonResponse
+    public function getPavilionByFlat(Request $request, int $flat_id): JsonResponse
     {
-        $Pavilion = Pavilion::where('flat_id', $flat_id)
-            ->orderBy('name', 'asc')->get()->toArray();
+        $Pavilion = Pavilion::select('pavilion.*')
+            ->leftJoin('bed', 'bed.pavilion_id', 'pavilion.id')
+            ->where('pavilion.flat_id', $flat_id)
+            ->orderBy('name', 'asc')
+            ->groupBy('pavilion.id');
+            if ($request->bed_or_office) {
+                $Pavilion->where('bed.bed_or_office', $request->bed_or_office);
+            }
+            $Pavilion=$Pavilion->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -64,15 +70,15 @@ class PavilionController extends Controller
             'data' => ['pavilion' => $Pavilion]
         ]);
     }
-    
+
 
     public function store(PavilionRequest $request): JsonResponse
     {
         $Pavilion = new Pavilion;
-        $Pavilion->code = $request->code; 
-        $Pavilion->name = $request->name; 
-        $Pavilion->flat_id = $request->flat_id; 
-        
+        $Pavilion->code = $request->code;
+        $Pavilion->name = $request->name;
+        $Pavilion->flat_id = $request->flat_id;
+
         $Pavilion->save();
 
         return response()->json([
@@ -108,12 +114,12 @@ class PavilionController extends Controller
      */
     public function update(PavilionRequest $request, int $id): JsonResponse
     {
-        $Pavilion = Pavilion::find($id); 
-        $Pavilion->code = $request->code; 
-        $Pavilion->name = $request->name; 
-        $Pavilion->flat_id = $request->flat_id; 
-        
-        
+        $Pavilion = Pavilion::find($id);
+        $Pavilion->code = $request->code;
+        $Pavilion->name = $request->name;
+        $Pavilion->flat_id = $request->flat_id;
+
+
         $Pavilion->save();
 
         return response()->json([

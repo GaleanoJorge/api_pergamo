@@ -17,9 +17,9 @@ class CreateChSwSupportNetworkTable extends Migration
         Schema::create('ch_sw_support_network', function (Blueprint $table) {
             $table->bigIncrements('id');            
             $table->string('provided');
-            $table->string('sw_note')->nullable();          
+            $table->longText('sw_note')->nullable();          
             $table->unsignedBigInteger('ch_sw_entity_id')->nullable();        
-            $table->string('observation')->nullable();          
+            $table->longText('observation')->nullable();          
             
             $table->unsignedBigInteger('ch_sw_network_id');
             $table->unsignedBigInteger('type_record_id');

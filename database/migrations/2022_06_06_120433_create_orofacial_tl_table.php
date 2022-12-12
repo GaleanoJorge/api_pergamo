@@ -15,12 +15,12 @@ class CreateOrofacialTlTable extends Migration
     {
         Schema::create('orofacial_tl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('right_hermiface_symmetry')->nullable();
-            $table->string('right_hermiface_tone')->nullable();
-            $table->string('right_hermiface_sensitivity')->nullable();
-            $table->string('left_hermiface_symmetry')->nullable();
-            $table->string('left_hermiface_tone')->nullable();
-            $table->string('left_hermiface_sensitivity')->nullable();
+            $table->longText('right_hermiface_symmetry')->nullable();
+            $table->longText('right_hermiface_tone')->nullable();
+            $table->longText('right_hermiface_sensitivity')->nullable();
+            $table->longText('left_hermiface_symmetry')->nullable();
+            $table->longText('left_hermiface_tone')->nullable();
+            $table->longText('left_hermiface_sensitivity')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

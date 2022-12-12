@@ -16,7 +16,7 @@ class CreateChHairValorationTable extends Migration
         Schema::create('ch_hair_valoration', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('hair_revision');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

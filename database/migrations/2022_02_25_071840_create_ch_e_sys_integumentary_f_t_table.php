@@ -26,7 +26,7 @@ class CreateChESysIntegumentaryFTTable extends Migration
             $table->string('mobility');
             $table->string('scar');
             $table->string('bedsores');
-            $table->string('location');
+            $table->longText('location');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

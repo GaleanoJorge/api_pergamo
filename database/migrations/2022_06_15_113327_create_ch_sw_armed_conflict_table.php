@@ -19,7 +19,7 @@ class CreateChSwArmedConflictTable extends Migration
             $table->string('victim');
             $table->string('victim_time')->nullable();
             $table->string('subsidies');
-            $table->string('detail_subsidies')->nullable();
+            $table->longText('detail_subsidies')->nullable();
             $table->unsignedBigInteger('municipality_id')->nullable();
             $table->unsignedBigInteger('population_group_id')->nullable();
             $table->unsignedTinyInteger('ethnicity_id')->nullable();

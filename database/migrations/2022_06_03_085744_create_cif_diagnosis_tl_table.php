@@ -15,7 +15,7 @@ class CreateCifDiagnosisTlTable extends Migration
     {
         Schema::create('cif_diagnosis_tl', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('text');
+            $table->longText('text');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -24,7 +24,7 @@ class CreateLanguageTlTable extends Migration
             $table->string('coding')->nullable();
             $table->string('decoding')->nullable();
             $table->string('production')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
