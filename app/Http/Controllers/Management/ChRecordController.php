@@ -5358,9 +5358,11 @@ class ChRecordController extends Controller
 
         $LastAuth = Authorization::select('authorization.*')
             ->where('admissions_id', $admissions_id)
-            ->where('open_date', '<', $start_of_actual_day)
-            ->where(function($query) use ($start_of_last_day, $compare_date) {
-                $query->where('open_date', $start_of_last_day)
+            // ->where('open_date', '<', $start_of_actual_day)
+            ->where(function($query) use ($start_of_last_day, $compare_date, $start_of_actual_day) {
+                $query
+                    // ->where('open_date', $start_of_last_day)
+                    ->where('open_date', '<', $start_of_actual_day)
                     ->orWhere('open_date', $compare_date);
             })
             ->whereNull('close_date')
