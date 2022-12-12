@@ -1734,11 +1734,15 @@ class ChRecordController extends Controller
                     'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
                     'user_request'
                 )->groupBy('pharmacy_product_request.id');
+                if( $ChRecord[0]['assigned_management_plan']){
             $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
                 ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
                 ->where('pharmacy_product_request.management_plan_id', $ChRecord[0]['assigned_management_plan']['management_plan_id'])
                 ->whereNotNull('manual_price.product_id');
             $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+                }else{
+                    $PharmacyProductRequest=null;
+                }
 
             $patient = $ChRecord[0]['admissions'];
             $html = view('mails.hcEnfermeria', [
