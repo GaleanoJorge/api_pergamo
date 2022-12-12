@@ -54,21 +54,19 @@ class BedController extends Controller
         if ($request->search) {
             if (Str::contains('libre', strtolower($request->search))) {
                 $Bed->where(function ($query) use ($request) {
-                    $query->where(function($q) use ($request) {
+                    $query->where(function ($q) use ($request) {
                         $q->where('status_bed.name', 'like', '%Reservada%')
-                        ->where('bed.reservation_date', '<', Carbon::now()->subHours(6))
-                        ;
+                            ->where('bed.reservation_date', '<', Carbon::now()->subHours(6));
                     })
-                    ->orWhere('status_bed.name', 'like', '%' . $request->search . '%');
-            });
+                        ->orWhere('status_bed.name', 'like', '%' . $request->search . '%');
+                });
             } else if (Str::contains('reservada', strtolower($request->search))) {
                 $Bed->where(function ($query) use ($request) {
-                    $query->where(function($q) use ($request) {
+                    $query->where(function ($q) use ($request) {
                         $q->where('status_bed.name', 'like', '%Reservada%')
-                        ->where('bed.reservation_date', '>=', Carbon::now()->subHours(6))
-                        ;
+                            ->where('bed.reservation_date', '>=', Carbon::now()->subHours(6));
                     });
-            });
+                });
             } else {
                 $Bed->where(function ($query) use ($request) {
                     $query->where('bed.name', 'like', '%' . $request->search . '%')
@@ -76,9 +74,8 @@ class BedController extends Controller
                         ->orWhere('campus.name', 'like', '%' . $request->search . '%')
                         ->orWhere('flat.name', 'like', '%' . $request->search . '%')
                         ->orWhere('pavilion.name', 'like', '%' . $request->search . '%')
-                        ->orWhere('status_bed.name', 'like', '%' . $request->search . '%')
-                        ;
-            });
+                        ->orWhere('status_bed.name', 'like', '%' . $request->search . '%');
+                });
             }
         }
 
@@ -141,9 +138,9 @@ class BedController extends Controller
 
         if ($request->office) {
             $Bed = Bed::select('bed.*')
-            ->where('id', $request->office);
+                ->where('id', $request->office);
         }
-        
+
         $Bed->orderBy('name', 'asc');
         $Bed = $Bed->get()->toArray();
 
@@ -342,6 +339,20 @@ class BedController extends Controller
 
     public function store(BedRequest $request): JsonResponse
     {
+        $validate = Bed::select()
+            ->where('code', $request->code)
+            ->where('name', $request->name)
+            ->where('bed_or_office', $request->bed_or_office)
+            ->where('pavilion_id', $request->pavilion_id)
+            ->get()->toArray();
+        if (count($validate) > 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya se encuentra creada una cama o consultorio con los mismos parámetros',
+                'data' => ['bed' => $validate]
+            ]);
+        }
+
         $Bed = new Bed;
         $Bed->code = $request->code;
         $Bed->name = $request->name;
