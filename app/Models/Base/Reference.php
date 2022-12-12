@@ -10,6 +10,7 @@ use App\Models\AdmissionRoute;
 use App\Models\Admissions;
 use App\Models\Campus;
 use App\Models\Company;
+use App\Models\DeniedReason;
 use App\Models\Diagnosis;
 use App\Models\Flat;
 use App\Models\Gender;
@@ -252,6 +253,11 @@ class Reference extends Model
 	public function denied_program()
 	{
 		return $this->belongsTo(Program::class, 'denied_program_id');
+	}
+
+	public function denied_reason()
+	{
+		return $this->belongsTo(DeniedReason::class, 'denied_reason_id');
 	}
 
 	public function admissions()

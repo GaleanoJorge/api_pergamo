@@ -68,6 +68,7 @@ class ReferenceController extends Controller
                 'acceptance_program',
                 'tutor',
                 'denied_user',
+                'denied_reason',
                 'denied_technological_medium',
                 'denied_admission_route',
                 'denied_specialty',
@@ -472,7 +473,7 @@ class ReferenceController extends Controller
             $Reference->acceptance_bed_id = $request->acceptance_bed_id;
             $Reference->acceptance_regime_id = $request->acceptance_regime_id;
             $Reference->acceptance_regime_level = $request->acceptance_regime_level;
-            $Reference->acceptance_user_id = $request->acceptance_user_id;
+            $Reference->acceptance_user_id = $request->user_id;
             $Reference->acceptance_technological_medium_id = $request->acceptance_technological_medium_id;
             $Reference->acceptance_admission_route_id = $request->acceptance_admission_route_id;
             $Reference->acceptance_specialty_id = $request->acceptance_specialty_id;
@@ -494,7 +495,7 @@ class ReferenceController extends Controller
             $Reference = Reference::find($id);
 
             $Reference->denied_date = Carbon::now();
-            $Reference->denied_user_id = $request->denied_user_id;
+            $Reference->denied_user_id = $request->user_id;
             $Reference->denied_technological_medium_id = $request->denied_technological_medium_id;
             $Reference->denied_admission_route_id = $request->denied_admission_route_id;
             $Reference->denied_specialty_id = $request->denied_specialty_id;

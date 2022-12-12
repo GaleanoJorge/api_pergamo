@@ -21,7 +21,8 @@ class CreateReferenceTable extends Migration
             $table->string('lastname')->nullable();
             $table->string('identification', 100)->nullable();
             $table->boolean('re_input');
-            $table->integer('age')->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('age')->nullable();
             $table->integer('intention');
 
             $table->dateTime('presentation_date');
