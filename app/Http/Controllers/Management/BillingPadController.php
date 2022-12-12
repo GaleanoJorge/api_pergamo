@@ -440,6 +440,8 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -521,6 +523,8 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -602,6 +606,8 @@ class BillingPadController extends Controller
                 'supplies_com',
                 'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
@@ -678,13 +684,16 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
@@ -743,13 +752,16 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
@@ -824,13 +836,16 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
+                'assigned_management_plan.ch_record',
+                'assigned_management_plan.ch_record.user',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.user',
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
-                'manual_price.procedure'
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
