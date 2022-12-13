@@ -21,7 +21,7 @@ class CreateSwallowingDisordersTlTable extends Migration
             $table->string('nasogastric_tube')->nullable();
             $table->string('gastrostomy')->nullable();
             $table->string('nothing_orally')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

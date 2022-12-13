@@ -19,7 +19,7 @@ class CreateChMedicalOrdersTable extends Migration
             $table->unsignedBigInteger('procedure_id');
             $table->integer('amount');
             $table->unsignedTinyInteger('frequency_id');
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

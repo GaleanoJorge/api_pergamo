@@ -20,7 +20,7 @@ class CreateAssistanceSuppliesTable extends Migration
             $table->unsignedBigInteger('pharmacy_product_request_id');
             $table->unsignedBigInteger('ch_record_id')->nullable();
             $table->unsignedBigInteger('supplies_status_id');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->time('application_hour')->nullable();
             $table->timestamps();
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChMedicalCertificateTable extends Migration
+class CreateDisclaimerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateChMedicalCertificateTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_medical_certificate', function (Blueprint $table) {
+        Schema::create('disclaimer', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('description');
-            $table->unsignedBigInteger('type_record_id');
+            $table->longText('observation');
             $table->unsignedBigInteger('ch_record_id');
+
             $table->timestamps();
 
-            $table->index('type_record_id');
-            $table->foreign('type_record_id')->references('id')
-                    ->on('type_record');
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
-                    ->on('ch_record');
+                ->on('ch_record');
+    
+                
         });
     }
 
@@ -36,6 +35,6 @@ class CreateChMedicalCertificateTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_medical_certificate');
+        Schema::dropIfExists('disclaimer');
     }
 }

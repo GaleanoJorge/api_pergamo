@@ -17,7 +17,7 @@ class CreateChDietsEvoTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('enterally_diet_id')->nullable();
             $table->string('diet_consistency');
-            $table->string('observation');
+            $table->longText('observation');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
     

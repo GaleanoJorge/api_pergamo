@@ -15,8 +15,8 @@
         {
             Schema::create('ch_evo_soap', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('subjective');
-                $table->string('objective');
+                $table->longText('subjective');
+                $table->longText('objective');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
 

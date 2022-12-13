@@ -17,17 +17,17 @@ class CreateChSwHygieneHousingTable extends Migration
         Schema::create('ch_sw_hygiene_housing', function (Blueprint $table) {
             $table->bigIncrements('id');            
             $table->string('cleanliness');
-            $table->string('obs_cleanliness');
+            $table->longText('obs_cleanliness');
             $table->string('illumination');
-            $table->string('obs_illumination');
+            $table->longText('obs_illumination');
             $table->string('ventilation');
-            $table->string('obs_ventilation');
+            $table->longText('obs_ventilation');
             $table->string('pests');
-            $table->string('obs_pests');
+            $table->longText('obs_pests');
             $table->string('sanitary');
-            $table->string('obs_sanitary');
+            $table->longText('obs_sanitary');
             $table->string('trash');
-            $table->string('obs_trash');
+            $table->longText('obs_trash');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

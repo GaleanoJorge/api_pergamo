@@ -15,7 +15,7 @@ class CreateChNursingNoteTable extends Migration
     {
         Schema::create('ch_nursing_note', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
