@@ -1327,6 +1327,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_assets/{id}', 'Management\FixedAssetsController@getFixedId');
     Route::apiResource('services_fixed_stock', 'Management\ServicesFixedStockController');
 
+    Route::apiResource('report_rips', 'Management\ReportRipsController');
+    Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
         'FixedClasification/byGroup/{fixed_type_id}',
