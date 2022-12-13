@@ -95,17 +95,24 @@ class ChFormulationController extends Controller
      */
     public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        $ChFormulation = ChFormulation::where('ch_record_id', $id)
-            ->where('type_record_id', $type_record_id)
+        $chrecord = ChRecord::find($id);
+        $ChFormulation = ChFormulation::select('ch_formulation.*')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'administration_route',
                 'hourly_frequency',
                 'product_generic',
+                'pharmacy_product_request',
+                'pharmacy_product_request.many_pharmacy_request_shipping',
+                'product_generic.drug_concentration',
                 'product_generic.measurement_units',
-                'product_supplies'
+                'product_generic.multidose_concentration',
+                'product_supplies',
             )
+            ->where('ch_record.admissions_id', $chrecord->admissions_id)
+            ->orderBy('ch_formulation.id', 'DESC')
             ->get()->toArray();
 
 
@@ -153,16 +160,18 @@ class ChFormulationController extends Controller
                 ]);
             }
 
-            $PharmacyProductRequest = new PharmacyProductRequest;
-            $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
-            $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
-            $PharmacyProductRequest->observation = $request->observation;
-            $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
-            $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
-            $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
-            $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy[0]['id'];
-            $PharmacyProductRequest->status = 'PATIENT';
-            $PharmacyProductRequest->save();
+            if (!$request->pharmacy_product_request_id) {
+                $PharmacyProductRequest = new PharmacyProductRequest;
+                $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
+                $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
+                $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
+                $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
+                $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
+                $PharmacyProductRequest->own_pharmacy_stock_id = $pharmacy[0]['id'];
+                $PharmacyProductRequest->status = 'PATIENT';
+                $PharmacyProductRequest->save();
+            }
 
             $ChFormulation = new ChFormulation;
             $ChFormulation->product_generic_id = $request->product_generic_id;
@@ -174,7 +183,7 @@ class ChFormulationController extends Controller
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
             $ChFormulation->dose = $request->dose;
             $ChFormulation->observation = $request->observation;
-            $ChFormulation->pharmacy_product_request_id = $PharmacyProductRequest->id;
+            $ChFormulation->pharmacy_product_request_id = $request->pharmacy_product_request_id ? $request->pharmacy_product_request_id : $PharmacyProductRequest->id;
             $ChFormulation->number_mipres = $request->number_mipres;
             $ChFormulation->product_supplies_id = $request->product_supplies_id;
             $ChFormulation->required = $request->required;
