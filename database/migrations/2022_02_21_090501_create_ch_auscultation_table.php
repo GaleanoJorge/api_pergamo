@@ -16,7 +16,7 @@
             Schema::create('ch_auscultation', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('auscultation')->nullable();
-                $table->string('observation')->nullable();
+                $table->longText('observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

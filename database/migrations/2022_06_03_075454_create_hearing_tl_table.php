@@ -18,7 +18,7 @@ class CreateHearingTlTable extends Migration
             $table->string('external_ear');
             $table->string('middle_ear')->nullable();
             $table->string('inner_ear')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

@@ -16,7 +16,7 @@ class CreateChPositionTable extends Migration
         Schema::create('ch_position', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('patient_position_id');
-            $table->string('observation')->nullable();
+            $table->longText('observation')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

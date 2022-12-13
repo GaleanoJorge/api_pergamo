@@ -15,7 +15,7 @@ class CreateChFailedTable extends Migration
     {
         Schema::create('ch_failed', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('descriptions');
+            $table->longText('descriptions');
             $table->string('file_evidence');
             $table->unsignedBigInteger('ch_reason_id');
             $table->unsignedBigInteger('type_record_id');

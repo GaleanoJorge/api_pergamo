@@ -886,7 +886,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_citation', 'Management\MedicalCitationController');
 
     //Estado Plan de manejo 
-    Route::patch('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
+    Route::get('management_plan/{id}/changeStatus', 'Management\ManagementPlanController@changeStatus');
 
     //Plan de manejo PAD
     Route::apiResource('management_plan', 'Management\ManagementPlanController');
@@ -971,6 +971,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\BaseLocationCapacityController@getByLocality'
     );
     Route::apiResource('location_capacity', 'Management\LocationCapacityController');
+    Route::post(
+        'location_capacity/renovateLocationCapacity/{campus_id}',
+        'Management\LocationCapacityController@renovateLocationCapacity'
+    );
     Route::apiResource('base_location_capacity', 'Management\BaseLocationCapacityController');
     Route::apiResource('role_attention', 'Management\RoleAttentionController');
 
@@ -1813,5 +1817,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Seguimiento
     Route::apiResource('tracing', 'Management\TracingController');
     Route::get('tracing/by_record/{id}', 'Management\TracingController@getByRecord');
+
+    //Nota aclaratoria
+    Route::apiResource('disclaimer', 'Management\DisclaimerController');
+    Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+
 
 });

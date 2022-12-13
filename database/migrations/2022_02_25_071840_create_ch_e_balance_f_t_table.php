@@ -19,7 +19,7 @@ class CreateChEBalanceFTTable extends Migration
             /////////////////////////////////////////
             $table->string('static');
             $table->string('dinamic');
-            $table->string('observation');
+            $table->longText('observation');
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

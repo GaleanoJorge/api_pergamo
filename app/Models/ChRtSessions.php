@@ -11,6 +11,7 @@ class ChRtSessions extends BaseChRtSessions
     'month',
     'week',
     'recommendations',
+    'frequency_id',
     'type_record_id',
     'ch_record_id'   
 

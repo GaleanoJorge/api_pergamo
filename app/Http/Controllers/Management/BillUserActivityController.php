@@ -77,9 +77,15 @@ class BillUserActivityController extends Controller
     }
 
 
-    public function createMissedActivities(Request $request, int $id): JsonResponse
+    public function createMissedActivities(Request $request, int $mes): JsonResponse
     {
-        $mes = 10;
+        if ($mes == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El mes debe ser mayor a 0',
+                'data' => ['bill_user_activity' => []]
+            ]);
+        }
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
@@ -91,8 +97,8 @@ class BillUserActivityController extends Controller
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
             ->whereNotNull('management_plan.procedure_id')
-            ->whereRaw("assigned_management_plan.created_at < '2022-".($mes+1)."-01 00:00:00'")
-            ->whereRaw("assigned_management_plan.created_at >= '2022-".$mes."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.execution_date < '2022-".($mes+1)."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.execution_date >= '2022-".$mes."-01 00:00:00'")
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
@@ -101,19 +107,19 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $mes = Carbon::parse('2022-10-06 00:12:27')->month;
+            $mes = Carbon::parse('2022-'.$mes.'-06 00:12:27')->month;
 
             $validate = AccountReceivable::whereRaw("created_at >= '2022-".$mes."-01 00:00:00'")->whereRaw("created_at < '2022-".($mes+1)."-01 00:00:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
-                // $AccountReceivable = new AccountReceivable;
-                // $AccountReceivable->user_id = $element['user_id'];
-                // $AccountReceivable->status_bill_id = 1;
-                // $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                // $AccountReceivable->created_at = '2022-'.$mes.'-06 00:12:27';
-                // $AccountReceivable->updated_at = '2022-'.$mes.'-06 00:12:27';
-                // $AccountReceivable->save();
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $element['user_id'];
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->created_at = '2022-'.$mes.'-29 00:12:27';
+                $AccountReceivable->updated_at = '2022-'.$mes.'-29 00:12:27';
+                $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
@@ -149,7 +155,7 @@ class BillUserActivityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
-            'data' => ['bill_user_activity' => count($Amp), 'aa' => $aaa, 'bb' => $bbb]
+            'data' => ['assigneds' => count($Amp), 'activities' => $aaa, 'accounts' => $bbb]
         ]);
     }
 
