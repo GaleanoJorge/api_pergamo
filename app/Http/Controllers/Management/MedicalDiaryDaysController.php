@@ -78,6 +78,10 @@ class MedicalDiaryDaysController extends Controller
             $MedicalDiaryDays->where('medical_diary.assistance_id', $request->assistance_id);
         }
 
+        if ($request->procedure_id && $request->procedure_id != 'null') {
+            $MedicalDiaryDays->where('medical_diary.procedure_id', $request->procedure_id);
+        }
+
         if ($request->campus_id && $request->campus_id != 'null') {
             $MedicalDiaryDays->where('medical_diary.campus_id', $request->campus_id);
         }
@@ -90,10 +94,6 @@ class MedicalDiaryDaysController extends Controller
                 ]);
         }
 
-        // if()
-        // {
-
-        // }
 
         if ($request->medical_status_id && $request->medical_status_id != 'null') {
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
