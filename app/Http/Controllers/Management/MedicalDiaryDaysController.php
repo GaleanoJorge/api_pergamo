@@ -78,8 +78,11 @@ class MedicalDiaryDaysController extends Controller
             $MedicalDiaryDays->where('medical_diary.assistance_id', $request->assistance_id);
         }
 
+        $res = 1;
+
         if ($request->procedure_id && $request->procedure_id != 'null') {
             $MedicalDiaryDays->where('medical_diary.procedure_id', $request->procedure_id);
+            $res = 2;
         }
 
         if ($request->campus_id && $request->campus_id != 'null') {
@@ -144,6 +147,7 @@ class MedicalDiaryDaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias de agenda obtenidos exitosamente',
+            'res' => $res,
             'data' => ['medical_diary_days' => $MedicalDiaryDays]
         ]);
     }
