@@ -148,7 +148,7 @@ class BillUserActivityController extends Controller
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->tariff_id = $tariff_id;
                 $billActivity->ch_record_id = $ch_record_id;
-                $billActivity->save();
+                // $billActivity->save();
             }
         }
 
