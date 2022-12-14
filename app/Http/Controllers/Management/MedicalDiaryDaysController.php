@@ -34,7 +34,7 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
             'medical_diary_days.id AS Id',
-            // DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
@@ -113,13 +113,13 @@ class MedicalDiaryDaysController extends Controller
         }
 
         if ($request->init_date != 'null' && isset($request->init_date)) {
-            $init_date = Carbon::parse($request->init_date);
+            $init_date = Carbon::parse($request->init_date)->startOfDay();
             $MedicalDiaryDays
                 ->where('medical_diary_days.start_hour', '>=', $init_date);
         }
 
         if ($request->finish_date != 'null' && isset($request->finish_date)) {
-            $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+            $finish_date = Carbon::parse($request->finish_date)->endOfDay();
             $MedicalDiaryDays->where('medical_diary_days.finish_hour', '<=', $finish_date);
         }
 
@@ -132,7 +132,28 @@ class MedicalDiaryDaysController extends Controller
         }
 
         if ($request->search) {
-            $MedicalDiaryDays->where('name', 'like', '%' . $request->search . '%');
+            if (str_contains($request->search, ' ')) {
+                $spl = explode(' ', $request->search);
+                foreach ($spl as $element) {
+                    $MedicalDiaryDays->where('patients.identification', 'like', '%' . $element . '%')
+                        ->orWhere('patients.email', 'like', '%' . $element . '%')
+                        ->orWhere('patients.firstname', 'like', '%' . $element . '%')
+                        ->orWhere('patients.middlefirstname', 'like', '%' . $element . '%')
+                        ->orWhere('patients.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
+                        ->orWhere('patients.middlelastname', 'like', '%' . $element . '%');
+                }
+            } else {
+                $MedicalDiaryDays->where(function ($query) use ($request) {
+                    $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%');
+                });
+            }
         }
 
         if ($request->query("pagination", true) == "false") {
