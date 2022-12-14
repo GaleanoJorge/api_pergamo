@@ -71,7 +71,7 @@ class MedicalDiaryDaysController extends Controller
                 'services_briefcase.manual_price.manual',
                 'services_briefcase.manual_price.procedure'
             )
-            ->whereNull('diary_days_id')
+            // ->whereNull('diary_days_id')
             ->orderBy('start_hour', 'ASC');
 
         if ($request->assistance_id && $request->assistance_id != 'null') {

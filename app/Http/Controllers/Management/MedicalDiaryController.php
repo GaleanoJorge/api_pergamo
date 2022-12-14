@@ -99,10 +99,10 @@ class MedicalDiaryController extends Controller
                 ->where(function ($query) use ($request, $item) {
                     $low_border = Carbon::parse($item . $request->start_time);
                     $high_border = Carbon::parse($item . $request->finish_time);
-                    $query->where('start_hour', '>=', $low_border)
+                    $query->where('start_hour', '>', $low_border)
                         ->Where('start_hour', '<', $high_border)
                         ->orWhere(function ($que) use ($low_border, $high_border) {
-                            $que->Where('finish_hour', '>=', $low_border)
+                            $que->Where('finish_hour', '>', $low_border)
                                 ->Where('finish_hour', '<', $high_border);
 
                         });
@@ -175,11 +175,11 @@ class MedicalDiaryController extends Controller
                     $pq = intval($request->patient_quantity);
 
                     //multiple_patients
-                    for ($j = 0; $j < $pq; $j++) {
+                    for ($j = 0; $j < $pq-1; $j++) {
 
                         $MultiMedicalDiaryDays = new MedicalDiaryDays;
 
-                        $MultiMedicalDiaryDays->days_id = $request->weekdays[array_search($dayInf['wday'] + 1, $request->weekdays)];
+                        $MultiMedicalDiaryDays->days_id = $MedicalDiaryDays->days_id;
                         $MultiMedicalDiaryDays->medical_diary_id = $MedicalDiary->id;
                         $MultiMedicalDiaryDays->medical_status_id = 1;
                         $MultiMedicalDiaryDays->start_hour =  $MedicalDiaryDays->start_hour;
