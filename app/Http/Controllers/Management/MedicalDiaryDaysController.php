@@ -33,7 +33,7 @@ class MedicalDiaryDaysController extends Controller
     {
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
-            'medical_diary_days.id AS Id',
+            // 'medical_diary_days.id AS Id',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
