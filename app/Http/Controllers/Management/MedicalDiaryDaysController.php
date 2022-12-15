@@ -256,6 +256,7 @@ class MedicalDiaryDaysController extends Controller
             ->with(
                 'admissions.location.scope_of_attention',
                 'admissions.patients',
+                'admissions.regime',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
                 'admissions.patients.gender',
@@ -280,7 +281,7 @@ class MedicalDiaryDaysController extends Controller
                 'medical_diary_days.ch_record'
             )
             ->where('medical_diary_days_id', $id)
-            ->first();
+            ->get()->toArray();
 
         //nombre de tipo de pago asociado al procedimiento
         $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
