@@ -110,4 +110,9 @@ class Authorization extends Model
 	{
 		return $this->belongsTo(MedicalDiaryDays::class, 'medical_diary_days_id', 'id');
 	}
+
+	public function regime()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'regime_id');
+	}
 }

@@ -35,6 +35,13 @@
                 <p style="margin-top:0pt; margin-bottom:0pt; line-height:6%; widows:0; orphans:0; font-size:10pt">
                     <span>
                         <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59" alt="" /></span>
+                        
+                        <span style="height:0pt; display:block; position:absolute; z-index:-55545">
+                            <div style="text-align: center;    margin-left: -350px;">
+                                <p>RECIBO DE CAJA</p>
+                            </div>
+    
+                        </span>
                     <span style="height:0pt; display:block; position:absolute; z-index:-65545">
                         <div style="text-align: center;    margin-left: 60px;">
                             <p>HEALTH & LIFE IPS S.A.S </p>
@@ -79,7 +86,7 @@
                 <td colspan="2">
                     <div><span style="font-size: 10px">Nombres y Apellidos: &nbsp;{{ $medical_date->patient->nombre_completo }} &nbsp;</span></div>
                 </td>
-                <td>
+                <td colspan="2">
                     <div><span style="font-size: 10px">Identificación: &nbsp;{{ $medical_date->patient->identification_type->name }} {{ $medical_date->patient->identification }} &nbsp;</span></div>
                 </td>
             </tr>
@@ -92,6 +99,9 @@
                 </td>
                 <td>
                     <div><span style="font-size: 10px">Correo: &nbsp;{{ $medical_date->patient->email }} &nbsp;</span></div>
+                </td>
+                <td>
+                    <div><span style="font-size: 10px">Régimen: &nbsp;{{ $authorization[0]['admissions']['regime']['name']}} &nbsp;</span></div>
                 </td>
             </tr>
         </table>
