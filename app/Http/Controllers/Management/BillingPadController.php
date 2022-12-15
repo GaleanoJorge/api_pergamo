@@ -447,6 +447,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -530,6 +531,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -613,6 +615,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -693,6 +696,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -761,6 +765,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -845,6 +850,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1347,6 +1353,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1403,6 +1410,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1456,6 +1464,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1506,6 +1515,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1555,6 +1565,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)
@@ -1605,6 +1616,7 @@ class BillingPadController extends Controller
                 'assigned_management_plan.management_plan.service_briefcase',
                 'assigned_management_plan.management_plan.procedure',
                 'manual_price',
+                'auth_package',
                 'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admission_id)

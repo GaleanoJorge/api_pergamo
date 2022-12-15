@@ -58,7 +58,7 @@ class Authorization extends Model
 
 	public function auth_package()
 	{
-		return $this->hasMany(ModelsAuthorization::class, 'id', 'auth_package_id');
+		return $this->hasMany(ModelsAuthorization::class, 'auth_package_id', 'id');
 	}
 
 	public function manual_price()
