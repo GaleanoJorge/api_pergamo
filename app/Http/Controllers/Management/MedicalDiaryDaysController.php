@@ -466,14 +466,6 @@ class MedicalDiaryDaysController extends Controller
             ->where('manual_price.procedure_id', $procedure->manual_price->procedure_id)
             ->get()->toArray();
 
-        if (sizeof($validate) > 0) {
-
-            return response()->json([
-                'status' => false,
-                'message' => 'El usuario ya tiene citas activas para este CUPS',
-                // 'data' => ['medical_diary_days' => $MedicalDiaryDays->get()->toArray()]
-            ]);
-        }
 
         $MedicalDiaryDays = MedicalDiaryDays::find($id);
         $MedicalDiaryDays->medical_status_id = $request->state_id;
