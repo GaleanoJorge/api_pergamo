@@ -438,6 +438,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -520,6 +521,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -602,6 +604,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -1335,6 +1338,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -1390,6 +1394,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -1442,6 +1447,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -1491,6 +1497,7 @@ class BillingPadController extends Controller
                 'services_briefcase.manual_price',
                 'product_com',
                 'supplies_com',
+                'services_briefcase.manual_price.procedure',
                 'assigned_management_plan',
                 'assigned_management_plan.ch_record',
                 'assigned_management_plan.ch_record.user',
@@ -2628,6 +2635,7 @@ class BillingPadController extends Controller
             $services = array();
             $billing_line = '';
             $assistance_name = '';
+            $b = '';
             $services_date = array();
             $components = AuthBillingPad::where('billing_pad_id', $id)->get()->toArray();
             foreach ($components as $component) {
@@ -2852,6 +2860,9 @@ class BillingPadController extends Controller
             $sortDates = $collection->sort()->toArray();
             $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
             $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
+            if ($assistance_name == '') {
+                $assistance_name = $b != '' ? $b : 'MARIANA RODRIGUEZ';
+            }
         }
         $now_date = Carbon::now()->setTimezone('America/Bogota');
         $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
@@ -2867,7 +2878,7 @@ class BillingPadController extends Controller
         }
 
         if ($BillingPadCreditNote) {
-            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;10;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
+            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;01;' . $BillingPad[0]['billing_resolution'];
             $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
             $name_number = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'];
         }
@@ -3197,6 +3208,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         foreach ($selected_procedures as $element) {
             $quantity = 0;
             $code = '';
+            $b = '';
             $q = 1;
             if ($element['quantity']) {
                 $q = $element['quantity'];
