@@ -599,7 +599,7 @@ class AdmissionsController extends Controller
                 if($request->copay_id){
                     $medical_diary_days->copay_id = $request->copay_id;
                 }
-                if($request->copay_id){
+                if($request->copay_value){
                     $medical_diary_days->copay_value = $request->copay_value;
                 }
                 $medical_diary_days->save();
