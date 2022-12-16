@@ -507,7 +507,7 @@ class AdmissionsController extends Controller
         global $Admission;
         $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
         foreach ($admissions as $admission) {
-            $nowlocation = Location::where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->where('scope_of_attention', '!=', 2)->get()->toArray();
+            $nowlocation = Location::where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->where('scope_of_attention_id', '!=', 2)->get()->toArray();
             if (sizeof($nowlocation) > 0) {
                 $count++;
             }
