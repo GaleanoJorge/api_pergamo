@@ -15,16 +15,16 @@ class CreateChPsConsciousnessTable extends Migration
     {
         Schema::create('ch_ps_consciousness', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('watch');
-            $table->string('hypervigilant');
-            $table->string('obtundation');
-            $table->string('confusion');
-            $table->string('delirium');
-            $table->string('oneiroid');
-            $table->string('twilight');
-            $table->string('stupor');
-            $table->string('shallow');
-            $table->string('deep');
+            $table->longText('watch');
+            $table->longText('hypervigilant');
+            $table->longText('obtundation');
+            $table->longText('confusion');
+            $table->longText('delirium');
+            $table->longText('oneiroid');
+            $table->longText('twilight');
+            $table->longText('stupor');
+            $table->longText('shallow');
+            $table->longText('deep');
             $table->string('appearance');
             $table->string('attitude');
            
