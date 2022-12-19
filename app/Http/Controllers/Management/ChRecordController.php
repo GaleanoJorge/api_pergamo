@@ -1611,7 +1611,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1795,7 +1795,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+             $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1957,7 +1957,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+             $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2097,7 +2097,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'Historia Clinica Terapia de Lenguaje.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
             ///Terapia ocupacional
@@ -2213,7 +2213,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+             $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2326,7 +2326,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+             $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2456,7 +2456,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2718,7 +2718,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -3981,10 +3981,14 @@ class ChRecordController extends Controller
                     $this->injectPageCount($dompdf);
                     $file = $dompdf->output();
 
-                    $name = 'HC.pdf';
+                    $name =  $ChRecord[0]['admissions']['patients']['identification'] . $count . '.pdf';
+                    $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+
 
                     Storage::disk('public')->put($name, $file);
                     array_push($documentos, $name);
+
+                    $i++;
                 }
 
 

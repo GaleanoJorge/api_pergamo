@@ -507,7 +507,7 @@ class AdmissionsController extends Controller
         global $Admission;
         $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
         foreach ($admissions as $admission) {
-            $nowlocation = Location::where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->get()->toArray();
+            $nowlocation = Location::where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->where('scope_of_attention_id', '!=', 2)->get()->toArray();
             if (sizeof($nowlocation) > 0) {
                 $count++;
             }
@@ -596,8 +596,12 @@ class AdmissionsController extends Controller
                 $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
                 $medical_diary_days->admissions_id = $Admissions->id;
                 $medical_diary_days->medical_status_id = 4;
-                $medical_diary_days->copay_id = $request->copay_id;
-                $medical_diary_days->copay_value = $request->copay_value;
+                if($request->copay_id){
+                    $medical_diary_days->copay_id = $request->copay_id;
+                }
+                if($request->copay_value){
+                    $medical_diary_days->copay_value = $request->copay_value;
+                }
                 $medical_diary_days->save();
 
                 $BillingPad = BillingPad::where('admissions_id', $Admissions->id)

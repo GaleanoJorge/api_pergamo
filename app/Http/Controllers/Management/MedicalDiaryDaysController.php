@@ -33,8 +33,8 @@ class MedicalDiaryDaysController extends Controller
     {
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
-            'medical_diary_days.id AS Id',
-            // DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            // 'medical_diary_days.id AS Id',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
@@ -71,7 +71,7 @@ class MedicalDiaryDaysController extends Controller
                 'services_briefcase.manual_price.manual',
                 'services_briefcase.manual_price.procedure'
             )
-            ->whereNull('diary_days_id')
+            // ->whereNull('diary_days_id')
             ->orderBy('start_hour', 'ASC');
 
         if ($request->assistance_id && $request->assistance_id != 'null') {
@@ -113,13 +113,13 @@ class MedicalDiaryDaysController extends Controller
         }
 
         if ($request->init_date != 'null' && isset($request->init_date)) {
-            $init_date = Carbon::parse($request->init_date);
+            $init_date = Carbon::parse($request->init_date)->startOfDay();
             $MedicalDiaryDays
                 ->where('medical_diary_days.start_hour', '>=', $init_date);
         }
 
         if ($request->finish_date != 'null' && isset($request->finish_date)) {
-            $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+            $finish_date = Carbon::parse($request->finish_date)->endOfDay();
             $MedicalDiaryDays->where('medical_diary_days.finish_hour', '<=', $finish_date);
         }
 
@@ -132,7 +132,28 @@ class MedicalDiaryDaysController extends Controller
         }
 
         if ($request->search) {
-            $MedicalDiaryDays->where('name', 'like', '%' . $request->search . '%');
+            if (str_contains($request->search, ' ')) {
+                $spl = explode(' ', $request->search);
+                foreach ($spl as $element) {
+                    $MedicalDiaryDays->where('patients.identification', 'like', '%' . $element . '%')
+                        ->orWhere('patients.email', 'like', '%' . $element . '%')
+                        ->orWhere('patients.firstname', 'like', '%' . $element . '%')
+                        ->orWhere('patients.middlefirstname', 'like', '%' . $element . '%')
+                        ->orWhere('patients.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
+                        ->orWhere('patients.middlelastname', 'like', '%' . $element . '%');
+                }
+            } else {
+                $MedicalDiaryDays->where(function ($query) use ($request) {
+                    $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
+                        ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%');
+                });
+            }
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -235,6 +256,7 @@ class MedicalDiaryDaysController extends Controller
             ->with(
                 'admissions.location.scope_of_attention',
                 'admissions.patients',
+                'admissions.regime',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
                 'admissions.patients.gender',
@@ -259,12 +281,12 @@ class MedicalDiaryDaysController extends Controller
                 'medical_diary_days.ch_record'
             )
             ->where('medical_diary_days_id', $id)
-            ->first();
+            ->get()->toArray();
 
         //nombre de tipo de pago asociado al procedimiento
         $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
         //Valor pagado
-        $pay_value = $authorization->copay_value ? $authorization->copay_value : 0;
+        $pay_value = $medical_date->copay_value ? $medical_date->copay_value : 0;
 
         //Numero a letras
         $letter_value = $this->NumToLettersBill($pay_value);
@@ -444,14 +466,6 @@ class MedicalDiaryDaysController extends Controller
             ->where('manual_price.procedure_id', $procedure->manual_price->procedure_id)
             ->get()->toArray();
 
-        if (sizeof($validate) > 0) {
-
-            return response()->json([
-                'status' => false,
-                'message' => 'El usuario ya tiene citas activas para este CUPS',
-                // 'data' => ['medical_diary_days' => $MedicalDiaryDays->get()->toArray()]
-            ]);
-        }
 
         $MedicalDiaryDays = MedicalDiaryDays::find($id);
         $MedicalDiaryDays->medical_status_id = $request->state_id;

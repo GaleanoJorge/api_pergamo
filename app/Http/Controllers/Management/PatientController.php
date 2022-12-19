@@ -724,6 +724,7 @@ class PatientController extends Controller
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
             ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
             ->where('location.admission_route_id', 1)
+            ->where('location.scope_of_attention_id', 1)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
                 'status',

@@ -58,7 +58,7 @@ class Authorization extends Model
 
 	public function auth_package()
 	{
-		return $this->hasMany(ModelsAuthorization::class, 'id', 'auth_package_id');
+		return $this->hasMany(ModelsAuthorization::class, 'auth_package_id', 'id');
 	}
 
 	public function manual_price()
@@ -109,5 +109,10 @@ class Authorization extends Model
 	public function medical_diary_days()
 	{
 		return $this->belongsTo(MedicalDiaryDays::class, 'medical_diary_days_id', 'id');
+	}
+
+	public function regime()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'regime_id');
 	}
 }
