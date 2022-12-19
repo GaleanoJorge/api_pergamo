@@ -35,9 +35,9 @@ class TeamsController extends Controller
     public function __construct()
     {
         //Datos de julianO@etraining.co
-        $this->clientId = (env('TEAMS_CLIENT_ID')=="")? "7e7ea510-a848-49ea-a397-6b90d01767a4" : env('TEAMS_CLIENT_ID');
-        $this->clientSecret = (env('TEAMS_CLIENT_SECRET_KEY')=="") ? "O-rk13Gf8Pu0n804E2q-_wB1SHDt.b8WZu" : env('TEAMS_CLIENT_SECRET_KEY');
-        $this->tenantId = (env('TEAMS_TENANT_ID')=="") ? "3646e2ff-d462-4f2a-a41b-a6e9757af04b" : env('TEAMS_TENANT_ID');
+        $this->clientId = (env('TEAMS_CLIENT_ID')=="")? "2fd79cef-b783-48ed-80cd-d86abd154691" : env('TEAMS_CLIENT_ID');
+        $this->clientSecret = (env('TEAMS_CLIENT_SECRET_KEY')=="") ? "ee3dd42a-ee67-4180-8883-6d0a084245a3" : env('TEAMS_CLIENT_SECRET_KEY');
+        $this->tenantId = (env('TEAMS_TENANT_ID')=="") ? "92ca1d60-2672-4342-932f-f213da4ca5de" : env('TEAMS_TENANT_ID');
         $this->redirectUri = 'http://localhost:8000/api/crearRoomTeams';
         $this->urlAuthorize = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/authorize';
         $this->urlAccessToken = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/token';
@@ -46,6 +46,19 @@ class TeamsController extends Controller
         $this->scope = 'https://graph.microsoft.com/.default';
         $this->addScope = 'OnlineMeetings.ReadWrite.All';
         $this->organizerId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //id usuario juan cuervo
+
+        // //datos Health&Life
+        // $this->clientId = env('TEAMS_CLIENT_ID');
+        // $this->clientSecret = env('TEAMS_CLIENT_SECRET_KEY', "O-rk13Gf8Pu0n804E2q-_wB1SHDt.b8WZu");
+        // $this->tenantId = env('TEAMS_TENANT_ID', "3646e2ff-d462-4f2a-a41b-a6e9757af04b");
+        // $this->redirectUri = 'http://localhost:8000/api/crearRoomTeams';
+        // $this->urlAuthorize = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/authorize';
+        // $this->urlAccessToken = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/token';
+        // $this->urlResource = 'https://graph.microsoft.com/v1.0/groups/';
+        // $this->grantType = 'client_credentials';
+        // $this->scope = 'https://graph.microsoft.com/.default';
+        // $this->addScope = 'OnlineMeetings.ReadWrite.All';
+        // $this->organizerId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //id usuario juan cuervo
 
         /*
         $this->clientId = '3b742e2f-beb1-4c18-9d39-f46215b39d3e';
@@ -418,9 +431,9 @@ class TeamsController extends Controller
 
         //dd($this->accessToken);
         $subject = 'Sala JulianO prueba';
-        $dateStart = '2020-11-07T21:25:00-05:00';
-        $dateEnd = '2020-11-07T22:25:00-05:00';
-        //$userId = 'c69d03ee-450a-4fb8-9374-95156926a1e3'; //julian o
+        $dateStart = '2022-12-07T21:25:00-05:00';
+        $dateEnd = '2022-12-07T22:25:00-05:00';
+        $userId = 'c69d03ee-450a-4fb8-9374-95156926a1e3'; //julian o
         //$userId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //juan cuervo
         //$userId = 'd87b72d5-3a1a-480d-abe9-885adbe2c74d'; //prueba funcional
         //$userId = 'dd5ee6ef-f180-4525-87d3-93ba4e05fdf4'; //docente prueba iti
