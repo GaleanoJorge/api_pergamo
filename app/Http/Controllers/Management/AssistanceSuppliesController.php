@@ -401,7 +401,7 @@ class AssistanceSuppliesController extends Controller
                         }
 
                         $auth->application_id = $AssistanceSupplies->id;
-                        $auth->quantity = $counter;
+                        $auth->quantity = $request->quantity;
 
                         $auth->save();
                     } else {

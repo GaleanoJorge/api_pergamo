@@ -119,7 +119,7 @@ class BillUserActivityController extends Controller
                 $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
                 $AccountReceivable->created_at = '2022-'.$mes.'-29 00:12:27';
                 $AccountReceivable->updated_at = '2022-'.$mes.'-29 00:12:27';
-                $AccountReceivable->save();
+                // $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
