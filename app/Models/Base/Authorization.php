@@ -10,10 +10,12 @@ use App\Models\AssignedManagementPlan;
 use App\Models\AssistanceSupplies;
 use App\Models\Authorization as ModelsAuthorization;
 use App\Models\AuthStatus;
+use App\Models\ChInterconsultation;
 use App\Models\FixedAdd;
 use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\ManualPrice;
+use App\Models\MedicalDiaryDays;
 use App\Models\Procedure;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
@@ -30,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $quantity
  * @property int $state_auth_id
  * @property int $fixed_add_id
+ * @property int $ch_interconsultation_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @package App\Models\Base
@@ -37,32 +40,32 @@ use Illuminate\Database\Eloquent\Model;
 class Authorization extends Model
 {
 	protected $table = 'authorization';
-	
+
 	public function services_briefcase()
 	{
 		return $this->belongsTo(ServicesBriefcase::class, 'services_briefcase_id', 'id');
 	}
-	
+
 	public function admissions()
 	{
 		return $this->belongsTo(Admissions::class);
 	}
-	
+
 	public function auth_status()
 	{
 		return $this->belongsTo(AuthStatus::class);
 	}
-	
+
 	public function auth_package()
 	{
-		return $this->hasMany(ModelsAuthorization::class, 'id', 'auth_package_id');
+		return $this->hasMany(ModelsAuthorization::class, 'auth_package_id', 'id');
 	}
 
 	public function manual_price()
 	{
 		return $this->belongsTo(ManualPrice::class, 'manual_price_id', 'id');
 	}
-	
+
 	public function supplies_com()
 	{
 		return $this->belongsTo(ProductSuppliesCom::class, 'supplies_com_id', 'id');
@@ -96,5 +99,20 @@ class Authorization extends Model
 	public function fixed_add()
 	{
 		return $this->belongsTo(FixedAdd::class, 'fixed_add_id', 'id');
+	}
+
+	public function ch_interconsultation()
+	{
+		return $this->belongsTo(ChInterconsultation::class, 'ch_interconsultation_id', 'id');
+	}
+
+	public function medical_diary_days()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'medical_diary_days_id', 'id');
+	}
+
+	public function regime()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'regime_id');
 	}
 }

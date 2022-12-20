@@ -23,6 +23,10 @@ class ReferenceStatusController extends Controller
             $ReferenceStatus->orderBy($request->_sort, $request->_order);
         }            
 
+        if ($request->arr) {
+            $ReferenceStatus->whereIn('id', json_decode($request->arr));
+        }
+
         if ($request->search) {
             $ReferenceStatus->where('name','like','%' . $request->search. '%');
         }

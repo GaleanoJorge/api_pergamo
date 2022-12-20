@@ -21,6 +21,8 @@ class ProvidersOfHealthServicesController extends Controller
 
         if ($request->_sort) {
             $ProvidersOfHealthServices->orderBy($request->_sort, $request->_order);
+        } else {
+            $ProvidersOfHealthServices->orderBy('name', 'ASC');
         }
 
         if ($request->search) {

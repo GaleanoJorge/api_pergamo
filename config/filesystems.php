@@ -118,10 +118,10 @@ return [
 
         'sftp' => [
             'driver' => 'sftp',
-            'host' => 'sftp.invoway.com',
+            'host' => 'sftp.invostream.com',
             'protocol' => "sftp",
             'username' => 'hlips',
-            'password' => 'yNuzY9kZcArY',
+            'password' => 'EYpR5axMHaS5',
             'port' => 22,
             'root' => '/INBOUND/invostream/plano/',
         ],

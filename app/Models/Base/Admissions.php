@@ -110,6 +110,11 @@ class Admissions extends Model
 		return $this->belongsTo(Diagnosis::class);
 	}
 
+	public function ch_interconsultation()
+	{
+		return $this->hasMany(ChInterconsultation::class, 'admissions_id', 'id');
+	}
+
 	public function management_plan()
 	{
 		return $this->hasMany(ManagementPlan::class);

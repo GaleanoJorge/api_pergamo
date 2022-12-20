@@ -298,167 +298,201 @@ class UserController extends Controller
      */
     public function indexByRoleLocation(int $locality, int $phone_consult, Request $request): JsonResponse
     {
-        $roles = json_decode($request->roles);
 
-        if (count($roles) == 0) {
-            $roles = RoleAttention::where('type_of_attention_id',  $request->type_of_attention)->get()->toArray();
-        }
+        if ($request->type_of_attention == 20) {
+            $users = User::select(
+                'users.*',
+            )
+                ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+                ->where('users.status_id', 1)
+                ->where('user_role.role_id', 23);
 
-        $startDate = Carbon::now()->startOfMonth();
-        $endDate = Carbon::now()->endOfMonth();
-
-        $users = User::select(
-            'assistance.id AS assistance_id',
-            'users.id'
-        )
-            ->leftJoin('user_role', 'users.id', 'user_role.user_id')
-            ->leftJoin('assistance', 'users.id', 'assistance.user_id')
-            ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
-            ->where('users.status_id', 1)
-            ->whereNotNull('assistance.id')
-            ->groupBy('users.id');
-
-        $users->where(function ($query) use ($request, $roles) {
-            $first = true;
-            foreach ($roles as $role) {
-                // if ($role->role_id == 14 || $role->role_id == 7) {
-                //     $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
-                //     if ($first) {
-                //         $query->where('assistance_special.specialty_id', $specialty->specialty_id);
-                //         $first = false;
-                //     } else {
-                //         $query->orWhere('assistance_special.specialty_id', $specialty->specialty_id);
-                //     }
-                // } else {
-                //     if ($first) {
-                //         $query->where('user_role.role_id', $role->role_id);
-                //         $first = false;
-                //     } else {
-                //         $query->orWhere('user_role.role_id', $role->role_id);
-                //     }
-                // }
-                if ($role->role_id == 14/* || $role->role_id == 7*/) {
-                    $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
-                    $query->where('assistance_special.specialty_id', $specialty->specialty_id);
-                } else {
-                    if ($first) {
-                        $query->where('user_role.role_id', $role->role_id);
-                        $first = false;
-                    } else {
-                        $query->orWhere('user_role.role_id', $role->role_id);
-                    }
-                }
-            }
-        });
-
-        $users = $users->get()->toArray();
-
-        $validacion = $locality != null;
-        $respose = array();
-        if ($validacion) {
-            if (count($users) > 0) {
-                foreach ($users as $key => $row) {
-                    if ($phone_consult == 1) {
-                        $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
-                            ->where('locality_id', '!=', null)
-                            ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
-                        $pila = array();
-                        foreach ($localityArr as $key => $row2) {
-                            array_push($pila, $row2['locality_id']);
-                        }
-                        if (in_array($locality, $pila)) {
-                            $usersfinal = User::select(
-                                'users.*',
-                                'assistance.id AS assistance_id',
-                                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                            )->Join('user_role', 'users.id', 'user_role.user_id')
-                                ->Join('assistance', 'users.id', 'assistance.user_id');
-                            $usersfinal->where(function ($query) use ($request, $roles) {
-                                $first = true;
-                                foreach ($roles as $role) {
-                                    if ($first) {
-                                        $query->where('user_role.role_id', $role->role_id);
-                                        $first = false;
-                                    } else {
-                                        $query->orWhere('user_role.role_id', $role->role_id);
-                                    }
-                                }
-                            });
-                            $usersfinal->where('users.id', $row['id'])
-                                ->with(
-                                    'status',
-                                    'gender',
-                                    'academic_level',
-                                    'identification_type',
-                                    'user_role',
-                                    'user_role.role',
-                                    'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
-
-                            $usersfinal = $usersfinal->get()->toArray();
-                        } else {
-                            $usersfinal = array();
-                        }
-                    } else {
-                        $localityArr = LocationCapacity::select('phone_consult')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
-                            ->whereNull('locality_id')
-                            ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
-                        if ($localityArr) {
-                            $usersfinal = User::select(
-                                'users.*',
-                                'assistance.id AS assistance_id',
-                                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
-                            )->Join('user_role', 'users.id', 'user_role.user_id')
-                                ->Join('assistance', 'users.id', 'assistance.user_id');
-                            $usersfinal->where(function ($query) use ($request, $roles) {
-                                $first = true;
-                                foreach ($roles as $role) {
-                                    if ($first) {
-                                        $query->where('user_role.role_id', $role->role_id);
-                                        $first = false;
-                                    } else {
-                                        $query->orWhere('user_role.role_id', $role->role_id);
-                                    }
-                                }
-                            });
-                            $usersfinal->where('users.id', $row['id'])
-                                ->with(
-                                    'status',
-                                    'gender',
-                                    'academic_level',
-                                    'identification_type',
-                                    'user_role',
-                                    'user_role.role',
-                                    'assistance'
-                                )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
-
-                            $usersfinal = $usersfinal->get()->toArray();
-                        } else {
-                            $usersfinal = array();
-                        }
-                    }
-                    if (count($usersfinal) > 0) {
-                        array_push($respose, $usersfinal[0]);
-                    }
-                }
-            } else {
-                $usersfinal = array();
-            }
-        }
-
-
-        if (count($respose) == 0) {
             return response()->json([
-                'status' => false,
-                'message' => 'No se encontró personal asistencial',
-                'data' => ['users' => $usersfinal]
+                'status' => true,
+                'message' => 'Usuarios',
+                'data' => ['users' => $users->get()->toArray()]
+            ]);
+        } else {
+            $roles = json_decode($request->roles);
+
+            if (count($roles) == 0) {
+                $roles = RoleAttention::where('type_of_attention_id',  $request->type_of_attention)->get()->toArray();
+            }
+
+            $startDate = Carbon::now()->startOfMonth();
+            $endDate = Carbon::now()->endOfMonth();
+
+            $users = User::select(
+                'assistance.id AS assistance_id',
+                'users.id'
+            )
+                ->leftJoin('user_role', 'users.id', 'user_role.user_id')
+                ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+                ->leftJoin('assistance_special', 'assistance_special.assistance_id', 'assistance.id')
+                ->where('users.status_id', 1)
+                ->whereNotNull('assistance.id')
+                ->groupBy('users.id');
+
+            $users->where(function ($query) use ($request, $roles) {
+                $first = true;
+                foreach ($roles as $role) {
+                    // if ($role->role_id == 14 || $role->role_id == 7) {
+                    //     $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                    //     if ($first) {
+                    //         $query->where('assistance_special.specialty_id', $specialty->specialty_id);
+                    //         $first = false;
+                    //     } else {
+                    //         $query->orWhere('assistance_special.specialty_id', $specialty->specialty_id);
+                    //     }
+                    // } else {
+                    //     if ($first) {
+                    //         $query->where('user_role.role_id', $role->role_id);
+                    //         $first = false;
+                    //     } else {
+                    //         $query->orWhere('user_role.role_id', $role->role_id);
+                    //     }
+                    // }
+                    if ($role->role_id == 14/* || $role->role_id == 7*/) {
+                        $specialty = RoleAttention::select()->where('role_id', $role->role_id)->where('type_of_attention_id',  $request->type_of_attention)->get()->first();
+                        $query->where('assistance_special.specialty_id', $specialty->specialty_id);
+                    } else {
+                        if ($first) {
+                            $query->where('user_role.role_id', $role->role_id);
+                            $first = false;
+                        } else {
+                            $query->orWhere('user_role.role_id', $role->role_id);
+                        }
+                    }
+                }
+            });
+
+            $users = $users->get()->toArray();
+
+            $validacion = $locality != null;
+            $respose = array();
+            if ($validacion) {
+                if (count($users) > 0) {
+                    foreach ($users as $key => $row) {
+                        if ($phone_consult == 1) {
+                            $localityArr = LocationCapacity::select('locality_id')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
+                                ->where('locality_id', '!=', null)
+                                ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                            $pila = array();
+                            foreach ($localityArr as $key => $row2) {
+                                array_push($pila, $row2['locality_id']);
+                            }
+                            if (in_array($locality, $pila)) {
+                                $usersfinal = User::select(
+                                    'users.*',
+                                    'assistance.id AS assistance_id',
+                                    DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                                )->Join('user_role', 'users.id', 'user_role.user_id')
+                                    ->Join('assistance', 'users.id', 'assistance.user_id');
+                                $usersfinal->where(function ($query) use ($request, $roles) {
+                                    $first = true;
+                                    foreach ($roles as $role) {
+                                        if ($first) {
+                                            $query->where('user_role.role_id', $role->role_id);
+                                            $first = false;
+                                        } else {
+                                            $query->orWhere('user_role.role_id', $role->role_id);
+                                        }
+                                    }
+                                });
+                                $usersfinal->where('users.id', $row['id'])
+                                    ->with(
+                                        'status',
+                                        'gender',
+                                        'academic_level',
+                                        'identification_type',
+                                        'user_role',
+                                        'user_role.role',
+                                        'assistance'
+                                    )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
+
+                                $usersfinal = $usersfinal->get()->toArray();
+                            } else {
+                                $usersfinal = array();
+                            }
+                        } else {
+                            $localityArr = LocationCapacity::select('phone_consult')->where('assistance_id', $row['assistance_id'])->whereBetween('validation_date', [$startDate, $endDate])
+                                ->whereNull('locality_id')
+                                ->where('PAD_patient_actual_capacity', '>', 0)->get()->toArray();
+                            if ($localityArr) {
+                                $usersfinal = User::select(
+                                    'users.*',
+                                    'assistance.id AS assistance_id',
+                                    DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+                                )->Join('user_role', 'users.id', 'user_role.user_id')
+                                    ->Join('assistance', 'users.id', 'assistance.user_id');
+                                $usersfinal->where(function ($query) use ($request, $roles) {
+                                    $first = true;
+                                    foreach ($roles as $role) {
+                                        if ($first) {
+                                            $query->where('user_role.role_id', $role->role_id);
+                                            $first = false;
+                                        } else {
+                                            $query->orWhere('user_role.role_id', $role->role_id);
+                                        }
+                                    }
+                                });
+                                $usersfinal->where('users.id', $row['id'])
+                                    ->with(
+                                        'status',
+                                        'gender',
+                                        'academic_level',
+                                        'identification_type',
+                                        'user_role',
+                                        'user_role.role',
+                                        'assistance'
+                                    )->orderBy('nombre_completo', 'DESC')->groupBy('users.id');
+
+                                $usersfinal = $usersfinal->get()->toArray();
+                            } else {
+                                $usersfinal = array();
+                            }
+                        }
+                        if (count($usersfinal) > 0) {
+                            array_push($respose, $usersfinal[0]);
+                        }
+                    }
+                } else {
+                    $usersfinal = array();
+                }
+            }
+
+
+            if (count($respose) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encontró personal asistencial',
+                    'data' => ['users' => $usersfinal]
+                ]);
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Usuarios por locación obtenidos exitosamente',
+                'data' => ['users' => $respose]
             ]);
         }
+    }
+
+    /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function indexByExternalConsultant(Request $request): JsonResponse
+    {
+        $users = User::select('users')
+            ->leftJoin('assistance', 'users.id', 'assistance.user_id')
+            ->where('assistance.attends_external_consultation', 1);
 
         return response()->json([
             'status' => true,
             'message' => 'Usuarios por locación obtenidos exitosamente',
-            'data' => ['users' => $respose]
+            'data' => ['users' => $users]
         ]);
     }
 
@@ -754,6 +788,8 @@ class UserController extends Controller
             'user_role.role',
             'user_agreement',
             'user_agreement.campus',
+            'assistance',
+            'assistance.assistance_procedure',
         )
             ->leftJoin('financial_data', 'financial_data.user_id', 'users.id')
             ->orderBy('users.id', 'asc');;
@@ -771,8 +807,13 @@ class UserController extends Controller
                 'gender',
                 'academic_level',
                 'identification_type',
+                'residence_municipality',
+                'residence',
                 'user_role',
-                'user_role.role'
+                'user_role.role',
+                'assistance_simple',
+                'assistance_simple.assistance_procedure',
+
             );
             $users->Join('assistance', 'users.id', 'assistance.user_id');
             $users = $users->where('assistance.attends_external_consultation', 1);
@@ -791,6 +832,7 @@ class UserController extends Controller
                         ->orWhere('users.firstname', 'like', '%' . $element . '%')
                         ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
                         ->orWhere('users.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
                         ->orWhere('users.middlelastname', 'like', '%' . $element . '%');
                 }
                 // $users->where(function ($query) use ($request) {
@@ -802,6 +844,7 @@ class UserController extends Controller
                         ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
                         ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
                         ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
                         ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
                 });
             }
@@ -899,10 +942,10 @@ class UserController extends Controller
                     }
                 }
 
-                if($request->company_id){
+                if ($request->company_id) {
                     $arraycompany = json_decode($request->company_id);
-        
-                    foreach($arraycompany as $company){
+
+                    foreach ($arraycompany as $company) {
                         $user_agreement = new UserAgreement;
                         $user_agreement->user_id = $user->id;
                         $user_agreement->company_id = $company->company_id;
@@ -1059,10 +1102,10 @@ class UserController extends Controller
                 }
             }
 
-            if($request->company_id){
+            if ($request->company_id) {
                 $arraycompany = json_decode($request->company_id);
-    
-                foreach($arraycompany as $company){
+
+                foreach ($arraycompany as $company) {
                     $user_agreement = new UserAgreement;
                     $user_agreement->user_id = $user->id;
                     $user_agreement->company_id = $company->company_id;
@@ -1294,14 +1337,14 @@ class UserController extends Controller
                 $userCampus->save();
             }
         }
-        
-        if($request->company_id != "null"){
+
+        if ($request->company_id != "null") {
             $delete_company = UserAgreement::select('user_agreement.*')
                 ->where('user_id', $id);
             $delete_company->delete();
             $arraycompany = json_decode($request->company_id);
 
-            foreach($arraycompany as $company){
+            foreach ($arraycompany as $company) {
                 $user_agreement = new UserAgreement;
                 $user_agreement->user_id = $id;
                 $user_agreement->company_id = $company->company_id;
@@ -1537,7 +1580,7 @@ class UserController extends Controller
                 // 'admissions.location.bed',
                 'assistance',
                 'assistance.special_field',
-                
+
             )->get()->toArray();
 
 

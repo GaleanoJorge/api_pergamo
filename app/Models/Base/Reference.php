@@ -10,10 +10,13 @@ use App\Models\AdmissionRoute;
 use App\Models\Admissions;
 use App\Models\Campus;
 use App\Models\Company;
+use App\Models\DeniedReason;
 use App\Models\Diagnosis;
+use App\Models\Flat;
 use App\Models\Gender;
 use App\Models\IdentificationType;
 use App\Models\Patient;
+use App\Models\Pavilion;
 use App\Models\Procedure;
 use App\Models\Program;
 use App\Models\ProvidersOfHealthServices;
@@ -58,6 +61,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $request_program_id
  * @property string $request_observation
  * @property int $acceptance_campus_id
+ * @property int $acceptance_flat_id
+ * @property int $acceptance_pavilion_id
+ * @property int $acceptance_bed_id
  * @property int $acceptance_regime_id
  * @property int $acceptance_user_id
  * @property int $acceptance_technological_medium_id
@@ -169,6 +175,21 @@ class Reference extends Model
 		return $this->belongsTo(Campus::class, 'acceptance_campus_id');
 	}
 
+	public function acceptance_flat()
+	{
+		return $this->belongsTo(Flat::class, 'acceptance_flat_id');
+	}
+
+	public function acceptance_pavilion()
+	{
+		return $this->belongsTo(Pavilion::class, 'acceptance_pavilion_id');
+	}
+
+	public function acceptance_bed()
+	{
+		return $this->belongsTo(Bed::class, 'acceptance_bed_id');
+	}
+
 	public function acceptance_regime()
 	{
 		return $this->belongsTo(TypeBriefcase::class, 'acceptance_regime_id');
@@ -232,6 +253,11 @@ class Reference extends Model
 	public function denied_program()
 	{
 		return $this->belongsTo(Program::class, 'denied_program_id');
+	}
+
+	public function denied_reason()
+	{
+		return $this->belongsTo(DeniedReason::class, 'denied_reason_id');
 	}
 
 	public function admissions()

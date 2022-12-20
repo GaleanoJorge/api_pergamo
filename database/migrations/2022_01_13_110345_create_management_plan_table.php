@@ -18,7 +18,7 @@ class CreateManagementPlanTable extends Migration
             $table->unsignedTinyInteger('type_of_attention_id');
             $table->unsignedTinyInteger('frequency_id')->nullable();
             $table->Integer('quantity');
-            $table->Integer('hours');
+            $table->Integer('hours')->nullable();
             $table->unsignedBigInteger('specialty_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('procedure_id')->nullable();
@@ -33,6 +33,8 @@ class CreateManagementPlanTable extends Migration
             $table->Integer('dosage_administer')->nullable();
             $table->boolean('phone_consult');
             $table->longText('observation')->nullable();
+            $table->unsignedTinyInteger('status_id')->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
 
             $table->index('type_of_attention_id');
@@ -58,6 +60,8 @@ class CreateManagementPlanTable extends Migration
                 ->on('services_briefcase');
                 $table->foreign('procedure_id')->references('id')
                 ->on('services_briefcase');
+                $table->foreign('status_id')->references('id')
+                ->on('status');
             // $table->foreign('authorization_id')->references('id')
             //     ->on('authorization');
         });

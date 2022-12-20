@@ -21,7 +21,8 @@ class CreateReferenceTable extends Migration
             $table->string('lastname')->nullable();
             $table->string('identification', 100)->nullable();
             $table->boolean('re_input');
-            $table->integer('age')->nullable();
+            $table->date('birthday')->nullable();
+            $table->string('age')->nullable();
             $table->integer('intention');
 
             $table->dateTime('presentation_date');
@@ -41,22 +42,27 @@ class CreateReferenceTable extends Migration
 
             $table->unsignedBigInteger('request_campus_id')->nullable();
             $table->unsignedBigInteger('request_regime_id')->nullable();
+            $table->integer('request_regime_level')->nullable();
             $table->unsignedBigInteger('request_user_id')->nullable();
             $table->unsignedBigInteger('request_technological_medium_id')->nullable();
             $table->unsignedBigInteger('request_admission_route_id')->nullable();
             $table->unsignedBigInteger('request_specialty_id')->nullable();
             $table->unsignedBigInteger('request_program_id')->nullable();
-            $table->string('request_observation')->nullable();
+            $table->longText('request_observation')->nullable();
 
             $table->unsignedBigInteger('acceptance_campus_id')->nullable();
+            $table->unsignedBigInteger('acceptance_flat_id')->nullable();
+            $table->unsignedBigInteger('acceptance_pavilion_id')->nullable();
+            $table->unsignedBigInteger('acceptance_bed_id')->nullable();
             $table->unsignedBigInteger('acceptance_regime_id')->nullable();
+            $table->integer('acceptance_regime_level')->nullable();
             $table->unsignedBigInteger('acceptance_user_id')->nullable();
             $table->unsignedBigInteger('acceptance_technological_medium_id')->nullable();
             $table->unsignedBigInteger('acceptance_admission_route_id')->nullable();
             $table->unsignedBigInteger('acceptance_specialty_id')->nullable();
             $table->unsignedBigInteger('acceptance_program_id')->nullable();
             $table->unsignedBigInteger('tutor_id')->nullable();
-            $table->string('acceptance_observation')->nullable();
+            $table->longText('acceptance_observation')->nullable();
 
 
             $table->unsignedBigInteger('denied_user_id')->nullable();
@@ -66,7 +72,7 @@ class CreateReferenceTable extends Migration
             $table->unsignedTinyInteger('denied_type_id')->nullable();
             $table->unsignedBigInteger('denied_reason_id')->nullable();
             $table->unsignedBigInteger('denied_program_id')->nullable();
-            $table->string('denied_observation')->nullable();
+            $table->longText('denied_observation')->nullable();
 
             $table->unsignedBigInteger('admissions_id')->nullable();
 
@@ -138,6 +144,18 @@ class CreateReferenceTable extends Migration
             $table->index('acceptance_campus_id');
             $table->foreign('acceptance_campus_id')->references('id')
                 ->on('campus');
+                
+            $table->index('acceptance_flat_id');
+            $table->foreign('acceptance_flat_id')->references('id')
+                ->on('flat');
+
+            $table->index('acceptance_pavilion_id');
+            $table->foreign('acceptance_pavilion_id')->references('id')
+                ->on('pavilion');
+                
+            $table->index('acceptance_bed_id');
+            $table->foreign('acceptance_bed_id')->references('id')
+                ->on('bed');
 
 
 

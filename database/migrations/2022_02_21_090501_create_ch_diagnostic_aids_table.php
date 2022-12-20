@@ -16,7 +16,7 @@
             Schema::create('ch_diagnostic_aids', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('paraclinical');
-                $table->string('observation')->nullable();
+                $table->longText('observation')->nullable();
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');
                 $table->timestamps();

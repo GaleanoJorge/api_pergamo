@@ -298,7 +298,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
@@ -381,7 +381,7 @@
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">                        
@@ -510,7 +510,7 @@
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -600,7 +600,7 @@
                 @foreach($ChPsThought as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">                        
@@ -745,7 +745,7 @@
                 @foreach($ChPsLanguage as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                     <tr style="height:11.95pt">                        
@@ -822,7 +822,7 @@
                 @foreach($ChPsSphere as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
 
                 @if(($ch['euthymia']) == 1 )
@@ -943,7 +943,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -995,7 +995,7 @@
                 @foreach($ChPsMultiaxial as $ch)
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
 
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -1082,7 +1082,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
                     <b>@if(isset($ch['assessment'])) ANÁLISIS Y PLAN DE TRATAMIENTO: </b>{{$ch['assessment']}} @endisset </span> 
                 </p>
 
@@ -1100,7 +1100,7 @@
         
             <!-- Validación Regular -->
             <div>
-                @if(count($ChPsAssessmentEvo) > 0  || count($ChPsOperationalization) > 0  || count($ChPsConsciousness) > 0 || count($ChPsObjectives) > 0 )
+                @if(count($ChPsAssessmentEvo) > 0  || count($ChPsOperationalization) > 0  || count($ChPsConsciousness) > 0 || count($ChPsObjectives) > 0 || count($ChRecommendationsEvo) > 0)
                 <hr />
                 <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                     REGULAR<br>
@@ -1123,7 +1123,7 @@
     
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
@@ -1194,7 +1194,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span> <br/>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span> <br/>
                     <b>@if(isset($ch['assessment'])) </b>{{$ch['assessment']}} @endisset </span> 
                 </p>
 
@@ -1221,7 +1221,7 @@
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -1306,65 +1306,117 @@
                 @endisset          
             </div>
 
-           {{-- Objetivos --}}
-           <div>
+            {{-- Objetivos --}}
+            <div>
 
-            @if(count($ChPsObjectives) > 0)
+                @if(count($ChPsObjectives) > 0)
+
+                <hr />
+
+                <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">OBJETIVOS</span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+
+
+                @foreach($ChPsObjectives as $ch)
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['patient'])) OBJETIVO DEL PACIENTE: </b>{{$ch['patient']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['session'])) OBJETIVO DE SESIÓN: </b>{{$ch['session']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['intervention']))INTERVENCIÓN: </b>{{$ch['intervention']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['patient_state'])) ESTADO DEL PACIENTE: </b>{{$ch['patient_state']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['recommendations'])) RECOMENDACIONES: </b>{{$ch['recommendations']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['control'])) CONTROL: </b>{{$ch['control']}} @endisset </span> <br/>
+                    </p>
+
+                    <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['referrals'])) REMISIONES: </b>{{$ch['referrals']}} @endisset </span> <br/>
+                    </p>
+
+
+                @endforeach
+                @endisset          
+            </div>
+
+            <!-- Recomendaciones -->
+            <div>
+                @if(count($ChRecommendationsEvo) > 0)  
+
+                <hr />
+
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> RECOMENDACIONES </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+
+                @foreach($ChRecommendationsEvo as $ch)
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="text-align: justify; font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['created_at'])) FECHA: </b> {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
+                        <b>@if(isset($ch['recommendations_evo'])) RECOMENDACIÓN: </b> {{$ch['recommendations_evo']['name']}} @endisset <br/>
+                        <b>@if(isset($ch['patient_family_education'])) DESCRIPCIÓN : </b> {{$ch['patient_family_education']}} @endisset <br/>
+                        <b>@if(isset($ch['observations'])) OBSERVACIÓN : </b> {{$ch['observations']}} @endisset</span>
+                </p>
+                @endforeach
+                
+                @endisset
+
+            </div>
+
+    <!-- NOTA ACLARATORIA -->
+    <div>
+
+        @if (count($Disclaimer) > 0)
 
             <hr />
-
-            <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">OBJETIVOS</span>
-                <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+            <p
+                style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                NOTA ACLARATORIA<br>
             </p>
+            
+            <hr />
 
-
-            @foreach($ChPsObjectives as $ch)
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+            @foreach ($Disclaimer as $ch)
+                <p
+                    style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b> @if (isset($ch['created_at'])) FECHA:</b>{{ mb_substr($ch['created_at'], 0, 10) }} @endisset
+                    <br />
+                    <b> @if (isset($ch['observation'])) NOTA ACLARATORIA:</b> {{ $ch['observation'] }} @endisset
+                    </span>
                 </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['patient'])) OBJETIVO DEL PACIENTE: </b>{{$ch['patient']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['session'])) OBJETIVO DE SESIÓN: </b>{{$ch['session']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['intervention']))INTERVENCIÓN: </b>{{$ch['intervention']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['patient_state'])) ESTADO DEL PACIENTE: </b>{{$ch['patient_state']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['recommendations'])) RECOMENDACIONES: </b>{{$ch['recommendations']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['control'])) CONTROL: </b>{{$ch['control']}} @endisset </span> <br/>
-                </p>
-
-                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                    <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['referrals'])) REMISIONES: </b>{{$ch['referrals']}} @endisset </span> <br/>
-                </p>
-
-
             @endforeach
-            @endisset          
-        </div>
+
+        @endisset
+    </div>
     
     @endisset
 </div>
@@ -1389,16 +1441,16 @@
             </p>
             @endisset
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['firstname']}} {{$chrecord2['user']['middlefirstname']}} {{$chrecord2['user']['lastname']}}  {{$chrecord2['user']['middlelastname']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['user_role'][0]['role']['name']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['user_role'][0]['role']['name']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             @if(count($chrecord[0]['user']['assistance']) > 0)
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord2['user']['assistance'][0]['medical_record']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             
@@ -1409,7 +1461,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE</b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">

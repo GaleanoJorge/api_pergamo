@@ -277,11 +277,12 @@
             INCAPACIDAD MÉDICA<br>
         </p>
 
+        <hr />
                    
         @foreach($ChInability as $ch)
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
             <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
         </p>
 
         @if(($ch['extension']) == 'Si' )
@@ -316,7 +317,7 @@
             <tr style="height:11.95pt">
                 <td style="width:200pt; vertical-align:top">
                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['name']}} @endisset </span>
+                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset </span>
                     </p>
                 </td>
             </tr>
@@ -356,7 +357,7 @@
 <div style="display: flex">
     <div style="width: 100%">
         <hr/>
-        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PROFESIONAL TRABAJO SOCIAL </b> </span>
+        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PERSONAL ASISTENCIAL </b> </span>
     
         @if($firm != null)
             <p style="margin-top:15pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt;">

@@ -55,6 +55,95 @@ class AssignedManagementPlanController extends Controller
         ]);
     }
 
+    /**
+     * Display a listing of the resource
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getByPah(Request $request, int $campus_id, int $flat_id, int $pavilion_id, int $bed_id): JsonResponse
+    {
+        $assigned_management_plan = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with(
+                'management_plan',
+                'management_plan.service_briefcase',
+                'management_plan.service_briefcase.manual_price',
+                'management_plan.service_briefcase.manual_price.product',
+                'management_plan.service_briefcase.manual_price.product.drug_concentration',
+                'management_plan.service_briefcase.manual_price.product.measurement_units',
+                'management_plan.service_briefcase.manual_price.product.multidose_concentration',
+                'management_plan.ch_formulation',
+                'management_plan.admissions',
+                'management_plan.admissions.patients',
+                'management_plan.admissions.patients.identification_type',
+                'management_plan.admissions.location',
+                'management_plan.admissions.location.flat',
+                'management_plan.admissions.location.pavilion',
+                'management_plan.admissions.location.bed',
+            )
+            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+            ->leftJoin('admissions', 'admissions.id', 'management_plan.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->where('location.admission_route_id', 1)
+            ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
+            ->where('location.discharge_date', '=', '0000-00-00 00:00:00')
+            ->groupBy('assigned_management_plan.id')
+            ->orderBy('assigned_management_plan.start_date', 'ASC')
+            ->orderBy('assigned_management_plan.start_hour', 'ASC')
+            ;
+
+        if ($request->start_date) {
+            $assigned_management_plan->where('assigned_management_plan.start_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $assigned_management_plan->where('assigned_management_plan.start_date', '<=', $request->finish_date);
+        }
+
+        if ($campus_id != 0) {
+            $assigned_management_plan->where('admissions.campus_id', $campus_id);
+        }
+
+        if ($flat_id != 0) {
+            $assigned_management_plan->where('location.flat_id', $flat_id);
+        }
+
+        if ($pavilion_id != 0) {
+            $assigned_management_plan->where('location.pavilion_id', $pavilion_id);
+        }
+
+        if ($bed_id != 0) {
+            $assigned_management_plan->where('location.bed_id', $bed_id);
+        }
+
+        if ($request->search) {
+            $assigned_management_plan->where(function ($query) use ($request) {
+                $query->where('identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $assigned_management_plan = $assigned_management_plan->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $assigned_management_plan = $assigned_management_plan->paginate($per_page, '*', 'page', $page);
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Plan asignado obtenido exitosamente',
+            'data' => ['assigned_management_plan' => $assigned_management_plan]
+        ]);
+    }
+
 
     /**
      * Display a listing of the resource
@@ -226,7 +315,7 @@ class AssignedManagementPlanController extends Controller
     {
         $AssignedManagementPlan = AssignedManagementPlan::find($id);
         $LogAssignedManagementPlan = new LogAssignedManagementPlan;
-        $LogAssignedManagementPlan->assigned_management_plan_id =$AssignedManagementPlan->id;
+        $LogAssignedManagementPlan->assigned_management_plan_id = $AssignedManagementPlan->id;
         $LogAssignedManagementPlan->user_id = Auth::user()->id;
         $LogAssignedManagementPlan->i_start_date = $AssignedManagementPlan->start_date;
         $LogAssignedManagementPlan->i_finish_date = $AssignedManagementPlan->finish_date;
@@ -234,7 +323,13 @@ class AssignedManagementPlanController extends Controller
         $LogAssignedManagementPlan->i_start_hour = $AssignedManagementPlan->start_hour;
         $LogAssignedManagementPlan->i_finish_hour = $AssignedManagementPlan->finish_hour;
 
-        if ($request->type_of_attention_id == 17 || $request->type_of_attention_id == 12) {
+        if ($request->type_of_attention_id == 17) {
+            $AssignedManagementPlan->start_date = $request->start_date;
+            $AssignedManagementPlan->finish_date = $request->start_date;
+            $AssignedManagementPlan->user_id = $request->user_id;
+            $AssignedManagementPlan->start_hour = $request->start_hour;
+            $AssignedManagementPlan->finish_hour = $request->finish_hour;
+        } else if ($request->type_of_attention_id == 12) {
             $AssignedManagementPlan->start_date = $request->start_date;
             $AssignedManagementPlan->finish_date = $request->finish_date;
             $AssignedManagementPlan->user_id = $request->user_id;
@@ -247,11 +342,11 @@ class AssignedManagementPlanController extends Controller
         }
 
         $AssignedManagementPlan->save();
-        
 
-        $LogAssignedManagementPlan->assigned_management_plan_id =$AssignedManagementPlan->id;
+
+        $LogAssignedManagementPlan->assigned_management_plan_id = $AssignedManagementPlan->id;
         $LogAssignedManagementPlan->user_id = Auth::user()->id;
-        $LogAssignedManagementPlan->status ='Plan de manejo actualizado';
+        $LogAssignedManagementPlan->status = 'Plan de manejo actualizado';
         $LogAssignedManagementPlan->f_start_date = $request->start_date;
         $LogAssignedManagementPlan->f_finish_date = $request->finish_date;
         $LogAssignedManagementPlan->f_user_id = $request->user_id;

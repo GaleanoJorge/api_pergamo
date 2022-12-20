@@ -10,7 +10,9 @@ use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
+use App\Models\PharmacyProductRequest;
 use App\Models\ProductGeneric;
+use App\Models\ProductSupplies;
 use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -20,15 +22,19 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property unsignedBigInteger $product_generic_id
+ * @property unsignedBigInteger $product_supplies_id
  * @property unsignedBigInteger $services_briefcase_id
  * @property unsignedBigInteger $administration_route_id
  * @property unsignedBigInteger $hourly_frequency_id
+ * @property string $required
  * @property string $medical_formula
  * @property Integer $treatment_days 
  * @property string $outpatient_formulation
  * @property string $dose
  * @property string $observation
  * @property Integer $number_mipres
+ * @property Integer $num_supplies
+ * @property unsignedBigInteger $pharmacy_product_request_id
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
  * @property Carbon $created_at
@@ -54,6 +60,10 @@ class ChFormulation extends Model
 	{
 		return $this->belongsTo(ServicesBriefcase::class);
 	}
+	public function product_supplies()
+	{
+		return $this->belongsTo(ProductSupplies::class);
+	}
 	public function administration_route()
 	{
 		return $this->belongsTo(AdministrationRoute::class);
@@ -61,6 +71,10 @@ class ChFormulation extends Model
 	public function hourly_frequency()
 	{
 		return $this->belongsTo(HourlyFrequency::class);
+	}
+	public function pharmacy_product_request()
+	{
+		return $this->belongsTo(PharmacyProductRequest::class);
 	}
 	public function type_record()
 	{

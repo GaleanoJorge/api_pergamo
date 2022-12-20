@@ -280,7 +280,7 @@
             @foreach($ChMedicalCertificate as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
             </p>
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
@@ -297,7 +297,7 @@
 <div style="display: flex">
     <div style="width: 100%">
         <hr/>
-        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PROFESIONAL TRABAJO SOCIAL </b> </span>
+        <span style="font-family:Calibri; margin-left:14pt; margin-right:14pt; font-size:12px"> <b>FIRMA PERSONAL ASISTENCIAL </b> </span>
     
         @if($firm != null)
             <p style="margin-top:15pt; margin-left:14pt; margin-right:14pt; margin-bottom:0pt;">

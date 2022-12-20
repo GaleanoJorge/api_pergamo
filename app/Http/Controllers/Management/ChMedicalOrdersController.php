@@ -29,6 +29,14 @@ class ChMedicalOrdersController extends Controller
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->id) {
+            $ChMedicalOrders->where('ch_medical_orders.id', $request->id);
+        }
+
+        if ($request->ambulatory_medical_order) {
+            $ChMedicalOrders->where('ch_medical_orders.ambulatory_medical_order', $request->ambulatory_medical_order);
+        }
+
         if ($request->search) {
             $ChMedicalOrders->where('name', 'like', '%' . $request->search . '%');
         }
@@ -50,23 +58,28 @@ class ChMedicalOrdersController extends Controller
         ]);
     }
 
-        /**
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        
-       
+
+
         $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id)
-        ->with('procedure','frequency','services_briefcase', 'services_briefcase.manual_price',
-        'services_briefcase.manual_price.procedure',)
+            ->where('type_record_id', $type_record_id)
+            ->with(
+                'procedure',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'frequency',
+            )
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -74,7 +87,7 @@ class ChMedicalOrdersController extends Controller
             'data' => ['ch_medical_orders' => $ChMedicalOrders]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
@@ -87,7 +100,6 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
-        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([
@@ -132,7 +144,6 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders->observations = $request->observations;
         $ChMedicalOrders->type_record_id = $request->type_record_id;
         $ChMedicalOrders->ch_record_id = $request->ch_record_id;
-        $ChMedicalOrders->admissions_id = $request->admissions_id;
         $ChMedicalOrders->save();
 
         return response()->json([

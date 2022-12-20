@@ -18,7 +18,7 @@ class CreateVoiceAlterationsTlTable extends Migration
             $table->string('bell_alteration')->nullable();
             $table->string('tone_alteration')->nullable();
             $table->string('intensity_alteration')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

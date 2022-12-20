@@ -20,6 +20,10 @@ class ChSystemExamController extends Controller
     {
         $ChSystemExam = ChSystemExam::with('type_ch_system_exam');
 
+        if ($request->ch_record_id) {
+            $ChSystemExam->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChSystemExam->orderBy($request->_sort, $request->_order);
         }

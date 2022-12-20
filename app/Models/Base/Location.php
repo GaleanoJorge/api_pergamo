@@ -20,7 +20,7 @@ use App\Models\Bed;
 use App\Models\Contract;
 use App\Models\Procedure;
 use App\Models\ScopeOfAttention;
-
+use App\Models\ServicesBriefcase;
 
 /**
  * Class Admissions
@@ -70,7 +70,7 @@ class Location extends Model
 
 	public function procedure()
 	{
-		return $this->belongsTo(Procedure::class);
+		return $this->belongsTo(ServicesBriefcase::class);
 	}
 
 	public function scope_of_attention()

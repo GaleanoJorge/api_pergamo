@@ -18,11 +18,12 @@ class ChEValorationOTController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChEValorationOT = ChEValorationOT::select();
+        $ChEValorationOT = ChEValorationOT::select('ch_e_valoration_o_t.*') ->with('ch_diagnosis');
 
 
         if ($request->ch_record_id) {
-            $ChEValorationOT->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+            $ChEValorationOT->where('ch_record_id', $request->ch_record_id)
+            ->with('ch_diagnosis')->where('type_record_id', 1);
         }
 
         if ($request->_sort) {

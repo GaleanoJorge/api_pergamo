@@ -15,11 +15,11 @@ class CreateBillUserActivityTable extends Migration
     {
         Schema::create('bill_user_activity', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('procedure_id');
+            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('admissions_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->unsignedBigInteger('account_receivable_id');
-            $table->unsignedBigInteger('tariff_id');
+            $table->unsignedBigInteger('tariff_id')->nullable();
             $table->unsignedBigInteger('assigned_management_plan_id');
             $table->string('status');
             $table->string('observation');

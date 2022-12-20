@@ -18,13 +18,11 @@ class CreateChMedicalOrdersTable extends Migration
             $table->boolean('ambulatory_medical_order')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
-            $table->integer('amount');
-            $table->unsignedTinyInteger('frequency_id');
+            $table->integer('amount')->nullable();
+            $table->unsignedTinyInteger('frequency_id')->nullable();
             $table->string('observations')->nullable();
-            $table->unsignedBigInteger('type_record_id');
+            $table->unsignedBigInteger('type_record_id')->nullable();
             $table->unsignedBigInteger('ch_record_id')->nullable();
-
-            $table->unsignedBigInteger('admissions_id')->nullable();
 
             $table->timestamps();
 
@@ -47,10 +45,6 @@ class CreateChMedicalOrdersTable extends Migration
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
-
-            $table->index('admissions_id');
-            $table->foreign('admissions_id')->references('id')
-                ->on('admissions');
         });
     }
 

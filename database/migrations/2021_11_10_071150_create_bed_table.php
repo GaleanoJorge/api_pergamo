@@ -18,6 +18,8 @@ class CreateBedTable extends Migration
             $table->string('code');
             $table->string('name');
             $table->unsignedBigInteger('status_bed_id');
+            $table->Integer('identification')->nullable();
+            $table->dateTime('reservation_date')->nullable();
             $table->Integer('bed_or_office');
             $table->unsignedBigInteger('pavilion_id');
             $table->unsignedBigInteger('procedure_id')->nullable();

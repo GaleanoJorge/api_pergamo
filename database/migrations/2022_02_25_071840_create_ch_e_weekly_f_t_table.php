@@ -17,7 +17,7 @@ class CreateChEWeeklyFTTable extends Migration
             $table->bigIncrements('id');
             $table->string('monthly_sessions')->nullable();
             $table->string('weekly_intensity')->nullable();
-            $table->string('recommendations')->nullable();
+            $table->longText('recommendations')->nullable();
 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

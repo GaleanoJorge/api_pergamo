@@ -276,7 +276,7 @@
             <div>
                 @if(count($ChSwDiagnosis) > 0 || count($ChSwFamily) > 0 || count($ChSwNursing) > 0 || count($ChSwFamilyDynamics) > 0  || count($ChSwOccupationalHistory) > 0 || count($ChSwRiskFactors) > 0  ||  
                     count($ChSwHousingAspect) > 0 || count($ChSwConditionHousing) > 0 || count($ChSwHygieneHousing) > 0 || count($ChSwIncome) > 0  ||
-                    count($ChSwExpenses) > 0 || count($ChSwEconomicAspects) > 0  || count($ChSwArmedConflict) > 0  || count($ChSwSupportNetwork) > 0 )
+                    count($ChSwExpenses) > 0 || count($ChSwEconomicAspects) > 0  || count($ChSwArmedConflict) > 0  || count($ChSwSupportNetwork) > 0 || count($SwEducationDr) > 0 || count($SwEducationDb) > 0)
 
                 <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                     INGRESO<br>
@@ -299,7 +299,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                     <tr style="height:11.95pt">                        
@@ -351,7 +351,7 @@
 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                 </p>
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                     <tr style="height:11.95pt">                        
@@ -540,7 +540,7 @@
                     @if(($ch['service'])==1)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <p style=" text-align: left; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                         <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b>TIENE SERVICIO DE ENFERMERIA</b> </span>
@@ -580,7 +580,7 @@
                     @if(($ch['service'])== 0)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <p style=" text-align: left; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                         <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> NO TIENE SERVICIO DE ENFERMERIA</b> </span>
@@ -609,7 +609,7 @@
 
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                         <tr style="height:11.95pt">
@@ -701,7 +701,7 @@
                     @foreach($ChSwFamilyDynamics as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
 
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -809,7 +809,7 @@
                         <tr>                        
                         @if(isset($ch['created_at']))
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10) }}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</span>
                             </td>
                             @endisset
 
@@ -859,7 +859,7 @@
                         @foreach($ChSwHousingAspect as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                         </p>
                         <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                             <tr style="height:11.95pt">
@@ -946,7 +946,7 @@
                         @foreach($ChSwConditionHousing as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                         </p>
                         <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                             <tr style="height:11.95pt">
@@ -1016,7 +1016,7 @@
                         @foreach($ChSwHygieneHousing as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                         </p>
                         <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                             <tr style="height:11.95pt">
@@ -1184,7 +1184,7 @@
                             @if(($ch['none'])== 1)
                                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                                     <span style="font-family:Calibri; font-size:9pt">
-                                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset <br/>
+                                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
                                     <span style="font-family:Calibri; font-size:8pt">NO TIENE INGRESOS </span>
                                 </p>
                             @endisset
@@ -1194,7 +1194,7 @@
                                 <tr style="height:11.95pt">
                                     <td style="width:79.75pt; vertical-align:top">
                                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA</b> {{substr($ch['created_at'],0,10) }} @endisset</span>
+                                            <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['created_at'])) FECHA</b> {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
                                         </p>
                                     </td>
                                 </tr>
@@ -1276,7 +1276,7 @@
                         @foreach($ChSwExpenses as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                         </p>
                         <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                             <tr style="height:11.95pt">
@@ -1422,7 +1422,7 @@
                         @foreach($ChSwEconomicAspects as $ch)
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
-                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span> <br/> 
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span> <br/> 
                             <span style="font-family:Calibri; font-size:9pt"><b>@if(isset($ch['copay'])) TIENE CAPACIDAD DE COPAGO: </b> {{$ch['copay']}}</b>@endisset</span>
                         </p>          
                         <br/>
@@ -1443,7 +1443,7 @@
                     @foreach($ChSwArmedConflict as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     
                         @if(($ch['victim']) == 'Si' )
@@ -1559,7 +1559,7 @@
                     @foreach($ChSwSupportNetwork as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -1595,6 +1595,59 @@
                     @endforeach          
             </div>
 
+              <!-- Educacion -->
+            <div>
+                @if(count($SwEducationDr) > 0 || count($SwEducationDb) > 0)
+                    <hr />
+                    <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> EDUCACIÓN DEL PACIENTE</b></span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+                @endisset
+
+                @if(count($SwEducationDr) > 0)
+                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:8pt"><b> DERECHOS:</b></span>
+                </p>
+            
+                    @foreach($SwEducationDr as $ch)
+            
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+
+                    @if(count($SwEducationDb) > 0)
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b> DEBERES:</b></span>
+                    </p>
+            
+                    @foreach($SwEducationDb as $ch)
+                
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+            </div>
+
         </div>
 
         <!-- REGULAR -->
@@ -1602,7 +1655,7 @@
         
             <!-- Validación Regular -->
             <div>
-                @if(count($ChSwSupportNetworkEvo) > 0 )
+                @if(count($ChSwSupportNetworkEvo) > 0 || count($SwEducationEvoDr) > 0 || count($SwEducationEvoDb) > 0 || count($ChPsIntervention) > 0)
                 <hr />
                 <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
                     REGULAR<br>
@@ -1623,7 +1676,7 @@
                     @foreach($ChSwSupportNetworkEvo as $ch)
                     <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                         <span style="font-family:Calibri; font-size:9pt">
-                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{substr($ch['created_at'],0,10) }} @endisset </span>
+                        <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset </span>
                     </p>
                     
                     <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
@@ -1659,8 +1712,115 @@
                     @endforeach          
             </div>
 
+            {{-- Intervención--}}
+            <div>
+
+                @if(count($ChPsIntervention) > 0)
+
+                <hr />
+    
+                <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">INTERVENCIÓN</span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>
+    
+
+                @foreach($ChPsIntervention as $ch)
+
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                    <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
+                    <b>@if(isset($ch['assessment'])) ANÁLISIS Y PLAN DE TRATAMIENTO: </b>{{$ch['assessment']}} @endisset </span> 
+                </p>
+
+                             
+                @endforeach
+                @endisset
+                
+            </div> 
+
+            <!-- Educacion -->
+            <div>
+                @if(count($SwEducationEvoDr) > 0 || count($SwEducationEvoDb) > 0)
+                    <hr />
+                    <p style=" text-align: center; margin-top:8.95pt; widows:0; orphans:0; font-size:9pt">
+                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> EDUCACIÓN DEL PACIENTE</b></span>
+                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                    </p>
+                @endisset
+
+                @if(count($SwEducationEvoDr) > 0)
+                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:8pt"><b> DERECHOS:</b></span>
+                </p>
+            
+                    @foreach($SwEducationEvoDr as $ch)
+            
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+
+                    @if(count($SwEducationEvoDb) > 0)
+                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                        <span style="font-family:Calibri; font-size:8pt"><b> DEBERES:</b></span>
+                    </p>
+            
+                    @foreach($SwEducationEvoDb as $ch)
+                
+                    
+                    <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+                        <tr style="height:11.95pt">
+                            <td style="width:79.75pt; vertical-align:top">
+                                <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                    <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['sw_rights_duties']) ) {{$ch['sw_rights_duties']['name']}}</b>@endisset</span>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>   
+                    <br/>                       
+                    @endforeach      
+                    @endisset    
+            </div>
+
 
         </div>
+
+    <!-- NOTA ACLARATORIA -->
+    <div>
+
+        @if (count($Disclaimer) > 0)
+
+            <hr />
+            <p
+                style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                NOTA ACLARATORIA<br>
+            </p>
+            
+            <hr />
+
+            @foreach ($Disclaimer as $ch)
+                <p
+                    style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                    <b> @if (isset($ch['created_at'])) FECHA:</b>{{ mb_substr($ch['created_at'], 0, 10) }} @endisset
+                    <br />
+                    <b> @if (isset($ch['observation'])) NOTA ACLARATORIA:</b> {{ $ch['observation'] }} @endisset
+                    </span>
+                </p>
+            @endforeach
+
+        @endisset
+    </div>
     
     @endisset
 </div>
@@ -1685,16 +1845,16 @@
             </p>
             @endisset
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}}  {{$chrecord[0]['user']['middlelastname']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['firstname']}} {{$chrecord2['user']['middlefirstname']}} {{$chrecord2['user']['lastname']}}  {{$chrecord2['user']['middlelastname']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['user']['user_role'][0]['role']['name']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord2['user']['user_role'][0]['role']['name']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             @if(count($chrecord[0]['user']['assistance']) > 0)
             <p style="margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord[0]['user']['assistance'][0]['medical_record']}}</span>
+                <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">RM/TP: {{$chrecord2['user']['assistance'][0]['medical_record']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>
             
@@ -1705,7 +1865,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE</b> </span>
+        <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">

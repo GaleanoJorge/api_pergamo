@@ -65,6 +65,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use App\Models\ManagementPlan;
 use App\Models\Reference;
+use App\Models\Role;
+use App\Models\RoleAttention;
 use App\Models\UserUser;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -116,6 +118,10 @@ class PatientController extends Controller
             $patients->orderBy($request->_sort, $request->_order);
         }
 
+        if ($request->identification) {
+            $patients->where('identification', $request->identification);
+        }
+
         if ($request->search) {
             $patients->where(function ($query) use ($request) {
                 $query->where('identification', 'like', '%' . $request->search . '%')
@@ -139,6 +145,50 @@ class PatientController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Pacientes obtenidos exitosamente',
+            'data' => ['patients' => $patients]
+        ]);
+    }
+
+    /**
+     * Get patient by identification
+     * 
+     * @param int $identification
+     * @return JsonResponse
+     */
+    public function GetPatientByIdentification(Request $request, int $identification): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            DB::raw('SUM(IF(reference.id > 0, 1, 0)) AS rr'),
+        )
+            ->with(
+                'status',
+                'gender',
+                'inability',
+                'academic_level',
+                'identification_type',
+                'admissions',
+                'admissions.ch_interconsultation',
+                'admissions.location',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions.campus',
+                'admissions.location.admission_route',
+                'admissions.location.scope_of_attention',
+                'admissions.location.program',
+                'admissions.location.flat',
+                'admissions.location.pavilion',
+                'admissions.location.bed'
+            )
+            ->Leftjoin('reference', 'reference.identification', 'patients.identification')
+            ->where('patients.identification', $identification)
+            ->groupBy('patients.id')->get()->first();
+
+        // $patients = $patients->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Usuarios obtenidos exitosamente',
             'data' => ['patients' => $patients]
         ]);
     }
@@ -469,6 +519,7 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
+                'admissions.ch_interconsultation',
                 'admissions.management_plan',
                 'admissions.management_plan.assigned_management_plan',
                 'admissions.contract',
@@ -483,7 +534,15 @@ class PatientController extends Controller
                 'admissions.location.bed'
             )->groupBy('patients.id');
 
-        if ($request->userId != 0) {
+        if ($request->start_date) {
+            $patients->where('assigned_management_plan.start_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $patients->where('assigned_management_plan.start_date', '<=', $request->finish_date);
+        }
+
+        if ($userId != 0) {
             $management = ManagementPlan::select('id AS management_id')->where('assigned_user_id', '=', $userId)->get();
             $patients->where('assigned_management_plan.user_id', $userId);
 
@@ -584,9 +643,8 @@ class PatientController extends Controller
             });
         }
 
-        if ($request->campus && isset($request->campus) && $request->campus != 'null') {
-            $patients->where('admissions.campus_id', $request->campus);
-            // var_dump($insu = "monda'");
+        if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
+            $patients->where('admissions.campus_id', $request->campus_id);
         }
 
         if ($request->eps && isset($request->eps) && $request->eps != 'null') {
@@ -649,11 +707,16 @@ class PatientController extends Controller
             'patients.*',
             'company.name AS company',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
+            DB::raw('SUM(IF(ch_formulation.id > 0, IF(ch_formulation.management_plan_id = NULL , 1, 0), 0)) AS new_formulations'),
         )
             ->leftjoin('locality', 'patients.locality_id', 'locality.id')
             ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
             ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
+            ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id')
+            ->leftjoin('ch_record', 'ch_record.ch_interconsultation_id', 'ch_interconsultation.id')
+            ->leftjoin('ch_formulation', 'ch_formulation.ch_record_id', 'ch_record.id')
+            ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
@@ -661,6 +724,7 @@ class PatientController extends Controller
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
             ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
             ->where('location.admission_route_id', 1)
+            ->where('location.scope_of_attention_id', 1)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
                 'status',
@@ -672,12 +736,17 @@ class PatientController extends Controller
                 'residence_municipality',
                 'residence',
                 'admissions',
+                'admissions.ch_interconsultation',
                 'admissions.management_plan',
                 'admissions.management_plan.assigned_management_plan',
+                'admissions.diagnosis',
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions.campus',
                 'admissions.location',
+                'admissions.location.procedure',
+                'admissions.location.procedure.manual_price',
+                'admissions.location.procedure.manual_price.procedure',
                 'admissions.location.admission_route',
                 'admissions.location.scope_of_attention',
                 'admissions.location.program',
@@ -690,13 +759,42 @@ class PatientController extends Controller
 
         if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
             $patients->where('admissions.campus_id', $request->campus_id);
-            // var_dump($insu = "monda'");
+        }
+
+        if ($request->role_id && isset($request->role_id) && $request->role_id != 'null') {
+            $patients->whereNotNull('ch_interconsultation.ch_record_id');
+            $patients->where('role_attention.role_id', $request->role_id);
+
+            $assistance = AssistanceSpecial::select('assistance_special.*')
+                ->leftJoin('assistance', 'assistance_special.assistance_id', 'assistance.id')
+                ->where('assistance.user_id', $userId)
+                ->groupBy('assistance_special.id')
+                ->get()->toArray();
+
+            if (count($assistance) > 0) {
+                $specielties = [];
+                foreach ($assistance as $e) {
+                    array_push($specielties, $e['specialty_id']);
+                }
+                $patients->whereIn('role_attention.specialty_id', $specielties);
+            }
         }
 
         if ($request->eps && isset($request->eps) && $request->eps != 'null') {
             $patients->where('contract.company_id', $request->eps);
         }
 
+        if ($request->flat_id && isset($request->flat_id) && $request->flat_id != 'null' && $request->flat_id != 'undefined') {
+            $patients->where('location.flat_id', $request->flat_id);
+        }
+
+        if ($request->pavilion_id && isset($request->pavilion_id) && $request->pavilion_id != 'null' && $request->pavilion_id != 'undefined') {
+            $patients->where('location.pavilion_id', $request->pavilion_id);
+        }
+
+        if ($request->bed_id && isset($request->bed_id) && $request->bed_id != 'null'  && $request->bed_id != 'undefined') {
+            $patients->where('location.bed_id', $request->bed_id);
+        }
 
         if ($request->_sort) {
             if ($request->_sort == 'flat' || $request->_sort == 'pavilion' || $request->_sort == 'bed') {
@@ -1081,8 +1179,8 @@ class PatientController extends Controller
             $patients->save();
             $LogAdmissions = new LogAdmissions;
             $LogAdmissions->user_id = Auth::user()->id;;
-            $LogAdmissions->patient_id = $patients->id; 
-            $LogAdmissions->status ='Paciente creado';
+            $LogAdmissions->patient_id = $patients->id;
+            $LogAdmissions->status = 'Paciente creado';
             $LogAdmissions->save();
 
             $ref = Reference::where('identification', $patients->identification)
@@ -1225,8 +1323,8 @@ class PatientController extends Controller
         $patients->save();
         $LogAdmissions = new LogAdmissions;
         $LogAdmissions->user_id = Auth::user()->id;;
-        $LogAdmissions->patient_id = $patients->id; 
-        $LogAdmissions->status ='Paciente actualizado';
+        $LogAdmissions->patient_id = $patients->id;
+        $LogAdmissions->status = 'Paciente actualizado';
         $LogAdmissions->save();
 
         DB::commit();
@@ -1349,6 +1447,11 @@ class PatientController extends Controller
                 'identification_type',
                 // 'all_admissions',
                 'admissions',
+                'admissions.ch_interconsultation',
+                'admissions.ch_interconsultation.many_ch_record',
+                'admissions.ch_interconsultation.services_briefcase',
+                'admissions.ch_interconsultation.services_briefcase.manual_price',
+                'admissions.ch_interconsultation.services_briefcase.manual_price.procedure',
                 'admissions.briefcase',
                 'admissions.location',
                 'admissions.contract',
