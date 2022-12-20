@@ -791,6 +791,8 @@ class ChRecordController extends Controller
             'procedure',
             'frequency',
             'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
         )
             ->where('id', $id)->get()->toArray();
 
@@ -929,6 +931,9 @@ class ChRecordController extends Controller
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
             'frequency',
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',    
 
         )
 
@@ -1472,6 +1477,7 @@ class ChRecordController extends Controller
                 'frequency',
                 'services_briefcase',
                 'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
@@ -1591,7 +1597,6 @@ class ChRecordController extends Controller
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
                 'Disclaimer' => $Disclaimer,
-                
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
@@ -3070,6 +3075,8 @@ class ChRecordController extends Controller
                         'procedure',
                         'frequency',
                         'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'services_briefcase.manual_price.procedure',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Interconsulta
