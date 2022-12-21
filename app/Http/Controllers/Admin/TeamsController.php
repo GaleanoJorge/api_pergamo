@@ -35,9 +35,9 @@ class TeamsController extends Controller
     public function __construct()
     {
         //Datos de julianO@etraining.co
-        $this->clientId = (env('TEAMS_CLIENT_ID')=="")? "7e7ea510-a848-49ea-a397-6b90d01767a4" : env('TEAMS_CLIENT_ID');
-        $this->clientSecret = (env('TEAMS_CLIENT_SECRET_KEY')=="") ? "O-rk13Gf8Pu0n804E2q-_wB1SHDt.b8WZu" : env('TEAMS_CLIENT_SECRET_KEY');
-        $this->tenantId = (env('TEAMS_TENANT_ID')=="") ? "3646e2ff-d462-4f2a-a41b-a6e9757af04b" : env('TEAMS_TENANT_ID');
+        $this->clientId = (env('TEAMS_CLIENT_ID')=="")? "f3ae02dd-2f68-45e5-b553-83a7672e83c7" : env('TEAMS_CLIENT_ID');
+        $this->clientSecret = (env('TEAMS_CLIENT_SECRET_KEY')=="") ? "6Hn8Q~l~kl_s_e4P1oV0orQMAqHr_gblFhGtbdjh" : env('TEAMS_CLIENT_SECRET_KEY');
+        $this->tenantId = (env('TEAMS_TENANT_ID')=="") ? "92ca1d60-2672-4342-932f-f213da4ca5de" : env('TEAMS_TENANT_ID');
         $this->redirectUri = 'http://localhost:8000/api/crearRoomTeams';
         $this->urlAuthorize = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/authorize';
         $this->urlAccessToken = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/token';
@@ -91,33 +91,35 @@ class TeamsController extends Controller
      * createRoomTeams
      * Esta funcion no se usa, solo es usada como referencia del desarrollador inicial
      */
-    public function createRoomTeams(Request $request)
+    public function createRoomTeams(Request $request,$dateStart=null,$dateEnd=null,$organizerEmail=null,$subject=null)
     {
+      $this->getToken();
+      $a=$request->organizerEmail;
         //------VALIDATION
         $error = false;
         $msg = '';
-        if($request->subject == ''){
+        if($subject == '' ){
           $error = true;
           $msg .= 'Empty Subject. \n';
         }
         //dateStart
-        if(!$this->checkDate($request->dateStart))
+        if(!$this->checkDate($dateEnd))
         {
           $error = true;
           $msg .= 'Empty dateStart or wrong format. must be YYYY-MM-DD HH:II:SS \n';
         }
         //dateEnd
-        if(!$this->checkDate($request->dateEnd))
+        if(!$this->checkDate($dateEnd))
         {
           $error = true;
           $msg .= 'Empty dateEnd or wrong format. must be YYYY-MM-DD HH:II:SS \n';
         }
         //organizerEmail
-        if (!filter_var($request->organizerEmail, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($organizerEmail, FILTER_VALIDATE_EMAIL)) {
           $error = true;
           $msg .= 'Empty organizerEmail or wrong format. \n';
         }
-        $this->organizer = $this->getUserMicrosoft($request->organizerEmail);
+        $this->organizer = $this->getUserMicrosoft($request->organizerEmail ? $request->organizerEmail: $organizerEmail);
         if($this->organizer == ''){
           $error = true;
           $msg .= 'The organizerEmail was not found in the organization. \n';
@@ -150,8 +152,8 @@ class TeamsController extends Controller
         }
 
         //date
-        $dateStart = $request->dateStart; //YYYY-MM-DD HH:II:SS //H24
-        $dateEnd = $request->dateEnd; //YYYY-MM-DD HH:II:SS //H24
+        $dateStart = $dateStart; //YYYY-MM-DD HH:II:SS //H24
+        $dateEnd = $dateEnd; //YYYY-MM-DD HH:II:SS //H24
 
         $utcDateStart = str_replace(" ","T", $dateStart.'-05:00');
 				$utcDateEnd = str_replace(" ","T", $dateEnd.'-05:00');
@@ -176,7 +178,7 @@ class TeamsController extends Controller
             "isBroadcast": "false",
             "startDateTime":"'.$utcDateStart.'",
             "endDateTime":"'.$utcDateEnd.'",
-            "subject":"'.$request->subject.'",
+            "subject":"'.$subject.'",
             "onlineMeetingUrl":"",
             "outerMeetingAutoAdmittedUsers":"EveryoneInCompany",
             "participants": {
@@ -203,7 +205,9 @@ class TeamsController extends Controller
 
         $response_serialize = $response->getBody()->getContents();
 
-        echo $this->cleanResponseRoom(json_decode($response_serialize));
+        // echo $this->cleanResponseRoom(json_decode($response_serialize));
+
+        return $response_serialize;
 
     }
 
@@ -405,25 +409,25 @@ class TeamsController extends Controller
 
         $this->getToken();
 
-        //$this->getUserIdMicrosoft('Estidiante1@etraining.co');
-        //EXIT();
-        //dd($this->accessToken);
-        /*
+        // $this->getUserIdMicrosoft('Estidiante1@etraining.co');
+        // EXIT();
+        // dd($this->accessToken);
+        
         $graph = new Graph();
         $graph->setBaseUrl("https://graph.microsoft.com/")
                ->setApiVersion("v1.0")
                ->setAccessToken($this->accessToken);
         dd($graph);
-        */
+        
 
         //dd($this->accessToken);
         $subject = 'Sala JulianO prueba';
         $dateStart = '2020-11-07T21:25:00-05:00';
         $dateEnd = '2020-11-07T22:25:00-05:00';
-        //$userId = 'c69d03ee-450a-4fb8-9374-95156926a1e3'; //julian o
-        //$userId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //juan cuervo
-        //$userId = 'd87b72d5-3a1a-480d-abe9-885adbe2c74d'; //prueba funcional
-        //$userId = 'dd5ee6ef-f180-4525-87d3-93ba4e05fdf4'; //docente prueba iti
+        $userId = 'c69d03ee-450a-4fb8-9374-95156926a1e3'; //julian o
+        $userId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //juan cuervo
+        $userId = 'd87b72d5-3a1a-480d-abe9-885adbe2c74d'; //prueba funcional
+        $userId = 'dd5ee6ef-f180-4525-87d3-93ba4e05fdf4'; //docente prueba iti
 
         $data = '
         {
