@@ -374,46 +374,23 @@ class MedicalDiaryController extends Controller
         try {
             $MedicalDiaryDays = MedicalDiaryDays::select('medical_diary_days.*')
                 ->where('medical_diary_id', $id)
-                ->where('medical_status_id', '!=', 1)->get()->toArray();
+                ->where('medical_status_id', '=', 1)->get();
 
-            if (count($MedicalDiaryDays) > 0) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Agenda esta en uso, no es posible eliminar'
-                ], 423);
+            $MedicalDiaryDaysQuantity = $MedicalDiaryDays->count();
+
+            foreach($MedicalDiaryDays as $MedicalDiary){
+                $MedicalDiary->delete();
             }
-            $MedicalDiary = MedicalDiary::find($id);
-            $MedicalDiaryDays = MedicalDiaryDays::where('medical_diary_id', $id)->get()->toArray();
-
-
-            if (isset($MedicalDiary->patient_quantity)) {
-
-                foreach ($MedicalDiaryDays as $item) {
-                    $medical_diary_days_update = MedicalDiaryDays::find($item['id']);
-                    $medical_diary_days_update->diary_days_id = null;
-                    $medical_diary_days_update->save();
-                }
-            }
-
-
-            foreach ($MedicalDiaryDays as $item) {
-                $medical_diary_days_delete = MedicalDiaryDays::find($item['id']);
-                $medical_diary_days_delete->delete();
-            }
-            // $MedicalDiaryDays = DB::table('medical_diary_id')->where('medical_diary_id', $id);
-            // $MedicalDiaryDays->delete();
-
-            $MedicalDiary->delete();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Agenda eliminada exitosamente'
+                'message' => $MedicalDiaryDaysQuantity . ' agendas libres eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
             $e;
             return response()->json([
                 'status' => false,
-                'message' => 'Agenda esta en uso, no es posible eliminar'
+                'message' => 'Agenda está en uso, no es posible eliminar'
             ], 423);
         }
     }
