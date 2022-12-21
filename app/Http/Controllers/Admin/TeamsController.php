@@ -47,6 +47,19 @@ class TeamsController extends Controller
         $this->addScope = 'OnlineMeetings.ReadWrite.All';
         $this->organizerId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //id usuario juan cuervo
 
+        // //datos Health&Life
+        // $this->clientId = env('TEAMS_CLIENT_ID');
+        // $this->clientSecret = env('TEAMS_CLIENT_SECRET_KEY', "O-rk13Gf8Pu0n804E2q-_wB1SHDt.b8WZu");
+        // $this->tenantId = env('TEAMS_TENANT_ID', "3646e2ff-d462-4f2a-a41b-a6e9757af04b");
+        // $this->redirectUri = 'http://localhost:8000/api/crearRoomTeams';
+        // $this->urlAuthorize = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/authorize';
+        // $this->urlAccessToken = 'https://login.microsoftonline.com/'.$this->tenantId.'/oauth2/v2.0/token';
+        // $this->urlResource = 'https://graph.microsoft.com/v1.0/groups/';
+        // $this->grantType = 'client_credentials';
+        // $this->scope = 'https://graph.microsoft.com/.default';
+        // $this->addScope = 'OnlineMeetings.ReadWrite.All';
+        // $this->organizerId = 'be50135b-fa88-478f-b0eb-8a3e16231f8d'; //id usuario juan cuervo
+
         /*
         $this->clientId = '3b742e2f-beb1-4c18-9d39-f46215b39d3e';
         $this->clientSecret = '99:.GAO34zqe]g/fpBCyUKH-D5=Ukn0F';

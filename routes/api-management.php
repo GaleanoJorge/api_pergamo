@@ -505,6 +505,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento para manual
     Route::get('procedure_bymanual/{id}', 'Management\ProcedureController@getByManual');
 
+    //Procedimiento por diario médico
+    Route::get('procedure/get_procedure_bymedicaldiary/{id}', 'Management\ProcedureController@getByMedicalDiary');
+
     //Procedimiento para paquete
     Route::get('procedure_bypackage', 'Management\ProcedureController@getByProcedure');
 
@@ -1561,6 +1564,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('authorization/byStatus/{id}', 'Management\AuthorizationController@InProcess');
     Route::get('authorization/Historic/{statusId}', 'Management\AuthorizationController@InHistoric');
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
+    Route::get('authorization/RegistrateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@RegistrateNotCreatedAuths');
+    Route::get('authorization/ConsultateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@ConsultateNotCreatedAuths');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.
@@ -1826,6 +1831,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('medical_diary_days', 'Management\MedicalDiaryDaysController');
     Route::patch('medical_diary_days/{id}/changeStatus', 'Management\MedicalDiaryDaysController@ChangeStatus');
     Route::get('medical_diary_days/generateCashReceiptPDF/{id}', 'Management\MedicalDiaryDaysController@generateCashReceiptPDF');
+    Route::post('medical_diary_days/transfer','Management\MedicalDiaryDaysController@transfer');
 
 
     //Estados de la cita medica

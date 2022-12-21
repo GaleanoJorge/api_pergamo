@@ -527,4 +527,34 @@ class MedicalDiaryDaysController extends Controller
             ], 423);
         }
     }
+
+    /**
+     * @param  Request  $request
+     * Reschedule a medical diary day from an assistance to other
+     *
+     * @return JsonResponse
+     */
+    public function transfer(Request $request): JsonResponse
+    {
+
+        $medicalDiaryDayEmisor = MedicalDiaryDays::find($request->oldId);
+        $medicalDiaryDayReceiver = MedicalDiaryDays::find($request->newId);
+        //Receiver
+        $medicalDiaryDayReceiver->patient_id = $medicalDiaryDayEmisor->patient_id;
+        $medicalDiaryDayReceiver->medical_status_id = $medicalDiaryDayEmisor->medical_status_id;
+        $medicalDiaryDayReceiver->admissions_id = $medicalDiaryDayEmisor->admissions_id;
+        //Emisor
+        $medicalDiaryDayEmisor->patient_id = null;
+        $medicalDiaryDayEmisor->medical_status_id = 1;
+        $medicalDiaryDayEmisor->admissions_id = null;
+
+        $medicalDiaryDayEmisor->save();
+        $medicalDiaryDayReceiver->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Reagendamiento realizado correctamente'
+        ]);
+
+    }
 }

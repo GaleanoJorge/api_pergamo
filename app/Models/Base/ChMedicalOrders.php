@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChMedicalOrders
  * 
  * @property int $id
- * @property string $ambulatory_medical_order
+ * @property boolean $ambulatory_medical_order
  * @property BigInteger $procedure_id
  * @property Integer $amount
  * @property TinyInteger $frequency_id

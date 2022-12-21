@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\Procedure;
 use App\Models\ProcedurePackage;
 use App\Models\ManualPrice;
+use App\Models\MedicalDiary;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -162,6 +163,25 @@ class ProcedureController extends Controller
             'message' => 'Paquete de procedimientos obtenido exitosamente',
             'data' => ['procedure' => $Procedure]
         ]);
+    }
+
+    /**
+     * @param  int  $medicalDiaryId
+     * Get procedure by medical diary.
+     *
+     * @return JsonResponse
+     */
+    public function getByMedicalDiary(Request $request, int $medicalDiaryId): JsonResponse
+    {
+
+        $medicalDiary = MedicalDiary::where('id', '=', $medicalDiaryId)->first();
+        $procedure = $medicalDiary->procedure()->first();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimiento obtenido correctamente',
+            'data' => ['procedure' => $procedure]
+        ]);
+
     }
 
 
