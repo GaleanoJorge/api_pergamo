@@ -15,7 +15,7 @@ class CreateChMedicalOrdersTable extends Migration
     {
         Schema::create('ch_medical_orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('ambulatory_medical_order')->nullable();
+            $table->boolean('ambulatory_medical_order')->nullable();
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->integer('amount')->nullable();
