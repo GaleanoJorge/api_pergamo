@@ -1726,5 +1726,14 @@
         "route": "/pages/setting/supplies-measure",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "245",
+        "item_parent_id": "229",
+        "name": "Transferencia de agenda",
+        "code": "schedule-transfer",
+        "route": "/pages/scheduling/schedule-transfer",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

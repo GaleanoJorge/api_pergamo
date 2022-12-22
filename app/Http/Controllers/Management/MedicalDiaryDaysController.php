@@ -173,6 +173,64 @@ class MedicalDiaryDaysController extends Controller
         ]);
     }
 
+    /**
+     * Get procedure's medical diary days
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUserAndProcedure(Request $request): JsonResponse
+    {
+        $userId = $request->userId;
+        $procedureId = $request->procedureId;
+        $init_date = $request->init_date;
+        $finish_date = $request->finish_date;
+        $init_hour = $request->init_hour;
+        $finish_hour = $request->finish_hour;
+
+        $init_date_with_hour = Carbon::parse($init_date . ' ' . $init_hour);
+        $finish_date_with_hour = Carbon::parse($finish_date . ' ' . $finish_hour);
+
+        $medicalDiaryDays = MedicalDiaryDays::select(
+            'medical_diary_days.*',
+            DB::raw("IF(medical_diary_days.medical_status_id = 1, 
+                            'Libre',
+                            IF(medical_diary_days.medical_status_id = 2,
+                                CONCAT('Reservada por :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                IF(medical_diary_days.medical_status_id = 3,
+                                    CONCAT('Confirmada :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                    IF(medical_diary_days.medical_status_id = 4,
+                                            'Facturada',
+                                            'Cancelada')))) AS Subject"),
+            DB::raw("IF(medical_diary_days.medical_status_id = 1, 
+                            '#37B24D',
+                            IF(medical_diary_days.medical_status_id = 2,
+                                '#D8E926',
+                                IF(medical_diary_days.medical_status_id = 3,
+                                    '#09DBD4',
+                                    IF(medical_diary_days.medical_status_id = 4,
+                                            '#F44C01',
+                                            '#7309DB')))) AS CategoryColor"),
+            'assistance.id AS assistance_id',
+            'start_hour AS StartTime',
+            'finish_hour AS EndTime'
+        )
+            ->join('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
+            ->join('assistance', 'medical_diary.assistance_id', 'assistance.id')
+            ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
+            ->join('assistance_procedure', 'assistance_procedure.assistance_id', 'assistance.id')
+            ->join('procedure', 'assistance_procedure.procedure_id', 'procedure.id')
+            ->join('users', 'assistance.user_id', 'users.id')
+            ->where('users.id', '=', $userId)
+            ->where('procedure.id', '=', $procedureId)
+            ->where('medical_diary_days.start_hour', '>=', $init_date_with_hour)
+            ->where('medical_diary_days.finish_hour', '<=', $finish_date_with_hour)
+            ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Diarios médicos del procedimiento y usuario obtenidos correctamente',
+            'data' => ['medical_diary_days' => $medicalDiaryDays->toArray()]
+        ]);
+    }
+
 
     public function store(MedicalDiaryDaysRequest $request): JsonResponse
     {
@@ -536,6 +594,5 @@ class MedicalDiaryDaysController extends Controller
             'status' => true,
             'message' => 'Reagendamiento realizado correctamente'
         ]);
-
     }
 }

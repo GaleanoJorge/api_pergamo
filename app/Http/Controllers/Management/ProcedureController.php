@@ -13,7 +13,7 @@ use App\Http\Requests\ProcedureRequest;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\DB;
 class ProcedureController extends Controller
 {
     /**
@@ -183,6 +183,27 @@ class ProcedureController extends Controller
         ]);
 
     }
+
+    /**
+     * Get user's procedures
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUser(Request $request, int $userId): JsonResponse
+    {
+        $procedures = DB::table('assistance_procedure')
+        ->join('assistance','assistance.id','=','assistance_procedure.assistance_id')
+        ->join('users','users.id','=','assistance.user_id')
+        ->join('procedure','procedure.id','=','assistance_procedure.procedure_id')
+        ->where('users.id','=',$userId)
+        ->select('procedure.*')
+        ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimientos del médico asistencial obtenidos correctamente',
+            'data' => ['procedures' => $procedures->toArray()]
+        ]);
+    }
+
 
 
 
