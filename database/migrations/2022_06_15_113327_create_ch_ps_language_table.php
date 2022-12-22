@@ -19,7 +19,7 @@ class CreateChPsLanguageTable extends Migration
             $table->unsignedBigInteger('ch_ps_comprehensive_id');
             $table->unsignedBigInteger('ch_ps_others_id');
             $table->unsignedBigInteger('ch_ps_paraphasias_id');
-            $table->string('observations');    
+            $table->longText('observations');    
         
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
