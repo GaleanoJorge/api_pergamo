@@ -943,6 +943,12 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\ServicesBriefcaseController@getByBriefcase'
     );
 
+    Route::get(
+        'ServiceBriefcase/getByChRecordId/{ch_record_id}',
+        'Management\ServicesBriefcaseController@getByChRecordId'
+    );
+
+
     //Portafolio de servicios
     Route::apiResource('human_talent_request', 'Management\HumanTalentRequestController');
     Route::apiResource('human_talent_request_observation', 'Management\HumanTalentRequestObservationController');
