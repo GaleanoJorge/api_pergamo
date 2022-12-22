@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\ChMedicalOrders;
+use App\Models\ChRecord;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,10 +18,24 @@ class ChMedicalOrdersController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChMedicalOrders = ChMedicalOrders::with('procedure','frequency');
+        $ChMedicalOrders = ChMedicalOrders::with(
+            'procedure', 
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
+            'frequency', 
+            'admissions');
 
         if ($request->_sort) {
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->id) {
+            $ChMedicalOrders->where('ch_medical_orders.id', $request->id);
+        }
+
+        if ($request->ambulatory_medical_order) {
+            $ChMedicalOrders->where('ch_medical_orders.ambulatory_medical_order', $request->ambulatory_medical_order);
         }
 
         if ($request->search) {
@@ -43,7 +58,6 @@ class ChMedicalOrdersController extends Controller
             'data' => ['ch_medical_orders' => $ChMedicalOrders]
         ]);
     }
-
         /**
      * Display the specified resource.
      *
@@ -51,15 +65,23 @@ class ChMedicalOrdersController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    public function getByRecord(int $id, int $type_record_id): JsonResponse
     {
-        
-       
-        $ChMedicalOrders = ChMedicalOrders::where('ch_record_id', $id)
-        ->where('type_record_id',$type_record_id)
-        ->with('procedure','frequency')
+
+        $chrecord = ChRecord::find($id);
+        $ChMedicalOrders = ChMedicalOrders::select('ch_medical_orders.*')
+        ->leftJoin('ch_record', 'ch_record.id', 'ch_medical_orders.ch_record_id')
+            ->with(
+                'procedure',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'frequency',
+            )
+            ->where('ch_record.admissions_id', $chrecord->admissions_id)
+            ->orderBy('ch_medical_orders.id', 'DESC')
             ->get()->toArray();
-        
+
 
         return response()->json([
             'status' => true,
@@ -67,13 +89,13 @@ class ChMedicalOrdersController extends Controller
             'data' => ['ch_medical_orders' => $ChMedicalOrders]
         ]);
     }
-    
 
     public function store(Request $request): JsonResponse
     {
         $ChMedicalOrders = new ChMedicalOrders;
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
+        $ChMedicalOrders->services_briefcase_id = $request->services_briefcase_id;
         $ChMedicalOrders->amount = $request->amount;
         $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;
@@ -117,6 +139,7 @@ class ChMedicalOrdersController extends Controller
         $ChMedicalOrders = ChMedicalOrders::find($id);
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;
+        $ChMedicalOrders->services_briefcase_id = $request->services_briefcase_id;
         $ChMedicalOrders->amount = $request->amount;
         $ChMedicalOrders->frequency_id = $request->frequency_id;
         $ChMedicalOrders->observations = $request->observations;
