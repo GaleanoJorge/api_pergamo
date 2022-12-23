@@ -511,6 +511,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Procedimiento para paquete
     Route::get('procedure_bypackage', 'Management\ProcedureController@getByProcedure');
 
+    //Procedimiento por usuario
+    Route::get('get_procedure_by_user/{userId}', 'Management\ProcedureController@getByUser');
+
     //Procedimiento para paquete all
     Route::apiResource('procedure_package', 'Management\ProcedurePackageController');
 
@@ -1062,6 +1065,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Assistance
     Route::apiResource('assistance', 'Management\AssistanceController');
+    Route::get('get_assistance_users', 'Management\AssistanceController@getAssistanceUsers');
 
     //Assistance special
     Route::apiResource('assistance_special', 'Management\AssistanceSpecialController');
@@ -1832,7 +1836,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::patch('medical_diary_days/{id}/changeStatus', 'Management\MedicalDiaryDaysController@ChangeStatus');
     Route::get('medical_diary_days/generateCashReceiptPDF/{id}', 'Management\MedicalDiaryDaysController@generateCashReceiptPDF');
     Route::post('medical_diary_days/transfer','Management\MedicalDiaryDaysController@transfer');
-
+    Route::get('get_medical_diary_days_by_user_and_procedure', 'Management\MedicalDiaryDaysController@getByUserAndProcedure');
 
     //Estados de la cita medica
     Route::apiResource('medical_status', 'Management\MedicalStatusController');
