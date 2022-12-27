@@ -179,11 +179,14 @@ class AuthorizationController extends Controller
                     $que->WhereNotNull('authorization.location_id');
                 });
             });
-            // $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
-            //     $que
-            //         //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
-            // });
+            $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
+                $que
+                    //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->WhereNotNull('authorization.location_id');
+                    });
+            });
         } else if ($request->status_id === 'P') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('authorization.auth_status_id', '<', 3);
@@ -333,14 +336,14 @@ class AuthorizationController extends Controller
 
         if ($request->search) {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('authorization.auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
