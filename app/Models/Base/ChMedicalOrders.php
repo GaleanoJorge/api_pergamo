@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $ambulatory_medical_order
  * @property BigInteger $procedure_id
+ * @property BigInteger $services_briefcase_id
  * @property Integer $amount
  * @property TinyInteger $frequency_id
  * @property string $observations
@@ -51,5 +52,9 @@ class ChMedicalOrders extends Model
 	public function ch_record()
 	{
 		return $this->belongsTo(ChRecord::class);
+	}
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
 	}
 }
