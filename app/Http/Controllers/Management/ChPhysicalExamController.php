@@ -151,6 +151,7 @@ class ChPhysicalExamController extends Controller
     {
         $ChPhysicalExam = ChPhysicalExam::find($id);
         $ChPhysicalExam->revision = $request->revision;
+        $ChPhysicalExam->description = $request->description;
         $ChPhysicalExam->type_ch_physical_exam_id = $request->type_ch_physical_exam_id;
         $ChPhysicalExam->type_record_id = $request->type_record_id;
         $ChPhysicalExam->ch_record_id = $request->ch_record_id;

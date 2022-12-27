@@ -18,7 +18,7 @@ class CreateChPsThoughtTable extends Migration
             $table->string('grade');
             $table->string('contents');
             $table->string('prevalent')->nullable();
-            $table->string('observations')->nullable();
+            $table->longText('observations')->nullable();
 
             $table->unsignedBigInteger('ch_ps_speed_id')->nullable();
             $table->unsignedBigInteger('ch_ps_delusional_id')->nullable();

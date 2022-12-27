@@ -91,7 +91,6 @@ class ChMedicalOrdersController extends Controller
         ]);
     }
 
-
     public function store(Request $request): JsonResponse
     {
         $ChMedicalOrders = new ChMedicalOrders;
