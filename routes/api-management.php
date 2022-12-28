@@ -1065,7 +1065,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Assistance
     Route::apiResource('assistance', 'Management\AssistanceController');
-    Route::get('get_assistance_users', 'Management\AssistanceController@getAssistanceUsers');
+    Route::get('get_external_assistance_users', 'Management\AssistanceController@getExternalAssistanceUsers');
+    Route::get('get_external_assistance_users_transfer', 'Management\AssistanceController@getExternalAssistanceUsersTransfer');
+    Route::put('transfer_schedule', 'Management\AssistanceController@transferSchedule');
 
     //Assistance special
     Route::apiResource('assistance_special', 'Management\AssistanceSpecialController');

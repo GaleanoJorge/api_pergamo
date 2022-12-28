@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceRequest;
+use App\Models\Base\MedicalDiary;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -111,12 +112,13 @@ class AssistanceController extends Controller
      * Get every user that's assistance
      * @return \Illuminate\Http\Response
      */
-    public function getAssistanceUsers(Request $request): JsonResponse
+    public function getExternalAssistanceUsers(Request $request): JsonResponse
     {
         $assistances = DB::table('assistance')
-        ->join('users','users.id','=','assistance.user_id')
-        ->select('users.*')
-        ->get();
+            ->join('users', 'users.id', '=', 'assistance.user_id')
+            ->where('assistance.attends_external_consultation','=',1)
+            ->select('users.*')
+            ->get();
         return response()->json([
             'status' => true,
             'message' => 'Médicos asistentes obtenidos correctamente',
@@ -124,6 +126,157 @@ class AssistanceController extends Controller
         ]);
     }
 
+    public function getExternalAssistanceUsersTransfer(Request $request)
+    {
+        $userId = $request->userId;
+        $startDate = $request->startDate;
+        $finishDate = $request->finishDate;
+        $baseQueryMedicalDiaryDays = DB::table('users')
+            ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
+            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
+            ->where('assistance.attends_external_consultation','=',1)
+            ->whereIn('medical_status.id', [2, 3, 4]);
+        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userId)
+            ->where('medical_diary_days.start_hour', '>=', $startDate)
+            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
+        $startHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.start_hour'))->get()->toArray();
+        $startHoursOrigin = array_column($startHoursOrigin, 'start_hour');
+        $finishHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.finish_hour'))->get()->toArray();
+        $finishHoursOrigin = array_column($finishHoursOrigin, 'finish_hour');
+        $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '!=', $userId);
+        $queryDate = (count($startHoursOrigin) > 0) ? ', COUNT(CASE WHEN ' : '';
+        for ($i = 0; $i < count($startHoursOrigin); $i++) {
+            $queryDate .= "(medical_diary_days.start_hour < '" . $startHoursOrigin[$i] . "' OR medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "') AND ";
+        }
+        $queryDate = substr($queryDate, 0, strlen($queryDate) - 4);
+        $queryDate .= (count($startHoursOrigin) > 0) ? 'THEN 1 END) as NOT_CONFLICT_COUNT' : '';
+        $baseQueryFilter = $baseQueryFilter->groupBy('users.id')
+            ->select('users.*',
+                DB::raw('COUNT(medical_diary_days.id) as MEDICAL_DIARY_COUNT ' . (($queryDate == '') ? ', COUNT(medical_diary_days.id) as NOT_CONFLICT_COUNT' : $queryDate)),
+            )
+            ->havingRaw('MEDICAL_DIARY_COUNT = NOT_CONFLICT_COUNT')
+            ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Médicos asistentes obtenidos correctamente',
+            'data' => ['assistances' => $baseQueryFilter->toArray()]
+        ]);
+    }
+
+    private function isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate)
+    {
+        $baseQueryMedicalDiaryDays = DB::table('users')
+            ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
+            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
+            ->where('assistance.attends_external_consultation','=',1)
+            ->whereIn('medical_status.id', [2, 3, 4]);
+        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdOrigin)
+            ->where('medical_diary_days.start_hour', '>=', $startDate)
+            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
+        $startHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.start_hour'))->get()->toArray();
+        $startHoursOrigin = array_column($startHoursOrigin, 'start_hour');
+
+        $finishHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.finish_hour'))->get()->toArray();
+        $finishHoursOrigin = array_column($finishHoursOrigin, 'finish_hour');
+        $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdFinal)
+            ->where('medical_diary_days.start_hour', '>=', $startDate)
+            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
+        $baseQueryFilter = $baseQueryFilter->select(['*']);
+        $stringQuery = "(";
+        for ($i = 0; $i < count($startHoursOrigin); $i++) {
+
+            $stringQuery .= '(medical_diary_days.start_hour >= "' . $startHoursOrigin[$i] . '" AND ' . 'medical_diary_days.start_hour < "' . $finishHoursOrigin[$i] . '") OR ';
+        }
+        $stringQuery = substr($stringQuery, 0, strlen($stringQuery) - 4);
+        $stringQuery .= ')';
+        if (count($startHoursOrigin) > 0) {
+            $baseQueryFilter = $baseQueryFilter->whereRaw($stringQuery);
+        }
+
+        if (count($baseQueryFilter->get()->toArray()) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function transferSchedule(Request $request)
+    {
+        $userIdOrigin = $request->userIdOrigin;
+        $userIdFinal = $request->userIdFinal;
+        $startDate = $request->startDate;
+        $finishDate = $request->finishDate;
+        $campusId = $request->campusId;
+        $flatId = $request->flatId;
+        $pavilionId = $request->pavilionId;
+        $officeId = $request->officeId;
+        $procedureId = $request->procedureId;
+        if ($this->isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Hay conflictos en la agenda'
+            ], 409);
+        }
+
+        $medicalDiaryDaysToTransfer = DB::table('users')
+            ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
+            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
+            ->whereIn('medical_status.id', [2, 3, 4])
+            ->where('users.id', '=', $userIdOrigin)
+            ->where('medical_diary_days.start_hour', '>=', $startDate)
+            ->where('medical_diary_days.finish_hour', '<=', $finishDate)
+            ->orderBy('medical_diary_days.start_hour', 'asc')
+            ->select('medical_diary_days.*');
+
+        if (count($medicalDiaryDaysToTransfer->get()) == 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'No hay nada por transferir'
+            ]);
+        }
+
+        $medicalDiaryDaysToTransferConverted = $medicalDiaryDaysToTransfer->get();
+
+        $assistanceId = DB::table('users')
+            ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->where('assistance.user_id', '=', $userIdFinal)
+            ->select('assistance.id')
+            ->get()
+            ->toArray()[0]
+            ->id;
+
+        $newMedicalDiary = new MedicalDiary;
+        $newMedicalDiary->assistance_id = $assistanceId;
+        $newMedicalDiary->campus_id = $campusId;
+        $newMedicalDiary->flat_id = $flatId;
+        $newMedicalDiary->pavilion_id = $pavilionId;
+        $newMedicalDiary->procedure_id = $procedureId;
+        $newMedicalDiary->office_id = $officeId;
+        $newMedicalDiary->diary_status_id = 1;
+        $newMedicalDiary->diary_status_id = $procedureId;
+        $newMedicalDiary->created_at = date("Y-m-d h:i:s");
+        $newMedicalDiary->updated_at = date("Y-m-d h:i:s");
+        $newMedicalDiary->start_time = explode(" ", $medicalDiaryDaysToTransferConverted[0]->start_hour)[1];
+        $newMedicalDiary->finish_time = explode(" ", $medicalDiaryDaysToTransferConverted[count($medicalDiaryDaysToTransferConverted) - 1]->finish_hour)[1];
+        $newMedicalDiary->start_date = explode(" ", $medicalDiaryDaysToTransferConverted[0]->start_hour)[0];
+        $newMedicalDiary->finish_date = explode(" ", $medicalDiaryDaysToTransferConverted[count($medicalDiaryDaysToTransferConverted) - 1]->finish_hour)[0];
+        $newMedicalDiary->interval = Carbon::parse($medicalDiaryDaysToTransferConverted[0]->finish_hour);
+        $newMedicalDiary->interval = $newMedicalDiary->interval->diffInMinutes(date($medicalDiaryDaysToTransferConverted[0]->start_hour));
+
+        $newMedicalDiary->save();
+
+        $medicalDiaryDaysToTransfer->update(['medical_diary_id' => $newMedicalDiary->id]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Transferencia de agenda realizada correctamente'
+        ]);
+    }
 
     public function store(AssistanceRequest $request): JsonResponse
     {
@@ -214,6 +367,4 @@ class AssistanceController extends Controller
             ], 423);
         }
     }
-
-
 }
