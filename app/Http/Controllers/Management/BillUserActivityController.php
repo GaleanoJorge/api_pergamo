@@ -87,6 +87,9 @@ class BillUserActivityController extends Controller
             ]);
         }
 
+        $date_validate = Carbon::parse(Carbon::now()->year . '-' . $mes . '01 00:00:00');
+        $date_validate2 = Carbon::parse(Carbon::now()->year . '-' . $mes . '-01 00:00:00')->addMonth();
+
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
                 'management_plan',
@@ -97,8 +100,8 @@ class BillUserActivityController extends Controller
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
             ->whereNotNull('management_plan.procedure_id')
-            ->whereRaw("assigned_management_plan.execution_date < '2022-".($mes+1)."-01 00:00:00'")
-            ->whereRaw("assigned_management_plan.execution_date >= '2022-".$mes."-01 00:00:00'")
+            ->whereRaw("assigned_management_plan.execution_date < " . $date_validate2)
+            ->whereRaw("assigned_management_plan.execution_date >= " . $date_validate)
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
@@ -107,9 +110,8 @@ class BillUserActivityController extends Controller
 
         foreach ($Amp as $element) {
             $validate = null;
-            $mes = Carbon::parse('2022-'.$mes.'-06 00:12:27')->month;
 
-            $validate = AccountReceivable::whereRaw("created_at >= '2022-".$mes."-01 00:00:00'")->whereRaw("created_at < '2022-".($mes+1)."-01 00:00:00'")->where('user_id','=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at >= " . $date_validate)->whereRaw("created_at < "  . $date_validate)->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
@@ -117,9 +119,9 @@ class BillUserActivityController extends Controller
                 $AccountReceivable->user_id = $element['user_id'];
                 $AccountReceivable->status_bill_id = 1;
                 $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->created_at = '2022-'.$mes.'-29 00:12:27';
-                $AccountReceivable->updated_at = '2022-'.$mes.'-29 00:12:27';
-                $AccountReceivable->save();
+                $AccountReceivable->created_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
+                $AccountReceivable->updated_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
+                // $AccountReceivable->save();
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);

@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorizationRequest;
+use App\Models\AssignedManagementPlan;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
@@ -178,11 +179,14 @@ class AuthorizationController extends Controller
                     $que->WhereNotNull('authorization.location_id');
                 });
             });
-            // $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
-            //     $que
-            //         //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-            //         ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
-            // });
+            $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
+                $que
+                    //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                    ->orWhere(function ($que) use ($request) {
+                        $que->WhereNotNull('authorization.location_id');
+                    });
+            });
         } else if ($request->status_id === 'P') {
             $Authorization->where(function ($query) use ($request) {
                 $query->where('authorization.auth_status_id', '<', 3);
@@ -332,14 +336,14 @@ class AuthorizationController extends Controller
 
         if ($request->search) {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('authorization.auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
@@ -613,6 +617,78 @@ class AuthorizationController extends Controller
         ]);
     }
 
+    /**
+     * consultate not created authorizatons of medicament applications
+     * @return \Illuminate\Http\Response
+     */
+    public function ConsultateNotCreatedAuths(Request $request, int $management_plan_id): JsonResponse
+    {
+        $Authorization = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
+            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
+            ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
+            ->where('amp.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('amp.management_plan_id', $management_plan_id)
+            ->whereNull('a.id')
+            ->whereNotNull('mp.product_id')
+            ->groupBy('as2.id')
+            ->get()->toArray();
+        return response()->json([
+            'status' => true,
+            'message' => 'Estados de glosas obtenidos exitosamente',
+            'data' => ['authorization' => count($Authorization)]
+        ]);
+    }
+
+    /**
+     * Registrate not created authorizatons of medicament applications
+     * @return \Illuminate\Http\Response
+     */
+    public function RegistrateNotCreatedAuths(Request $request, int $management_plan_id): JsonResponse
+    {
+        $Authorization = AssignedManagementPlan::select(
+            DB::raw('as2.id as application_id'),
+            DB::raw('amp.id as assigned_management_plan_id'),
+            DB::raw('sb.id as services_briefcase_id'),
+            DB::raw('cr.admissions_id as admissions_id'),
+            DB::raw('bs.product_id  as product_id'),
+        )
+            ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
+            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
+            ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
+            ->leftJoin('pharmacy_request_shipping as prs', 'prs.pharmacy_product_request_id ', ' ppr.id')
+            ->leftJoin('pharmacy_lot_stock as pls', 'pls.id ', ' prs.pharmacy_lot_stock_id')
+            ->leftJoin('billing_stock as bs', 'bs.id ', ' pls.billing_stock_id')
+            ->where('amp.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('amp.management_plan_id', $management_plan_id)
+            ->whereNull('a.id')
+            ->whereNotNull('mp.product_id')
+            ->groupBy('as2.id')
+            ->get()->toArray();
+
+        foreach ($Authorization as $element) {
+            $auth = new Authorization;
+            $auth->services_briefcase_id = $element['services_briefcase_id'];
+            $auth->assigned_management_plan_id = $element['assigned_management_plan_id'];
+            $auth->admissions_id = $element['admissions_id'];
+            $auth->auth_status_id = 3;
+            $auth->product_com_id =  $element['product_id'];
+            $auth->application_id = $element['application_id'];
+            $auth->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Estados de glosas obtenidos exitosamente',
+            'data' => ['authorization' => count($Authorization)]
+        ]);
+    }
 
     public function store(AuthorizationRequest $request): JsonResponse
     {

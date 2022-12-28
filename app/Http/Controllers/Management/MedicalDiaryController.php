@@ -95,6 +95,7 @@ class MedicalDiaryController extends Controller
         foreach ($calendar_days as $item) {
             $validate_schedule_range =  MedicalDiaryDays::select('medical_diary_days.*')
                 ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
+                ->where('medical_diary.diary_status_id', 1)
                 ->where('assistance_id', $request->assistance_id)
                 ->where(function ($query) use ($request, $item) {
                     $low_border = Carbon::parse($item . $request->start_time);

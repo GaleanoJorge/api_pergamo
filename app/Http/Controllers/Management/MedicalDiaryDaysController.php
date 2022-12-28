@@ -506,6 +506,7 @@ class MedicalDiaryDaysController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
+        $myrequest = new Request();
         $procedure = ServicesBriefcase::select('services_briefcase.*')
             ->where('id', $request->service_briefcase_id)
             ->with(
@@ -534,7 +535,25 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays->patient_id = $request->patient_id;
         $MedicalDiaryDays->copay_id = $request->copay_id;
         $MedicalDiaryDays->copay_value = $request->copay_value;
+        $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
+
+        if($request->is_telemedicine != 0){
+            $myrequest->setMethod('POST');
+         $myrequest->attributes->add([
+            'dateStart' => $MedicalDiaryDays->start_hour,
+            'dateEnd' => $MedicalDiaryDays->finish_hour,
+            'organizerEmail' => 'sistemashyl@healthandlife2022.onmicrosoft.com',
+            'subject' => $MedicalDiaryDays->id      
+        ]);
+   
+
+        $retCalculator = app('App\Http\Controllers\Admin\TeamsController')->createRoomTeams($myrequest,$MedicalDiaryDays->start_hour,$MedicalDiaryDays->finish_hour,'sistemashyl@healthandlife2022.onmicrosoft.com',$MedicalDiaryDays->id);
+        $retCalculator = json_decode($retCalculator, true);
+        $MedicalDiaryDays->url_teams = $retCalculator['joinWebUrl'];
+
+        }
         $MedicalDiaryDays->save();
+
 
         return response()->json([
             'status' => true,
