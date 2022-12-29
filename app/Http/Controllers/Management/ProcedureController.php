@@ -23,7 +23,8 @@ class ProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Procedures = Procedure::select('procedure.*');
+        $Procedures = Procedure::select('procedure.*')
+            ->where('procedure.status_id', 1);
 
         if($request->assistance_id){
             $Procedures->leftJoin('assistance_procedure', 'procedure.id', 'assistance_procedure.procedure_id')
@@ -66,7 +67,7 @@ class ProcedureController extends Controller
         $ProcedurePackage = ProcedurePackage::pluck('procedure_id')->toArray();
         if ($request->procedure) {
             $elementsPackage = Procedure::where('procedure_type_id', '!=', 3)
-            ;
+            ->where('status_id', 1);
             if ($request->search) {
                 $elementsPackage->where(function ($query) use ($request) {
                     $query->where('code', 'like', '%' . $request->search . '%')
@@ -144,7 +145,7 @@ class ProcedureController extends Controller
     public function getByManual(Request $request, int $manualId): JsonResponse
     {
         $ManualPrice = ManualPrice::where('manual_id', '=', $manualId)->pluck('procedure_id')->toArray();
-        $Procedure = Procedure::whereNotIn('id', $ManualPrice);
+        $Procedure = Procedure::whereNotIn('id', $ManualPrice)->where('status_id', 1);
         if ($request->search) {
             $Procedure->where('name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
