@@ -40,7 +40,7 @@ class CopayParametersController extends Controller
                 ->with(
                     'manual_price',
                     'manual_price.procedure',
-                )->toArray();
+                )->get()->toArray();
 
             $CopayParameters->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type']);
 
