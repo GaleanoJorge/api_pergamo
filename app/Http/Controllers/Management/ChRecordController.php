@@ -5303,6 +5303,7 @@ class ChRecordController extends Controller
                         $assigned_redo->redo = '00000000000000';
                         $assigned_redo->save();
                         $billActivity->status = 'REENVIADO';
+                        $billActivity->ch_record_id = $ChRecord->id;
                         $billActivity->save();
                     } else {
                         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
