@@ -38,21 +38,22 @@ class CopayParametersController extends Controller
             $procedure = ServicesBriefcase::select('services_briefcase.*')
                 ->where('id', $request->services_briefcase_id)
                 ->with(
-                    'manual_price.procedure'
-                )->first();
+                    'manual_price',
+                    'manual_price.procedure',
+                )->toArray();
 
-            $CopayParameters->where('payment_type', $procedure->manual_price->procedure->payment_type);
+            $CopayParameters->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type']);
 
             // 1 cuota moderadora - 2 copago - 3 exento
-            if ($procedure->manual_price->procedure->payment_type == 2) {
+            if ($procedure[0]['manual_price']['procedure']['payment_type'] == 2) {
                 $secondCopay = CopayParameters::select('copay_parameters.*')
-                    ->where('payment_type', $procedure->manual_price->procedure->payment_type)
+                    ->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type'])
                     ->where('status_id', $request->status_id)
                     ->orderBy('payment_type', 'ASC')
                     ->orderBy('category', 'ASC')->get()->toArray();
                 $array = [];
                 foreach ($secondCopay as $item) {
-                    $value = $item['value'] * $procedure->value;
+                    $value = $item['value'] * $procedure[0]['value'];
                     array_push($array, $value);
                 }
                 array_map(null, $secondCopay, $array);
@@ -62,12 +63,13 @@ class CopayParametersController extends Controller
 
         if ($request->procedure_id) {
             $procedure = ServicesBriefcase::select('services_briefcase.*')
-            ->where('id', $request->procedure_id)
-            ->with(
-                'manual_price.procedure'
-            )->get()->first();
+                ->where('id', $request->procedure_id)
+                ->with(
+                    'manual_price',
+                    'manual_price.procedure',
+                )->get()->toArray();
             // 1 cuota moderadora - 2 copago - 3 exento
-            $CopayParameters->where('payment_type', $procedure->manual_price->procedure->payment_type);
+            $CopayParameters->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type']);
             // var_dump($procedure);
         }
 
