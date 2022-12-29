@@ -15,6 +15,7 @@ class CreateRecommendationsEvoTable extends Migration
     {
         Schema::create('recommendations_evo', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('code');
             $table->string('name');
             $table->longText('description');
             $table->timestamps();

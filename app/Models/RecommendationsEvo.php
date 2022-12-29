@@ -8,6 +8,7 @@ use App\Models\Base\RecommendationsEvo as BaseRecommendationsEvo;
 class RecommendationsEvo extends BaseRecommendationsEvo
 {
   protected $fillable = [
+    'code',
     'name',
     'description',
     
