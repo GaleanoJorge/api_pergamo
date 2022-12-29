@@ -19,7 +19,7 @@ class ServicesBriefcaseController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ServicesBriefcase = ServicesBriefcase::with('manual_price.patient');
+        $ServicesBriefcase = ServicesBriefcase::with('manual_price.patient', 'manual_price.procedure' );
 
         if ($request->_sort) {
             $ServicesBriefcase->orderBy($request->_sort, $request->_order);
@@ -101,6 +101,11 @@ class ServicesBriefcaseController extends Controller
                 $ServicesBriefcase
                 ->where('procedure.procedure_category_id', '=', 5);
             }
+        }
+
+        //External consult CUPS atention
+        if($request->cups_selected_id != null && isset($request->cups_selected_id) && $request->cups_selected_id != 'null'){
+            $ServicesBriefcase->where('manual_price.procedure_id', $request->cups_selected_id);
         }
 
         if ($request->search) {
@@ -228,7 +233,8 @@ class ServicesBriefcaseController extends Controller
             ->with('manual_price')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->where('services_briefcase.briefcase_id', $briefcaseId)
-            ->where('manual_price.manual_procedure_type_id', 3)->get()->toArray();
+            ->where('manual_price.manual_procedure_type_id', 3)
+            ->groupBy('services_briefcase.id')->get()->toArray();
         return response()->json([
             'status' => true,
             'message' => 'Portafolio por contrato obtenido exitosamente',

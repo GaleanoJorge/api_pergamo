@@ -154,7 +154,7 @@ class LocationCapacityController extends Controller
         $actualMonth = Carbon::now()->month;
         $year = $actualMonth <= $request->month ?  Carbon::now()->year : Carbon::now()->addYear()->year;
         $lastDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->endOfMonth();
-        $firstDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->startOfMonth();
+        $firstDayMonth = Carbon::parse($year . '-' . ($request->procedence == 2 ? $request->month : $actualMonth) . '-15')->startOfMonth();
 
         $array = json_decode($request->localities_id);
         foreach ($array as $item) {

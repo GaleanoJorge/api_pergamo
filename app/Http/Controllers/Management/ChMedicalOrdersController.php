@@ -58,7 +58,8 @@ class ChMedicalOrdersController extends Controller
             'data' => ['ch_medical_orders' => $ChMedicalOrders]
         ]);
     }
-        /**
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id

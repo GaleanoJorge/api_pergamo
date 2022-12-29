@@ -24,7 +24,6 @@ use App\Models\Diagnosis;
 use App\Models\ManagementPlan;
 use App\Models\PacMonitoring;
 use App\Models\Patient;
-use App\Models\Procedure;
 use App\Models\ScopeOfAttention;
 
 
@@ -105,14 +104,15 @@ class Admissions extends Model
 	{
 		return $this->belongsTo(TypeBriefcase::class,'regime_id');
 	}
-	public function procedure()
-	{
-		return $this->belongsTo(Procedure::class,'procedure_id');
-	}
 
 	public function diagnosis()
 	{
 		return $this->belongsTo(Diagnosis::class);
+	}
+
+	public function ch_interconsultation()
+	{
+		return $this->hasMany(ChInterconsultation::class, 'admissions_id', 'id');
 	}
 
 	public function management_plan()

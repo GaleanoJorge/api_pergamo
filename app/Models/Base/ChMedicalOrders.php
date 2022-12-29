@@ -6,11 +6,13 @@
 
 namespace App\Models\Base;
 
+use App\Models\Admissions;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Frequency;
 
 use App\Models\Procedure;
+use App\Models\ServicesBriefcase;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ChMedicalOrders
  * 
  * @property int $id
- * @property string $ambulatory_medical_order
+ * @property boolean $ambulatory_medical_order
  * @property BigInteger $procedure_id
  * @property BigInteger $services_briefcase_id
  * @property Integer $amount
@@ -26,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $observations
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
+ * @property BigInteger $admissions_id
+ * @property BigInteger $services_briefcase_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
