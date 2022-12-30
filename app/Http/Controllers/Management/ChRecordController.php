@@ -2651,7 +2651,12 @@ class ChRecordController extends Controller
                 'ch_ps_intelligence'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $id)->with(
+                'axis_one',
+                'axis_two',
+                'axis_three',
+                'axis_four'
+            )->where('type_record_id', 1)->get()->toArray();
             $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
@@ -5303,6 +5308,7 @@ class ChRecordController extends Controller
                         $assigned_redo->redo = '00000000000000';
                         $assigned_redo->save();
                         $billActivity->status = 'REENVIADO';
+                        $billActivity->ch_record_id = $ChRecord->id;
                         $billActivity->save();
                     } else {
                         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {

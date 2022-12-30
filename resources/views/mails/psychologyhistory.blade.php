@@ -1008,7 +1008,7 @@
                         </td>
                         <td style="width:100pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                <span style="font-family:Calibri">@if(isset($ch['axis_one'])) {{$ch['axis_one']}} @endisset </span>
+                                <span style="font-family:Calibri">@if(isset($ch['axis_one'])) {{$ch['axis_one']['code']}} - {{$ch['axis_one']['name']}} @endisset </span>
                             </p>
                         </td>
                     </tr>
@@ -1020,7 +1020,7 @@
                         </td>
                         <td style="width:80pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                <span style="font-family:Calibri">@if(isset($ch['axis_two'])) {{$ch['axis_two']}} @endisset </span>
+                                <span style="font-family:Calibri">@if(isset($ch['axis_two'])) {{$ch['axis_two']['code']}} - {{$ch['axis_two']['name']}} @endisset </span>
                             </p>
                         </td>
                     </tr>
@@ -1032,7 +1032,7 @@
                         </td>
                         <td style="width:100pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                <span style="font-family:Calibri">@if(isset($ch['axis_three']))  {{$ch['axis_three'] }}  @endisset</span>
+                                <span style="font-family:Calibri">@if(isset($ch['axis_three'])) {{$ch['axis_three']['code'] }} - {{$ch['axis_three']['name'] }}  @endisset</span>
                             </p>
                         </td>
                     </tr>
@@ -1044,7 +1044,7 @@
                         </td>
                         <td style="width:100pt; vertical-align:top">
                             <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                                <span style="font-family:Calibri">@if(isset($ch['axis_four']))  {{$ch['axis_four'] }}  @endisset</span>
+                                <span style="font-family:Calibri">@if(isset($ch['axis_four'])) {{$ch['axis_four']['code'] }} - {{$ch['axis_four']['name'] }}  @endisset</span>
                             </p>
                         </td>
                     </tr>
