@@ -15,14 +15,32 @@ class CreateChInterconsultationTable extends Migration
     {
         Schema::create('ch_interconsultation', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('specialty_id');
-            $table->integer('amount');
-            $table->unsignedTinyInteger('frequency_id');
-            $table->longText('observations')->nullable();
-            $table->unsignedBigInteger('type_record_id');
-            $table->unsignedBigInteger('ch_record_id');
+            $table->string('ambulatory_medical_order')->nullable();
+            $table->unsignedTinyInteger('type_of_attention_id')->nullable();
+            $table->unsignedBigInteger('specialty_id')->nullable();
+            $table->integer('amount')->nullable();
+            $table->unsignedTinyInteger('frequency_id')->nullable();
+            $table->string('observations')->nullable();
+            $table->unsignedBigInteger('type_record_id')->nullable();
+            $table->unsignedBigInteger('ch_record_id')->nullable();
+
+            $table->unsignedBigInteger('services_briefcase_id')->nullable();
+            $table->unsignedBigInteger('admissions_id')->nullable();
+
             $table->timestamps();
-            
+
+            $table->index('type_of_attention_id');
+            $table->foreign('type_of_attention_id')->references('id')
+                ->on('type_of_attention');
+
+            $table->index('admissions_id');
+            $table->foreign('admissions_id')->references('id')
+                ->on('admissions');
+
+            $table->index('services_briefcase_id');
+            $table->foreign('services_briefcase_id')->references('id')
+                ->on('services_briefcase');
+
             $table->index('specialty_id');
             $table->foreign('specialty_id')->references('id')
                 ->on('specialty');
@@ -34,7 +52,7 @@ class CreateChInterconsultationTable extends Migration
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                 ->on('type_record');
-                
+
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');

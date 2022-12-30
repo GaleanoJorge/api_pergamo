@@ -18,8 +18,22 @@ class ChPsMultiaxialController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChPsMultiaxial = ChPsMultiaxial::select('ch_ps_multiaxial.*');
-        
+        $ChPsMultiaxial = ChPsMultiaxial::select('ch_ps_multiaxial.*')
+            ->with(
+                'axis_one',
+                'axis_two',
+                'axis_three',
+                'axis_four'
+            );
+
+        if ($request->ch_record_id) {
+            $ChPsMultiaxial->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->type_record_id) {
+            $ChPsMultiaxial->where('type_record_id', $request->type_record_id);
+        }
+
 
         if ($request->_sort) {
             $ChPsMultiaxial->orderBy($request->_sort, $request->_order);
@@ -57,7 +71,12 @@ class ChPsMultiaxialController extends Controller
 
 
         $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $id)
-        ->where('type_record_id', $type_record_id)->get()->toArray();
+            ->where('type_record_id', $type_record_id)->with(
+                'axis_one',
+                'axis_two',
+                'axis_three',
+                'axis_four'
+            )->get()->toArray();
 
 
         return response()->json([
@@ -72,10 +91,10 @@ class ChPsMultiaxialController extends Controller
     {
 
         $ChPsMultiaxial = new ChPsMultiaxial;
-        $ChPsMultiaxial->axis_one = $request->axis_one;
-        $ChPsMultiaxial->axis_two = $request->axis_two;
-        $ChPsMultiaxial->axis_three = $request->axis_three;
-        $ChPsMultiaxial->axis_four = $request->axis_four;
+        $ChPsMultiaxial->axis_one_id = $request->axis_one_id;
+        $ChPsMultiaxial->axis_two_id = $request->axis_two_id;
+        $ChPsMultiaxial->axis_three_id = $request->axis_three_id;
+        $ChPsMultiaxial->axis_four_id = $request->axis_four_id;
         $ChPsMultiaxial->eeag = $request->eeag;
         $ChPsMultiaxial->type_record_id = $request->type_record_id;
         $ChPsMultiaxial->ch_record_id = $request->ch_record_id;
@@ -124,10 +143,10 @@ class ChPsMultiaxialController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChPsMultiaxial = ChPsMultiaxial::find($id);
-        $ChPsMultiaxial->axis_one = $request->axis_one;
-        $ChPsMultiaxial->axis_two = $request->axis_two;
-        $ChPsMultiaxial->axis_three = $request->axis_three;
-        $ChPsMultiaxial->axis_four = $request->axis_four;
+        $ChPsMultiaxial->axis_one_id = $request->axis_one_id;
+        $ChPsMultiaxial->axis_two_id = $request->axis_two_id;
+        $ChPsMultiaxial->axis_three_id = $request->axis_three_id;
+        $ChPsMultiaxial->axis_four_id = $request->axis_four_id;
         $ChPsMultiaxial->eeag = $request->eeag;
         $ChPsMultiaxial->type_record_id = $request->type_record_id;
         $ChPsMultiaxial->ch_record_id = $request->ch_record_id;

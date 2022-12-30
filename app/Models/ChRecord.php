@@ -16,5 +16,6 @@ class ChRecord extends BaseChRecord
     'user_id',
     'ch_type_id',
     'date_finish',
+    'ch_interconsultation_id',
   ];
 }

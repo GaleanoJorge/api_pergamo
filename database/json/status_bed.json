@@ -10,5 +10,11 @@
     },
     {
         "name": "En desinfección"
+    },
+    {
+        "name": "Inactiva"
+    },
+    {
+        "name": "Reservada"
     }
 ]  

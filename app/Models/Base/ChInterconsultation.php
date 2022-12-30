@@ -6,11 +6,14 @@
 
 namespace App\Models\Base;
 
+use App\Models\Admissions;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Frequency;
 use App\Models\HourlyFrequency;
+use App\Models\ServicesBriefcase;
 use App\Models\Specialty;
+use App\Models\TypeOfAttention;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +27,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $observations
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
+ * @property BigInteger $services_briefcase_id
+ * @property BigInteger $admissions_id
+ * @property BigInteger $ambulatory_medical_order
+ * @property BigInteger $type_of_attention_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -49,5 +56,28 @@ class ChInterconsultation extends Model
 	public function ch_record()
 	{
 		return $this->belongsTo(ChRecord::class);
+	}
+	public function services_briefcase()
+	{
+		return $this->belongsTo(ServicesBriefcase::class);
+	}
+	public function admissions()
+	{
+		return $this->belongsTo(Admissions::class);
+	}
+	public function type_of_attention()
+	{
+		return $this->belongsTo(TypeOfAttention::class);
+	}
+
+	public function many_ch_record()
+	{
+		return $this->hasMany(ChRecord::class, 'ch_interconsultation_id', 'id')
+			->with('user');
+	}
+	public function roles()
+	{
+		return $this->hasMany(RoleAttention::class, 'type_of_attention_id', 'type_of_attention_id')
+			->with('role');
 	}
 }

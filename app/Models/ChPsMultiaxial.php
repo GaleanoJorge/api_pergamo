@@ -8,10 +8,10 @@ use App\Models\Base\ChPsMultiaxial as BaseChPsMultiaxial;
 class ChPsMultiaxial extends BaseChPsMultiaxial
 {
   protected $fillable = [
-    'axis_one',
-    'axis_two',
-    'axis_three',
-    'axis_four',
+    'axis_one_id',
+    'axis_two_id',
+    'axis_three_id',
+    'axis_four_id',
     'eeag',
     'type_record_id',
     'ch_record_id'

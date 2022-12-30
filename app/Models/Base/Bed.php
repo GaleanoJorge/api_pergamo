@@ -8,6 +8,8 @@ namespace App\Models\Base;
 use App\Models\Pavilion;
 use App\Models\StatusBed;
 use App\Models\Location;
+use App\Models\Procedure;
+use App\Models\Reference;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -36,9 +38,17 @@ class Bed extends Model
 	{
 		return $this->belongsTo(StatusBed::class);
 	}
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class);
+	}
 	public function location()
 	{
 		return $this->hasMany(Location::class);
+	}
+	public function reference()
+	{
+		return $this->hasMany(Reference::class, 'acceptance_bed_id', 'id');
 	}
 	
 }
