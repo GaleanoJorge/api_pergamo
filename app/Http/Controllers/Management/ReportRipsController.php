@@ -6,7 +6,6 @@ use App\Models\ReportRips;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\BedRequest;
 use App\Models\BillingPad;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -75,19 +74,19 @@ class ReportRipsController extends Controller
     {
         //--US
         $hoja1 = BillingPad::select(
-            'identification_type.code AS Tipo de Identifiacion del Usuario en el Sistema',
-            'patients.identification AS Numero de Identifiacion del Usuario en el Sistema',
-            'company.administrator AS Codigo Entidad Administradora', //Codigo Entidad Administradora
+            'identification_type.code AS Tipo de Identifiación del Usuario en el Sistema',
+            'patients.identification AS Número de Identifiación del Usuario en el Sistema',
+            'company.administrator AS Código Entidad Administradora', //Codigo Entidad Administradora
             'type_briefcase.name AS Tipo de Usuario', // validar info para arreglar json
-            'patients.lastname AS Primer Apellido del usuario',
-            'patients.middlelastname AS Segundo apellido del usuario',
-            'patients.firstname AS Primer nombre del usuario',
-            'patients.middlefirstname AS Segundo nombre del usuario',
+            'patients.lastname AS Primer Apellido del Usuario',
+            'patients.middlelastname AS Segundo Apellido del Usuario',
+            'patients.firstname AS Primer Nombre del Usuario',
+            'patients.middlefirstname AS Segundo Nombre del Usuario',
             'patients.age AS Edad',
             //Unidad de medida de la Edad  /la data que llegue a traer // 1 años //2 meses //3 dias
             'gender.name AS Sexo',
-            'region.code AS Codigo del departamento de residencia habitual',
-            'municipality.id AS Codigo de municipios de residencia habitual',
+            'region.code AS Código del departamento de residencia habitual',
+            'municipality.id AS Código de municipios de residencia habitual',
             'residence.name AS Zona de residencia habitual',
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
@@ -110,6 +109,7 @@ class ReportRipsController extends Controller
         $hoja1 = $this->TypeUser($hoja1);
         $hoja1 = $this->TypeSex($hoja1);
         $hoja1 = $this->TypeZone($hoja1);
+        
 
         //--AC
         $hoja2 = BillingPad::select(
@@ -358,7 +358,7 @@ class ReportRipsController extends Controller
             ->groupBy('patients.id')
             ->get()->toArray();
 
-        //--AC
+        //--CT
         $hoja8 = BillingPad::select(
             'campus.enable_code AS Codigo del prestador de salud',
             // Fecha de remision
@@ -400,7 +400,6 @@ class ReportRipsController extends Controller
             'data' => ['report_rips' => $response]
         ]);
     }
-
     public function TypeUser(array $arr)
     {
         $aux = $arr;

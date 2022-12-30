@@ -6,39 +6,37 @@
 
 namespace App\Models\Base;
 
-use App\Models\Company;
 use App\Models\User;
-use Carbon\Carbon;
-use Carbon\Traits\Date;
-use Illuminate\Database\Eloquent\Collection;
+use Brick\Math\BigInteger;
 use Illuminate\Database\Eloquent\Model;
-use phpseclib3\Math\BigInteger;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 
 /**
- * Class ReportRips
+ * Class Reports
  * 
  * @property int $id 
  * @property Date $initial_report
- * @property date $final_report
- * @property BigInteger $company_id
+ * @property Date $final_report
+ * @property BigInteger $billing_pad
  * @property BigInteger $user_id
+ * @property string $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
  *
  * @package App\Models\Base
  */
-class ReportRips extends Model
+class ReportBilling extends Model
 {
-	protected $table = 'report_rips';
+	protected $table = 'billing';
 
-	public function company()
+	public function billing()
 	{
-		return $this->belongsTo(Company::class);
+		return $this->belongsTo(Billing::class);
 	}
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
-	
 }

@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use PDO;
 use Phar;
+use phpseclib3\Math\BigInteger;
 
 /**
  * Class PharmacyStock

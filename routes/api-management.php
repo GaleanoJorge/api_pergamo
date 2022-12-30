@@ -1333,6 +1333,16 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::apiResource('report_rips', 'Management\ReportRipsController');
     Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
+
+    Route::apiResource('report_pharmacy', 'Management\ReportPharmacyController');
+    Route::get('report_pharmacy/export/{id}', 'Management\ReportPharmacyController@exportPharmacy');
+
+    Route::apiResource('report_billing', 'Management\ReportBillingController');
+    Route::get('report_billing/export/{id}', 'Management\ReportsController@exportBilling');
+
+    Route::apiResource('report_gloss', 'Management\ReportGlossController');
+    Route::get('report_gloss/export/{id}', 'Management\ReportsController@exportGloss');
+
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
         'FixedClasification/byGroup/{fixed_type_id}',
