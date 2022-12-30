@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class RecommendationsEvo
  * 
  * @property int $id
+ * @property int $code
  * @property string $name
  * @property string $description
 

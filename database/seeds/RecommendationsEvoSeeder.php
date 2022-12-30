@@ -16,6 +16,7 @@ class RecommendationsEvoSeeder extends Seeder
         
         foreach(json_decode($jRecommendationsEvo) as $row){
             RecommendationsEvo::create([
+                'code' => $row->code,
                 'name' => $row->name,
                 'description' => $row->description
             ]);
