@@ -4815,6 +4815,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
+        @if($chrecord[0]['ch_interconsultation_id'] != null )
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
@@ -4828,7 +4829,8 @@
             <p style="margin-top:8.95pt; margin-left:30pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                 <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-            </p>
+        </p>
+        @endisset
     </div>
 
 </td>
