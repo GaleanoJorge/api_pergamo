@@ -11,6 +11,7 @@ use App\Models\Base\MedicalDiary;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
+use App\Models\User;
 
 class AssistanceController extends Controller
 {
@@ -148,7 +149,9 @@ class AssistanceController extends Controller
         $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '!=', $userId);
         $queryDate = (count($startHoursOrigin) > 0) ? ', COUNT(CASE WHEN ' : '';
         for ($i = 0; $i < count($startHoursOrigin); $i++) {
-            $queryDate .= "(medical_diary_days.start_hour < '" . $startHoursOrigin[$i] . "' OR medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "') AND ";
+            //$queryDate .= "(medical_diary_days.start_hour < '" . $startHoursOrigin[$i] . "' OR medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "') AND ";
+            $queryDate .= "(medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "' OR ";
+            $queryDate .= "medical_diary_days.finish_hour <= '" . $startHoursOrigin[$i] . "') AND ";
         }
         $queryDate = substr($queryDate, 0, strlen($queryDate) - 4);
         $queryDate .= (count($startHoursOrigin) > 0) ? 'THEN 1 END) as NOT_CONFLICT_COUNT' : '';
@@ -188,7 +191,6 @@ class AssistanceController extends Controller
         $baseQueryFilter = $baseQueryFilter->select(['*']);
         $stringQuery = "(";
         for ($i = 0; $i < count($startHoursOrigin); $i++) {
-
             $stringQuery .= '(medical_diary_days.start_hour >= "' . $startHoursOrigin[$i] . '" AND ' . 'medical_diary_days.start_hour < "' . $finishHoursOrigin[$i] . '") OR ';
         }
         $stringQuery = substr($stringQuery, 0, strlen($stringQuery) - 4);
@@ -226,7 +228,7 @@ class AssistanceController extends Controller
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->whereIn('medical_status.id', [2, 3, 4])
+            ->whereNotIn ('medical_status.id', [5])
             ->where('users.id', '=', $userIdOrigin)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
             ->where('medical_diary_days.finish_hour', '<=', $finishDate)
@@ -258,7 +260,6 @@ class AssistanceController extends Controller
         $newMedicalDiary->procedure_id = $procedureId;
         $newMedicalDiary->office_id = $officeId;
         $newMedicalDiary->diary_status_id = 1;
-        $newMedicalDiary->diary_status_id = $procedureId;
         $newMedicalDiary->created_at = date("Y-m-d h:i:s");
         $newMedicalDiary->updated_at = date("Y-m-d h:i:s");
         $newMedicalDiary->start_time = explode(" ", $medicalDiaryDaysToTransferConverted[0]->start_hour)[1];
