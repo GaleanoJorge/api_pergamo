@@ -61,6 +61,7 @@ class LocationController extends Controller
         $Location->admission_id = $request->admission_id;
         $Location->admission_route_id = $request->admission_route_id;
         $Location->scope_of_attention_id = $request->scope_of_attention_id;
+        $Location->procedure_id = $request->procedure_id;
         $Location->program_id = $request->program_id;
         $Location->authorization_id = $request->authorization_id;
         $Location->pavilion_id = $request->pavilion_id;
@@ -220,6 +221,7 @@ class LocationController extends Controller
         $Location->admission_id = $request->admission_id;
         $Location->admission_route_id = $request->admission_route_id;
         $Location->scope_of_attention_id = $request->scope_of_attention_id;
+        $Location->proceure_id = $request->proceure_id;
         $Location->program_id = $request->program_id;
         $Location->pavilion_id = $request->pavilion_id;
         $Location->flat_id = $request->flat_id;

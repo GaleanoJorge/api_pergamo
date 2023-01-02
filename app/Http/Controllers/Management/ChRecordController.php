@@ -4782,6 +4782,7 @@ class ChRecordController extends Controller
                 $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                     ->where('status', 'ACTIVO')
                     ->whereNotNull('ch_interconsultation_id')
+                    ->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id)
                     ->where('ch_type_id', $ChRecord->ch_type_id)
                     ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
@@ -4951,6 +4952,7 @@ class ChRecordController extends Controller
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
                         ->whereNotNull('ch_interconsultation_id')
+                        ->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id)
                         ->where('ch_type_id', $ChRecord->ch_type_id)
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
@@ -5015,6 +5017,7 @@ class ChRecordController extends Controller
                 $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                     ->where('status', 'ACTIVO')
                     ->whereNotNull('medical_diary_days_id')
+                    ->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id)
                     ->where('ch_type_id', $ChRecord->ch_type_id)
                     ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
 
@@ -5059,6 +5062,7 @@ class ChRecordController extends Controller
                     $validate_ch_record = ChRecord::where('user_id' , Auth::user()->id)
                         ->where('status', 'ACTIVO')
                         ->whereNotNull('ch_interconsultation_id')
+                        ->where('ch_interconsultation_id', $ChRecord->ch_interconsultation_id)
                         ->where('ch_type_id', $ChRecord->ch_type_id)
                         ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
     
