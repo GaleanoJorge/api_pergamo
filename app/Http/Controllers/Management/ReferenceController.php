@@ -286,7 +286,7 @@ class ReferenceController extends Controller
         $identificationType = IdentificationType::orderBy('name', 'asc')
             ->get()->toArray();
 
-        $procedure = Procedure::select()->get()->toArray()->where('procedure.status_id', 1);
+        $procedure = Procedure::select()->where('procedure.status_id', 1)->get()->toArray();
 
         $Company = Company::select('company.*')->orderBy('company.name', 'ASC');
 
