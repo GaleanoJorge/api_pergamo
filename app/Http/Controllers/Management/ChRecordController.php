@@ -5229,9 +5229,7 @@ class ChRecordController extends Controller
         //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
         //     $ChRecord->firm_file = $path;
         // }
-
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
+        
         
         if ($ChRecord->assigned_management_plan_id) {
         
@@ -5266,6 +5264,9 @@ class ChRecordController extends Controller
                     ]);
                 }
             }
+
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
         
 
 
@@ -5334,6 +5335,9 @@ class ChRecordController extends Controller
                     }
                 }
             }
+        } else {
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
         }
 
         $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
