@@ -173,17 +173,10 @@ class AuthorizationController extends Controller
                     $que->WherenotNull('authorization.application_id')
                         ->where('authorization.auth_status_id', '=', 3)
                         ->WhereNull('authorization.auth_number');
-                })->orWhere(function ($que) use ($request) {
-                    $que->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
                 });
             });
             $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
-                $que
-                    //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
-                    ->orWhere(function ($que) use ($request) {
-                        $que->WhereNotNull('authorization.location_id');
-                    });
+                $que->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
             });
         } else if ($request->status_id === 'P') {
             $Authorization->where(function ($query) use ($request) {
