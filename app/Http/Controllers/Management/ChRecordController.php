@@ -5230,8 +5230,17 @@ class ChRecordController extends Controller
         //     $ChRecord->firm_file = $path;
         // }
         
+        $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
+        }
         
         if ($ChRecord->assigned_management_plan_id) {
+
         
             $mes = Carbon::now()->month;
             
@@ -5311,7 +5320,7 @@ class ChRecordController extends Controller
                     $AuthBillingPad->save();
                 }
 
-                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
             } else {
                 $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
                 if ($billActivity) {
@@ -5325,13 +5334,13 @@ class ChRecordController extends Controller
                     } else {
                         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
                             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
                             }
                         }
                     }
                 } else {
                     if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
                     }
                 }
             }
@@ -5444,17 +5453,16 @@ class ChRecordController extends Controller
 
     }
 
-    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
+    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
         if ($ManagementPlan->type_of_attention_id != 20) {
             if (!$validate) {
-                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;

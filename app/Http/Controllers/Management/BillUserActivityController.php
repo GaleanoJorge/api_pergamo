@@ -114,11 +114,18 @@ class BillUserActivityController extends Controller
             $validate = AccountReceivable::whereRaw("created_at >= '" . $date_validate . "'")->whereRaw("created_at < '" . $date_validate . "'")->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
-                $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
+                $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date']))->get()->toArray();
+                if (count($MinimumSalary) == 0) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                        'data' => ['ch_record' => []],
+                    ]);
+                }
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $element['user_id'];
                 $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
                 $AccountReceivable->created_at = $year . '-' . $mes . '-29 00:12:27';
                 $AccountReceivable->updated_at = $year . '-' . $mes . '-29 00:12:27';
                 if ($create_ar == 1) {
