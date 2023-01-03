@@ -249,7 +249,7 @@ class AuthorizationController extends Controller
                     'manual_price.procedure',
                 );
             $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3);
+                $query->where('authorization.auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->Where(function ($que) use ($request) {
                     $que->WhereNull('authorization.assigned_management_plan_id')
