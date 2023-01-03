@@ -119,7 +119,7 @@ class BillUserActivityController extends Controller
         foreach ($Amp as $element) {
             $validate = null;
             $Assistance = Assistance::where('user_id', $element['user_id'])->get()->toArray();
-            $validate = AccountReceivable::where("created_at", ">=","'" . $date_validate . "'")->where("created_at", "<","'" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at < '" . $date_validate2 . "'")->whereRaw("created_at >= '" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
             if (count($validate) == 0) {
                 $bbb++;
                 $AccountReceivable = new AccountReceivable;
@@ -167,6 +167,8 @@ class BillUserActivityController extends Controller
 
         return response()->json([
             'status' => true,
+            'sql' => $validate2,
+            'sql2' => $Amp2,
             'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
             'data' => ['assigneds' => count($Amp), 'activities' => $aaa, 'accounts' => $bbb]
         ]);
