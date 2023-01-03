@@ -5255,7 +5255,14 @@ class ChRecordController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                        'data' => ['ch_record' => $ChRecord],
+                        'data' => ['ch_record' => [
+                            'tariff' => $tariff,
+                            'ManagementPlan' => $ManagementPlan,
+                            'Location' => $Location,
+                            'request' => $request,
+                            'admissions_id' => $admissions_id,
+                            'AssignedManagementPlan' => $AssignedManagementPlan,
+                        ]],
                     ]);
                 }
             }
