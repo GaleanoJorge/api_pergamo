@@ -77,18 +77,18 @@ class BillUserActivityController extends Controller
     }
 
 
-    public function createMissedActivities(Request $request, int $mes): JsonResponse
+    public function createMissedActivities(Request $request, int $year, int $mes, int $create_ar, int $create_bua): JsonResponse
     {
-        if ($mes == 0) {
+        if ($mes <= 0 || $mes >= 13) {
             return response()->json([
                 'status' => false,
-                'message' => 'El mes debe ser mayor a 0',
+                'message' => 'El rango de meses debe ser entre 1 y 12',
                 'data' => ['bill_user_activity' => []]
             ]);
         }
 
-        $date_validate = Carbon::parse(Carbon::now()->year . '-' . $mes . '01 00:00:00');
-        $date_validate2 = Carbon::parse(Carbon::now()->year . '-' . $mes . '-01 00:00:00')->addMonth();
+        $date_validate = Carbon::parse($year . '-' . $mes . '01 00:00:00');
+        $date_validate2 = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->addMonth();
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
@@ -119,9 +119,11 @@ class BillUserActivityController extends Controller
                 $AccountReceivable->user_id = $element['user_id'];
                 $AccountReceivable->status_bill_id = 1;
                 $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->created_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
-                $AccountReceivable->updated_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
-                // $AccountReceivable->save();
+                $AccountReceivable->created_at = $year . '-' . $mes . '-29 00:12:27';
+                $AccountReceivable->updated_at = $year . '-' . $mes . '-29 00:12:27';
+                if ($create_ar == 1) {
+                    $AccountReceivable->save();
+                }
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
@@ -150,7 +152,9 @@ class BillUserActivityController extends Controller
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->tariff_id = $tariff_id;
                 $billActivity->ch_record_id = $ch_record_id;
-                $billActivity->save();
+                if ($create_bua) {
+                    $billActivity->save();
+                }
             }
         }
 
