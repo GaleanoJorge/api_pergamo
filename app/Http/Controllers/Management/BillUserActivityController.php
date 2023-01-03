@@ -111,7 +111,7 @@ class BillUserActivityController extends Controller
         foreach ($Amp as $element) {
             $validate = null;
 
-            $validate = AccountReceivable::whereRaw("created_at >= " . $date_validate)->whereRaw("created_at < "  . $date_validate)->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at >= '" . $date_validate . "'")->whereRaw("created_at < "  . $date_validate)->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
                 $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
