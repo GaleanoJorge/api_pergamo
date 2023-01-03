@@ -108,20 +108,20 @@ class BillUserActivityController extends Controller
         $aaa = 0;
         $bbb = 0;
 
+        $MinimumSalary = MinimumSalary::where('year', $year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
+        }
         foreach ($Amp as $element) {
             $validate = null;
-
+            $Assistance = Assistance::where('user_id', $element['user_id'])->get()->toArray();
             $validate = AccountReceivable::whereRaw("created_at >= '" . $date_validate . "'")->whereRaw("created_at < '" . $date_validate . "'")->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
             if (!$validate) {
                 $bbb++;
-                $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date']))->get()->toArray();
-                if (count($MinimumSalary) == 0) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No existe salario mínimo confirgurado para el año en curso',
-                        'data' => ['ch_record' => []],
-                    ]);
-                }
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $element['user_id'];
                 $AccountReceivable->status_bill_id = 1;
@@ -142,12 +142,12 @@ class BillUserActivityController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
 
-            if (count($valuetariff) > 0 && count($validate) > 0) {
+            if (count($valuetariff) > 0 && count($validate) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) {
                 $procedure_id = $element['management_plan']['procedure_id'];
                 $account_receivable_id = $validate[count($validate) - 1]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
-                $tariff_id = $valuetariff[0]['id'];
+                $tariff_id = ($Assistance == 1 || $Assistance == 2 || $Assistance == 3 ? 583 : $valuetariff[0]['id']);
                 $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
 
                 $aaa++;
