@@ -142,7 +142,7 @@ class BillUserActivityController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
 
-            if (count($valuetariff) > 0 && count($validate) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) {
+            if ((count($valuetariff) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) && count($validate) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
                 $account_receivable_id = $validate[count($validate) - 1]['id'];
                 $assigned_management_plan_id = $element['id'];
