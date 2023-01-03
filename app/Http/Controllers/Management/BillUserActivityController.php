@@ -87,8 +87,8 @@ class BillUserActivityController extends Controller
             ]);
         }
 
-        $date_validate = Carbon::parse($year . '-' . $mes . '-01 00:00:00');
-        $date_validate2 = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->addMonth();
+        $date_validate = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->format('Y-m-d H:i:s');
+        $date_validate2 = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->addMonth()->format('Y-m-d H:i:s');
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
