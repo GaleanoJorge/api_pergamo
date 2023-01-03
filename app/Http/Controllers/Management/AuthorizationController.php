@@ -175,8 +175,6 @@ class AuthorizationController extends Controller
                         ->WhereNull('authorization.auth_number');
                 })->orWhere(function ($que) use ($request) {
                     $que->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
-                })->orWhere(function ($que) use ($request) {
-                    $que->WhereNotNull('authorization.location_id');
                 });
             });
             $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
