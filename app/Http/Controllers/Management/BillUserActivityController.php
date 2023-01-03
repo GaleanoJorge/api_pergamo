@@ -119,8 +119,8 @@ class BillUserActivityController extends Controller
         foreach ($Amp as $element) {
             $validate = null;
             $Assistance = Assistance::where('user_id', $element['user_id'])->get()->toArray();
-            $validate = AccountReceivable::whereRaw("created_at >= '" . $date_validate . "'")->whereRaw("created_at < '" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
-            if (!$validate) {
+            $validate = AccountReceivable::where("created_at", ">=","'" . $date_validate . "'")->where("created_at", "<","'" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
+            if (count($validate) == 0) {
                 $bbb++;
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $element['user_id'];
