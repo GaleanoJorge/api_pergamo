@@ -77,9 +77,18 @@ class SourceRetentionController extends Controller
             ->where('user_id', $AccountReceivable['user_id'])->first()->toArray();
         $ReteicaValue = 0;
         $MuniciipalityIca = MunicipalityIca::select()
-            ->where('municipality_id', $UserCampus['campus']['municipality_id'])->first();
+            ->where('municipality_id', $UserCampus['campus']['municipality_id'])
+            ->where('year', Carbon::parse($AccountReceivable['created_at'])->year)->first();
         if ($MuniciipalityIca) {
             $ReteicaValue = $MuniciipalityIca->value;
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe retención en la fuente para el municipio seleccionado y/o año en curso',
+                'data' => [
+                    'source_retention' => [],
+                ]
+            ]); 
         }
         $SourceRetention = SourceRetention::select()
             ->with('account_receivable', 'source_retention_type', 'source_retention_type.tax_value_unit')

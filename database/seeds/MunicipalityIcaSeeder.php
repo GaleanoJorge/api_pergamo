@@ -17,6 +17,7 @@ class MunicipalityIcaSeeder extends Seeder
         foreach(json_decode($jMunicipalityIca) as $row){
             MunicipalityIca::create([
                 'value' => $row->value,
+                'year' => $row->year,
                 'municipality_id' => $row->municipality_id,
             ]);
         }
