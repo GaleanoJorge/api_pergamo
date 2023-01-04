@@ -117,7 +117,7 @@ class AssistanceController extends Controller
     {
         $assistances = DB::table('assistance')
             ->join('users', 'users.id', '=', 'assistance.user_id')
-            ->where('assistance.attends_external_consultation','=',1)
+            ->where('assistance.attends_external_consultation', '=', 1)
             ->select('users.*')
             ->get();
         return response()->json([
@@ -132,14 +132,16 @@ class AssistanceController extends Controller
         $userId = $request->userId;
         $startDate = $request->startDate;
         $finishDate = $request->finishDate;
+        $procedureId = $request->procedure_id;
         $baseQueryMedicalDiaryDays = DB::table('users')
             ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('assistance_procedure', 'assistance_procedure.assistance_id', '=', 'assistance.id')
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->where('assistance.attends_external_consultation','=',1)
-            ->whereIn('medical_status.id', [2, 3, 4]);
-        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userId)
+            ->where('assistance_procedure.procedure_id', '=', $procedureId)
+            ->where('assistance.attends_external_consultation', '=', 1);
+        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->whereIn('medical_status.id', [2, 3, 4])->where('users.id', '=', $userId)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
             ->where('medical_diary_days.finish_hour', '<=', $finishDate);
         $startHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.start_hour'))->get()->toArray();
@@ -156,15 +158,19 @@ class AssistanceController extends Controller
         $queryDate = substr($queryDate, 0, strlen($queryDate) - 4);
         $queryDate .= (count($startHoursOrigin) > 0) ? 'THEN 1 END) as NOT_CONFLICT_COUNT' : '';
         $baseQueryFilter = $baseQueryFilter->groupBy('users.id')
-            ->select('users.*',
+            ->select(
+                'users.*',
                 DB::raw('COUNT(medical_diary_days.id) as MEDICAL_DIARY_COUNT ' . (($queryDate == '') ? ', COUNT(medical_diary_days.id) as NOT_CONFLICT_COUNT' : $queryDate)),
             )
             ->havingRaw('MEDICAL_DIARY_COUNT = NOT_CONFLICT_COUNT')
             ->get();
+
+        $assistancesResult = $baseQueryFilter->toArray();
+        
         return response()->json([
             'status' => true,
             'message' => 'Médicos asistentes obtenidos correctamente',
-            'data' => ['assistances' => $baseQueryFilter->toArray()]
+            'data' => ['assistances' => $assistancesResult]
         ]);
     }
 
@@ -175,7 +181,7 @@ class AssistanceController extends Controller
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->where('assistance.attends_external_consultation','=',1)
+            ->where('assistance.attends_external_consultation', '=', 1)
             ->whereIn('medical_status.id', [2, 3, 4]);
         $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdOrigin)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
@@ -223,12 +229,27 @@ class AssistanceController extends Controller
             ], 409);
         }
 
+        $medicalDiaryToUpdate = DB::table('users')
+            ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
+            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
+            ->whereNotIn('medical_status.id', [5])
+            ->where('users.id', '=', $userIdOrigin)
+            ->where('medical_diary_days.start_hour', '>=', $startDate)
+            ->where('medical_diary_days.finish_hour', '<=', $finishDate)
+            ->orderBy('medical_diary_days.start_hour', 'asc')
+            ->groupBy('medical_diary.id')
+            ->select('medical_diary.*')
+            ->get()
+            ->toArray();
+
         $medicalDiaryDaysToTransfer = DB::table('users')
             ->join('assistance', 'assistance.user_id', '=', 'users.id')
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->whereNotIn ('medical_status.id', [5])
+            ->whereNotIn('medical_status.id', [5])
             ->where('users.id', '=', $userIdOrigin)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
             ->where('medical_diary_days.finish_hour', '<=', $finishDate)
@@ -272,6 +293,13 @@ class AssistanceController extends Controller
         $newMedicalDiary->save();
 
         $medicalDiaryDaysToTransfer->update(['medical_diary_id' => $newMedicalDiary->id]);
+
+        $medicalDiaryIds = array_column($medicalDiaryToUpdate, 'id');
+        $medicalDiaryToUpdate = DB::table('medical_diary')
+        ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+        ->whereIn('medical_diary.id',$medicalDiaryIds)
+        ->whereNull('medical_diary_days.id')
+        ->update(['medical_diary.diary_status_id' => 2]);
 
         return response()->json([
             'status' => true,
