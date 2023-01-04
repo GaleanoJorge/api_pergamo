@@ -5229,11 +5229,18 @@ class ChRecordController extends Controller
         //     $path = Storage::disk('public')->put('patient_firm', $request->file('firm_file'));
         //     $ChRecord->firm_file = $path;
         // }
-
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
+        
+        $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
+        }
         
         if ($ChRecord->assigned_management_plan_id) {
+
         
             $mes = Carbon::now()->month;
             
@@ -5255,10 +5262,20 @@ class ChRecordController extends Controller
                     return response()->json([
                         'status' => false,
                         'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                        'data' => ['ch_record' => $ChRecord],
+                        'data' => ['ch_record' => [
+                            'tariff' => $tariff,
+                            'ManagementPlan' => $ManagementPlan,
+                            'Location' => $Location,
+                            'request' => $request,
+                            'admissions_id' => $admissions_id,
+                            'AssignedManagementPlan' => $AssignedManagementPlan,
+                        ]],
                     ]);
                 }
             }
+
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
         
 
 
@@ -5303,7 +5320,7 @@ class ChRecordController extends Controller
                     $AuthBillingPad->save();
                 }
 
-                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
             } else {
                 $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
                 if ($billActivity) {
@@ -5317,16 +5334,19 @@ class ChRecordController extends Controller
                     } else {
                         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
                             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
                             }
                         }
                     }
                 } else {
                     if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
                     }
                 }
             }
+        } else {
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
         }
 
         $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
@@ -5384,63 +5404,65 @@ class ChRecordController extends Controller
             ->where('discharge_date', '0000-00-00 00:00:00')
             ->get()->toArray();
 
-        $compare_date = $location[count($location) - 1]['entry_date'];
-
-        $LastAuth = Authorization::select('authorization.*')
-            ->where('admissions_id', $admissions_id)
-            // ->where('open_date', '<', $start_of_actual_day)
-            ->where(function($query) use ($start_of_last_day, $compare_date, $start_of_actual_day) {
-                $query
-                    // ->where('open_date', $start_of_last_day)
-                    ->where('open_date', '<', $start_of_actual_day)
-                    ->orWhere('open_date', $compare_date);
-            })
-            ->whereNull('close_date')
-            ->whereNotNull('location_id')
-            ->get()->toArray();
-
-        if (count($LastAuth) > 0) {
-            $lA = Authorization::find($LastAuth[0]['id']);
-            $lA->close_date = $finish_of_last_day;
-            $lA->save();
-
-            $new_auth_day = new Authorization;
-            $new_auth_day->services_briefcase_id = $LastAuth[0]['services_briefcase_id'];
-            $new_auth_day->assigned_management_plan_id = $LastAuth[0]['assigned_management_plan_id'];
-            $new_auth_day->admissions_id = $LastAuth[0]['admissions_id'];
-            $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
-            $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
-            $new_auth_day->observation = $LastAuth[0]['observation'];
-            $new_auth_day->copay = $LastAuth[0]['copay'];
-            $new_auth_day->quantity = $LastAuth[0]['quantity'];
-            $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
-            $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];
-            $new_auth_day->auth_package_id = $LastAuth[0]['auth_package_id'];
-            $new_auth_day->fixed_add_id = $LastAuth[0]['fixed_add_id'];
-            $new_auth_day->manual_price_id = $LastAuth[0]['manual_price_id'];
-            $new_auth_day->application_id = $LastAuth[0]['application_id'];
-            $new_auth_day->procedure_id = $LastAuth[0]['procedure_id'];
-            $new_auth_day->supplies_com_id = $LastAuth[0]['supplies_com_id'];
-            $new_auth_day->product_com_id = $LastAuth[0]['product_com_id'];
-            $new_auth_day->location_id = $LastAuth[0]['location_id'];
-            $new_auth_day->ch_interconsultation_id = $LastAuth[0]['ch_interconsultation_id'];
-            $new_auth_day->file_auth = $LastAuth[0]['file_auth'];
-            $new_auth_day->open_date = $start_of_actual_day;
-            $new_auth_day->save();
+        if ($location[count($location) - 1]['scope_of_attention_id'] == 1) {
+            $compare_date = $location[count($location) - 1]['entry_date'];
+    
+            $LastAuth = Authorization::select('authorization.*')
+                ->where('admissions_id', $admissions_id)
+                // ->where('open_date', '<', $start_of_actual_day)
+                ->where(function($query) use ($start_of_last_day, $compare_date, $start_of_actual_day) {
+                    $query
+                        // ->where('open_date', $start_of_last_day)
+                        ->where('open_date', '<', $start_of_actual_day)
+                        ->orWhere('open_date', $compare_date);
+                })
+                ->whereNull('close_date')
+                ->whereNotNull('location_id')
+                ->get()->toArray();
+    
+            if (count($LastAuth) > 0) {
+                $lA = Authorization::find($LastAuth[0]['id']);
+                $lA->close_date = $finish_of_last_day;
+                $lA->save();
+    
+                $new_auth_day = new Authorization;
+                $new_auth_day->services_briefcase_id = $LastAuth[0]['services_briefcase_id'];
+                $new_auth_day->assigned_management_plan_id = $LastAuth[0]['assigned_management_plan_id'];
+                $new_auth_day->admissions_id = $LastAuth[0]['admissions_id'];
+                $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
+                $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
+                $new_auth_day->observation = $LastAuth[0]['observation'];
+                $new_auth_day->copay = $LastAuth[0]['copay'];
+                $new_auth_day->quantity = $LastAuth[0]['quantity'];
+                $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
+                $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];
+                $new_auth_day->auth_package_id = $LastAuth[0]['auth_package_id'];
+                $new_auth_day->fixed_add_id = $LastAuth[0]['fixed_add_id'];
+                $new_auth_day->manual_price_id = $LastAuth[0]['manual_price_id'];
+                $new_auth_day->application_id = $LastAuth[0]['application_id'];
+                $new_auth_day->procedure_id = $LastAuth[0]['procedure_id'];
+                $new_auth_day->supplies_com_id = $LastAuth[0]['supplies_com_id'];
+                $new_auth_day->product_com_id = $LastAuth[0]['product_com_id'];
+                $new_auth_day->location_id = $LastAuth[0]['location_id'];
+                $new_auth_day->ch_interconsultation_id = $LastAuth[0]['ch_interconsultation_id'];
+                $new_auth_day->file_auth = $LastAuth[0]['file_auth'];
+                $new_auth_day->open_date = $start_of_actual_day;
+                $new_auth_day->save();
+            }
         }
+
     }
 
-    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
+    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
         if ($ManagementPlan->type_of_attention_id != 20) {
             if (!$validate) {
-                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;

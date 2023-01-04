@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('bill_user_activity/createMissedActivities/{Id}', 'Management\BillUserActivityController@createMissedActivities');
+Route::get('bill_user_activity/createMissedActivities/{year}/{mes}/{create_ar}/{create_bua}', 'Management\BillUserActivityController@createMissedActivities');
 
 //Routes free for the render and finished the survey
 Route::apiResource('survey_detail', 'Management\SurveyDetailController');
