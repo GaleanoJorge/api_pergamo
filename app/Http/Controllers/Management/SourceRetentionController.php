@@ -94,6 +94,15 @@ class SourceRetentionController extends Controller
             ->with('account_receivable', 'source_retention_type', 'source_retention_type.tax_value_unit')
             ->where('account_receivable_id', $account_receivable_id)->get()->toArray();
         $TaxValueUnit = TaxValueUnit::select()->where('year', Carbon::parse($AccountReceivable['created_at'])->year)->first();
+        if (!$TaxValueUnit) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe unidad de valor tributario para el año seleccionado',
+                'data' => [
+                    'source_retention' => [],
+                ]
+            ]);
+        }
         $tax_value_unit = $TaxValueUnit->value;
         $salud = 0;
         $arl = 0;
