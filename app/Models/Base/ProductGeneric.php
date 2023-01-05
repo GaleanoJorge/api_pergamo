@@ -21,9 +21,9 @@ use App\Models\ProductPresentation;
  
  * 
  * @property int $id
- * @property int $drug_concentration_id
- * @property int $measurement_units_id
- * @property int $product_presentation_id
+ * @property BigInteger $drug_concentration_id
+ * @property BigInteger $measurement_units_id
+ * @property BigInteger $product_presentation_id
  * @property string $description
  * @property string $dose
  * @property int $pbs_type_id

@@ -735,45 +735,6 @@ class PharmacyProductRequestController extends Controller
                     $LogPharmacyShipping->user_id = Auth::user()->id;
                     $LogPharmacyShipping->status = 'ENVIADO PACIAL FARMACIA';
                     $LogPharmacyShipping->save();
-                    // $pharmacyvalid = PharmacyProductRequest::find($id + 1);
-
-                    // if (!$pharmacyvalid) {
-                    //     $PharmacyProductRequestNew = new PharmacyProductRequest;
-                    //     $PharmacyProductRequestNew->request_amount = 0 + $request->amount;
-                    //     $PharmacyProductRequestNew->status = $PharmacyProductRequest->status;
-                    //     $PharmacyProductRequestNew->observation = '';
-                    //     $PharmacyProductRequestNew->product_generic_id = $PharmacyProductRequest->product_generic_id;
-                    //     $PharmacyProductRequestNew->product_supplies_id = $PharmacyProductRequest->product_supplies_id;
-                    //     $PharmacyProductRequestNew->own_pharmacy_stock_id = $PharmacyProductRequest->request_pharmacy_stock_id;
-                    //     $PharmacyProductRequestNew->request_pharmacy_stock_id = $PharmacyProductRequest->own_pharmacy_stock_id;
-                    //     $PharmacyProductRequestNew->user_request_id = $PharmacyProductRequest->user_request_id;
-                    //     $PharmacyProductRequestNew->admissions_id = $PharmacyProductRequest->admissions_id;
-                    //     $PharmacyProductRequestNew->services_briefcase_id = $PharmacyProductRequest->services_briefcase_id;
-                    //     $PharmacyProductRequestNew->user_request_pad_id = $PharmacyProductRequest->user_request_pad_id;
-                    //     $PharmacyProductRequestNew->save();
-
-                    //     $PharmacyRequestShipping3 = new PharmacyRequestShipping;
-                    //     $PharmacyRequestShipping3->amount_damaged = 0;
-                    //     $PharmacyRequestShipping3->amount =  0;
-                    //     $PharmacyRequestShipping3->amount_provition =  $request->amount;
-                    //     $PharmacyRequestShipping3->pharmacy_product_request_id = $PharmacyProductRequestNew->id;
-                    //     $PharmacyRequestShipping3->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
-                    //     $PharmacyRequestShipping3->amount_operation = $request->amount;
-                    //     $PharmacyRequestShipping3->save();
-                    // } else {
-                    //     $pharmacyvalid->status = "ENVIO FARMACIA";
-                    //     $pharmacyvalid->request_amount = $pharmacyvalid->request_amount + $request->amount;
-                    //     $pharmacyvalid->save();
-
-                    //     $PharmacyRequestShipping3 = new PharmacyRequestShipping;
-                    //     $PharmacyRequestShipping3->amount_damaged = $request->amount_damaged;
-                    //     $PharmacyRequestShipping3->amount =  $request->amount;
-                    //     $PharmacyRequestShipping3->amount_provition =  $pharmacyvalid->request_amount;
-                    //     $PharmacyRequestShipping3->pharmacy_product_request_id = $pharmacyvalid->id;
-                    //     $PharmacyRequestShipping3->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
-                    //     $PharmacyRequestShipping3->amount_operation = $pharmacyvalid->request_amount;
-                    //     $PharmacyRequestShipping3->save();
-                    // }
                 }
                 if ($request->status == "ENVIADO") {
                     $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
@@ -1006,16 +967,6 @@ class PharmacyProductRequestController extends Controller
                                 ]);
                             }
                         }
-
-                        // $PharmacyRequestShipping2 = new PharmacyRequestShipping;
-                        // $PharmacyRequestShipping2->amount_damaged = 0;
-                        // $PharmacyRequestShipping2->amount =  $element->amount;
-                        // $PharmacyRequestShipping2->amount_provition =  $element->amount;
-                        // $PharmacyRequestShipping2->pharmacy_product_request_id =  $id;
-                        // $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
-                        // $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
-                        // $PharmacyRequestShipping2->save();
-
                     } else {
                         if ($PharmacyProductRequest->request_amount <= 0) {
                             $PharmacyProductRequest->status = 'ENVIADO';
@@ -1050,8 +1001,6 @@ class PharmacyProductRequestController extends Controller
                     }
                 }
                 if ($request->status == "ACEPTADO") {
-                    // $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
-                    // $PharmacyProductRequest->status = $request->status;
                     $PharmacyProductRequest->observation = $request->observation;
                     $PharmacyProductRequest->save();
                     $elements = json_decode($request->pharmacy_lot_stock_id);
@@ -1178,8 +1127,6 @@ class PharmacyProductRequestController extends Controller
                         }
                     }
                 } else if ($request->status == "ACEPTADO FARMACIA") {
-                    // $PharmacyProductRequest->request_amount = $PharmacyProductRequest->request_amount - $request->amount;
-                    // $PharmacyProductRequest->status = $request->status;
                     $PharmacyProductRequest->observation = $request->observation;
                     $PharmacyProductRequest->save();
                     $elements = json_decode($request->pharmacy_lot_stock_id);
