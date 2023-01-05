@@ -169,6 +169,9 @@ use App\Models\Tracing;
 use App\Models\ChNRMaterialsFT;
 use App\Models\MedicalDiaryDays;
 use App\Models\Disclaimer;
+use App\Models\PadRisk;
+use App\Models\Program;
+use App\Models\TypeOfAttention;
 use App\Models\User;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
@@ -5259,17 +5262,65 @@ class ChRecordController extends Controller
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
                 if (count($valuetariff) == 0) {
+                    $extra_dose = 0;
+                    $has_car = 0;
+                    $Assistance = Assistance::select('assistance.*')
+                        ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+                        ->groupBy('assistance.id')->get()->toArray();
+                    if (count($Assistance) > 0) {
+                        if ($Assistance[0]['has_car']) {
+                            $has_car = $Assistance[0]['has_car'];
+                        }
+                    }
+                    if ($ManagementPlan->type_of_attention_id == 17) {
+                        $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                            ->where('assigned_management_plan.redo', 0)
+                            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                            ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                            ->where('management_plan.admissions_id', $admissions_id)
+                            ->where('management_plan.type_of_attention_id', 17)
+                            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                            ->groupBy('assigned_management_plan.id')
+                            ->get()->toArray();
+                        $validate = array();
+
+                        if (count($assigned_validation) > 0) {
+                            foreach ($assigned_validation as $element) {
+                                $offset = 3;
+                                $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                                $inidiat_time = Carbon::now()->subHours($offset);
+                                $final_time = Carbon::now()->addHours($offset);
+                                if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                                    array_push($validate, $element);
+                                }
+                            }
+                        }
+                        if (count($validate) > 0) {
+                            $extra_dose = 1;
+                        }
+                    
+                    }
+                    $p = Program::find($Location->program_id)->name;
+                    $t = TypeOfAttention::find($ManagementPlan->type_of_attention_id)->name;
+                    $ph = $ManagementPlan->phone_consult == 0 ? "NO" : "SI";
+                    $z = PadRisk::find($tariff)->name;
+                    $h = $ManagementPlan->hours ? $ManagementPlan->hours : "N.A" ;
+                    $f = $request->is_failed === true || $request->is_failed === "true" ? "SI" : "NO";
+                    $x = $extra_dose == 0 ? "NO" : "SI";
+                    $c = $has_car == 0 ? "NO" : "SI";
                     return response()->json([
                         'status' => false,
-                        'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                        'data' => ['ch_record' => [
-                            'tariff' => $tariff,
-                            'ManagementPlan' => $ManagementPlan,
-                            'Location' => $Location,
-                            'request' => $request,
-                            'admissions_id' => $admissions_id,
-                            'AssignedManagementPlan' => $AssignedManagementPlan,
-                        ]],
+                        'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano con la siguiente información:
+TIPO DE ATENCIÓN: ' . $t . ', 
+PROGRAMA: ' . $p . ', 
+ZONA: ' . $z . ', 
+FALLIDA: ' . $f . ', 
+CON CARRO: ' . $c . ', 
+EXTREDOSIS: ' . $x . ', 
+HORAS: ' . $h . ', 
+TELECONSULTA: ' . $ph . '
+',
+                        'data' => ['ch_record' => []],
                     ]);
                 }
             }
