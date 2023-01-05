@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceRequest;
 use App\Models\Base\MedicalDiary;
+use App\Models\Base\Bed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
@@ -148,15 +149,16 @@ class AssistanceController extends Controller
         $startHoursOrigin = array_column($startHoursOrigin, 'start_hour');
         $finishHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.finish_hour'))->get()->toArray();
         $finishHoursOrigin = array_column($finishHoursOrigin, 'finish_hour');
+
         $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '!=', $userId);
-        $queryDate = (count($startHoursOrigin) > 0) ? ', COUNT(CASE WHEN ' : '';
+        $queryDate = (count($startHoursOrigin) > 0) ? ', COUNT(CASE WHEN medical_status.id NOT IN (2, 3, 4) OR (' : '';
         for ($i = 0; $i < count($startHoursOrigin); $i++) {
             //$queryDate .= "(medical_diary_days.start_hour < '" . $startHoursOrigin[$i] . "' OR medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "') AND ";
             $queryDate .= "(medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "' OR ";
             $queryDate .= "medical_diary_days.finish_hour <= '" . $startHoursOrigin[$i] . "') AND ";
         }
-        $queryDate = substr($queryDate, 0, strlen($queryDate) - 4);
-        $queryDate .= (count($startHoursOrigin) > 0) ? 'THEN 1 END) as NOT_CONFLICT_COUNT' : '';
+        $queryDate = substr($queryDate, 0, strlen($queryDate) - 5);
+        $queryDate .= (count($startHoursOrigin) > 0) ? ') THEN 1 END) as NOT_CONFLICT_COUNT' : '';
         $baseQueryFilter = $baseQueryFilter->groupBy('users.id')
             ->select(
                 'users.*',
@@ -166,7 +168,7 @@ class AssistanceController extends Controller
             ->get();
 
         $assistancesResult = $baseQueryFilter->toArray();
-        
+
         return response()->json([
             'status' => true,
             'message' => 'Médicos asistentes obtenidos correctamente',
@@ -174,13 +176,15 @@ class AssistanceController extends Controller
         ]);
     }
 
-    private function isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate)
+    private function isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate, $procedureId)
     {
         $baseQueryMedicalDiaryDays = DB::table('users')
             ->join('assistance', 'assistance.user_id', '=', 'users.id')
+            ->join('assistance_procedure', 'assistance_procedure.assistance_id', '=', 'assistance.id')
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
+            ->where('assistance_procedure.procedure_id', '=', $procedureId)
             ->where('assistance.attends_external_consultation', '=', 1)
             ->whereIn('medical_status.id', [2, 3, 4]);
         $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdOrigin)
@@ -222,7 +226,7 @@ class AssistanceController extends Controller
         $pavilionId = $request->pavilionId;
         $officeId = $request->officeId;
         $procedureId = $request->procedureId;
-        if ($this->isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate)) {
+        if ($this->isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate, $procedureId)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Hay conflictos en la agenda'
@@ -280,6 +284,9 @@ class AssistanceController extends Controller
         $newMedicalDiary->pavilion_id = $pavilionId;
         $newMedicalDiary->procedure_id = $procedureId;
         $newMedicalDiary->office_id = $officeId;
+        $bed = Bed::find($officeId);
+        $bed->status_bed_id = 2;
+        $bed->save();
         $newMedicalDiary->diary_status_id = 1;
         $newMedicalDiary->created_at = date("Y-m-d h:i:s");
         $newMedicalDiary->updated_at = date("Y-m-d h:i:s");
@@ -296,10 +303,18 @@ class AssistanceController extends Controller
 
         $medicalDiaryIds = array_column($medicalDiaryToUpdate, 'id');
         $medicalDiaryToUpdate = DB::table('medical_diary')
-        ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
-        ->whereIn('medical_diary.id',$medicalDiaryIds)
-        ->whereNull('medical_diary_days.id')
-        ->update(['medical_diary.diary_status_id' => 2]);
+            ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->whereIn('medical_diary.id', $medicalDiaryIds)
+            ->whereNull('medical_diary_days.id');
+
+        DB::table('medical_diary')
+            ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            ->join('bed', 'medical_diary.office_id', '=', 'bed.id')
+            ->whereIn('medical_diary.id', $medicalDiaryIds)
+            ->whereNull('medical_diary_days.id')
+            ->update(['bed.status_bed_id' => 1]);
+
+        $medicalDiaryToUpdate->update(['medical_diary.diary_status_id' => 2]);
 
         return response()->json([
             'status' => true,
