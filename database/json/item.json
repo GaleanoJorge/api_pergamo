@@ -1658,7 +1658,7 @@
     {
         "id": "251",
         "item_parent_id": "169",
-        "name": "Motivos de ajuste inv",
+        "name": "Motivos ajuste inv.",
         "code": "pharmacy-adjustment",
         "route": "/pages/setting/pharmacy-adjustment",
         "icon": "",
