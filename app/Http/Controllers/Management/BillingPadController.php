@@ -2890,7 +2890,7 @@ class BillingPadController extends Controller
         }
 
         if ($BillingPadCreditNote) {
-            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;01;' . $BillingPad[0]['billing_resolution'];
+            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;2;' . $BillingPad[0]['billing_resolution'];
             $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
             $name_number = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'];
         }
