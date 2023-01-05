@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Management;
 
 use App\Models\PharmacyLotStock;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\BillingStock;
+use App\Models\LogPharmacyLot;
+use App\Models\LogPharmaLote;
 use App\Models\PharmacyLot;
 use App\Models\PharmacyStock;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class PharmacyLotStockController extends Controller
             ->leftJoin('factory AS fc', 'fc.id', 'product_supplies_com.factory_id')
             ->leftJoin('pharmacy_lot', 'pharmacy_lot.id', 'pharmacy_lot_stock.pharmacy_lot_id')
             ->leftJoin('pharmacy_stock', 'pharmacy_stock.id', 'pharmacy_lot.pharmacy_stock_id')
+            ->leftJoin('campus', 'campus.id', 'pharmacy_stock.campus_id')
             ->with(
                 'pharmacy_lot',
                 'billing_stock',
@@ -38,8 +40,10 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product.product_generic',
                 'billing_stock.product_supplies_com',
                 'billing_stock.product_supplies_com.factory',
-                'billing_stock.product_supplies_com.product_supplies'
-
+                'billing_stock.product_supplies_com.product_supplies',
+                'pharmacy_stock',
+                'pharmacy_stock.campus',
+                'pharmacy_adjustment'
             )->groupBy('pharmacy_lot_stock.id');
 
         if ($request->islot == true) {
@@ -47,7 +51,7 @@ class PharmacyLotStockController extends Controller
         }
 
         if ($request->_sort) {
-            if($request->_sort!="actions" && $request->_sort!="product" && $request->_sort!="factory"  && $request->_sort!="amount_total"  && $request->_sort!="actual_amount"  && $request->_sort!="lot" && $request->_sort!="expiration_date" && $request->_sort!="product_supplies_com"){
+            if ($request->_sort != "actions" && $request->_sort != "product" && $request->_sort != "factory"  && $request->_sort != "amount_total"  && $request->_sort != "actual_amount"  && $request->_sort != "lot" && $request->_sort != "expiration_date" && $request->_sort != "product_supplies_com"&& $request->_sort != "pharmacy_stock") {
                 $PharmacyLotStock->orderBy($request->_sort, $request->_order);
                 }
         }
@@ -74,11 +78,6 @@ class PharmacyLotStockController extends Controller
                 $query->where('pharmacy_lot_stock.actual_amount', '>', 0);
             }
         });
-        // if ($request->product1 == "true") {
-        //     $PharmacyLotStock->whereNotNull('billing_stock.product.product_generic_id')->whereNull('billing_stock.product_supplies_com.product_supplies_id');
-        // } else if ($request->product1 == "false") {
-        //     $PharmacyLotStock->whereNull('billing_stock.product.product_generic_id')->whereNotNull('billing_stock.product_supplies_com.product_supplies_id');
-        // }
 
         if ($request->search) {
             $PharmacyLotStock->where(function ($query) use ($request) {
@@ -86,6 +85,8 @@ class PharmacyLotStockController extends Controller
                     ->orWhere('product_supplies_com.name', 'like', '%' . $request->search . '%')
                     ->orWhere('factory.name', 'like', '%' . $request->search . '%')
                     ->orWhere('lot', 'like', '%' . $request->search . '%')
+                    ->orWhere('pharmacy_stock.name', 'like', '%' . $request->search . '%')
+                    ->orWhere('campus.name', 'like', '%' . $request->search . '%')
                     ->orWhere('fc.name', 'like', '%' . $request->search . '%');
             });
         }
@@ -182,6 +183,14 @@ class PharmacyLotStockController extends Controller
             $BillingStock = BillingStock::find($element->billing_stock_id);
             $BillingStock->amount_provitional = $BillingStock->amount_provitional - $element->amount_total;
             $BillingStock->save();
+            $LogPharmacyLot = new LogPharmacyLot;
+            $LogPharmacyLot->billing_stock_id = $BillingStock->id;
+            $LogPharmacyLot->pharmacy_lot_stock_id = $PharmacyLotStock->id;
+            $LogPharmacyLot->lot = $element->lot;
+            $LogPharmacyLot->sample = floor($element->amount_total * 0.1);
+            $LogPharmacyLot->actual_amount = $element->amount_total;
+            $LogPharmacyLot->expiration_date = $element->expiration_date;
+            $LogPharmacyLot->save();
         }
 
         return response()->json([
@@ -277,6 +286,47 @@ class PharmacyLotStockController extends Controller
     }
 
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $i
+     * @return JsonResponse
+     */
+    public function updateInvAdjustment(Request $request, int $id): JsonResponse
+    {
+        if ($request->sign == 0) {
+            $PharmacyLotStock = PharmacyLotStock::find($id);
+            $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount + $request->amount;
+            $PharmacyLotStock->save();
+
+            $LogPharmaLote = new LogPharmaLote;
+            $LogPharmaLote->pharmacy_lot_stock_id = $PharmacyLotStock->id;
+            $LogPharmaLote->pharmacy_adjustment_id = $request->pharmacy_adjustment_id;
+            $LogPharmaLote->actual_amount = $PharmacyLotStock->actual_amount;
+            $LogPharmaLote->amount = $request->amount;
+            $LogPharmaLote->sign = $request->sign;
+            $LogPharmaLote->observation = $request->observation;
+            $LogPharmaLote->save();
+        } else {
+            $PharmacyLotStock = PharmacyLotStock::find($id);
+            $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $request->amount;
+            $PharmacyLotStock->save();
+            
+            $LogPharmaLote = new LogPharmaLote;
+            $LogPharmaLote->pharmacy_lot_stock_id = $PharmacyLotStock->id;
+            $LogPharmaLote->pharmacy_adjustment_id = $request->pharmacy_adjustment_id;
+            $LogPharmaLote->actual_amount = $PharmacyLotStock->actual_amount;
+            $LogPharmaLote->amount = $request->amount;
+            $LogPharmaLote->sign = $request->sign;
+            $LogPharmaLote->observation = $request->observation;
+            $LogPharmaLote->save();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'Inventario lote actualizado exitosamente',
+            'data' => ['pharmacy_lot_stock' => $PharmacyLotStock]
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.
