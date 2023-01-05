@@ -2878,7 +2878,7 @@ class BillingPadController extends Controller
         }
         $now_date = Carbon::now()->setTimezone('America/Bogota');
         $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
-        $year = Carbon::now()->setTimezone('America/Bogota')->year;
+        $year = Carbon::parse($BillingPad[0]['billing_facturation_date'])->setTimezone('America/Bogota')->year;
 
 
         $common_first_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
