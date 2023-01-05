@@ -329,7 +329,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChPsObsessiveSeeder::class);
                 $this->call(ChPsAssociationSeeder::class);
                 $this->call(DiagnosisDmsSeeder::class);
-
+                $this->call(PharmacyAdjustmentSeeder::class);
                 
                 
                 //Semillas talento humano
