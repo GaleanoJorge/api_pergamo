@@ -18,7 +18,7 @@ class DaysController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Days = Days::select();
+        $Days = Days::select('days.*');
 
         if($request->_sort){
             $Days->orderBy($request->_sort, $request->_order);
@@ -40,7 +40,7 @@ class DaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias obtenidos exitosamente',
-            'data' => ['Days' => $Days]
+            'data' => ['days' => $Days]
         ]);
     }
     
@@ -54,7 +54,7 @@ class DaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dia creado exitosamente',
-            'data' => ['Days' => $Days->toArray()]
+            'data' => ['days' => $Days->toArray()]
         ]);
     }
 
@@ -72,7 +72,7 @@ class DaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dia obtenido exitosamente',
-            'data' => ['Days' => $Days]
+            'data' => ['days' => $Days]
         ]);
     }
 
@@ -92,7 +92,7 @@ class DaysController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Dias actualizado exitosamente',
-            'data' => ['Days' => $Days]
+            'data' => ['days' => $Days]
         ]);
     }
 

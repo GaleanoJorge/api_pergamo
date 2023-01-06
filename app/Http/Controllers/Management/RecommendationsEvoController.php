@@ -70,6 +70,7 @@ class RecommendationsEvoController extends Controller
     public function store(Request $request): JsonResponse
     {
         $RecommendationsEvo = new RecommendationsEvo;
+        $RecommendationsEvo->code = $request->code;
         $RecommendationsEvo->name = $request->name;
         $RecommendationsEvo->description = $request->description;
         $RecommendationsEvo->save();
@@ -108,6 +109,7 @@ class RecommendationsEvoController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $RecommendationsEvo =RecommendationsEvo::find($id);
+        $RecommendationsEvo->code = $request->code;
         $RecommendationsEvo->name = $request->name;
         $RecommendationsEvo->description = $request->description;
        

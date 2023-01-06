@@ -8,9 +8,12 @@ use App\Models\Base\Bed as BaseBed;
 class Bed extends BaseBed
 {
     protected $fillable = [
-    'code',
-    'name',
-    
+        'code',
+        'name',
+        'status_bed_id',
+        'bed_or_office',
+        'pavilion_id',
+        'procedure_id',
 
-	];
+    ];
 }

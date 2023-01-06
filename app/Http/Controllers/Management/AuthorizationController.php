@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorizationRequest;
+use App\Models\AssignedManagementPlan;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
@@ -31,7 +32,7 @@ class AuthorizationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Authorization = Authorization::select();
+        $Authorization = Authorization::select('authorization.*');
 
         if ($request->_sort) {
             $Authorization->orderBy($request->_sort, $request->_order);
@@ -72,15 +73,18 @@ class AuthorizationController extends Controller
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+            ->leftjoin('authorization as AUTH', 'AUTH.auth_package_id', 'authorization.id')
             ->select(
                 'authorization.*',
                 DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                 DB::raw('DATE(authorization.created_at) as date'),
+                DB::raw('COUNT(AUTH.id) as paquetes'),
             )
-            ->wherenull('auth_package_id')
+            ->wherenull('authorization.auth_package_id')
             ->leftjoin('auth_billing_pad', 'authorization.id', 'auth_billing_pad.authorization_id')
             ->whereNull('auth_billing_pad.authorization_id')
             ->with(
+                'admissions',
                 'admissions.location.scope_of_attention',
                 'admissions.patients',
                 'admissions.patients.identification_type',
@@ -104,6 +108,18 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
                 'applications.users',
+                'medical_diary_days.ch_record',
+                'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
+                'product_com',
+                'supplies_com',
+                'assigned_management_plan.ch_record.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'auth_package',
+                'manual_price.procedure',
             )->where(
                 function ($query) use ($request) {
                     $query->where('management_plan.status_id', 1);
@@ -118,46 +134,61 @@ class AuthorizationController extends Controller
                             ->WhereNull('authorization.supplies_com_id')
                             ->WhereNull('authorization.product_com_id')
                             ->WhereNull('authorization.auth_number');
+                    })->orWhere(function ($que) use ($request) {
+                        $que->WhereNull('authorization.assigned_management_plan_id')
+                            ->WhereNull('authorization.auth_package_id')
+                            ->WhereNotNull('authorization.medical_diary_days_id')
+                            ->orWhere(function ($que) use ($request) {
+                                $que->WhereNotNull('authorization.ch_interconsultation_id');
+                            });
                     });
                 }
             );
 
         if ($request->status_id === '0') {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3);
+                $query->where('authorization.auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
-                    $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '=', 3)
-                        ->WhereNull('auth_number');
+                    $que->WherenotNull('authorization.application_id')
+                        ->where('authorization.auth_status_id', '=', 3)
+                        ->WhereNull('authorization.auth_number');
+                })->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('authorization.medical_diary_days_id')
+                        ->where('authorization.auth_status_id', '=', 3)
+                        ->WhereNull('authorization.auth_number');
+                })->orWhere(function ($que) use ($request) {
+                    $que->WherenotNull('authorization.ch_interconsultation_id')
+                        ->where('authorization.auth_status_id', '<', 3)
+                        ->WhereNull('authorization.auth_number');
+                })->orWhere(function ($que) use ($request) {
+                    $que->WhereNotNull('authorization.location_id');
                 });
             });
         } else if ($request->status_id === 'E') {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3);
+                $query->where('authorization.auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
-                    $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '=', 3)
-                        ->WhereNull('auth_number');
+                    $que->WherenotNull('authorization.application_id')
+                        ->where('authorization.auth_status_id', '=', 3)
+                        ->WhereNull('authorization.auth_number');
                 });
             });
-            $Authorization->when('assigned_management_plan_id' != null, function ($que) use ($request) {
-                $que
-                    //leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
-                    ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
+            $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
+                $que->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00');
             });
         } else if ($request->status_id === 'P') {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3);
+                $query->where('authorization.auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->orWhere(function ($que) use ($request) {
-                    $que->WherenotNull('application_id')
-                        ->where('auth_status_id', '<', 3)
-                        ->WhereNull('auth_number');
+                    $que->WherenotNull('authorization.application_id')
+                        ->where('authorization.auth_status_id', '<', 3)
+                        ->WhereNull('authorization.auth_number');
                 });
             });
-            $Authorization->when('assigned_management_plan_id' != null, function ($que) use ($request) {
+            $Authorization->when('authorization.assigned_management_plan_id' != null, function ($que) use ($request) {
                 $que->where('assigned_management_plan.execution_date', '=', '0000-00-00 00:00:00');
             });
         } else if ($request->status_id == 'PAQ') {
@@ -169,12 +200,14 @@ class AuthorizationController extends Controller
                 ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
                 ->leftjoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
                 ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                ->leftjoin('authorization as AUTH', 'AUTH.auth_package_id', 'authorization.id')
                 ->select(
                     'authorization.*',
                     DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
                     DB::raw('DATE(authorization.created_at) as date'),
+                    DB::raw('COUNT(AUTH.id) as paquetes'),
                 )
-                ->wherenull('auth_package_id')
+                ->wherenull('authorization.auth_package_id')
                 ->leftjoin('auth_billing_pad', 'authorization.id', 'auth_billing_pad.authorization_id')
                 ->whereNull('auth_billing_pad.authorization_id')
                 ->with(
@@ -202,9 +235,21 @@ class AuthorizationController extends Controller
                     'fixed_add.fixed_assets.fixed_nom_product',
                     'fixed_add.fixed_assets.fixed_clasification',
                     'applications.users',
+                    'medical_diary_days.ch_record',
+                    'location',
+                    'ch_interconsultation',
+                    'ch_interconsultation.many_ch_record',
+                    'product_com',
+                    'supplies_com',
+                    'assigned_management_plan.ch_record.user',
+                    'assigned_management_plan.management_plan.service_briefcase',
+                    'assigned_management_plan.management_plan.procedure',
+                    'manual_price',
+                    'auth_package',
+                    'manual_price.procedure',
                 );
             $Authorization->where(function ($query) use ($request) {
-                $query->where('auth_status_id', '<', 3);
+                $query->where('authorization.auth_status_id', '<', 3);
                 // ->WhereNull('auth_number');
                 $query->Where(function ($que) use ($request) {
                     $que->WhereNull('authorization.assigned_management_plan_id')
@@ -220,9 +265,9 @@ class AuthorizationController extends Controller
             });
         } else {
             $Authorization
-                ->where('auth_status_id', $request->status_id);
+                ->where('authorization.auth_status_id', $request->status_id);
             $Authorization->orwhere(function ($query) use ($request) {
-                $query->WhereNotNull('application_id');
+                $query->WhereNotNull('authorization.application_id');
             });
         }
 
@@ -254,7 +299,7 @@ class AuthorizationController extends Controller
         }
 
         if ($request->type_of_attention_id != 'null' && isset($request->type_of_attention_id)) {
-            $Authorization->when('assigned_management_plan_id' != null, function ($query) use ($request) {
+            $Authorization->when('authorization.assigned_management_plan_id' != null, function ($query) use ($request) {
                 $query->where('management_plan.type_of_attention_id', $request->type_of_attention_id);
             });
         }
@@ -282,17 +327,20 @@ class AuthorizationController extends Controller
 
         if ($request->search) {
             $Authorization->where(function ($query) use ($request) {
-                $query->where('identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('auth_number', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
+                $query->where('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('authorization.auth_number', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.email', 'like', '%' . $request->search . '%')
                     ->orWhere('manual_price.name', 'like', '%' . $request->search . '%');
             });
         }
+
+        
+        $Authorization = $Authorization->groupBy('authorization.id');
 
 
         if ($request->query("pagination", true) == "false") {
@@ -335,6 +383,7 @@ class AuthorizationController extends Controller
             ->wherenull('auth_package_id')
             ->with(
                 'admissions',
+                'admissions.location.scope_of_attention',
                 'admissions.patients',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
@@ -356,7 +405,21 @@ class AuthorizationController extends Controller
                 'fixed_add.fixed_assets',
                 'fixed_add.fixed_assets.fixed_nom_product',
                 'fixed_add.fixed_assets.fixed_clasification',
-            );
+                'applications.users',
+                'medical_diary_days.ch_record',
+                'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
+                'product_com',
+                'supplies_com',
+                'assigned_management_plan.ch_record.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'auth_package',
+                'manual_price.procedure',
+            )
+            ->groupBy('authorization.id');
 
         if ($statusId == 0) {
             // $Authorization->where('auth_status_id', 3)
@@ -431,10 +494,11 @@ class AuthorizationController extends Controller
             ->leftjoin('management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
             ->leftjoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
-            
+
             // ->wherenull('auth_package_id')
             ->with(
                 'admissions',
+                'admissions.location.scope_of_attention',
                 'admissions.patients',
                 'admissions.patients.identification_type',
                 'admissions.patients.status',
@@ -444,16 +508,53 @@ class AuthorizationController extends Controller
                 'admissions.patients.residence_municipality',
                 'admissions.patients.neighborhood_or_residence',
                 'admissions.patients.residence',
-                'assigned_management_plan',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'auth_status',
                 'assigned_management_plan',
                 'assigned_management_plan.management_plan',
                 'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.user',
+                'assigned_management_plan.ch_record',
+                'fixed_add',
+                'fixed_add.fixed_assets',
+                'fixed_add.fixed_assets.fixed_nom_product',
+                'fixed_add.fixed_assets.fixed_clasification',
+                'applications.users',
+                'medical_diary_days.ch_record',
+                'location',
+                'ch_interconsultation',
+                'ch_interconsultation.many_ch_record',
+                'product_com',
+                'supplies_com',
+                'assigned_management_plan.ch_record.user',
+                'assigned_management_plan.management_plan.service_briefcase',
+                'assigned_management_plan.management_plan.procedure',
+                'manual_price',
+                'auth_package',
+                'manual_price.procedure',
             )
             ->where('authorization.admissions_id', $admissionsId)
-            ->where('management_plan.status_id', 1);
+            ->where(
+                function ($query) use ($request) {
+                    $query->where('management_plan.status_id', 1);
+                    // ->WhereNull('auth_number');
+                    $query->orWhere(function ($que) use ($request) {
+                        $que->WhereNull('authorization.assigned_management_plan_id')
+                            ->WhereNull('authorization.auth_package_id')
+                            ->WhereNull('authorization.fixed_add_id')
+                            ->WhereNotNull('authorization.manual_price_id')
+                            ->WhereNull('authorization.application_id')
+                            ->WhereNull('authorization.procedure_id')
+                            ->WhereNull('authorization.supplies_com_id')
+                            ->WhereNull('authorization.product_com_id')
+                            ->WhereNull('authorization.auth_number');
+                    })->orWhere(function ($que) use ($request) {
+                        $que->WhereNotNull('authorization.location_id');
+                    });
+                }
+            )
+            ->groupBy('authorization.id');
 
         if ($request->edit) {
             $Authorization->where(function ($query) use ($request, $admissionsId) {
@@ -507,6 +608,78 @@ class AuthorizationController extends Controller
         ]);
     }
 
+    /**
+     * consultate not created authorizatons of medicament applications
+     * @return \Illuminate\Http\Response
+     */
+    public function ConsultateNotCreatedAuths(Request $request, int $management_plan_id): JsonResponse
+    {
+        $Authorization = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
+            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
+            ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
+            ->where('amp.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('amp.management_plan_id', $management_plan_id)
+            ->whereNull('a.id')
+            ->whereNotNull('mp.product_id')
+            ->groupBy('as2.id')
+            ->get()->toArray();
+        return response()->json([
+            'status' => true,
+            'message' => 'Estados de glosas obtenidos exitosamente',
+            'data' => ['authorization' => count($Authorization)]
+        ]);
+    }
+
+    /**
+     * Registrate not created authorizatons of medicament applications
+     * @return \Illuminate\Http\Response
+     */
+    public function RegistrateNotCreatedAuths(Request $request, int $management_plan_id): JsonResponse
+    {
+        $Authorization = AssignedManagementPlan::select(
+            DB::raw('as2.id as application_id'),
+            DB::raw('amp.id as assigned_management_plan_id'),
+            DB::raw('sb.id as services_briefcase_id'),
+            DB::raw('cr.admissions_id as admissions_id'),
+            DB::raw('bs.product_id  as product_id'),
+        )
+            ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
+            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
+            ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
+            ->leftJoin('pharmacy_request_shipping as prs', 'prs.pharmacy_product_request_id ', ' ppr.id')
+            ->leftJoin('pharmacy_lot_stock as pls', 'pls.id ', ' prs.pharmacy_lot_stock_id')
+            ->leftJoin('billing_stock as bs', 'bs.id ', ' pls.billing_stock_id')
+            ->where('amp.execution_date', '!=', '0000-00-00 00:00:00')
+            ->where('amp.management_plan_id', $management_plan_id)
+            ->whereNull('a.id')
+            ->whereNotNull('mp.product_id')
+            ->groupBy('as2.id')
+            ->get()->toArray();
+
+        foreach ($Authorization as $element) {
+            $auth = new Authorization;
+            $auth->services_briefcase_id = $element['services_briefcase_id'];
+            $auth->assigned_management_plan_id = $element['assigned_management_plan_id'];
+            $auth->admissions_id = $element['admissions_id'];
+            $auth->auth_status_id = 3;
+            $auth->product_com_id =  $element['product_id'];
+            $auth->application_id = $element['application_id'];
+            $auth->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Estados de glosas obtenidos exitosamente',
+            'data' => ['authorization' => count($Authorization)]
+        ]);
+    }
 
     public function store(AuthorizationRequest $request): JsonResponse
     {

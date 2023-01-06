@@ -64,7 +64,7 @@ class LocationCapacityController extends Controller
             ->leftJoin('users', 'users.id', 'assistance.user_id')
             ->leftJoin('user_campus', 'users.id', 'user_campus.user_id')
             ->where('user_campus.campus_id', $campus_id)
-            ->whereIn('assistance.contract_type_id', [1, 2, 3])
+            // ->whereIn('assistance.contract_type_id', [1, 2, 3])
             // ->whereIn('assistance.contract_type_id', [4, 5])
             ->groupBy('assistance.id')
             ->get()->toArray();
@@ -154,7 +154,7 @@ class LocationCapacityController extends Controller
         $actualMonth = Carbon::now()->month;
         $year = $actualMonth <= $request->month ?  Carbon::now()->year : Carbon::now()->addYear()->year;
         $lastDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->endOfMonth();
-        $firstDayMonth = Carbon::parse($year . '-' . $request->month . '-15')->startOfMonth();
+        $firstDayMonth = Carbon::parse($year . '-' . ($request->procedence == 2 ? $request->month : $actualMonth) . '-15')->startOfMonth();
 
         $array = json_decode($request->localities_id);
         foreach ($array as $item) {

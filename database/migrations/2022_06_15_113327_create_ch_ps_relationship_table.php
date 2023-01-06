@@ -20,12 +20,12 @@ class CreateChPsRelationshipTable extends Migration
             $table->string('visual');
             $table->string('verbal');
             $table->string('appearance');
-            $table->string('att_observations');
-            $table->string('aw_observations');
-            $table->string('sl_observations');
-            $table->string('sex_observations');
-            $table->string('fee_observations');
-            $table->string('ex_observations');
+            $table->longText('att_observations');
+            $table->longText('aw_observations');
+            $table->longText('sl_observations');
+            $table->longText('sex_observations');
+            $table->longText('fee_observations');
+            $table->longText('ex_observations');
                    
 
             $table->string('attitude');

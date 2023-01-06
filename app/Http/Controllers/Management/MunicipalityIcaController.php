@@ -58,17 +58,18 @@ class MunicipalityIcaController extends Controller
     public function store(MunicipalityIcaRequest $request): JsonResponse
     {
 
-        $CheckMunicipalityIca = MunicipalityIca::where('municipality_id', $request->municipality_id)->first();
+        $CheckMunicipalityIca = MunicipalityIca::where('municipality_id', $request->municipality_id)->where('year', $request->year)->first();
         if ($CheckMunicipalityIca) {
             return response()->json([
                 'status' => false,
-                'message' => 'Ya existe una retención en la fuente para este municipio',
+                'message' => 'Ya existe una retención en la fuente para este municipio en el año descrito',
                 'data' => []
             ]);
         }
 
         $MunicipalityIca = new MunicipalityIca;
         $MunicipalityIca->value = $request->value;
+        $MunicipalityIca->year = $request->year;
         $MunicipalityIca->municipality_id = $request->municipality_id;
 
         $MunicipalityIca->save();
@@ -109,6 +110,7 @@ class MunicipalityIcaController extends Controller
     {
         $MunicipalityIca = MunicipalityIca::find($id);
         $MunicipalityIca->value = $request->value;
+        $MunicipalityIca->year = $request->year;
         $MunicipalityIca->municipality_id = $request->municipality_id;
 
         $MunicipalityIca->save();

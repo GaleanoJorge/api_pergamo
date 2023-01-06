@@ -135,7 +135,6 @@ class ChPositionController extends Controller
     {
         $ChPosition = ChPosition::find($id);
         $ChPosition->patient_position_id = $request->patient_position_id;
-        $ChPosition->hair_revision = $request->hair_revision;
         $ChPosition->observation = $request->observation;
         // $ChPosition->type_record_id = $request->type_record_id; 
         // $ChPosition->ch_record_id = $request->ch_record_id; 

@@ -34,6 +34,8 @@ class CompanyController extends Controller
 
         if ($request->_sort) {
             $Company->orderBy($request->_sort, $request->_order);
+        } else {
+            $Company->orderBy('company.name', 'ASC');
         }
 
         if ($request->search) {

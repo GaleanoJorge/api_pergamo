@@ -29,6 +29,7 @@ class CreateChFormulationTable extends Migration
             $table->Integer('number_mipres')->nullable();
             $table->Integer('num_supplies')->nullable();
             $table->unsignedBigInteger('pharmacy_product_request_id')->nullable();
+            $table->unsignedBigInteger('management_plan_id')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
@@ -60,6 +61,10 @@ class CreateChFormulationTable extends Migration
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
+                
+            $table->index('management_plan_id');
+            $table->foreign('management_plan_id')->references('id')
+                ->on('management_plan');
                 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')

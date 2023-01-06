@@ -141,7 +141,7 @@ class TariffController extends Controller
         if (count($TariffTest) > 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tarifa ya existe, o se encuentra en estado actiiva',
+                'message' => 'Tarifa ya existe, o se encuentra en estado activa',
                 'data' => ['tariff' => []]
             ]);
         }

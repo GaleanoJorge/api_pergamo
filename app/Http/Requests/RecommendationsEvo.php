@@ -24,6 +24,7 @@ class RecommendationsEvoRequest extends FormRequest
     public function rules()
     {
         return [
+            'code' => '',
             'name' => '',
             'description' => '',
             

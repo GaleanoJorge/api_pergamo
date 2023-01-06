@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "libre"
+    },
+    {
+        "id": 2,
+        "name": "Reservada"
+    },
+    {
+        "id": 3,
+        "name": "Confirmada"
+    },
+    {
+        "id": 4,
+        "name": "facturada"
+    },
+    {
+        "id": 5,
+        "name": "Cancelada"
+    }
+]
