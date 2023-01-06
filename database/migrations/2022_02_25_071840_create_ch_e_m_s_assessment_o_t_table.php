@@ -15,7 +15,7 @@ class CreateChEMSAssessmentOTTable extends Migration
     {
         Schema::create('ch_e_m_s_assessment_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('occupational_con')->nullable();
+            $table->longText('occupational_con');
             $table->string('check1_hold')->nullable();
             $table->string('check2_improve')->nullable();
             $table->string('check3_structure')->nullable();
