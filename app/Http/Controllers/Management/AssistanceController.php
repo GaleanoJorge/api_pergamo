@@ -134,82 +134,87 @@ class AssistanceController extends Controller
         $startDate = $request->startDate;
         $finishDate = $request->finishDate;
         $procedureId = $request->procedure_id;
-        $baseQueryMedicalDiaryDays = DB::table('users')
-            ->join('assistance', 'assistance.user_id', '=', 'users.id')
-            ->join('assistance_procedure', 'assistance_procedure.assistance_id', '=', 'assistance.id')
-            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
-            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
-            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->where('assistance_procedure.procedure_id', '=', $procedureId)
-            ->where('assistance.attends_external_consultation', '=', 1);
-        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->whereIn('medical_status.id', [2, 3, 4])->where('users.id', '=', $userId)
-            ->where('medical_diary_days.start_hour', '>=', $startDate)
-            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
-        $startHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.start_hour'))->get()->toArray();
-        $startHoursOrigin = array_column($startHoursOrigin, 'start_hour');
-        $finishHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.finish_hour'))->get()->toArray();
-        $finishHoursOrigin = array_column($finishHoursOrigin, 'finish_hour');
 
-        $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '!=', $userId);
-        $queryDate = (count($startHoursOrigin) > 0) ? ', COUNT(CASE WHEN medical_status.id NOT IN (2, 3, 4) OR (' : '';
-        for ($i = 0; $i < count($startHoursOrigin); $i++) {
-            //$queryDate .= "(medical_diary_days.start_hour < '" . $startHoursOrigin[$i] . "' OR medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "') AND ";
-            $queryDate .= "(medical_diary_days.start_hour >= '" . $finishHoursOrigin[$i] . "' OR ";
-            $queryDate .= "medical_diary_days.finish_hour <= '" . $startHoursOrigin[$i] . "') AND ";
-        }
-        $queryDate = substr($queryDate, 0, strlen($queryDate) - 5);
-        $queryDate .= (count($startHoursOrigin) > 0) ? ') THEN 1 END) as NOT_CONFLICT_COUNT' : '';
-        $baseQueryFilter = $baseQueryFilter->groupBy('users.id')
-            ->select(
-                'users.*',
-                DB::raw('COUNT(medical_diary_days.id) as MEDICAL_DIARY_COUNT ' . (($queryDate == '') ? ', COUNT(medical_diary_days.id) as NOT_CONFLICT_COUNT' : $queryDate)),
-            )
-            ->havingRaw('MEDICAL_DIARY_COUNT = NOT_CONFLICT_COUNT')
-            ->get();
-
-        $assistancesResult = $baseQueryFilter->toArray();
+        $assistances = DB::table("users AS u1")
+        ->join("assistance","u1.id","=","assistance.user_id")
+        ->join("assistance_procedure","assistance.id","=","assistance_procedure.assistance_id")
+        ->where("assistance_procedure.procedure_id","=",$procedureId)
+        ->where("assistance.attends_external_consultation","=",1)
+        ->whereNotExists(function ($query) use ($userId, $procedureId, $startDate, $finishDate) {
+            $query->from("users AS u2")
+            ->join("assistance","u2.id","=","assistance.user_id")
+            ->join("medical_diary","assistance.id","=","medical_diary.assistance_id")
+            ->join("medical_diary_days AS m2","medical_diary.id","m2.medical_diary_id")
+            ->whereRaw("u2.id = u1.id")
+            ->where(function ($query2) use ($userId, $procedureId, $startDate, $finishDate){
+                $query2->WhereExists(function ($query3) use ($userId, $procedureId, $startDate, $finishDate){
+                    $query3->from("users AS u3")
+                    ->join("assistance","u3.id","=","assistance.user_id")
+                    ->join("assistance_procedure","assistance.id","=","assistance_procedure.assistance_id")
+                    ->join("medical_diary","assistance.id","=","medical_diary.assistance_id")
+                    ->join("medical_diary_days AS m3","medical_diary.id","m3.medical_diary_id")
+                    ->whereRaw("u3.id = " . $userId)
+                    ->where("assistance_procedure.procedure_id","=",$procedureId)
+                    ->whereIn("m2.medical_status_id", array(2, 3, 4))
+                    ->where("m2.start_hour",">=",$startDate)
+                    ->where("m2.finish_hour","<=",$finishDate)
+                    ->where(function ($query4){
+                        $query4->where(function ($query5){
+                            $query5->whereRaw("m2.start_hour >= m3.start_hour")
+                            ->whereRaw("m2.start_hour < m3.finish_hour");
+                        })->orWhere(function ($query6){
+                            $query6->whereRaw("m3.start_hour >= m2.start_hour")
+                            ->whereRaw("m3.start_hour < m2.finish_hour");
+                        });
+                    });
+                })
+                ->orWhere("u1.id","=",$userId);
+            });
+        })
+        ->groupBy("u1.id")
+        ->select("u1.*")->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Médicos asistentes obtenidos correctamente',
-            'data' => ['assistances' => $assistancesResult]
+            'data' => ['assistances' => $assistances]
         ]);
     }
 
-    private function isConflictTransfer($userIdOrigin, $userIdFinal, $startDate, $finishDate, $procedureId)
+    public function isConflictTransfer($userIdOrigin, $userIdFinal, $procedureId, $startDate, $finishDate)
     {
-        $baseQueryMedicalDiaryDays = DB::table('users')
-            ->join('assistance', 'assistance.user_id', '=', 'users.id')
-            ->join('assistance_procedure', 'assistance_procedure.assistance_id', '=', 'assistance.id')
-            ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
-            ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
-            ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->where('assistance_procedure.procedure_id', '=', $procedureId)
-            ->where('assistance.attends_external_consultation', '=', 1)
-            ->whereIn('medical_status.id', [2, 3, 4]);
-        $baseQueryUserDates = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdOrigin)
-            ->where('medical_diary_days.start_hour', '>=', $startDate)
-            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
-        $startHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.start_hour'))->get()->toArray();
-        $startHoursOrigin = array_column($startHoursOrigin, 'start_hour');
-
-        $finishHoursOrigin = (clone $baseQueryUserDates)->select(('medical_diary_days.finish_hour'))->get()->toArray();
-        $finishHoursOrigin = array_column($finishHoursOrigin, 'finish_hour');
-        $baseQueryFilter = (clone $baseQueryMedicalDiaryDays)->where('users.id', '=', $userIdFinal)
-            ->where('medical_diary_days.start_hour', '>=', $startDate)
-            ->where('medical_diary_days.finish_hour', '<=', $finishDate);
-        $baseQueryFilter = $baseQueryFilter->select(['*']);
-        $stringQuery = "(";
-        for ($i = 0; $i < count($startHoursOrigin); $i++) {
-            $stringQuery .= '(medical_diary_days.start_hour >= "' . $startHoursOrigin[$i] . '" AND ' . 'medical_diary_days.start_hour < "' . $finishHoursOrigin[$i] . '") OR ';
-        }
-        $stringQuery = substr($stringQuery, 0, strlen($stringQuery) - 4);
-        $stringQuery .= ')';
-        if (count($startHoursOrigin) > 0) {
-            $baseQueryFilter = $baseQueryFilter->whereRaw($stringQuery);
-        }
-
-        if (count($baseQueryFilter->get()->toArray()) > 0) {
+        $conflictsCount = DB::table("medical_diary_days AS m1")
+        ->selectRaw(("COUNT(*) AS conflicts_count"))
+        ->join("medical_diary","medical_diary.id","=","m1.medical_diary_id")
+        ->join("assistance","assistance.id","=","medical_diary.assistance_id")
+        ->join("users","users.id","=","assistance.user_id")
+        ->join("assistance_procedure","assistance.id","=","assistance_procedure.assistance_id")
+        ->where("users.id","=",$userIdOrigin)
+        ->where("assistance_procedure.procedure_id","=",$procedureId)
+        ->where("m1.start_hour",">=",$startDate)
+        ->where("m1.finish_hour","<=",$finishDate)
+        ->whereExists(function ($query) use ($userIdFinal, $procedureId){
+            $query->from("medical_diary_days AS m2")
+            ->join("medical_diary","medical_diary.id","=","m2.medical_diary_id")
+            ->join("assistance","assistance.id","=","medical_diary.assistance_id")
+            ->join("users","users.id","=","assistance.user_id")
+            ->join("assistance_procedure","assistance.id","=","assistance_procedure.assistance_id")
+            ->where("users.id","=",$userIdFinal)
+            ->where("assistance_procedure.procedure_id","=",$procedureId)
+            ->whereIn("m1.medical_status_id", array(2, 3, 4))
+            ->whereIn("m2.medical_status_id", array(2, 3, 4))
+            ->where(function ($query4){
+                $query4->where(function ($query5){
+                    $query5->whereRaw("m1.start_hour >= m2.start_hour")
+                    ->whereRaw("m1.start_hour < m2.finish_hour");
+                })->orWhere(function ($query6){
+                    $query6->whereRaw("m2.start_hour >= m1.start_hour")
+                    ->whereRaw("m2.start_hour < m1.finish_hour");
+                });
+            });
+        })
+        ->first()->conflicts_count;
+        if($conflictsCount > 0){
             return true;
         }
         return false;
@@ -284,9 +289,6 @@ class AssistanceController extends Controller
         $newMedicalDiary->pavilion_id = $pavilionId;
         $newMedicalDiary->procedure_id = $procedureId;
         $newMedicalDiary->office_id = $officeId;
-        $bed = Bed::find($officeId);
-        $bed->status_bed_id = 2;
-        $bed->save();
         $newMedicalDiary->diary_status_id = 1;
         $newMedicalDiary->created_at = date("Y-m-d h:i:s");
         $newMedicalDiary->updated_at = date("Y-m-d h:i:s");
@@ -306,13 +308,6 @@ class AssistanceController extends Controller
             ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->whereIn('medical_diary.id', $medicalDiaryIds)
             ->whereNull('medical_diary_days.id');
-
-        DB::table('medical_diary')
-            ->leftJoin('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
-            ->join('bed', 'medical_diary.office_id', '=', 'bed.id')
-            ->whereIn('medical_diary.id', $medicalDiaryIds)
-            ->whereNull('medical_diary_days.id')
-            ->update(['bed.status_bed_id' => 1]);
 
         $medicalDiaryToUpdate->update(['medical_diary.diary_status_id' => 2]);
 

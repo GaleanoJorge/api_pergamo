@@ -774,6 +774,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'flat/byCampus/{campus_id}',
         'Management\FlatController@getFlatByCampus'
     );
+    Route::get(
+        'get_flat_by_bed/{bed_id}',
+        'Management\FlatController@getFlatByBed'
+    );
 
     //Pabellón
     Route::apiResource('pavilion', 'Management\PavilionController');
@@ -784,8 +788,15 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\PavilionController@getPavilionByFlat'
     );
 
+    Route::get(
+        'get_pavilion_by_bed/{bed_id}',
+        'Management\PavilionController@getPavilionByBed'
+    );
+
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
+    //Cama asignada al paciente
+    Route::get('get_available_consultories', 'Management\BedController@getAvailableConsultories');
     //Consultorio
     Route::get('office_by_campus', 'Management\BedController@getOfficeByCampus');
 

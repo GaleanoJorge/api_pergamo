@@ -38,9 +38,9 @@ class MedicalDiaryDaysController extends Controller
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
-                                CONCAT('Reservada por :', ' ',IFNULL(patients.lastname,''),' ',IFNULL(patients.middlelastname,''),' ',IFNULL(patients.firstname,''),' ',IFNULL(patients.middlefirstname,'')),
+                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                 IF(medical_diary_days.medical_status_id = 3,
-                                    CONCAT('Confirmada :', ' ',IFNULL(patients.lastname,''),' ',IFNULL(patients.middlelastname,''),' ',IFNULL(patients.firstname,''),' ',IFNULL(patients.middlefirstname,'')),
+                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                     IF(medical_diary_days.medical_status_id = 4,
                                             'Facturada',
                                             'Cancelada')))) AS Subject"),
@@ -194,9 +194,9 @@ class MedicalDiaryDaysController extends Controller
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
-                                CONCAT('Reservada por :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                 IF(medical_diary_days.medical_status_id = 3,
-                                    CONCAT('Confirmada :', ' ',patients.lastname,' ',patients.middlelastname,' ',patients.firstname,' ',patients.middlefirstname),
+                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                     IF(medical_diary_days.medical_status_id = 4,
                                             'Facturada',
                                             'Cancelada')))) AS Subject"),
@@ -602,6 +602,7 @@ class MedicalDiaryDaysController extends Controller
         $medicalDiaryDayReceiver->patient_id = $medicalDiaryDayEmisor->patient_id;
         $medicalDiaryDayReceiver->medical_status_id = $medicalDiaryDayEmisor->medical_status_id;
         $medicalDiaryDayReceiver->admissions_id = $medicalDiaryDayEmisor->admissions_id;
+        $medicalDiaryDayReceiver->services_briefcase_id = $medicalDiaryDayEmisor->services_briefcase_id;
         //Emisor
         $medicalDiaryDayEmisor->patient_id = null;
         $medicalDiaryDayEmisor->medical_status_id = 1;
