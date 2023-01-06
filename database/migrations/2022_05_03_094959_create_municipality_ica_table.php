@@ -17,6 +17,7 @@ class CreateMunicipalityIcaTable extends Migration
             $table->bigIncrements('id');
             $table->double('value')->nullable();
             $table->unsignedBigInteger('municipality_id')->nullable();
+            $table->Integer('year');
             $table->timestamps();
 
             $table->index('municipality_id');
