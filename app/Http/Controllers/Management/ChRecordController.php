@@ -1217,6 +1217,7 @@ class ChRecordController extends Controller
 
         $ChInterconsultation = ChInterconsultation::with(
             'frequency',
+            'specialty',
             'services_briefcase',
             'services_briefcase.manual_price',
             'services_briefcase.manual_price.procedure',
