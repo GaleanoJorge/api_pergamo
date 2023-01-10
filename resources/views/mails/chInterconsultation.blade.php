@@ -298,6 +298,13 @@
                     <b>TIPO DE ATENCIÓN: </b> {{$ch['type_of_attention']['name']}} <br/></span>
                 </p>
                 @endisset
+
+                @if(isset($ch['specialty']))
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                    <b> ESPECIALIDAD: </b> {{$ch['specialty']['name']}}<br/></span>
+                </p>
+                @endisset
                 
                 @if(isset($ch['procedure'])) 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">

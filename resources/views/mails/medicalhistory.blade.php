@@ -4245,11 +4245,11 @@
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                 <tr style="height:11.95pt">
                     {{-- comentareado provisionalemente --}}
-                    {{-- <td style="width:79.75pt; vertical-align:top">
+                    <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['product_generic']['measurement_units']) && isset($ch['product_generic']['multidose_concentration']) && isset($ch['dose'])) DOSIS: </b> {{$ch['dose']}} {{($ch['product_generic']['product_dose_id']==1? ($ch['product_generic']['measurement_units']['code'] ? $ch['product_generic']['measurement_units']['code'] : "") : ($ch['product_generic']['multidose_concentration']['code'] ? $ch['product_generic']['multidose_concentration']['code'] : "") )}} @endisset  </span>
+                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['dose'])) DOSIS A ADMINISTRAR: </b> {{$ch['dose']}} @endisset  </span>
                         </p>
-                    </td> --}}
+                    </td>
                     <td style="width:106pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
                             <span style="font-family:Calibri"><b> @if(isset($ch['administration_route'])) VÍA DE ADMON: </b> {{$ch['administration_route']['name']}} @endisset </span>
@@ -4397,6 +4397,13 @@
                         </p>
                         @endisset
         
+                        @if(isset($ch['specialty']))
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b> ESPECIALIDAD: </b> {{$ch['specialty']['name']}}<br/></span>
+                        </p>
+                        @endisset
+
                         @if(isset($ch['procedure'])) 
                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                             <span style="font-family:Calibri; font-size:9pt">
