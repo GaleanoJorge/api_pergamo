@@ -1215,11 +1215,14 @@ class ChRecordController extends Controller
     {
         $fecharecord = 0;
 
-
-
         $ChInterconsultation = ChInterconsultation::with(
+            'frequency',
             'specialty',
-            'frequency'
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
+            'type_of_attention',
+            'procedure',
         )->where('id', $id)->get()->toArray();
 
 
@@ -1486,7 +1489,11 @@ class ChRecordController extends Controller
             //Interconsulta
             $ChInterconsultation = ChInterconsultation::with(
                 'specialty',
-                'frequency'
+                'frequency',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'type_of_attention'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Plan de manejo
@@ -3090,7 +3097,12 @@ class ChRecordController extends Controller
                     //Interconsulta
                     $ChInterconsultation = ChInterconsultation::with(
                         'specialty',
-                        'frequency'
+                        'frequency',
+                        'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'services_briefcase.manual_price.procedure',
+                        'type_of_attention',
+                        'procedure',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Plan de manejo
