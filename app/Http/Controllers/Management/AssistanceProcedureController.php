@@ -51,7 +51,7 @@ class AssistanceProcedureController extends Controller
                 ->where('medical_diary_days.medical_status_id', $request->medical_status_id);
         }
 
-        if ($request->campus_id && $request->campus_id != 'null') {
+        if ($request->campus_id && $request->campus_id != 'null'  && $request->campus_id != 'undefined') {
             $AssistanceProcedure->where('campus_id', $request->campus_id);
         }
 
@@ -83,6 +83,7 @@ class AssistanceProcedureController extends Controller
 
             $AssistanceProcedure = $AssistanceProcedure->paginate($per_page, '*', 'page', $page);
         }
+
 
         return response()->json([
             'status' => true,

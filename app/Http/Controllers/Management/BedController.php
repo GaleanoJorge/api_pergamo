@@ -11,6 +11,7 @@ use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class BedController extends Controller
 {
@@ -443,5 +444,50 @@ class BedController extends Controller
                 'message' => 'Cama esta en uso, no es posible eliminarlo'
             ], 423);
         }
+    }
+
+    public function getAvailableConsultories(Request $request)
+    {
+        $dateRanges = json_decode($request->dateRanges, true);
+        $flatId = $request->flatId;
+        $pavilionId = $request->pavilionId;
+        $availableBeds = DB::table('bed AS b1');
+        if(count($dateRanges) == 0){
+            return response()->json([
+                'status' => false,
+                'message' => 'No hay agendas por transferir en el plazo de tiempo seleccionado',
+            ]);
+        }
+
+        if ($flatId != null) {
+            $availableBeds->join('pavilion', 'b1.pavilion_id', '=', 'pavilion.id')
+                ->where('pavilion.flat_id', '=', $flatId);
+        }
+        if ($pavilionId != null) {
+            $availableBeds->where('b1.pavilion_id', '=', $pavilionId);
+        }
+        $availableBeds = $availableBeds->where('b1.bed_or_office', '=', 2)->whereNotExists(function ($query) use ($dateRanges) {
+                $query->from('bed AS b2')
+                    ->join('medical_diary', 'medical_diary.office_id', '=', 'b2.id')
+                    ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+                    ->whereRaw('b2.id = b1.id')
+                    ->where(function ($query2) use ($dateRanges) {
+                        $query2->where(function ($query3) use ($dateRanges) {
+                            $query3->where('medical_diary_days.start_hour', '>=', $dateRanges[0]["startDate"])
+                                ->where('medical_diary_days.start_hour', '<', $dateRanges[0]["finishDate"]);
+                        });
+                        foreach (array_slice($dateRanges, 1) as $dateRange) {
+                            $query2->orWhere(function ($query4) use ($dateRange) {
+                                $query4->where('medical_diary_days.start_hour', '>=', $dateRange["startDate"])
+                                    ->where('medical_diary_days.start_hour', '<', $dateRange["finishDate"]);
+                            });
+                        }
+                    });
+            })->select("b1.*")->get()->toArray();
+        return response()->json([
+            'status' => true,
+            'message' => 'Camas disponibles obtenidas correctamente',
+            'data' => ['beds' => $availableBeds]
+        ]);
     }
 }
