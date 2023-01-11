@@ -5316,7 +5316,7 @@ PROGRAMA: ' . $p . ',
 ZONA: ' . $z . ', 
 FALLIDA: ' . $f . ', 
 CON CARRO: ' . $c . ', 
-EXTREDOSIS: ' . $x . ', 
+EXTRADOSIS: ' . $x . ', 
 HORAS: ' . $h . ', 
 TELECONSULTA: ' . $ph . '
 ',
