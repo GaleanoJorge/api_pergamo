@@ -4700,11 +4700,7 @@ class ChRecordController extends Controller
                     }
                 case (13): {
                         // SERVICIO DE CUIDADOR
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'No hay historia clínica para esta atención',
-                            'data' => ['ch_record' => []],
-                        ]);
+                        $ChRecord->ch_type_id = 2;
                         break;
                     }
                 case (14): {
@@ -4869,12 +4865,7 @@ class ChRecordController extends Controller
                             break;
                         }
                     case (13): {
-                            // SERVICIO DE CUIDADOR
-                            // return response()->json([
-                            //     'status' => false,
-                            //     'message' => 'No hay historia clínica para esta atención',
-                            //     'data' => ['ch_record' => []],
-                            // ]);
+                            $ChRecord->ch_type_id = 2;
                             break;
                         }
                     case (14): {
