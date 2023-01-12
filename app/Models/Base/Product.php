@@ -34,7 +34,7 @@ use App\Models\ProductGeneric;
  * @property string $value_circular
  * @property string $circular
  * @property string $unit_packing
- * @property string $refrigeration
+ * @property int $refrigeration
  * @property string $useful_life
  * @property string $code_cum
  * @property BigInteger $packing_id

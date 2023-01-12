@@ -18,7 +18,7 @@ class ProductSuppliesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProductSupplies = ProductSupplies::with('size_supplies_measure', 'measure_supplies_measure')->orderBy('description', 'asc');
+        $ProductSupplies = ProductSupplies::with('size_supplies_measure', 'measure_supplies_measure','product_group','product_category','product_subcategory')->orderBy('description', 'asc');
 
         if ($request->_sort) {
             if ($request->_sort != "actions" && $request->_sort != "description" && $request->_sort != "factory") {
@@ -51,6 +51,9 @@ class ProductSuppliesController extends Controller
     public function store(ProductSuppliesRequest $request): JsonResponse
     {
         $ProductSupplies = new ProductSupplies;
+        $ProductSupplies->product_group_id = $request->product_group_id;
+        $ProductSupplies->product_category_id = $request->product_category_id;
+        $ProductSupplies->product_subcategory_id = $request->product_subcategory_id;
         $ProductSupplies->size = $request->size;
         $ProductSupplies->measure = $request->measure;
         $ProductSupplies->stature = $request->stature;
@@ -99,6 +102,9 @@ class ProductSuppliesController extends Controller
     public function update(ProductSuppliesRequest $request, int $id): JsonResponse
     {
         $ProductSupplies = ProductSupplies::find($id);
+        $ProductSupplies->product_group_id = $request->product_group_id;
+        $ProductSupplies->product_category_id = $request->product_category_id;
+        $ProductSupplies->product_subcategory_id = $request->product_subcategory_id;
         $ProductSupplies->size = $request->size;
         $ProductSupplies->measure = $request->measure;
         $ProductSupplies->stature = $request->stature;
