@@ -3081,7 +3081,8 @@ class ChRecordController extends Controller
                         'product_generic.measurement_units',
                         'product_generic.multidose_concentration',
                         'administration_route',
-                        'hourly_frequency'
+                        'hourly_frequency',
+                        'product_supplies'
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 5)->get()->toArray();
 
