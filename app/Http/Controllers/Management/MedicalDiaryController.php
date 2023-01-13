@@ -123,8 +123,8 @@ class MedicalDiaryController extends Controller
         $MedicalDiary->procedure_id = $request->procedure_id;
         $MedicalDiary->start_time = $request->start_time;
         $MedicalDiary->finish_time = $request->finish_time;
-        $MedicalDiary->finish_date = $calendar_days[0];
-        $MedicalDiary->start_date = $calendar_days[count($calendar_days) - 1];
+        $MedicalDiary->finish_date = $calendar_days[count($calendar_days) - 1];
+        $MedicalDiary->start_date = $calendar_days[0];
         $MedicalDiary->interval = $request->interval;
         $MedicalDiary->campus_id = $request->campus_id;
         $MedicalDiary->flat_id = $request->flat_id;
@@ -395,4 +395,5 @@ class MedicalDiaryController extends Controller
             ], 423);
         }
     }
+
 }

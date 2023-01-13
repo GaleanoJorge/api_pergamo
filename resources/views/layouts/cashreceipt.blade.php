@@ -92,7 +92,7 @@
             </tr>
             <tr>
                 <td>
-                    <div><span style="font-size: 10px">Dirección: &nbsp;{{ $medical_date->patient->residence_address ? $medical_date->patient->residence_addres : "--" }} &nbsp;</span></div>
+                    <div><span style="font-size: 10px">Dirección: &nbsp;{{ $medical_date->patient->residence_address ? $medical_date->patient->residence_address : "--" }} &nbsp;</span></div>
                 </td>
                 <td>
                     <div><span style="font-size: 10px">Teléfono: &nbsp;{{ $medical_date->patient->phone }} &nbsp;</span></div>
