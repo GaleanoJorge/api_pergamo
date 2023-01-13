@@ -15,8 +15,8 @@ class CreateChPsAssessmentTable extends Migration
     {
         Schema::create('ch_ps_assessment', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('patient');
-            $table->string('symptom');
+            $table->longText('patient');
+            $table->longText('symptom');
             $table->integer('episodes_number'); 
                    
 

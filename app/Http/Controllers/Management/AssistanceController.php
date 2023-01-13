@@ -107,6 +107,23 @@ class AssistanceController extends Controller
         ]);
     }
 
+    /**
+     * Get every user that's assistance
+     * @return \Illuminate\Http\Response
+     */
+    public function getAssistanceUsers(Request $request): JsonResponse
+    {
+        $assistances = DB::table('assistance')
+        ->join('users','users.id','=','assistance.user_id')
+        ->select('users.*')
+        ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Médicos asistentes obtenidos correctamente',
+            'data' => ['assistances' => $assistances->toArray()]
+        ]);
+    }
+
 
     public function store(AssistanceRequest $request): JsonResponse
     {
@@ -197,4 +214,6 @@ class AssistanceController extends Controller
             ], 423);
         }
     }
+
+
 }
