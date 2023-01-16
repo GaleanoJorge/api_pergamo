@@ -2981,6 +2981,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    }else{
+                        $imagenPAtient=null;
                     }
 
                     $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
