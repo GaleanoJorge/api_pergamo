@@ -260,7 +260,7 @@ class UserController extends Controller
         if ($request->admission_route_id) {
             $users->where('location.admission_route_id', $request->admission_route_id);
         } else {
-            if($roleId){
+            if($roleId==2){
  
             }else{
                 $users->where('location.admission_route_id', 2);
