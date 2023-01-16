@@ -5268,7 +5268,7 @@ class ChRecordController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                if (count($valuetariff) == 0) {
+                if (count($valuetariff) == 0 && !$ChRecord->ch_interconsultation_id) {
                     $extra_dose = 0;
                     $has_car = 0;
                     $Assistance = Assistance::select('assistance.*')
