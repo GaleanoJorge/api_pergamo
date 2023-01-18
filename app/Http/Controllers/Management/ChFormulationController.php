@@ -160,7 +160,7 @@ class ChFormulationController extends Controller
                 ]);
             }
 
-            if (!$request->pharmacy_product_request_id) {
+            if (!$request->pharmacy_product_request_id || $request->pharmacy_product_request_id == 'false') {
                 $PharmacyProductRequest = new PharmacyProductRequest;
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
                 $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
