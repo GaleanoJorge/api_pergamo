@@ -12,6 +12,10 @@ use App\Models\PharmacyStock;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
+use Dompdf\Dompdf as PDF;
+use Dompdf\Options;
+use Illuminate\Support\Facades\Storage;
+
 
 class PharmacyLotStockController extends Controller
 {
@@ -47,9 +51,9 @@ class PharmacyLotStockController extends Controller
         }
 
         if ($request->_sort) {
-            if($request->_sort!="actions" && $request->_sort!="product" && $request->_sort!="factory"  && $request->_sort!="amount_total"  && $request->_sort!="actual_amount"  && $request->_sort!="lot" && $request->_sort!="expiration_date" && $request->_sort!="product_supplies_com"){
+            if ($request->_sort != "actions" && $request->_sort != "product" && $request->_sort != "factory"  && $request->_sort != "amount_total"  && $request->_sort != "actual_amount"  && $request->_sort != "lot" && $request->_sort != "expiration_date" && $request->_sort != "product_supplies_com") {
                 $PharmacyLotStock->orderBy($request->_sort, $request->_order);
-                }
+            }
         }
         if ($request->pharmacy_stock_id) {
             $PharmacyLotStock->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id);
@@ -68,7 +72,7 @@ class PharmacyLotStockController extends Controller
         } else if ($request->product == "false") {
             $PharmacyLotStock->whereNull('billing_stock.product_id')->whereNotNull('billing_stock.product_supplies_com_id');
         }
-           
+
         $PharmacyLotStock->where(function ($query) use ($request) {
             if ($request->actual_amount == 0) {
                 $query->where('pharmacy_lot_stock.actual_amount', '>', 0);
@@ -123,6 +127,96 @@ class PharmacyLotStockController extends Controller
         ]);
     }
 
+
+
+    /**
+     * Imprimir inventario 
+     */
+
+    public function viewInventory( Request $request)
+    {
+        $pharmacy = PharmacyLotStock::select('pharmacy_lot_stock.*')
+        ->leftJoin('billing_stock', 'billing_stock.id', 'pharmacy_lot_stock.billing_stock_id')
+        ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'billing_stock.product_supplies_com_id')
+        ->leftJoin('product', 'product.id', 'billing_stock.product_id')
+        ->leftJoin('factory', 'factory.id', 'product.factory_id')
+        ->with(
+            'pharmacy_lot',
+            'pharmacy_stock',
+            'billing_stock',
+            'billing_stock.product',
+            'billing_stock.product.factory',
+            'billing_stock.product.product_generic',
+            'billing_stock.product_supplies_com.product_supplies',
+            'billing_stock.product_supplies_com.factory',
+        );
+        // ->where('billing_stock.product_id', '!=', null)->get()->toArray();
+
+
+        if($request -> type == 1){
+            $pharmacy = $pharmacy->where('billing_stock.product_id', '!=', null)->get()->toArray();
+        }else{
+            $pharmacy = $pharmacy->where('billing_stock.product_supplies_com_id', '!=', null)->get()->toArray();
+        }
+           
+
+
+        $html = view('reports.inventory', [
+            'pharmacy' => $pharmacy,
+            'type' => $request -> type,
+
+        ])->render();
+        $options = new Options();
+        $options->set('isRemoteEnabled', true);
+
+
+        $dompdf = new PDF($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('Carta', 'landscape');
+        $dompdf->render();
+        // $this->injectPageCount($dompdf);
+        $file = $dompdf->output();
+
+        if($request -> type == 1){
+            $name = 'InventarioMedicamentos.pdf';
+        }else{
+            $name = 'InventarioInsumos.pdf';
+        }
+
+        // $name = 'InventarioInsumos.pdf';
+
+        Storage::disk('public')->put($name, $file);
+        // if (count($pharmacy) > 0) {
+        //     foreach ($pharmacy as $ph) {
+
+
+        // $html = view('reports.inventorySupplies', [
+        //     'pharmacy' => $pharmacy,
+
+        // ])->render();
+
+        // $options = new Options();
+        // $options->set('isRemoteEnabled', true);
+        // $dompdf = new PDF($options);
+        // $dompdf->loadHtml($html);
+        // $dompdf->setPaper('Carta', 'landscape');
+        // $dompdf->render();
+        // // $this->injectPageCount($dompdf);
+        // $file = $dompdf->output();
+
+        // $name = 'InventarioInsumos.pdf';
+
+        // Storage::disk('public')->put($name, $file);
+
+        // }
+
+        return response()->json([
+            'status' => true,
+            'ph' => $pharmacy,
+            'message' => 'Reporte generado exitosamente',
+            'url' => asset('/storage' . '/' . $name),
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -52,6 +52,7 @@ class ChInterconsultationController extends Controller
                 'admissions',
                 'many_ch_record',
                 'roles',
+                'procedure',
             )
             ->groupBy('ch_interconsultation.id');
 
@@ -136,6 +137,8 @@ class ChInterconsultationController extends Controller
                 'ch_record.user',
                 'admissions',
                 'many_ch_record',
+                'procedure',
+                'type_of_attention'
             )
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
             ->get()->toArray();
@@ -176,6 +179,7 @@ class ChInterconsultationController extends Controller
 
         $ChInterconsultation = new ChInterconsultation;
         $ChInterconsultation->specialty_id = $request->specialty_id;
+        $ChInterconsultation->procedure_id = $request->procedure_id;
         $ChInterconsultation->amount = $request->amount;
         $ChInterconsultation->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChInterconsultation->type_of_attention_id = $request->type_of_attention_id;
@@ -226,6 +230,7 @@ class ChInterconsultationController extends Controller
     {
         $ChInterconsultation = ChInterconsultation::find($id);
         $ChInterconsultation->specialty_id = $request->specialty_id;
+        $ChInterconsultation->procedure_id = $request->procedure_id;
         $ChInterconsultation->amount = $request->amount;
         $ChInterconsultation->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChInterconsultation->type_of_attention_id = $request->type_of_attention_id;
