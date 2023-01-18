@@ -281,7 +281,7 @@
                     <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
             </p>
 
-            @if(($ch['medical_formula']) == 1 )
+            @if(($ch['required']) == 'medicine' && ($ch['medical_formula']) == 1 )
 
             <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                 <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>FORMULA AMBULATORIA</b> </span>
@@ -289,10 +289,12 @@
             </p>  
             @endisset
 
+            @if(isset($ch['required']) == 'medicine')
+
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    <b>@if(isset($ch['product_generic'])) MEDICAMENTO: </b> {{$ch['product_generic']['description']}} @endisset <br/></span>
-            </p>
+                    <b>@if(isset($ch['product_generic'])) MEDICAMENTO: </b> {{$ch['product_generic']['description']}} @endisset <br/>
+                </p>
 
             <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                 <tr style="height:11.95pt">
@@ -323,7 +325,7 @@
                     </td>
                     <td style="width:79.75pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                            <span style="font-family:Calibri"> <b> @if(isset($ch['outpatient_formulation'])) CANTIDAD SOLICITADA: </b> {{$ch['outpatient_formulation']}} @endisset 
+                            <span style="font-family:Calibri"> <b> @if(isset($ch['outpatient_formulation'])) CANTIDAD SOLICITADA: </b> {{$ch['outpatient_formulation']}} @endisset
                         </p>
                     </td>
                     <td style="width:106pt; vertical-align:top">
@@ -333,6 +335,16 @@
                     </td>
                 </tr>
             </table>
+            @endisset
+
+            @if(($ch['required']) == 'supplies' )
+
+                <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                        <b>@if(isset($ch['product_supplies'])) INSUMO: </b> {{$ch['product_supplies']['description']}} @endisset <br/>
+                        <b>@if( isset($ch['num_supplies'])) CANTIDAD SOLICITADA: </b> {{$ch['num_supplies']}} @endisset
+                </p>     
+            @endisset
 
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
@@ -340,17 +352,10 @@
             </p>
             <br/>
 
-            @if(count($ChFormulation) > 1)
-                {{-- @if($ChFormulation[count($ChFormulation)-1]['id'] != $ch['id']) --}}
-                    <hr/>
-                {{-- @endisset --}}
-            @endisset
-
             @endforeach
 
         @endisset
      </div>
-
 
 <!-- Firma -->
 <div style="display: flex">

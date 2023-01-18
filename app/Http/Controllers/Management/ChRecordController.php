@@ -1361,7 +1361,7 @@ class ChRecordController extends Controller
                 $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
                 $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                 $imagenPAtient = base64_encode($contenidoBinarioPatient);
-            } else {
+}else {
                 $imagenPAtient = null;
             }
         }
@@ -2988,6 +2988,9 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+
+                    }else{
+                        $imagenPAtient=null;
                     }
 
                     $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
@@ -3081,7 +3084,8 @@ class ChRecordController extends Controller
                         'product_generic.measurement_units',
                         'product_generic.multidose_concentration',
                         'administration_route',
-                        'hourly_frequency'
+                        'hourly_frequency',
+                        'product_supplies'
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 5)->get()->toArray();
 
@@ -3291,6 +3295,7 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+
                     } else {
                         $imagenPAtient = null;
                     }
@@ -3516,6 +3521,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+}else{
+ $imagenPAtient=null;
                     }
 
 
@@ -3667,6 +3674,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+}else{
+ $imagenPAtient=null;
                     }
 
 
@@ -3854,7 +3863,9 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-                    }
+}else{
+ $imagenPAtient=null;}
+
                     //Ingreso
                     $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
@@ -4060,7 +4071,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-                    }
+}else{
+ $imagenPAtient=null;}
                     //Ingreso
                     $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChVitalSigns = ChVitalSigns::with(
@@ -4219,6 +4231,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+}else{
+ $imagenPAtient=null;
                     }
                     //Ingreso
                     $ChEValorationFT = ChEValorationFT::with(
@@ -4387,6 +4401,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+}else{
+ $imagenPAtient=null;
                     }
                     //Ingreso    
                     $ChSwDiagnosis = ChSwDiagnosis::with(
@@ -5264,7 +5280,7 @@ class ChRecordController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
             if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
-                if (count($valuetariff) == 0) {
+                if (count($valuetariff) == 0 && $Location->scope_of_attention_id != 1) {
                     $extra_dose = 0;
                     $has_car = 0;
                     $Assistance = Assistance::select('assistance.*')

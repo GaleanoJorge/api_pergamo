@@ -105,14 +105,13 @@ class MedicalDiaryController extends Controller
                         ->orWhere(function ($que) use ($low_border, $high_border) {
                             $que->Where('finish_hour', '>', $low_border)
                                 ->Where('finish_hour', '<', $high_border);
-
                         });
                 })->first();
-            
-            if($validate_schedule_range){
+
+            if ($validate_schedule_range) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Conflicto horario de '. $validate_schedule_range->start_hour .' a ' .  $validate_schedule_range->finish_hour,
+                    'message' => 'Conflicto horario de ' . $validate_schedule_range->start_hour . ' a ' .  $validate_schedule_range->finish_hour,
                 ]);
             }
         }
@@ -142,10 +141,9 @@ class MedicalDiaryController extends Controller
         $Office->status_bed_id = 2;
         $Office->save();
 
-        foreach($calendar_days as $item_dates){
+        foreach ($calendar_days as $item_dates) {
             $non_working = NonWorkingDays::select('non_working_days.*')->where('day', $item_dates)->first();
-            if(!$non_working)
-            {
+            if (!$non_working) {
                 $dateTimeStart = $item_dates . " " . $request->start_time;
                 $dateTimeFinish = $item_dates . " " . $request->finish_time;
 
@@ -176,7 +174,7 @@ class MedicalDiaryController extends Controller
                     $pq = intval($request->patient_quantity);
 
                     //multiple_patients
-                    for ($j = 0; $j < $pq-1; $j++) {
+                    for ($j = 0; $j < $pq - 1; $j++) {
 
                         $MultiMedicalDiaryDays = new MedicalDiaryDays;
 
@@ -190,7 +188,6 @@ class MedicalDiaryController extends Controller
                         $MultiMedicalDiaryDays->save();
                     }
                 }
-
             }
         }
 
@@ -372,23 +369,42 @@ class MedicalDiaryController extends Controller
      */
     public function destroy(int $id)
     {
+        DB::beginTransaction();
         try {
-            $MedicalDiaryDays = MedicalDiaryDays::select('medical_diary_days.*')
+            $medicalDiaryDaysCount = 0;
+            $MedicalDiaryDaysLinked = MedicalDiaryDays::select('medical_diary_days.*')
                 ->where('medical_diary_id', $id)
-                ->where('medical_status_id', '=', 1)->get();
+                ->where('medical_status_id', '=', 1)
+                ->whereNotNull('diary_days_id')->get();
 
-            $MedicalDiaryDaysQuantity = $MedicalDiaryDays->count();
+            $medicalDiaryDaysCount += $MedicalDiaryDaysLinked->count();
 
-            foreach($MedicalDiaryDays as $MedicalDiary){
+            foreach ($MedicalDiaryDaysLinked as $MedicalDiary) {
                 $MedicalDiary->delete();
             }
 
+            $MedicalDiaryDaysNotLinked = MedicalDiaryDays::select('medical_diary_days.*')
+                ->where('medical_diary_id', $id)
+                ->where('medical_status_id', '=', 1)
+                ->get();
+
+            $medicalDiaryDaysCount += $MedicalDiaryDaysNotLinked->count();
+
+            foreach ($MedicalDiaryDaysNotLinked as $MedicalDiary) {
+                $MedicalDiary->delete();
+            }
+
+            $medicalDiary = MedicalDiary::find($id);
+            $medicalDiary->delete();
+
+            DB::commit();
+
             return response()->json([
                 'status' => true,
-                'message' => $MedicalDiaryDaysQuantity . ' agendas libres eliminadas exitosamente'
+                'message' => $medicalDiaryDaysCount . ' agendas libres eliminadas exitosamente'
             ]);
         } catch (QueryException $e) {
-            $e;
+            DB::rollback();
             return response()->json([
                 'status' => false,
                 'message' => 'Agenda está en uso, no es posible eliminar'
