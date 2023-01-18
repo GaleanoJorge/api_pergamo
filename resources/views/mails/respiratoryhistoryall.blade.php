@@ -1949,7 +1949,7 @@
                     <div>
                         @if(count($tr['ch_respiratory_therapy']) > 0 || count($tr['ch_background']) > 0 || count($tr['ch_gynecologists']) > 0 || count($tr['ch_vital_signs']) > 0
                         || count($tr['ch_oxygen_therapy']) > 0 || count($tr['ch_rt_sessions']) > 0 || count($tr['ch_ps_intervention']) > 0 || count($tr['ch_recommendations_evo']) > 0
-                        || count($tr['disclaimer'] > 0) )
+                        || count($tr['disclaimer']) > 0 )
                         
                         <hr/>
                         <p style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
