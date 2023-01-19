@@ -5216,7 +5216,7 @@ class ChRecordController extends Controller
             $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-            if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
                 if (count($valuetariff) == 0 && $Location->scope_of_attention_id != 1) {
                     $extra_dose = 0;
                     $has_car = 0;
@@ -5340,7 +5340,7 @@ TELECONSULTA: ' . $ph . '
                         $billActivity->save();
                     } else {
                         if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                            if ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
                                 $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
                             }
                         }
@@ -5476,7 +5476,7 @@ TELECONSULTA: ' . $ph . '
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
+                $billActivity->tariff_id = (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -5486,7 +5486,7 @@ TELECONSULTA: ' . $ph . '
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
+                $billActivity->tariff_id = (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };
