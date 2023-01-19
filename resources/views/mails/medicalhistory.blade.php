@@ -4303,7 +4303,7 @@
 
         @endisset
      </div>
-
+     
     <!-- ORDENES MÉDICAS -->
     <div>
 
@@ -4458,7 +4458,7 @@
 
             <!-- Plan de Manejo -->
             <div>
-                @if($chrecord[0]['ch_interconsultation_id'] != null )
+                @if($chrecord[0]['ch_interconsultation_id'] == null )
 
                     @if(count($ManagementPlan) > 0)
 
@@ -4855,7 +4855,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        @if($chrecord[0]['ch_interconsultation_id'] != null )
+        @if($chrecord[0]['ch_interconsultation_id'] == null )
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
