@@ -4303,7 +4303,7 @@
 
         @endisset
      </div>
-
+     
     <!-- ORDENES MÉDICAS -->
     <div>
 
@@ -4378,59 +4378,87 @@
             <!-- Interconsulta -->
             <div>
 
-                    @if(count($ChInterconsultation) > 0)
-
-                    <hr />
-
-                    <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                        <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> INTERCONSULTA </b> </span>
-                        <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-                    </p>                          
+                @if(count($ChInterconsultation) > 0)
+        
+                <hr />
+        
+                <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                    <span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff"> <b> INTERCONSULTA </b> </span>
+                    <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
+                </p>                          
+                    
+                    @foreach($ChInterconsultation as $ch)
+        
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
+                        </p>
+        
+                        @if(($ch['ambulatory_medical_order']) == 'Sí' )
+        
+                            <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
+                                <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>ORDEN AMBULATORIA</b> </span>
+                            </p>  
+                         @endisset
                         
-                        @foreach($ChInterconsultation as $ch)
+                         @if(isset($ch['type_of_attention'])) 
+                         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>TIPO DE ATENCIÓN: </b> {{$ch['type_of_attention']['name']}} <br/></span>
+                        </p>
+                        @endisset
+        
+                        @if(isset($ch['specialty']))
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b> ESPECIALIDAD: </b> {{$ch['specialty']['name']}}<br/></span>
+                        </p>
+                        @endisset
 
-                            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:9pt">
-                                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
-                            </p>
-
+                        @if(isset($ch['procedure'])) 
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>PROCEDIMIENTO: </b> {{$ch['procedure']['name']}}
+                        </p>
+                        @endisset
+        
+                        @if( isset($ch['services_briefcase'])) 
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>PROCEDIMIENTO:</b> {{$ch['services_briefcase']['manual_price']['procedure']['name']}}<br/></span>
+                        </p>
+                        @endisset
+        
+                        <table cellspacing="0" cellpadding="0" style="margin-left:7pt; border-collapse:collapse">
+                            <tr style="height:11.95pt">
                                 
-                            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:9pt">
-                                <b>@if(isset($ch['specialty'])) ESPECIALIDAD: </b> {{$ch['specialty']['name']}} @endisset <br/></span>
-                            </p>
-                            
-                            <br/>
-
-                            <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
-                                <tr style="height:11.95pt">
-                                    
-                                    <td style="width:79.75pt; vertical-align:top">
-                                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                                            <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['amount'])) CANTIDAD </b> {{$ch['amount']}} @endisset </span>
-                                                            
-                                        </p>
-                                    </td>
-                                    <td style="width:106pt; vertical-align:top">
-                                        <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                            <span style="font-family:Calibri"><b> @if(isset($ch['frequency_id'])) FRECUENCIA HORARIA: </b>{{$ch['frequency']['name']}} @endisset  </span>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
-                                <span style="font-family:Calibri; font-size:9pt">
-                                <b>@if(isset($ch['observations'])) OBSERVACIONES: </b> {{$ch['observations']}} @endisset</span>
-                            </p>
-
-                        @endforeach
-                    @endisset  
-
+                                <td style="width:79.75pt; vertical-align:top">
+                                    <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                                        <span style="font-family:Calibri; font-size:8pt"><b> @if(isset($ch['amount'])) CANTIDAD: </b> {{$ch['amount']}} @endisset </span>
+                                                        
+                                    </p>
+                                </td>
+                                <td style="width:106pt; vertical-align:top">
+                                    <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
+                                        <span style="font-family:Calibri"><b> @if(isset($ch['frequency_id'])) FRECUENCIA: </b>{{$ch['frequency']['name']}} @endisset  </span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+        
+                        <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size:9pt">
+                            <b>@if(isset($ch['observations'])) OBSERVACIONES: </b> {{$ch['observations']}} @endisset</span>
+                        </p>
+        
+                    @endforeach
+                @endisset  
+        
             </div>
 
             <!-- Plan de Manejo -->
             <div>
+                @if($chrecord[0]['ch_interconsultation_id'] == null )
 
                     @if(count($ManagementPlan) > 0)
 
@@ -4477,6 +4505,7 @@
 
                         @endforeach
                     @endisset 
+                @endisset 
             </div>
     
     </div>
@@ -4502,7 +4531,7 @@
             @if(($ch['extension']) == 'Si' )
 
             <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-                <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PORROGA</b> </span>
+                <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PRORROGA</b> </span>
                 <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
             </p>  
             @endisset
@@ -4826,6 +4855,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
+        @if($chrecord[0]['ch_interconsultation_id'] == null )
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)
@@ -4839,7 +4869,8 @@
             <p style="margin-top:8.95pt; margin-left:30pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
                 <span style="font-family:Calibri; font-weight:bold; color:#000000; background-color:#ffffff">{{$chrecord[0]['admissions']['patients']['firstname']}} {{$chrecord[0]['admissions']['patients']['middlefirstname']}} {{$chrecord[0]['admissions']['patients']['lastname']}} {{$chrecord[0]['admissions']['patients']['middlelastname']}}</span>
                 <span style="width:171.33pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
-            </p>
+        </p>
+        @endisset
     </div>
 
 </td>

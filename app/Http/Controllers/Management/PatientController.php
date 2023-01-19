@@ -298,7 +298,7 @@ class PatientController extends Controller
         if ($request->admission_route_id) {
             $patients->where('location.admission_route_id', $request->admission_route_id);
         } else {
-            $patients->where('location.admission_route_id', 2);
+           
         }
 
         if ($request->search) {

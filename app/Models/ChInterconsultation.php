@@ -16,6 +16,7 @@ class ChInterconsultation extends BaseChInterconsultation
     'ch_record_id',
     'services_briefcase_id',
     'admissions_id',
+    'procedure_id',
     'ambulatory_medical_order',
     'type_of_attention_id',
   ];
