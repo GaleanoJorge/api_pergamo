@@ -24,6 +24,7 @@ class CreateGlossResponseTable extends Migration
             $table->string('file');
             $table->unsignedBigInteger('objetion_response_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('justification_status');
             $table->timestamps();
 
             $table->index('user_id');

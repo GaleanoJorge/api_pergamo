@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class DiagnosisController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,45 +20,103 @@ class DiagnosisController extends Controller
     {
         $Diagnosis = Diagnosis::select();
 
-        if($request->_sort){
-            $Diagnosis->orderBy($request->_sort, $request->_order);
-        }            
+        if($request->all != 1){
 
-        if ($request->search) {
-            $Diagnosis->where('name','like','%' . $request->search. '%');
+            if ($request->_sort) {
+                $Diagnosis->orderBy($request->_sort, $request->_order);
+            }
+    
+            if ($request->id) {
+                $Diagnosis->where('id', $request->id);
+                $Diagnosis = $Diagnosis->get()->toArray();
+    
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Diagnósticos obtenidos exitosamente',
+                'data' => ['diagnosis' => $Diagnosis]
+            ]);
+            }
+    
+            if ($request->search) {
+                if ($request->search == '') {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Diagnósticos obtenidos exitosamente, aaaa',
+                        'data' => ['diagnosis' => []]
+                    ]);
+                } else {
+                    $Diagnosis->where(function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request->search . '%')
+                            ->orWhere('code', 'like', '%' . $request->search . '%');
+                    });
+                }
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Diagnósticos obtenidos exitosamente, bbb',
+                    'data' => ['diagnosis' => []]
+                ]);
+            }
+
+        }else{
+            if ($request->_sort) {
+                $Diagnosis->orderBy($request->_sort, $request->_order);
+            }
+    
+            if ($request->search) {
+                $Diagnosis->where('name', 'like', '%' . $request->search . '%');
+            }
+
+            if ($request->id) {
+                $Diagnosis->where('id', $request->id);
+                $Diagnosis = $Diagnosis->get()->toArray();
+
+    
+            if ($request->query("pagination", true) == "false") {
+                $Diagnosis = $Diagnosis->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+    
+                $Diagnosis = $Diagnosis->paginate($per_page, '*', 'page', $page);
+            }
+
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Diagnosis=$Diagnosis->get()->toArray();    
-        }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Diagnosis=$Diagnosis->paginate($per_page,'*','page',$page); 
-        } 
+    }
+
+        $Diagnosis = $Diagnosis->get()->toArray();
+        // if($request->query("pagination", true)=="false"){
+        //     $Diagnosis=$Diagnosis->get()->toArray();    
+        // }
+        // else{
+        //     $page= $request->query("current_page", 1);
+        //     $per_page=$request->query("per_page", 10);
+
+        //     $Diagnosis=$Diagnosis->paginate($per_page,'*','page',$page); 
+        // } 
 
 
         return response()->json([
             'status' => true,
-            'message' => 'Diagnóstico asociados al paciente exitosamente',
+            'message' => 'Diagnósticos obtenidos exitosamente',
             'data' => ['diagnosis' => $Diagnosis]
         ]);
     }
-    
+
 
     public function store(Request $request): JsonResponse
     {
         $Diagnosis = new Diagnosis;
-        $Diagnosis->code = $request->code; 
-        $Diagnosis->name = $request->name; 
-         
-        
+        $Diagnosis->code = $request->code;
+        $Diagnosis->name = $request->name;
+
+
         $Diagnosis->save();
 
         return response()->json([
             'status' => true,
-            'message' => 'Diagnóstico creado exitosamente',
+            'message' => 'Diagnóstico asociado al paciente exitosamente',
             'data' => ['diagnosis' => $Diagnosis->toArray()]
         ]);
     }
@@ -89,12 +147,12 @@ class DiagnosisController extends Controller
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $Diagnosis = Diagnosis::find($id); 
-        $Diagnosis->code = $request->code; 
-        $Diagnosis->name = $request->name; 
-          
-        
-        
+        $Diagnosis = Diagnosis::find($id);
+        $Diagnosis->code = $request->code;
+        $Diagnosis->name = $request->name;
+
+
+
         $Diagnosis->save();
 
         return response()->json([

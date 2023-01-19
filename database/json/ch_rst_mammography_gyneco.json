@@ -1,0 +1,21 @@
+[
+    {
+        "name": "1- BIRADS 0: Necesidad de Nuevo Estudio Imagenológico o Mamograma previo para evaluación"
+    },
+    {
+        "name": "2- BIRADS 1: Negativo"
+    },
+    {
+        "name": "3- BIRADS 2: Hallazgos Benignos"
+    },
+    {
+        "name": "4- BIRADS 3: Probablemente Benigno"
+    },
+    {
+        "name": "5- BIRADS 4: Anormalidad Sospechosa"
+    },
+    {
+        "name": "6- BIRADS 5: Altamente Sospechoso de Malignidad"
+    }
+
+]

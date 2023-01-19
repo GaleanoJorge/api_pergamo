@@ -55,7 +55,7 @@ class GlossStatusController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Estados de glosas creados exitosamente',
-            'data' => ['objetion_type' => $GlossStatus->toArray()]
+            'data' => ['gloss_status' => $GlossStatus->toArray()]
         ]);
     }
 
@@ -73,7 +73,7 @@ class GlossStatusController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Estados de glosas obtenidos exitosamente',
-            'data' => ['objetion_type' => $GlossStatus]
+            'data' => ['gloss_status' => $GlossStatus]
         ]);
     }
 
@@ -93,7 +93,7 @@ class GlossStatusController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Estados de glosas actualizados exitosamente',
-            'data' => ['objetion_type' => $GlossStatus]
+            'data' => ['gloss_status' => $GlossStatus]
         ]);
     }
 

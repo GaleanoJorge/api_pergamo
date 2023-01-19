@@ -81,28 +81,28 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
         'img_surveys' => [
             'driver' => 'local',
             'root' => storage_path('app/public/surveys'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
         'budget_attachments' => [
             'driver' => 'local',
             'root' => storage_path('app/public/attachments/budget'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
         'temp_reports' => [
             'driver' => 'local',
             'root' => storage_path('app/public/temp_reports'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
         ],
 
@@ -114,6 +114,16 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => 'sftp.invostream.com',
+            'protocol' => "sftp",
+            'username' => 'hlips',
+            'password' => 'EYpR5axMHaS5',
+            'port' => 22,
+            'root' => '/INBOUND/invostream/plano/',
         ],
 
     ],

@@ -9,36 +9,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\BriefcaseRequest;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class BriefcaseController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Briefcase = Briefcase::with('type_briefcase','coverage','modality','status');
+        $Briefcase = Briefcase::with('type_briefcase', 'coverage', 'modality', 'status');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Briefcase->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Briefcase->where('name','like','%' . $request->search. '%');
+            $Briefcase->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Briefcase=$Briefcase->get()->toArray();    
+
+        if ($request->id) {
+            $Briefcase->where('id', $request->id);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Briefcase=$Briefcase->paginate($per_page,'*','page',$page); 
-        } 
-        
+
+        if ($request->query("pagination", true) == "false") {
+            $Briefcase = $Briefcase->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Briefcase = $Briefcase->paginate($per_page, '*', 'page', $page);
+        }
+
         return response()->json([
             'status' => true,
             'message' => 'portafolio de servicios obtenidos exitosamente',
@@ -46,7 +50,36 @@ class BriefcaseController extends Controller
         ]);
     }
 
-               /**
+    /**
+     * Get procedure by manual.
+     *
+     * @param  int  $contractId
+     * @return JsonResponse
+     */
+    /*public function getByContract(Request $request, int $contractId): JsonResponse
+    {
+         $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
+        if ($request->search) {
+            $Briefcase->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $Briefcase = $Briefcase->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Briefcase = $Briefcase->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Portafolio por contrato obtenido exitosamente',
+            'data' => ['briefcase' => $Briefcase]
+        ]);
+    }*/
+
+    /**
      * Get procedure by manual.
      *
      * @param  int  $contractId
@@ -54,12 +87,18 @@ class BriefcaseController extends Controller
      */
     public function getByContract(Request $request, int $contractId): JsonResponse
     {
-        $Briefcase = Briefcase::where('contract_id', $contractId)->with('type_briefcase','coverage','modality','status');
+        $Briefcase = Briefcase::select('briefcase.*', DB::raw('SUM(IF(billing_pad.billing_pad_status_id=1,1,0)) AS created_billings'))
+            ->orderBy('briefcase.name', 'ASC')
+            ->where('briefcase.contract_id', $contractId)
+            ->with('type_briefcase', 'coverage', 'modality', 'status')
+            ->leftJoin('admissions', 'admissions.briefcase_id', 'briefcase.id')
+            ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
+            ->groupBy('briefcase.id');
         if ($request->search) {
-            $Briefcase->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
+            $Briefcase->where('briefcase.name', 'like', '%' . $request->search . '%')
+                ->Orwhere('briefcase.id', 'like', '%' . $request->search . '%');
         }
-        if ($request->query("pagination", true) === "false") {
+        if ($request->query("pagination", true) == "false") {
             $Briefcase = $Briefcase->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
@@ -81,19 +120,19 @@ class BriefcaseController extends Controller
         $Briefcase = new Briefcase;
         $Briefcase->name = $request->name;
         $Briefcase->contract_id = $request->contract_id;
-        $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;
+        $Briefcase->type_auth = $request->type_auth;
         $Briefcase->save();
 
         $id = Briefcase::latest('id')->first();
 
-        foreach($request->campus_id as $item ){
-        $CampusBriefcase=new CampusBriefcase;
-        $CampusBriefcase->campus_id=$item;
-        $CampusBriefcase->briefcase_id=$id->id;
-        $CampusBriefcase->save();
+        foreach ($request->campus_id as $item) {
+            $CampusBriefcase = new CampusBriefcase;
+            $CampusBriefcase->campus_id = $item;
+            $CampusBriefcase->briefcase_id = $id->id;
+            $CampusBriefcase->save();
         }
 
 
@@ -132,19 +171,22 @@ class BriefcaseController extends Controller
      */
     public function update(BriefcaseRequest $request, int $id): JsonResponse
     {
+        $CampusBriefcaseDelete = CampusBriefcase::where('briefcase_id', $id);
+        $CampusBriefcaseDelete->delete();
+
         $Briefcase = Briefcase::find($id);
         $Briefcase->name = $request->name;
-        $Briefcase->type_briefcase_id = $request->type_briefcase_id;
         $Briefcase->coverage_id = $request->coverage_id;
         $Briefcase->modality_id = $request->modality_id;
         $Briefcase->status_id = $request->status_id;
+        $Briefcase->type_auth = $request->type_auth;
         $Briefcase->save();
 
-        foreach($request->campus_id as $item ){
-        $CampusBriefcase=new CampusBriefcase;
-        $CampusBriefcase->campus_id=$item;
-        $CampusBriefcase->briefcase_id=$id;
-        $CampusBriefcase->save();
+        foreach ($request->campus_id as $item) {
+            $CampusBriefcase = new CampusBriefcase;
+            $CampusBriefcase->campus_id = $item;
+            $CampusBriefcase->briefcase_id = $id;
+            $CampusBriefcase->save();
         }
         $Briefcase->save();
 

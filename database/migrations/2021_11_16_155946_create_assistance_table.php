@@ -18,12 +18,14 @@ class CreateAssistanceTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('medical_record');
             $table->unsignedBigInteger('contract_type_id');
-            $table->unsignedBigInteger('cost_center_id');
-            $table->unsignedBigInteger('type_professional_id');
-            $table->unsignedBigInteger('special_field_id');
-            $table->unsignedBigInteger('medium_signature_file_id');
-            $table->string('attends_external_consultation');
-            $table->string('server_multiple_patients');
+            $table->unsignedBigInteger('cost_center_id')->nullable();
+            // $table->unsignedBigInteger('type_professional_id');
+            $table->unsignedBigInteger('PAD_service')->nullable();
+            $table->unsignedBigInteger('has_car')->nullable();
+            $table->unsignedBigInteger('PAD_patient_quantity')->nullable();
+            $table->unsignedBigInteger('attends_external_consultation')->nullable();
+            $table->unsignedBigInteger('serve_multiple_patients')->nullable();
+            $table->string('file_firm');
 
             
             $table->timestamps();
@@ -37,15 +39,9 @@ class CreateAssistanceTable extends Migration
             $table->index('cost_center_id');
             $table->foreign('cost_center_id')->references('id')
                 ->on('cost_center');
-            $table->index('type_professional_id');
-            $table->foreign('type_professional_id')->references('id')
-                ->on('type_professional');
-            $table->index('special_field_id');
-            $table->foreign('special_field_id')->references('id')
-                ->on('special_field');
-            $table->index('medium_signature_file_id');
-            $table->foreign('medium_signature_file_id')->references('id')
-                    ->on('medium_signature_file');
+            // $table->index('type_professional_id');
+            // $table->foreign('type_professional_id')->references('id')
+            //     ->on('type_professional');
             
         });
         

@@ -6,6 +6,16 @@
 
 namespace App\Models\Base;
 
+use App\Models\BiomedicalClassification;
+use App\Models\Company;
+use App\Models\FixedClasification;
+use App\Models\FixedCondition;
+use App\Models\FixedNomProduct;
+use App\Models\FixedProperty;
+use App\Models\FixedStock;
+use App\Models\FixedType;
+use App\Models\PeriodicityFrequency;
+use App\Models\Risk;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +25,54 @@ use Illuminate\Database\Eloquent\Model;
  
  * 
  * @property int $id
- * @property string $name
- * @property int $product_subcategory_id
- * @property int $product_presentation_id
- * @property int $consumption_unit_id
- * @property int $factory_id
- * @property int $type_assets_id
- * @property string $plate_number
+ * @property BigInteger $fixed_clasification_id
+ * @property BigInteger $fixed_type_id
+ * @property BigInteger $fixed_stock_id
+ * @property BigInteger $fixed_property_id
+ * @property BigInteger $company_id
+ * @property string $obs_property
+ * @property string $plaque
+ * @property string $status_prod
+ * @property string $model
+ * @property string $mark
+ * @property string $serial
+ * @property BigInteger $fixed_nom_product_id
+ * @property string $detail_description
+ * @property string $color
+ * @property BigInteger $fixed_condition_id 
+ * @property string $calibration_certificate
+ * @property string $accessories
+ * @property string $health_register
+ * @property string $warranty
+ * @property string $cv
+ * @property string $last_maintenance
+ * @property string $last_pame
+ * @property string $interventions_carriet
+ * @property string $type
+ * @property string $mobile_fixed
+ * @property BigInteger $clasification_risk_id
+ * @property BigInteger $biomedical_classification_id
+ * @property string $code_ecri
+ * @property string $form_acquisition
+ * @property string $date_adquisicion
+ * @property string $date_warranty
+ * @property string $useful_life
+ * @property integer $cost
+ * @property string $maker
+ * @property string $phone_maker
+ * @property string $email_maker
+ * @property string $power_supply
+ * @property string $predominant_technology
+ * @property string $volt
+ * @property string $stream
+ * @property string $power
+ * @property string $frequency_rank
+ * @property string $temperature_rank
+ * @property string $humidity_rank
+ * @property string $manuals
+ * @property string $guide
+ * @property BigInteger $periodicity_frequency_id
+ * @property BigInteger $calibration_frequency_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -32,5 +83,48 @@ class FixedAssets extends Model
 {
 	protected $table = 'fixed_assets';
 
-	
+	public function fixed_clasification()
+	{
+		return $this->belongsTo(FixedClasification::class);
+	}
+	public function fixed_nom_product()
+	{
+		return $this->belongsTo(FixedNomProduct::class);
+	}
+	public function fixed_type()
+	{
+		return $this->belongsTo(FixedType::class);
+	}
+	public function fixed_stock()
+	{
+		return $this->belongsTo(FixedStock::class);
+	}
+	public function fixed_property()
+	{
+		return $this->belongsTo(FixedProperty::class);
+	}
+	public function fixed_condition()
+	{
+		return $this->belongsTo(FixedCondition::class);
+	}
+	public function company()
+	{
+		return $this->belongsTo(Company::class);
+	}
+	public function clasification_risk()
+	{
+		return $this->belongsTo(Risk::class);
+	}
+	public function biomedical_classification()
+	{
+		return $this->belongsTo(BiomedicalClassification::class);
+	}
+	public function periodicity_frequency()
+	{
+		return $this->belongsTo(PeriodicityFrequency::class);
+	}
+	public function calibration_frequency()
+	{
+		return $this->belongsTo(PeriodicityFrequency::class);
+	}
 }

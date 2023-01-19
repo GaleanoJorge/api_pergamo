@@ -6,8 +6,11 @@
 
 namespace App\Models\Base;
 
+use App\Models\Company;
 use Carbon\Carbon;
 use App\Models\ContractStatus;
+use App\Models\TypeContract;
+use App\Models\TypeBriefcase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,18 +29,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $contract_status_id
  * @property int $firms_contractor_id
  * @property int $firms_contracting_id
- * @property int $civil_policy_insurance_id
  * @property int $regime_id
- * @property double $value_civil_policy
- * @property date $start_date_civil_policy
- * @property date $finish_date_civil_policy
- * @property int $contractual_policy_insurance_id
- * @property double $value_contractual_policy
- * @property date $start_date_contractual_policy
- * @property date $finish_date_contractual_policy
  * @property int $start_date_invoice
  * @property int $finish_date_invoice
- * @property int $time_delivery_invoice
  * @property int $expiration_days_portafolio
  * @property int $discount
  * @property string $observations
@@ -60,7 +54,17 @@ class Contract extends Model
 	{
 		return $this->belongsTo(ContractStatus::class);
 	}
-
-
+	public function company()
+	{
+		return $this->belongsTo(Company::class, 'company_id');
+	}
+	public function type_contract()
+	{
+		return $this->belongsTo(TypeContract::class);
+	}
+	public function type_briefcase()
+	{
+		return $this->belongsTo(TypeBriefcase::class,'regime_id');
+	}
 	
 }

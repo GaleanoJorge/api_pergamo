@@ -1,36 +1,49 @@
 [
     {
-        "name": "Cédula de Ciudadanía",
+        "id": 1,
+        "name": "CÉDULA DE CIUDADANÍA",
         "code": "CC",
         "sga_origin_fk": 1
     },
     {
-        "name": "Cédula de Extranjería",
+        "id": 2,
+        "name": "CÉDULA DE EXTRANJERÍA",
         "code": "CE",
         "sga_origin_fk": 2
     },
     {
-        "name": "Tarjeta de identidad",
+        "id": 3,
+        "name": "TARJETA DE IDENTIDAD",
         "code": "TI",
         "sga_origin_fk": 6
     },
     {
-        "name": "Pasaporte",
+        "id": 4,
+        "name": "PASAPORTE",
         "code": "PA",
         "sga_origin_fk": 7
     },
     {
+        "id": 5,
+        "name": "REGISTRO CIVIL",
+        "code": "RC",
+        "sga_origin_fk": 7
+    },
+    {
+        "id": 6,
         "name": "NUIP",
         "code": "NUIP",
         "sga_origin_fk": 8
     },
     {
-        "name": "Otro",
+        "id": 7,
+        "name": "OTRO",
         "code": "OTRO",
         "sga_origin_fk": 0
     },
     {
-        "name": "Nit",
+        "id": 8,
+        "name": "NIT",
         "code": "NIT",
         "sga_origin_fk": 0
     }

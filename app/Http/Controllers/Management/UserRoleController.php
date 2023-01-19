@@ -81,7 +81,39 @@ class UserRoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        return response()->json([
+            'status' => true,
+            'message' => 'entra',
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRoles(Request $request)
+    {
+        
+        $deleteUserRoles = UserRole::select('user_role.*')->where('user_id', $request->user_id);
+        $deleteUserRoles->delete();
+
+        $array_role = json_decode($request->roles);
+        foreach($array_role as $rol){
+            $userRole = new UserRole;
+            $userRole->role_id = $rol;
+            $userRole->user_id = $request->user_id;
+            $userRole->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Roles asociados al personal',
+            'data' => $userRole->toArray(),
+        ]);
     }
 
     /**

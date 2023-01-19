@@ -21,8 +21,11 @@ class InvimaStatusController extends Controller
         $InvimaStatus = InvimaStatus::select();
 
         if($request->_sort){
+            if($request->_sort!="actions") {
+
             $InvimaStatus->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $InvimaStatus->where('name','like','%' . $request->search. '%');

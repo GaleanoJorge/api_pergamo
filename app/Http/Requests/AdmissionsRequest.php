@@ -28,11 +28,9 @@ class AdmissionsRequest extends FormRequest
             'campus_id' => 'required',
             'scope_of_attention_id' => 'required',
             'program_id' => 'required',
-            'pavilion_id' => 'required',
-            'flat_id' => 'required',
-            'bed_id' => 'required',
             'contract_id' => 'required',
-            'user_id' => 'required',
+            'patient_id' => 'required',
+            'regime_id' => 'required',
             
             
             

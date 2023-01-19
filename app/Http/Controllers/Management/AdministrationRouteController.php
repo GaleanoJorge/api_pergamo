@@ -11,7 +11,7 @@ use Illuminate\Database\QueryException;
 
 class AdministrationRouteController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -20,22 +20,25 @@ class AdministrationRouteController extends Controller
     {
         $AdministrationRoute = AdministrationRoute::select();
 
-        if($request->_sort){
-            $AdministrationRoute->orderBy($request->_sort, $request->_order);
-        }            
+        if ($request->_sort) {
+            if ($request->_sort != "actions") {
+
+                $AdministrationRoute->orderBy($request->_sort, $request->_order);
+            }
+        }
 
         if ($request->search) {
-            $AdministrationRoute->where('name','like','%' . $request->search. '%');
+            $AdministrationRoute->where('name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $AdministrationRoute=$AdministrationRoute->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $AdministrationRoute=$AdministrationRoute->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $AdministrationRoute = $AdministrationRoute->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $AdministrationRoute = $AdministrationRoute->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -43,12 +46,12 @@ class AdministrationRouteController extends Controller
             'data' => ['administration_route' => $AdministrationRoute]
         ]);
     }
-    
+
 
     public function store(AdministrationRouteRequest $request): JsonResponse
     {
         $AdministrationRoute = new AdministrationRoute;
-        $AdministrationRoute->name = $request->name;     
+        $AdministrationRoute->name = $request->name;
         $AdministrationRoute->save();
 
         return response()->json([
@@ -85,8 +88,8 @@ class AdministrationRouteController extends Controller
      */
     public function update(AdministrationRouteRequest $request, int $id): JsonResponse
     {
-        $AdministrationRoute = AdministrationRoute ::find($id);
-        $AdministrationRoute->name = $request->name;      
+        $AdministrationRoute = AdministrationRoute::find($id);
+        $AdministrationRoute->name = $request->name;
         $AdministrationRoute->save();
 
         return response()->json([

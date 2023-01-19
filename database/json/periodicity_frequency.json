@@ -1,0 +1,29 @@
+[
+    {
+        "name": "MENSUAL",
+        "days": "30"
+    },
+    {
+        "name": "BIMESTRAL",
+        "days": "60"
+    },
+    {
+        "name": "TRIMESTRAL",
+        "days": "90"
+    }
+    ,
+    {
+        "name": "CUATRIMESTRAL",
+        "days": "120"
+    }
+    ,
+    {
+        "name": "SEMESTRAL",
+        "days": "182"
+    }
+    ,
+    {
+        "name": "ANUAL",
+        "days": "365"
+    }
+]

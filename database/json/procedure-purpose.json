@@ -1,7 +1,7 @@
 [
     {
         "code": 1,
-        "name": "Diagnostico"
+        "name": "Diagnóstico"
     },
     {
         "code": 2,
@@ -9,15 +9,15 @@
     },
     {
         "code": 3,
-        "name": "Protección Especifica"
+        "name": "Protección Específica"
     },
     {
         "code": 4,
-        "name": "Detencción temprana de enfermedad general"
+        "name": "Detección Temprana de Enfermedad General"
     },
     {
         "code": 5,
-        "name": "Detencción temprana de enfermedad profesional"
+        "name": "Detección Temprana de Enfermedad Profesional"
     }
    
   

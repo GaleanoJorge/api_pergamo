@@ -28,6 +28,7 @@ class GlossResponseRequest extends FormRequest
             'objetion_response_id' => 'required', 
             'response'=> 'required',
             'objetion_code_response_id' => 'required',
+            'justification_status' => 'required',
             'accepted_value' => 'required',
             'value_not_accepted' => 'required',
         ];

@@ -32,10 +32,12 @@ class User extends Authenticatable implements JWTSubject
         'middlelastname',
         'identification',
         'birthday',
+        'age',
         'phone',
         'sync_id',
         'ethnicity',
         'landline',
+        'file',
     ];
 
     /**
@@ -96,6 +98,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(UserRole::class);
     }
 
+    public function users_campus()
+    {
+        return $this->hasMany(UserCampus::class);
+    }
+
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
@@ -121,6 +128,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Municipality::class, 'birthplace_municipality_id');
     }
 
+    public function residence_municipality()
+    {
+        return $this->belongsTo(Municipality::class, 'residence_municipality_id');
+    }
+
+    public function residence()
+    {
+        return $this->belongsTo(NeighborhoodOrResidence::class, 'neighborhood_or_residence_id');
+    }
+
     public function deliveries()
     {
         return $this->hasMany(Delivery::class);
@@ -134,4 +151,23 @@ class User extends Authenticatable implements JWTSubject
 	{
 		return $this->hasMany(Admissions::class);
 	}
+    public function assistance()
+    {
+        return $this->hasMany(Assistance::class);
+    }
+
+    public function user_agreement()
+    {
+        return $this->hasMany(UserAgreement::class);
+    }
+
+    public function assistance_procedure()
+    {
+        return $this->hasMany(AssistanceProcedure::class);
+    }
+
+    public function assistance_simple()
+    {
+        return $this->belongsTo(Assistance::class, 'id', 'user_id');
+    }
 }

@@ -8,7 +8,12 @@ use App\Models\Base\ProcedurePackage as BaseProcedurePackage;
 class ProcedurePackage extends BaseProcedurePackage
 {
     protected $fillable = [
+		'value',
+		'manual_price_id',
 		'procedure_package_id',
 		'procedure_id',
+		'max_quantity',
+		'min_quantity',
+		'dynamic_charge',
 	];
 }

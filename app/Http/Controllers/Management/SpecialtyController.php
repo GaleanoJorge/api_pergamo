@@ -13,11 +13,16 @@ class SpecialtyController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $specialtys = Specialty::with('status');
+        $specialtys = Specialty::select('specialty.*')
+            ->with('status')->orderBy('specialty.name', 'DESC');
 
         if($request->_sort){
             $specialtys->orderBy($request->_sort, $request->_order);
-        }            
+        }           
+        
+        if ($request->type_professional) {
+            $specialtys->where('type_professional_id', $request->type_professional);
+        }
 
         if ($request->search) {
             $specialtys->where('name','like','%' . $request->search. '%');
@@ -25,6 +30,12 @@ class SpecialtyController extends Controller
         
         if ($request->status_id) {
             $specialtys->where('status_id', $request->status_id);
+        }
+
+        if($request->assistance){
+            $specialtys->leftJoin('assistance_special', 'specialty.id', 'assistance_special.specialty_id')
+                ->WhereNotNull('assistance_special.assistance_id')
+                ->groupBy('name');
         }
         
         if($request->query("pagination", true)=="false"){
@@ -54,6 +65,7 @@ class SpecialtyController extends Controller
         $Specialty = new Specialty;
         $Specialty->status_id = $request->status_id;
         $Specialty->name = $request->name;
+        $Specialty->type_professional_id = $request->type_professional_id;
         $Specialty->save();
 
         return response()->json([
@@ -93,6 +105,8 @@ class SpecialtyController extends Controller
         $Specialty = Specialty::find($id);
         $Specialty->status_id = $request->status_id;
         $Specialty->name = $request->name;
+        $Specialty->type_professional_id = $request->type_professional_id;
+
         $Specialty->save();
 
         return response()->json([

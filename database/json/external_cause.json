@@ -1,0 +1,47 @@
+[
+    {
+        "name": "Accidente de trabajo"
+    },
+    {
+        "name": "Accidente de transito"
+    },
+    {
+        "name": "Accidente rabico"
+    },
+    {
+        "name": "Accidente ofidico"
+    },
+    {
+        "name": "Otro tipo de accidente"
+    },
+    {
+        "name": "Evento catrastrofico"
+    },
+    {
+        "name": "Lesion por agresion"
+    },
+    {
+        "name": "Lesion autoinfligida"
+    },
+    {
+        "name": "Sospecha por matrato fisico"
+    },
+    {
+        "name": "Sospecha de abuso sexual"
+    },
+    {
+        "name": "Sospecha de violencia sexual"
+    },
+    {
+        "name": "Sospecha de maltrato emocional"
+    },
+    {
+        "name": "Enfermedad general"
+    },
+    {
+        "name": "Enfermedad profesional"
+    },
+    {
+        "name": "otra"
+    }
+]

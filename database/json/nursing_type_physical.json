@@ -1,0 +1,37 @@
+[
+    {   
+        "id": 1,
+        "name": "CABEZA CUELLO (ORL)",
+        "observation": "Normocefálico, Cabello bien implantado, Piel Integra. Cuello: Sin masas, Movil. "
+    },
+    {
+        "id": 2,
+        "name": "TÓRAX",
+        "observation":"Simétrico, Normoexpandible"
+    },
+    {
+        "id": 3,
+        "name": "ABDOMEN",
+        "observation":"Blando, no doloroso a la palpación, sin visualización de verse globoso."
+    },
+    {
+        "id": 4,
+        "name": "GENITOURINARIO",
+        "observation":"Integro y Funcional"
+    },
+    {
+        "id": 5,
+        "name": "EXTREMIDADES",
+        "observation":"Moviles e Integras"
+    },
+    {
+        "id": 6,
+        "name": "NEUROLÓGICO",
+        "observation":"Consciente, alerta, orientado."
+    },
+    {
+        "id": 7,
+        "name": "PIEL Y FANERAS",   
+        "observation":"Integra"
+    }
+]

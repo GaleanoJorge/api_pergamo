@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "name": "PENDIENTE",
+        "code": "cod1"
+    },
+    {
+        "id": "2",
+        "name": "EN TRAMITE",
+        "code": "cod2"
+    },
+    {
+        "id": "3",
+        "name": "AUTORIZADO",
+        "code": "cod3"
+    },
+    {   
+        "id": "4",
+        "name": "CANCELADA",
+        "code": "cod4"
+    },
+    {   
+        "id": "5",
+        "name": "FACTURADA",
+        "code": "cod5"
+    },
+    {   
+        "id": "6",
+        "name": "EMITIDA ERRADA",
+        "code": "cod6"
+    }
+]

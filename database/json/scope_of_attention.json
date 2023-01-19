@@ -11,7 +11,12 @@
     },
     {
         "id":3,
-        "name": "PAD",
+        "name": "PAD Crónico ",
+        "admission_route_id": 2
+    },
+    {
+        "id":4,
+        "name": "PAD Agudo ",
         "admission_route_id": 2
     }
 ]  

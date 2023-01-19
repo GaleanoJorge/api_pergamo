@@ -18,21 +18,45 @@ class CampusController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $campus = Campus::select('campus.*')->with('region', 'municipality', 'billing_pad_prefix', 'billing_pad_credit_note_prefix', 'status')
+            ->LeftJoin('region', 'region.id', 'campus.region_id')
+            ->LeftJoin('municipality', 'municipality.id', 'campus.municipality_id')
+            ->LeftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ->LeftJoin('billing_pad_prefix as bpp', 'bpp.id', 'campus.billing_pad_credit_note_prefix_id')
+            ->LeftJoin('status', 'status.id', 'campus.status_id')
+            ->groupBy('campus.id')
+            ;
 
-        if ($request->_sort) {
-            $campus = Campus::orderBy($request->_sort, $request->_order);
-        }
+        if($request->_sort){
+            $campus->orderBy($request->_sort, $request->_order);
+        }            
+
         if ($request->search) {
-            $campus = Campus::where('name', 'like', '%' . $request->search . '%');
+            $campus->where(function ($query) use ($request) {
+                $query->where('campus.name','like','%' . $request->search. '%')
+                ->orWhere('campus.address','like','%' . $request->search. '%')
+                ->orWhere('campus.enable_code','like','%' . $request->search. '%')
+                ->orWhere('region.name','like','%' . $request->search. '%')
+                ->orWhere('municipality.name','like','%' . $request->search. '%')
+                ->orWhere('billing_pad_prefix.name','like','%' . $request->search. '%')
+                ->orWhere('bpp.name','like','%' . $request->search. '%')
+                ;
+            });
         }
-        if ($request->query("pagination", true) === "false") {
-            $campus = Campus::get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
 
-            $campus = Campus::paginate($per_page, '*', 'page', $page);
+        if ($request->status_id) {
+            $campus->where('campus.status_id', $request->status_id);
         }
+        
+        if($request->query("pagination", true)=="false"){
+            $campus=$campus->get()->toArray();    
+        }
+        else{
+            $page= $request->query("current_page", 1);
+            $per_page=$request->query("per_page", 10);
+            
+            $campus=$campus->paginate($per_page,'*','page',$page); 
+        } 
 
 
         return response()->json([
@@ -46,7 +70,13 @@ class CampusController extends Controller
     {
         $Campus = new Campus;
         $Campus->name = $request->name;
+        $Campus->address = $request->address;
+        $Campus->enable_code = $request->enable_code;
+        $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
+        $Campus->billing_pad_credit_note_prefix_id = $request->billing_pad_credit_note_prefix_id;
         $Campus->region_id = $request->region_id;
+        $Campus->status_id = $request->status_id;
+        $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
 
         return response()->json([
@@ -85,12 +115,36 @@ class CampusController extends Controller
     {
         $Campus = Campus::find($id);
         $Campus->name = $request->name;
+        $Campus->address = $request->address;
+        $Campus->billing_pad_prefix_id = $request->billing_pad_prefix_id;
+        $Campus->billing_pad_credit_note_prefix_id = $request->billing_pad_credit_note_prefix_id;
+        $Campus->enable_code = $request->enable_code;
         $Campus->region_id = $request->region_id;
+        $Campus->status_id = $request->status_id;
+        $Campus->municipality_id = $request->municipality_id;
         $Campus->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Campus actualizado exitosamente',
+            'data' => ['campus' => $Campus]
+        ]);
+    }
+
+    public function changeStatus(Request $request, int $id): JsonResponse
+    {
+        $Campus = Campus::find($id);
+        $status_id = Campus::where('id', $id)->get()->first()->status_id;
+        if ($status_id == 1) {
+            $Campus->status_id = 2;
+        } else {
+            $Campus->status_id = 1;
+        }
+        $Campus->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Estado actualizado exitosamente',
             'data' => ['campus' => $Campus]
         ]);
     }

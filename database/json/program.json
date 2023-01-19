@@ -31,12 +31,81 @@
     },
     {
         "id":7,
-        "name": "PAD Crónico",
+        "name": "VENTILADO",
         "scope_of_attention_id":3
     },
     {
         "id":8,
-        "name": "PAD Agudo",
+        "name": "NO VENTILADO",
         "scope_of_attention_id":3
+    },
+    {
+        "id":9,
+        "name": "PUNTUAL",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":10,
+        "name": "APLICACIÓN DE MEDICAMENTO",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":11,
+        "name": "DESTETE DE OXIGENO",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":12,
+        "name": "MIXTO",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":13,
+        "name": "SALUD TOTAL PAC",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":14,
+        "name": "PROGRAMA HL REHAB",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":15,
+        "name": "SEGUROS DE VIDA",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":16,
+        "name": "SANITAS PREMIUM",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":17,
+        "name": "APLICACIÓN DE BIOLOGICO",
+        "scope_of_attention_id":4
+    },
+    {
+        "id":18,
+        "name": "PPL",
+        "scope_of_attention_id":4
+    }
+    ,
+    {
+        "id":19,
+        "name": "SIGMA",
+        "scope_of_attention_id":4
+    },
+    {
+        "id":20,
+        "name": "ARL",
+        "scope_of_attention_id":4
     }
 ]  

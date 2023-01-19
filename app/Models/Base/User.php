@@ -23,6 +23,7 @@ use App\Models\Log;
 use App\Models\LogLogin;
 use App\Models\Municipality;
 use App\Models\Origin;
+use App\Models\ReasonConsultation;
 use App\Models\Role;
 use App\Models\Status;
 use App\Models\UserAssignSurvey;
@@ -58,10 +59,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $phone
  * @property int $landline
  * @property int $sync_id
+ * @property int $age
  * @property bool $force_reset_password
  * @property int $sga_origin_fk
  * @property string $remember_token
  * @property bool $is_judicial_branch
+ * @property string $file
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -104,6 +107,7 @@ class User extends Model
 		'phone' => 'int',
 		'landline' => 'int',
 		'sync_id' => 'int',
+		'age' => 'int',
 		'force_reset_password' => 'bool',
 		'sga_origin_fk' => 'int',
 		'is_judicial_branch' => 'bool'
@@ -229,4 +233,18 @@ class User extends Model
 		->withPivot('user_id')
 		->withTimestamps();
 	}
+
+	// public function pac_monitoring()
+	// {
+	// 	return $this->belongsToMany(User::class,'pac_monitoring')
+	// 	->withPivot('user_id')
+	// 	->withTimestamps();
+	// }
+	
+	// public function reason_consultation()
+	// {
+	// 	return $this->belongsToMany(User::class,'reason_consultation')
+	// 	->withPivot('user_id')
+	// 	->withTimestamps();
+	// }
 }

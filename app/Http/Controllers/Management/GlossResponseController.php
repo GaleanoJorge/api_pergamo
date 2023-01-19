@@ -53,30 +53,82 @@ class GlossResponseController extends Controller
 
     public function store(GlossResponseRequest $request): JsonResponse
     {
-        $GlossResponse = new GlossResponse;
-        $GlossResponse->gloss_id = $request->gloss_id;
-        $GlossResponse->objetion_response_id = $request->objetion_response_id;
-        $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
-        $GlossResponse->response = $request->response;
-        $GlossResponse->response_date = Carbon::now();
-        $GlossResponse->user_id = Auth::user()->id;
-        $GlossResponse->accepted_value = $request->accepted_value;
-        $GlossResponse->value_not_accepted = $request->value_not_accepted;
-        if ($request->file('file')) {
-            $path = Storage::disk('public')->put('file', $request->file('file'));
-            $GlossResponse->file = $path;
+        if ($request->single == 0) {
+            $cont = 0;
+            $err = 0;
+            $res_err = 0;
+            $gloss_id = json_decode($request->gloss_id);
+            foreach ($gloss_id as $item) {
+                $validate = GlossResponse::where('gloss_id', '=', $item)->get()->toArray();
+                $Gloss = Gloss::find($item);
+                if ($validate) {
+                    $err++;
+                } else if ($Gloss->objeted_value != $request->result) {
+                    $res_err++;
+                } else {
+                    $cont++;
+                    $GlossResponse = new GlossResponse;
+                    $GlossResponse->gloss_id = $item;
+                    $GlossResponse->objetion_response_id = $request->objetion_response_id;
+                    $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
+                    $GlossResponse->response = $request->response;
+                    $GlossResponse->justification_status = $request->justification_status;
+                    $GlossResponse->response_date = Carbon::now();
+                    $GlossResponse->user_id = Auth::user()->id;
+                    $GlossResponse->accepted_value = $request->accepted_value;
+                    $GlossResponse->value_not_accepted = $request->value_not_accepted;
+                    $GlossResponse->file = $request->file;
+                    $GlossResponse->save();
+
+                    $Gloss = Gloss::find($item);
+                    if ($Gloss->objetion_type_id == 2) {
+
+                        $Gloss->gloss_status_id = 3;
+                    } else {
+
+                        $Gloss->gloss_status_id = 2;
+                    }
+                    $Gloss->save();
+                }
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Respuesta de Glosa creados exitosamente',
+                'data' => 'Se han respondido ' . $cont . ' Correctamente. ' . $err . ' ya tienen respuesta y ' . $res_err . ' tienen valores invalidos',
+
+            ]);
+        } else {
+            try {
+                $validate = GlossResponse::where('gloss_id', '=', $request->gloss_id)->get()->toArray();
+                if ($validate) {
+                    $request->gloss_id = -1;
+                }
+                $GlossResponse = new GlossResponse;
+                $GlossResponse->gloss_id = $request->gloss_id;        
+                $GlossResponse->objetion_response_id = $request->objetion_response_id;
+                $GlossResponse->objetion_code_response_id = $request->objetion_code_response_id;
+                $GlossResponse->response = $request->response;
+                $GlossResponse->justification_status = $request->justification_status;
+                $GlossResponse->response_date = Carbon::now();
+                $GlossResponse->user_id = Auth::user()->id;
+                $GlossResponse->accepted_value = $request->accepted_value;
+                $GlossResponse->value_not_accepted = $request->value_not_accepted;
+                $GlossResponse->file = $request->file;
+                $GlossResponse->save();
+        
+                $Gloss= Gloss::find($request->gloss_id);
+                $Gloss->gloss_status_id=2;
+                $Gloss->save();
+            } catch (\Exception $e) {
+
+            }
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Respuesta de Glosa creados exitosamente',
+                'data' => ['gloss_response' => $GlossResponse->toArray()]
+            ]);
         }
-        $GlossResponse->save();
-
-        $Gloss = Gloss::find($request->gloss_id);
-        $Gloss->gloss_status_id = 2;
-        $Gloss->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Respuesta de Glosa creados exitosamente',
-            'data' => ['gloss_response' => $GlossResponse->toArray()]
-        ]);
     }
 
     /**

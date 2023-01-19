@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $administrator
  * @property BigInteger $country_id
  * @property BigInteger $city_id
+ * @property BigInteger $municipality_id
  * @property string $address
  * @property string $phone
  * @property string $web

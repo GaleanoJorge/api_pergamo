@@ -1,32 +1,317 @@
 [
     {
         "id": 1,
-        "name": "Administrador",
+        "name": "ADMINISTRADOR",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 4
     },
     {
         "id": 2,
-        "name": "Paciente",
+        "name": "PACIENTE",
         "status_id": 1,
+        "role_type_id": null,
         "sga_origin_fk": 3
     },
     {
         "id": 3,
-        "name": "Medico",
+        "name": "MEDICO GENERAL",
         "status_id": 1,
+        "role_type_id": 2,
         "sga_origin_fk": 5
     },
     {
         "id": 4,
-        "name": "Coordinación Glosas",
+        "name": "COORDINACIÓN DE GLOSAS",
         "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     },
     {
         "id": 5,
-        "name": "Analista Glosas",
+        "name": "ANALISTA DE GLOSAS",
         "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 6,
+        "name": "CARTERA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 7,
+        "name": "MEDICO ESPECIALISTA",
+        "role_type_id": 2,
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 8,
+        "name": "ENFERMERO (A)",
+        "role_type_id": 2,
+        "status_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 9,
+        "name": "AUXILIAR DE ENFERMERÍA",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 10,
+        "name": "NUTRICIÓN",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 11,
+        "name": "PSICOLOGO (A)",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 12,
+        "name": "TRABAJO SOCIAL",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 13,
+        "name": "CUIDADOR",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 14,
+        "name": "APOYO TERAPEUTICO",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 15,
+        "name": "GESTOR PAD COMPLEMENTARIO",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 16,
+        "name": "DEPORTÓLOGO",
+        "status_id": 1,
+        "role_type_id": 2,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 17,
+        "name": "TH - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 18,
+        "name": "CONTRATACIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 19,
+        "name": "CONSULTA CONTRATOS",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 22,
+        "name": "DIRECTIVO",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 23,
+        "name": "PAD - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 24,
+        "name": "TH - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 25,
+        "name": "TH - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 26,
+        "name": "PAD - GESTOR PHD",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 27,
+        "name": "PAD - ANALISTA ADMIN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 28,
+        "name": "PAD - CORDINADOR NACIONAL",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 29,
+        "name": "PAD - JEFE DE PLANEACIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 30,
+        "name": "PAD - DIRECCIÓN",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 31,
+        "name": "PAD - JEFE BUSQUEDA ACTIVA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 32,
+        "name": "PAD - CORDINADOR CONVENIOS",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 33,
+        "name": "FAC - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 34,
+        "name": "FAC - CONSULTA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 35,
+        "name": "FAC - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 36,
+        "name": "AUT - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 37,
+        "name": "AUT - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 38,
+        "name": "AUT - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 39,
+        "name": "AF - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 40,
+        "name": "AF - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 41,
+        "name": "AF - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 42,
+        "name": "FAR - DIRECTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 43,
+        "name": "FAR - COORDINADOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 44,
+        "name": "FAR - GESTOR",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 45,
+        "name": "FAR - REGENTE",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 46,
+        "name": "FAR - AUX FARMACIA",
+        "status_id": 1,
+        "role_type_id": 1,
+        "sga_origin_fk": 5
+    },
+    {
+        "id": 47,
+        "name": "PAD - GESTOR BUSQUEDA ACTIVA",
+        "status_id": 1,
+        "role_type_id": 1,
         "sga_origin_fk": 5
     }
 ]

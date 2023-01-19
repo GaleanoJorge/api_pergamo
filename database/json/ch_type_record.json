@@ -1,0 +1,35 @@
+[
+    {
+        "name": "INGRESO"
+    },
+    {
+        "name": "ANTECEDENTES"
+    },
+    {
+        "name": "EVOLUCIÓN"
+    },
+    {
+        "name": "ESCALAS"
+    },
+    {
+        "name": "FORMULACIÓN"
+    },
+    {
+        "name": "ORDEN MEDICA"
+    },
+    {
+        "name": "INCAPACIDAD"
+    },
+    {
+        "name": "CERTIFICADO MEDICO"
+    },
+    {
+        "name": "FALLIDA"
+    },
+    {
+        "name": "SALIDA"
+    },
+    {
+        "name": "APLICACIÓN"
+    }
+]

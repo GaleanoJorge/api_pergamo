@@ -1,0 +1,132 @@
+[
+    {
+        "role_id": "3",
+        "specialty_id": null,
+        "type_of_attention_id": "1"
+    },
+    {
+        "role_id": "7",
+        "specialty_id": null,
+        "type_of_attention_id": "2"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "3"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "14"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "15"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "16"
+    },
+    {
+        "role_id": "9",
+        "specialty_id": null,
+        "type_of_attention_id": "12"
+    },
+    {
+        "role_id": "9",
+        "specialty_id": null,
+        "type_of_attention_id": "14"
+    },
+    {
+        "role_id": "9",
+        "specialty_id": null,
+        "type_of_attention_id": "15"
+    },
+    {
+        "role_id": "9",
+        "specialty_id": null,
+        "type_of_attention_id": "16"
+    },
+    {
+        "role_id": "10",
+        "specialty_id": null,
+        "type_of_attention_id": "4"
+    },
+    {
+        "role_id": "11",
+        "specialty_id": null,
+        "type_of_attention_id": "5"
+    },
+    {
+        "role_id": "12",
+        "specialty_id": null,
+        "type_of_attention_id": "6"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": "135",
+        "type_of_attention_id": "7"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": "137",
+        "type_of_attention_id": "8"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": "137",
+        "type_of_attention_id": "9"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": "136",
+        "type_of_attention_id": "10"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": "134",
+        "type_of_attention_id": "11"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": null,
+        "type_of_attention_id": "19"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "17"
+    },
+    {
+        "role_id": "9",
+        "specialty_id": null,
+        "type_of_attention_id": "17"
+    },
+    {
+        "role_id": "13",
+        "specialty_id": null,
+        "type_of_attention_id": "13"
+    },
+    {
+        "role_id": "16",
+        "specialty_id": null,
+        "type_of_attention_id": "18"
+    },
+    {
+        "role_id": "14",
+        "specialty_id": null,
+        "type_of_attention_id": "19"
+    },
+    {
+        "role_id": "8",
+        "specialty_id": null,
+        "type_of_attention_id": "12"
+    },
+    {
+        "role_id": "23",
+        "specialty_id": null,
+        "type_of_attention_id": "20"
+    }
+]

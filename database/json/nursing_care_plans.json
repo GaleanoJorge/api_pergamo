@@ -1,0 +1,99 @@
+[
+    {
+        "description": "Acompañar el paciente el baño"
+    },
+    {
+        "description": "Asistencia a terapias de rehabilitación"
+    },
+    {
+        "description": "Cambio de posición cada hora"
+    },
+    {
+        "description": "Cateterismos Vesicales según orden médica "
+    },
+    {
+        "description": "Cambio de fijación de sonda"
+    },
+    {
+        "description": "Control de temperatura"
+    },
+    {
+        "description": "Control de líquidos administrados y eliminados"
+    },
+    {
+        "description": "Curación o cambio de venopunción "
+    },
+    {
+        "description": "Dieta asistida"
+    },
+    {
+        "description": "Deambulación asistida"
+    },
+    {
+        "description": "Mantener barandas elevadas"
+    },
+    {
+        "description": "Mantener inmovilizado según orden medica"
+    },
+    {
+        "description": "Mantener escucha activa"
+    },
+    {
+        "description": "Mantener el espacio libre de obstáculos y en orden"
+    },
+    {
+        "description": "Mantener timbre cerca"
+    },
+    {
+        "description": "Proveer cuidado directo durante el baño"
+    },
+    {
+        "description": "Reposo en cama"
+    },
+    {
+        "description": "Retirar objetos que puedan causar lesión"
+    },
+    {
+        "description": "Ronda de enfermeria continua por riesgo de lesión"
+    },
+    {
+        "description": "Valorar aparición de edema"
+    },
+    {
+        "description": "Valorar conductas"
+    },
+    {
+        "description": "Valorar cambios de comportamiento"
+    },
+    {
+        "description": "Valoración y control de signos vitales"
+    },
+    {
+        "description": "Valorar el cuidado de la piel"
+    },
+    {
+        "description": "Valoración de escala del dolor"
+    },
+    {
+        "description": "Valoracion de sujeción con riesgo de lesión"
+    },
+    {
+        "description": "Valoración patrón de eliminación"
+    },
+    {
+        "description": "Valorar patrón respiratorio"
+    },
+    {
+        "description": "Valoración de sujeción con riesgo de lesión"
+    },
+    {
+        "description": "Vigilar zonas de flebitis"
+    },
+    {
+        "description": "Valoración de agitación psicomotora"
+    },
+    {
+        "description": "Valoración de aspecto de la orina"
+    }
+  
+]

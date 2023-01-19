@@ -10,5 +10,17 @@
     },
     {
         "name": "Anulado"
+    },
+    {
+        "name": "Levantada"
+    },
+    {
+        "name": "En conciliación"
+    },
+    {
+        "name": "Sostenida"
+    },
+    {
+        "name": "Conciliada"
     }
 ]

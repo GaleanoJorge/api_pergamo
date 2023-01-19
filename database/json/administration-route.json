@@ -1,0 +1,35 @@
+[
+    {
+        "name": "ENDOVENOSA"
+    },
+    {
+        "name": "ORAL"
+    },
+    {
+        "name": "TOPICA"
+    },
+    {
+        "name": "VAGINAL"
+    },
+    {
+        "name": "OFTAMILCA"
+    },
+    {
+        "name": "OTICA"
+    },
+    {
+        "name": "VESICAL"
+    },
+    {
+        "name": "DERMICO"
+    },
+    {
+        "name": "INTRAMUSCULAR"
+    },
+    {
+        "name": "NASAL"
+    },
+    {
+        "name": "ENTERAL"
+    } 
+]

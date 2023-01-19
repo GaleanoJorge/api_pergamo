@@ -21,11 +21,14 @@ class ProductConcentrationController extends Controller
         $ProductConcentration = ProductConcentration::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductConcentration->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
-            $ProductConcentration->where('name','like','%' . $request->search. '%');
+            $ProductConcentration->where('value','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){

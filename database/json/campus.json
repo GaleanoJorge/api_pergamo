@@ -1,38 +1,79 @@
 [
     {
-        "name": "SEDE BRAIN TRAIN",
-        "region_id": 3
-    },
-    {
+        "id": "1",
         "name": "SEDE CHAPINERO",
+        "address": "AC 57 14 A 16 LC",
+        "enable_code": "1100128942",
+        "municipality_id": 11001,
+        "billing_pad_prefix_id": 2,
+        "billing_pad_credit_note_prefix_id": 12,
+        "status_id": 1,
         "region_id": 3
     },
     {
+        "id": "2",
         "name": "SEDE J.J VARGAS",
+        "address": "CARRERA 66 # 67G-30",
+        "enable_code": "1100128942",
+        "municipality_id": 11001,
+        "billing_pad_prefix_id": 1,
+        "billing_pad_credit_note_prefix_id": 11,
+        "status_id": 1,
         "region_id": 3
     },
     {
+        "id": "3",
         "name": "SEDE MONTEVIDEO",
+        "address": "Av Carrera 68 # 13 - 73",
+        "enable_code": "1100128942",
+        "municipality_id": 11001,
+        "billing_pad_prefix_id": 3,
+        "billing_pad_credit_note_prefix_id": 13,
+        "status_id": 1,
         "region_id": 3
     },
     {
-        "name": "SUBACHOQUE",
-        "region_id": 11
-    },
-    {
+        "id": "4",
         "name": "HUILA",
+        "address": "CALLE 19 5 A 24",
+        "enable_code": "4100102172",
+        "municipality_id": 41001,
+        "billing_pad_prefix_id": 7,
+        "billing_pad_credit_note_prefix_id": 17,
+        "status_id": 1,
         "region_id": 13
     },
     {
+        "id": "5",
         "name": "CABECERA-SANTANDER",
+        "address": "CARRERA 36 # 51 - 33",
+        "enable_code": "6800170283",
+        "municipality_id": 68001,
+        "billing_pad_prefix_id": 9,
+        "billing_pad_credit_note_prefix_id": 19,
+        "status_id": 1,
         "region_id": 21
     },
     {
+        "id": "6",
         "name": "CADIZ",
+        "address": "CR 4 F # 34-117",
+        "enable_code": "7300103086",
+        "municipality_id": 73001,
+        "billing_pad_prefix_id": 10,
+        "billing_pad_credit_note_prefix_id": 20,
+        "status_id": 1,
         "region_id": 23
     },
     {
+        "id": "7",
         "name": "CASTELLANA",
+        "address": "AK 45  94 51",
+        "enable_code": "1100128942",
+        "municipality_id": 11001,
+        "billing_pad_prefix_id": 4,
+        "billing_pad_credit_note_prefix_id": 14,
+        "status_id": 1,
         "region_id": 3
     }
 ]

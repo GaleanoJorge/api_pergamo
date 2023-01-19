@@ -1,8 +1,24 @@
 [
     {
-        "name": "Cotizante"
+        "name": "Contributivo"
     },
     {
-        "name": "Contributivo "
+        "name": "Subsidiado "
+    },
+    {
+        "name": "Vinculado "
+    },
+    {
+        "name": "Particular "
+    },
+    {
+        "name": "Otro "
+    },
+    {
+        "name": "Victíma con Afiliación al Régimen Subsidiado "
+    },
+    {
+        "name": "Victíma No Asegurado (Vinculado "
     }
+
 ]  

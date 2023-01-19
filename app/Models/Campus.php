@@ -8,11 +8,12 @@ class Campus extends BaseCampus
 {
 	protected $fillable = [
 		'name',
-		'region_id'
+		'address',
+		'enable_code',
+		'billing_pad_credit_note_prefix_id',
+		'billing_pad_prefix_id',
+		'region_id',
+		'status_id',
+		'municipality_id',
 	];
-
-	public function region()
-    {
-        return $this->belongsTo(Region::class, 'region_id');
-    }
 }

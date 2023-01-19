@@ -8,6 +8,7 @@ class Role extends BaseRole
 {
 	protected $fillable = [
 		'status_id',
+		'role_type_id',
 		'name'
 	];
 }

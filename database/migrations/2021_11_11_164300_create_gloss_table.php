@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -23,7 +23,7 @@ class CreateGlossTable extends Migration
             $table->date('emission_date');
             $table->date('radication_date');
             $table->unsignedBigInteger('company_id');
-            $table->unsignedTinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('gloss_modality_id');
             $table->unsignedBigInteger('gloss_ambit_id');
             $table->unsignedBigInteger('gloss_service_id');
@@ -31,6 +31,7 @@ class CreateGlossTable extends Migration
             $table->unsignedBigInteger('gloss_status_id');
             $table->string('objetion_detail');
             $table->integer('invoice_value');
+            $table->unsignedBigInteger('regimen_id');
             $table->integer('objeted_value');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('received_by_id');
@@ -40,6 +41,9 @@ class CreateGlossTable extends Migration
             $table->index('objetion_type_id');
             $table->foreign('objetion_type_id')->references('id')
             ->on('objetion_type');
+            $table->index('regimen_id');
+            $table->foreign('regimen_id')->references('id')
+            ->on('type_briefcase');
             $table->index('repeated_initial_id');
             $table->foreign('repeated_initial_id')->references('id')
             ->on('repeated_initial');

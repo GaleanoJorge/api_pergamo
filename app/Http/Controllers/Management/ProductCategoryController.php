@@ -21,8 +21,11 @@ class ProductCategoryController extends Controller
         $ProductCategory = ProductCategory::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductCategory->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $ProductCategory->where('name','like','%' . $request->search. '%');

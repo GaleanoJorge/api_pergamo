@@ -66,6 +66,28 @@ class InabilityController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {
+       
+        $Inability = Inability::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+            ->get()->toArray();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Discapacidad del paciente creada exitosamente',
+            'data' => ['inability' => $Inability]
+        ]);
+    }
+    
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse

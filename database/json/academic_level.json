@@ -1,41 +1,42 @@
 [
     {
-        "name": "No Definido"
+        "name": "NO DEFINIDO"
     },
     {
-        "name": "Preescolar"
+        "name": "PREESCOLAR"
     },
     {
-        "name": "Básica Primaria"
+        "name": "BÁSICA PRIMARIA"
     },
     {
-        "name": "Básica Secundaria (Bachillerato Básico)"
+        "name": "BÁSICA SECUNDARIA (BACHILLERATO BÁSICO)"
     },
     {
-        "name": "Media Académica o Clásica (Bachillerato Básico)"
+        "name": "MEDIA ACADÉMICA O CLÁSICA (BACHILLERATO BÁSICO)"
     },
     {
-        "name": "Media Técnica (Bachillerato Técnico)"
+        "name": "MEDIA TÉCNICA (BACHILLERATO TÉCNICO)"
     },
     {
-        "name": "Normalista"
+        "name": "NORMALISTA"
     },
     {
-        "name": "Técnica Profesional"
+        "name": "TÉCNICA PROFESIONAL"
     },
     {
-        "name": "Tecnológica"
+        "name": "TECNOLÓGICA"
     },
     {
-        "name": "Profesional"
+        "name": "PROFESIONAL"
     },
     {
-        "name": "Especialización"
+        "name": "ESPECIALIZACIÓN"
     },
     {
-        "name": "Maestría"
+        "name": "MAESTRÍA"
     },
     {
-        "name": "Doctorado"
+        "name": "DOCTORADO"
     }
 ]
+

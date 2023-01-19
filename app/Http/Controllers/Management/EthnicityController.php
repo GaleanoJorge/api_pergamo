@@ -38,7 +38,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia obtenidas exitosamente',
-            'data' => ['ethicity' => $Ethnicity]
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
     
@@ -54,7 +54,28 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia creado exitosamente',
-            'data' => ['ethicity' => $Ethnicity->toArray()]
+            'data' => ['ethnicity' => $Ethnicity->toArray()]
+        ]);
+    }
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @param  int  $type_record_id
+     * @return JsonResponse
+     */
+    public function getByRecord(int $id,int $type_record_id): JsonResponse
+    {
+        
+       
+        $Ethnicity = Ethnicity::where('ch_record_id', $id)->where('type_record_id',$type_record_id)
+            ->get()->toArray();
+        
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Etnia obtenidas exitosamente',
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
 
@@ -72,7 +93,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia obtenido exitosamente',
-            'data' => ['ethicity' => $Ethnicity ]
+            'data' => ['ethnicity' => $Ethnicity ]
         ]);
     }
 
@@ -95,7 +116,7 @@ class EthnicityController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Etnia actualizado exitosamente',
-            'data' => ['ethicity' => $Ethnicity]
+            'data' => ['ethnicity' => $Ethnicity]
         ]);
     }
 

@@ -5,40 +5,49 @@ namespace App\Http\Controllers\Management;
 use App\Models\Procedure;
 use App\Models\ProcedurePackage;
 use App\Models\ManualPrice;
+use App\Models\MedicalDiary;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProcedureRequest;
+use App\Models\ProductGeneric;
+use App\Models\ProductSupplies;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\DB;
 class ProcedureController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Procedures = Procedure::select();
+        $Procedures = Procedure::select('procedure.*')
+            ->where('procedure.status_id', 1);
 
-        if($request->_sort){
+        if($request->assistance_id){
+            $Procedures->leftJoin('assistance_procedure', 'procedure.id', 'assistance_procedure.procedure_id')
+                ->where('assistance_id', $request->assistance_id);
+        }
+
+        if ($request->_sort) {
             $Procedures->orderBy($request->_sort, $request->_order);
-        }            
+        }
 
         if ($request->search) {
-            $Procedures->where('name','like','%' . $request->search. '%')
-            ->orWhere('code', 'like', '%' . $request->search . '%');
+            $Procedures->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('code', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Procedures=$Procedures->get()->toArray();    
-        }else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Procedures=$Procedures->paginate($per_page,'*','page',$page); 
-        }     
+
+        if ($request->query("pagination", true) == "false") {
+            $Procedures = $Procedures->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Procedures = $Procedures->paginate($per_page, '*', 'page', $page);
+        }
 
         return response()->json([
             'status' => true,
@@ -47,50 +56,99 @@ class ProcedureController extends Controller
         ]);
     }
 
-            /**
-    * @param  int  $packageId
+    /**
+     * @param  int  $packageId
      * Get procedure by manual.
      *
      * @return JsonResponse
      */
-    public function getByProcedure(Request $request,int $packageId): JsonResponse
+    public function getByProcedure(Request $request): JsonResponse
     {
-        $ProcedurePackage=ProcedurePackage::where('procedure_package_id','=',$packageId)->pluck('procedure_id')->toArray();
-        $Procedure = Procedure::whereNotIn('id', $ProcedurePackage)->where('procedure_type_id','!=',3);
-        if ($request->search) {
-            $Procedure->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
-        }
-        if ($request->query("pagination", true) === "false") {
-            $Procedure = $Procedure->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 10);
+        $ProcedurePackage = ProcedurePackage::pluck('procedure_id')->toArray();
+        if ($request->procedure) {
+            $elementsPackage = Procedure::where('procedure_type_id', '!=', 3)
+            ->where('status_id', 1);
+            if ($request->search) {
+                $elementsPackage->where(function ($query) use ($request) {
+                    $query->where('code', 'like', '%' . $request->search . '%')
+                        ->Orwhere('name', 'like', '%' . $request->search . '%')
+                        ->Orwhere('equivalent', 'like', '%' . $request->search . '%')
+                        ->orWhere('id', 'like', '%' . $request->search . '%');
+                });
+            }
+            if ($request->query("pagination", true) === "false") {
+                $elementsPackage = $elementsPackage->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
 
-            $Procedure = $Procedure->paginate($per_page, '*', 'page', $page);
+                $elementsPackage = $elementsPackage->paginate($per_page, '*', 'page', $page);
+            }
+        } else if ($request->insume) {
+
+            $elementsPackage = ProductSupplies::select('product_supplies.*')
+                ->with('size_supplies_measure', 'measure_supplies_measure')
+            // ->orderBy('name','asc')
+            ;
+            if ($request->search) {
+                $elementsPackage->where('description', 'like', '%' . $request->search . '%')
+                    ->Orwhere('id', 'like', '%' . $request->search . '%');
+            }
+            if ($request->query("pagination", true) === "false") {
+                $elementsPackage = $elementsPackage->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $elementsPackage = $elementsPackage->paginate($per_page, '*', 'page', $page);
+            }
+        } else if ($request->product) {
+
+            $elementsPackage = ProductGeneric::select('product_generic.*')
+                ->with(
+                    'administration_route',
+                    'drug_concentration',
+                    'product_dose',
+                )
+            // ->orderBy('name','asc')
+            ;
+            if ($request->search) {
+                $elementsPackage->where(function ($query) use ($request) {
+                    $query->where('description', 'like', '%' . $request->search . '%')
+                        ->orWhere('id', 'like', '%' . $request->search . '%');
+                });
+            }
+            if ($request->query("pagination", true) === "false") {
+                $elementsPackage = $elementsPackage->get()->toArray();
+            } else {
+                $page = $request->query("current_page", 1);
+                $per_page = $request->query("per_page", 10);
+
+                $elementsPackage = $elementsPackage->paginate($per_page, '*', 'page', $page);
+            }
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Paquete de procedimientos obtenido exitosamente',
-            'data' => ['procedure_package' => $Procedure]
+            'data' => ['procedure_package' => $elementsPackage]
         ]);
     }
 
 
-                 /**
-    * @param  int  $manualId
+    /**
+     * @param  int  $manualId
      * Get procedure by manual.
      *
      * @return JsonResponse
      */
-    public function getByManual(Request $request,int $manualId): JsonResponse
+    public function getByManual(Request $request, int $manualId): JsonResponse
     {
-        $ManualPrice=ManualPrice::where('manual_id','=',$manualId)->pluck('procedure_id')->toArray();        
-        $Procedure = Procedure::whereNotIn('id', $ManualPrice);
+        $ManualPrice = ManualPrice::where('manual_id', '=', $manualId)->pluck('procedure_id')->toArray();
+        $Procedure = Procedure::whereNotIn('id', $ManualPrice)->where('status_id', 1);
         if ($request->search) {
             $Procedure->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $Procedure = $Procedure->get()->toArray();
@@ -108,7 +166,47 @@ class ProcedureController extends Controller
         ]);
     }
 
-    
+    /**
+     * @param  int  $medicalDiaryId
+     * Get procedure by medical diary.
+     *
+     * @return JsonResponse
+     */
+    public function getByMedicalDiary(Request $request, int $medicalDiaryId): JsonResponse
+    {
+
+        $medicalDiary = MedicalDiary::where('id', '=', $medicalDiaryId)->first();
+        $procedure = $medicalDiary->procedure()->first();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimiento obtenido correctamente',
+            'data' => ['procedure' => $procedure]
+        ]);
+
+    }
+
+    /**
+     * Get user's procedures
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUser(Request $request, int $userId): JsonResponse
+    {
+        $procedures = DB::table('assistance_procedure')
+        ->join('assistance','assistance.id','=','assistance_procedure.assistance_id')
+        ->join('users','users.id','=','assistance.user_id')
+        ->join('procedure','procedure.id','=','assistance_procedure.procedure_id')
+        ->where('users.id','=',$userId)
+        ->select('procedure.*')
+        ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimientos del médico asistencial obtenidos correctamente',
+            'data' => ['procedures' => $procedures->toArray()]
+        ]);
+    }
+
+
+
 
     public function store(ProcedureRequest $request): JsonResponse
     {
@@ -125,7 +223,8 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
-        
+        $Procedure->payment_type = $request->payment_type;
+
         $Procedure->save();
 
         return response()->json([
@@ -175,6 +274,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type = $request->payment_type;
         $Procedure->save();
 
         return response()->json([

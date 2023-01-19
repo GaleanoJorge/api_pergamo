@@ -1,0 +1,1394 @@
+[
+    {
+        "name": "A02 - Agentes para el tratamiento de alteraciones causadas por ácidos",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A03 - Agentes contra padecimientos funcionales del estómago e intestino",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A04 - Antieméticos y antinauseosos",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A05 - Terapia biliar y hepática",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A06 - Laxantes",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A07 - Antidiarreicos, agentes antiinflamatorios/antiinfecciosos intestinales",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A10 - Fármacos usados en diabetes",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A11 - Vitaminas",
+        "product_category_id": "13"
+    },
+    {
+        "name": "A12 - Suplementos minerales",
+        "product_category_id": "13"
+    },
+    {
+        "name": "B01 - Antitrombóticos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B02 - Antihemorrágicos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B03 - Antianémicos",
+        "product_category_id": "7"
+    },
+    {
+        "name": "B05 - Sustitutos de plasma y soluciones para infusión",
+        "product_category_id": "7"
+    },
+    {
+        "name": "C01 - Terapia cardíaca",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C02 - Antihipertensivos ",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C03 - Diuréticos",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C07 - Agentes beta-bloqueantes",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C08 - Bloqueantes de canales de calcio",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C09 - Agentes que actúan sobre el sistema renina-angiotensina",
+        "product_category_id": "8"
+    },
+    {
+        "name": "C10 - Agentes modificadores de los lípidos",
+        "product_category_id": "8"
+    },
+    {
+        "name": "D06 - Antibióticos y quimioterápicos para uso dermatológico",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D07 - Preparados dermatológicos con corticosteroides",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D08 - Antisépticos y desinfectantes",
+        "product_category_id": "4"
+    },
+    {
+        "name": "D11 - Otros preparados dermatológicos",
+        "product_category_id": "4"
+    },
+    {
+        "name": "G01 - Antiinfecciosos y antisépticos ginecológicos",
+        "product_category_id": "9"
+    },
+    {
+        "name": "G03 - Hormonas sexuales y moduladores genitales",
+        "product_category_id": "9"
+    },
+    {
+        "name": "G04 - Preparados urológicos",
+        "product_category_id": "9"
+    },
+    {
+        "name": "H01 - Hormonas hipotalámicas e hipofisarias y sus análogos",
+        "product_category_id": "6"
+    },
+    {
+        "name": "H02 - Corticoides sistémicos",
+        "product_category_id": "6"
+    },
+    {
+        "name": "H03 - Terapia tiroidea",
+        "product_category_id": "6"
+    },
+    {
+        "name": "J01 - Antibacterianos para uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J02 - Antimicóticos para uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J04 - Antimicobacterias",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J05 - Antivirales de uso sistémico",
+        "product_category_id": "1"
+    },
+    {
+        "name": "J06 - Sueros inmunes e inmunoglobulinas",
+        "product_category_id": "1"
+    },
+    {
+        "name": "L01 - Agentes antineoplásicos",
+        "product_category_id": "2"
+    },
+    {
+        "name": "L04 - Inmunosupresores",
+        "product_category_id": "2"
+    },
+    {
+        "name": "M01 - Productos antiinflamatorios y antirreumáticos",
+        "product_category_id": "10"
+    },
+    {
+        "name": "M03 - Relajantes musculares",
+        "product_category_id": "10"
+    },
+    {
+        "name": "M04 - Preparados antigotosos",
+        "product_category_id": "10"
+    },
+    {
+        "name": "N01 - Anestésicos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N02 - Analgésicos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N03 - Antiepilépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N04 - Antiparkinsonianos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N05 - Psicolépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N06 - Psicoanalépticos",
+        "product_category_id": "11"
+    },
+    {
+        "name": "N07 - Otros fármacos que actúan sobre el sistema nervioso",
+        "product_category_id": "11"
+    },
+    {
+        "name": "P01 - Antiprotozoarios",
+        "product_category_id": "3"
+    },
+    {
+        "name": "P02 - Antihelmínticos",
+        "product_category_id": "3"
+    },
+    {
+        "name": "P03 - Ectoparasiticidas, incluyendo escabicidas, insecticidas y repelentes",
+        "product_category_id": "3"
+    },
+    {
+        "name": "R01 - Preparados de uso nasal",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R03 - Agentes contra padecimientos obstructivos de las vías respiratorias",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R05 - Preparados para la tos y el resfriado",
+        "product_category_id": "12"
+    },
+    {
+        "name": "R06 - Antihistamínicos para uso sistémico",
+        "product_category_id": "12"
+    },
+    {
+        "name": "S01 - Oftalmológicos",
+        "product_category_id": "5"
+    },
+    {
+        "name": "S02 - Otológicos",
+        "product_category_id": "5"
+    },
+    {
+        "name": "V03 - Todo el resto de los grupos terapéuticos",
+        "product_category_id": "14"
+    },
+    {
+        "name": "V03 - Todo el resto de los Gupos terapéuticos",
+        "product_category_id": "14"
+    },
+    {
+        "name": "V07 - producto no terapeutico",
+        "product_category_id": "14"
+    },
+    {
+        "name": "aplicadores asepticos",
+        "product_category_id": "15"
+    },
+    {
+        "name": "barrera natura surfit",
+        "product_category_id": "15"
+    },
+    {
+        "name": "bolsa natura drenable",
+        "product_category_id": "15"
+    },
+    {
+        "name": "cateter intravenoso periferico",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter intravenoso periferico",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito de anestesia pediatrico",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo de bomba infusion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo ventury medida adulto",
+        "product_category_id": "15"
+    },
+    {
+        "name": "esparadrao fixomull",
+        "product_category_id": "16"
+    },
+    {
+        "name": "filtro hidrofobico equipo de succión",
+        "product_category_id": "16"
+    },
+    {
+        "name": "gasa esteril precortada",
+        "product_category_id": "15"
+    },
+    {
+        "name": "gorro enfermeria",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes esteriles",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes estériles",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes estériles",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes esteriles",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes de latex para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "linner /con solidificante",
+        "product_category_id": "15"
+    },
+    {
+        "name": "mascara oronasal ventilacion mecanica no invasiva",
+        "product_category_id": "16"
+    },
+    {
+        "name": "recolector cortopunzante (guardian)",
+        "product_category_id": "15"
+    },
+    {
+        "name": "recolector de cortopunzantes medida",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tapabocas n95 no unidad",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter heparinizado",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "adaptador mount con codo angulado",
+        "product_category_id": "16"
+    },
+    {
+        "name": "bajalenguas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "bata paciente manga larga",
+        "product_category_id": "15"
+    },
+    {
+        "name": "bolsa recolectora de orina",
+        "product_category_id": "16"
+    },
+    {
+        "name": "caucho de succión",
+        "product_category_id": "16"
+    },
+    {
+        "name": "compresa esteril",
+        "product_category_id": "15"
+    },
+    {
+        "name": "compresa no esteril",
+        "product_category_id": "15"
+    },
+    {
+        "name": "equipo de administracion macrogoteo con luer",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo micronebulizador medida adulto",
+        "product_category_id": "16"
+    },
+    {
+        "name": "esparadrapo micropore piel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "extension de anestesia adulto",
+        "product_category_id": "15"
+    },
+    {
+        "name": "filtro antimicrobiano nariz de camello",
+        "product_category_id": "16"
+    },
+    {
+        "name": "filtro antibacterial - ventilador no 35",
+        "product_category_id": "16"
+    },
+    {
+        "name": "frasco recolector de orina",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes de nitrilo para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "jeringa punta cateter",
+        "product_category_id": "16"
+    },
+    {
+        "name": "lancetas",
+        "product_category_id": "16"
+    },
+    {
+        "name": "pañines impregnados de alcohol 7%",
+        "product_category_id": "18"
+    },
+    {
+        "name": "set para nutricion enteral con bolsa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tiras de glucometria",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo tapa amarilla",
+        "product_category_id": "15"
+    },
+    {
+        "name": "venda elastica medida 4 pulgadas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "venda de algodon medida 4 pulgadas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "cateter intravenoso periferico",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito hidratante con alginato",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo para nutrición enteral amika",
+        "product_category_id": "16"
+    },
+    {
+        "name": "esparadrapo de tela",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tienda de traqueostomía",
+        "product_category_id": "16"
+    },
+    {
+        "name": "venda de algodon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "venda elastica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "venda elastica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito de hidrofibra con plata (aquacel ag)",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula nasal",
+        "product_category_id": "16"
+    },
+    {
+        "name": "set hemodialisis cateter para recambio",
+        "product_category_id": "15"
+    },
+    {
+        "name": "equipo administración de nutrición por sonda",
+        "product_category_id": "16"
+    },
+    {
+        "name": "kit micronebulizacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "filtro antimicrobiano nariz de camello",
+        "product_category_id": "16"
+    },
+    {
+        "name": "frasco recolector de orina 24 horas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes de nitrilo para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes de nitrilo para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "humidificador de oxigeno",
+        "product_category_id": "15"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "linea para depuracion sanguinea extracorporea",
+        "product_category_id": "16"
+    },
+    {
+        "name": "pasta stomahesive tubo",
+        "product_category_id": "16"
+    },
+    {
+        "name": "polvo stomahesive",
+        "product_category_id": "16"
+    },
+    {
+        "name": "resucitador manual desechable",
+        "product_category_id": "16"
+    },
+    {
+        "name": "resucitador manual desechable",
+        "product_category_id": "16"
+    },
+    {
+        "name": "set para nutricion enteral con tapa rosca",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 3 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nasogastrica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tapabocas con elastico",
+        "product_category_id": "15"
+    },
+    {
+        "name": "tienda de traqueostomía",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo tapa lila",
+        "product_category_id": "15"
+    },
+    {
+        "name": "aguja hipodermica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de guedel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de guedel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de guedel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de oxigeno",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter bilumen",
+        "product_category_id": "16"
+    },
+    {
+        "name": "catater venoso central trilumen",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter intravenoso periferico",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito de anestesia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "electrodo de monitoreo",
+        "product_category_id": "17"
+    },
+    {
+        "name": "electrodo para desfibrilador nihon kohden",
+        "product_category_id": "17"
+    },
+    {
+        "name": "equipo de bomba infusion fotosensible",
+        "product_category_id": "16"
+    },
+    {
+        "name": "esparadrapo micropore piel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "extension de oxigeno",
+        "product_category_id": "16"
+    },
+    {
+        "name": "gel conductor",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guia de intubacion medida adulto",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "llave de tres vías azul",
+        "product_category_id": "15"
+    },
+    {
+        "name": "mascara de no reinhalacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "racord o niple de oxígeno",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vias con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vías",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vías",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nasogastrica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nasogastrica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nasogastrica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito transparente iv para fijacion de cateter",
+        "product_category_id": "16"
+    },
+    {
+        "name": "electrodo de monitoreo",
+        "product_category_id": "17"
+    },
+    {
+        "name": "concentrado de bicarbonato de sodio para dialisis",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito de ventilacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "extension de oxigeno",
+        "product_category_id": "16"
+    },
+    {
+        "name": "manguera corrugada para oxigeno",
+        "product_category_id": "15"
+    },
+    {
+        "name": "aposito aquacel tm foam",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "venda elastica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canister",
+        "product_category_id": "15"
+    },
+    {
+        "name": "esteem + sistema de ostomia de una pieza",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "termometro digital",
+        "product_category_id": "15"
+    },
+    {
+        "name": "conjunto de agujas desechables para fistula",
+        "product_category_id": "16"
+    },
+    {
+        "name": "hoja de bisturi",
+        "product_category_id": "16"
+    },
+    {
+        "name": "interfase nasal",
+        "product_category_id": "16"
+    },
+    {
+        "name": "seda silk 4-",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito aquacel ag+ extra",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo tapa roja",
+        "product_category_id": "15"
+    },
+    {
+        "name": "algodon en torundas pqte  5 und",
+        "product_category_id": "15"
+    },
+    {
+        "name": "aposito hidrocoloide cgf",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter de hemodialisis temporal precurvo",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo microgoteo sin aguja",
+        "product_category_id": "16"
+    },
+    {
+        "name": "seda 2- aguja recta",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aguja hipodermica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito duoderm cgf",
+        "product_category_id": "16"
+    },
+    {
+        "name": "candado carro de paro",
+        "product_category_id": "19"
+    },
+    {
+        "name": "cateter de hemodialisis doble lumen",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter temporal recto doble lumen",
+        "product_category_id": "16"
+    },
+    {
+        "name": "nebulizador con ventury alto volumen",
+        "product_category_id": "16"
+    },
+    {
+        "name": "incentivo respiratorio de tres bolas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "inhalocamara",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sabana para amortajar",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda de succion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 3 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito de ventilacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito de ventilacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "recolector de cortopunzante cilindrico",
+        "product_category_id": "15"
+    },
+    {
+        "name": "circuito respiratorio alma lisa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "filtro antimicrobiano nariz de camello",
+        "product_category_id": "16"
+    },
+    {
+        "name": "concentrado de bicarbonato de sodio para dialisis",
+        "product_category_id": "15"
+    },
+    {
+        "name": "concentr. acido para hemodialisis con bicarbonato",
+        "product_category_id": "17"
+    },
+    {
+        "name": "disp. limpieza sangre extracorporeo dializador",
+        "product_category_id": "17"
+    },
+    {
+        "name": "disp. limpieza sangre extracorporeo dializador",
+        "product_category_id": "17"
+    },
+    {
+        "name": "desinfec para limpieza de equipos de hemodialisis galon",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sal para dialisis",
+        "product_category_id": "15"
+    },
+    {
+        "name": "aposito absorbente",
+        "product_category_id": "16"
+    },
+    {
+        "name": "barrera natura convexa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "bolsa natura drenable de colostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo ventury",
+        "product_category_id": "16"
+    },
+    {
+        "name": "extension de anestesia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "mascara de no reinhalacion",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley 2 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "dynaflex no kit",
+        "product_category_id": "16"
+    },
+    {
+        "name": "papel para electrocardiograma",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tarjeta para analisis de gases arteriales",
+        "product_category_id": "16"
+    },
+    {
+        "name": "conos de otoscopio",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa heparinizada para toma de gases arteriales medida 1ml x 25g",
+        "product_category_id": "16"
+    },
+    {
+        "name": "puerto de fuga",
+        "product_category_id": "16"
+    },
+    {
+        "name": "incentivo respiratorio de una esfera",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda nasogastrica (levin)",
+        "product_category_id": "16"
+    },
+    {
+        "name": "guantes de latex para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "tubo tapa azul",
+        "product_category_id": "15"
+    },
+    {
+        "name": "tapon protector esteril para dcpa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "organizador sistema stay safe",
+        "product_category_id": "19"
+    },
+    {
+        "name": "miel en gel grado medico",
+        "product_category_id": "18"
+    },
+    {
+        "name": "recamara humidificadora",
+        "product_category_id": "15"
+    },
+    {
+        "name": "interface nasal",
+        "product_category_id": "16"
+    },
+    {
+        "name": "camara de agua con auto llenado y manguera",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito respiratorio calentador",
+        "product_category_id": "16"
+    },
+    {
+        "name": "papel termico para desfibrilador rollo",
+        "product_category_id": "15"
+    },
+    {
+        "name": "kit overol de alta proteccion",
+        "product_category_id": "15"
+    },
+    {
+        "name": "aposito de alginato de calcio con miel activa medida 1 x 13",
+        "product_category_id": "16"
+    },
+    {
+        "name": "circuito para ventilador astral",
+        "product_category_id": "16"
+    },
+    {
+        "name": "vaso desechable con tapa para esputo",
+        "product_category_id": "15"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aguja para toma de muestras",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nelaton",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "mascara de oxigeno",
+        "product_category_id": "16"
+    },
+    {
+        "name": "filtro para la solucion de dialisis",
+        "product_category_id": "16"
+    },
+    {
+        "name": "cateter autoadhesivo recolector de orina",
+        "product_category_id": "16"
+    },
+    {
+        "name": "polainas resortadas",
+        "product_category_id": "15"
+    },
+    {
+        "name": "mascara de oxigeno",
+        "product_category_id": "16"
+    },
+    {
+        "name": "polipropoileno 3-",
+        "product_category_id": "16"
+    },
+    {
+        "name": "seda 2- sc 26",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "venda de yeso",
+        "product_category_id": "16"
+    },
+    {
+        "name": "caucho de succión",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda de succion cerrada",
+        "product_category_id": "16"
+    },
+    {
+        "name": "esparadrapo micropore piel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo de buretrol",
+        "product_category_id": "15"
+    },
+    {
+        "name": "venda de yeso",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "bata cirujano antifluido",
+        "product_category_id": "15"
+    },
+    {
+        "name": "polipro 5/ c/a curva cortante",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tubo endotraqueal con balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "gel con pectina duoderm",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda foley",
+        "product_category_id": "16"
+    },
+    {
+        "name": "campo esteril abierto",
+        "product_category_id": "16"
+    },
+    {
+        "name": "frasco recoleccion coprologico",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sond foley dos vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "barrera natura convexa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "camisa para vacuette",
+        "product_category_id": "15"
+    },
+    {
+        "name": "guantes esteriles",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda nasogastrica (levin)",
+        "product_category_id": "16"
+    },
+    {
+        "name": "equipo de transfusion de sangre",
+        "product_category_id": "15"
+    },
+    {
+        "name": "inhalocamara con mascara en silicona",
+        "product_category_id": "15"
+    },
+    {
+        "name": "jeringa punta cateter",
+        "product_category_id": "16"
+    },
+    {
+        "name": "concentrado acido para hemodialisis",
+        "product_category_id": "15"
+    },
+    {
+        "name": "bolsa natura drenable de colostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "barrera cutánea no irritante spray",
+        "product_category_id": "16"
+    },
+    {
+        "name": "eliminador de adhesivo no irritante spray",
+        "product_category_id": "16"
+    },
+    {
+        "name": "pinzas para bolsa decolostomía",
+        "product_category_id": "16"
+    },
+    {
+        "name": "conector para nutricion enteral",
+        "product_category_id": "15"
+    },
+    {
+        "name": "mascara oronasal ventilacion mecanica no invasiva",
+        "product_category_id": "15"
+    },
+    {
+        "name": "electrodos para desfibrilador welch allyn",
+        "product_category_id": "17"
+    },
+    {
+        "name": "guantes de latex para examen",
+        "product_category_id": "15"
+    },
+    {
+        "name": "canula de traqueostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "conos de otoscopio",
+        "product_category_id": "16"
+    },
+    {
+        "name": "conjunto de agujas desechables para fistula",
+        "product_category_id": "16"
+    },
+    {
+        "name": "tapon de policarbonato y silicona",
+        "product_category_id": "16"
+    },
+    {
+        "name": "campo auxiliar esteril",
+        "product_category_id": "15"
+    },
+    {
+        "name": "sonda foley 2 vias",
+        "product_category_id": "16"
+    },
+    {
+        "name": "conjunto de agujas desechables para fistula",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aguja hipodermica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "guia de intubacion medida pediatrica",
+        "product_category_id": "16"
+    },
+    {
+        "name": "mascara ventilacion mecanica no invasiva full face",
+        "product_category_id": "16"
+    },
+    {
+        "name": "canula de guedel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aguja hipodermica desechable no nº21 x1 1",
+        "product_category_id": "16"
+    },
+    {
+        "name": "polipro 2/ c/a recta ks",
+        "product_category_id": "16"
+    },
+    {
+        "name": "barrera para piel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sabana para camilla",
+        "product_category_id": "15"
+    },
+    {
+        "name": "laminas cubre objetos",
+        "product_category_id": "15"
+    },
+    {
+        "name": "circuito para ventilador astral",
+        "product_category_id": "16"
+    },
+    {
+        "name": "sonda nasogastrica no 1 fr",
+        "product_category_id": "16"
+    },
+    {
+        "name": "vendaje de malla tubular",
+        "product_category_id": "16"
+    },
+    {
+        "name": "ferulas inmovilizadoras",
+        "product_category_id": "16"
+    },
+    {
+        "name": "electrodo para desfibrilador",
+        "product_category_id": "16"
+    },
+    {
+        "name": "actisorb plus 25",
+        "product_category_id": "16"
+    },
+    {
+        "name": "manguera desechable para succion",
+        "product_category_id": "15"
+    },
+    {
+        "name": "ccanula de guedel",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito tegaderm",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aposito hidratante con alginato ungüento",
+        "product_category_id": "16"
+    },
+    {
+        "name": "bolsa de colostomia",
+        "product_category_id": "16"
+    },
+    {
+        "name": "silvercel medida",
+        "product_category_id": "16"
+    },
+    {
+        "name": "jeringa",
+        "product_category_id": "16"
+    },
+    {
+        "name": "set cateter tunelizado doble lumen",
+        "product_category_id": "17"
+    },
+    {
+        "name": "canula de traqueostomia no fenestrada sin balon",
+        "product_category_id": "16"
+    },
+    {
+        "name": "kit de gastrostomia percutanea",
+        "product_category_id": "16"
+    },
+    {
+        "name": "kit aspirador de secreciones",
+        "product_category_id": "16"
+    },
+    {
+        "name": "aguja surecan",
+        "product_category_id": "16"
+    },
+    {
+        "name": "humidificador de alto flujo",
+        "product_category_id": "15"
+    }
+]

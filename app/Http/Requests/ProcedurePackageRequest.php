@@ -24,8 +24,10 @@ class ProcedurePackageRequest extends FormRequest
     public function rules()
     {
         return [
+            'manual_price_id' => '',
             'procedure_package_id' => '',
             'procedure_id' => '',
+            'value' => '',
         ];
     }
 }

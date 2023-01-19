@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "name": "INTERNACIÓN EN HABITACIÓN DE 4 O MÁS CAMAS DE ALTA COMPLEJIDAS"
+    },
+    {
+        "id": 2,
+        "name": "INTERNACIÓN EN HABITACIÓN DE 3 CAMAS DE ALTA COMPLEJIDAD"
+    },
+    {
+        "id": 3,
+        "name": "INTERNACIÓN EN HABITACIÓN BIPERSONAL DE ALTA COMPLEJIDAD"
+    },
+    {
+        "id": 4,
+        "name": "INTERNACIÓN EN HABITACIÓN UNIPERSONAL DE ALTA COMPLEJIDAD"
+    },
+    {
+        "id": 5,
+        "name": "INTERNACIÓN EN UNIDAD DE SALUD MENTAL"
+    },
+    {
+        "id": 6,
+        "name": "INTERNACIÓN EN UNIDAD DE CUIDADOS INTENSIVOS"
+    },
+    {
+        "id": 7,
+        "name": "INTERNACIÓN EN UNIDAD DE CUIDADOS INTERMEDIOS"
+    },
+    {
+        "id": 8,
+        "name": "INTERNACIÓN EN HABITACIÓN V.I.P."
+    },
+    {
+        "id": 9,
+        "name": "INTERNACIÓN NO SOLICITADA O NO ESPECIFICADA"
+    },
+    {
+        "id": 10,
+        "name": "INTERNACIÓN EN UCC DE ALTA COMPLEJIDAD"
+    },
+    {
+        "id": 11,
+        "name": "INTERNACIÓN EN UCC DE MEDIANA COMPLEJIDAD"
+    },
+    {
+        "id": 12,
+        "name": "INTERNACIÓN EN UCC DE BAJA COMPLEJIDAD"
+    }
+]

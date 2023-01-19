@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Medicina general"
+    },
+    {
+        "id": 2,
+        "name": "Enfermeria"
+    },
+    {
+        "id": 3,
+        "name": "Nutrición"
+    },
+    {
+        "id": 4,
+        "name": "terapia de lenguaje"
+    },
+    {
+        "id": 5,
+        "name": "terapia respiratoria"
+    },
+    {
+        "id": 6,
+        "name": "terapia ocupacional"
+    },
+    {
+        "id": 8,
+        "name": "Trabajo Social"
+    },
+    {
+        "id": 7,
+        "name": "terapia fisica"
+    },
+    {
+        "id": 9,
+        "name": "psicologia"
+    },
+    {
+        "id": 10,
+        "name": "seguimiento"
+    }
+]

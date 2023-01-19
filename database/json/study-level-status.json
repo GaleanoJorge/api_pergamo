@@ -1,11 +1,14 @@
 [
     {
-        "name": "Completo"
+        "name": "COMPLETO"
     },
     {
-        "name": "Incompleto"
+        "name": "INCOMPLETO"
     },
     {
-        "name": "En curso"
+        "name": "EN CURSO"
+    },
+    {
+        "name": "NO DEFINIDO"
     }
 ]

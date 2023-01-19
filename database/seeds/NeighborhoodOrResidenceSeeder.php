@@ -18,7 +18,8 @@ class NeighborhoodOrResidenceSeeder extends Seeder
             NeighborhoodOrResidence::create([
             
                 'name' =>  $row->name,
-                'municipality_id' =>  $row->municipality_id,
+                'locality_id'  =>  $row->locality_id,
+                'pad_risk_id'  =>  $row->pad_risk_id,
             ]);
 
         }

@@ -11,12 +11,11 @@ class Assistance extends BaseAssistance
 		'user_id',
     'medical_record',
     'contract_type_id',
-    'cost_center_id', 
-    'type_professional_id', 
-    'medium_signature_file_id', 
+    'has_car',
+    'PAD_service', 
     'attends_external_consultation', 
     'serve_multiple_patients', 
-    'special_field_id', 
+    'file_firm', 
 	
 	];
 }

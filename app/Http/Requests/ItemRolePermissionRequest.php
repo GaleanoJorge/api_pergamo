@@ -26,7 +26,7 @@ class ItemRolePermissionRequest extends FormRequest
         return [
             'item' => 'required',
             'rol' => 'required',
-            'permiso' => 'required',
+            'permission' => 'required',
         ];
     }
 }

@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Antiinfecciosos para uso sistémico",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Antineoplásicos e inmunomoduladores",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Antiparasitarios, insecticidas y repelentes",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Dermatológicos",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Órganos de los sentidos",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Preparados hormonales sistémicos, excluyendo hormonas sexuales e insulinas",
+        "product_group_id": "1"
+    },
+    {
+        "name": "SanGe y órganos hematopoyéticos",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Sistema cardiovascular",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Sistema genitourinario y hormonas sexuales",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Sistema musculoesquelético",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Sistema nervioso",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Sistema respiratorio",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Tracto alimentario y metabolismo",
+        "product_group_id": "1"
+    },
+    {
+        "name": "Varios",
+        "product_group_id": "1"
+    },
+    {
+        "name": "I",
+        "product_group_id": "2"
+    },
+    {
+        "name": "IIa",
+        "product_group_id": "2"
+    },
+    {
+        "name": "IIb",
+        "product_group_id": "2"
+    },
+    {
+        "name": "III",
+        "product_group_id": "2"
+    },
+    {
+        "name": "III",
+        "product_group_id": "2"
+    },
+    {
+        "name": "N/A",
+        "product_group_id": "2"
+    }
+]

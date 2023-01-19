@@ -30,6 +30,7 @@ class BriefcaseRequest extends FormRequest
             'coverage_id' => '',
             'modality_id' => '',
             'status_id' => '',
+            'type_auth' => '',
         ];
     }
 }

@@ -1,0 +1,46 @@
+[
+    {
+        "code": "01",
+        "name": "Contributivo cotizante"
+    },
+    {
+        "code": "02",
+        "name": "Contributivo beneficiario"
+    },
+    {
+        "code": "03",
+        "name": "Contributivo adicional"
+    },
+    {
+        "code": "04",
+        "name": "Subsidiado"
+    },
+    {
+        "code": "05",
+        "name": "Sin régimen"
+    },
+    {
+        "code": "06",
+        "name": "Especiales o de Excepción cotizante"
+    },
+    {
+        "code": "07",
+        "name": "Especiales o de Excepción beneficiario"
+    },
+    {
+        "code": "08",
+        "name": "Particular"
+    },
+    {
+        "code": "09",
+        "name": "Tomador/Amparado ARL"
+    },
+    {
+        "code": "10",
+        "name": "Tomador/Amparado SOAT"
+    },
+    {
+        "code": "11",
+        "name": "Tomador/Amparado Planes voluntarios de salud"
+    }
+]

@@ -15,7 +15,6 @@ class CreateProductTable extends Migration
     {
         Schema::create('product', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('code');
             $table->string('name');
             $table->unsignedBigInteger('factory_id');
             $table->unsignedBigInteger('product_generic_id');
@@ -23,36 +22,40 @@ class CreateProductTable extends Migration
             $table->unsignedBigInteger('invima_status_id');
             $table->unsignedBigInteger('sanitary_registration_id');
             $table->unsignedBigInteger('storage_conditions_id');
-            $table->unsignedBigInteger('risk_id');
+            $table->unsignedBigInteger('packing_id');
             $table->string('code_cum_file');
             $table->Integer('code_cum_consecutive');
             $table->Integer('regulated_drug');
-            $table->Integer('high_price');
-            $table->string('maximum_dose');
-            $table->string('indications');
-            $table->string('contraindications');
-            $table->string('applications');
-            $table->Integer('minimum_stock');
-            $table->Integer('maximum_stock');
-            $table->Integer('generate_iva');
-            $table->timestamps();     
+            $table->Integer('high_price')->nullable();
+            $table->string('maximum_dose')->nullable();
+            $table->string('indications')->nullable();
+            $table->string('contraindications')->nullable();
+            $table->string('applications')->nullable()  ;
+            $table->string('value_circular')->nullable();
+            $table->string('circular')->nullable();
+            $table->string('unit_packing')->nullable();
+            $table->string('refrigeration')->nullable();
+            $table->string('useful_life')->nullable();
+            $table->string('code_cum');
+            $table->date('date_cum');
+            $table->timestamps();
+
+            $table->index('packing_id');
+            $table->foreign('packing_id')->references('id')
+                ->on('packing');
 
             $table->index('factory_id');
-	        $table->foreign('factory_id')->references('id')
+            $table->foreign('factory_id')->references('id')
                 ->on('factory');
             $table->index('product_generic_id');
-	        $table->foreign('product_generic_id')->references('id')
+            $table->foreign('product_generic_id')->references('id')
                 ->on('product_generic');
             $table->index('invima_status_id');
-	        $table->foreign('invima_status_id')->references('id')
+            $table->foreign('invima_status_id')->references('id')
                 ->on('invima_status');
             $table->index('storage_conditions_id');
             $table->foreign('storage_conditions_id')->references('id')
                 ->on('storage_conditions');
-            $table->index('risk_id');
-            $table->foreign('risk_id')->references('id')
-                ->on('risk');
-
         });
     }
 

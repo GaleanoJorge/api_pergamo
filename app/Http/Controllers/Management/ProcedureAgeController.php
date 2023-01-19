@@ -18,7 +18,7 @@ class ProcedureAgeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProcedureAges = ProcedureAge::select();
+        $ProcedureAges = ProcedureAge::orderBy('name', 'asc');
 
         if($request->_sort){
             $ProcedureAges->orderBy($request->_sort, $request->_order);

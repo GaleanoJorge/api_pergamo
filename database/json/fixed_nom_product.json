@@ -1,0 +1,66 @@
+[
+    {
+      "fixed_clasification_id": "33",
+      "name": "BOMBA DE INFUSIÓN"
+    },
+    {
+      "fixed_clasification_id": "33",
+      "name": "BOMBA DE NUTRICIÓN"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "BPAP"
+    },
+    {
+      "fixed_clasification_id": "33",
+      "name": "CAMA"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "CONCENTRADOR DE 02"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "EQUIPO DE ALTO FLUJO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "FONENDOSCOPIO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "GLUCOMETRO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "HUMIDIFICADOR"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "MONITOR DE SIGNOS VITALES"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "NEBULIZADOR"
+    },
+    {
+      "fixed_clasification_id": "39",
+      "name": "PULSIOXIMETRO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "SUCCIONADOR"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "TENSIOMETRO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "TENSIOMETRO PEDIATRICO"
+    },
+    {
+      "fixed_clasification_id": "36",
+      "name": "VENTILADOR"
+    }
+   ]

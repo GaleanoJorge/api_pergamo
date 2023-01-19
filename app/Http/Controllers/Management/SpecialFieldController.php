@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\TypeProfessional;
+use App\Models\SpecialField;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -53,6 +53,7 @@ class SpecialFieldController extends Controller
         $SpecialField = new SpecialField;
         
         $SpecialField->name = $request->name; 
+        $SpecialField->type_professional_id = $request->type_professional_id; 
      
         $SpecialField->save();
 
@@ -91,6 +92,7 @@ class SpecialFieldController extends Controller
     {
         $SpecialField = SpecialField::find($id);
         $SpecialField->name = $request->name; 
+        $SpecialField->type_professional_id = $request->type_professional_id; 
 
         $SpecialField->save();
 

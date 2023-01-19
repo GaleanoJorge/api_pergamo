@@ -1,0 +1,27 @@
+[
+    {
+        "name": "VASO DESECHABLE",
+        "diet_supply_type_id": "1",
+        "measurement_units_id": "1"
+    },
+    {
+        "name": "PLATO DESECHABLE",
+        "diet_supply_type_id": "1",
+        "measurement_units_id": "1"
+    },
+    {
+        "name": "PIÑA",
+        "diet_supply_type_id": "3",
+        "measurement_units_id": "2"
+    },
+    {
+        "name": "ATUN",
+        "diet_supply_type_id": "2",
+        "measurement_units_id": "2"
+    },
+    {
+        "name": "LECHE",
+        "diet_supply_type_id": "4",
+        "measurement_units_id": "3"
+    }
+]

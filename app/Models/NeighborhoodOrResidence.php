@@ -9,7 +9,7 @@ class NeighborhoodOrResidence extends BaseNeighborhoodOrResidence
 {
     protected $fillable = [
     'name',
-    'municipality_id'
-
+    'locality_id',
+    'pad_risk_id',
 	];
 }

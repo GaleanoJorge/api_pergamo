@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1",
+        "name": "OBSERVACIPON TH 1",
+        "category": 1
+    },
+    {
+        "id": "2",
+        "name": "OBSERVACIPON TH 2",
+        "category": 1
+    },
+    {
+        "id": "3",
+        "name": "OBSERVACIPON TH 3",
+        "category": 1
+    },
+    {
+        "id": "4",
+        "name": "OBSERVACIPON TH 4",
+        "category": 1
+    },
+    {
+        "id": "1",
+        "name": "OBSERVACIPON CTA COBRO 1",
+        "category": 2
+    },
+    {
+        "id": "2",
+        "name": "OBSERVACIPON CTA COBRO 2",
+        "category": 2
+    },
+    {
+        "id": "3",
+        "name": "OBSERVACIPON CTA COBRO 3",
+        "category": 2
+    },
+    {
+        "id": "4",
+        "name": "OBSERVACIPON CTA COBRO 4",
+        "category": 2
+    },
+    {
+        "id": "1",
+        "name": "Anotación o inconsistencias inadecuadas en las evoluciones",
+        "category": 3
+    },
+    {
+        "id": "2",
+        "name": "La planilla de firmas no es visible o cuenta con tachones y enmendaduras",
+        "category": 3
+    },
+    {
+        "id": "3",
+        "name": "La planilla de firmas no corresponde al paciente indicado",
+        "category": 3
+    }
+]

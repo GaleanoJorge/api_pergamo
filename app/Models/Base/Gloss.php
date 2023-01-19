@@ -11,6 +11,7 @@ use App\Models\Company;
 use App\Models\GlossAmbit;
 use App\Models\GlossModality;
 use App\Models\GlossService;
+use App\Models\TypeBriefcase;
 use App\Models\GlossStatus;
 use App\Models\ObjetionCode;
 use App\Models\ObjetionType;
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property BigInteger $company_id
+ * @property BigInteger $regimen_id
  * @property BigInteger $campus_id
  * @property BigInteger $objetion_type_id
  * @property BigInteger $repeated_initial_id
@@ -51,6 +53,11 @@ use Illuminate\Database\Eloquent\Model;
 class Gloss extends Model
 {
 	protected $table = 'gloss';
+
+	public function regimen()
+	{
+		return $this->belongsTo(TypeBriefcase::class);
+	}
 
 	public function company()
 	{

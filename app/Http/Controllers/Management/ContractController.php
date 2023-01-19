@@ -8,35 +8,56 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ContractRequest;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\DB;
 class ContractController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request): JsonResponse
     {
-        $Contract = Contract::with('contract_status');
+        $Contract = Contract::select('contract.*', DB::raw('SUM(IF(billing_pad.billing_pad_status_id=1,1,0)) AS created_billings'))
+            ->with('contract_status', 'company')
+            ->leftJoin('briefcase','briefcase.contract_id','contract.id')
+            ->leftJoin('admissions','admissions.briefcase_id','briefcase.id')
+            ->leftJoin('billing_pad','billing_pad.admissions_id','admissions.id')
+            ->groupBy('contract.id')
+            ->orderBy('contract.name', 'asc');
 
-        if($request->_sort){
+        if ($request->_sort) {
             $Contract->orderBy($request->_sort, $request->_order);
-        }            
+        }
+
+        if ($request->company_id) {
+            $Contract->where('contract.company_id', $request->company_id)->where('contract_status_id', 1);
+        }
 
         if ($request->search) {
-            $Contract->where('name','like','%' . $request->search. '%');
+            $Contract->where('contract.name', 'like', '%' . $request->search . '%');
         }
-        
-        if($request->query("pagination", true)=="false"){
-            $Contract=$Contract->get()->toArray();    
+
+        if ($request->id) {
+            $Contract->where('contract.id', $request->id);
         }
-        else{
-            $page= $request->query("current_page", 1);
-            $per_page=$request->query("per_page", 10);
-            
-            $Contract=$Contract->paginate($per_page,'*','page',$page); 
-        } 
+
+        if ($request->type_contract_id) {
+            $Contract->where('contract.type_contract_id', $request->type_contract_id);
+        }
+
+        if ($request->pgp) {
+            $Contract->where('contract.type_contract_id', $request->pgp, 5);
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $Contract = $Contract->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $Contract = $Contract->paginate($per_page, '*', 'page', $page);
+        }
 
 
         return response()->json([
@@ -45,7 +66,7 @@ class ContractController extends Controller
             'data' => ['contract' => $Contract]
         ]);
     }
-    
+
 
     public function store(ContractRequest $request): JsonResponse
     {
@@ -62,17 +83,8 @@ class ContractController extends Controller
         $Contract->regime_id = $request->regime_id;
         $Contract->firms_contractor_id = $request->firms_contractor_id;
         $Contract->firms_contracting_id = $request->firms_contracting_id;
-        $Contract->civil_policy_insurance_id = $request->civil_policy_insurance_id;
-        $Contract->value_civil_policy = $request->value_civil_policy;
-        $Contract->start_date_civil_policy = $request->start_date_civil_policy;
-        $Contract->finish_date_civil_policy = $request->finish_date_civil_policy;
-        $Contract->contractual_policy_insurance_id = $request->contractual_policy_insurance_id;
-        $Contract->value_contractual_policy = $request->value_contractual_policy;
-        $Contract->start_date_contractual_policy = $request->start_date_contractual_policy;
-        $Contract->finish_date_contractual_policy = $request->finish_date_contractual_policy;
         $Contract->start_date_invoice = $request->start_date_invoice;
         $Contract->finish_date_invoice = $request->finish_date_invoice;
-        $Contract->time_delivery_invoice = $request->time_delivery_invoice;
         $Contract->expiration_days_portafolio = $request->expiration_days_portafolio;
         $Contract->discount = $request->discount;
         $Contract->observations = $request->observations;
@@ -103,6 +115,23 @@ class ContractController extends Controller
             'data' => ['contract' => $Contract]
         ]);
     }
+    /**
+     * Brings contracts by company
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function byCompany(int $id)
+    {
+        $Contract = Contract::where('company_id', $id)->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Contratos de la compañía obtenido exitosamente',
+            'data' => ['contract' => $Contract]
+        ]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -123,16 +152,10 @@ class ContractController extends Controller
         $Contract->finish_date = $request->finish_date;
         $Contract->regime_id = $request->regime_id;
         $Contract->contract_status_id = $request->contract_status_id;
-        $Contract->firms_id = $request->firms_id;
-        $Contract->civil_policy_insurance_id = $request->civil_policy_insurance_id;
-        $Contract->value_civil_policy = $request->value_civil_policy;
-        $Contract->start_date_civil_policy = $request->start_date_civil_policy;
-        $Contract->finish_date_civil_policy = $request->finish_date_civil_policy;
-        $Contract->contractual_policy_insurance_id = $request->contractual_policy_insurance_id;
-        $Contract->value_contractual_policy = $request->value_contractual_policy;
-        $Contract->start_date_contractual_policy = $request->start_date_contractual_policy;
-        $Contract->finish_date_contractual_policy = $request->finish_date_contractual_policy;
-        $Contract->date_of_delivery_of_invoices = $request->date_of_delivery_of_invoices;
+        $Contract->firms_contractor_id = $request->firms_contractor_id;
+        $Contract->firms_contracting_id = $request->firms_contracting_id;
+        $Contract->start_date_invoice = $request->start_date_invoice;
+        $Contract->finish_date_invoice = $request->finish_date_invoice;
         $Contract->expiration_days_portafolio = $request->expiration_days_portafolio;
         $Contract->discount = $request->discount;
         $Contract->observations = $request->observations;

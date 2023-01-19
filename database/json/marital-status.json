@@ -1,20 +1,21 @@
 [
     {
-        "name": "Casado"
+        "name": "CASADO"
     },
     {
-        "name": "Divorciado"
+        "name": "DIVORCIADO"
     },
     {
-        "name": "Soltero"
+        "name": "SOLTERO"
     },
     {
-        "name": "Separado"
+        "name": "SEPARADO"
     },
     {
-        "name": "Unión Libre"
+        "name": "UNIÓN LIBRE"
     },
     {
-        "name": "Viudo"
+        "name": "VIUDO"
     }
-]  
+] 
+ 

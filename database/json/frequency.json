@@ -1,0 +1,43 @@
+[
+    {
+        "name": "UNICA",
+        "days": "1"
+    },
+    {
+        "name": "DIARIA",
+        "days": "1"
+    },
+    {
+        "name": "INTERDIARIA",
+        "days": "2"
+
+
+    },
+    {
+        "name": "SEMANAL",
+        "days": "7"
+
+
+    },
+    {
+        "name": "QUINCENAL",
+        "days": "15"
+
+
+    },
+    {
+        "name": "MENSUAL",
+        "days": "30"
+
+    },
+    {
+        "name": "BIMENSUAL",
+        "days": "60"
+
+    },
+    {
+        "name": "TRIMESTRAL",
+        "days": "90"
+
+    }
+]

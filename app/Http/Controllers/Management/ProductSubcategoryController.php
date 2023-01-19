@@ -21,8 +21,11 @@ class ProductSubcategoryController extends Controller
         $ProductSubcategory = ProductSubcategory::select();
 
         if($request->_sort){
+            if ($request->_sort != "actions") {
+
             $ProductSubcategory->orderBy($request->_sort, $request->_order);
         }            
+    }            
 
         if ($request->search) {
             $ProductSubcategory->where('name','like','%' . $request->search. '%');
@@ -105,7 +108,7 @@ class ProductSubcategoryController extends Controller
     {
         $ProductSubcategory = ProductSubcategory ::find($id);
         $ProductSubcategory->name = $request->name;
-        $ProductSubcategory->product_group_id = $request->product_group_id;     
+        $ProductSubcategory->product_category_id = $request->product_category_id;     
         $ProductSubcategory->save();
         
         return response()->json([

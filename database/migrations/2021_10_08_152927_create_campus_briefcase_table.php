@@ -15,7 +15,7 @@ class CreateCampusBriefcaseTable extends Migration
     {
         Schema::create('campus_briefcase', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedTinyInteger('campus_id');
+            $table->unsignedBigInteger('campus_id');
             $table->unsignedBigInteger('briefcase_id');
             $table->timestamps();
 

@@ -15,21 +15,21 @@ class CreateProductGenericTable extends Migration
     {
         Schema::create('product_generic', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string ('name');
             $table->unsignedBigInteger ('drug_concentration_id');
             $table->unsignedBigInteger ('measurement_units_id');
             $table->unsignedBigInteger ('product_presentation_id');
             $table->string ('description');
             $table->unsignedBigInteger('pbs_type_id');
-            $table->unsignedBigInteger('product_subcategory_id'); 
-            $table->unsignedBigInteger('consumption_unit_id'); 
+            $table->string('pbs_restriction')->nullable();
+            $table->unsignedBigInteger('nom_product_id'); 
+            $table->Integer('minimum_stock');
+            $table->Integer('maximum_stock');
             $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->Integer ('special_controller_medicine')->nullable();
             $table->string ('code_atc')->nullable();
-            $table->Integer ('implantable')->nullable();
-            $table->Integer ('reuse')->nullable();
-            $table->Integer ('invasive')->nullable();
-            $table->Integer ('consignment')->nullable();
+            $table->unsignedBigInteger('product_dose_id');
+            $table->string('dose')->nullable();
+            $table->unsignedBigInteger('multidose_concentration_id')->nullable();
             $table->timestamps();
 
 
@@ -42,10 +42,17 @@ class CreateProductGenericTable extends Migration
             $table->index('product_presentation_id');
             $table->foreign('product_presentation_id')->references('id')
                     ->on('product_presentation');
-            $table->index('product_subcategory_id');
-            $table->foreign('product_subcategory_id')->references('id')
-                    ->on('product_subcategory');
+            $table->index('nom_product_id');
+            $table->foreign('nom_product_id')->references('id')
+                    ->on('nom_product');
 
+            $table->index('product_dose_id');
+            $table->foreign('product_dose_id')->references('id')
+                ->on('product_dose');
+
+            $table->index('multidose_concentration_id');
+            $table->foreign('multidose_concentration_id')->references('id')
+                ->on('multidose_concentration');
         });
     }
 

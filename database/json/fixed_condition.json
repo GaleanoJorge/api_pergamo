@@ -1,0 +1,17 @@
+[
+    {
+        "name": "BUENO"
+    },
+    {
+        "name": "REGULAR"
+    },
+    {
+        "name": "DAÑADO"
+    },
+    {
+        "name": "PERDIDA"
+    },
+    {
+        "name": "ROBO"
+    }
+]

@@ -57,13 +57,13 @@ class LoginController extends Controller
             ], 401);
         }
 
-        if ($user->email_verified_at == NULL) {
+        // if ($user->email_verified_at == NULL) {
 
-            return response()->json([
-                'error' => 'Usuario no verificado',
-                'msg' => 'Debe verificar su correo',
-            ], 401);
-        }
+        //     return response()->json([
+        //         'error' => 'Usuario no verificado',
+        //         'msg' => 'Debe verificar su correo',
+        //     ], 401);
+        // }
 
         $rolesCount = $user->roles->count();
 
@@ -74,7 +74,7 @@ class LoginController extends Controller
                 423
             );
         }
-        else if ($rolesCount == 1) {
+        else {
             $logLogin = new LogLogin;
             $logLogin->user_id = $user->id;
             $logLogin->role_id = $user->roles->first()->id;
@@ -184,7 +184,7 @@ class LoginController extends Controller
     public function getRolesUserAuth(): JsonResponse
     {
         $userId = Auth::user()->id;
-        $user = User::where('id', $userId)->with('roles')->get()->toArray();
+        $user = User::where('id', $userId)->with('roles', 'assistance')->get()->toArray();
 
         return response()->json([
             'status' => true,

@@ -1,0 +1,74 @@
+[
+    {
+        "name": "RECEPCIÓN"
+    },
+    {
+        "name": "SALA DE ESPERA"
+    },
+    {
+        "name": "CUARTO COVID"
+    },
+    {
+        "name": "CONSULTORIO 1"
+    },
+    {
+        "name": "CONSULTORIO 2"
+    },
+    {
+        "name": "CONSULTORIO 3"
+    },
+    {
+        "name": "FARMACIA"
+    },
+    {
+        "name": "GIMNASIO"
+    },
+    {
+        "name": "ADMINISTRATIVA"
+    },
+    {
+        "name": "PAD"
+    },
+    {
+        "name": "TALENTO HUMANO"
+    },
+    {
+        "name": "ADMINISTRATIVO COVID"
+    },
+    {
+        "name": "FACTURACIÓN"
+    },
+    {
+        "name": "CUARTO DE ASEO"
+    },
+    {
+        "name": "DIRECCIÓN REGIONAL"
+    },
+    {
+        "name": "BAÑO DISCAPACITADO HOMBRES"
+    },
+    {
+        "name": "BAÑO DISCAPACITADO MUJERES"
+    },
+    {
+        "name": "BAÑO DE CABALLEROS "
+    },
+    {
+        "name": "BAÑO DE DAMAS"
+    },
+    {
+        "name": "ÁREA BIOMEDICOS"
+    },
+    {
+        "name": "CUARTO RACK"
+    },
+    {
+        "name": "CUARTO DE INSUMOS "
+    },
+    {
+        "name": "CUARTO DE RESIDUOS "
+    },
+    {
+        "name": "COMEDOR"
+    }
+]
