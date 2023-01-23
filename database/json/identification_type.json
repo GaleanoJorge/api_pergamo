@@ -46,5 +46,11 @@
         "name": "NIT",
         "code": "NIT",
         "sga_origin_fk": 0
+    },
+    {
+        "id": 9,
+        "name": "PERMISO ESPECIAL DE PERMANENCIA",
+        "code": "PE",
+        "sga_origin_fk": 0
     }
 ]
