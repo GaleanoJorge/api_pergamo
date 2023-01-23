@@ -60,10 +60,10 @@ class PavilionController extends Controller
             ->where('pavilion.flat_id', $flat_id)
             ->orderBy('name', 'asc')
             ->groupBy('pavilion.id');
-            if ($request->bed_or_office) {
-                $Pavilion->where('bed.bed_or_office', $request->bed_or_office);
-            }
-            $Pavilion=$Pavilion->get()->toArray();
+        if ($request->bed_or_office) {
+            $Pavilion->where('bed.bed_or_office', $request->bed_or_office);
+        }
+        $Pavilion = $Pavilion->get()->toArray();
 
         return response()->json([
             'status' => true,
@@ -76,6 +76,25 @@ class PavilionController extends Controller
     {
 
         $Pavilion = Bed::find($bed_id)->pavilion;
+        return response()->json([
+            'status' => true,
+            'message' => 'Pabellón obtenido con éxito',
+            'data' => ['pavilion' => $Pavilion]
+        ]);
+    }
+
+
+    public function getPavilionByCampus(int $campus_id): JsonResponse
+    {
+
+        $Pavilion = Pavilion::select('pavilion.*')
+            ->with(
+                'flat',
+            )
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->where('flat.campus_id', $campus_id)
+            ->get()->toArray();
+
         return response()->json([
             'status' => true,
             'message' => 'Pabellón obtenido con éxito',

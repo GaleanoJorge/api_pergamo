@@ -792,6 +792,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'get_pavilion_by_bed/{bed_id}',
         'Management\PavilionController@getPavilionByBed'
     );
+    Route::get(
+        'get_pavilion_by_campus/{campus_id}',
+        'Management\PavilionController@getPavilionByCampus'
+    );
 
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
