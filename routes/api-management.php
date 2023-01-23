@@ -1200,7 +1200,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
-    Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
     Route::apiResource('log_pharmacy_lot', 'Management\LogPharmacyLotController');
     Route::apiResource('pharmacy_adjustment', 'Management\PharmacyAdjustmentController');
