@@ -135,7 +135,8 @@ class ManualController extends Controller
             $newMP->own_code = $MPB['own_code'];
             $newMP->manual_id = $Manual->id;
             $newMP->procedure_id = $MPB['procedure_id'];
-            $newMP->product_id = null;
+            $newMP->product_id = $MPB['product_id'];
+            $newMP->supplies_id = $MPB['supplies_id'];
             $newMP->value = $MPB['value'];
             $newMP->price_type_id = $MPB['price_type_id'];
             $newMP->manual_procedure_type_id = $MPB['manual_procedure_type_id'];
@@ -150,6 +151,8 @@ class ManualController extends Controller
                     $newPPG->value = $element['value'];
                     $newPPG->procedure_package_id = $newMP->id;
                     $newPPG->procedure_id = $element['procedure_id'];
+                    $newPPG->product_id = $element['product_id'];
+                    $newPPG->supplies_id = $element['supplies_id'];
                     $newPPG->save();
                 }
             }
