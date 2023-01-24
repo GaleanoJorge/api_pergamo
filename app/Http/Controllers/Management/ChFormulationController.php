@@ -128,6 +128,14 @@ class ChFormulationController extends Controller
 
         if ($request->medical_formula == "" || $request->medical_formula == false) {
 
+            if ($request->services_briefcase_id) {} else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe seleccionarse un elemento de la lista',
+                    'data' => ['ch_formulation' => []]
+                ]);
+            }
+
             $ChRecordVal = ChRecord::find($request->ch_record_id);
 
             $Admission = Admissions::select('admissions.*')
