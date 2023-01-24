@@ -136,11 +136,13 @@ class ManualController extends Controller
             $newMP->manual_id = $Manual->id;
             $newMP->procedure_id = $MPB['procedure_id'];
             $newMP->product_id = $MPB['product_id'];
+            $newMP->patient_id = $MPB['patient_id'];
             $newMP->supplies_id = $MPB['supplies_id'];
+            $newMP->manual_procedure_type_id = $MPB['manual_procedure_type_id'];
+            $newMP->description = $MPB['description'];
+            $newMP->homologous_id = $MPB['homologous_id'];
             $newMP->value = $MPB['value'];
             $newMP->price_type_id = $MPB['price_type_id'];
-            $newMP->manual_procedure_type_id = $MPB['manual_procedure_type_id'];
-            $newMP->homologous_id = $MPB['homologous_id'];
             $newMP->save();
 
             if ($MPB['manual_procedure_type_id'] == 3) {
