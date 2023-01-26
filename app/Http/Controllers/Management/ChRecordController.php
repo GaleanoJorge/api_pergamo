@@ -202,6 +202,7 @@ class ChRecordController extends Controller
             'admissions.location',
             'admissions.location.program',
             'admissions.patients',
+            'admissions.patients.admissions',
         );
 
         if ($request->_sort) {
