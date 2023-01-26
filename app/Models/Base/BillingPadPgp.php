@@ -56,4 +56,8 @@ class BillingPadPgp extends Model
 	{
 		return $this->belongsTo(BPPGP::class);
 	}
+	public function its_credit_note()
+	{
+		return $this->belongsTo(BPPGP::class, 'id', 'billing_credit_note_id');
+	}
 }

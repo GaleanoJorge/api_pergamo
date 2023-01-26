@@ -254,8 +254,8 @@ class AdmissionsController extends Controller
             ->orderBy('created_at', 'desc');
 
         if ($request->search) {
-            $Admissions->where('company.name', 'like', '%' . $request->search . '%')
-                ->Orwhere('id', 'like', '%' . $request->search . '%');
+            // $Admissions->where('company.name', 'like', '%' . $request->search . '%')
+            //     ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
 
         if ($request->semaphore == 1) {
