@@ -1844,7 +1844,7 @@ class ChRecordController extends Controller
                 'parameters_signs'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChOxygenTherapy = ChOxygenTherapy::where('fvie', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
             $ChTherapeuticAss = ChTherapeuticAss::with(
                 'ch_ass_pattern',
                 'ch_ass_swing',
