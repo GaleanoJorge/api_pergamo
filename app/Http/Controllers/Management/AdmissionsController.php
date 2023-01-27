@@ -638,11 +638,12 @@ class AdmissionsController extends Controller
                 $Authorization->auth_number = $request->auth_number;
 
                 $Authorization->auth_status_id =  2;
-                if($request->copay_value != 0){
-                    $Authorization->copay = 1;
-                } else {
-                    $Authorization->copay = null;
-                }
+                $Authorization->copay_id = $request->copay_id;
+                // if($request->copay_value != 0){
+                //     $Authorization->copay = 1;
+                // } else {
+                //     $Authorization->copay = null;
+                // }
 
 
                 $Authorization->copay_value =  $medical_diary_days->copay_value;
