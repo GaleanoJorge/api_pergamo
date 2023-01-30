@@ -11,6 +11,7 @@ use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Frequency;
 use App\Models\HourlyFrequency;
+use App\Models\Procedure;
 use App\Models\ServicesBriefcase;
 use App\Models\Specialty;
 use App\Models\TypeOfAttention;
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $observations
  * @property BigInteger $type_record_id
  * @property BigInteger $ch_record_id
+ * @property BigInteger $procedure_id
  * @property BigInteger $services_briefcase_id
  * @property BigInteger $admissions_id
  * @property BigInteger $ambulatory_medical_order
@@ -56,6 +58,10 @@ class ChInterconsultation extends Model
 	public function ch_record()
 	{
 		return $this->belongsTo(ChRecord::class);
+	}
+	public function procedure()
+	{
+		return $this->belongsTo(Procedure::class);
 	}
 	public function services_briefcase()
 	{

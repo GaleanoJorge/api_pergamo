@@ -288,7 +288,7 @@
         @if(($ch['extension']) == 'Si' )
 
         <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PORROGA</b> </span>
+            <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PRORROGA</b> </span>
             <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>  
         @endisset

@@ -48,6 +48,14 @@ class SourceRetentionTypeController extends Controller
 
     public function store(SourceRetentionTypeRequest $request): JsonResponse
     {
+        $validate = TaxValueUnit::select()->where('year', Carbon::now()->year)->first();
+        if (!$validate) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe unidad de valor tributario para el año en curso',
+                'data' => ['source_retention_type' => []]
+            ]);
+        }
         $SourceRetentionType = new SourceRetentionType;
         $SourceRetentionType->name = $request->name;   
         $SourceRetentionType->value = $request->value;
