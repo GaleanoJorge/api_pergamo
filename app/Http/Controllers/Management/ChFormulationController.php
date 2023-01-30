@@ -126,6 +126,15 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
+        if (!$request->administration_route_id &&
+            !$request->product_supplies_id) {} else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debe seleccionarse un elemento de la lista',
+                'data' => ['ch_formulation' => []]
+            ]);
+        }
+
         if ($request->medical_formula == "" || $request->medical_formula == false) {
 
             if ($request->services_briefcase_id) {} else {
