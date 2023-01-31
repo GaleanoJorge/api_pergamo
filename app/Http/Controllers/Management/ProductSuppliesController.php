@@ -18,7 +18,10 @@ class ProductSuppliesController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ProductSupplies = ProductSupplies::with('size_supplies_measure', 'measure_supplies_measure')->orderBy('description', 'asc');
+        $ProductSupplies = ProductSupplies::with(
+            'size_supplies_measure', 
+            'measure_supplies_measure'
+        )->orderBy('description', 'asc');
 
         if ($request->_sort) {
             if ($request->_sort != "actions" && $request->_sort != "description" && $request->_sort != "factory") {

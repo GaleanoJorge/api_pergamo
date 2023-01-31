@@ -23,7 +23,7 @@ class CreateChInterconsultationTable extends Migration
             $table->string('observations')->nullable();
             $table->unsignedBigInteger('type_record_id')->nullable();
             $table->unsignedBigInteger('ch_record_id')->nullable();
-
+            $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
 
@@ -36,6 +36,10 @@ class CreateChInterconsultationTable extends Migration
             $table->index('admissions_id');
             $table->foreign('admissions_id')->references('id')
                 ->on('admissions');
+
+            $table->index('procedure_id');
+            $table->foreign('procedure_id')->references('id')
+                ->on('procedure');
 
             $table->index('services_briefcase_id');
             $table->foreign('services_briefcase_id')->references('id')

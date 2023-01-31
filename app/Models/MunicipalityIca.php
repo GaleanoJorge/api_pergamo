@@ -10,5 +10,6 @@ class MunicipalityIca extends BaseMunicipalityIca
     protected $fillable = [
         'value',
         'municipality_id',
+        'year',
 	];
 }

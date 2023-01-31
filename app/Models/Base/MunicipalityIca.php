@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $file
  * @property double $value
  * @property unsignedBigInteger $municipality_id
+ * @property int $year
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

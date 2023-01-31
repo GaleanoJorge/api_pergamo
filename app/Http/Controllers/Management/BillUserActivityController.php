@@ -77,18 +77,18 @@ class BillUserActivityController extends Controller
     }
 
 
-    public function createMissedActivities(Request $request, int $mes): JsonResponse
+    public function createMissedActivities(Request $request, int $year, int $mes, int $create_ar, int $create_bua): JsonResponse
     {
-        if ($mes == 0) {
+        if ($mes <= 0 || $mes >= 13) {
             return response()->json([
                 'status' => false,
-                'message' => 'El mes debe ser mayor a 0',
+                'message' => 'El rango de meses debe ser entre 1 y 12',
                 'data' => ['bill_user_activity' => []]
             ]);
         }
 
-        $date_validate = Carbon::parse(Carbon::now()->year . '-' . $mes . '01 00:00:00');
-        $date_validate2 = Carbon::parse(Carbon::now()->year . '-' . $mes . '-01 00:00:00')->addMonth();
+        $date_validate = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->format('Y-m-d H:i:s');
+        $date_validate2 = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->addMonth()->format('Y-m-d H:i:s');
 
         $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
             ->with(
@@ -100,28 +100,37 @@ class BillUserActivityController extends Controller
             ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
             ->whereNull('bill_user_activity.id')
             ->whereNotNull('management_plan.procedure_id')
-            ->whereRaw("assigned_management_plan.execution_date < " . $date_validate2)
-            ->whereRaw("assigned_management_plan.execution_date >= " . $date_validate)
+            ->whereRaw("assigned_management_plan.execution_date < '" . $date_validate2 . "'")
+            ->whereRaw("assigned_management_plan.execution_date >= '" . $date_validate . "'")
             ->groupBy('assigned_management_plan.id')
             ->get()->toArray();
 
         $aaa = 0;
         $bbb = 0;
 
+        $MinimumSalary = MinimumSalary::where('year', $year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
+        }
         foreach ($Amp as $element) {
             $validate = null;
-
-            $validate = AccountReceivable::whereRaw("created_at >= " . $date_validate)->whereRaw("created_at < "  . $date_validate)->where('user_id', '=', $element['ch_record'][count($element['ch_record']) - 1]['user_id'])->get()->toArray();
-            if (!$validate) {
+            $Assistance = Assistance::where('user_id', $element['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at < '" . $date_validate2 . "'")->whereRaw("created_at >= '" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
+            if (count($validate) == 0) {
                 $bbb++;
-                $MinimumSalary = MinimumSalary::where('year', Carbon::parse($element['execution_date'])->year)->first();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $element['user_id'];
                 $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
-                $AccountReceivable->created_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
-                $AccountReceivable->updated_at = Carbon::now()->year . '-' . $mes . '-29 00:12:27';
-                // $AccountReceivable->save();
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
+                $AccountReceivable->created_at = $year . '-' . $mes . '-29 00:12:27';
+                $AccountReceivable->updated_at = $year . '-' . $mes . '-29 00:12:27';
+                if ($create_ar == 1) {
+                    $AccountReceivable->save();
+                }
             }
 
             $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
@@ -133,12 +142,12 @@ class BillUserActivityController extends Controller
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
 
-            if (count($valuetariff) > 0 && count($validate) > 0) {
+            if ((count($valuetariff) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) && count($validate) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
                 $account_receivable_id = $validate[count($validate) - 1]['id'];
                 $assigned_management_plan_id = $element['id'];
                 $admissions_id = $element['management_plan']['admissions_id'];
-                $tariff_id = $valuetariff[0]['id'];
+                $tariff_id = ($Assistance == 1 || $Assistance == 2 || $Assistance == 3 ? 583 : $valuetariff[0]['id']);
                 $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
 
                 $aaa++;
@@ -150,7 +159,9 @@ class BillUserActivityController extends Controller
                 $billActivity->admissions_id = $admissions_id;
                 $billActivity->tariff_id = $tariff_id;
                 $billActivity->ch_record_id = $ch_record_id;
-                $billActivity->save();
+                if ($create_bua == 1) {
+                    $billActivity->save();
+                }
             }
         }
 
@@ -339,7 +350,10 @@ class BillUserActivityController extends Controller
                 'assigned_management_plan.management_plan.admissions',
                 'assigned_management_plan.management_plan.admissions.patients',
                 'assigned_management_plan.management_plan.admissions.patients.identification_type',
-            );
+            )
+            ->orderBy('bill_user_activity.status', 'ASC')
+            ->orderBy('bill_user_activity.created_at', 'ASC')
+            ;
 
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);

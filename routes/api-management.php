@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get('bill_user_activity/createMissedActivities/{Id}', 'Management\BillUserActivityController@createMissedActivities');
+Route::get('bill_user_activity/createMissedActivities/{year}/{mes}/{create_ar}/{create_bua}', 'Management\BillUserActivityController@createMissedActivities');
 
 //Routes free for the render and finished the survey
 Route::apiResource('survey_detail', 'Management\SurveyDetailController');
@@ -795,6 +795,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'get_pavilion_by_bed/{bed_id}',
         'Management\PavilionController@getPavilionByBed'
     );
+    Route::get(
+        'get_pavilion_by_campus/{campus_id}',
+        'Management\PavilionController@getPavilionByCampus'
+    );
 
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
@@ -1228,6 +1232,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'NomProduct/byCategory/{product_subcategory_id}',
         'Management\NomProductController@getSubcategoryByCategory'
     );
+
+    Route::get('viewInventory', 'Management\PharmacyLotStockController@viewInventory');
+
 
     //Historia Clinica Terapia Ocupacional
     Route::apiResource('ch_e_valoration_o_t', 'Management\ChEValorationOTController');

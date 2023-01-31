@@ -15,16 +15,13 @@ class CreateChPsMultiaxialTable extends Migration
     {
         Schema::create('ch_ps_multiaxial', function (Blueprint $table) {
             $table->bigIncrements('id');
-
             $table->unsignedBigInteger('axis_one_id');
             $table->unsignedBigInteger('axis_two_id');
             $table->unsignedBigInteger('axis_three_id');
             $table->unsignedBigInteger('axis_four_id');
             $table->integer('eeag');
-
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
-
             $table->timestamps();
 
             $table->index('axis_one_id');

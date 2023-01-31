@@ -271,7 +271,8 @@ class ManualPriceController extends Controller
                 $ManualPrice->own_code = $request->own_code;
                 $ManualPrice->manual_id = $request->manual_id;
                 // $ManualPrice->procedure_id = $request->procedure_id;
-                // $ManualPrice->product_id = null;
+                // $ManualPrice->product_id = $request->product_id;
+                // $ManualPrice->supplies_id = $request->supplies_id;
                 $ManualPrice->value = $request->value;
                 $ManualPrice->patient_id = $request->patient_id;
                 $ManualPrice->price_type_id = $request->price_type_id;
