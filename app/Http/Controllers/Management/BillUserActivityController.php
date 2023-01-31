@@ -350,7 +350,10 @@ class BillUserActivityController extends Controller
                 'assigned_management_plan.management_plan.admissions',
                 'assigned_management_plan.management_plan.admissions.patients',
                 'assigned_management_plan.management_plan.admissions.patients.identification_type',
-            );
+            )
+            ->orderBy('bill_user_activity.status', 'ASC')
+            ->orderBy('bill_user_activity.created_at', 'ASC')
+            ;
 
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
