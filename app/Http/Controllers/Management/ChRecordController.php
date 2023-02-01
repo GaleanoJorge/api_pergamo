@@ -4606,29 +4606,34 @@ class ChRecordController extends Controller
         return strtr($str, $replacements);
     }
 
-    private function getChTypeExternalConsultation($procedureName)
+    private function getChTypeExternalConsultation($roleId,$specialty)
     {
-        $chTypes = ChType::all();
-        $chTypeFiltered = null;
-        foreach ($chTypes as $chType) {
-            if (str_contains($this->stripAccents($procedureName), $this->stripAccents(strtoupper($chType->name)))) {
-                $chTypeFiltered = $chType;
-                break;
-            }
-        }
-        if ($chTypeFiltered == null) {
-            if (str_contains($this->stripAccents($procedureName), $this->stripAccents("FONOAUDIOLOGIA"))) {
-                return 4;
-            } else if (str_contains($this->stripAccents($procedureName), $this->stripAccents("FISIOTERAPIA"))) {
-                return 7;
-            } else if (str_contains($this->stripAccents($procedureName), $this->stripAccents("RESPIRA"))) {
-                return 5;
-            } else if (str_contains($this->stripAccents($procedureName), $this->stripAccents("ESPECIALISTA"))) {
+ 
+            if ($roleId==3) {
                 return 1;
+            } else if ($roleId==10) {
+                return 3;
+            } else if ($roleId==12) {
+                return 8;
+            } else if ($roleId==11) {
+                return 9;
+            }else if ($roleId==14) {
+                if($specialty==134){
+                    return 4;
+                }
+                else if($specialty==135){
+                    return 7;
+                }
+                else if($specialty==136){
+                    return 6;
+                }
+                else if($specialty==137){
+                    return 5;
+                }
+              
             }
             return null;
-        }
-        return $chTypeFiltered->id;
+        
     }
 
 
@@ -4636,7 +4641,6 @@ class ChRecordController extends Controller
     {
 
         $isExternalConsultation = $request->isExternalConsultation;
-        $procedureName = $request->procedureName;
         $created = false;
         $count = 0;
         $chrecord_val = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
@@ -4655,7 +4659,7 @@ class ChRecordController extends Controller
         $ChRecord->user_id = Auth::user()->id;
 
         if ($isExternalConsultation) {
-            $ChRecord->ch_type_id = $this->getChTypeExternalConsultation($procedureName);
+            $ChRecord->ch_type_id = $this->getChTypeExternalConsultation($request->role_id,$request->speciality);
             if ($ChRecord->ch_type_id == null) {
                 return response()->json([
                     'status' => false,
