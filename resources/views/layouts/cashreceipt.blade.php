@@ -45,7 +45,7 @@
                     <span style="height:0pt; display:block; position:absolute; z-index:-65545">
                         <div style="text-align: center;    margin-left: 60px;">
                             <p>HEALTH & LIFE IPS S.A.S </p>
-                            <p>Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                            <p>Avenida Cra 68 No 13-61, Bogotá.</p>
                             <p>Nit: 900900122 - 7</p>
                         </div>
 
