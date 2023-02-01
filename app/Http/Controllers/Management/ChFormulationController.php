@@ -126,7 +126,7 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if (!$request->administration_route_id &&
+        if (!$request->administration_route_id ||
             !$request->product_supplies_id) {} else {
             return response()->json([
                 'status' => false,
