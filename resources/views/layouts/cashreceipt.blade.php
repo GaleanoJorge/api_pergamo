@@ -101,7 +101,7 @@
                     <div><span style="font-size: 10px">Correo: &nbsp;{{ $medical_date->patient->email }} &nbsp;</span></div>
                 </td>
                 <td>
-                    <div><span style="font-size: 10px">Régimen: &nbsp;{{ $authorization[0]['admissions']['regime']['name']}} &nbsp;</span></div>
+                    <div><span style="font-size: 10px">Régimen: &nbsp;@if(count($authorization) > 0){{ $authorization[0]['admissions']['regime']['name']}}@endisset &nbsp;</span></div>
                 </td>
             </tr>
         </table>
