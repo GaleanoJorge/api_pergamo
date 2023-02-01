@@ -306,10 +306,13 @@ class MedicalDiaryDaysController extends Controller
                 'briefcase.coverage',
                 'services_briefcase.manual_price.procedure',
                 'medical_diary.assistance.user',
+                'medical_diary.campus.region',
                 'days'
             )
             ->where('id', $id)
             ->first();
+
+        //return response()->json($medical_date);
 
         $authorization = Authorization::select('authorization.*')
             ->with(
