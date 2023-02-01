@@ -343,7 +343,7 @@ class MedicalDiaryDaysController extends Controller
             ->get()->toArray();
 
         //nombre de tipo de pago asociado al procedimiento
-        $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
+        $pay_name = $medical_date->copay_parameters->payment_type_id == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type_id == 2 ? 'Copago' :  'Exento');
         //Valor pagado
         $pay_value = $medical_date->copay_value ? $medical_date->copay_value : 0;
 

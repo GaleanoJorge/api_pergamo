@@ -25,8 +25,9 @@ class CopayParametersController extends Controller
             // ->leftJoin('type_contract', 'copay_parameters.type_contract_id', 'type_contract.id')
             ->with(
                 // 'type_contract',
-                'status'
-            )->orderBy('payment_type', 'ASC')
+                'status',
+                'payment_type'
+            )->orderBy('payment_type_id', 'ASC')
             ->orderBy('category', 'ASC');
 
         // if($request->contract_id){
@@ -42,14 +43,14 @@ class CopayParametersController extends Controller
                     'manual_price.procedure',
                 )->get()->toArray();
 
-            $CopayParameters->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type']);
+            $CopayParameters->where('payment_type_id', $procedure[0]['manual_price']['procedure']['payment_type_id']);
 
             // 1 cuota moderadora - 2 copago - 3 exento
-            if ($procedure[0]['manual_price']['procedure']['payment_type'] == 2) {
+            if ($procedure[0]['manual_price']['procedure']['payment_type_id'] == 2) {
                 $secondCopay = CopayParameters::select('copay_parameters.*')
-                    ->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type'])
+                    ->where('payment_type_id', $procedure[0]['manual_price']['procedure']['payment_type_id'])
                     ->where('status_id', $request->status_id)
-                    ->orderBy('payment_type', 'ASC')
+                    ->orderBy('payment_type_id', 'ASC')
                     ->orderBy('category', 'ASC')->get()->toArray();
                 $array = [];
                 foreach ($secondCopay as $item) {
@@ -69,7 +70,7 @@ class CopayParametersController extends Controller
                     'manual_price.procedure',
                 )->get()->toArray();
             // 1 cuota moderadora - 2 copago - 3 exento
-            $CopayParameters->where('payment_type', $procedure[0]['manual_price']['procedure']['payment_type']);
+            $CopayParameters->where('payment_type_id', $procedure[0]['manual_price']['procedure']['payment_type_id']);
             // var_dump($procedure);
         }
 
@@ -113,7 +114,7 @@ class CopayParametersController extends Controller
     public function store(CopayParametersRequest $request): JsonResponse
     {
         $CopayParameters = new CopayParameters;
-        $CopayParameters->payment_type = $request->payment_type;
+        $CopayParameters->payment_type_id = $request->payment_type;
         $CopayParameters->category = $request->category;
         $CopayParameters->value = $request->value;
         $CopayParameters->status_id = $request->status_id;
@@ -169,7 +170,7 @@ class CopayParametersController extends Controller
     public function update(CopayParametersRequest $request, int $id): JsonResponse
     {
         $CopayParameters = CopayParameters::find($id);
-        $CopayParameters->payment_type = $request->payment_type;
+        $CopayParameters->payment_type_id = $request->payment_type;
         $CopayParameters->category = $request->category;
         $CopayParameters->value = $request->value;
         $CopayParameters->status_id = $request->status_id;
