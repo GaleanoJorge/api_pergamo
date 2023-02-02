@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddChInterconsultationToAuthorizationTable extends Migration
+class AddCopayIdToAuthorizationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,10 @@ class AddChInterconsultationToAuthorizationTable extends Migration
     public function up()
     {
         Schema::table('authorization', function (Blueprint $table) {
-            $table->unsignedBigInteger('ch_interconsultation_id')->after('location_id')->nullable();
-            $table->index('ch_interconsultation_id');
-            $table->foreign('ch_interconsultation_id')->references('id')
-                ->on('ch_interconsultation');
+            $table->unsignedBigInteger('copay_id')->after('observation')->nullable();
+            $table->index('copay_id');
+            $table->foreign('copay_id')->references('id')
+                ->on('copay_parameters');
         });
     }
 
@@ -29,7 +29,7 @@ class AddChInterconsultationToAuthorizationTable extends Migration
     public function down()
     {
         Schema::table('authorization', function (Blueprint $table) {
-            $table->dropColumn('ch_interconsultation_id');
+            $table->dropColumn('copay_id');
             // $table->dropColumn('show_menu');
         });
     }

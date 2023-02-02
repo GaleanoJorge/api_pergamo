@@ -42,7 +42,7 @@ class MedicalDiaryDaysController extends Controller
                                 IF(medical_diary_days.medical_status_id = 3,
                                     CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                     IF(medical_diary_days.medical_status_id = 4,
-                                            'Facturada',
+                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                             'Cancelada')))) AS Subject"),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             '#37B24D',
@@ -198,7 +198,7 @@ class MedicalDiaryDaysController extends Controller
                                 IF(medical_diary_days.medical_status_id = 3,
                                     CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                     IF(medical_diary_days.medical_status_id = 4,
-                                            'Facturada',
+                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
                                             'Cancelada')))) AS Subject"),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             '#37B24D',
@@ -306,10 +306,13 @@ class MedicalDiaryDaysController extends Controller
                 'briefcase.coverage',
                 'services_briefcase.manual_price.procedure',
                 'medical_diary.assistance.user',
+                'medical_diary.campus.region',
                 'days'
             )
             ->where('id', $id)
             ->first();
+
+        //return response()->json($medical_date);
 
         $authorization = Authorization::select('authorization.*')
             ->with(
@@ -343,7 +346,7 @@ class MedicalDiaryDaysController extends Controller
             ->get()->toArray();
 
         //nombre de tipo de pago asociado al procedimiento
-        $pay_name = $medical_date->copay_parameters->payment_type == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type == 2 ? 'Copago' :  'Exento');
+        $pay_name = $medical_date->copay_parameters->payment_type_id == 1 ? 'Cuota moderadora' : ($medical_date->copay_parameters->payment_type_id == 2 ? 'Copago' :  'Exento');
         //Valor pagado
         $pay_value = $medical_date->copay_value ? $medical_date->copay_value : 0;
 

@@ -54,6 +54,11 @@ class MedicalDiary extends Model
 		return $this->belongsTo(Bed::class);
 	}
 
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class, 'campus_id', 'id');
+	}
+
 	public function  status()
 	{
 		return $this->belongsTo(Status::class, 'diary_status_id', 'id');
