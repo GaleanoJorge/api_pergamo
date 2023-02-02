@@ -275,6 +275,9 @@ class MedicalDiaryDaysController extends Controller
         } else if ($request->status_id) {
             $MedicalDiaryDays->medical_status_id = $request->status_id;
         }
+        $MedicalDiaryDays->reason_cancel_id = $request->reason_cancel_id;
+        $MedicalDiaryDays->cancel_description = $request->cancel_description;
+        $MedicalDiaryDays->user_cancel_id = $request->user_cancel_id;
         $MedicalDiaryDays->save();
 
 
@@ -541,20 +544,19 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays->copay_value = $request->copay_value;
         $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
 
-        if($request->is_telemedicine != 0){
+        if ($request->is_telemedicine != 0) {
             $myrequest->setMethod('POST');
-         $myrequest->attributes->add([
-            'dateStart' => $MedicalDiaryDays->start_hour,
-            'dateEnd' => $MedicalDiaryDays->finish_hour,
-            'organizerEmail' => 'sistemashyl@healthandlife2022.onmicrosoft.com',
-            'subject' => $MedicalDiaryDays->id      
-        ]);
-   
+            $myrequest->attributes->add([
+                'dateStart' => $MedicalDiaryDays->start_hour,
+                'dateEnd' => $MedicalDiaryDays->finish_hour,
+                'organizerEmail' => 'sistemashyl@healthandlife2022.onmicrosoft.com',
+                'subject' => $MedicalDiaryDays->id
+            ]);
 
-        $retCalculator = app('App\Http\Controllers\Admin\TeamsController')->createRoomTeams($myrequest,$MedicalDiaryDays->start_hour,$MedicalDiaryDays->finish_hour,'sistemashyl@healthandlife2022.onmicrosoft.com',$MedicalDiaryDays->id);
-        $retCalculator = json_decode($retCalculator, true);
-        $MedicalDiaryDays->url_teams = $retCalculator['joinWebUrl'];
 
+            $retCalculator = app('App\Http\Controllers\Admin\TeamsController')->createRoomTeams($myrequest, $MedicalDiaryDays->start_hour, $MedicalDiaryDays->finish_hour, 'sistemashyl@healthandlife2022.onmicrosoft.com', $MedicalDiaryDays->id);
+            $retCalculator = json_decode($retCalculator, true);
+            $MedicalDiaryDays->url_teams = $retCalculator['joinWebUrl'];
         }
         $MedicalDiaryDays->save();
 
