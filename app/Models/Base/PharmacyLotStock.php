@@ -7,6 +7,7 @@
 namespace App\Models\Base;
 
 use App\Models\BillingStock;
+use App\Models\PharmacyAdjustment;
 use App\Models\PharmacyLot;
 use App\Models\PharmacyStock;
 use Carbon\Carbon;
@@ -20,10 +21,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $amount_total
  * @property string $sample
  * @property string $actual_amount
+ * @property string $sign
  * @property date $expiration_date
  * @property BigInteger $pharmacy_lot_id
  * @property BigInteger $billing_stock_id
  * @property BigInteger $pharmacy_stock_id
+ * @property BigInteger $pharmacy_adjustment_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -49,5 +52,8 @@ class PharmacyLotStock extends Model
 	{
 		return $this->belongsTo(BillingStock::class,'billing_stock_id');
 	}
-	
+	public function pharmacy_adjustment()
+	{
+		return $this->belongsTo(PharmacyAdjustment::class);
+	}
 }

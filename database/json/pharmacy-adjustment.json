@@ -1,0 +1,17 @@
+[
+    {
+        "name": "AJUSTE DE INVENTARIO(Sobrante)"
+    },
+    {
+        "name": "AJUSTE DE INVENTARIO(Faltante)"
+    },
+    {
+        "name": "ERROR CONTEO DE INVENTARIO"
+    },
+    {
+        "name": "PRODUCTO CRUZADO"
+    },
+    {
+        "name": "ERROR INGRESO LOTE"
+    }
+]

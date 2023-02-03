@@ -22,13 +22,15 @@ class CreateProductGenericTable extends Migration
             $table->unsignedBigInteger('pbs_type_id');
             $table->string('pbs_restriction')->nullable();
             $table->unsignedBigInteger('nom_product_id'); 
-            $table->Integer('minimum_stock');
-            $table->Integer('maximum_stock');
+            $table->Integer('minimum_stock')->nullable();
+            $table->Integer('maximum_stock')->nullable();
             $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->Integer ('special_controller_medicine')->nullable();
             $table->string ('code_atc')->nullable();
             $table->unsignedBigInteger('product_dose_id');
             $table->string('dose')->nullable();
+            $table->string('prod_domiciliary')->nullable();
+            $table->string('prod_ambulatory')->nullable();
             $table->unsignedBigInteger('multidose_concentration_id')->nullable();
             $table->timestamps();
 

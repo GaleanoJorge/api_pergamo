@@ -32,7 +32,6 @@ class ProductRequest extends FormRequest
             'storage_conditions_id' => 'required',
             'unit_packing' => 'required',
             'packing_id' => 'required',
-            'refrigeration' => 'required',
             'useful_life' => 'required',
             'code_cum' => 'required',
         ];
