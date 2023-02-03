@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $measure
  * @property string $description
  * @property string $stature
+ * @property BigInteger $product_group_id
+ * @property BigInteger $product_category_id
+ * @property BigInteger $product_subcategory_id
  * @property string $code_gmdn
  * @property integer $minimum_stock
  * @property integer $maximum_stock
