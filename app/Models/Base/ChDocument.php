@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ChDocument extends Model
 {
-	protected $table = 'ch_document';
+	protected $table = 'informed_consents';
 
 	
 }
