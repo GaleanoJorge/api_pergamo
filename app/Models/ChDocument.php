@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Base\InformedConsents as BaseInformedConsents;
+use App\Models\Base\ChDocument as BaseChDocument;
 
-class InformedConsents extends BaseInformedConsents
+class ChDocument extends BaseChDocument
 {
     protected $fillable = [
 		'name',

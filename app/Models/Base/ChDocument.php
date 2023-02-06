@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class InformedConsents
+ * Class ChDocument
  * 
  * @property int $id
  * @property string $name
@@ -23,9 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models\Base
  */
-class InformedConsents extends Model
+class ChDocument extends Model
 {
-	protected $table = 'informed_consents';
+	protected $table = 'ch_document';
 
 	
 }
