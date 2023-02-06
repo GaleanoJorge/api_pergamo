@@ -81,6 +81,10 @@ class MedicalDiaryDays extends Model
 		return $this->hasMany(ChRecord::class);
 	}
 
+	public function user_cancel(){
+		return $this->belongsTo(User::class, 'user_cancel_id');
+	}
+
 	public function copay_parameters()
 	{
 		return $this->belongsTo(

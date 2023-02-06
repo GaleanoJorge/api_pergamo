@@ -102,6 +102,7 @@ class MedicalDiaryDaysController extends Controller
         if ($request->medical_status_id && $request->medical_status_id != 'null') {
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
         } else {
+            $MedicalDiaryDays->where('medical_diary_days.medical_status_id', '!=', 6);
             if (!$request->show_cancel) {
                 $MedicalDiaryDays->where([
                     // ['medical_diary_days.medical_status_id', '!=', 1],
@@ -225,7 +226,7 @@ class MedicalDiaryDaysController extends Controller
             ->where('medical_diary.procedure_id', '=', $procedureId)
             ->where('medical_diary_days.start_hour', '>=', $init_date_with_hour)
             ->where('medical_diary_days.finish_hour', '<=', $finish_date_with_hour)
-            ->where('medical_diary_days.medical_status_id', '!=', 5)
+            ->whereNotIn('medical_diary_days.medical_status_id', [5, 6])
             ->get();
         return response()->json([
             'status' => true,

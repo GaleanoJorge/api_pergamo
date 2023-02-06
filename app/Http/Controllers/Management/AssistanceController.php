@@ -220,7 +220,7 @@ class AssistanceController extends Controller
         return false;
     }
 
-    public function deleteSchedule(Request $request)
+    public function disableSchedule(Request $request)
     {
 
         $userId = $request->userId;
@@ -229,48 +229,31 @@ class AssistanceController extends Controller
         $procedureId = $request->procedureId;
         DB::beginTransaction();
         try {
-            DB::table('users')
-                ->join('assistance', 'assistance.user_id', '=', 'users.id')
-                ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
-                ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
-                ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-                ->where('medical_status.id', '=', 1)
-                ->where('medical_diary.procedure_id', '=', $procedureId)
-                ->where('users.id', '=', $userId)
-                ->where('medical_diary_days.start_hour', '>=', $startDate)
-                ->where('medical_diary_days.finish_hour', '<=', $finishDate)
-                ->whereNotNull('medical_diary_days.diary_days_id')
-                ->orderBy('medical_diary_days.start_hour', 'asc')
-                ->groupBy('medical_diary.id')
-                ->select('medical_diary.*')
-                ->get()->delete();
 
-            DB::table('users')
-                ->join('assistance', 'assistance.user_id', '=', 'users.id')
-                ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
-                ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+            DB::table('medical_diary_days')
+                ->join('medical_diary', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
+                ->join('assistance', 'medical_diary.assistance_id', '=', 'assistance.id')
+                ->join('users', 'assistance.user_id', '=', 'users.id')
                 ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
                 ->where('medical_status.id', '=', 1)
                 ->where('medical_diary.procedure_id', '=', $procedureId)
                 ->where('users.id', '=', $userId)
                 ->where('medical_diary_days.start_hour', '>=', $startDate)
                 ->where('medical_diary_days.finish_hour', '<=', $finishDate)
-                ->orderBy('medical_diary_days.start_hour', 'asc')
-                ->groupBy('medical_diary.id')
-                ->select('medical_diary.*')
-                ->get()->delete();
+                ->select('medical_diary_days.*')
+                ->update(['medical_diary_days.medical_status_id' => 6]);
 
             DB::commit();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Se han eliminado las agendas libres exitosamente'
+                'message' => 'Se han bloqueado las agendas libres exitosamente'
             ]);
         } catch (QueryException $e) {
             DB::rollback();
             return response()->json([
                 'status' => false,
-                'message' => 'No se han podido eliminar las agendas libres'
+                'message' => $e->getMessage()
             ], 423);
         }
     }
@@ -298,7 +281,7 @@ class AssistanceController extends Controller
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->whereNotIn('medical_status.id', [5])
+            ->whereNotIn('medical_status.id', [5, 6])
             ->where('medical_diary.procedure_id', '=', $procedureId)
             ->where('users.id', '=', $userIdOrigin)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
@@ -314,7 +297,7 @@ class AssistanceController extends Controller
             ->join('medical_diary', 'medical_diary.assistance_id', '=', 'assistance.id')
             ->join('medical_diary_days', 'medical_diary_days.medical_diary_id', '=', 'medical_diary.id')
             ->join('medical_status', 'medical_diary_days.medical_status_id', '=', 'medical_status.id')
-            ->whereNotIn('medical_status.id', [5])
+            ->whereNotIn('medical_status.id', [5, 6])
             ->where('medical_diary.procedure_id', '=', $procedureId)
             ->where('users.id', '=', $userIdOrigin)
             ->where('medical_diary_days.start_hour', '>=', $startDate)
