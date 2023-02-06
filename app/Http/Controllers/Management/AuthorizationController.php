@@ -645,6 +645,7 @@ class AuthorizationController extends Controller
             $new_auth->admissions_id = $element['admissions_id'];
             $new_auth->application_id = $element['assistance_supplies_id'];
             $new_auth->supplies_com_id = $element['product_supplies_com_id'];
+            $new_auth->auth_status_id = 3;
             $new_auth->save();
             
             $product_supplies_2 = ProductSupplies::find($element['assistance_supplies_id']);
