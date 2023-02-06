@@ -275,12 +275,15 @@ class MedicalDiaryDaysController extends Controller
                 $Subsittute->finish_hour = $MedicalDiaryDays->finish_hour;
                 $Subsittute->save();
             }
+            $MedicalDiaryDays->reason_cancel_id = $request->reason_cancel_id;
+            $MedicalDiaryDays->cancel_description = $request->cancel_description;
+            $MedicalDiaryDays->user_cancel_id = $request->user_cancel_id;
+            $MedicalDiaryDays->relationship_id = $request->relationship_id;
+            $MedicalDiaryDays->relative_name = $request->relative_name;
         } else if ($request->status_id) {
             $MedicalDiaryDays->medical_status_id = $request->status_id;
         }
-        $MedicalDiaryDays->reason_cancel_id = $request->reason_cancel_id;
-        $MedicalDiaryDays->cancel_description = $request->cancel_description;
-        $MedicalDiaryDays->user_cancel_id = $request->user_cancel_id;
+
         $MedicalDiaryDays->save();
 
 

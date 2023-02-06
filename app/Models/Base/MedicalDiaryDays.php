@@ -85,6 +85,10 @@ class MedicalDiaryDays extends Model
 		return $this->belongsTo(User::class, 'user_cancel_id');
 	}
 
+	public function relationship(){
+		return $this->belongsTo(Relationship::class, 'relationship_id');
+	}
+
 	public function copay_parameters()
 	{
 		return $this->belongsTo(
