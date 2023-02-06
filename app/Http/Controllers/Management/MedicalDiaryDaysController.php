@@ -69,7 +69,8 @@ class MedicalDiaryDaysController extends Controller
                 'medical_diary.office.pavilion.flat',
                 'medical_diary.assistance.user',
                 'services_briefcase.manual_price.manual',
-                'services_briefcase.manual_price.procedure'
+                'services_briefcase.manual_price.procedure',
+                'user_cancel'
             )
             // ->whereNull('diary_days_id')
             ->orderBy('start_hour', 'ASC');
@@ -101,11 +102,14 @@ class MedicalDiaryDaysController extends Controller
         if ($request->medical_status_id && $request->medical_status_id != 'null') {
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
         } else {
-            $MedicalDiaryDays->where([
-                // ['medical_diary_days.medical_status_id', '!=', 1],
-                // ['medical_diary_days.medical_status_id', '!=', 4],
-                ['medical_diary_days.medical_status_id', '!=', 5]
-            ]);
+            if (!$request->show_cancel) {
+                $MedicalDiaryDays->where([
+                    // ['medical_diary_days.medical_status_id', '!=', 1],
+                    // ['medical_diary_days.medical_status_id', '!=', 4],
+                    ['medical_diary_days.medical_status_id', '!=', 5]
+
+                ]);
+            }
         }
 
         if ($request->scheduling && $request->scheduling != 'null') {
@@ -216,11 +220,9 @@ class MedicalDiaryDaysController extends Controller
             ->join('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
             ->join('assistance', 'medical_diary.assistance_id', 'assistance.id')
             ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
-            ->join('assistance_procedure', 'assistance_procedure.assistance_id', 'assistance.id')
-            ->join('procedure', 'assistance_procedure.procedure_id', 'procedure.id')
             ->join('users', 'assistance.user_id', 'users.id')
             ->where('users.id', '=', $userId)
-            ->where('procedure.id', '=', $procedureId)
+            ->where('medical_diary.procedure_id', '=', $procedureId)
             ->where('medical_diary_days.start_hour', '>=', $init_date_with_hour)
             ->where('medical_diary_days.finish_hour', '<=', $finish_date_with_hour)
             ->where('medical_diary_days.medical_status_id', '!=', 5)
