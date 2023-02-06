@@ -11,6 +11,7 @@ use App\Models\AssignedManagementPlan;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
+use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -339,7 +340,7 @@ class AuthorizationController extends Controller
             });
         }
 
-        
+
         $Authorization = $Authorization->groupBy('authorization.id');
 
 
@@ -605,6 +606,57 @@ class AuthorizationController extends Controller
             'status' => true,
             'message' => 'Historico de autorizciones obtenido exitosamente',
             'data' => ['authorization' => $Authorization]
+        ]);
+    }
+
+    /**
+     * generate hospital auths for supplies
+     * 
+     */
+
+    public function generateHospitalSupplies(Request $request, int $id): JsonResponse
+    {
+        $product_supplies = ProductSupplies::select(
+            'ppr.services_briefcase_id as services_briefcase_id',
+            'cr.assigned_management_plan_id as assigned_management_plan_id',
+            'ppr.admissions_id as admissions_id',
+            'as2.id as assistance_supplies_id',
+            'bs.product_supplies_com_id as product_supplies_com_id'
+        )
+            ->leftJoin('pharmacy_product_request ppr', 'ppr.id', 'as2.pharmacy_product_request_id')
+            ->leftJoin('admissions a', 'a.id', 'ppr.admissions_id')
+            ->leftJoin('location l', 'l.admissions_id', 'a.id')
+            ->leftJoin('ch_record cr', 'cr.id', 'as2.ch_record_id')
+            ->leftJoin('pharmacy_request_shipping prs', 'prs.pharmacy_product_request_id', 'ppr.id')
+            ->leftJoin('pharmacy_lot_stock pls', 'pls.id', 'prs.pharmacy_lot_stock_id')
+            ->leftJoin('billing_stock bs', 'bs.id', 'pls.billing_stock_id')
+            ->where('as2.supplies_status_id', 2)
+            ->whereNull('as2.authorization_id')
+            ->whereNotNull('ppr.product_supplies_id')
+            ->whereNotNull('ppr.admissions_id')
+            ->where('l.scope_of_attention_id', 1)
+            ->groupBy('as2.id')
+            ->get()->toArray();
+
+        foreach($product_supplies as $element) {
+            $new_auth = new Authorization;
+            $new_auth->services_briefcase_id = $element['services_briefcase_id'];
+            $new_auth->assigned_management_plan_id = $element['assigned_management_plan_id'];
+            $new_auth->admissions_id = $element['admissions_id'];
+            $new_auth->application_id = $element['assistance_supplies_id'];
+            $new_auth->supplies_com_id = $element['product_supplies_com_id'];
+            $new_auth->save();
+            
+            $product_supplies_2 = ProductSupplies::find($element['assistance_supplies_id']);
+            $product_supplies_2->authorization_id = $new_auth->id;
+            $product_supplies_2->save();
+
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Autorizaciones de insumos creados exitosamente',
+            'data' => ['authorization' => $product_supplies]
         ]);
     }
 

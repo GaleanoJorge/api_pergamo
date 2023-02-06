@@ -1602,6 +1602,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     Route::get('authorization/RegistrateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@RegistrateNotCreatedAuths');
     Route::get('authorization/ConsultateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@ConsultateNotCreatedAuths');
+    Route::post('authorization/generateHospitalSupplies/{id}', 'Management\AuthorizationController@generateHospitalSupplies');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.
