@@ -42,7 +42,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado obtenidos exitosamente',
-            'data' => ['ch_document' => $ChDocument]
+            'data' => ['informed_consents' => $ChDocument]
         ]);
     }
 
@@ -71,7 +71,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Archivos por contrato obtenido exitosamente',
-            'data' => ['ch_document' => $ChDocument]
+            'data' => ['informed_consents' => $ChDocument]
         ]);
     }
 
@@ -90,7 +90,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado  creada exitosamente',
-            'data' => ['ch_document' => $ChDocument->toArray()]
+            'data' => ['informed_consents' => $ChDocument->toArray()]
         ]);
     }
 
@@ -108,7 +108,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado obtenido exitosamente',
-            'data' => ['ch_document' => $ChDocument]
+            'data' => ['informed_consents' => $ChDocument]
         ]);
     }
 
@@ -132,7 +132,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado  actualizado exitosamente',
-            'data' => ['ch_document' => $ChDocument]
+            'data' => ['informed_consents' => $ChDocument]
         ]);
     }
 
