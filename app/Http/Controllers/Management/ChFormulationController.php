@@ -12,6 +12,7 @@ use App\Models\ChRecord;
 use App\Models\PharmacyProductRequest;
 use App\Models\PharmacyStock;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class ChFormulationController extends Controller
 {
@@ -112,6 +113,7 @@ class ChFormulationController extends Controller
                 'product_supplies',
             )
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
+            ->where('ch_formulation.created_at', '>=', Carbon::now()->subDay())
             ->orderBy('ch_formulation.id', 'DESC')
             ->get()->toArray();
 
@@ -126,7 +128,7 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if (!$request->administration_route_id &&
+        if (!$request->administration_route_id ||
             !$request->product_supplies_id) {} else {
             return response()->json([
                 'status' => false,

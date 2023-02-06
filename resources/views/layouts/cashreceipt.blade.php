@@ -45,7 +45,7 @@
                     <span style="height:0pt; display:block; position:absolute; z-index:-65545">
                         <div style="text-align: center;    margin-left: 60px;">
                             <p>HEALTH & LIFE IPS S.A.S </p>
-                            <p>Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                            <p style="font-size:7px">{{$medical_date["medical_diary"]["campus"]["address"]}}, {{$medical_date["medical_diary"]["campus"]["region"]["name"]}}, {{$medical_date["medical_diary"]["campus"]["name"]}}</p>
                             <p>Nit: 900900122 - 7</p>
                         </div>
 
@@ -101,7 +101,7 @@
                     <div><span style="font-size: 10px">Correo: &nbsp;{{ $medical_date->patient->email }} &nbsp;</span></div>
                 </td>
                 <td>
-                    <div><span style="font-size: 10px">Régimen: &nbsp;{{ $authorization[0]['admissions']['regime']['name']}} &nbsp;</span></div>
+                    <div><span style="font-size: 10px">Régimen: &nbsp;@if(count($authorization) > 0){{ $authorization[0]['admissions']['regime']['name']}}@endisset &nbsp;</span></div>
                 </td>
             </tr>
         </table>

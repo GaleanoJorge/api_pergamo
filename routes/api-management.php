@@ -1217,11 +1217,14 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
     Route::apiResource('pharmacy_lot_stock', 'Management\PharmacyLotStockController');
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::post('pharmacy_lot_stock/updateInvAdjustment/{lot_id}', 'Management\PharmacyLotStockController@updateInvAdjustment');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
     Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
+    Route::apiResource('log_pharmacy_lot', 'Management\LogPharmacyLotController');
+    Route::apiResource('pharmacy_adjustment', 'Management\PharmacyAdjustmentController');
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');

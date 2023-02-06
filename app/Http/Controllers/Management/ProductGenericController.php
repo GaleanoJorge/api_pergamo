@@ -75,6 +75,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->multidose_concentration_id = $request->multidose_concentration_id;
+        $ProductGeneric->prod_ambulatory = $request->prod_ambulatory;
+        $ProductGeneric->prod_domiciliary = $request->prod_domiciliary;
         $ProductGeneric->save();
 
         return response()->json([
@@ -127,6 +129,8 @@ class ProductGenericController extends Controller
         $ProductGeneric->dose = $request->dose;
         $ProductGeneric->product_dose_id = $request->product_dose_id;
         $ProductGeneric->multidose_concentration_id = $request->multidose_concentration_id;
+        $ProductGeneric->prod_ambulatory = $request->prod_ambulatory;
+        $ProductGeneric->prod_domiciliary = $request->prod_domiciliary;
         $ProductGeneric->save();
 
         return response()->json([
