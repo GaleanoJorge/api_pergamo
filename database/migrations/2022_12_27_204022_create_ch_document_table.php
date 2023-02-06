@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInformedConsentsTable extends Migration
+class CreateChDocumentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateInformedConsentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('informed_consents', function (Blueprint $table) {
+        Schema::create('ch_document', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('file');
@@ -34,6 +34,6 @@ class CreateInformedConsentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('informed_consents');
+        Schema::dropIfExists('ch_document');
     }
 }

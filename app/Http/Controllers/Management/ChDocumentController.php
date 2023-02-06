@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\InformedConsents;
+use App\Models\ChDocument;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\InformedConsentsRequest;
+use App\Http\Requests\ChDocumentRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 
-class InformedConsentsController extends Controller
+class ChDocumentController extends Controller
 {
        /**
      * Display a listing of the resource.
@@ -19,30 +19,30 @@ class InformedConsentsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $InformedConsents = InformedConsents::select();
+        $ChDocument = ChDocument::select();
 
         if($request->_sort){
-            $InformedConsents->orderBy($request->_sort, $request->_order);
+            $ChDocument->orderBy($request->_sort, $request->_order);
         }            
 
         if ($request->search) {
-            $InformedConsents->where('name','like','%' . $request->search. '%');
+            $ChDocument->where('name','like','%' . $request->search. '%');
         }
         
         if($request->query("pagination", true)=="false"){
-            $InformedConsents=$InformedConsents->get()->toArray();    
+            $ChDocument=$ChDocument->get()->toArray();    
         }
         else{
             $page= $request->query("current_page", 1);
             $per_page=$request->query("per_page", 10);
             
-            $InformedConsents=$InformedConsents->paginate($per_page,'*','page',$page); 
+            $ChDocument=$ChDocument->paginate($per_page,'*','page',$page); 
         } 
         
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado obtenidos exitosamente',
-            'data' => ['informed_consents' => $InformedConsents]
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -54,43 +54,43 @@ class InformedConsentsController extends Controller
      */
     public function getByRecord(Request $request, int $chRecordId): JsonResponse
     {
-        $InformedConsents = InformedConsents::where('ch_record_id', $chRecordId);
+        $ChDocument = ChDocument::where('ch_record_id', $chRecordId);
         if ($request->search) {
-            $InformedConsents->where('name', 'like', '%' . $request->search . '%')
+            $ChDocument->where('name', 'like', '%' . $request->search . '%')
             ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
-            $InformedConsents = $InformedConsents->get()->toArray();
+            $ChDocument = $ChDocument->get()->toArray();
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
 
-            $InformedConsents = $InformedConsents->paginate($per_page, '*', 'page', $page);
+            $ChDocument = $ChDocument->paginate($per_page, '*', 'page', $page);
         }
 
         return response()->json([
             'status' => true,
             'message' => 'Archivos por contrato obtenido exitosamente',
-            'data' => ['informed_consents' => $InformedConsents]
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
-    public function store(InformedConsentsRequest $request): JsonResponse
+    public function store(ChDocumentRequest $request): JsonResponse
     {
-        $InformedConsents = new InformedConsents;
-        $InformedConsents->name = $request->name;
+        $ChDocument = new ChDocument;
+        $ChDocument->name = $request->name;
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
-            $InformedConsents->file = $path;
+            $ChDocument->file = $path;
         }    
-        $InformedConsents->ch_record_id = $request->ch_record_id;
+        $ChDocument->ch_record_id = $request->ch_record_id;
         
-        $InformedConsents->save();
+        $ChDocument->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado  creada exitosamente',
-            'data' => ['informed_consents' => $InformedConsents->toArray()]
+            'data' => ['ch_document' => $ChDocument->toArray()]
         ]);
     }
 
@@ -102,13 +102,13 @@ class InformedConsentsController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $InformedConsents = InformedConsents::where('id', $id)
+        $ChDocument = ChDocument::where('id', $id)
             ->get()->toArray();
 
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado obtenido exitosamente',
-            'data' => ['informed_consents' => $InformedConsents]
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -118,21 +118,21 @@ class InformedConsentsController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(InformedConsentsRequest $request, int $id): JsonResponse
+    public function update(ChDocumentRequest $request, int $id): JsonResponse
     {
-        $InformedConsents = InformedConsents::find($id);
-        $InformedConsents->name = $request->name;
+        $ChDocument = ChDocument::find($id);
+        $ChDocument->name = $request->name;
         if ($request->file('file')) {
             $path = Storage::disk('public')->put('file', $request->file('file'));
-            $InformedConsents->file = $path;
+            $ChDocument->file = $path;
         }   
-        $InformedConsents->ch_record_id = $request->ch_record_id;
-        $InformedConsents->save();
+        $ChDocument->ch_record_id = $request->ch_record_id;
+        $ChDocument->save();
 
         return response()->json([
             'status' => true,
             'message' => 'Consentimiento informado  actualizado exitosamente',
-            'data' => ['informed_consents' => $InformedConsents]
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -145,8 +145,8 @@ class InformedConsentsController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $InformedConsents = InformedConsents::find($id);
-            $InformedConsents->delete();
+            $ChDocument = ChDocument::find($id);
+            $ChDocument->delete();
 
             return response()->json([
                 'status' => true,
