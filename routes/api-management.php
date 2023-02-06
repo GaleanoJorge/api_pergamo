@@ -732,7 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
-    Route::apiResource('ch_document', 'Management\ChDocumentController');
+    Route::apiResource('informed_consents', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
