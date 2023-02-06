@@ -8,6 +8,7 @@ namespace App\Models\Base;
 
 
 use App\Models\Admissions;
+use App\Models\MedicalDiaryDays;
 use App\Models\AssignedManagementPlan;
 use App\Models\ChInterconsultation;
 use App\Models\RoleAttention;
@@ -62,6 +63,14 @@ class ChRecord extends Model
 	{
 		return $this->belongsTo(ChType::class, 'ch_type_id');
 	}
+	public function medical_diary_days()
+	{
+		return $this->belongsTo(MedicalDiaryDays::class, 'medical_diary_days_id');
+	}
+	// public function medical_diary_days()
+	// {
+	// 	return $this->hasMany(MedicalDiaryDays::class, 'ch_record_id', 'id');
+	// }
 	public function ChRespiratoryTherapy()
 	{
 		return $this->hasMany(ChRespiratoryTherapy::class, 'ch_record_id', 'id');

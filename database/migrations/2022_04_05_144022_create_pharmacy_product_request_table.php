@@ -28,13 +28,15 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->unsignedBigInteger('own_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('request_pharmacy_stock_id')->nullable();
             $table->unsignedBigInteger('user_request_pad_id')->nullable();
+            $table->unsignedBigInteger('scope_of_attention_id')->nullable();
+            $table->unsignedBigInteger('pavilion_id')->nullable();
             $table->timestamps();
 
 
             $table->index('user_request_id');
             $table->foreign('user_request_id')->references('id')
                 ->on('users');
-            
+
             $table->index('user_request_pad_id');
             $table->foreign('user_request_pad_id')->references('id')
                 ->on('users');
@@ -66,6 +68,14 @@ class CreatePharmacyProductRequestTable extends Migration
             $table->index('request_pharmacy_stock_id');
             $table->foreign('request_pharmacy_stock_id')->references('id')
                 ->on('pharmacy_stock');
+
+            $table->index('scope_of_attention_id');
+            $table->foreign('scope_of_attention_id')->references('id')
+                ->on('scope_of_attention');
+
+            $table->index('pavilion_id');
+            $table->foreign('pavilion_id')->references('id')
+                ->on('pavilion');
         });
     }
 

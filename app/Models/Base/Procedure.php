@@ -45,6 +45,9 @@ class Procedure extends Model
 		return $this->belongsTo(ProcedureCategory::class);
 	}
 
-
+	public function payment_type()
+	{
+		return $this->belongsTo(PaymentType::class, 'payment_type_id');
+	}
 	
 }

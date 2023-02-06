@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ProcedureAgeSeeder::class);
                 $this->call(ProcedurePurposeSeeder::class);
                 $this->call(PbsTypeSeeder::class);
+                $this->call(PaymentTypeSeeder::class);
                 $this->call(ProcedureTypeSeeder::class);
                 $this->call(PurposeServiceSeeder::class);
                 $this->call(IvaSeeder::class);

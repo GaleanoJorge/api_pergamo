@@ -490,6 +490,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Tipo de procedimiento
     Route::apiResource('procedure_type', 'Management\ProcedureTypeController');
 
+    //Tipo de procedimiento
+    Route::apiResource('payment_type', 'Management\PaymentTypeController');
+
     //Tipo de PBS plan básico de salud
     Route::apiResource('pbs_type', 'Management\PbsTypeController');
 
@@ -791,6 +794,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'get_pavilion_by_bed/{bed_id}',
         'Management\PavilionController@getPavilionByBed'
+    );
+    Route::get(
+        'get_pavilion_by_campus/{campus_id}',
+        'Management\PavilionController@getPavilionByCampus'
     );
 
     //Cama asignada al paciente
