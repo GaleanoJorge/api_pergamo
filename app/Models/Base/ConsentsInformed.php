@@ -35,9 +35,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $identification_responsible
  * @property string $name_responsible 
  * @property string $parent_responsible 
- * 
- * 
- * 
+ * @property string $name
+ * @property string $file
+ * @property int $ch_record_id
 
  * @property Carbon $created_at
  * @property Carbon $updated_at

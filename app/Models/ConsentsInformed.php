@@ -12,5 +12,8 @@ class ConsentsInformed extends BaseConsentsInformed
 		'firm_responsible',
 		'assigned_user_id',
 		'type_consents_id',
+		'name',
+		'file',
+		'ch_record_id',
 	];
 }
