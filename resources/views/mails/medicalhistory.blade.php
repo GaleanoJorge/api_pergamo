@@ -1301,7 +1301,7 @@
                             </td>
                             <td style="width:400pt; vertical-align:top">
                                 <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                                    <span style="font-family:Calibri">@if(isset($ch['created_at'])) {{mb_substr($ch['created_at'],0,10)}} @endisset</span>
+                                    <span style="font-family:Calibri">@if(isset($ch['created_at'])) {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
                                 </p>
                             </td>
                         </tr>
@@ -2464,7 +2464,7 @@
                     </td>
                     <td style="width:400pt; vertical-align:top">
                         <p style="margin-top:0pt; margin-left:45.6pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                            <span style="font-family:Calibri">@if(isset($ch['created_at'])) {{mb_substr($ch['created_at'],0,10)}} @endisset</span>
+                            <span style="font-family:Calibri">@if(isset($ch['created_at']))  {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
                         </p>
                     </td>
                 </tr>
