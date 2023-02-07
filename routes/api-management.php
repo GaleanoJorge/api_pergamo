@@ -732,6 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
+    Route::apiResource('informed_consents', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
@@ -897,6 +898,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'FileContract/FileByContract/{contractId}',
         'Management\FileContractController@getByContract'
+    );
+    Route::get(
+        'InformedConsents/FileByRecord/{chRecordId}',
+        'Management\ChDocumentController@getByRecord'
     );
 
     //Tener Póliza por contrato
@@ -1221,7 +1226,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
-    Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
     Route::apiResource('log_pharmacy_lot', 'Management\LogPharmacyLotController');
     Route::apiResource('pharmacy_adjustment', 'Management\PharmacyAdjustmentController');
@@ -1603,6 +1607,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     Route::get('authorization/RegistrateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@RegistrateNotCreatedAuths');
     Route::get('authorization/ConsultateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@ConsultateNotCreatedAuths');
+    Route::post('authorization/generateHospitalSupplies/{id}', 'Management\AuthorizationController@generateHospitalSupplies');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.

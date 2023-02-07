@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PharmacyUpdateMaxMinRequest extends FormRequest
+class ChDocumentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class PharmacyUpdateMaxMinRequest extends FormRequest
     public function rules()
     {
         return [
-            'pharmacy_lot_stock_id' => '',
-            'own_pharmacy_stock_id' => '',
-            'request_pharmacy_stock_id' => '',
+            'name' => 'required',
+            'file' => 'required',
+            'ch_record_id' => 'required',
         ];
     }
 }

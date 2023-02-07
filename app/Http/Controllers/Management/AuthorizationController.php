@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthorizationRequest;
 use App\Models\AssignedManagementPlan;
+use App\Models\AssistanceSupplies;
 use App\Models\AuthLog;
 use App\Models\Briefcase;
 use App\Models\ManagementPlan;
+use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\DB;
@@ -339,7 +341,7 @@ class AuthorizationController extends Controller
             });
         }
 
-        
+
         $Authorization = $Authorization->groupBy('authorization.id');
 
 
@@ -609,6 +611,58 @@ class AuthorizationController extends Controller
     }
 
     /**
+     * generate hospital auths for supplies
+     * 
+     */
+
+    public function generateHospitalSupplies(Request $request, int $id): JsonResponse
+    {
+        $product_supplies = AssistanceSupplies::select(
+            'ppr.services_briefcase_id as services_briefcase_id',
+            'cr.assigned_management_plan_id as assigned_management_plan_id',
+            'ppr.admissions_id as admissions_id',
+            'assistance_supplies.id as assistance_supplies_id',
+            'bs.product_supplies_com_id as product_supplies_com_id'
+        )
+            ->leftJoin('pharmacy_product_request AS ppr', 'ppr.id', 'assistance_supplies.pharmacy_product_request_id')
+            ->leftJoin('admissions AS a', 'a.id', 'ppr.admissions_id')
+            ->leftJoin('location AS l', 'l.admissions_id', 'a.id')
+            ->leftJoin('ch_record AS cr', 'cr.id', 'assistance_supplies.ch_record_id')
+            ->leftJoin('pharmacy_request_shipping AS prs', 'prs.pharmacy_product_request_id', 'ppr.id')
+            ->leftJoin('pharmacy_lot_stock AS pls', 'pls.id', 'prs.pharmacy_lot_stock_id')
+            ->leftJoin('billing_stock AS bs', 'bs.id', 'pls.billing_stock_id')
+            ->where('assistance_supplies.supplies_status_id', 2)
+            ->whereNull('assistance_supplies.authorization_id')
+            ->whereNotNull('ppr.product_supplies_id')
+            ->whereNotNull('ppr.admissions_id')
+            ->where('l.scope_of_attention_id', 1)
+            ->groupBy('assistance_supplies.id')
+            ->get()->toArray();
+
+        foreach($product_supplies as $element) {
+            $new_auth = new Authorization;
+            $new_auth->services_briefcase_id = $element['services_briefcase_id'];
+            $new_auth->assigned_management_plan_id = $element['assigned_management_plan_id'];
+            $new_auth->admissions_id = $element['admissions_id'];
+            $new_auth->application_id = $element['assistance_supplies_id'];
+            $new_auth->supplies_com_id = $element['product_supplies_com_id'];
+            $new_auth->auth_status_id = 3;
+            $new_auth->save();
+            
+            $product_supplies_2 = AssistanceSupplies::find($element['assistance_supplies_id']);
+            $product_supplies_2->authorization_id = $new_auth->id;
+            $product_supplies_2->save();
+
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Autorizaciones de insumos creados exitosamente',
+            'data' => ['authorization' => $product_supplies]
+        ]);
+    }
+
+    /**
      * consultate not created authorizatons of medicament applications
      * @return \Illuminate\Http\Response
      */
@@ -616,16 +670,16 @@ class AuthorizationController extends Controller
     {
         $Authorization = AssignedManagementPlan::select('assigned_management_plan.*')
             ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
-            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
-            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
-            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('assistance_supplies as  assistance_supplies', 'cr.id ', ' assistance_supplies.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' assistance_supplies.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' assistance_supplies.id')
             ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
             ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
             ->where('amp.execution_date', '!=', '0000-00-00 00:00:00')
             ->where('amp.management_plan_id', $management_plan_id)
             ->whereNull('a.id')
             ->whereNotNull('mp.product_id')
-            ->groupBy('as2.id')
+            ->groupBy('assistance_supplies.id')
             ->get()->toArray();
         return response()->json([
             'status' => true,
@@ -641,16 +695,16 @@ class AuthorizationController extends Controller
     public function RegistrateNotCreatedAuths(Request $request, int $management_plan_id): JsonResponse
     {
         $Authorization = AssignedManagementPlan::select(
-            DB::raw('as2.id as application_id'),
+            DB::raw('assistance_supplies.id as application_id'),
             DB::raw('amp.id as assigned_management_plan_id'),
             DB::raw('sb.id as services_briefcase_id'),
             DB::raw('cr.admissions_id as admissions_id'),
             DB::raw('bs.product_id  as product_id'),
         )
             ->leftJoin('ch_record as  cr', 'cr.assigned_management_plan_id ', ' amp.id')
-            ->leftJoin('assistance_supplies as  as2', 'cr.id ', ' as2.ch_record_id')
-            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' as2.pharmacy_product_request_id')
-            ->leftJoin('authorization as a', 'a.application_id  ', ' as2.id')
+            ->leftJoin('assistance_supplies as  assistance_supplies', 'cr.id ', ' assistance_supplies.ch_record_id')
+            ->leftJoin('pharmacy_product_request as  ppr', 'ppr.id ', ' assistance_supplies.pharmacy_product_request_id')
+            ->leftJoin('authorization as a', 'a.application_id  ', ' assistance_supplies.id')
             ->leftJoin('services_briefcase as  sb', 'sb.id ', ' ppr.services_briefcase_id')
             ->leftJoin('manual_price as  mp', 'mp.id ', ' sb.manual_price_id')
             ->leftJoin('pharmacy_request_shipping as prs', 'prs.pharmacy_product_request_id ', ' ppr.id')
@@ -660,7 +714,7 @@ class AuthorizationController extends Controller
             ->where('amp.management_plan_id', $management_plan_id)
             ->whereNull('a.id')
             ->whereNotNull('mp.product_id')
-            ->groupBy('as2.id')
+            ->groupBy('assistance_supplies.id')
             ->get()->toArray();
 
         foreach ($Authorization as $element) {
