@@ -15,7 +15,7 @@ class AddCopayToMedicalDiaryDaysTable extends Migration
     {
         Schema::table('medical_diary_days', function (Blueprint $table) {
             $table->unsignedBigInteger('copay_id')->after('cancel_description')->nullable();
-            $table->unsignedBigInteger('copay_value')->after('copay_id')->nullable();
+            $table->double('copay_value', 16, 4)->after('copay_id')->nullable();
 
             $table->index('copay_id');
             $table->foreign('copay_id')->references('id')
