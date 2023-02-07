@@ -126,7 +126,7 @@ class ConsentsInformedController extends Controller
             $imagenPatient = base64_encode($contenidoBinario2);
         }else{
             $imagenPatient = null;
-            
+
         }
         if ($ConsentsInformed[0]['firm_responsible']) {
             $rutaImagen3 = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
@@ -154,7 +154,7 @@ class ConsentsInformedController extends Controller
                 'firmassistance' => $imagenAssistence,
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
-                
+
             ])->render();
         } else if ($ConsentsInformed[0]['type_consents_id'] == 3) {
 
@@ -203,15 +203,15 @@ class ConsentsInformedController extends Controller
             ])->render();
         }else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
     
-                $html = view('mails.ciTerapiaO', [
-                    'consentsinformed' => $ConsentsInformed,
-                    'firmpatient' => $imagenPatient,
-                    'firmassistance' => $imagenAssistence,
-                    'firmresponsible' => $imagenResponsible,
-                    'today' => $today,
-                ])->render();
-           
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
+            $html = view('mails.ciTerapiaO', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
+                'today' => $today,
+            ])->render();
+       
+    }else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
 
             $html = view('mails.ciDisentimientoPAD', [
                 'consentsinformed' => $ConsentsInformed,
@@ -220,7 +220,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
 
             $html = view('mails.ciRAudiovisual', [
                 'consentsinformed' => $ConsentsInformed,
@@ -229,7 +229,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
 
             $html = view('mails.ciCompromisoPad', [
                 'consentsinformed' => $ConsentsInformed,
@@ -274,59 +274,59 @@ class ConsentsInformedController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        if ($request->ch_record_id != null) {
+            $ConsentsInformed = new ConsentsInformed;
+            $ConsentsInformed->name = $request->name;
+            $ConsentsInformed->admissions_id = $request->ch_record_id;
+            $ConsentsInformed->type_consents_id = $request->ch_record_id;
+            if ($request->file('file')) {
+                $path = Storage::disk('public')->put('file', $request->file('file'));
+                $ConsentsInformed->file = $path;
+            }
+            $ConsentsInformed->ch_record_id = $request->ch_record_id;
 
-        $ConsentsInformed = new ConsentsInformed;
-        $ConsentsInformed->admissions_id = $request->admissions_id;
+            $ConsentsInformed->save();
+        } else {
 
-        if ($request->firm_patient) {
-            $image = $request->get('firm_patient');  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas-consentimientos/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+            $ConsentsInformed = new ConsentsInformed;
+            $ConsentsInformed->admissions_id = $request->admissions_id;
 
-            $ConsentsInformed->firm_patient = $imagePath;
+            if ($request->firm_patient) {
+                $image = $request->get('firm_patient');  // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas-consentimientos/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                $ConsentsInformed->firm_patient = $imagePath;
+            }
+
+            if ($request->firm_responsible) {
+                $image = $request->get('firm_responsible');  // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas-consentimientos/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                $ConsentsInformed->firm_responsible = $imagePath;
+            }
+            $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
+            $ConsentsInformed->type_consents_id = $request->type_consents_id;
+            $ConsentsInformed->name_responsible = $request->name_responsible;
+            $ConsentsInformed->parent_responsible = $request->parent_responsible;
+            $ConsentsInformed->identification_responsible = $request->identification_responsible;
+
+            $ConsentsInformed->relationship_id = $request->relationship_id;
+            $ConsentsInformed->observations = $request->observations;
+            $ConsentsInformed->because_patient = $request->because_patient;
+            $ConsentsInformed->because_carer = $request->because_carer;
+            $ConsentsInformed->number_contact = $request->number_contact;
+            $ConsentsInformed->confirmation = $request->confirmation;
+            $ConsentsInformed->dissent = $request->dissent;
+            $ConsentsInformed->save();
         }
-
-        if ($request->firm_responsible) {
-            $image = $request->get('firm_responsible');  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas-consentimientos/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
-
-            $ConsentsInformed->firm_responsible = $imagePath;
-        }
-        $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
-        $ConsentsInformed->type_consents_id = $request->type_consents_id;
-        $ConsentsInformed->name_responsible = $request->name_responsible;
-        $ConsentsInformed->parent_responsible = $request->parent_responsible;
-        $ConsentsInformed->identification_responsible = $request->identification_responsible;
-
-        $ConsentsInformed->relationship_id = $request->relationship_id;
-        $ConsentsInformed->observations = $request->observations;
-        $ConsentsInformed->because_patient = $request->because_patient;
-        $ConsentsInformed->because_carer = $request->because_carer;
-        $ConsentsInformed->number_contact = $request->number_contact;
-        $ConsentsInformed->confirmation = $request->confirmation;
-        $ConsentsInformed->dissent = $request->dissent;
-        $ConsentsInformed->save();
-
-
-
-        $ConsentsInformed = new ConsentsInformed;
-        $ConsentsInformed->name = $request->name;
-        $ConsentsInformed->admissions_id = $request->ch_record_id;
-        $ConsentsInformed->type_consents_id = $request->ch_record_id;
-        if ($request->file('file')) {
-            $path = Storage::disk('public')->put('file', $request->file('file'));
-            $ConsentsInformed->file = $path;
-        }    
-        $ConsentsInformed->ch_record_id = $request->ch_record_id;
-        
-        $ConsentsInformed->save();
 
 
         return response()->json([
@@ -336,7 +336,7 @@ class ConsentsInformedController extends Controller
         ]);
     }
 
-            /**
+    /**
      * Get procedure by manual.
      *
      * @param  int  $chRecordId
@@ -347,7 +347,7 @@ class ConsentsInformedController extends Controller
         $ConsentsInformed = ConsentsInformed::where('ch_record_id', $chRecordId);
         if ($request->search) {
             $ConsentsInformed->where('name', 'like', '%' . $request->search . '%')
-            ->Orwhere('id', 'like', '%' . $request->search . '%');
+                ->Orwhere('id', 'like', '%' . $request->search . '%');
         }
         if ($request->query("pagination", true) === "false") {
             $ConsentsInformed = $ConsentsInformed->get()->toArray();
