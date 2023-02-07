@@ -312,8 +312,20 @@ class ConsentsInformedController extends Controller
         $ConsentsInformed->number_contact = $request->number_contact;
         $ConsentsInformed->confirmation = $request->confirmation;
         $ConsentsInformed->dissent = $request->dissent;
+        $ConsentsInformed->save();
 
 
+
+        $ConsentsInformed = new ConsentsInformed;
+        $ConsentsInformed->name = $request->name;
+        $ConsentsInformed->admissions_id = $request->ch_record_id;
+        $ConsentsInformed->type_consents_id = $request->ch_record_id;
+        if ($request->file('file')) {
+            $path = Storage::disk('public')->put('file', $request->file('file'));
+            $ConsentsInformed->file = $path;
+        }    
+        $ConsentsInformed->ch_record_id = $request->ch_record_id;
+        
         $ConsentsInformed->save();
 
 
@@ -324,6 +336,34 @@ class ConsentsInformedController extends Controller
         ]);
     }
 
+            /**
+     * Get procedure by manual.
+     *
+     * @param  int  $chRecordId
+     * @return JsonResponse
+     */
+    public function getByRecord(Request $request, int $chRecordId): JsonResponse
+    {
+        $ConsentsInformed = ConsentsInformed::where('ch_record_id', $chRecordId);
+        if ($request->search) {
+            $ConsentsInformed->where('name', 'like', '%' . $request->search . '%')
+            ->Orwhere('id', 'like', '%' . $request->search . '%');
+        }
+        if ($request->query("pagination", true) === "false") {
+            $ConsentsInformed = $ConsentsInformed->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ConsentsInformed = $ConsentsInformed->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Archivos por contrato obtenido exitosamente',
+            'data' => ['consents_informed' => $ConsentsInformed]
+        ]);
+    }
 
     /**
      * Display the specified resource.

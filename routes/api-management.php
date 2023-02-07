@@ -732,7 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
-    Route::apiResource('informed_consents', 'Management\ChDocumentController');
+    // Route::apiResource('consents_informed', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
@@ -901,7 +901,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     );
     Route::get(
         'InformedConsents/FileByRecord/{chRecordId}',
-        'Management\ChDocumentController@getByRecord'
+        'Management\ConsentsInformedController@getByRecord'
     );
 
     //Tener Póliza por contrato
