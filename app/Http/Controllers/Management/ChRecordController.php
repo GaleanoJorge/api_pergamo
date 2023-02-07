@@ -2804,6 +2804,70 @@ class ChRecordController extends Controller
         $i = 0;
         $documentos = [];
 
+        if ($request->ch_type == 21){
+            $ChRecord = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+    
+    
+    
+                ->where('admissions.patient_id', $request->admissions)
+                ->where('ch_record.status', 'CERRADO')
+                ->where('ch_type_id',1)
+                ->groupBy('ch_record.id');
+    
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
+    
+                $ChRecord
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+    
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
+            }
+    
+            if ($request->admission_route_id) {
+                $ChRecord
+                    ->where('location.admission_route_id', $request->admission_route_id);
+            }
+    
+            if ($request->scope_of_attention_id) {
+                $ChRecord
+                    ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
+            }
+    
+            $ChRecord = $ChRecord->get()->toArray();
+    
+        } else {
+
         $ChRecord = ChRecord::select('ch_record.*')->with(
             'user',
             'user.assistance',
@@ -2865,7 +2929,7 @@ class ChRecordController extends Controller
 
         $ChRecord = $ChRecord->get()->toArray();
 
-
+    }
 
         $count = 0;
 
@@ -2968,7 +3032,162 @@ class ChRecordController extends Controller
                 'message' => 'Reporte generado exitosamente',
                 'url' => asset('/storage' . '/' . $name),
             ]);
+        } 
+
+        if ($request->ch_type == 21) {
+
+            if (count($ChRecord) > 0) {
+                foreach ($ChRecord as $ch) {
+
+                    ///Epicrisis
+                    /////////////////////////////////////////////////
+
+
+                    $hcAll = [];
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
+
+                    array_push($hcAll, $ch);
+
+                    // $count++;
+                    // if ($ch['firm_file']) {
+                    //     $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
+                    //     $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                    //     $imagenPAtient = base64_encode($contenidoBinarioPatient);
+
+                    // }else{
+                    //     $imagenPAtient=null;
+                    // }
+
+                    $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChVitalSigns = ChVitalSigns::with(
+                        'ch_vital_hydration',
+                        'ch_vital_ventilated',
+                        'ch_vital_temperature',
+                        'ch_vital_neurological',
+                        'oxygen_type',
+                        'liters_per_minute',
+                        'parameters_signs'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChDiagnosis = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChAp = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChDiets = ChDietsEvo::with('enterally_diet')->where('type_record_id', 1)->where('ch_record_id', $ch['id'])->get()->toArray();
+                    //Antecedentes
+                    $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    //Antecedentes Gyneco
+                    $ChGynecologists = ChGynecologists::with(
+                        'ch_type_gynecologists',
+                        'ch_planning_gynecologists',
+                        'ch_exam_gynecologists',
+                        'ch_flow_gynecologists',
+                        'ch_rst_cytology_gyneco',
+                        'ch_rst_biopsy_gyneco',
+                        'ch_rst_mammography_gyneco',
+                        'ch_rst_colposcipia_gyneco',
+                        'ch_failure_method_gyneco',
+                        'ch_method_planning_gyneco'
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+
+                    //Evolución
+                    $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                  
+                  
+                    if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
+                        $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
+                        $contenidoBinario = file_get_contents($rutaImagen);
+                        $imagenComoBase64 = base64_encode($contenidoBinario);
+                    } else {
+                        $imagenComoBase64 = null;
+                    }
+                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                        ->get()->toArray();
+                    $today = Carbon::now();
+
+
+
+                    // $patient=$ChRecord['admissions'];
+
+                    $html = view('mails.epicrisis', [
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
+
+                        'ChReasonConsultation' => $ChReasonConsultation,
+                        'ChSystemExam' => $ChSystemExam,
+                        'ChPhysicalExam' => $ChPhysicalExam,
+                        'ChVitalSigns' => $ChVitalSigns,
+                        'ChDiagnosis' => $ChDiagnosis,
+                        'ChOstomies' => $ChOstomies,
+                        'ChTracing' => $ChTracing,
+                        'ChAp' => $ChAp,
+                        'ChRecommendations' => $ChRecommendations,
+                        'ChDiets' => $ChDiets,
+
+                        'ChBackground' => $ChBackground,
+                        'ChGynecologists' => $ChGynecologists,
+
+                        'ChDiagnosisEvo' => $ChDiagnosisEvo,
+                        'ChApEvo' => $ChApEvo,
+                        
+                        // 'firmPatient' => $imagenPAtient,
+                        'fecharecord' => $fecharecord,
+                        'firm' => $imagenComoBase64,
+                        'today' => $today,
+
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', true);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+
+                    $name =  $ChRecord[0]['admissions']['patients']['identification'] . $count . '.pdf';
+                    $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+
+
+                    Storage::disk('public')->put($name, $file);
+
+                    array_push($documentos, $name);
+
+                    $i++;
+                }
+
+
+
+                # Crear el "combinador"
+                $combinador = new Merger;
+
+                # Agregar archivo en cada iteración
+                foreach ($documentos as $documento) {
+                    $combinador->addFile('storage' . '/' . $documento);
+                }
+
+                # Y combinar o unir
+                $salida = $combinador->merge();
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                Storage::disk('public')->put($name2, $salida);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Historias clinicas asociadas al paciente',
+
+                ]);
+            }
+
+        
         }
+
         if ($request->ch_type == 1) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
