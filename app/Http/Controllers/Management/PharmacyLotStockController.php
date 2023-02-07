@@ -53,12 +53,12 @@ class PharmacyLotStockController extends Controller
         if ($request->islot == true) {
             $PharmacyLotStock->groupby('pharmacy_lot_id');
         }
-
         if ($request->_sort) {
-            if ($request->_sort != "actions" && $request->_sort != "product" && $request->_sort != "factory"  && $request->_sort != "amount_total"  && $request->_sort != "actual_amount"  && $request->_sort != "lot" && $request->_sort != "expiration_date" && $request->_sort != "product_supplies_com"&& $request->_sort != "pharmacy_stock") {
+            if ($request->_sort != "actions" && $request->_sort != "product" && $request->_sort != "factory"  && $request->_sort != "amount_total"  && $request->_sort != "actual_amount"  && $request->_sort != "lot" && $request->_sort != "expiration_date" && $request->_sort != "product_supplies_com" && $request->_sort != "pharmacy_stock") {
                 $PharmacyLotStock->orderBy($request->_sort, $request->_order);
             }
         }
+
         if ($request->pharmacy_stock_id) {
             $PharmacyLotStock->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id);
         }
@@ -134,37 +134,37 @@ class PharmacyLotStockController extends Controller
      * Imprimir inventario 
      */
 
-    public function viewInventory( Request $request)
+    public function viewInventory(Request $request)
     {
         $pharmacy = PharmacyLotStock::select('pharmacy_lot_stock.*')
-        ->leftJoin('billing_stock', 'billing_stock.id', 'pharmacy_lot_stock.billing_stock_id')
-        ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'billing_stock.product_supplies_com_id')
-        ->leftJoin('product', 'product.id', 'billing_stock.product_id')
-        ->leftJoin('factory', 'factory.id', 'product.factory_id')
-        ->with(
-            'pharmacy_lot',
-            'pharmacy_stock',
-            'billing_stock',
-            'billing_stock.product',
-            'billing_stock.product.factory',
-            'billing_stock.product.product_generic',
-            'billing_stock.product_supplies_com.product_supplies',
-            'billing_stock.product_supplies_com.factory',
-        );
+            ->leftJoin('billing_stock', 'billing_stock.id', 'pharmacy_lot_stock.billing_stock_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'billing_stock.product_supplies_com_id')
+            ->leftJoin('product', 'product.id', 'billing_stock.product_id')
+            ->leftJoin('factory', 'factory.id', 'product.factory_id')
+            ->with(
+                'pharmacy_lot',
+                'pharmacy_stock',
+                'billing_stock',
+                'billing_stock.product',
+                'billing_stock.product.factory',
+                'billing_stock.product.product_generic',
+                'billing_stock.product_supplies_com.product_supplies',
+                'billing_stock.product_supplies_com.factory',
+            );
         // ->where('billing_stock.product_id', '!=', null)->get()->toArray();
 
 
-        if($request -> type == 1){
+        if ($request->type == 1) {
             $pharmacy = $pharmacy->where('billing_stock.product_id', '!=', null)->get()->toArray();
-        }else{
+        } else {
             $pharmacy = $pharmacy->where('billing_stock.product_supplies_com_id', '!=', null)->get()->toArray();
         }
-           
+
 
 
         $html = view('reports.inventory', [
             'pharmacy' => $pharmacy,
-            'type' => $request -> type,
+            'type' => $request->type,
 
         ])->render();
         $options = new Options();
@@ -178,9 +178,9 @@ class PharmacyLotStockController extends Controller
         // $this->injectPageCount($dompdf);
         $file = $dompdf->output();
 
-        if($request -> type == 1){
+        if ($request->type == 1) {
             $name = 'InventarioMedicamentos.pdf';
-        }else{
+        } else {
             $name = 'InventarioInsumos.pdf';
         }
 
@@ -405,7 +405,7 @@ class PharmacyLotStockController extends Controller
             $PharmacyLotStock = PharmacyLotStock::find($id);
             $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $request->amount;
             $PharmacyLotStock->save();
-            
+
             $LogPharmaLote = new LogPharmaLote;
             $LogPharmaLote->pharmacy_lot_stock_id = $PharmacyLotStock->id;
             $LogPharmaLote->pharmacy_adjustment_id = $request->pharmacy_adjustment_id;
