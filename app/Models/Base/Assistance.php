@@ -54,5 +54,9 @@ class Assistance extends Model
 	{
 		return $this->hasMany(AssistanceProcedure::class);
 	}
+	public function assistance_special()
+	{
+		return $this->hasMany(AssistanceSpecial::class, 'assistance_id', 'id');
+	}
 	
 }

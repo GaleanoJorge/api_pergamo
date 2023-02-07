@@ -15,7 +15,6 @@ class AddChInterconsultationToAuthorizationTable extends Migration
     {
         Schema::table('authorization', function (Blueprint $table) {
             $table->unsignedBigInteger('ch_interconsultation_id')->after('location_id')->nullable();
-            
             $table->index('ch_interconsultation_id');
             $table->foreign('ch_interconsultation_id')->references('id')
                 ->on('ch_interconsultation');

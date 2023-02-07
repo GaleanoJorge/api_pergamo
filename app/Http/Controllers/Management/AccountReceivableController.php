@@ -130,29 +130,27 @@ class AccountReceivableController extends Controller
         }
 
         if ($request->search) {
-            if ($request->search) {
-                if (str_contains($request->search, ' ')) {
-                    $spl = explode(' ', $request->search);
-                    foreach ($spl as $element) {
-                        $AccountReceivable->where('users.identification', 'like', '%' . $element . '%')
-                            ->orWhere('account_receivable.observation', 'like', '%' . $element . '%')
-                            ->orWhere('users.firstname', 'like', '%' . $element . '%')
-                            ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
-                            ->orWhere('users.lastname', 'like', '%' . $element . '%')
-                            ->Having('nombre_completo', 'like', '%' . $element . '%')
-                            ->orWhere('users.middlelastname', 'like', '%' . $element . '%');
-                    }
-                } else {
-                    $AccountReceivable->where(function ($query) use ($request) {
-                        $query->where('users.identification', 'like', '%' . $request->search . '%')
-                            ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
-                            ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
-                            ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
-                            ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
-                            ->Having('nombre_completo', 'like', '%' . $request->search . '%')
-                            ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
-                    });
+            if (str_contains($request->search, ' ')) {
+                $spl = explode(' ', $request->search);
+                foreach ($spl as $element) {
+                    $AccountReceivable->where('users.identification', 'like', '%' . $element . '%')
+                        ->orWhere('account_receivable.observation', 'like', '%' . $element . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $element . '%');
                 }
+            } else {
+                $AccountReceivable->where(function ($query) use ($request) {
+                    $query->where('users.identification', 'like', '%' . $request->search . '%')
+                        ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
+                });
             }
         }
 
