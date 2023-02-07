@@ -1746,38 +1746,21 @@
         "show_menu": "1"
     },
     {
-        "id": "246",
-        "item_parent_id": "233",
-        "name": "Farmacia",
-        "code": "report-pharmacy",
-        "route": "/pages/setting/report-pharmacy",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "247",
-        "item_parent_id": "233",
-        "name": "Facturación",
-        "code": "report-billing",
-        "route": "/pages/setting/report-billing",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
-        "id": "248",
-        "item_parent_id": "233",
-        "name": "Glosas",
-        "code": "report-gloss",
-        "route": "/pages/setting/report-gloss",
-        "icon": "",
-        "show_menu": "1"
-    },
-    {
         "id": "249",
         "item_parent_id": "233",
-        "name": "Rips",
-        "code": "report-rips",
-        "route": "/pages/setting/report-rips",
+        "name": "Admisiones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    
+    {
+        "id": "252",
+        "item_parent_id": "249",
+        "name": "Censo",
+        "code": "report-census",
+        "route": "/pages/setting/report-census",
         "icon": "",
         "show_menu": "1"
     }
