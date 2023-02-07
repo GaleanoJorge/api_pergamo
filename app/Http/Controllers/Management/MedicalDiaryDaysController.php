@@ -33,16 +33,17 @@ class MedicalDiaryDaysController extends Controller
     {
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
+            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL then 0 else 1 end) AS ch_record_count'),
             // 'medical_diary_days.id AS Id',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
-                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                 IF(medical_diary_days.medical_status_id = 3,
-                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                     IF(medical_diary_days.medical_status_id = 4,
-                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                             'Cancelada')))) AS Subject"),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             '#37B24D',
@@ -59,7 +60,10 @@ class MedicalDiaryDaysController extends Controller
         )
             ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
             ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
+            ->leftJoin('identification_type', 'patients.identification_type_id', 'identification_type.id')
             ->leftJoin('assistance', 'medical_diary.assistance_id', 'assistance.id')
+            ->leftJoin('ch_record','ch_record.medical_diary_days_id', 'medical_diary_days.id')
+            ->groupBy('medical_diary_days.id')
             ->with(
                 // 'days',
                 'medical_status',
