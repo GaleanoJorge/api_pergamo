@@ -12,6 +12,7 @@ use App\Models\Authorization;
 use App\Models\MedicalDiary;
 use App\Models\User;
 use App\Actions\Transform\NumerosEnLetras;
+use App\Models\CopayParameters;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -543,8 +544,16 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays->services_briefcase_id = $request->service_briefcase_id;
         $MedicalDiaryDays->patient_id = $request->patient_id;
         $MedicalDiaryDays->copay_id = $request->copay_id;
-        $MedicalDiaryDays->copay_value = $request->copay_value;
-        $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
+        //$MedicalDiaryDays->copay_value = $request->copay_value;
+        if ($request->copay_id) {
+            $copayParameter = CopayParameters::find($request->copay_id);
+            $copayValue = $copayParameter->value;
+            if ($copayParameter->payment_type_id == 2) {
+                $copayValue *= $procedure->manual_price->value;
+            }
+            $MedicalDiaryDays->copay_value = $copayValue;
+            $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
+        }
 
         if ($request->is_telemedicine != 0) {
             $myrequest->setMethod('POST');
