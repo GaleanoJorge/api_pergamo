@@ -1494,15 +1494,6 @@
         "show_menu": "1"
     },
     {
-        "id": "217",
-        "item_parent_id": null,
-        "name": "Agendamiento Telemedicina",
-        "code": "telemedicine",
-        "route": "/pages/telemedicine/list",
-        "icon": "phone-call-outline",
-        "show_menu": "1"
-    },
-    {
         "id": "218",
         "item_parent_id": "183",
         "name": "Recaudo",
@@ -1524,8 +1515,8 @@
         "id": "220",
         "item_parent_id": "219",
         "name": "Recepción tecnica",
-        "code": "pharmacy-lot",
-        "route": "/pages/pharmacy/pharmacy-lot",
+        "code": "pharma-lot-stock-tab",
+        "route": "/pages/pharmacy/pharma-lot-stock-tab",
         "icon": "",
         "show_menu": "1"
     },
@@ -1617,15 +1608,6 @@
         "code": "non-working-days",
         "route": "/pages/scheduling/non-working-days",
         "icon": "book-open-outline",
-        "show_menu": "1"
-    },
-    {
-        "id": "231",
-        "item_parent_id": "224",
-        "name": "CUPS del asistencial",
-        "code": "healthcare-cups",
-        "route": "/pages/scheduling/assitencial-procedure",
-        "icon": "calendar-outline",
         "show_menu": "1"
     },
     {
@@ -1761,6 +1743,34 @@
         "name": "Censo",
         "code": "report-census",
         "route": "/pages/setting/report-census",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+
+        "id": "250",
+        "item_parent_id": "219",
+        "name": "Ajuste inventarios",
+        "code": "pharmacy-inventory-adjustment",
+        "route": "/pages/pharmacy/pharmacy-inventory-adjustment",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "251",
+        "item_parent_id": "169",
+        "name": "Motivos ajuste inv.",
+        "code": "pharmacy-adjustment",
+        "route": "/pages/setting/pharmacy-adjustment",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "253",
+        "item_parent_id": "229",
+        "name": "Bloqueo de agenda",
+        "code": "schedule-disable",
+        "route": "/pages/scheduling/schedule-disable",
         "icon": "",
         "show_menu": "1"
     }

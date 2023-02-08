@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Flat;
+use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -72,6 +73,16 @@ class FlatController extends Controller
         ]);
     }
 
+    public function getFlatByBed(int $bed_id): JsonResponse
+    {
+        $Flat = Bed::find($bed_id)->pavilion->flat;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Piso obtenido con éxito',
+            'data' => ['flat' => $Flat]
+        ]);
+    }
 
     public function store(FlatRequest $request): JsonResponse
     {

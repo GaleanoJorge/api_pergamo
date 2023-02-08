@@ -34,4 +34,9 @@ class CopayParameters extends Model
 	{
 		return $this->belongsTo(Status::class);
 	}
+
+	public function payment_type()
+	{
+		return $this->belongsTo(PaymentType::class, 'payment_type_id');
+	}
 }

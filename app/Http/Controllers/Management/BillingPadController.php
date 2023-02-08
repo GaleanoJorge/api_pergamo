@@ -2909,7 +2909,7 @@ A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $
 2;1;;;;' . $expiracy_date . '
 ;;;
 
-SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . $BillingPad[0]['patient_identification_type'] . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';04;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . (strlen($BillingPad[0]['patient_identification_type']) == 2 ? $BillingPad[0]['patient_identification_type'] : 'SI' ). ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';04;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';0;0;0;0;;;;;;;
 ' . $billing_line,
             ];
             $file = $file_no_pgp;
@@ -3162,6 +3162,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $doc_types[10]['internal_code'] = null;
         $doc_types[10]['name'] = 'NIT de otro país';
         $doc_types[10]['code'] = '50';
+        $doc_types[11]['internal_code'] = 'PE';
+        $doc_types[11]['name'] = 'Identificación usuarios Salud';
+        $doc_types[11]['code'] = '47';
+        $doc_types[12]['internal_code'] = 'PEP';
+        $doc_types[12]['name'] = 'Identificación usuarios Salud';
+        $doc_types[12]['code'] = '47';
 
         $res = '';
         foreach ($doc_types as $element) {

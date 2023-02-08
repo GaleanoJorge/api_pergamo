@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Management;
 
 use App\Models\Pavilion;
+use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -67,6 +68,36 @@ class PavilionController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Programas obtenidos exitosamente',
+            'data' => ['pavilion' => $Pavilion]
+        ]);
+    }
+
+    public function getPavilionByBed(int $bed_id): JsonResponse
+    {
+
+        $Pavilion = Bed::find($bed_id)->pavilion;
+        return response()->json([
+            'status' => true,
+            'message' => 'Pabellón obtenido con éxito',
+            'data' => ['pavilion' => $Pavilion]
+        ]);
+    }
+
+
+    public function getPavilionByCampus(int $campus_id): JsonResponse
+    {
+
+        $Pavilion = Pavilion::select('pavilion.*')
+            ->with(
+                'flat',
+            )
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->where('flat.campus_id', $campus_id)
+            ->get()->toArray();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pabellón obtenido con éxito',
             'data' => ['pavilion' => $Pavilion]
         ]);
     }

@@ -12,6 +12,7 @@ use App\Models\ChRecord;
 use App\Models\PharmacyProductRequest;
 use App\Models\PharmacyStock;
 use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class ChFormulationController extends Controller
 {
@@ -112,6 +113,7 @@ class ChFormulationController extends Controller
                 'product_supplies',
             )
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
+            ->where('ch_formulation.created_at', '>=', Carbon::now()->subDay())
             ->orderBy('ch_formulation.id', 'DESC')
             ->get()->toArray();
 
@@ -126,7 +128,24 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
+        if (!$request->administration_route_id ||
+            !$request->product_supplies_id) {} else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debe seleccionarse un elemento de la lista',
+                'data' => ['ch_formulation' => []]
+            ]);
+        }
+
         if ($request->medical_formula == "" || $request->medical_formula == false) {
+
+            if ($request->services_briefcase_id) {} else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe seleccionarse un elemento de la lista',
+                    'data' => ['ch_formulation' => []]
+                ]);
+            }
 
             $ChRecordVal = ChRecord::find($request->ch_record_id);
 
@@ -160,7 +179,7 @@ class ChFormulationController extends Controller
                 ]);
             }
 
-            if (!$request->pharmacy_product_request_id) {
+            if (!$request->pharmacy_product_request_id || $request->pharmacy_product_request_id == 'false') {
                 $PharmacyProductRequest = new PharmacyProductRequest;
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
                 $PharmacyProductRequest->request_amount = $request->outpatient_formulation;

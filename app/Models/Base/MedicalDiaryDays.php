@@ -14,6 +14,7 @@ use App\Models\MedicalDiary;
 use App\Models\MedicalStatus;
 use App\Models\Patient;
 use App\Models\ServicesBriefcase;
+use App\Models\Relationship;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -76,9 +77,27 @@ class MedicalDiaryDays extends Model
 		return $this->belongsTo(MedicalDiary::class, 'medical_diary_id');
 	}
 
+	public function user_cancel()
+	{
+		return $this->belongsTo(User::class, 'user_cancel_id');
+	}
+
+	public function relationship()
+	{
+		return $this->belongsTo(Relationship::class, 'relationship_id');
+	}
+
 	public function ch_record()
 	{
 		return $this->hasMany(ChRecord::class);
+	}
+
+	public function user_cancel(){
+		return $this->belongsTo(User::class, 'user_cancel_id');
+	}
+
+	public function relationship(){
+		return $this->belongsTo(Relationship::class, 'relationship_id');
 	}
 
 	public function copay_parameters()

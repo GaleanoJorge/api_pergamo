@@ -490,6 +490,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Tipo de procedimiento
     Route::apiResource('procedure_type', 'Management\ProcedureTypeController');
 
+    //Tipo de procedimiento
+    Route::apiResource('payment_type', 'Management\PaymentTypeController');
+
     //Tipo de PBS plan básico de salud
     Route::apiResource('pbs_type', 'Management\PbsTypeController');
 
@@ -729,6 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
+    // Route::apiResource('consents_informed', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
@@ -774,6 +778,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'flat/byCampus/{campus_id}',
         'Management\FlatController@getFlatByCampus'
     );
+    Route::get(
+        'get_flat_by_bed/{bed_id}',
+        'Management\FlatController@getFlatByBed'
+    );
 
     //Pabellón
     Route::apiResource('pavilion', 'Management\PavilionController');
@@ -784,8 +792,19 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
         'Management\PavilionController@getPavilionByFlat'
     );
 
+    Route::get(
+        'get_pavilion_by_bed/{bed_id}',
+        'Management\PavilionController@getPavilionByBed'
+    );
+    Route::get(
+        'get_pavilion_by_campus/{campus_id}',
+        'Management\PavilionController@getPavilionByCampus'
+    );
+
     //Cama asignada al paciente
     Route::apiResource('bed', 'Management\BedController');
+    //Cama asignada al paciente
+    Route::get('get_available_consultories', 'Management\BedController@getAvailableConsultories');
     //Consultorio
     Route::get('office_by_campus', 'Management\BedController@getOfficeByCampus');
 
@@ -879,6 +898,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get(
         'FileContract/FileByContract/{contractId}',
         'Management\FileContractController@getByContract'
+    );
+    Route::get(
+        'InformedConsents/FileByRecord/{chRecordId}',
+        'Management\ConsentsInformedController@getByRecord'
     );
 
     //Tener Póliza por contrato
@@ -1071,7 +1094,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Assistance
     Route::apiResource('assistance', 'Management\AssistanceController');
-    Route::get('get_assistance_users', 'Management\AssistanceController@getAssistanceUsers');
+    Route::get('get_external_assistance_users', 'Management\AssistanceController@getExternalAssistanceUsers');
+    Route::get('get_external_assistance_users_transfer', 'Management\AssistanceController@getExternalAssistanceUsersTransfer');
+    Route::put('transfer_schedule', 'Management\AssistanceController@transferSchedule');
+    Route::get('disable_schedule', 'Management\AssistanceController@disableSchedule');
 
     //Assistance special
     Route::apiResource('assistance_special', 'Management\AssistanceSpecialController');
@@ -1196,11 +1222,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pharmacy_lot', 'Management\PharmacyLotController');
     Route::apiResource('pharmacy_lot_stock', 'Management\PharmacyLotStockController');
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
+    Route::post('pharmacy_lot_stock/updateInvAdjustment/{lot_id}', 'Management\PharmacyLotStockController@updateInvAdjustment');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyBillingId');
     Route::apiResource('pharmacy_request_shipping', 'Management\PharmacyRequestShippingController');
-    Route::apiResource('pharmacy_update_max_min', 'Management\PharmacyUpdateMaxMinController');
 
+    Route::apiResource('log_pharmacy_lot', 'Management\LogPharmacyLotController');
+    Route::apiResource('pharmacy_adjustment', 'Management\PharmacyAdjustmentController');
     Route::apiResource('pharmacy_product_request', 'Management\PharmacyProductRequestController');
     Route::post('pharmacy_product_request/updateInventoryByLot/{lot_id}', 'Management\PharmacyProductRequestController@updateInventoryByLot');
     Route::get('pharmacy_product_request/pharmacies/{user_id}', 'Management\PharmacyProductRequestController@getPharmacyByUserId');
@@ -1598,6 +1626,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('authorization/auth_byAdmission/{admissionsId}', 'Management\AuthorizationController@GetByAdmissions');
     Route::get('authorization/RegistrateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@RegistrateNotCreatedAuths');
     Route::get('authorization/ConsultateNotCreatedAuths/{management_plan_id}', 'Management\AuthorizationController@ConsultateNotCreatedAuths');
+    Route::post('authorization/generateHospitalSupplies/{id}', 'Management\AuthorizationController@generateHospitalSupplies');
     //Estado de autorizaciones.
     Route::apiResource('auth_status', 'Management\AuthStatusController');
     //Registro de autorizaciones.

@@ -20,6 +20,8 @@ class CreatePharmacyLotStockTable extends Migration
             $table->string('sample');
             $table->string('actual_amount');
             $table->date('expiration_date');
+            $table->string('sign')->nullable();
+            $table->unsignedBigInteger('pharmacy_adjustment_id')->nullable();
             $table->unsignedBigInteger('pharmacy_lot_id');
             $table->unsignedBigInteger('billing_stock_id');
             $table->unsignedBigInteger('pharmacy_stock_id');
@@ -36,6 +38,10 @@ class CreatePharmacyLotStockTable extends Migration
             $table->index('pharmacy_stock_id');
             $table->foreign('pharmacy_stock_id')->references('id')
                 ->on('pharmacy_stock');
+
+            $table->index('pharmacy_adjustment_id');
+            $table->foreign('pharmacy_adjustment_id')->references('id')
+                ->on('pharmacy_adjustment');
         });
     }
 
