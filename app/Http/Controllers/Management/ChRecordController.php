@@ -5721,7 +5721,7 @@ TELECONSULTA: ' . $ph . '
                 $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
                 $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
                 $new_auth_day->observation = $LastAuth[0]['observation'];
-                $new_auth_day->copay = $LastAuth[0]['copay'];
+                $new_auth_day->copay_id = $LastAuth[0]['copay_id'];
                 $new_auth_day->quantity = $LastAuth[0]['quantity'];
                 $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
                 $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];
