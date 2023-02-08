@@ -474,12 +474,14 @@ class BedController extends Controller
                     ->where(function ($query2) use ($dateRanges) {
                         $query2->where(function ($query3) use ($dateRanges) {
                             $query3->where('medical_diary_days.start_hour', '>=', $dateRanges[0]["startDate"])
-                                ->where('medical_diary_days.start_hour', '<', $dateRanges[0]["finishDate"]);
+                                ->where('medical_diary_days.start_hour', '<', $dateRanges[0]["finishDate"])
+                                ->whereNotIn('medical_diary_days.medical_status_id', [5, 6]);
                         });
                         foreach (array_slice($dateRanges, 1) as $dateRange) {
                             $query2->orWhere(function ($query4) use ($dateRange) {
                                 $query4->where('medical_diary_days.start_hour', '>=', $dateRange["startDate"])
-                                    ->where('medical_diary_days.start_hour', '<', $dateRange["finishDate"]);
+                                    ->where('medical_diary_days.start_hour', '<', $dateRange["finishDate"])
+                                    ->whereNotIn('medical_diary_days.medical_status_id', [5, 6]);
                             });
                         }
                     });
