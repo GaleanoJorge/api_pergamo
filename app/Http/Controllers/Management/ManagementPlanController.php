@@ -404,7 +404,7 @@ class ManagementPlanController extends Controller
             ->where('admissions.id', $request->admissions_id)
             ->first();
 
-        if($request->type_of_attention_id != 20 && !$request->procedure_id && !$request->type_auth){
+        if($request->type_of_attention_id != 20 && !$request->procedure_id && (!$request->type_auth || $request->isnewrequest && $request->isnewrequest == 1)){
             return response()->json([
                 'status' => false,
                 'message' => 'Debe seleccionar un procedimiento',
