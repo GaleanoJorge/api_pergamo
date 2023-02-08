@@ -41,8 +41,8 @@ class ChDocumentController extends Controller
         
         return response()->json([
             'status' => true,
-            'message' => 'Consentimiento informado obtenidos exitosamente',
-            'data' => ['informed_consents' => $ChDocument]
+            'message' => 'Documentos adjuntos obtenidos exitosamente',
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -71,7 +71,7 @@ class ChDocumentController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Archivos por contrato obtenido exitosamente',
-            'data' => ['informed_consents' => $ChDocument]
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -89,8 +89,8 @@ class ChDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Consentimiento informado  creada exitosamente',
-            'data' => ['informed_consents' => $ChDocument->toArray()]
+            'message' => 'Documentos adjuntos  creada exitosamente',
+            'data' => ['ch_document' => $ChDocument->toArray()]
         ]);
     }
 
@@ -107,8 +107,8 @@ class ChDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Consentimiento informado obtenido exitosamente',
-            'data' => ['informed_consents' => $ChDocument]
+            'message' => 'Documentos adjuntos obtenido exitosamente',
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -131,8 +131,8 @@ class ChDocumentController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Consentimiento informado  actualizado exitosamente',
-            'data' => ['informed_consents' => $ChDocument]
+            'message' => 'Documentos adjuntos  actualizado exitosamente',
+            'data' => ['ch_document' => $ChDocument]
         ]);
     }
 
@@ -150,12 +150,12 @@ class ChDocumentController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Consentimiento informado  eliminado exitosamente'
+                'message' => 'Documentos adjuntos  eliminado exitosamente'
             ]);
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Consentimiento informado  esta en uso, no es posible eliminarlo'
+                'message' => 'Documentos adjuntos  esta en uso, no es posible eliminarlo'
             ], 423);
         }
     }
