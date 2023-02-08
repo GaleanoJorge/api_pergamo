@@ -1411,7 +1411,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
     //? Report Censo PDF
     Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
-    Route::get('report_censusPDF2', 'Management\ReportCensusController@exportCensusPDF2');
+    // Route::get('report_censusPDF2', 'Management\ReportCensusController@exportCensusPDF2');
     
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
@@ -1439,6 +1439,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+    Route::get('pharmacy_lot_stock/pharmacies/{id}', 'Management\PharmacyLotStockController@getPharmacyId');
 
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
@@ -1774,7 +1775,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('tl_therapy_language_regular', 'Management\TlTherapyLanguageRegularController');
     Route::get('tl_therapy_language_regular/by_record/{id}/{type_record_id}', 'Management\TlTherapyLanguageRegularController@getByRecord');
 
-    
+
     //Ostomias 
     Route::apiResource('ostomy', 'Management\OstomyController');
 

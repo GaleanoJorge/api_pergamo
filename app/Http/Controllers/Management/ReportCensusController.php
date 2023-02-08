@@ -113,6 +113,7 @@ class ReportCensusController extends Controller
             ->leftJoin('admission_route', 'admission_route.id', 'scope_of_attention.admission_route_id')
             //* Condicionales
             ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+            ->where('bed.bed_or_office', 1)
             ->where('campus.id', [$request->id])
             ->where('pavilion.id', [$request->id])
             ->get()->toArray();
@@ -164,7 +165,8 @@ class ReportCensusController extends Controller
             ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
             ->leftJoin('admission_route', 'admission_route.id', 'scope_of_attention.admission_route_id')
             //* Condicionales
-            // ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+            ->where('bed.bed_or_office', 1)
             ->where('campus.id', [$request->id])
             ->where('pavilion.id', [$request->id])
             ->get()->toArray();
@@ -185,7 +187,7 @@ class ReportCensusController extends Controller
         //! Camas por Pabellón
         $xPavilion = Campus::select(
             DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
-            DB::raw('SUM(if(status_bed.id = 1, 1, 0)) AS Libres'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
@@ -195,7 +197,7 @@ class ReportCensusController extends Controller
             ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
-            // ->where('bed.bed_or_office', 1)
+            ->where('bed.bed_or_office', 1)
             ->where('pavilion.id', [$request->pavilion_id])
             ->get()->toArray();
 
@@ -215,7 +217,7 @@ class ReportCensusController extends Controller
             ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
-            // ->where('bed.bed_or_office', 1)
+            ->where('bed.bed_or_office', 1)
             ->where('campus.id', [$request->id])
             ->get()->toArray();
 
@@ -228,16 +230,15 @@ class ReportCensusController extends Controller
             DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "General Desinfeccion"'),
             DB::raw('ROUND((COUNT(CASE WHEN status_bed_id = 2 THEN 2 END)/COUNT(bed.status_bed_id))*100, 2) AS "Indice"'),
         )
-            // ->leftJoin('*')
             ->leftJoin('flat', 'campus.id', 'flat.campus_id')
             ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
             ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
-            // ->where('bed.bed_or_office', 1)
+            ->where('bed.bed_or_office', 1)
             ->get()->toArray();
 
-        //? Manipulación de Blade PDF
+        //? Datos a Blade
         $html = view('reports.census', [
                     'census' => $census,
                     'xPavilion' => $xPavilion,
@@ -250,6 +251,8 @@ class ReportCensusController extends Controller
                     'type' => $request->type
                 ])->render();
         $options = new Options();
+        
+        //? Configuración de Blade
         $options->set('isRemoteEnabled', true);
 
         $dompdf = new PDF($options);
@@ -257,7 +260,7 @@ class ReportCensusController extends Controller
         $dompdf->setPaper('Carta', 'landscape');
         $dompdf->render();
         $file = $dompdf->output();
-        $name = 'censo.pdf';
+        $name = 'censo_hospitalario.pdf';
         Storage::disk('public')->put($name, $file);
 
         return response()->json([
@@ -267,67 +270,7 @@ class ReportCensusController extends Controller
             'url' => asset('/storage' . '/' . $name),
         ]);
     }
-    public function exportCensusPDF2(Request $request): JsonResponse
-    {
-        $census = Location::select(
-            //* Consulta Especifica con Respectivos Encabezados
-            DB::raw('IF(location.id > 0, NULL, NULL) AS "Prio."'),
-            'bed.id AS Cama',
-            DB::raw('CONCAT_WS("-", identification_type.code, patients.identification) AS "Documento-Ingreso"'),
-            DB::raw('CONCAT_WS(" ", patients.firstname, patients.middlefirstname, patients.lastname, patients.middlelastname) AS Paciente'),
-            DB::raw('CONCAT_WS(" ", FLOOR(DATEDIFF(NOW(), patients.birthday)/365.25), IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, "A", IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, "M", "D"))) AS Edad'),
-            'diagnosis.code AS Cod.',
-            'diagnosis.name AS Diagnóstico',
-            // DB::raw('CAST(location.entry_date AS DATE) AS "Fecha de Ingreso 2"'),
-            DB::raw('DATE(location.entry_date) AS "Fecha de Ingreso"'),
-            DB::raw('DATEDIFF(NOW(), location.entry_date) AS "Estancia-(Días)"'),
-            'company.name AS ARS-EPS',
-            'modality.name AS Contrato',
-            'procedure.name AS Especialidad Tratante'
-        )
-            //* Apuntadores de Consulta
-            ->leftJoin('admissions', 'admissions.id', 'location.admissions_id')
-            ->leftJoin('bed', 'bed.id', 'location.bed_id')
-            ->leftJoin('pavilion', 'pavilion.id', 'location.pavilion_id')
-            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-            ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
-            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
-            ->leftJoin('company', 'company.id', 'contract.company_id')
-            ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
-            ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
-            ->leftJoin('modality', 'modality.id', 'briefcase.modality_id')
-            ->leftJoin('services_briefcase', 'services_briefcase.id', 'location.procedure_id')
-            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-            ->leftJoin('procedure', 'procedure.id', 'manual_price.procedure_id')
-            ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
-            ->leftJoin('admission_route', 'admission_route.id', 'scope_of_attention.admission_route_id')
-            ->get()->toArray();
-
-        //? Manipulación de Blade PDF
-        $html = view('reports.census', [
-                    'census' => $census,
-                    'type' => $request->type,
-                ])->render();
-        $options = new Options();
-        $options->set('isRemoteEnabled', true);
-
-        $dompdf = new PDF($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('Carta', 'landscape');
-        $dompdf->render();
-        $file = $dompdf->output();
-        $name = 'censo.pdf';
-        Storage::disk('public')->put($name, $file);
-
-        return response()->json([
-            'status' => true,
-            'ph' => $census,
-            'message' => 'Reporte generado exitosamente',
-            'url' => asset('/storage' . '/' . $name),
-        ]);
-    }
-
+    
     /**
      * Display the specified resource.
      *
