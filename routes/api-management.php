@@ -732,7 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
-    Route::apiResource('informed_consents', 'Management\ChDocumentController');
+    Route::apiResource('ch_document', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
@@ -1097,6 +1097,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('get_external_assistance_users', 'Management\AssistanceController@getExternalAssistanceUsers');
     Route::get('get_external_assistance_users_transfer', 'Management\AssistanceController@getExternalAssistanceUsersTransfer');
     Route::put('transfer_schedule', 'Management\AssistanceController@transferSchedule');
+    Route::get('disable_schedule', 'Management\AssistanceController@disableSchedule');
 
     //Assistance special
     Route::apiResource('assistance_special', 'Management\AssistanceSpecialController');
@@ -1392,6 +1393,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_assets/byUser/{user_id}', 'Management\FixedAssetsController@getFixedByUserId');
     Route::get('fixed_assets/{id}', 'Management\FixedAssetsController@getFixedId');
     Route::apiResource('services_fixed_stock', 'Management\ServicesFixedStockController');
+    
+    Route::apiResource('report_rips', 'Management\ReportRipsController');
+    Route::get('report_rips/{id}', 'Management\ReportRipsController@exportRips');
 
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(

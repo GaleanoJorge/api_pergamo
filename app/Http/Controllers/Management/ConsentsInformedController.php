@@ -96,13 +96,13 @@ class ConsentsInformedController extends Controller
             'relationship',
             'admissions',
             'admissions.patients',
-            'admissions.patients.identification_type', 
+            'admissions.patients.identification_type',
             'assigned_user',
             'assigned_user.assistance',
-            'assigned_user.roles', 
+            'assigned_user.roles',
             // 'assigned_user.assistance.medical_record', 
             // 'user_role.role',
-            
+
         )
             ->where('id', $request->id)->get()->toArray();
 
@@ -117,24 +117,22 @@ class ConsentsInformedController extends Controller
             $rutaImagen = storage_path('app/public/' . $ConsentsInformed[0]['assigned_user']['assistance'][0]['file_firm']);
             $contenidoBinario = file_get_contents($rutaImagen);
             $imagenAssistence = base64_encode($contenidoBinario);
-        }else{
+        } else {
             $imagenAssistence = null;
         }
         if ($ConsentsInformed[0]['firm_patient']) {
             $rutaImagen2 = storage_path('app/public/' . $ConsentsInformed[0]['firm_patient']);
             $contenidoBinario2 = file_get_contents($rutaImagen2);
             $imagenPatient = base64_encode($contenidoBinario2);
-        }else{
+        } else {
             $imagenPatient = null;
-            
         }
         if ($ConsentsInformed[0]['firm_responsible']) {
             $rutaImagen3 = storage_path('app/public/' . $ConsentsInformed[0]['firm_responsible']);
             $contenidoBinario3 = file_get_contents($rutaImagen3);
             $imagenResponsible = base64_encode($contenidoBinario3);
-        }else{
+        } else {
             $imagenResponsible = null;
-
         }
 
         if ($ConsentsInformed[0]['type_consents_id'] == 1) {
@@ -154,18 +152,18 @@ class ConsentsInformedController extends Controller
                 'firmassistance' => $imagenAssistence,
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
-                
+
             ])->render();
         } else if ($ConsentsInformed[0]['type_consents_id'] == 3) {
 
-        $html = view('mails.ciAltavoluntaria', [
-            'consentsinformed' => $ConsentsInformed,
-            'firmpatient' => $imagenPatient,
-            'firmassistance' => $imagenAssistence,
-            'firmresponsible' => $imagenResponsible,
-            'today' => $today,
-        ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 4) {
+            $html = view('mails.ciAltavoluntaria', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
+                'today' => $today,
+            ])->render();
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 4) {
 
             $html = view('mails.ciTeleterapia', [
                 'consentsinformed' => $ConsentsInformed,
@@ -174,7 +172,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 5) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 5) {
 
             $html = view('mails.ciTerapiaL', [
                 'consentsinformed' => $ConsentsInformed,
@@ -183,7 +181,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 6) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 6) {
 
             $html = view('mails.ciTerapiaR', [
                 'consentsinformed' => $ConsentsInformed,
@@ -192,7 +190,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 7) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 7) {
 
             $html = view('mails.ciTerapiaF', [
                 'consentsinformed' => $ConsentsInformed,
@@ -201,17 +199,16 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
-    
-                $html = view('mails.ciTerapiaO', [
-                    'consentsinformed' => $ConsentsInformed,
-                    'firmpatient' => $imagenPatient,
-                    'firmassistance' => $imagenAssistence,
-                    'firmresponsible' => $imagenResponsible,
-                    'today' => $today,
-                ])->render();
-           
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 8) {
+
+            $html = view('mails.ciTerapiaO', [
+                'consentsinformed' => $ConsentsInformed,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
+                'today' => $today,
+            ])->render();
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 9) {
 
             $html = view('mails.ciDisentimientoPAD', [
                 'consentsinformed' => $ConsentsInformed,
@@ -220,7 +217,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 10) {
 
             $html = view('mails.ciRAudiovisual', [
                 'consentsinformed' => $ConsentsInformed,
@@ -229,7 +226,7 @@ class ConsentsInformedController extends Controller
                 'firmresponsible' => $imagenResponsible,
                 'today' => $today,
             ])->render();
-        }else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
+        } else if ($ConsentsInformed[0]['type_consents_id'] == 11) {
 
             $html = view('mails.ciCompromisoPad', [
                 'consentsinformed' => $ConsentsInformed,
@@ -274,7 +271,6 @@ class ConsentsInformedController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-
         $ConsentsInformed = new ConsentsInformed;
         $ConsentsInformed->admissions_id = $request->admissions_id;
 
@@ -312,9 +308,8 @@ class ConsentsInformedController extends Controller
         $ConsentsInformed->number_contact = $request->number_contact;
         $ConsentsInformed->confirmation = $request->confirmation;
         $ConsentsInformed->dissent = $request->dissent;
-
-
         $ConsentsInformed->save();
+
 
 
         return response()->json([
@@ -323,8 +318,7 @@ class ConsentsInformedController extends Controller
             'data' => ['consents_informed' => $ConsentsInformed->toArray()]
         ]);
     }
-
-
+   
     /**
      * Display the specified resource.
      *

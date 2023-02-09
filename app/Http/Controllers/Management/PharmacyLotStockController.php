@@ -150,8 +150,9 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product.product_generic',
                 'billing_stock.product_supplies_com.product_supplies',
                 'billing_stock.product_supplies_com.factory',
-            );
-        // ->where('billing_stock.product_id', '!=', null)->get()->toArray();
+            )
+         ->where('billing_stock.product_id', '!=', null)->get()->toArray()
+         ->where('pharmacy_lot_stock.actual_amount', '>', 0)->get()->toArray();
 
 
         if ($request->type == 1) {

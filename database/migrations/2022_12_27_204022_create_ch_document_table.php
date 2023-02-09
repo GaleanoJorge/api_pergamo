@@ -14,7 +14,7 @@ class CreateChDocumentTable extends Migration
      */
     public function up()
     {
-        Schema::create('informed_consents', function (Blueprint $table) {
+        Schema::create('ch_document', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('file');
@@ -34,6 +34,6 @@ class CreateChDocumentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('informed_consents');
+        Schema::dropIfExists('ch_document');
     }
 }

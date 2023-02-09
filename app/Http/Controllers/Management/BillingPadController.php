@@ -2361,7 +2361,7 @@ class BillingPadController extends Controller
                         $Auth_B->auth_number = $Auth_A->auth_number;
                         $Auth_B->authorized_amount = $Auth_A->authorized_amount;
                         $Auth_B->observation = $Auth_A->observation;
-                        $Auth_B->copay = $Auth_A->copay;
+                        $Auth_B->copay_id = $Auth_A->copay_id;
                         $Auth_B->quantity = $Auth_A->quantity;
                         $Auth_B->copay_value = $Auth_A->copay_value;
                         $Auth_B->auth_status_id = $Auth_A->auth_status_id;
