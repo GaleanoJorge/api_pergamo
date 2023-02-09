@@ -707,34 +707,24 @@ class PatientController extends Controller
             'patients.*',
             'company.name AS company',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
-            DB::raw('SUM(IF(ch_formulation.id > 0, IF(ch_formulation.management_plan_id = NULL , 1, 0), 0)) AS new_formulations'),
+            DB::raw('IF(patients.id = NULL , 1, 0) AS new_formulations'),
         )
-            ->leftjoin('locality', 'patients.locality_id', 'locality.id')
-            ->leftjoin('municipality', 'patients.residence_municipality_id', 'municipality.id')
-            ->leftjoin('neighborhood_or_residence', 'patients.neighborhood_or_residence_id', 'neighborhood_or_residence.id')
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
             ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id')
-            ->leftjoin('ch_record', 'ch_record.ch_interconsultation_id', 'ch_interconsultation.id')
-            ->leftjoin('ch_formulation', 'ch_formulation.ch_record_id', 'ch_record.id')
             ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
             ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
-            ->leftJoin('scope_of_attention', 'scope_of_attention.id', 'location.scope_of_attention_id')
             ->where('location.admission_route_id', 1)
             ->where('location.scope_of_attention_id', 1)
             ->where('admissions.discharge_date', '=', '0000-00-00 00:00:00')
             ->with(
                 'status',
-                'locality',
                 'gender',
                 'inability',
-                'academic_level',
                 'identification_type',
-                'residence_municipality',
-                'residence',
                 'admissions',
                 'admissions.ch_interconsultation',
                 'admissions.management_plan',
