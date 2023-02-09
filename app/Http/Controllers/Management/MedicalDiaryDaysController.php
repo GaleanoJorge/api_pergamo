@@ -34,7 +34,8 @@ class MedicalDiaryDaysController extends Controller
     {
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
-            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL then 0 else 1 end) AS ch_record_count'),
+            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL or ch_record.status = "ACTIVO" then 0 else 1 end) AS exist_finalized_ch_record'),
+            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL then 0 else 1 end) AS exist_ch_record'),
             // 'medical_diary_days.id AS Id',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
