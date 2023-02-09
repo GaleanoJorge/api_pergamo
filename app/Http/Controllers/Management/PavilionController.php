@@ -59,11 +59,11 @@ class PavilionController extends Controller
             ->leftJoin('bed', 'bed.pavilion_id', 'pavilion.id')
             ->where('pavilion.flat_id', $flat_id)
             ->orderBy('name', 'asc')
-            ->groupBy('pavilion.id');
-        if ($request->bed_or_office) {
-            $Pavilion->where('bed.bed_or_office', $request->bed_or_office);
-        }
-        $Pavilion = $Pavilion->get()->toArray();
+            ->groupBy('pavilion.id')->with('flat', 'flat.campus');
+            if ($request->bed_or_office) {
+                $Pavilion->where('bed.bed_or_office', $request->bed_or_office);
+            }
+            $Pavilion=$Pavilion->get()->toArray();
 
         return response()->json([
             'status' => true,
