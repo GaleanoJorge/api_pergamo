@@ -193,6 +193,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('users/Profesionals', 'Admin\UserController@ProfesionalsByCampus');
     Route::get('user/byPAC/{roleId}', 'Admin\UserController@indexPacientByPAC');
     Route::get('user/byRoleLocation/{locality_id}/{roleId}', 'Admin\UserController@indexByRoleLocation');
+    Route::get('user/ExternalConsultant', 'Admin\UserController@indexByExternalConsultant');
     Route::get('user/byPAD/{roleId}/{userId}', 'Admin\UserController@indexPacientByPAD');
     Route::get('userByPacient', 'Admin\UserController@indexByPacient');
     Route::get('user/all/{roleId}', 'Admin\UserController@index2');

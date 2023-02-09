@@ -6,10 +6,12 @@
 
 namespace App\Models\Base;
 
+use App\Models\AssistanceProcedure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AssistanceSpecial;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 /**
@@ -39,9 +41,22 @@ class Assistance extends Model
 	{
 		return $this->hasMany(AssistanceSpecial::class);
 	}
+
 	public function user()
 	{
-		return $this->belongsTo(User::class);
+		return $this->belongsTo(User::class)->select(
+			'users.*',
+			DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
+		);
+	}
+
+	public function assistance_procedure()
+	{
+		return $this->hasMany(AssistanceProcedure::class);
+	}
+	public function assistance_special()
+	{
+		return $this->hasMany(AssistanceSpecial::class, 'assistance_id', 'id');
 	}
 	
 }

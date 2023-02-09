@@ -42,13 +42,33 @@ class TariffController extends Controller
                 ->orWhere('pad_risk.name', 'like', '%' . $request->search . '%');
         }
         if ($request->pad_risk_id) {
-            $Tariff->where('pad_risk_id', $request->pad_risk_id);
+            $Tariff->where('tariff.pad_risk_id', $request->pad_risk_id);
         }
         if ($request->program_id) {
-            $Tariff->where('program_id', $request->program_id);
+            $Tariff->where('tariff.program_id', $request->program_id);
         }
         if ($request->type_of_attention_id) {
-            $Tariff->where('type_of_attention_id', $request->type_of_attention_id);
+            $Tariff->where('tariff.type_of_attention_id', $request->type_of_attention_id);
+        }
+
+        if ($request->extra_dose) {
+            $Tariff->where('tariff.extra_dose', $request->extra_dose - 1);
+        }
+
+        if ($request->phone_consult) {
+            $Tariff->where('tariff.phone_consult', $request->phone_consult - 1);
+        }
+
+        if ($request->quantity) {
+            $Tariff->where('tariff.quantity', $request->quantity);
+        }
+
+        if ($request->has_car) {
+            $Tariff->where('tariff.has_car', $request->has_car - 1);
+        }
+
+        if ($request->failed) {
+            $Tariff->where('tariff.failed', $request->failed - 1);
         }
 
         if ($request->status_id) {
@@ -121,7 +141,7 @@ class TariffController extends Controller
         if (count($TariffTest) > 0) {
             return response()->json([
                 'status' => false,
-                'message' => 'Tarifa ya existe, o se encuentra en estado actiiva',
+                'message' => 'Tarifa ya existe, o se encuentra en estado activa',
                 'data' => ['tariff' => []]
             ]);
         }

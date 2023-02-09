@@ -15,8 +15,8 @@
         {
             Schema::create('ch_reason_consultation', function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->string('reason_consultation');
-                $table->string('current_illness');
+                $table->longText('reason_consultation');
+                $table->longText('current_illness');
                 $table->unsignedBigInteger('ch_external_cause_id');
                 $table->unsignedBigInteger('type_record_id');
                 $table->unsignedBigInteger('ch_record_id');

@@ -24,6 +24,7 @@ class CreateAssignedManagementPlanTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->dateTime('execution_date');
             $table->unsignedBigInteger('management_plan_id');
+            // $table->unsignedBigInteger('ch_medical_orders_id')->nullable(); se añade este campo con migración
             $table->timestamps();
 
 

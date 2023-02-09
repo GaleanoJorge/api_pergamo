@@ -27,20 +27,20 @@ class CreateChEPastOTTable extends Migration
 
             /////////////////////////////////////////
             $table->string('number_childrens');
-            $table->string('observation_family_struct')->nullable();
+            $table->longText('observation_family_struct')->nullable();
             $table->string('academy');
             $table->string('level_academy');
-            $table->string('observation_schooling_training')->nullable();
+            $table->longText('observation_schooling_training')->nullable();
             $table->string('terapy');
-            $table->string('observation_terapy')->nullable();
+            $table->longText('observation_terapy')->nullable();
             $table->string('smoke');
             $table->string('f_smoke')->nullable();
             $table->string('alcohol');
             $table->string('f_alcohol')->nullable();
             $table->string('sport');
             $table->string('f_sport')->nullable();
-            $table->string('sport_practice_observation')->nullable();
-            $table->string('observation')->nullable();
+            $table->longText('sport_practice_observation')->nullable();
+            $table->longText('observation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

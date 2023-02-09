@@ -16,10 +16,10 @@ class CreateChPsIntellectiveTable extends Migration
         Schema::create('ch_ps_intellective', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('memory');
-            $table->string('att_observations');
-            $table->string('me_observations');
+            $table->longText('att_observations');
+            $table->longText('me_observations');
             $table->string('perception');
-            $table->string('per_observations');
+            $table->longText('per_observations');
             $table->string('autopsychic');
             $table->string('allopsychic');
             $table->string('space');

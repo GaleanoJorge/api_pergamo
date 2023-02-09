@@ -21,9 +21,8 @@ class CreateAuthorizationTable extends Migration
             $table->string('auth_number')->nullable();
             $table->unsignedBigInteger('authorized_amount')->nullable();
             $table->string('observation')->nullable();
-            $table->boolean('copay')->nullable();
             $table->integer('quantity')->nullable();
-            $table->integer('copay_value')->nullable();
+            $table->double('copay_value', 16, 4)->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->unsignedBigInteger('auth_package_id')->nullable();
             $table->unsignedBigInteger('fixed_add_id')->nullable();//
@@ -32,8 +31,12 @@ class CreateAuthorizationTable extends Migration
             $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('supplies_com_id')->nullable();
             $table->unsignedBigInteger('product_com_id')->nullable();
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->string('file_auth')->nullable();
+            $table->dateTime('open_date')->nullable();
+            $table->dateTime('close_date')->nullable();
             $table->timestamps();
+
 
             $table->index('fixed_add_id');
             $table->foreign('fixed_add_id')->references('id')
@@ -66,6 +69,10 @@ class CreateAuthorizationTable extends Migration
             $table->index('product_com_id');
             $table->foreign('product_com_id')->references('id')
                 ->on('product');
+
+            $table->index('location_id');
+            $table->foreign('location_id')->references('id')
+                ->on('location');
 
             $table->index('procedure_id');
             $table->foreign('procedure_id')->references('id')

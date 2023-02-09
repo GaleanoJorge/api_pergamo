@@ -14,18 +14,31 @@ class CreateChPsMultiaxialTable extends Migration
     public function up()
     {
         Schema::create('ch_ps_multiaxial', function (Blueprint $table) {
-            $table->bigIncrements('id');   
-
-            $table->string('axis_one');
-            $table->string('axis_two');
-            $table->string('axis_three');
-            $table->string('axis_four');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('axis_one_id');
+            $table->unsignedBigInteger('axis_two_id');
+            $table->unsignedBigInteger('axis_three_id');
+            $table->unsignedBigInteger('axis_four_id');
             $table->integer('eeag');
-
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
-
             $table->timestamps();
+
+            $table->index('axis_one_id');
+            $table->foreign('axis_one_id')->references('id')
+                ->on('diagnosis_dms');
+
+            $table->index('axis_two_id');
+            $table->foreign('axis_two_id')->references('id')
+                ->on('diagnosis_dms');
+
+            $table->index('axis_three_id');
+            $table->foreign('axis_three_id')->references('id')
+                ->on('diagnosis_dms');
+
+            $table->index('axis_four_id');
+            $table->foreign('axis_four_id')->references('id')
+                ->on('diagnosis_dms');
 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')

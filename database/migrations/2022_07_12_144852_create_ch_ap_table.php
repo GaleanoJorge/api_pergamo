@@ -15,8 +15,8 @@ class CreateChApTable extends Migration
     {
         Schema::create('ch_ap', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('analisys');
-            $table->string('plan'); 
+            $table->longText('analisys');
+            $table->longText('plan'); 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();

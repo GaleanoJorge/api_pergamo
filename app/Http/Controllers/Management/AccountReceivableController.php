@@ -95,13 +95,19 @@ class AccountReceivableController extends Controller
                 'account_receivable.*',
                 DB::raw('IF(source_retention.id,1,0) as has_retention'),
                 'assistance.id AS assistance_id',
-                DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
+                DB::raw("IF(account_receivable.id > 0,1,0) AS edit_date"),
+                DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+                // DB::raw("IF(account_receivable.created_at <= " . $LastDayMonth . ",IF(" . $LastWeekOfMonth . "<=" . $ancualDate . ",1,0),0) AS edit_date"),
                 // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
                 DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
+                DB::raw("SUM(IF(bill_user_activity.status != 'APROBADO',1,0)) AS pendientes"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
             )
+            ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
-            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id');
+            ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
+            ->LeftJoin('user_campus', 'user_campus.user_id', 'users.id')
+            ;
 
         if ($user_id != 0) {
             $AccountReceivable->groupBy('account_receivable.id');
@@ -111,19 +117,41 @@ class AccountReceivableController extends Controller
             $AccountReceivable->groupBy('users.id');
         }
 
+        if ($request->campus_id) {
+            $AccountReceivable->where('user_campus.campus_id', $request->campus_id);
+        }
+
+        if ($request->contract_type_id) {
+            $AccountReceivable->where('assistance.contract_type_id', $request->contract_type_id);
+        }
+
         if ($request->_sort) {
             $AccountReceivable->orderBy($request->_sort, $request->_order);
         }
 
         if ($request->search) {
-            $AccountReceivable->where(function ($query) use ($request) {
-                $query->where('users.firstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('users.identification', 'like', '%' . $request->search . '%')
-                    ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%');
-            });
+            if (str_contains($request->search, ' ')) {
+                $spl = explode(' ', $request->search);
+                foreach ($spl as $element) {
+                    $AccountReceivable->where('users.identification', 'like', '%' . $element . '%')
+                        ->orWhere('account_receivable.observation', 'like', '%' . $element . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $element . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $element . '%')
+                        ->Having('nombre_completo', 'like', '%' . $element . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $element . '%');
+                }
+            } else {
+                $AccountReceivable->where(function ($query) use ($request) {
+                    $query->where('users.identification', 'like', '%' . $request->search . '%')
+                        ->orWhere('account_receivable.observation', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.firstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlefirstname', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.lastname', 'like', '%' . $request->search . '%')
+                        ->Having('nombre_completo', 'like', '%' . $request->search . '%')
+                        ->orWhere('users.middlelastname', 'like', '%' . $request->search . '%');
+                });
+            }
         }
 
 
@@ -190,8 +218,8 @@ class AccountReceivableController extends Controller
             });
         }
 
-        if ($request->campus && isset($request->campus) && $request->campus != 'null') {
-            $Patients->where('admissions.campus_id', $request->campus);
+        if ($request->campus_id && isset($request->campus_id) && $request->campus_id != 'null') {
+            $Patients->where('admissions.campus_id', $request->campus_id);
         }
 
         if ($request->query("pagination", true) == "false") {

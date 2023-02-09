@@ -12,6 +12,7 @@ use App\Models\ServicesBriefcase;
 use App\Models\User;
 use App\Models\Admissions;
 use App\Models\ManagementPlan;
+use App\Models\Pavilion;
 use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -74,6 +75,14 @@ class PharmacyProductRequest extends Model
 			'pharmacy_product_request_id'
 		);
 	}
+	public function many_pharmacy_request_shipping()
+	{
+		return $this->hasMany(
+			PharmacyRequestShipping::class,
+			'pharmacy_product_request_id',
+			'id',
+		);
+	}
 	public function user_request()
 	{
 		return $this->belongsTo(User::class, 'user_request_id');
@@ -85,5 +94,9 @@ class PharmacyProductRequest extends Model
 	public function user_request_pad()
 	{
 		return $this->belongsTo(User::class);
+	}
+	public function pavilion()
+	{
+		return $this->belongsTo(Pavilion::class);
 	}
 }

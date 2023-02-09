@@ -7,6 +7,11 @@
 namespace App\Models\Base;
 
 use App\Models\Assistance;
+use App\Models\Bed;
+use App\Models\MedicalDiaryDays;
+use App\Models\Procedure;
+use App\Models\Process;
+use App\Models\Status;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -39,8 +44,41 @@ class MedicalDiary extends Model
 	// 	'special_attention_id',
 	// ];
 
-	// public function assistance()
-	// {
-	// 	return $this->belongsTo(Assistance::class);
-	// }
+	public function assistance()
+	{
+		return $this->belongsTo(Assistance::class);
+	}
+
+	public function office()
+	{
+		return $this->belongsTo(Bed::class);
+	}
+
+	public function campus()
+	{
+		return $this->belongsTo(Campus::class, 'campus_id', 'id');
+	}
+
+	public function  status()
+	{
+		return $this->belongsTo(Status::class, 'diary_status_id', 'id');
+	}
+
+	public function  medical_diary_days()
+	{
+		return $this->hasMany(MedicalDiaryDays::class,'medical_diary_id','id');
+	}
+
+	public function  medical_diary_days_grouped()
+	{
+		return $this->hasMany(MedicalDiaryDays::class,'medical_diary_id','id')
+		// ->groupBy('medical_diary_days.days_id')
+		->orderBY('medical_diary_days.days_id', 'ASC')
+		;
+	}
+
+	public function  procedure()
+	{
+		return $this->belongsTo(Procedure::class,'procedure_id','id');
+	}
 }

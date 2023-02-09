@@ -15,6 +15,9 @@ class CreateProductSuppliesTable extends Migration
         {
                 Schema::create('product_supplies', function (Blueprint $table) {
                         $table->bigIncrements('id');
+                        $table->unsignedBigInteger('product_group_id')->nullable();
+                        $table->unsignedBigInteger('product_category_id')->nullable();
+                        $table->unsignedBigInteger('product_subcategory_id')->nullable();
                         $table->string('size')->nullable();
                         $table->string('measure')->nullable();
                         $table->string('stature')->nullable();
@@ -28,6 +31,19 @@ class CreateProductSuppliesTable extends Migration
                         $table->string('dose')->nullable();
 
                         $table->timestamps();
+
+                        $table->index('product_group_id');
+                        $table->foreign('product_group_id')->references('id')
+                                ->on('product_group');
+
+                        $table->index('product_category_id');
+                        $table->foreign('product_category_id')->references('id')
+                                ->on('product_category');
+
+                        $table->index('product_subcategory_id');
+                        $table->foreign('product_subcategory_id')->references('id')
+                                ->on('product_subcategory');
+
                         $table->index('size_supplies_measure_id');
                         $table->foreign('size_supplies_measure_id')->references('id')
                                 ->on('supplies_measure');

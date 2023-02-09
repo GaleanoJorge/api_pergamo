@@ -42,7 +42,7 @@
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
                         <p>HEALTH & LIFE IPS S.A.S </p>
-                        <p>Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                        <p style="font-size:9px">{{$chrecord[0]["admissions"]["campus"]["address"]}}, {{$chrecord[0]["admissions"]["campus"]["region"]["name"]}}, {{$chrecord[0]["admissions"]["campus"]["name"]}}</p>
                         <p>Nit: 900900122 - 7</p>
                     </div>
 
@@ -277,17 +277,18 @@
             INCAPACIDAD MÉDICA<br>
         </p>
 
+        <hr />
                    
         @foreach($ChInability as $ch)
         <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
             <span style="font-family:Calibri; font-size:9pt">
-                <b>@if(isset($ch['created_at'])) FECHA: </b>{{mb_substr($ch['created_at'],0,10) }} @endisset</span>
+                <b>@if(isset($ch['created_at'])) FECHA: </b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset</span>
         </p>
 
         @if(($ch['extension']) == 'Si' )
 
         <p style=" text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt">
-            <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PORROGA</b> </span>
+            <span style="font-family:Calibri; font-weight:bold; color:#070c0f; background-color:#ffffff"> <b>PRORROGA</b> </span>
             <span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>  
         @endisset
@@ -316,7 +317,7 @@
             <tr style="height:11.95pt">
                 <td style="width:200pt; vertical-align:top">
                     <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
-                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['name']}} @endisset </span>
+                        <span style="font-family:Calibri; font-size:8pt"><b>@if(isset($ch['diagnosis'])) DIAGNÓSTICO </b> {{$ch['diagnosis'] ['code']}} - {{$ch['diagnosis'] ['name']}} @endisset </span>
                     </p>
                 </td>
             </tr>

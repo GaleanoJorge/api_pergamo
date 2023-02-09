@@ -15,6 +15,7 @@ use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\Briefcase;
+use App\Models\ChFormulation;
 use App\Models\ManagementProcedure;
 use App\Models\Procedure;
 use App\Models\RoleAttention;
@@ -37,6 +38,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $assigned_user_id
  * @property int $route_of_administration
  * @property int $status_id
+ * @property string $note
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -87,6 +89,12 @@ class ManagementPlan extends Model
 	{
 		return $this->belongsTo(Status::class);
 	}
+
+	public function single_assigned_management_plan()
+	{
+		return $this->belongsTo(AssignedManagementPlan::class, 'id', 'managemen_plan_id');
+	}
+
 	public function briefcase()
 	{
 		return $this->hasOneThrough(
@@ -117,5 +125,9 @@ class ManagementPlan extends Model
 	public function management_procedure()
 	{
 		return $this->hasMany(ManagementProcedure::class);
+	}
+	public function ch_formulation()
+	{
+		return $this->belongsTo(ChFormulation::class, 'id', 'management_plan_id');
 	}
 }

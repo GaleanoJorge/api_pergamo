@@ -21,6 +21,10 @@ class ChVitalSignsController extends Controller
         $ChVitalSigns = ChVitalSigns::with('ch_vital_hydration', 'ch_vital_ventilated', 'ch_vital_temperature', 'ch_vital_neurological');
         $ChVitalSigns = ChVitalSigns::select();
 
+        if ($request->ch_record_id) {
+            $ChVitalSigns->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChVitalSigns->orderBy($request->_sort, $request->_order);
         }
@@ -173,6 +177,8 @@ class ChVitalSignsController extends Controller
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->has_oxigen = $request->has_oxigen;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
+        $ChVitalSigns->observations_vital_ventilated = $request->observations_vital_ventilated;
+        $ChVitalSigns->observations_parameters_signs = $request->observations_parameters_signs;
         $ChVitalSigns->ch_vital_hydration_id = $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id = $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id = $request->ch_vital_temperature_id;
@@ -269,6 +275,8 @@ class ChVitalSignsController extends Controller
         // $ChVitalSigns->miotic_size =  $request->miotic_size;
         $ChVitalSigns->has_oxigen = $request->has_oxigen;
         $ChVitalSigns->observations_glucometry = $request->observations_glucometry;
+        $ChVitalSigns->observations_vital_ventilated = $request->observations_vital_ventilated;
+        $ChVitalSigns->observations_parameters_signs = $request->observations_parameters_signs;
         $ChVitalSigns->ch_vital_hydration_id =  $request->ch_vital_hydration_id;
         $ChVitalSigns->ch_vital_ventilated_id =  $request->ch_vital_ventilated_id;
         $ChVitalSigns->ch_vital_temperature_id =  $request->ch_vital_temperature_id;

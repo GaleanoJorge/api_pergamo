@@ -267,6 +267,7 @@ class Patient extends Model
 	{
 		return $this->belongsToMany(Patient::class,'admissions')
 		->withPivot('patient_id')
+		->with('ch_interconsultation')
 		->withTimestamps();
 	}
 

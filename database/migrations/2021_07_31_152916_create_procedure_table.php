@@ -27,6 +27,7 @@ class CreateProcedureTable extends Migration
             $table->unsignedTinyInteger('gender_id');
             $table->unsignedTinyInteger('status_id');
             $table->unsignedBigInteger('procedure_purpose_id');
+            $table->unsignedBigInteger('payment_type_id')->nullable(); // 1 cuota moderadora - 2 copago - 3 excento
             $table->time('time')->nullable();
             $table->timestamps();
             
@@ -38,6 +39,7 @@ class CreateProcedureTable extends Migration
             $table->index('procedure_type_id');
             $table->index('pbs_type_id');
             $table->index('purpose_service_id');
+            $table->index('payment_type_id');
 
             $table->foreign('procedure_category_id')->references('id')
                 ->on('procedure_category');
@@ -55,6 +57,8 @@ class CreateProcedureTable extends Migration
                 ->on('pbs_type');
             $table->foreign('purpose_service_id')->references('id')
                 ->on('purpose_service');
+            $table->foreign('payment_type_id')->references('id')
+            ->on('payment_type');
 
         });
     }

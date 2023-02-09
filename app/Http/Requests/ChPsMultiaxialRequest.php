@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PharmacyUpdateMaxMinRequest extends FormRequest
+class ChPsMultiaxialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,13 @@ class PharmacyUpdateMaxMinRequest extends FormRequest
     public function rules()
     {
         return [
-            'pharmacy_lot_stock_id' => '',
-            'own_pharmacy_stock_id' => '',
-            'request_pharmacy_stock_id' => '',
+            'axis_one_id' => '',
+            'axis_two_id' => '',
+            'axis_three_id' => '',
+            'axis_four_id' => '',
+            'eeag' => '',
+            'type_record_id' => '',
+            'ch_record_id' => '',
         ];
     }
 }

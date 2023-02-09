@@ -17,15 +17,15 @@ class CreateChPsSynthesisTable extends Migration
             $table->bigIncrements('id');   
 
             $table->string('psychomotricity');
-            $table->string('observations_psy');
+            $table->longText('observations_psy');
             $table->string('introspection');
-            $table->string('observations_in');
+            $table->longText('observations_in');
             $table->unsignedBigInteger('ch_ps_judgment_id');
-            $table->string('observations_jud');
+            $table->longText('observations_jud');
             $table->unsignedBigInteger('ch_ps_prospecting_id');
-            $table->string('observations_pros');
+            $table->longText('observations_pros');
             $table->unsignedBigInteger('ch_ps_intelligence_id');
-            $table->string('observations_inte');
+            $table->longText('observations_inte');
 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

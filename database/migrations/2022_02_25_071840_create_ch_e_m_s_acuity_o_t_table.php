@@ -15,12 +15,12 @@ class CreateChEMSAcuityOTTable extends Migration
     {
         Schema::create('ch_e_m_s_acuity_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('follow_up');
-            $table->string('object_identify');
-            $table->string('figures');
-            $table->string('color_design');
-            $table->string('categorization');
-            $table->string('special_relation');
+            $table->string('follow_up')->nullable();
+            $table->string('object_identify')->nullable();
+            $table->string('figures')->nullable();
+            $table->string('color_design')->nullable();
+            $table->string('categorization')->nullable();
+            $table->string('special_relation')->nullable();
             
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

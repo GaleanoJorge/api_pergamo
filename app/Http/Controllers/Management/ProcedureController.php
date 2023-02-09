@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Management;
 use App\Models\Procedure;
 use App\Models\ProcedurePackage;
 use App\Models\ManualPrice;
+use App\Models\MedicalDiary;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use App\Http\Requests\ProcedureRequest;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
 use Illuminate\Database\QueryException;
-
+use Illuminate\Support\Facades\DB;
 class ProcedureController extends Controller
 {
     /**
@@ -22,7 +23,14 @@ class ProcedureController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $Procedures = Procedure::select();
+        $Procedures = Procedure::select('procedure.*')
+            ->with('payment_type')
+            ->where('procedure.status_id', 1);
+
+        if($request->assistance_id){
+            $Procedures->leftJoin('assistance_procedure', 'procedure.id', 'assistance_procedure.procedure_id')
+                ->where('assistance_id', $request->assistance_id);
+        }
 
         if ($request->_sort) {
             $Procedures->orderBy($request->_sort, $request->_order);
@@ -60,7 +68,7 @@ class ProcedureController extends Controller
         $ProcedurePackage = ProcedurePackage::pluck('procedure_id')->toArray();
         if ($request->procedure) {
             $elementsPackage = Procedure::where('procedure_type_id', '!=', 3)
-            ;
+            ->where('status_id', 1);
             if ($request->search) {
                 $elementsPackage->where(function ($query) use ($request) {
                     $query->where('code', 'like', '%' . $request->search . '%')
@@ -138,7 +146,7 @@ class ProcedureController extends Controller
     public function getByManual(Request $request, int $manualId): JsonResponse
     {
         $ManualPrice = ManualPrice::where('manual_id', '=', $manualId)->pluck('procedure_id')->toArray();
-        $Procedure = Procedure::whereNotIn('id', $ManualPrice);
+        $Procedure = Procedure::whereNotIn('id', $ManualPrice)->where('status_id', 1);
         if ($request->search) {
             $Procedure->where('name', 'like', '%' . $request->search . '%')
                 ->Orwhere('id', 'like', '%' . $request->search . '%');
@@ -159,6 +167,46 @@ class ProcedureController extends Controller
         ]);
     }
 
+    /**
+     * @param  int  $medicalDiaryId
+     * Get procedure by medical diary.
+     *
+     * @return JsonResponse
+     */
+    public function getByMedicalDiary(Request $request, int $medicalDiaryId): JsonResponse
+    {
+
+        $medicalDiary = MedicalDiary::where('id', '=', $medicalDiaryId)->first();
+        $procedure = $medicalDiary->procedure()->first();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimiento obtenido correctamente',
+            'data' => ['procedure' => $procedure]
+        ]);
+
+    }
+
+    /**
+     * Get user's procedures
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUser(Request $request, int $userId): JsonResponse
+    {
+        $procedures = DB::table('assistance_procedure')
+        ->join('assistance','assistance.id','=','assistance_procedure.assistance_id')
+        ->join('users','users.id','=','assistance.user_id')
+        ->join('procedure','procedure.id','=','assistance_procedure.procedure_id')
+        ->where('users.id','=',$userId)
+        ->select('procedure.*')
+        ->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Procedimientos del médico asistencial obtenidos correctamente',
+            'data' => ['procedures' => $procedures->toArray()]
+        ]);
+    }
+
+
 
 
     public function store(ProcedureRequest $request): JsonResponse
@@ -176,6 +224,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type_id = $request->payment_type;
 
         $Procedure->save();
 
@@ -226,6 +275,7 @@ class ProcedureController extends Controller
         $Procedure->purpose_service_id = $request->purpose_service_id;
         $Procedure->procedure_type_id = $request->procedure_type_id;
         $Procedure->time = $request->time;
+        $Procedure->payment_type_id = $request->payment_type;
         $Procedure->save();
 
         return response()->json([

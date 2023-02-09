@@ -15,13 +15,13 @@ class CreateChPsObjectivesTable extends Migration
     {
         Schema::create('ch_ps_objectives', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('patient');
-            $table->string('session');
-            $table->string('intervention');
-            $table->string('patient_state');
-            $table->string('recommendations');
-            $table->string('control');
-            $table->string('referrals');
+            $table->longText('patient');
+            $table->longText('session');
+            $table->longText('intervention');
+            $table->longText('patient_state');
+            $table->longText('recommendations');
+            $table->longText('control');
+            $table->longText('referrals');
            
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');

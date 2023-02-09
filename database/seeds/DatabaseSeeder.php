@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ProcedureAgeSeeder::class);
                 $this->call(ProcedurePurposeSeeder::class);
                 $this->call(PbsTypeSeeder::class);
+                $this->call(PaymentTypeSeeder::class);
                 $this->call(ProcedureTypeSeeder::class);
                 $this->call(PurposeServiceSeeder::class);
                 $this->call(IvaSeeder::class);
@@ -329,7 +330,7 @@ class DatabaseSeeder extends Seeder
                 $this->call(ChPsObsessiveSeeder::class);
                 $this->call(ChPsAssociationSeeder::class);
                 $this->call(DiagnosisDmsSeeder::class);
-
+                $this->call(PharmacyAdjustmentSeeder::class);
                 
                 
                 //Semillas talento humano
@@ -349,6 +350,11 @@ class DatabaseSeeder extends Seeder
                 $this->call(ReferenceStatusSeeder::class);
                 $this->call(StayTypeSeeder::class);
                 $this->call(TechnologicalMediumSeeder::class);
+
+                //seeding ext-consult
+                $this->call(DaysSeeder::class);
+                $this->call(MedicalStatusSeeder::class);
+
 
         }
 }

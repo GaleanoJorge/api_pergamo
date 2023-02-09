@@ -57,7 +57,7 @@ class ChRtSessionsController extends Controller
     {
 
 
-        $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', $type_record_id)
+        $ChRtSessions = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', $type_record_id)
             ->get()->toArray();
 
         if ($request->has_input) { //
@@ -84,6 +84,7 @@ class ChRtSessionsController extends Controller
         $ChRtSessions->month = $request->month; 
         $ChRtSessions->week = $request->week; 
         $ChRtSessions->recommendations = $request->recommendations; 
+        $ChRtSessions->frequency_id = $request->frequency_id; 
         $ChRtSessions->type_record_id = $request->type_record_id; 
         $ChRtSessions->ch_record_id = $request->ch_record_id; 
         $ChRtSessions->save();
@@ -125,6 +126,7 @@ class ChRtSessionsController extends Controller
         $ChRtSessions->month = $request->month; 
         $ChRtSessions->week = $request->week; 
         $ChRtSessions->recommendations = $request->recommendations;         
+        $ChRtSessions->frequency_id = $request->frequency_id;         
         $ChRtSessions->type_record_id = $request->type_record_id; 
         $ChRtSessions->ch_record_id = $request->ch_record_id; 
           

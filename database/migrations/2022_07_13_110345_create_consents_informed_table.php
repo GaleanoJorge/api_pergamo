@@ -30,7 +30,9 @@ class CreateConsentsInformedTable extends Migration
             $table->string('name_responsible')->nullable();
             $table->string('identification_responsible')->nullable();
             $table->string('parent_responsible')->nullable();
-            
+            $table->unsignedBigInteger('ch_record_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
 
 
@@ -49,6 +51,9 @@ class CreateConsentsInformedTable extends Migration
             $table->foreign('relationship_id')->references('id')
                 ->on('relationship');
 
+            $table->index('ch_record_id');
+            $table->foreign('ch_record_id')->references('id')
+                ->on('ch_record');
         });
     }
 

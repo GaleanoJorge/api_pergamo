@@ -17,11 +17,16 @@ class CreateChRtSessionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('month');
             $table->integer('week');
-            $table->String('recommendations')->nullable();            
+            $table->longText('recommendations')->nullable();            
+            $table->unsignedTinyInteger('frequency_id');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
             
+            $table->index('frequency_id');
+            $table->foreign('frequency_id')->references('id')
+                ->on('frequency');
+
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                 ->on('type_record');

@@ -15,18 +15,11 @@ class CreateChRNValorationOTTable extends Migration
     {
         Schema::create('ch_r_n_valoration_o_t', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('ch_diagnosis_id');
             $table->string('patient_state');
 
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
-
-
-            $table->index('ch_diagnosis_id');
-            $table->foreign('ch_diagnosis_id')->references('id')
-                ->on('diagnosis');
-
 
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')

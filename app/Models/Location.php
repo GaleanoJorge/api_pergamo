@@ -14,6 +14,7 @@ class Location extends BaseLocation
         'program_id',
         'pavilion_id',
         'flat_id',
+        'procedure_id',
         'bed_id',
         'user_id',
 	];

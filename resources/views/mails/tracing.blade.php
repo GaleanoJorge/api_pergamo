@@ -44,7 +44,7 @@
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
                         <p>HEALTH & LIFE IPS S.A.S </p>
-                        <p>Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                        <p style="font-size:9px">{{$chrecord[0]["admissions"]["campus"]["address"]}}, {{$chrecord[0]["admissions"]["campus"]["region"]["name"]}}, {{$chrecord[0]["admissions"]["campus"]["name"]}}</p>
                         <p>Nit: 900900122 - 7</p>
                     </div>
 
@@ -353,6 +353,25 @@
 
             @endisset
         </div>
+
+
+        <!-- Responsable -->
+        <br>
+        <hr/>
+        <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
+            <tr style="height:11.95pt">                        
+                <td style="width:100pt; vertical-align:top">
+                    <div>
+                        <p style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0">
+                            <span style="font-family:Calibri; font-size: 10px; font-weight:bold; color:#000000; background-color:#ffffff"> <b>RESPONSABLE DE SEGUIMIENTO</b><br>  
+                            {{$chrecord[0]['user']['firstname']}} {{$chrecord[0]['user']['middlefirstname']}} {{$chrecord[0]['user']['lastname']}} {{$chrecord[0]['user']['middlelastname']}}<br>
+                            {{$chrecord[0]['user']['identification_type']['name']}}:  {{$chrecord[0]['user']['identification']}}
+                            </span>
+                        </p> 
+                    </div>
+                </td>
+            </tr>
+        </table>
 
     </body>
 

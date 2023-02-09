@@ -9,8 +9,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BillUserActivityRequest;
 use Illuminate\Database\QueryException;
 use App\Models\AccountReceivable;
+use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Tariff;
+use App\Models\Assistance;
+use App\Models\Location;
+use App\Models\ManagementPlan;
+use App\Models\MinimumSalary;
+use App\Models\NeighborhoodOrResidence;
+use App\Models\Patient;
 use Carbon\Carbon;
 
 class BillUserActivityController extends Controller
@@ -69,6 +76,239 @@ class BillUserActivityController extends Controller
         ]);
     }
 
+
+    public function createMissedActivities(Request $request, int $year, int $mes, int $create_ar, int $create_bua): JsonResponse
+    {
+        if ($mes <= 0 || $mes >= 13) {
+            return response()->json([
+                'status' => false,
+                'message' => 'El rango de meses debe ser entre 1 y 12',
+                'data' => ['bill_user_activity' => []]
+            ]);
+        }
+
+        $date_validate = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->format('Y-m-d H:i:s');
+        $date_validate2 = Carbon::parse($year . '-' . $mes . '-01 00:00:00')->addMonth()->format('Y-m-d H:i:s');
+
+        $Amp = AssignedManagementPlan::select('assigned_management_plan.*')
+            ->with(
+                'management_plan',
+                'ch_record',
+            )
+            ->leftJoin('bill_user_activity', 'bill_user_activity.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+            ->whereNull('bill_user_activity.id')
+            ->whereNotNull('management_plan.procedure_id')
+            ->whereRaw("assigned_management_plan.execution_date < '" . $date_validate2 . "'")
+            ->whereRaw("assigned_management_plan.execution_date >= '" . $date_validate . "'")
+            ->groupBy('assigned_management_plan.id')
+            ->get()->toArray();
+
+        $aaa = 0;
+        $bbb = 0;
+
+        $MinimumSalary = MinimumSalary::where('year', $year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
+        }
+        foreach ($Amp as $element) {
+            $validate = null;
+            $Assistance = Assistance::where('user_id', $element['user_id'])->get()->toArray();
+            $validate = AccountReceivable::whereRaw("created_at < '" . $date_validate2 . "'")->whereRaw("created_at >= '" . $date_validate . "'")->where('user_id', '=', $element['user_id'])->get()->toArray();
+            if (count($validate) == 0) {
+                $bbb++;
+                $AccountReceivable = new AccountReceivable;
+                $AccountReceivable->user_id = $element['user_id'];
+                $AccountReceivable->status_bill_id = 1;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
+                $AccountReceivable->created_at = $year . '-' . $mes . '-29 00:12:27';
+                $AccountReceivable->updated_at = $year . '-' . $mes . '-29 00:12:27';
+                if ($create_ar == 1) {
+                    $AccountReceivable->save();
+                }
+            }
+
+            $AssignedManagementPlan = AssignedManagementPlan::find($element['id']);
+            $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+            $admissions = Admissions::find($element['management_plan']['admissions_id']);
+            $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
+            $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
+            $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
+
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
+
+            if ((count($valuetariff) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) && count($validate) > 0) {
+                $procedure_id = $element['management_plan']['procedure_id'];
+                $account_receivable_id = $validate[count($validate) - 1]['id'];
+                $assigned_management_plan_id = $element['id'];
+                $admissions_id = $element['management_plan']['admissions_id'];
+                $tariff_id = ($Assistance == 1 || $Assistance == 2 || $Assistance == 3 ? 583 : $valuetariff[0]['id']);
+                $ch_record_id = $element['ch_record'][count($element['ch_record']) - 1]['id'];
+
+                $aaa++;
+
+                $billActivity = new BillUserActivity;
+                $billActivity->procedure_id = $procedure_id;
+                $billActivity->account_receivable_id = $account_receivable_id;
+                $billActivity->assigned_management_plan_id = $assigned_management_plan_id;
+                $billActivity->admissions_id = $admissions_id;
+                $billActivity->tariff_id = $tariff_id;
+                $billActivity->ch_record_id = $ch_record_id;
+                if ($create_bua == 1) {
+                    $billActivity->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cuenta de cobro con las actividades del usuario creada exitosamente',
+            'data' => ['assigneds' => count($Amp), 'activities' => $aaa, 'accounts' => $bbb]
+        ]);
+    }
+
+    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
+    {
+        $extra_dose = 0;
+        $has_car = 0;
+        $Assistance = Assistance::select('assistance.*')
+            ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+            ->groupBy('assistance.id')->get()->toArray();
+        if (count($Assistance) > 0) {
+            if ($Assistance[0]['has_car']) {
+                $has_car = $Assistance[0]['has_car'];
+            }
+        }
+        if ($ManagementPlan->type_of_attention_id == 17) {
+            $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                ->where('assigned_management_plan.redo', 0)
+                ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                ->where('management_plan.admissions_id', $admissions_id)
+                ->where('management_plan.type_of_attention_id', 17)
+                ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                ->groupBy('assigned_management_plan.id')
+                ->get()->toArray();
+            $validate = array();
+
+            if (count($assigned_validation) > 0) {
+                foreach ($assigned_validation as $element) {
+                    $offset = 3;
+                    $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                    $inidiat_time = Carbon::now()->subHours($offset);
+                    $final_time = Carbon::now()->addHours($offset);
+                    if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                        array_push($validate, $element);
+                    }
+                }
+            }
+            if (count($validate) > 0) {
+                $extra_dose = 1;
+            }
+        }
+        if ($request->is_failed) {
+            if ($request->is_failed === true || $request->is_failed === "true") {
+                $valuetariff = Tariff::where('failed', 1)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('pad_risk_id', $tariff)
+                    ->where('status_id', 1)->get()->toArray();
+            } else {
+                $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                    ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                    ->where('phone_consult', $ManagementPlan->phone_consult)
+                    ->whereNotNull('failed')->where('failed', 0)
+                    ->where('status_id', 1);
+                $valuetariff = $valuetariff->get()->toArray();
+                if (count($valuetariff) == 0) {
+                    if ($ManagementPlan->phone_consult == 1) {
+                        $valuetariff = Tariff::whereNull('pad_risk_id')
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    } else {
+                        $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                            ->where('phone_consult', $ManagementPlan->phone_consult)
+                            ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                            ->where('status_id', 1)
+                            ->whereNotNull('failed')->where('failed', 0);
+                    }
+                    // definir cuando la atención es fallida
+                    if ($request->is_failed) {
+                        if ($request->is_failed === true || $request->is_failed === "true") {
+                            $valuetariff->whereNotNull('failed')->where('failed', 1);
+                        } else {
+                            $valuetariff->whereNotNull('failed')->where('failed', 0);
+                        }
+                    } else {
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
+                    }
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                            $valuetariff->where('quantity', $ManagementPlan->hours);
+                        }
+                    } else {
+                        $valuetariff->whereNull('quantity');
+                    }
+                    $valuetariff->where('extra_dose', $extra_dose);
+                    $valuetariff->where('program_id', $Location->program_id);
+                    $valuetariff->where('has_car', $has_car);
+                    $valuetariff = $valuetariff->get()->toArray();
+                }
+            }
+        } else {
+            $valuetariff = Tariff::where('admissions_id', $admissions_id)
+                ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                ->where('phone_consult', $ManagementPlan->phone_consult)
+                ->whereNotNull('failed')->where('failed', 0)
+                ->where('status_id', 1);
+            $valuetariff = $valuetariff->get()->toArray();
+            if (count($valuetariff) == 0) {
+                if ($ManagementPlan->phone_consult == 1) {
+                    $valuetariff = Tariff::whereNull('pad_risk_id')
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->whereNotNull('failed')->where('failed', 0);
+                } else {
+                    $valuetariff = Tariff::where('pad_risk_id', $tariff)
+                        ->where('phone_consult', $ManagementPlan->phone_consult)
+                        ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
+                        ->where('status_id', 1)
+                        ->whereNotNull('failed')->where('failed', 0);
+                }
+                // definir cuando la atención es fallida
+                if ($request->is_failed) {
+                    if ($request->is_failed === true || $request->is_failed === "true") {
+                        $valuetariff->whereNotNull('failed')->where('failed', 1);
+                    } else {
+                        $valuetariff->whereNotNull('failed')->where('failed', 0);
+                    }
+                } else {
+                    $valuetariff->whereNotNull('failed')->where('failed', 0);
+                }
+                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                    if ($ManagementPlan->hours && $ManagementPlan->hours != 0) {
+                        $valuetariff->where('quantity', $ManagementPlan->hours);
+                    }
+                } else {
+                    $valuetariff->whereNull('quantity');
+                }
+                $valuetariff->where('extra_dose', $extra_dose);
+                $valuetariff->where('program_id', $Location->program_id);
+                $valuetariff->where('has_car', $has_car);
+                $valuetariff = $valuetariff->get()->toArray();
+            }
+        }
+
+        return $valuetariff;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -110,7 +350,10 @@ class BillUserActivityController extends Controller
                 'assigned_management_plan.management_plan.admissions',
                 'assigned_management_plan.management_plan.admissions.patients',
                 'assigned_management_plan.management_plan.admissions.patients.identification_type',
-            );
+            )
+            ->orderBy('bill_user_activity.status', 'ASC')
+            ->orderBy('bill_user_activity.created_at', 'ASC')
+            ;
 
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);

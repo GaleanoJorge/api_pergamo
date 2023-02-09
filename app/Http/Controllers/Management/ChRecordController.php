@@ -8,6 +8,7 @@ use App\Models\AccountReceivable;
 use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Assistance;
+use App\Models\AssistanceSpecial;
 use App\Models\AssistanceSupplies;
 use App\Models\AuthBillingPad;
 use App\Models\Authorization;
@@ -163,8 +164,16 @@ use App\Models\ChPsObjectives;
 use App\Models\ChPsOperationalization;
 use App\Models\ChPsSphere;
 use App\Models\ChPsSynthesis;
+use App\Models\RoleAttention;
 use App\Models\Tracing;
 use App\Models\ChNRMaterialsFT;
+use App\Models\ChType;
+use App\Models\MedicalDiaryDays;
+use App\Models\Disclaimer;
+use App\Models\PadRisk;
+use App\Models\Program;
+use App\Models\TypeOfAttention;
+use App\Models\User;
 use Carbon\Carbon;
 use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
@@ -177,6 +186,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Ramsey\Uuid\Type\Integer;
 
 class ChRecordController extends Controller
 {
@@ -193,6 +203,7 @@ class ChRecordController extends Controller
             'admissions.location',
             'admissions.location.program',
             'admissions.patients',
+            'admissions.patients.admissions',
         );
 
         if ($request->_sort) {
@@ -214,11 +225,63 @@ class ChRecordController extends Controller
             $ChRecord = $ChRecord->get()->toArray();
             if ($request->record_id) {
                 $validate = ChRecord::select()
-                    ->where('admissions_id', $ChRecord[0]['admissions_id'])
-                    ->where('ch_type_id', $ChRecord[0]['ch_type_id'])
+                    ->leftJoin('ch_reason_consultation', 'ch_reason_consultation.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_position', 'ch_position.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_e_valoration_o_t', 'ch_e_valoration_o_t.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_nutrition_anthropometry', 'ch_nutrition_anthropometry.ch_record_id', 'ch_record.id')
+                    ->leftJoin('tl_therapy_language', 'tl_therapy_language.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_respiratory_therapy', 'ch_respiratory_therapy.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_e_valoration_f_t', 'ch_e_valoration_f_t.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_sw_diagnosis', 'ch_sw_diagnosis.ch_record_id', 'ch_record.id')
+                    ->leftJoin('ch_ps_assessment', 'ch_ps_assessment.ch_record_id', 'ch_record.id')
+
+
+
+
+                    ->where(function ($query) {
+                        $query->where(function ($q) {
+                            $q->where('ch_reason_consultation.type_record_id', 1)
+                                ->whereNotNull('ch_reason_consultation.id');
+                        })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_position.type_record_id', 1)
+                                    ->whereNotNull('ch_position.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_e_valoration_o_t.type_record_id', 1)
+                                    ->whereNotNull('ch_e_valoration_o_t.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_nutrition_anthropometry.type_record_id', 1)
+                                    ->whereNotNull('ch_nutrition_anthropometry.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('tl_therapy_language.type_record_id', 1)
+                                    ->whereNotNull('tl_therapy_language.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_respiratory_therapy.type_record_id', 1)
+                                    ->whereNotNull('ch_respiratory_therapy.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_e_valoration_f_t.type_record_id', 1)
+                                    ->whereNotNull('ch_e_valoration_f_t.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_sw_diagnosis.type_record_id', 1)
+                                    ->whereNotNull('ch_sw_diagnosis.id');
+                            })
+                            ->orWhere(function ($q) {
+                                $q->where('ch_ps_assessment.type_record_id', 1)
+                                    ->whereNotNull('ch_ps_assessment.id');
+                            });
+                    })
+
+                    ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                    ->where('ch_record.ch_type_id', $ChRecord[0]['ch_type_id'])
                     ->where('status', 'CERRADO')
                     ->get()->toArray();
-                if (count($validate) > 0) {
+                if (count($validate) > 0 || $ChRecord[0]['ch_type_id'] == 20) {
                     $ChRecord[0]['has_input'] = true;
                 } else {
                     $ChRecord[0]['has_input'] = false;
@@ -243,6 +306,52 @@ class ChRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function ValidateSpeciality()
+    {
+        $array_aux = array(
+            137 => 5,
+            135 => 7,
+            136 => 6,
+            134 => 4
+        );
+
+        $user_id = Auth::user()->id;
+        $AssitanceSpecial =  AssistanceSpecial::select('assistance_special.*')
+            ->leftJoin('assistance', 'assistance_special.assistance_id', 'assistance.id')
+            ->with(
+                'specialty'
+            )
+            ->where('assistance.user_id', $user_id)
+            ->get()->toArray();
+
+        if (count($AssitanceSpecial) > 0) {
+            return $array_aux[$AssitanceSpecial[0]['specialty_id']];
+        } else {
+
+            return  $AssitanceSpecial;
+            // $this->SendSelect($AssitanceSpecial);
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function SendSelect($selectorsend): JsonResponse
+    {
+        return response()->json([
+            'status' => false,
+            'message' => 'Se requiere seleccionar especialización',
+            'data' => ['assictance_special' => $selectorsend],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function byadmission(Request $request, int $id, int $id2): JsonResponse
     {
         $ChRecord = ChRecord::with(
@@ -252,9 +361,13 @@ class ChRecordController extends Controller
             'assigned_management_plan',
             'assigned_management_plan.management_plan',
             'assigned_management_plan.management_plan.type_of_attention',
-        )
-            ->where('admissions_id', $id)
-            ->where('assigned_management_plan_id', $id2);
+        )->where('admissions_id', $id);
+
+        if ($request->ext_con) {
+            $ChRecord->where('medical_diary_days_id', $id2);
+        } else {
+            $ChRecord->where('assigned_management_plan_id', $id2);
+        }
 
         if ($request->_sort) {
             $ChRecord->orderBy($request->_sort, $request->_order);
@@ -262,6 +375,65 @@ class ChRecordController extends Controller
 
         if ($request->search) {
             $ChRecord->where('status', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->query("pagination", true) == "false") {
+            $ChRecord = $ChRecord->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $ChRecord = $ChRecord->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Registro paciente obtenidos exitosamente',
+            'data' => ['ch_record' => $ChRecord],
+        ]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function byInterconsultation(Request $request, int $id, int $id2): JsonResponse
+    {
+
+        $ChInterconsultation = ChInterconsultation::find($id2);
+
+        $ChRecord = ChRecord::select('ch_record.*')
+            ->with(
+                'ch_type',
+                'user',
+                'admissions',
+                'admissions.patients',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+            )
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('ch_interconsultation', 'ch_interconsultation.id', 'ch_record.ch_interconsultation_id')
+            ->where('ch_record.admissions_id', $id)
+            ->where(function ($q) use ($ChInterconsultation, $id2) {
+                if ($ChInterconsultation->ch_record_id) {
+                    $q->where('ch_record.ch_interconsultation_id', $id2);
+                } else {
+                    // $q->whereNull('ch_interconsultation.ch_record_id');
+                }
+            })
+            ->groupBy('ch_record.id');
+
+        $ChRecord->orderBy('ch_record.created_at', 'DESC');
+
+        if ($request->_sort) {
+            $ChRecord->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->search) {
+            $ChRecord->where('ch_record.status', 'like', '%' . $request->search . '%');
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -309,6 +481,7 @@ class ChRecordController extends Controller
             'admissions.contract',
             'admissions.contract.company',
             'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -335,7 +508,7 @@ class ChRecordController extends Controller
 
         $imagenComoBase64 = null;
 
-
+        $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
 
         if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -346,7 +519,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -359,6 +532,7 @@ class ChRecordController extends Controller
         $html = view('mails.SWCertification', [
             'chrecord' => $ChRecord,
             'ChSwSupportNetwork' => $ChSwSupportNetwork,
+            'fecharecord' => $fecharecord,
 
             'firm' => $imagenComoBase64,
             'today' => $today,
@@ -377,7 +551,6 @@ class ChRecordController extends Controller
         $name = 'prueba.pdf';
 
         Storage::disk('public')->put($name, $file);
-
 
 
 
@@ -406,7 +579,8 @@ class ChRecordController extends Controller
             'product_generic.measurement_units',
             'product_generic.multidose_concentration',
             'administration_route',
-            'hourly_frequency'
+            'hourly_frequency',
+            'product_supplies'
         )
             ->where('id', $id)->get()->toArray();
 
@@ -418,6 +592,7 @@ class ChRecordController extends Controller
             'admissions.contract',
             'admissions.contract.company',
             'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -460,7 +635,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -519,6 +694,7 @@ class ChRecordController extends Controller
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions',
+                'admissions.campus.region',
                 'admissions.patients',
                 'admissions.patients.academic_level',
                 'admissions.patients.municipality',
@@ -548,7 +724,8 @@ class ChRecordController extends Controller
             'product_generic.measurement_units',
             'product_generic.multidose_concentration',
             'administration_route',
-            'hourly_frequency'
+            'hourly_frequency',
+            'product_supplies'
         )
             ->leftJoin('ch_record', 'ch_formulation.ch_record_id', 'ch_record.id')
             ->where('ch_record.id', $ChRecord[0]['id'])->get()->toArray();
@@ -567,7 +744,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -621,11 +798,9 @@ class ChRecordController extends Controller
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
             'frequency',
-            // 'services_briefcase',
-            // 'services_briefcase.manual_price',
-            // 'services_briefcase.manual_price.procedure',
-
-
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
         )
             ->where('id', $id)->get()->toArray();
 
@@ -637,6 +812,7 @@ class ChRecordController extends Controller
             'admissions.contract',
             'admissions.contract.company',
             'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -677,7 +853,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -711,6 +887,7 @@ class ChRecordController extends Controller
 
 
 
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
         return response()->json([
             'status' => true,
@@ -736,6 +913,7 @@ class ChRecordController extends Controller
                 'admissions.contract',
                 'admissions.contract.company',
                 'admissions',
+                'admissions.campus.region',
                 'admissions.patients',
                 'admissions.patients.academic_level',
                 'admissions.patients.municipality',
@@ -763,6 +941,9 @@ class ChRecordController extends Controller
         $ChMedicalOrders = ChMedicalOrders::with(
             'procedure',
             'frequency',
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
 
         )
 
@@ -783,7 +964,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -850,6 +1031,7 @@ class ChRecordController extends Controller
             'admissions.contract',
             'admissions.contract.company',
             'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -880,6 +1062,7 @@ class ChRecordController extends Controller
 
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
 
         if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -890,7 +1073,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -951,6 +1134,7 @@ class ChRecordController extends Controller
             'admissions.contract',
             'admissions.contract.company',
             'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -981,6 +1165,7 @@ class ChRecordController extends Controller
 
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
 
         if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -991,7 +1176,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -1039,11 +1224,14 @@ class ChRecordController extends Controller
     {
         $fecharecord = 0;
 
-
-
         $ChInterconsultation = ChInterconsultation::with(
+            'frequency',
             'specialty',
-            'frequency'
+            'services_briefcase',
+            'services_briefcase.manual_price',
+            'services_briefcase.manual_price.procedure',
+            'type_of_attention',
+            'procedure',
         )->where('id', $id)->get()->toArray();
 
 
@@ -1055,6 +1243,7 @@ class ChRecordController extends Controller
             'admissions.contract.company',
             'admissions',
             'admissions.patients',
+            'admissions.campus.region',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
             'admissions.patients.ethnicity',
@@ -1084,6 +1273,7 @@ class ChRecordController extends Controller
 
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->format('d-m-Y h:i:s');
 
+        $Patients = $ChRecord[0]['admissions']['patients'];
 
 
         if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -1094,7 +1284,7 @@ class ChRecordController extends Controller
             $imagenComoBase64 = null;
             return response()->json([
                 'status' => false,
-                'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
+                'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
 
             ]);
         }
@@ -1146,9 +1336,10 @@ class ChRecordController extends Controller
             'user',
             'user.assistance',
             'user.user_role.role',
+            'user.identification_type',
             'admissions.contract',
             'admissions.contract.company',
-            'admissions',
+            'admissions.campus.region',
             'admissions.patients',
             'admissions.patients.academic_level',
             'admissions.patients.municipality',
@@ -1161,6 +1352,7 @@ class ChRecordController extends Controller
             'admissions.patients.population_group',
             'admissions.patients.activities',
             'admissions.contract.type_briefcase',
+            'admissions.contract.type_briefcase',
             'assigned_management_plan',
             'assigned_management_plan.management_plan',
             'assigned_management_plan.management_plan.type_of_attention',
@@ -1171,27 +1363,21 @@ class ChRecordController extends Controller
             // 'assistance_supplies.user_incharge_id',
             // 'assistance_supplies.application_hour',
         )->where('id', $id)->get()->toArray();
+
+
         $imagenComoBase64 = null;
         $fecharecord = Carbon::parse($ChRecord[0]['updated_at'])->setTimezone('America/Bogota');
 
         if ($ChRecord[0]['ch_type_id'] != 10) {
 
-        if ($ChRecord[0]['firm_file']) {
-            $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
-            $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
-            $imagenPAtient = base64_encode($contenidoBinarioPatient);
-        } else {
-            $imagenPAtient = null;
-            return response()->json([
-                'status' => false,
-                'message' => 'No se cuenta con la firma del paciente para generar este documento',
-
-            ]);
-    
+            if ($ChRecord[0]['firm_file']) {
+                $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
+                $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                $imagenPAtient = base64_encode($contenidoBinarioPatient);
+            } else {
+                $imagenPAtient = null;
+            }
         }
-
-
-    }
 
         $Patients = $ChRecord[0]['admissions']['patients'];
 
@@ -1299,7 +1485,8 @@ class ChRecordController extends Controller
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
                 'administration_route',
-                'hourly_frequency'
+                'hourly_frequency',
+                'product_supplies'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 5)->get()->toArray();
 
@@ -1307,15 +1494,19 @@ class ChRecordController extends Controller
             $ChMedicalOrders = ChMedicalOrders::with(
                 'procedure',
                 'frequency',
-                // 'services_briefcase',
-                // 'services_briefcase.manual_price',
-                // 'services_briefcase.manual_price.procedure',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Interconsulta
             $ChInterconsultation = ChInterconsultation::with(
                 'specialty',
-                'frequency'
+                'frequency',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'type_of_attention'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 6)->get()->toArray();
             //Plan de manejo
@@ -1358,11 +1549,8 @@ class ChRecordController extends Controller
                 'reason_exit'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 10)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
-
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
             // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
             // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
@@ -1372,11 +1560,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
 
             $today = Carbon::now();
@@ -1436,7 +1619,7 @@ class ChRecordController extends Controller
                 'ChMedicalCertificate' => $ChMedicalCertificate,
                 'ChFailed' => $ChFailed,
                 'ChPatientExit' => $ChPatientExit,
-                'ChTracing' => $ChTracing,
+                'Disclaimer' => $Disclaimer,
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
@@ -1456,7 +1639,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1493,12 +1676,13 @@ class ChRecordController extends Controller
                 'oxygen_type',
                 'liters_per_minute',
                 'parameters_signs'
-            )->where('ch_record_id', $id)->get()->toArray();
+            )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChOxigenNE = ChOxigen::with('oxygen_type', 'liters_per_minute')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChNursingProcedure = ChNursingProcedure::with('nursing_procedure')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $id)->get()->toArray();
             $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $id)->get()->toArray();
             $ChNotesDescription = ChNotesDescription::with('patient_position')->where('ch_record_id', $id)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $id)->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
             // VALORACIÓN EN LA PIEL
             $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $id)->get()->toArray();
 
@@ -1508,18 +1692,17 @@ class ChRecordController extends Controller
             $ChScaleJhDownton = ChScaleJhDownton::where('ch_record_id', $id)->get()->toArray();
             $ChScaleBraden = ChScaleBraden::where('ch_record_id', $id)->get()->toArray();
 
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
             //APLICACION DE MEDICAMENTOS
 
-            $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id', $id)
-
-                // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
-                // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
-                // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+            $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
+                ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                ->where('ch_record_id', $id)->whereNotNull('manual_price.product_id')
                 ->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
@@ -1528,11 +1711,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -1584,11 +1762,15 @@ class ChRecordController extends Controller
                     'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
                     'user_request'
                 )->groupBy('pharmacy_product_request.id');
-            $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
-                ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
-                ->where('pharmacy_product_request.management_plan_id', $ChRecord[0]['assigned_management_plan']['management_plan_id'])
-                ->whereNotNull('manual_price.product_id');
-            $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+            if ($ChRecord[0]['assigned_management_plan']) {
+                $PharmacyProductRequest->leftJoin('services_briefcase', 'services_briefcase.id', 'pharmacy_product_request.services_briefcase_id')
+                    ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+                    ->where('pharmacy_product_request.management_plan_id', $ChRecord[0]['assigned_management_plan']['management_plan_id'])
+                    ->whereNotNull('manual_price.product_id');
+                $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
+            } else {
+                $PharmacyProductRequest = null;
+            }
 
             $patient = $ChRecord[0]['admissions'];
             $html = view('mails.hcEnfermeria', [
@@ -1615,9 +1797,10 @@ class ChRecordController extends Controller
                 'ChScaleBraden' => $ChScaleBraden,
                 'ChOxigenNE' => $ChOxigenNE,
                 'ChNotesDescription' => $ChNotesDescription,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'PharmacyProductRequest' => $PharmacyProductRequest,
                 'AssistanceSupplies' => $AssistanceSupplies,
-                'ChTracing' => $ChTracing,
+                'Disclaimer' => $Disclaimer,
                 'fecharecord' => $fecharecord,
 
                 'firmPatient' => $imagenPAtient,
@@ -1640,7 +1823,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1697,7 +1880,7 @@ class ChRecordController extends Controller
                 'product_supplies',
                 'request_pharmacy_stock'
             )->get()->toArray();
-            $ChRtSessions = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChRtSessions = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
             $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
@@ -1731,11 +1914,11 @@ class ChRecordController extends Controller
                 'product_supplies',
                 'request_pharmacy_stock'
             )->get()->toArray();
-            $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            $ChRtSessionsEvo = ChRtSessions::with('frequency')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
@@ -1745,11 +1928,6 @@ class ChRecordController extends Controller
                 }
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -1775,7 +1953,7 @@ class ChRecordController extends Controller
                 'ChObjectivesTherapy' => $ChObjectivesTherapy,
                 'PharmacyProductRequest' => $PharmacyProductRequest,
                 'ChRtSessions' => $ChRtSessions,
-                'ChTracing' => $ChTracing,
+                'Disclaimer' => $Disclaimer,
                 'fecharecord' => $fecharecord,
 
                 'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
@@ -1784,6 +1962,8 @@ class ChRecordController extends Controller
                 'ChVitalSignsEvo' => $ChVitalSignsEvo,
                 'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
                 'ChRtSessionsEvo' => $ChRtSessionsEvo,
+                'ChPsIntervention' => $ChPsIntervention,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
                 'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
                 'firmPatient' => $imagenPAtient,
 
@@ -1805,7 +1985,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -1875,10 +2055,10 @@ class ChRecordController extends Controller
             $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $id)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
+
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -1886,11 +2066,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -1927,7 +2102,8 @@ class ChRecordController extends Controller
                 'TherapyConceptTl' => $TherapyConceptTl,
                 'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                 'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
-                'ChTracing' => $ChTracing,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                'Disclaimer' => $Disclaimer,
 
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
@@ -1949,7 +2125,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'Historia Clinica Terapia de Lenguaje.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
             ///Terapia ocupacional
@@ -1986,7 +2162,7 @@ class ChRecordController extends Controller
             $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
 
             //Regular
-            $ChRNValorationOT = ChRNValorationOT::with('ch_diagnosis')->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRNValorationOT = ChRNValorationOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChVitalSignsNT = ChVitalSigns::with(
                 'ch_vital_hydration',
                 'ch_vital_ventilated',
@@ -1999,10 +2175,10 @@ class ChRecordController extends Controller
             $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
+
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -2010,11 +2186,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -2047,7 +2218,9 @@ class ChRecordController extends Controller
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                 'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                 'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
-                'ChTracing' => $ChTracing,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+
+                'Disclaimer' => $Disclaimer,
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
 
@@ -2068,7 +2241,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2118,10 +2291,9 @@ class ChRecordController extends Controller
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 9)->get()->toArray();
 
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
+
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -2129,11 +2301,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
 
@@ -2163,7 +2330,7 @@ class ChRecordController extends Controller
                 'ChScaleFragility' => $ChScaleFragility,
 
                 'ChFailed' => $ChFailed,
-                'ChTracing' => $ChTracing,
+                'Disclaimer' => $Disclaimer,
                 'fecharecord' => $fecharecord,
 
 
@@ -2187,7 +2354,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'HC.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2244,11 +2411,10 @@ class ChRecordController extends Controller
             $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
 
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -2256,11 +2422,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2297,11 +2458,13 @@ class ChRecordController extends Controller
                 'ChEDiagnosisFTEvo' => $ChEDiagnosisFTEvo,
                 'ChEWeeklyFTEvo' => $ChEWeeklyFTEvo,
                 'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
-                'ChTracing' => $ChTracing,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+
+                'Disclaimer' => $Disclaimer,
 
                 'firmPatient' => $imagenPAtient,
                 'ChNRMaterialsFT' => $ChNRMaterialsFT,
-                
+
                 'fecharecord' => $fecharecord,
                 'firm' => $imagenComoBase64,
                 'today' => $today,
@@ -2321,7 +2484,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2397,10 +2560,10 @@ class ChRecordController extends Controller
             $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                 'ch_sw_network'
             )->where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
+
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
 
 
@@ -2410,11 +2573,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2442,9 +2600,10 @@ class ChRecordController extends Controller
                 'SwEducationDr' => $SwEducationDr,
                 'SwEducationDb' => $SwEducationDb,
                 'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                'ChPsIntervention' => $ChPsIntervention,
                 'SwEducationEvoDr' => $SwEducationEvoDr,
                 'SwEducationEvoDb' => $SwEducationEvoDb,
-                'ChTracing' => $ChTracing,
+                'Disclaimer' => $Disclaimer,
                 'firmPatient' => $imagenPAtient,
                 'fecharecord' => $fecharecord,
 
@@ -2515,7 +2674,12 @@ class ChRecordController extends Controller
                 'ch_ps_intelligence'
             )
                 ->where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
-            $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
+            $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $id)->with(
+                'axis_one',
+                'axis_two',
+                'axis_three',
+                'axis_four'
+            )->where('type_record_id', 1)->get()->toArray();
             $ChPsIntervention = ChPsIntervention::where('ch_record_id', $id)->where('type_record_id', 1)->get()->toArray();
 
             //Regular
@@ -2526,10 +2690,10 @@ class ChRecordController extends Controller
             $ChPsOperationalization = ChPsOperationalization::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPsConsciousness = ChPsConsciousness::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
             $ChPsObjectives = ChPsObjectives::where('ch_record_id', $id)->where('type_record_id', 3)->get()->toArray();
-            //Seguimiento
-            $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                ->get()->toArray();
+            $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $id)->get()->toArray();
+
+            //Nota aclaratoria
+            $Disclaimer = Disclaimer::where('ch_record_id', $id)->get()->toArray();
 
             if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
                 $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
@@ -2537,11 +2701,6 @@ class ChRecordController extends Controller
                 $imagenComoBase64 = base64_encode($contenidoBinario);
             } else {
                 $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
             }
             $today = Carbon::now();
             $Patients = $ChRecord[0]['admissions']['patients'];
@@ -2567,7 +2726,8 @@ class ChRecordController extends Controller
                 'ChPsOperationalization' => $ChPsOperationalization,
                 'ChPsConsciousness' => $ChPsConsciousness,
                 'ChPsObjectives' => $ChPsObjectives,
-                'ChTracing' => $ChTracing,
+                'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                'Disclaimer' => $Disclaimer,
 
 
                 'firmPatient' => $imagenPAtient,
@@ -2591,7 +2751,7 @@ class ChRecordController extends Controller
             $this->injectPageCount($dompdf);
             $file = $dompdf->output();
 
-            $name = 'prueba.pdf';
+            $name =  $ChRecord[0]['admissions']['patients']['identification'] . $ChRecord[0]['id'] . '.pdf';
 
             Storage::disk('public')->put($name, $file);
 
@@ -2656,79 +2816,8 @@ class ChRecordController extends Controller
         $i = 0;
         $documentos = [];
 
-        $ChRecord = ChRecord::select('ch_record.*')->with(
-            'user',
-            'user.assistance',
-            'user.user_role.role',
-            'admissions.contract',
-            'admissions.contract.company',
-            'admissions',
-            'admissions.patients',
-            'admissions.patients.academic_level',
-            'admissions.patients.municipality',
-            'admissions.patients.ethnicity',
-            'admissions.patients.gender',
-            'admissions.patients.identification_type',
-            'admissions.patients.residence_municipality',
-            'admissions.patients.residence',
-            'admissions.patients.marital_status',
-            'admissions.patients.population_group',
-            'admissions.patients.activities',
-            'admissions.contract.type_briefcase',
-            'assigned_management_plan',
-            'assigned_management_plan.management_plan',
-            'assigned_management_plan.management_plan.type_of_attention',
-            'assigned_management_plan.management_plan.procedure.manual_price',
-            'assigned_management_plan.management_plan.service_briefcase.manual_price',
-            // 'assistance_supplies',
-            // 'assistance_supplies.user_incharge_id',
-            // 'assistance_supplies.application_hour',
-        )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
-         ->leftJoin('location', 'admissions.id', 'location.admissions_id')
-
-
-
-            ->where('admissions.patient_id', $request->admissions)
-            ->where('ch_record.status', 'CERRADO')
-            ->where('ch_type_id', $request->ch_type)
-            ->groupBy('ch_record.id');
-
-        if ($request->start_date != 'null' && isset($request->start_date)) {
-            $init_date = Carbon::parse($request->start_date);
-
-            $ChRecord
-                ->where('ch_record.date_attention', '>=', $init_date);
-        }
-
-        if ($request->finish_date != 'null' && isset($request->finish_date)) {
-            $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
-            $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
-        }
-
-        if ($request->admission_route_id) {   
-            $ChRecord         
-                ->where('location.admission_route_id', $request->admission_route_id );
-        }
-
-        if ($request->scope_of_attention_id) {   
-            $ChRecord         
-                ->where('location.scope_of_attention_id', $request->scope_of_attention_id );
-        }
-
-        $ChRecord = $ChRecord->get()->toArray();
-
-
-
-        $count = 0;
-
-        if ($request->ch_type == 20) {
-
-            $today = Carbon::now();
-
-
-
-
-            $ChRecord2 = ChRecord::select('ch_record.*')->with(
+        if ($request->ch_type == 21) {
+            $ChRecord = ChRecord::select('ch_record.*')->with(
                 'user',
                 'user.assistance',
                 'user.user_role.role',
@@ -2756,43 +2845,172 @@ class ChRecordController extends Controller
                 // 'assistance_supplies.user_incharge_id',
                 // 'assistance_supplies.application_hour',
             )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('location', 'admissions.id', 'location.admissions_id')
 
 
-                ->where('admissions.patient_id', $request->admissions);
 
-            $ChRecord2 = $ChRecord2->get()->toArray();
+                ->where('admissions.patient_id', $request->admissions)
+                ->where('ch_record.status', 'CERRADO')
+                ->where('ch_type_id', 1)
+                ->groupBy('ch_record.id');
 
-            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
 
-            if (isset($ChRecord2[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
-                $rutaImagen = storage_path('app/public/' . $ChRecord2[0]['user']['assistance'][0]['file_firm']);
-                $contenidoBinario = file_get_contents($rutaImagen);
-                $imagenComoBase64 = base64_encode($contenidoBinario);
-            } else {
-                $imagenComoBase64 = null;
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                ]);
+                $ChRecord
+                    ->where('ch_record.date_attention', '>=', $init_date);
             }
 
-            $ChFormulation = ChFormulation::with(
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
+            }
+
+            if ($request->admission_route_id) {
+                $ChRecord
+                    ->where('location.admission_route_id', $request->admission_route_id);
+            }
+
+            if ($request->scope_of_attention_id) {
+                $ChRecord
+                    ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
+            }
+
+            $ChRecord = $ChRecord->get()->toArray();
+        } else {
+
+            $ChRecord = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.campus.region',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+
+
+
+                ->where('admissions.patient_id', $request->admissions)
+                ->where('ch_record.status', 'CERRADO')
+                ->where('ch_type_id', $request->ch_type)
+                ->groupBy('ch_record.id');
+
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
+
+                $ChRecord
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
+            }
+
+            if ($request->admission_route_id) {
+                $ChRecord
+                    ->where('location.admission_route_id', $request->admission_route_id);
+            }
+
+            if ($request->scope_of_attention_id) {
+                $ChRecord
+                    ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
+            }
+
+            $ChRecord = $ChRecord->get()->toArray();
+        }
+
+        $count = 0;
+
+        if ($request->ch_type == 20) {
+
+            $today = Carbon::now();
+
+
+            $ChFormulation = ChFormulation::select('ch_formulation.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
                 'product_generic',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
                 'administration_route',
-                'hourly_frequency'
+                'hourly_frequency',
+                'product_supplies'
             )->leftJoin('ch_record', 'ch_formulation.ch_record_id', 'ch_record.id')
                 ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
                 ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 5)->get()->toArray();
 
-            if (count($ChFormulation) == 0){
+
+            if (count($ChFormulation) == 0) {
                 return response()->json([
                     'status' => false,
                     'message' => 'No se encuentran Formulaciones asociadas al paciente',
 
                 ]);
+            }
+
+            $ChRecord2 = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.campus.region',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->where('ch_record.id', $ChFormulation[0]['record_id']);
+
+            $ChRecord2 = $ChRecord2->get()->toArray();
+
+            $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+
+            if (isset($ChFormulation[0]['file_firm']) && $ChFormulation[0]['file_firm'] != "null") {
+                $rutaImagen = storage_path('app/public/' . $ChFormulation[0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenComoBase64 = base64_encode($contenidoBinario);
+            } else {
+                $imagenComoBase64 = null;
             }
             $html = view('mails.chAllFormulation', [
                 'chrecord' => $ChRecord2,
@@ -2827,6 +3045,159 @@ class ChRecordController extends Controller
                 'url' => asset('/storage' . '/' . $name),
             ]);
         }
+
+        if ($request->ch_type == 21) {
+
+            if (count($ChRecord) > 0) {
+                foreach ($ChRecord as $ch) {
+
+                    ///Epicrisis
+                    /////////////////////////////////////////////////
+
+
+                    $hcAll = [];
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
+
+                    array_push($hcAll, $ch);
+
+                    // $count++;
+                    // if ($ch['firm_file']) {
+                    //     $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
+                    //     $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                    //     $imagenPAtient = base64_encode($contenidoBinarioPatient);
+
+                    // }else{
+                    //     $imagenPAtient=null;
+                    // }
+
+                    $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChSystemExam = ChSystemExam::with('type_ch_system_exam')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPhysicalExam = ChPhysicalExam::with('type_ch_physical_exam')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChVitalSigns = ChVitalSigns::with(
+                        'ch_vital_hydration',
+                        'ch_vital_ventilated',
+                        'ch_vital_temperature',
+                        'ch_vital_neurological',
+                        'oxygen_type',
+                        'liters_per_minute',
+                        'parameters_signs'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChDiagnosis = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChOstomies = ChOstomies::with('ostomy')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChAp = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChRecommendations = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 1)->where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChDiets = ChDietsEvo::with('enterally_diet')->where('type_record_id', 1)->where('ch_record_id', $ch['id'])->get()->toArray();
+                    //Antecedentes
+                    $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    //Antecedentes Gyneco
+                    $ChGynecologists = ChGynecologists::with(
+                        'ch_type_gynecologists',
+                        'ch_planning_gynecologists',
+                        'ch_exam_gynecologists',
+                        'ch_flow_gynecologists',
+                        'ch_rst_cytology_gyneco',
+                        'ch_rst_biopsy_gyneco',
+                        'ch_rst_mammography_gyneco',
+                        'ch_rst_colposcipia_gyneco',
+                        'ch_failure_method_gyneco',
+                        'ch_method_planning_gyneco'
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+
+                    //Evolución
+                    $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+
+
+                    if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
+                        $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
+                        $contenidoBinario = file_get_contents($rutaImagen);
+                        $imagenComoBase64 = base64_encode($contenidoBinario);
+                    } else {
+                        $imagenComoBase64 = null;
+                    }
+                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
+                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
+                        ->get()->toArray();
+                    $today = Carbon::now();
+
+
+
+                    // $patient=$ChRecord['admissions'];
+
+                    $html = view('mails.epicrisis', [
+                        'chrecord' => $ChRecord,
+                        'chrecord2' => $ChRecord[$i],
+
+                        'ChReasonConsultation' => $ChReasonConsultation,
+                        'ChSystemExam' => $ChSystemExam,
+                        'ChPhysicalExam' => $ChPhysicalExam,
+                        'ChVitalSigns' => $ChVitalSigns,
+                        'ChDiagnosis' => $ChDiagnosis,
+                        'ChOstomies' => $ChOstomies,
+                        'ChTracing' => $ChTracing,
+                        'ChAp' => $ChAp,
+                        'ChRecommendations' => $ChRecommendations,
+                        'ChDiets' => $ChDiets,
+
+                        'ChBackground' => $ChBackground,
+                        'ChGynecologists' => $ChGynecologists,
+
+                        'ChDiagnosisEvo' => $ChDiagnosisEvo,
+                        'ChApEvo' => $ChApEvo,
+
+                        // 'firmPatient' => $imagenPAtient,
+                        'fecharecord' => $fecharecord,
+                        'firm' => $imagenComoBase64,
+                        'today' => $today,
+
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', true);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+
+                    $name =  $ChRecord[0]['admissions']['patients']['identification'] . $count . '.pdf';
+                    $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+
+
+                    Storage::disk('public')->put($name, $file);
+
+                    array_push($documentos, $name);
+
+                    $i++;
+                }
+
+
+
+                # Crear el "combinador"
+                $combinador = new Merger;
+
+                # Agregar archivo en cada iteración
+                foreach ($documentos as $documento) {
+                    $combinador->addFile('storage' . '/' . $documento);
+                }
+
+                # Y combinar o unir
+                $salida = $combinador->merge();
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                Storage::disk('public')->put($name2, $salida);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Historias clinicas asociadas al paciente',
+
+                ]);
+            }
+        }
+
         if ($request->ch_type == 1) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
@@ -2849,6 +3220,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
 
                     $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
@@ -2942,20 +3315,29 @@ class ChRecordController extends Controller
                         'product_generic.measurement_units',
                         'product_generic.multidose_concentration',
                         'administration_route',
-                        'hourly_frequency'
+                        'hourly_frequency',
+                        'product_supplies'
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 5)->get()->toArray();
 
                     //Ordenes Médicas
                     $ChMedicalOrders = ChMedicalOrders::with(
                         'procedure',
-                        'frequency'
+                        'frequency',
+                        'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'services_briefcase.manual_price.procedure',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Interconsulta
                     $ChInterconsultation = ChInterconsultation::with(
                         'specialty',
-                        'frequency'
+                        'frequency',
+                        'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'services_briefcase.manual_price.procedure',
+                        'type_of_attention',
+                        'procedure',
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 6)->get()->toArray();
                     //Plan de manejo
@@ -2998,6 +3380,8 @@ class ChRecordController extends Controller
                         'reason_exit'
                     )
                         ->where('ch_record_id', $ch['id'])->where('type_record_id', 10)->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
 
                     // $img=asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']);
                     // $imagenBase64 = "data:image/png;base64," . base64_encode(file_get_contents($img));
@@ -3007,11 +3391,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
                         ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
@@ -3075,6 +3454,7 @@ class ChRecordController extends Controller
                         'ChMedicalCertificate' => $ChMedicalCertificate,
                         'ChFailed' => $ChFailed,
                         'ChPatientExit' => $ChPatientExit,
+                        'Disclaimer' => $Disclaimer,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
                         'firm' => $imagenComoBase64,
@@ -3186,6 +3566,8 @@ class ChRecordController extends Controller
                     $ChCarePlan = ChCarePlan::with('nursing_care_plan')->where('ch_record_id', $ch['id'])->get()->toArray();
                     $ChLiquidControl = ChLiquidControl::with('ch_route_fluid', 'ch_type_fluid')->where('ch_record_id', $ch['id'])->get()->toArray();
                     $ChNotesDescription = ChNotesDescription::with('patient_position')->where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+
                     // VALORACIÓN EN LA PIEL
                     $ChSkinValoration = ChSkinValoration::with('body_region', 'skin_status', 'diagnosis')->where('ch_record_id', $ch['id'])->get()->toArray();
 
@@ -3197,12 +3579,12 @@ class ChRecordController extends Controller
 
                     //APLICACION DE MEDICAMENTOS
 
-
-                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')->with('users', 'pharmacy_product_request.services_briefcase.manual_price')->where('ch_record_id',  $ch['id'])
-
-                        // ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
-                        // ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
-                        // ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                    $AssistanceSupplies = AssistanceSupplies::select('assistance_supplies.*')
+                        ->with('users', 'pharmacy_product_request.services_briefcase.manual_price')
+                        ->leftJoin('pharmacy_product_request', 'assistance_supplies.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                        ->leftJoin('services_briefcase', 'pharmacy_product_request.services_briefcase_id', 'services_briefcase.id')
+                        ->leftJoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
+                        ->where('ch_record_id', $ch['id'])->whereNotNull('manual_price.product_id')
                         ->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
@@ -3211,11 +3593,6 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
@@ -3275,10 +3652,8 @@ class ChRecordController extends Controller
                     //                         ->whereNotNull('manual_price.product_id');
                     //                     $PharmacyProductRequest = $PharmacyProductRequest->get()->toArray();
 
-                    //Seguimiento
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
 
                     $html = view('mails.hcEnfermeria', [
                         'chrecord' => $ChRecord,
@@ -3304,10 +3679,11 @@ class ChRecordController extends Controller
                         'ChScaleBraden' => $ChScaleBraden,
                         'ChOxigenNE' => $ChOxigenNE,
                         'ChNotesDescription' => $ChNotesDescription,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         // 'PharmacyProductRequest' => $PharmacyProductRequest,
                         'AssistanceSupplies' => $AssistanceSupplies,
                         'fecharecord' => $fecharecord,
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'firmPatient' => $imagenPAtient,
 
                         'firm' => $imagenComoBase64,
@@ -3375,6 +3751,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
 
 
@@ -3427,24 +3805,18 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
 
                     // $patient=$ChRecord['admissions'];
                     $html = view('mails.nutritionhistory', [
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
                         'ChNutritionAnthropometry' => $ChNutritionAnthropometry,
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'ChNutritionGastrointestinal' => $ChNutritionGastrointestinal,
                         'ChNutritionFoodHistory' => $ChNutritionFoodHistory,
                         'ChNutritionInterpretation' => $ChNutritionInterpretation,
@@ -3532,6 +3904,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
 
 
@@ -3598,23 +3972,19 @@ class ChRecordController extends Controller
                     $TherapyConceptTl = TherapyConceptTl::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $NumberMonthlySessionsTlEvo = NumberMonthlySessionsTl::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $InputMaterialsUsedTl = InputMaterialsUsedTl::where('ch_record_id', $ch['id'])->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     $Patients = $ch['admissions']['patients'];
 
                     // $patient=$ChRecord['admissions'];
@@ -3622,7 +3992,7 @@ class ChRecordController extends Controller
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
 
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'TlTherapyLanguage' => $TlTherapyLanguage,
                         'OstomiesTl' => $OstomiesTl,
 
@@ -3650,6 +4020,7 @@ class ChRecordController extends Controller
                         'TherapyConceptTl' => $TherapyConceptTl,
                         'InputMaterialsUsedTl' => $InputMaterialsUsedTl,
                         'NumberMonthlySessionsTlEvo' => $NumberMonthlySessionsTl,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
 
@@ -3707,195 +4078,135 @@ class ChRecordController extends Controller
         // Terapia Respiratoria
         //////////////////////////////////////////////////////////
         else if ($request->ch_type == 5) {
-            if (count($ChRecord) > 0) {
-                foreach ($ChRecord as $ch) {
+
+
+            $ChRecordTR = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.campus.region',
+                'admissions.patients',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                'ChRespiratoryTherapy.medical_diagnosis',
+                'ChBackground.ch_type_background',
+                'ChGynecologists.ch_type_gynecologists',
+                'ChGynecologists.ch_planning_gynecologists',
+                'ChGynecologists.ch_exam_gynecologists',
+                'ChGynecologists.ch_flow_gynecologists',
+                'ChGynecologists.ch_rst_cytology_gyneco',
+                'ChGynecologists.ch_rst_biopsy_gyneco',
+                'ChGynecologists.ch_rst_mammography_gyneco',
+                'ChGynecologists.ch_rst_colposcipia_gyneco',
+                'ChGynecologists.ch_failure_method_gyneco',
+                'ChGynecologists.ch_method_planning_gyneco',
+                'ChVitalSigns.ch_vital_hydration',
+                'ChVitalSigns.ch_vital_ventilated',
+                'ChVitalSigns.ch_vital_temperature',
+                'ChVitalSigns.ch_vital_neurological',
+                'ChVitalSigns.oxygen_type',
+                'ChVitalSigns.liters_per_minute',
+                'ChVitalSigns.parameters_signs',
+                'ChOxygenTherapy',
+                'ChTherapeuticAss.ch_ass_pattern',
+                'ChTherapeuticAss.ch_ass_swing',
+                'ChTherapeuticAss.ch_ass_frequency',
+                'ChTherapeuticAss.ch_ass_mode',
+                'ChTherapeuticAss.ch_ass_cough',
+                'ChTherapeuticAss.ch_ass_chest_type',
+                'ChTherapeuticAss.ch_ass_chest_symmetry',
+                'ChTherapeuticAss.ch_ass_signs',
+                'ChAssSigns',
+                'ChRtInspection',
+                'ChScalePain',
+                'ChScaleWongBaker',
+                'ChAuscultation',
+                'ChDiagnosticAids',
+                'ChObjectivesTherapy',
+                // 'PharmacyProductRequest',
+                'ChRtSessions.frequency',
+                'ChPsIntervention',
+                'ChRecommendationsEvo.recommendations_evo',
+                'Disclaimer',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('location', 'admissions.id', 'location.admissions_id')
 
 
 
-                    $hcAll = [];
-                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+                ->where('admissions.patient_id', $request->admissions)
+                ->where('ch_record.status', 'CERRADO')
+                ->where('ch_type_id', $request->ch_type)
+                ->groupBy('ch_record.id')->get()->toArray();
 
-                    array_push($hcAll, $ch);
+            if (count($ChRecordTR) > 0) {
+                // $fecharecord = Carbon::parse($ChRecordTR[0]['updated_at'])->setTimezone('America/Bogota');
 
-                    $count++;
-                    if ($ch['firm_file']) {
-                        $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
-                        $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
-                        $imagenPAtient = base64_encode($contenidoBinarioPatient);
-                    }
-                    //Ingreso
-                    $ChRespiratoryTherapy = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChBackground = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChGynecologists = ChGynecologists::with(
-                        'ch_type_gynecologists',
-                        'ch_planning_gynecologists',
-                        'ch_exam_gynecologists',
-                        'ch_flow_gynecologists',
-                        'ch_rst_cytology_gyneco',
-                        'ch_rst_biopsy_gyneco',
-                        'ch_rst_mammography_gyneco',
-                        'ch_rst_colposcipia_gyneco',
-                        'ch_failure_method_gyneco',
-                        'ch_method_planning_gyneco'
-                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                // $count++;
+                // if ($ch['firm_file']) {
+                //     $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
+                //     $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                //     $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                // }
 
-                    $ChVitalSigns = ChVitalSigns::with(
-                        'ch_vital_hydration',
-                        'ch_vital_ventilated',
-                        'ch_vital_temperature',
-                        'ch_vital_neurological',
-                        'oxygen_type',
-                        'liters_per_minute',
-                        'parameters_signs'
-                    )
-                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChOxygenTherapy = ChOxygenTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChTherapeuticAss = ChTherapeuticAss::with(
-                        'ch_ass_pattern',
-                        'ch_ass_swing',
-                        'ch_ass_frequency',
-                        'ch_ass_mode',
-                        'ch_ass_cough',
-                        'ch_ass_chest_type',
-                        'ch_ass_chest_symmetry',
-                        'ch_ass_signs'
-                    )
-                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChAssSigns = ChAssSigns::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChScalePain = ChScalePain::where('ch_record_id', $ch['id'])->where('type_record_id', 4)->get()->toArray();
-                    $ChScaleWongBaker = ChScaleWongBaker::where('ch_record_id', $ch['id'])->where('type_record_id', 4)->get()->toArray();
-                    $ChRtInspection = ChRtInspection::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChAuscultation = ChAuscultation::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChDiagnosticAids = ChDiagnosticAids::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $ChObjectivesTherapy = ChObjectivesTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-                    $PharmacyProductRequest = PharmacyProductRequest::with(
-                        'product_supplies',
-                        'request_pharmacy_stock'
-                    )->get()->toArray();
-                    $ChRtSessions = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
-
-                    //Regular
-                    $ChRespiratoryTherapyEvo = ChRespiratoryTherapy::with('medical_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChBackgroundEvo = ChBackground::with('ch_type_background')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    //Antecedentes Gyneco
-                    $ChGynecologistsEvo = ChGynecologists::with(
-                        'ch_type_gynecologists',
-                        'ch_planning_gynecologists',
-                        'ch_exam_gynecologists',
-                        'ch_flow_gynecologists',
-                        'ch_rst_cytology_gyneco',
-                        'ch_rst_biopsy_gyneco',
-                        'ch_rst_mammography_gyneco',
-                        'ch_rst_colposcipia_gyneco',
-                        'ch_failure_method_gyneco',
-                        'ch_method_planning_gyneco'
-                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
-                    $ChVitalSignsEvo = ChVitalSigns::with(
-                        'ch_vital_hydration',
-                        'ch_vital_ventilated',
-                        'ch_vital_temperature',
-                        'ch_vital_neurological',
-                        'oxygen_type',
-                        'liters_per_minute',
-                        'parameters_signs'
-                    )
-                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $ChOxygenTherapyEvo = ChOxygenTherapy::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                    $PharmacyProductRequestEvo = PharmacyProductRequest::with(
-                        'product_supplies',
-                        'request_pharmacy_stock'
-                    )->get()->toArray();
-                    $ChRtSessionsEvo = ChRtSessions::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
-                    if (isset($ChRecord[0]['user']['assistance'][0]['file_firm']) && $ChRecord[0]['user']['assistance'][0]['file_firm'] != "null") {
-                        if ($ChRecord[0]['user']['assistance'][0]['file_firm'] != 'null') {
-                            $rutaImagen = storage_path('app/public/' . $ChRecord[0]['user']['assistance'][0]['file_firm']);
-                            $contenidoBinario = file_get_contents($rutaImagen);
-                            $imagenComoBase64 = base64_encode($contenidoBinario);
-                        }
-                    } else {
-                        $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
-                    }
-                    $today = Carbon::now();
-                    $Patients = $ChRecord[0]['admissions']['patients'];
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
-                    // $patient=$ChRecord['admissions'];
-
-                    $html = view('mails.respiratoryhistory', [
-                        'chrecord' => $ChRecord,
-                        'chrecord2' => $ChRecord[$i],
-
-                        'ChTracing' => $ChTracing,
-                        'ChRespiratoryTherapy' => $ChRespiratoryTherapy,
-                        'ChBackground' => $ChBackground,
-                        'ChGynecologists' => $ChGynecologists,
-                        'ChVitalSigns' => $ChVitalSigns,
-                        'ChOxygenTherapy' => $ChOxygenTherapy,
-                        'ChAssSigns' => $ChAssSigns,
-                        'ChTherapeuticAss' => $ChTherapeuticAss,
-                        'ChScalePain' => $ChScalePain,
-                        'ChScaleWongBaker' => $ChScaleWongBaker,
-                        'ChRtInspection' => $ChRtInspection,
-                        'ChAuscultation' => $ChAuscultation,
-                        'ChDiagnosticAids' => $ChDiagnosticAids,
-                        'ChObjectivesTherapy' => $ChObjectivesTherapy,
-                        'PharmacyProductRequest' => $PharmacyProductRequest,
-                        'ChRtSessions' => $ChRtSessions,
-                        'fecharecord' => $fecharecord,
-
-                        'ChRespiratoryTherapyEvo' => $ChRespiratoryTherapyEvo,
-                        'ChBackgroundEvo' => $ChBackgroundEvo,
-                        'ChGynecologistsEvo' => $ChGynecologistsEvo,
-                        'ChVitalSignsEvo' => $ChVitalSignsEvo,
-                        'ChOxygenTherapyEvo' => $ChOxygenTherapyEvo,
-                        'ChRtSessionsEvo' => $ChRtSessionsEvo,
-                        'PharmacyProductRequestEvo' => $PharmacyProductRequestEvo,
-                        'firmPatient' => $imagenPAtient,
-
-                        'firm' => $imagenComoBase64,
-                        'today' => $today,
-                        //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-                        //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
-                        //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-
-                    ])->render();
-
-                    $options = new Options();
-                    $options->set('isRemoteEnabled', true);
-                    $dompdf = new PDF($options);
-                    $dompdf->loadHtml($html);
-                    $dompdf->setPaper('Carta', 'portrait');
-                    $dompdf->render();
-                    $this->injectPageCount($dompdf);
-                    $file = $dompdf->output();
-
-                    $name = 'HC.pdf';
-
-                    Storage::disk('public')->put($name, $file);
-                    array_push($documentos, $name);
-                }
+                // if (isset($ChRecordTR[0]['user']['assistance'][0]['file_firm']) && $ChRecordTR[0]['user']['assistance'][0]['file_firm'] != "null") {
+                //     if ($ChRecordTR[0]['user']['assistance'][0]['file_firm'] != 'null') {
+                //         $rutaImagen = storage_path('app/public/' . $ChRecordTR[0]['user']['assistance'][0]['file_firm']);
+                //         $contenidoBinario = file_get_contents($rutaImagen);
+                //         $imagenComoBase64 = base64_encode($contenidoBinario);
+                //     }
+                // } else {
+                //     $imagenComoBase64 = null;
+                // }
 
 
-                # Crear el "combinador"
-                $combinador = new Merger;
+                $today = Carbon::now();
+                // $Patients = $ChRecord[0]['admissions']['patients'];
 
-                # Agregar archivo en cada iteración
-                foreach ($documentos as $documento) {
-                    $combinador->addFile('storage' . '/' . $documento);
-                }
+                // $patient=$ChRecord['admissions'];
 
-                # Y combinar o unir
-                $salida = $combinador->merge();
+                $html = view('mails.respiratoryhistoryall', [
+                    'chrecord' => $ChRecordTR,
+                    // 'chrecord2' => $ChRecord[$i],
+                    'today' => $today,
+                    //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                    //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                    //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+                ])->render();
+
+                $options = new Options();
+                $options->set('isRemoteEnabled', true);
+                $dompdf = new PDF($options);
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('Carta', 'portrait');
+                $dompdf->render();
+                $this->injectPageCount($dompdf);
+                $file = $dompdf->output();
+
                 $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
-                Storage::disk('public')->put($name2, $salida);
+
+
+                Storage::disk('public')->put($name2, $file);
             } else {
                 return response()->json([
                     'status' => false,
@@ -3925,6 +4236,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
                     //Ingreso
                     $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
@@ -3956,7 +4269,7 @@ class ChRecordController extends Controller
                     $ChEValorationOTNT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     //Regular
-                    $ChRNValorationOT = ChRNValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRNValorationOT = ChRNValorationOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChVitalSignsNT = ChVitalSigns::with(
                         'ch_vital_hydration',
                         'ch_vital_ventilated',
@@ -3966,27 +4279,22 @@ class ChRecordController extends Controller
                         'liters_per_minute',
                         'parameters_signs'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                
+
                     $ChRNMaterialsOTNT = ChRNMaterialsOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSWeeklyOTNT = ChEMSWeeklyOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $ch['id'])->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
 
                     $Patients = $ch['admissions']['patients'];
 
@@ -3994,7 +4302,7 @@ class ChRecordController extends Controller
                     $html = view('mails.occupationalhistory', [
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'ChEValorationOT' => $ChEValorationOT,
                         'ChVitalSigns' => $ChVitalSigns,
                         'ChEOccHistoryOT' => $ChEOccHistoryOT,
@@ -4018,9 +4326,10 @@ class ChRecordController extends Controller
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
                         'ChRNMaterialsOTNT' => $ChRNMaterialsOTNT,
                         'ChEMSWeeklyOTNT' => $ChEMSWeeklyOTNT,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
-                        
+
                         'firm' => $imagenComoBase64,
                         'today' => $today,
                         //   asset('storage/'.$ch['user']['assistance'][0]['file_firm']),
@@ -4088,6 +4397,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
                     //Ingreso
                     $ChEValorationFT = ChEValorationFT::with(
@@ -4137,23 +4448,19 @@ class ChRecordController extends Controller
                     $ChEDiagnosisFTEvo = ChEDiagnosisFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEWeeklyFTEvo = ChEWeeklyFT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChEMSAssessmentOTNT = ChEMSAssessmentOT::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $ch['id'])->get()->toArray();
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
 
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     $Patients = $ch['admissions']['patients'];
 
                     // $patient=$ChRecord['admissions'];
@@ -4162,7 +4469,7 @@ class ChRecordController extends Controller
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
 
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'ChEValorationFT' => $ChEValorationFT,
                         'ChVitalSigns' => $ChVitalSigns,
                         'ChEValorationTherFT' => $ChEValorationTherFT,
@@ -4180,8 +4487,9 @@ class ChRecordController extends Controller
                         'ChEDiagnosisFT' => $ChEDiagnosisFT,
                         'ChETherGoalsFT' => $ChETherGoalsFT,
                         'ChEMSAssessmentOTNT' => $ChEMSAssessmentOTNT,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
                         'ChNRMaterialsFT' => $ChNRMaterialsFT,
-                        
+
                         'ChEWeeklyFT' => $ChEWeeklyFT,
                         'fecharecord' => $fecharecord,
 
@@ -4259,6 +4567,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
                     }
                     //Ingreso    
                     $ChSwDiagnosis = ChSwDiagnosis::with(
@@ -4306,11 +4616,11 @@ class ChRecordController extends Controller
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $SwEducationDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 1)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
                     $ChSwSupportNetwork = ChSwSupportNetwork::with(
                         'ch_sw_network'
@@ -4319,17 +4629,18 @@ class ChRecordController extends Controller
                     //Regular
                     $SwEducationEvoDr = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 1)->get()->toArray();
                     $SwEducationEvoDb = SwEducation::select('sw_education.*')->with(
                         'sw_rights_duties'
-                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $id)->where('type_record_id', 3)
+                    )->leftJoin('sw_rights_duties', 'sw_education.sw_rights_duties_id', 'sw_rights_duties.id')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)
                         ->where('sw_rights_duties.code', 2)->get()->toArray();
 
                     $ChSwSupportNetworkEvo = ChSwSupportNetwork::with(
                         'ch_sw_network'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
+                    $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
 
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
@@ -4337,23 +4648,18 @@ class ChRecordController extends Controller
                         $imagenComoBase64 = base64_encode($contenidoBinario);
                     } else {
                         $imagenComoBase64 = null;
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'Usted no cuenta con firma para generar este documento, por favor diligenciar su firma desde su perfil',
-
-                        ]);
                     }
                     $today = Carbon::now();
                     $Patients = $ch['admissions']['patients'];
-                    $ChTracing = Tracing::select('tracing.*')->Leftjoin('ch_record', 'ch_record.id', 'tracing.ch_record_id')
-                        ->where('ch_record.admissions_id', $ChRecord[0]['admissions_id'])
-                        ->get()->toArray();
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     // $patient=$ChRecord['admissions'];
 
                     $html = view('mails.sworkhistory', [
                         'chrecord' => $hcAll,
                         'chrecord2' => $ChRecord[$i],
-                        'ChTracing' => $ChTracing,
+                        'Disclaimer' => $Disclaimer,
                         'ChSwDiagnosis' => $ChSwDiagnosis,
                         'ChSwFamily' => $ChSwFamily,
                         'ChSwNursing' => $ChSwNursing,
@@ -4371,6 +4677,7 @@ class ChRecordController extends Controller
                         'SwEducationDr' => $SwEducationDr,
                         'SwEducationDb' => $SwEducationDb,
                         'ChSwSupportNetworkEvo' => $ChSwSupportNetworkEvo,
+                        'ChPsIntervention' => $ChPsIntervention,
                         'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
 
@@ -4496,6 +4803,8 @@ class ChRecordController extends Controller
             }
         }
 
+
+
         return response()->json([
             'status' => true,
             'ch' => $ChRecord,
@@ -4506,8 +4815,54 @@ class ChRecordController extends Controller
 
 
 
+    private function stripAccents($str)
+    {
+        $replacements = [
+            "á" => "a",
+            "é" => "e",
+            "í" => "i",
+            "ó" => "o",
+            "ú" => "u",
+            "Á" => "A",
+            "É" => "E",
+            "Í" => "I",
+            "Ó" => "O",
+            "Ú" => "U"
+        ];
+        return strtr($str, $replacements);
+    }
+
+    private function getChTypeExternalConsultation($roleId, $specialty)
+    {
+
+        if ($roleId == 3) {
+            return 1;
+        } else if ($roleId == 10) {
+            return 3;
+        } else if ($roleId == 12) {
+            return 8;
+        } else if ($roleId == 11) {
+            return 9;
+        } else if ($roleId == 14) {
+            if ($specialty == 134) {
+                return 4;
+            } else if ($specialty == 135) {
+                return 7;
+            } else if ($specialty == 136) {
+                return 6;
+            } else if ($specialty == 137) {
+                return 5;
+            }
+        }
+        return null;
+    }
+
+
     public function store(Request $request): JsonResponse
     {
+
+        $isExternalConsultation = $request->isExternalConsultation;
+        $created = false;
         $count = 0;
         $chrecord_val = ChRecord::where('admissions_id', $request->admissions_id)->get()->toArray();
         foreach ($chrecord_val as $ch) {
@@ -4520,118 +4875,412 @@ class ChRecordController extends Controller
         $ChRecord->date_attention = Carbon::now();
         $ChRecord->admissions_id = $request->admissions_id;
         $ChRecord->assigned_management_plan_id = $request->assigned_management_plan;
-        $ChRecord->admissions_id = $request->admissions_id;
-
+        $ChRecord->ch_interconsultation_id = $request->ch_interconsultation_id;
+        $ChRecord->medical_diary_days_id = $request->medical_diary_days_id;
         $ChRecord->user_id = Auth::user()->id;
-        // $validate = RoleAttention::where('role_id', $request->role_id)->get()->toArray();
 
-        // if ($validate) {
-        //     // $type_of_attention = [];
-        //     // foreach ($validate as $item) {
-        //     //     array_push($type_of_attention, $item['type_of_attention_id']);
-        //     // }
-        //     // if (false !== array_search(7, $type_of_attention) || false !== array_search(3, $type_of_attention)) {
-        //     //     $ChRecord->ch_type_id = 1;
-        //     // }
+        if ($isExternalConsultation) {
+            $ChRecord->ch_type_id = $this->getChTypeExternalConsultation($request->role_id, $request->speciality);
+            if ($ChRecord->ch_type_id == null) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No hay tipos de historia clínica que coincidan con el procedimiento',
+                ]);
+            }
+        } else {
+            // }
+            if ($request->type_of_attention_id && $request->type_of_attention_id != -1) {
+                switch ($request->type_of_attention_id) {
+                    case (1): {
+                            $ChRecord->ch_type_id = 1;
+                            break;
+                        }
+                    case (2): {
+                            $ChRecord->ch_type_id = 1;
+                            break;
+                        }
+                    case (3): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (4): {
+                            $ChRecord->ch_type_id = 3;
+                            break;
+                        }
+                    case (5): {
+                            // PSICOLOGÍA
+                            $ChRecord->ch_type_id = 9;
+                            break;
+                        }
+                    case (6): {
+                            // TRABAJO SOCIAL
+                            $ChRecord->ch_type_id = 8;
+                            break;
+                        }
+                    case (7): {
+                            // TERAPIA FÍSICA
+                            $ChRecord->ch_type_id = 7;
+                            break;
+                        }
+                    case (8): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
+                    case (9): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
+                    case (10): {
 
-        // }
-        switch ($request->type_of_attention_id) {
-            case (1): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (2): {
-                    $ChRecord->ch_type_id = 1;
-                    break;
-                }
-            case (3): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (4): {
-                    $ChRecord->ch_type_id = 3;
-                    break;
-                }
-            case (5): {
-                    // PSICOLOGÍA
-                    $ChRecord->ch_type_id = 9;
-                    break;
-                }
-            case (6): {
-                    // TRABAJO SOCIAL
-                    $ChRecord->ch_type_id = 8;
-                    break;
-                }
-            case (7): {
-                    // TERAPIA FÍSICA
-                    $ChRecord->ch_type_id = 7;
-                    break;
-                }
-            case (8): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (9): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (10): {
+                            // TERAPIA OCUPACIONAL
+                            $ChRecord->ch_type_id = 6;
+                            break;
+                        }
+                    case (11): {
+                            $ChRecord->ch_type_id = 4;
+                            break;
+                        }
+                    case (12): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (13): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (14): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (15): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (16): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (17): {
+                            $ChRecord->ch_type_id = 2;
+                            break;
+                        }
+                    case (18): {
+                            // DEPORTOLOGO
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'No hay historia clínica para esta atención',
+                                'data' => ['ch_record' => []],
+                            ]);
+                            break;
+                        }
+                    case (19): {
+                            $ChRecord->ch_type_id = 5;
+                            break;
+                        }
+                    case (20): {
+                            //SEGUIMIENTO
+                            $ChRecord->ch_type_id = 10;
+                            break;
+                        }
+                    default: {
+                            $array = array(
+                                3 => 1,
+                                7 => 1,
+                                8 => 2,
+                                9 => 2,
+                                10 => 3,
+                                11 => 9,
+                                12 => 8,
+                                14 => 'AT',
+                                134 => 4,
+                                135 => 7,
+                                136 => 6,
+                                137 => 5,
+                            );
+                            if ($request->speciality_id == null || $request->speciality_id == 'null') {
 
-                    // TERAPIA OCUPACIONAL
-                    $ChRecord->ch_type_id = 6;
-                    break;
+                                $register = $array[$request->role_id];
+                                if ($register == 'AT') {
+                                    $register = $this->ValidateSpeciality();
+                                }
+                            } else {
+                                $register = $array[$request->speciality_id];
+                            }
+                            // var_dump(gettype($register));
+                            if (gettype($register) == 'array') {
+                                return response()->json([
+                                    'status' => true,
+                                    'message' => 'Se requiere seleccionar especialización',
+                                    'data' => [
+                                        'ch_record' => [],
+                                        'assistance_special' => $register
+                                    ],
+                                ]);
+                            }
+                            $ChRecord->ch_type_id = $register;
+
+                            break;
+                        }
                 }
-            case (11): {
-                    $ChRecord->ch_type_id = 4;
-                    break;
+                if ($created == false && $request->ch_interconsultation_id) {
+                    $validate_ch_record = ChRecord::where('user_id', Auth::user()->id)
+                        ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
+                        ->where('ch_type_id', $ChRecord->ch_type_id)
+                        ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                    if ($validate_ch_record) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                            'data' => ['ch_record' => []],
+                        ]);
+                    }
                 }
-            case (12): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
+            } else if ($request->ch_type_id) {
+                $ChRecord->ch_type_id = $request->ch_type_id;
+            } else if ($request->type_of_attention_id == -1) {
+                $Assistance = Assistance::where('user_id', $request->user_id)
+                    ->get()->toArray();
+
+                $type_of_attention = RoleAttention::where('role_id', $request->role);
+                if ($request->role == 7 || $request->role == 14) {
+                    $type_of_attention->where(function ($query) use ($request) {
+                        $query->where('specialty_id', $request->specialty_id);
+                    });
                 }
-            case (13): {
-                    // SERVICIO DE CUIDADOR
+
+                $type_of_attention = $type_of_attention->get()->toArray();
+
+                foreach ($type_of_attention as $ta) {
+
+                    switch ($ta['type_of_attention_id']) {
+                        case (1): {
+                                $ChRecord->ch_type_id = 1;
+                                break;
+                            }
+                        case (2): {
+                                $ChRecord->ch_type_id = 1;
+                                break;
+                            }
+                        case (3): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (4): {
+                                $ChRecord->ch_type_id = 3;
+                                break;
+                            }
+                        case (5): {
+                                // PSICOLOGÍA
+                                $ChRecord->ch_type_id = 9;
+                                break;
+                            }
+                        case (6): {
+                                // TRABAJO SOCIAL
+                                $ChRecord->ch_type_id = 8;
+                                break;
+                            }
+                        case (7): {
+                                // TERAPIA FÍSICA
+                                $ChRecord->ch_type_id = 7;
+                                break;
+                            }
+                        case (8): {
+                                $ChRecord->ch_type_id = 5;
+                                break;
+                            }
+                        case (9): {
+                                $ChRecord->ch_type_id = 5;
+                                break;
+                            }
+                        case (10): {
+
+                                // TERAPIA OCUPACIONAL
+                                $ChRecord->ch_type_id = 6;
+                                break;
+                            }
+                        case (11): {
+                                $ChRecord->ch_type_id = 4;
+                                break;
+                            }
+                        case (12): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (13): {
+                                // SERVICIO DE CUIDADOR
+                                // return response()->json([
+                                //     'status' => false,
+                                //     'message' => 'No hay historia clínica para esta atención',
+                                //     'data' => ['ch_record' => []],
+                                // ]);
+                                break;
+                            }
+                        case (14): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (15): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (16): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (17): {
+                                $ChRecord->ch_type_id = 2;
+                                break;
+                            }
+                        case (18): {
+                                // DEPORTOLOGO
+                                // return response()->json([
+                                //     'status' => false,
+                                //     'message' => 'No hay historia clínica para esta atención',
+                                //     'data' => ['ch_record' => []],
+                                // ]);
+                                break;
+                            }
+                        case (19): {
+                                $ChRecord->ch_type_id = 5;
+                                break;
+                            }
+                        case (20): {
+                                //SEGUIMIENTO
+                                $ChRecord->ch_type_id = 10;
+                                break;
+                            }
+                        default: {
+                                $array = array(
+                                    3 => 1,
+                                    7 => 1,
+                                    8 => 2,
+                                    9 => 2,
+                                    10 => 3,
+                                    11 => 9,
+                                    12 => 8,
+                                    14 => 'AT',
+                                    134 => 4,
+                                    135 => 7,
+                                    136 => 6,
+                                    137 => 5,
+                                );
+                                if ($request->speciality_id == null || $request->speciality_id == 'null') {
+                                    $register = $array[$request->role_id];
+                                    if ($register == 'AT') {
+                                        $register = $this->ValidateSpeciality();
+                                    }
+                                } else {
+                                    $register = $array[$request->speciality_id];
+                                }
+                                // var_dump(gettype($register));
+                                if (gettype($register) == 'array') {
+                                    return response()->json([
+                                        'status' => true,
+                                        'message' => 'Se requiere seleccionar especialización',
+                                        'data' => [
+                                            'ch_record' => [],
+                                            'assistance_special' => $register
+                                        ],
+                                    ]);
+                                }
+                                $ChRecord->ch_type_id = $register;
+
+                                break;
+                            }
+                    }
+
+                    if ($created == false) {
+                        $validate_ch_record = ChRecord::where('user_id', Auth::user()->id)
+                            ->where('status', 'ACTIVO')
+                            ->whereNotNull('ch_interconsultation_id')
+                            ->where('ch_type_id', $ChRecord->ch_type_id)
+                            ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                        if ($validate_ch_record) {
+                            return response()->json([
+                                'status' => false,
+                                'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                                'data' => ['ch_record' => []],
+                            ]);
+                        }
+                    }
+                    $ChRecord->save();
+                    $created = true;
+                }
+
+                $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Registro paciente asociado al paciente exitosamente',
+                    'data' => ['ch_record' => $ChRecord->toArray()],
+                ]);
+            } else if ($request->type_of_attention_id == -2) {
+                var_dump('aqui');
+
+                $array = array(
+                    3 => 1,
+                    7 => 1,
+                    8 => 2,
+                    9 => 2,
+                    10 => 3,
+                    11 => 9,
+                    12 => 8,
+                    14 => 'AT',
+                    134 => 4,
+                    135 => 7,
+                    136 => 6,
+                    137 => 5,
+                );
+
+                if ($request->speciality_id == null && $request->speciality_id == 'null') {
+                    $register = $array[$request->role_id];
+                    if ($register == 'AT') {
+                        $register = $this->ValidateSpeciality();
+                    }
+                } else {
+                    $register = $array[$request->speciality_id];
+                }
+
+                if (gettype($register) == 'array') {
                     return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
+                        'status' => true,
+                        'message' => 'Se requiere seleccionar especialización',
+                        'data' => [
+                            'ch_record' => [],
+                            'assistance_special' => $register
+                        ],
                     ]);
-                    break;
                 }
-            case (14): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
+                $ChRecord->ch_type_id = $register;
+
+                if ($created == false) {
+                    $validate_ch_record = ChRecord::where('user_id', Auth::user()->id)
+                        ->where('status', 'ACTIVO')
+                        ->whereNotNull('medical_diary_days_id')
+                        ->where('ch_type_id', $ChRecord->ch_type_id)
+                        ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                    if ($validate_ch_record) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                            'data' => ['ch_record' => []],
+                        ]);
+                    }
                 }
-            case (15): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (16): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (17): {
-                    $ChRecord->ch_type_id = 2;
-                    break;
-                }
-            case (18): {
-                    // DEPORTOLOGO
-                    return response()->json([
-                        'status' => false,
-                        'message' => 'No hay historia clínica para esta atención',
-                        'data' => ['ch_record' => []],
-                    ]);
-                    break;
-                }
-            case (19): {
-                    $ChRecord->ch_type_id = 5;
-                    break;
-                }
-            case (20): {
-                    //SEGUIMIENTO
-                    $ChRecord->ch_type_id = 10;
-                    break;
-                }
+                $ChRecord->save();
+                $created = true;
+
+                $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Registro paciente asociado al paciente exitosamente',
+                    'data' => ['ch_record' => $ChRecord->toArray()],
+                ]);
+            }
         }
 
         // if ($request->firm_file) {
@@ -4649,7 +5298,30 @@ class ChRecordController extends Controller
         //     }
         // }
 
-        $ChRecord->save();
+        if ($created == false) {
+            if (!($request->type_of_attention_id && $request->type_of_attention_id != -1)) {
+                if ($request->type_of_attention_id != -1) {
+                    $validate_ch_record = ChRecord::where('user_id', Auth::user()->id)
+                        ->where('status', 'ACTIVO')
+                        ->whereNotNull('ch_interconsultation_id')
+                        ->where('ch_type_id', $ChRecord->ch_type_id)
+                        ->where('admissions_id', $ChRecord->admissions_id)->get()->first();
+
+                    if ($validate_ch_record) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Ya se encuentra un servicio activo para este tipo de historia clínica',
+                            'data' => ['ch_record' => []],
+                        ]);
+                    }
+                }
+            }
+
+            $ChRecord->save();
+        }
+
+        $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+
 
         return response()->json([
             'status' => true,
@@ -4685,11 +5357,77 @@ class ChRecordController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         $ChRecord = ChRecord::find($id);
+        $validate_aplication = ChRecord::select('ch_record.*')
+            ->where('id', $id)
+            ->with(
+                'assigned_management_plan.management_plan'
+            )->first();
+
+        // var_dump($validate_aplication);
+
+        if ($validate_aplication->assigned_management_plan_id && $validate_aplication->assigned_management_plan->management_plan->type_of_attention_id == 17) {
+
+            $pharmacy = PharmacyProductRequest::select('pharmacy_product_request.*')
+                ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
+                ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
+                ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
+                ->where('ch_record.id', $id)->first();
+
+            $applicated = AssistanceSupplies::select('assistance_supplies.*')
+                ->where('supplies_status_id', 2)
+                ->where('pharmacy_product_request_id', $pharmacy->id)->get()->toArray();
+
+            $applicatedCount = 0;
+
+            foreach ($applicated as $item) {
+
+                $compare = ChRecord::find($item['ch_record_id']);
+                if ($validate_aplication->assigned_management_plan_id == $compare->assigned_management_plan_id) {
+                    $applicatedCount++;
+                    break;
+                }
+            }
+
+            if ($applicatedCount == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe registrar aplicación de medicamento',
+                ]);
+            }
+        }
+
+        //validar nota de enfermeria
+        if ($validate_aplication->ch_type_id == 2) {
+
+            $records_on_assigned = ChRecord::select('ch_record.*')
+                ->where('assigned_management_plan_id', $validate_aplication->assigned_management_plan_id)
+                ->get()->toArray();
+
+            $nursering_notes = 0;
+
+            foreach ($records_on_assigned as $item) {
+
+                $compare = ChNursingNote::select('ch_nursing_note.*')
+                    ->where('ch_record_id', $item['id'])->first();
+                if ($compare) {
+                    $nursering_notes++;
+                    break;
+                }
+            }
+
+            if ($nursering_notes == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Debe registrar nota de enfermeria',
+                ]);
+            }
+        }
+
         $admissions_id = $ChRecord->admissions_id;
-        $ChRecordExist = ChRecord::where('admissions_id', $admissions_id)->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
-            ->orderBy('created_at', 'ASC')->first();
 
         $ChRecord->status = $request->status;
+
+
 
         if ($request->firm_file) {
             if ($request->firm_file != "null" && $request->firm_file != "undefined") {
@@ -4708,8 +5446,9 @@ class ChRecordController extends Controller
                         ->where('admissions_id', $admissions_id)
                         ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                         ->orderBy('created_at', 'ASC')->get()->toArray();
-
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    if (count($firm_ch_record) > 0) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         } else {
@@ -4719,8 +5458,10 @@ class ChRecordController extends Controller
                     ->where('admissions_id', $admissions_id)
                     ->where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)
                     ->orderBy('created_at', 'ASC')->get()->toArray();
-                if ($ChRecord->ch_type_id != 10) {
-                    $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                if (count($firm_ch_record) > 0) {
+                    if ($ChRecord->ch_type_id != 10) {
+                        $ChRecord->firm_file = $firm_ch_record[0]['firm_file'];
+                    }
                 }
             }
         }
@@ -4730,92 +5471,207 @@ class ChRecordController extends Controller
         //     $ChRecord->firm_file = $path;
         // }
 
-
-        $mes = Carbon::now()->month;
-
-        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
-        $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
-        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-        $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
-        $admissions = Admissions::find($admissions_id);
-        $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
-        $user_id = $admissions->patient_id;
-        $locality = Patient::find($admissions->patient_id)->locality_id;
-        $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
-        $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
-        $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        
-        $valuetariff = ($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan) : null;
-        if ($valuetariff != null) {
-            if (count($valuetariff) == 0) {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano',
-                    'data' => ['ch_record' => $ChRecord],
-                ]);
-            }
+        $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->get()->toArray();
+        if (count($MinimumSalary) == 0) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No existe salario mínimo confirgurado para el año en curso',
+                'data' => ['ch_record' => []],
+            ]);
         }
-        
-        $ChRecord->date_finish = Carbon::now();
-        $ChRecord->save();
-        if ($ChRecordExist->date_finish == '0000-00-00') {
 
-            $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-            $assigned->execution_date = Carbon::now();
-            $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
-            $assigned->save();
+        if ($ChRecord->assigned_management_plan_id) {
 
-            $assistance = Assistance::where('user_id', $request->user_id)->first();
-            if ($assistance) {
-                $LocationCapacity = LocationCapacity::where('locality_id', $locality)
-                    ->where('assistance_id', $assistance->id)
-                    ->where('validation_date', '>=', Carbon::now()->startOfMonth())
-                    ->where('validation_date', '<=', Carbon::now()->endOfMonth())
-                    ->first();
-                if ($LocationCapacity) {
-                    $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
-                    $LocationCapacity->save();
+
+            $mes = Carbon::now()->month;
+
+            $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $request->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
+            $user_id = AssignedManagementPlan::latest('id')->find($ChRecord->assigned_management_plan_id)->first()->user_id;
+            $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+            $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+            $admissions = Admissions::find($admissions_id);
+            $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
+            $user_id = $admissions->patient_id;
+            $locality = Patient::find($admissions->patient_id)->locality_id;
+            $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
+            $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
+            $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
+
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
+            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                if (count($valuetariff) == 0 && $Location->scope_of_attention_id != 1) {
+                    $extra_dose = 0;
+                    $has_car = 0;
+                    $Assistance = Assistance::select('assistance.*')
+                        ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+                        ->groupBy('assistance.id')->get()->toArray();
+                    if (count($Assistance) > 0) {
+                        if ($Assistance[0]['has_car']) {
+                            $has_car = $Assistance[0]['has_car'];
+                        }
+                    }
+                    if ($ManagementPlan->type_of_attention_id == 17) {
+                        $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                            ->where('assigned_management_plan.redo', 0)
+                            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                            ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                            ->where('management_plan.admissions_id', $admissions_id)
+                            ->where('management_plan.type_of_attention_id', 17)
+                            ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                            ->groupBy('assigned_management_plan.id')
+                            ->get()->toArray();
+                        $validate = array();
+
+                        if (count($assigned_validation) > 0) {
+                            foreach ($assigned_validation as $element) {
+                                $offset = 3;
+                                $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                                $inidiat_time = Carbon::now()->subHours($offset);
+                                $final_time = Carbon::now()->addHours($offset);
+                                if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                                    array_push($validate, $element);
+                                }
+                            }
+                        }
+                        if (count($validate) > 0) {
+                            $extra_dose = 1;
+                        }
+                    }
+                    $p = Program::find($Location->program_id)->name;
+                    $t = TypeOfAttention::find($ManagementPlan->type_of_attention_id)->name;
+                    $ph = $ManagementPlan->phone_consult == 0 ? "NO" : "SI";
+                    $z = PadRisk::find($tariff)->name;
+                    $h = $ManagementPlan->hours ? $ManagementPlan->hours : "N.A";
+                    $f = $request->is_failed === true || $request->is_failed === "true" ? "SI" : "NO";
+                    $x = $extra_dose == 0 ? "NO" : "SI";
+                    $c = $has_car == 0 ? "NO" : "SI";
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano con la siguiente información:
+TIPO DE ATENCIÓN: ' . $t . ', 
+PROGRAMA: ' . $p . ', 
+ZONA: ' . $z . ', 
+FALLIDA: ' . $f . ', 
+CON CARRO: ' . $c . ', 
+EXTRADOSIS: ' . $x . ', 
+HORAS: ' . $h . ', 
+TELECONSULTA: ' . $ph . '
+',
+                        'data' => ['ch_record' => []],
+                    ]);
                 }
             }
 
-            $TypeContract = TypeContract::select('type_contract.*')
-                ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
-                ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
-                ->where('admissions.id', $admissions_id)
-                ->first();
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
 
-            if ($TypeContract->id == 5) {
-                $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
-                $BillingPad = BillingPad::where('admissions_id', $admissions_id)
-                    ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
-                    ->first();
-                $Authorization = Authorization::where('admissions_id', $admissions_id)
-                    ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
-                    ->first();
 
-                $AuthBillingPad = new AuthBillingPad;
-                $AuthBillingPad->billing_pad_id = $BillingPad->id;
-                $AuthBillingPad->authorization_id = $Authorization->id;
-                $AuthBillingPad->value = $ServicesBriefcase->value;
-                $AuthBillingPad->save();
-            }
-        } else {
-            $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
-            if ($billActivity) {
-                if ($billActivity->status == 'RECHAZADO') {
-                    $billActivity->status = 'REENVIADO';
-                    $billActivity->save();
-                } else {
-                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+
+            if ($AssignedManagementPlan->execution_date == '0000-00-00 00:00:00') {
+
+                $assigned = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                $assigned->execution_date = Carbon::now();
+                $assigned->save();
+
+                $assistance = Assistance::where('user_id', $request->user_id)->first();
+                if ($assistance) {
+                    $LocationCapacity = LocationCapacity::where('locality_id', $locality)
+                        ->where('assistance_id', $assistance->id)
+                        ->where('validation_date', '>=', Carbon::now()->startOfMonth())
+                        ->where('validation_date', '<=', Carbon::now()->endOfMonth())
+                        ->first();
+                    if ($LocationCapacity) {
+                        $LocationCapacity->PAD_patient_attended = $LocationCapacity->PAD_patient_attended + 1;
+                        $LocationCapacity->save();
                     }
                 }
+
+                $TypeContract = TypeContract::select('type_contract.*')
+                    ->leftJoin('contract', 'contract.type_contract_id', 'type_contract.id')
+                    ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
+                    ->where('admissions.id', $admissions_id)
+                    ->first();
+
+                if ($TypeContract->id == 5) {
+                    $ServicesBriefcase = ServicesBriefcase::find($ManagementPlan->procedure_id);
+                    $BillingPad = BillingPad::where('admissions_id', $admissions_id)
+                        ->whereBetween('validation_date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                        ->first();
+                    $Authorization = Authorization::where('admissions_id', $admissions_id)
+                        ->where('assigned_management_plan_id', $AssignedManagementPlan->id)
+                        ->first();
+
+                    $AuthBillingPad = new AuthBillingPad;
+                    $AuthBillingPad->billing_pad_id = $BillingPad->id;
+                    $AuthBillingPad->authorization_id = $Authorization->id;
+                    $AuthBillingPad->value = $ServicesBriefcase->value;
+                    $AuthBillingPad->save();
+                }
+
+                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
             } else {
-                if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
-                    $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff);
+                $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+                if ($billActivity) {
+                    if ($billActivity->status == 'RECHAZADO') {
+                        $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                        $assigned_redo->redo = '00000000000000';
+                        $assigned_redo->save();
+                        $billActivity->status = 'REENVIADO';
+                        $billActivity->ch_record_id = $ChRecord->id;
+                        $billActivity->save();
+                    } else {
+                        if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+                                $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
+                            }
+                        }
+                    }
+                } else {
+                    if ($ManagementPlan->type_of_attention_id == 12 || $ManagementPlan->type_of_attention_id == 13) {
+                        $this->newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary);
+                    }
                 }
             }
+        } else {
+            $ChRecord->date_finish = Carbon::now();
+            $ChRecord->save();
         }
+
+        $ChRecord_val = ChRecord::where('ch_record.id', $ChRecord->id)
+            ->select(
+                'ch_record.*',
+                'location.admission_route_id AS admission_route_id'
+            )
+            ->with('ch_interconsultation')
+            ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->get()->toArray();
+
+        if ($ChRecord_val[0]['ch_interconsultation'] != null && $ChRecord_val[0]['ch_interconsultation']['type_of_attention_id'] != null) {
+            $ch_interconsultation_val = ChInterconsultation::find($ChRecord_val[0]['ch_interconsultation_id']);
+
+            if ($ChRecord_val[0]['admission_route_id'] == 1) {
+                $Authorization = new Authorization;
+                $Authorization->services_briefcase_id = $ch_interconsultation_val->services_briefcase_id;
+                $Authorization->ch_interconsultation_id = $ChRecord_val[0]['ch_interconsultation_id'];
+                $Authorization->admissions_id = $ChRecord_val[0]['admissions_id'];
+                $Authorization->auth_status_id = 1;
+                $Authorization->save();
+            }
+        }
+
+        if ($ChRecord->medical_diary_days_id) {
+            $ambulatory_admission = Admissions::find($ChRecord->admissions_id);
+
+            $ambulatory_admission->discharge_date = Carbon::now();
+            $ambulatory_admission->medical_date = Carbon::now();
+
+            $ambulatory_admission->save();
+        }
+
+        $this->newAuthorizationInternationHospitalization($ChRecord->admissions_id);
+
+        // $validate_ambulatory = MedicalDiaryDays::find('medical_diary_days.*')->where('admissions_id',)
 
         // $hola = $this->interoperavility($id);
 
@@ -4826,24 +5682,82 @@ class ChRecordController extends Controller
         ]);
     }
 
-    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff)
+    public function newAuthorizationInternationHospitalization(int $admissions_id)
+    {
+        $start_of_actual_day = Carbon::now()->startOfDay();
+        $finish_of_last_day = Carbon::now()->subDay()->endOfDay();
+        $start_of_last_day = Carbon::now()->subDay()->startOfDay();
+
+        $location = Location::select('location.*')
+            ->where('admissions_id', $admissions_id)
+            ->where('discharge_date', '0000-00-00 00:00:00')
+            ->get()->toArray();
+
+        if ($location[count($location) - 1]['scope_of_attention_id'] == 1) {
+            $compare_date = $location[count($location) - 1]['entry_date'];
+
+            $LastAuth = Authorization::select('authorization.*')
+                ->where('admissions_id', $admissions_id)
+                // ->where('open_date', '<', $start_of_actual_day)
+                ->where(function ($query) use ($start_of_last_day, $compare_date, $start_of_actual_day) {
+                    $query
+                        // ->where('open_date', $start_of_last_day)
+                        ->where('open_date', '<', $start_of_actual_day)
+                        ->orWhere('open_date', $compare_date);
+                })
+                ->whereNull('close_date')
+                ->whereNotNull('location_id')
+                ->get()->toArray();
+
+            if (count($LastAuth) > 0) {
+                $lA = Authorization::find($LastAuth[0]['id']);
+                $lA->close_date = $finish_of_last_day;
+                $lA->save();
+
+                $new_auth_day = new Authorization;
+                $new_auth_day->services_briefcase_id = $LastAuth[0]['services_briefcase_id'];
+                $new_auth_day->assigned_management_plan_id = $LastAuth[0]['assigned_management_plan_id'];
+                $new_auth_day->admissions_id = $LastAuth[0]['admissions_id'];
+                $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
+                $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
+                $new_auth_day->observation = $LastAuth[0]['observation'];
+                $new_auth_day->copay_id = $LastAuth[0]['copay_id'];
+                $new_auth_day->quantity = $LastAuth[0]['quantity'];
+                $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
+                $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];
+                $new_auth_day->auth_package_id = $LastAuth[0]['auth_package_id'];
+                $new_auth_day->fixed_add_id = $LastAuth[0]['fixed_add_id'];
+                $new_auth_day->manual_price_id = $LastAuth[0]['manual_price_id'];
+                $new_auth_day->application_id = $LastAuth[0]['application_id'];
+                $new_auth_day->procedure_id = $LastAuth[0]['procedure_id'];
+                $new_auth_day->supplies_com_id = $LastAuth[0]['supplies_com_id'];
+                $new_auth_day->product_com_id = $LastAuth[0]['product_com_id'];
+                $new_auth_day->location_id = $LastAuth[0]['location_id'];
+                $new_auth_day->ch_interconsultation_id = $LastAuth[0]['ch_interconsultation_id'];
+                $new_auth_day->file_auth = $LastAuth[0]['file_auth'];
+                $new_auth_day->open_date = $start_of_actual_day;
+                $new_auth_day->save();
+            }
+        }
+    }
+
+    public function newBillUserActivity($validate, $id, $request, $ManagementPlan, $ChRecord, $admissions_id, $valuetariff, $MinimumSalary)
     {
         $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
-        if (($Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) && $ManagementPlan->procedure_id) {
+        if ($ManagementPlan->type_of_attention_id != 20) {
             if (!$validate) {
-                $MinimumSalary = MinimumSalary::where('year', Carbon::now()->year)->first();
                 //    = AssignedManagementPlan::find($ChRecord[0]['assigned_management_plan_id'])->get();
                 $AccountReceivable = new AccountReceivable;
                 $AccountReceivable->user_id = $request->user_id;
                 $AccountReceivable->status_bill_id = 1;
-                $AccountReceivable->minimum_salary_id = $MinimumSalary->id;
+                $AccountReceivable->minimum_salary_id = $MinimumSalary[0]['id'];
                 $AccountReceivable->save();
                 $billActivity = new BillUserActivity;
                 $billActivity->procedure_id = $ManagementPlan->procedure_id;
                 $billActivity->account_receivable_id = $AccountReceivable->id;
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->tariff_id = (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             } else {
@@ -4853,7 +5767,7 @@ class ChRecordController extends Controller
                 $billActivity->account_receivable_id = $validate[0]['id'];
                 $billActivity->assigned_management_plan_id = $ChRecord->assigned_management_plan_id;
                 $billActivity->admissions_id = $admissions_id;
-                $billActivity->tariff_id = $valuetariff[0]['id'];
+                $billActivity->tariff_id = (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
                 $billActivity->ch_record_id = $id;
                 $billActivity->save();
             };

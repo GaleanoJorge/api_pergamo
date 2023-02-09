@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\ChRecord;
 use App\Models\ChTypeBackground;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
@@ -20,6 +21,14 @@ class ChBackgroundController extends Controller
     public function index(Request $request): JsonResponse
     {
         $ChBackground = ChBackground::with('ch_type_background');
+
+        if ($request->ch_record_id) {
+            $ChBackground->where('ch_record_id', $request->ch_record_id);
+        }
+
+        if ($request->type_record_id) {
+            $ChBackground->where('type_record_id', $request->type_record_id);
+        }
 
         if ($request->_sort) {
             $ChBackground->orderBy($request->_sort, $request->_order);
@@ -117,25 +126,27 @@ class ChBackgroundController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByRecord(Request $request,int $id, int $type_record_id): JsonResponse
+    public function getByRecord(Request $request, int $id, int $type_record_id): JsonResponse
     {
 
+        $chrecord = ChRecord::find($id);
 
-        $ChBackground = ChBackground::where('ch_record_id', $id)
-        ->where('type_record_id', $type_record_id)
+        $ChBackground = ChBackground::select('ch_background.*')
+        ->leftJoin('ch_record', 'ch_record.id', 'ch_background.ch_record_id')
+            ->where('ch_record.admissions_id', $chrecord->admissions_id)
             ->with('ch_type_background')->get()->toArray();
 
-            if ($request->has_input) { //
-                if ($request->has_input == 'true') { //
-                    $chrecord = ChRecord::find($id); //
-                    $ChBackground = ChBackground::select('ch_background.*')
-                        ->with('ch_type_background')
-                        ->where('ch_record.admissions_id', $chrecord->admissions_id) //
-                        ->where('ch_background.type_record_id', 1)
-                        ->leftJoin('ch_record', 'ch_record.id', 'ch_background.ch_record_id') //
-                        ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
-                }
+        if ($request->has_input) { //
+            if ($request->has_input == 'true') { //
+    
+                $ChBackground = ChBackground::select('ch_background.*')
+                    ->with('ch_type_background')
+                    ->where('ch_record.admissions_id', $chrecord->admissions_id) //
+                    ->where('ch_background.type_record_id', 1)
+                    ->leftJoin('ch_record', 'ch_record.id', 'ch_background.ch_record_id') //
+                    ->get()->toArray(); // tener cuidado con esta linea si hay dos get()->toArray()
             }
+        }
 
 
         return response()->json([
@@ -151,15 +162,15 @@ class ChBackgroundController extends Controller
         $ch_type_background = json_decode($request->ch_type_background_id);
         // $validate = ChBackground::where('ch_record_id', $request->ch_record_id)->where('ch_type_background_id', $request->ch_type_background_id)->first();
         // if (!$validate) {
-            foreach($ch_type_background as $element) {
-                    $ChBackground = new ChBackground;
-                    $ChBackground->ch_type_background_id = $element->id;
-                    $ChBackground->revision = $element->revision;
-                    $ChBackground->observation = $element->description;
-                    $ChBackground->type_record_id = $request->type_record_id;
-                    $ChBackground->ch_record_id = $request->ch_record_id;
-                    $ChBackground->save();
-                } 
+        foreach ($ch_type_background as $element) {
+            $ChBackground = new ChBackground;
+            $ChBackground->ch_type_background_id = $element->id;
+            $ChBackground->revision = $element->revision;
+            $ChBackground->observation = $element->description;
+            $ChBackground->type_record_id = $request->type_record_id;
+            $ChBackground->ch_record_id = $request->ch_record_id;
+            $ChBackground->save();
+        }
 
         // } else {
         //     return response()->json([

@@ -20,6 +20,11 @@ class ChOstomiesController extends Controller
     {
         $ChOstomies = ChOstomies::with('ostomy', 'type_record', 'ch_record');
 
+        
+        if ($request->ch_record_id) {
+            $ChOstomies->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
+        }
+
         if ($request->_sort) {
             $ChOstomies->orderBy($request->_sort, $request->_order);
         }
@@ -92,19 +97,30 @@ class ChOstomiesController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $ChOstomies = new ChOstomies;
-        $ChOstomies->ostomy_id = $request->ostomy_id;
-        $ChOstomies->observation = $request->observation;
-        $ChOstomies->type_record_id = $request->type_record_id;
-        $ChOstomies->ch_record_id = $request->ch_record_id;
+        $validate = ChOstomies::select('ch_ostomies.*')
+            ->where('ch_record_id', $request->ch_record_id)
+            ->where('type_record_id', $request->type_record_id)
+            ->where('ostomy_id', $request->ostomy_id)->first();
+        if (!$validate) {
+            $ChOstomies = new ChOstomies;
+            $ChOstomies->ostomy_id = $request->ostomy_id;
+            $ChOstomies->observation = $request->observation;
+            $ChOstomies->type_record_id = $request->type_record_id;
+            $ChOstomies->ch_record_id = $request->ch_record_id;
 
-        $ChOstomies->save();
+            $ChOstomies->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Ostomías Asociada  al paciente exitosamente',
-            'data' => ['ch_ostomies' => $ChOstomies->toArray()]
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Ostomías Asociada  al paciente exitosamente',
+                'data' => ['ch_ostomies' => $ChOstomies->toArray()]
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Ya tiene observación'
+            ], 423);
+        }
     }
 
     /**

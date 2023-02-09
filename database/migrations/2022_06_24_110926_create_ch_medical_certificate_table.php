@@ -15,7 +15,7 @@ class CreateChMedicalCertificateTable extends Migration
     {
         Schema::create('ch_medical_certificate', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('description');
+            $table->longText('description');
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->timestamps();
