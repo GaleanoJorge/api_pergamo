@@ -1374,7 +1374,7 @@ class ChRecordController extends Controller
                 $rutaImagenPatient = storage_path('app/public/' . $ChRecord[0]['firm_file']);
                 $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                 $imagenPAtient = base64_encode($contenidoBinarioPatient);
-}else {
+            } else {
                 $imagenPAtient = null;
             }
         }
@@ -2816,7 +2816,7 @@ class ChRecordController extends Controller
         $i = 0;
         $documentos = [];
 
-        if ($request->ch_type == 21){
+        if ($request->ch_type == 21) {
             $ChRecord = ChRecord::select('ch_record.*')->with(
                 'user',
                 'user.assistance',
@@ -2846,103 +2846,101 @@ class ChRecordController extends Controller
                 // 'assistance_supplies.application_hour',
             )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
                 ->leftJoin('location', 'admissions.id', 'location.admissions_id')
-    
-    
-    
+
+
+
                 ->where('admissions.patient_id', $request->admissions)
                 ->where('ch_record.status', 'CERRADO')
-                ->where('ch_type_id',1)
+                ->where('ch_type_id', 1)
                 ->groupBy('ch_record.id');
-    
+
             if ($request->start_date != 'null' && isset($request->start_date)) {
                 $init_date = Carbon::parse($request->start_date);
-    
+
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
-    
+
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
                 $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
-    
+
             if ($request->admission_route_id) {
                 $ChRecord
                     ->where('location.admission_route_id', $request->admission_route_id);
             }
-    
+
             if ($request->scope_of_attention_id) {
                 $ChRecord
                     ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
             }
-    
+
             $ChRecord = $ChRecord->get()->toArray();
-    
         } else {
 
-        $ChRecord = ChRecord::select('ch_record.*')->with(
-            'user',
-            'user.assistance',
-            'user.user_role.role',
-            'admissions.contract',
-            'admissions.contract.company',
-            'admissions',
-            'admissions.patients',
-            'admissions.campus.region',
-            'admissions.patients.academic_level',
-            'admissions.patients.municipality',
-            'admissions.patients.ethnicity',
-            'admissions.patients.gender',
-            'admissions.patients.identification_type',
-            'admissions.patients.residence_municipality',
-            'admissions.patients.residence',
-            'admissions.patients.marital_status',
-            'admissions.patients.population_group',
-            'admissions.patients.activities',
-            'admissions.contract.type_briefcase',
-            'assigned_management_plan',
-            'assigned_management_plan.management_plan',
-            'assigned_management_plan.management_plan.type_of_attention',
-            'assigned_management_plan.management_plan.procedure.manual_price',
-            'assigned_management_plan.management_plan.service_briefcase.manual_price',
-            // 'assistance_supplies',
-            // 'assistance_supplies.user_incharge_id',
-            // 'assistance_supplies.application_hour',
-        )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
-            ->leftJoin('location', 'admissions.id', 'location.admissions_id')
+            $ChRecord = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.campus.region',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('location', 'admissions.id', 'location.admissions_id')
 
 
 
-            ->where('admissions.patient_id', $request->admissions)
-            ->where('ch_record.status', 'CERRADO')
-            ->where('ch_type_id', $request->ch_type)
-            ->groupBy('ch_record.id');
+                ->where('admissions.patient_id', $request->admissions)
+                ->where('ch_record.status', 'CERRADO')
+                ->where('ch_type_id', $request->ch_type)
+                ->groupBy('ch_record.id');
 
-        if ($request->start_date != 'null' && isset($request->start_date)) {
-            $init_date = Carbon::parse($request->start_date);
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
 
-            $ChRecord
-                ->where('ch_record.date_attention', '>=', $init_date);
+                $ChRecord
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
+            }
+
+            if ($request->admission_route_id) {
+                $ChRecord
+                    ->where('location.admission_route_id', $request->admission_route_id);
+            }
+
+            if ($request->scope_of_attention_id) {
+                $ChRecord
+                    ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
+            }
+
+            $ChRecord = $ChRecord->get()->toArray();
         }
-
-        if ($request->finish_date != 'null' && isset($request->finish_date)) {
-            $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
-            $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
-        }
-
-        if ($request->admission_route_id) {
-            $ChRecord
-                ->where('location.admission_route_id', $request->admission_route_id);
-        }
-
-        if ($request->scope_of_attention_id) {
-            $ChRecord
-                ->where('location.scope_of_attention_id', $request->scope_of_attention_id);
-        }
-
-        $ChRecord = $ChRecord->get()->toArray();
-
-    }
 
         $count = 0;
 
@@ -3046,7 +3044,7 @@ class ChRecordController extends Controller
                 'message' => 'Reporte generado exitosamente',
                 'url' => asset('/storage' . '/' . $name),
             ]);
-        } 
+        }
 
         if ($request->ch_type == 21) {
 
@@ -3110,8 +3108,8 @@ class ChRecordController extends Controller
                     //Evolución
                     $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
-                  
-                  
+
+
                     if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
                         $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
                         $contenidoBinario = file_get_contents($rutaImagen);
@@ -3148,7 +3146,7 @@ class ChRecordController extends Controller
 
                         'ChDiagnosisEvo' => $ChDiagnosisEvo,
                         'ChApEvo' => $ChApEvo,
-                        
+
                         // 'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
                         'firm' => $imagenComoBase64,
@@ -3198,8 +3196,6 @@ class ChRecordController extends Controller
 
                 ]);
             }
-
-        
         }
 
         if ($request->ch_type == 1) {
@@ -3224,9 +3220,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-
-                    }else{
-                        $imagenPAtient=null;
+                    } else {
+                        $imagenPAtient = null;
                     }
 
                     $ChReasonConsultation = ChReasonConsultation::with('ch_external_cause')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
@@ -3531,7 +3526,6 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-
                     } else {
                         $imagenPAtient = null;
                     }
@@ -4147,7 +4141,7 @@ class ChRecordController extends Controller
                 'ChDiagnosticAids',
                 'ChObjectivesTherapy',
                 // 'PharmacyProductRequest',
-                'ChRtSessions.frequency',   
+                'ChRtSessions.frequency',
                 'ChPsIntervention',
                 'ChRecommendationsEvo.recommendations_evo',
                 'Disclaimer',
@@ -4156,65 +4150,63 @@ class ChRecordController extends Controller
                 // 'assistance_supplies.application_hour',
             )->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
                 ->leftJoin('location', 'admissions.id', 'location.admissions_id')
-    
-    
-    
+
+
+
                 ->where('admissions.patient_id', $request->admissions)
                 ->where('ch_record.status', 'CERRADO')
                 ->where('ch_type_id', $request->ch_type)
                 ->groupBy('ch_record.id')->get()->toArray();
 
             if (count($ChRecordTR) > 0) {
-                    // $fecharecord = Carbon::parse($ChRecordTR[0]['updated_at'])->setTimezone('America/Bogota');
+                // $fecharecord = Carbon::parse($ChRecordTR[0]['updated_at'])->setTimezone('America/Bogota');
 
-                    // $count++;
-                    // if ($ch['firm_file']) {
-                    //     $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
-                    //     $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
-                    //     $imagenPAtient = base64_encode($contenidoBinarioPatient);
-                    // }
+                // $count++;
+                // if ($ch['firm_file']) {
+                //     $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
+                //     $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                //     $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                // }
 
-                    // if (isset($ChRecordTR[0]['user']['assistance'][0]['file_firm']) && $ChRecordTR[0]['user']['assistance'][0]['file_firm'] != "null") {
-                    //     if ($ChRecordTR[0]['user']['assistance'][0]['file_firm'] != 'null') {
-                    //         $rutaImagen = storage_path('app/public/' . $ChRecordTR[0]['user']['assistance'][0]['file_firm']);
-                    //         $contenidoBinario = file_get_contents($rutaImagen);
-                    //         $imagenComoBase64 = base64_encode($contenidoBinario);
-                    //     }
-                    // } else {
-                    //     $imagenComoBase64 = null;
-                    // }
-
-
-                    $today = Carbon::now();
-                    // $Patients = $ChRecord[0]['admissions']['patients'];
-                
-                    // $patient=$ChRecord['admissions'];
-
-                    $html = view('mails.respiratoryhistoryall', [
-                        'chrecord' => $ChRecordTR,
-                        // 'chrecord2' => $ChRecord[$i],
-                        'today' => $today,
-                        //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-                        //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
-                        //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
-
-                    ])->render();
-
-                    $options = new Options();
-                    $options->set('isRemoteEnabled', true);
-                    $dompdf = new PDF($options);
-                    $dompdf->loadHtml($html);
-                    $dompdf->setPaper('Carta', 'portrait');
-                    $dompdf->render();
-                    $this->injectPageCount($dompdf);
-                    $file = $dompdf->output();
-
-                    $name2= $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                // if (isset($ChRecordTR[0]['user']['assistance'][0]['file_firm']) && $ChRecordTR[0]['user']['assistance'][0]['file_firm'] != "null") {
+                //     if ($ChRecordTR[0]['user']['assistance'][0]['file_firm'] != 'null') {
+                //         $rutaImagen = storage_path('app/public/' . $ChRecordTR[0]['user']['assistance'][0]['file_firm']);
+                //         $contenidoBinario = file_get_contents($rutaImagen);
+                //         $imagenComoBase64 = base64_encode($contenidoBinario);
+                //     }
+                // } else {
+                //     $imagenComoBase64 = null;
+                // }
 
 
-                    Storage::disk('public')->put($name2, $file);
-                
-                    
+                $today = Carbon::now();
+                // $Patients = $ChRecord[0]['admissions']['patients'];
+
+                // $patient=$ChRecord['admissions'];
+
+                $html = view('mails.respiratoryhistoryall', [
+                    'chrecord' => $ChRecordTR,
+                    // 'chrecord2' => $ChRecord[$i],
+                    'today' => $today,
+                    //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                    //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                    //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+                ])->render();
+
+                $options = new Options();
+                $options->set('isRemoteEnabled', true);
+                $dompdf = new PDF($options);
+                $dompdf->loadHtml($html);
+                $dompdf->setPaper('Carta', 'portrait');
+                $dompdf->render();
+                $this->injectPageCount($dompdf);
+                $file = $dompdf->output();
+
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+
+
+                Storage::disk('public')->put($name2, $file);
             } else {
                 return response()->json([
                     'status' => false,
@@ -4223,7 +4215,7 @@ class ChRecordController extends Controller
                 ]);
             }
         }
-        
+
 
 
         ///Terapia ocupacional
@@ -4244,8 +4236,9 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-}else{
- $imagenPAtient=null;}
+                    } else {
+                        $imagenPAtient = null;
+                    }
                     //Ingreso
                     $ChEValorationOT = ChEValorationOT::with('ch_diagnosis')->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
                     $ChVitalSigns = ChVitalSigns::with(
@@ -4404,8 +4397,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-}else{
- $imagenPAtient=null;
+                    } else {
+                        $imagenPAtient = null;
                     }
                     //Ingreso
                     $ChEValorationFT = ChEValorationFT::with(
@@ -4574,8 +4567,8 @@ class ChRecordController extends Controller
                         $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
                         $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
                         $imagenPAtient = base64_encode($contenidoBinarioPatient);
-}else{
- $imagenPAtient=null;
+                    } else {
+                        $imagenPAtient = null;
                     }
                     //Ingreso    
                     $ChSwDiagnosis = ChSwDiagnosis::with(
@@ -4839,34 +4832,29 @@ class ChRecordController extends Controller
         return strtr($str, $replacements);
     }
 
-    private function getChTypeExternalConsultation($roleId,$specialty)
+    private function getChTypeExternalConsultation($roleId, $specialty)
     {
- 
-            if ($roleId==3) {
-                return 1;
-            } else if ($roleId==10) {
-                return 3;
-            } else if ($roleId==12) {
-                return 8;
-            } else if ($roleId==11) {
-                return 9;
-            }else if ($roleId==14) {
-                if($specialty==134){
-                    return 4;
-                }
-                else if($specialty==135){
-                    return 7;
-                }
-                else if($specialty==136){
-                    return 6;
-                }
-                else if($specialty==137){
-                    return 5;
-                }
-              
+
+        if ($roleId == 3) {
+            return 1;
+        } else if ($roleId == 10) {
+            return 3;
+        } else if ($roleId == 12) {
+            return 8;
+        } else if ($roleId == 11) {
+            return 9;
+        } else if ($roleId == 14) {
+            if ($specialty == 134) {
+                return 4;
+            } else if ($specialty == 135) {
+                return 7;
+            } else if ($specialty == 136) {
+                return 6;
+            } else if ($specialty == 137) {
+                return 5;
             }
-            return null;
-        
+        }
+        return null;
     }
 
 
@@ -4892,7 +4880,7 @@ class ChRecordController extends Controller
         $ChRecord->user_id = Auth::user()->id;
 
         if ($isExternalConsultation) {
-            $ChRecord->ch_type_id = $this->getChTypeExternalConsultation($request->role_id,$request->speciality);
+            $ChRecord->ch_type_id = $this->getChTypeExternalConsultation($request->role_id, $request->speciality);
             if ($ChRecord->ch_type_id == null) {
                 return response()->json([
                     'status' => false,
@@ -4957,12 +4945,7 @@ class ChRecordController extends Controller
                             break;
                         }
                     case (13): {
-                            // SERVICIO DE CUIDADOR
-                            return response()->json([
-                                'status' => false,
-                                'message' => 'No hay historia clínica para esta atención',
-                                'data' => ['ch_record' => []],
-                            ]);
+                            $ChRecord->ch_type_id = 2;
                             break;
                         }
                     case (14): {
@@ -5738,7 +5721,7 @@ TELECONSULTA: ' . $ph . '
                 $new_auth_day->auth_number = $LastAuth[0]['auth_number'];
                 $new_auth_day->authorized_amount = $LastAuth[0]['authorized_amount'];
                 $new_auth_day->observation = $LastAuth[0]['observation'];
-                $new_auth_day->copay = $LastAuth[0]['copay'];
+                $new_auth_day->copay_id = $LastAuth[0]['copay_id'];
                 $new_auth_day->quantity = $LastAuth[0]['quantity'];
                 $new_auth_day->copay_value = $LastAuth[0]['copay_value'];
                 $new_auth_day->auth_status_id = $LastAuth[0]['auth_status_id'];

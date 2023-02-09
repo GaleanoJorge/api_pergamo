@@ -1773,5 +1773,25 @@
         "route": "/pages/scheduling/schedule-disable",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "233",
+        "item_parent_id": null,
+        "name": "Reportes",
+        "code": null,
+        "route": null,
+        "icon": "layers-outline",
+        "show_menu": "1"
+    }
+
+    ,
+    {
+        "id": "234",
+        "item_parent_id": "233",
+        "name": "Reporte de Rips",
+        "code": "report-rips",
+        "route": "/pages/setting/report-rips",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
