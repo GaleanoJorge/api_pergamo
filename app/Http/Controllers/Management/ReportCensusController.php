@@ -231,6 +231,9 @@ class ReportCensusController extends Controller
                 ->groupBy('campus.id')
                 ->tosql();
 
+
+                var_dump($sql);
+
         if ($request->pavilion_id) {
             $census->where('pavilion.id', [$request->pavilion_id]);
             $xPavilion->where('pavilion.id', [$request->pavilion_id]);
