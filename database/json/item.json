@@ -1744,5 +1744,14 @@
         "route": "/pages/scheduling/schedule-disable",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "254",
+        "item_parent_id": null,
+        "name": "Laboratorios",
+        "code": "laboratories",
+        "route": "/pages/laboratories/list",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

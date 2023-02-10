@@ -461,10 +461,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
     Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
-
-
-
-
+    Route::get('GetPatientsWithLaboratory', 'Management\PatientController@getPatientsWithLaboratories');
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');
@@ -1909,6 +1906,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Nota aclaratoria
     Route::apiResource('disclaimer', 'Management\DisclaimerController');
     Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+
+    //Laboratorios
+    Route::apiResource('laboratory', 'Management\ChLaboratoryController');
 
 
 });

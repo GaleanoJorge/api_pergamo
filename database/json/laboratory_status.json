@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Ordenado"
+    },
+    {
+        "name": "Tomado"
+    },
+    {
+        "name": "Enviado"
+    },
+    {
+        "name": "Recibido"
+    },
+    {
+        "name": "Interpretado"
+    },
+    {
+        "name": "Cancelado"
+    }
+]  
