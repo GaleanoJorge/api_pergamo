@@ -185,6 +185,7 @@ class ReportCensusController extends Controller
                 ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
                 ->leftJoin('location', 'bed.id', 'location.bed_id')
                 ->where('bed.bed_or_office', 1)
+                ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
                 ->where('pavilion.id', [$request->pavilion_id])
                 ->get()->toArray();
         }
@@ -208,6 +209,7 @@ class ReportCensusController extends Controller
                 ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
                 ->leftJoin('location', 'bed.id', 'location.bed_id')
                 ->where('bed.bed_or_office', 1)
+                ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
                 ->where('campus.id', [$request->id])
                 ->get()->toArray();
         }
@@ -246,13 +248,14 @@ class ReportCensusController extends Controller
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
             ->where('bed.bed_or_office', 1)
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
             ->get()->toArray();
 
         //? Datos a Blade
         $html = view('reports.census', [
             'census' => $census,
-            'xPavilion' => $xPavilion,
-            'xCampus' => $xCampus,
+            'xPavilion' => $request->pavilion_id ? $xPavilion : null,
+            'xCampus' => $request->campus_id ? $xCampus : null,
             'General' => $General,
             'campus' => $campus,
             'pavilion' => $pavilion,
