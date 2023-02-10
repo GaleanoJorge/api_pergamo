@@ -1393,7 +1393,6 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_assets/byUser/{user_id}', 'Management\FixedAssetsController@getFixedByUserId');
     Route::get('fixed_assets/{id}', 'Management\FixedAssetsController@getFixedId');
     Route::apiResource('services_fixed_stock', 'Management\ServicesFixedStockController');
-
     //? Report Pharmacy
     Route::apiResource('report_pharmacy', 'Management\ReportPharmacyController'); 
     Route::get('report_pharmacy/export/{id}', 'Management\ReportPharmacyController@exportPharmacy');
