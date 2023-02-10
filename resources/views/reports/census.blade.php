@@ -58,14 +58,14 @@
 
     <div>
         @if (count($census) > 0)
-        @foreach ($xCampus as $campus)
+        @foreach ($xCampus as $Sede)
         <div>
             <div style="text-align: center; font-size: 10px">
                 <p>{{$campus['name']}} - {{$campus['address']}} - {{$campus['region']['name']}}</p>
             </div>
         </div>
         @foreach ($xPavilion as $pavilion)
-        @if ($pavilion['Sede']==$campus['Sede_id'])
+        @if ($pavilion['Sede']==$Sede['Sede_id'])
         <div>
             <div style="text-align: center; font-size: 10px">
                 <p><b>CENSO DIARIO DE {{$flat['name']}}, {{$pavilion['name']}}</b></p>
@@ -114,7 +114,7 @@
             </tr>
 
             @foreach ($census as $ph)
-            @if ($ph['Campus']==$campus['Sede_id'] && $ph['Pavilion']==$pavilion['Pavilion'])
+            @if ($ph['Campus']==$Sede['Sede_id'] && $ph['Pavilion']==$pavilion['Pavilion'])
             <tr>
                 <td>
                     <div style="text-align: center"><span style="font-size: 8px"></span></div>
