@@ -47,7 +47,7 @@
                     <div style="text-align: center;  padding-right: 30%">
                         <p>HEALTH & LIFE IPS S.A.S </p>
                         <p>Nit: 900900122 - 7</p>
-                        <p>{{$campus['name']}} - {{$campus['address']}} - {{$campus['region']['name']}}</p>
+                        
                     </div>
                 </span>
         </div>
@@ -57,7 +57,15 @@
     <hr />
 
     <div>
-        @if (count($census) >= 0)
+        @if (count($census) > 0)
+        @foreach ($xCampus as $campus)
+        <div>
+            <div style="text-align: center; font-size: 10px">
+                <p>{{$campus['name']}} - {{$campus['address']}} - {{$campus['region']['name']}}</p>
+            </div>
+        </div>
+        @foreach ($xPavilion as $pavilion)
+        @if ($pavilion['Sede']==$campus['Sede_id'])
         <div>
             <div style="text-align: center; font-size: 10px">
                 <p><b>CENSO DIARIO DE {{$flat['name']}}, {{$pavilion['name']}}</b></p>
@@ -106,6 +114,7 @@
             </tr>
 
             @foreach ($census as $ph)
+            @if ($ph['Campus']==$campus['Sede_id'] && $ph['Pavilion']==$pavilion['pavilion_id'])
             <tr>
                 <td>
                     <div style="text-align: center"><span style="font-size: 8px"></span></div>
@@ -177,14 +186,25 @@
                         </span></div>
                 </td>
             </tr>
+            @endisset
             @endforeach
         </table>
         <hr />
+        <div style="float:right; font-size: 10px"><span>
+            <b>Total Camas: {{$pavilion['Total']}} - </b>
+            Libres: <b>{{$pavilion['Libres']}},</b>
+            Ocupadas: <b>{{$pavilion['Ocupadas']}}</b>
+            En Mantenimiento: <b>{{$pavilion['Mantenimiento']}},</b>
+            En Desinfección: <b>{{$pavilion['Desinfeccion']}}</b></span>
+    </div>
+        @endisset
+        @endforeach
+        @endforeach
         @endisset
         {{-- @endisset --}}
     </div>
     <footer>
-        @foreach ($xPavilion as $xP)
+        {{-- @foreach ($xPavilion as $xP)
         <div style="float:right; font-size: 10px"><span>
                 <b>Total Camas: {{$xP['Total']}} - </b>
                 Libres: <b>{{$xP['Libres']}},</b>
@@ -192,7 +212,7 @@
                 En Mantenimiento: <b>{{$xP['Mantenimiento']}},</b>
                 En Desinfección: <b>{{$xP['Desinfeccion']}}</b></span>
         </div>
-        @endforeach
+        @endforeach --}}
         <div style="position: fixed; bottom:3%; font-size: 12px">
             <div style="font-family: 'Open Sans', 'arial', 'sans-serif'; float: right; margin-right: 10pt"><b>PERGAMO</b></div>
             @foreach ($xCampus as $xC)

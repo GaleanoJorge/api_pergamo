@@ -146,6 +146,8 @@ class ReportCensusController extends Controller
             'company.name AS ARS-EPS',
             'modality.name AS Contrato',
             'procedure.name AS Especialidad Tratante',
+            'campus.id AS Campus',
+            'pavilion.id AS Pavilion',
         )
             //* Apuntadores de Consulta
             ->leftJoin('admissions', 'admissions.id', 'location.admissions_id')
@@ -168,51 +170,56 @@ class ReportCensusController extends Controller
             ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
             ->where('bed.bed_or_office', 1);
 
+        //! Camas por Pabellón
+        $xPavilion = Campus::select(
+            'campus.id As Sede',
+            'pavilion_id',
+            DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
+        )
+            ->leftJoin('flat', 'campus.id', 'flat.campus_id')
+            ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
+            ->leftJoin('location', 'bed.id', 'location.bed_id')
+            ->where('bed.bed_or_office', 1)
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report]);
+
+        //! Camas por Sede
+        $xCampus = Campus::select(
+            'campus.id As Sede_id',
+            'campus.name as Sede',
+            'flat.name as Piso',
+            'pavilion.name as Pabellón',
+            DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS "Libres"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
+            DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
+        )
+            ->leftJoin('flat', 'campus.id', 'flat.campus_id')
+            ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
+            ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
+            ->leftJoin('location', 'bed.id', 'location.bed_id')
+            ->where('bed.bed_or_office', 1)
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report]);
+
+
         if ($request->pavilion_id) {
             $census->where('pavilion.id', [$request->pavilion_id]);
-
-            //! Camas por Pabellón
-            $xPavilion = Campus::select(
-                DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
-            )
-                ->leftJoin('flat', 'campus.id', 'flat.campus_id')
-                ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
-                ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
-                ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
-                ->leftJoin('location', 'bed.id', 'location.bed_id')
-                ->where('bed.bed_or_office', 1)
-                ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
-                ->where('pavilion.id', [$request->pavilion_id])
-                ->get()->toArray();
+            $xPavilion->where('pavilion.id', [$request->pavilion_id]);
         }
         if ($request->campus_id) {
             $census->where('campus.id', [$request->campus_id]);
-
-            //! Camas por Sede
-            $xCampus = Campus::select(
-                'campus.name as Sede',
-                'flat.name as Piso',
-                'pavilion.name as Pabellón',
-                DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS "Libres"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
-                DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
-            )
-                ->leftJoin('flat', 'campus.id', 'flat.campus_id')
-                ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
-                ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
-                ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
-                ->leftJoin('location', 'bed.id', 'location.bed_id')
-                ->where('bed.bed_or_office', 1)
-                ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
-                ->where('campus.id', [$request->id])
-                ->get()->toArray();
+            $xCampus->where('campus.id', [$request->id]);
         }
+
+        $xPavilion = $xPavilion->get()->toArray();
+        $xCampus = $xCampus->get()->toArray();
 
         $census = $census->get()->toArray();
 
