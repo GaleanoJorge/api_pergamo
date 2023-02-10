@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\PharmacyProductRequest;
+use App\Models\LogPharmacyShipping;
 use App\Models\ReportPharmacy;
-use DB;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+
 class ReportPharmacyController extends Controller
 {
     /**
@@ -43,7 +44,6 @@ class ReportPharmacyController extends Controller
         ]);
     }
 
-
     public function store(Request $request): JsonResponse
     {
         $ReportPharmacy = new ReportPharmacy;
@@ -61,7 +61,6 @@ class ReportPharmacyController extends Controller
         ]);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -70,27 +69,34 @@ class ReportPharmacyController extends Controller
      */
     public function exportPharmacy(Request $request, int $id): JsonResponse
     {
-        $hoja1 = PharmacyProductRequest::select(
-            // Encabezados de las tablas
-            'pharmacy_product_request.id AS Identificador',
-            'pharmacy_product_request.created_at AS Fecha Solicitud',
-            'pharmacy_stock.name AS Farmacia', //Nombre de la Farmacia
-            DB::raw('CONCAT_WS(" ",users.firstname,users.middlefirstname,users.lastname,users.middlelastname) AS Solicitante'), // Concatena Nombre Completo del tramitador
-            'product.id AS Identificador Producto',
-            'product_supplies_com.id AS Identificador Insumo Comercial',
-            'product_supplies_com.name AS Insumo Comercial',
-            'product_generic.id AS Identificador Producto Génerico',
-            'product_supplies.id AS Identificador Insumo Génerico',
-            'manual_price.name AS Med Génerico',
-            'product.name AS Med Comercial',
-            'pharmacy_request_shipping.amount',
-            'patients.identification',
-            DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS Paciente'),
+        $stock = LogPharmacyShipping::select(
+            //* Consulta especifica con encabezados o variables de columnas
+            'pharmacy_product_request.id AS ID',
+            'pharmacy_product_request.created_at AS Fecha de Solicitud',
+            'pharmacy_stock.name AS Farmacia',
+            DB::raw('CONCAT_WS(" ", users.firstname, users.middlefirstname, users.lastname, users.middlelastname) AS Solicitante'),
+            // 'product.id AS ID MEDICAMENTO COMERCIAL',
+            // 'product_supplies_com.id AS ID INSUMO COMERCIAL',
+            DB::raw('IF(product.id > 0, product.id, product_supplies_com.id) AS "ID Comercial"'),
+            // 'product_generic.id AS ID MEDICAMENTO GENERICO',
+            // 'product_supplies.id AS ID INSUMO GENERICO',
+            DB::raw('IF(product_generic.id > 0, product_generic.id, product_supplies.id) AS "ID Génerico"'),
+            // 'product.name AS MEDICAMENTO COMERCIAL',
+            // 'product_supplies_com.name AS INSUMO COMERCIAL',
+            'manual_price.name AS Medicamento Génerico',
+            DB::raw('IF(product.name = 0, product.name, product_supplies_com.name) AS "Medicamento e Insumo Comercial"'),
+            // 'product_supplies.name AS Insumo Génerico',
+            // DB::raw('IF(product_generic.name = NULL, product_generic.name, product_supplies.name) AS "MEDICAMENTO E INSUMO GENERICO"'),
+            'pharmacy_request_shipping.amount AS Cantidad',
+            'patients.identification AS Identificación de Paciente',
+            DB::raw('CONCAT_WS(" ", patients.firstname, patients.middlefirstname, patients.lastname, patients.middlelastname) AS Paciente'),
             'program.name AS Programa',
-            'company.name AS EPS'
+            'company.name AS EPS',
+            'pharmacy_product_request.observation AS Observación'
         )
-            // Consulta de Datos Especificos   
-            ->leftJoin('pharmacy_request_shipping','pharmacy_request_shipping.pharmacy_product_request_id','pharmacy_product_request.id')
+            //* Ruta de Consulta
+            ->leftJoin('pharmacy_request_shipping', 'pharmacy_request_shipping.id', 'log_pharmacy_shipping.pharmacy_request_shipping_id')
+            ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'pharmacy_request_shipping.pharmacy_product_request_id')
             ->leftJoin('pharmacy_lot_stock', 'pharmacy_lot_stock.id', 'pharmacy_request_shipping.pharmacy_lot_stock_id')
             ->leftJoin('billing_stock', 'billing_stock.id', 'pharmacy_lot_stock.billing_stock_id')
             ->leftJoin('product', 'product.id', 'billing_stock.product_id')
@@ -103,32 +109,30 @@ class ReportPharmacyController extends Controller
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
-            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('location', 'admissions.id', 'location.admissions_id')
             ->leftJoin('program', 'program.id', 'location.program_id')
             ->leftJoin('users', 'users.id', 'pharmacy_product_request.user_request_pad_id')
-            ->leftJoin('pharmacy_stock', 'pharmacy_stock.id', 'pharmacy_product_request.own_pharmacy_stock_id')
+            ->leftJoin('pharmacy_stock', 'pharmacy_stock.id', 'pharmacy_lot_stock.pharmacy_stock_id')
             ->leftJoin('campus', 'campus.id', 'pharmacy_stock.campus_id')
-            // Ruta de Consulta
-            ->where('pharmacy_product_request.status', [$request->status])
-            ->where('pharmacy_product_request.own_pharmacy_stock.id', $id)
-            // ->where('own_pharmacy_stock.id', $id)
-            ->where('pharmacy_request_shipping.amount' > 0)
-            // Entre fechas
-            ->whereBetween('pharmacy_product_request.created_at', [$request->initial_report, $request->final_report])
-            // Agrupar datos por especificación
+            //* Condicionales
+            ->where('log_pharmacy_shipping.status', [$request->status])
+            ->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id)
+            ->where('pharmacy_request_shipping.amount', '>', 0)
+            //* Consulta Entre Fechas
+            ->whereBetween('log_pharmacy_shipping.created_at', [$request->initial_report, $request->final_report])
+            //* Agrupación por datos especificos
             ->groupBy('pharmacy_request_shipping.id')
             ->get()->toArray();
-        
+
         $response = [
-            'pharmacy_stock' => $hoja1,
+            'report_pharmacy' => $stock,
         ];
 
         return response()->json([
             'status' => true,
             'message' => 'Reporte Farmacia solicitado exitosamente',
-            'data' => ['report_pharmacy' => $response]
+            'data' => $response
         ]);
-
     }
 
     /**
@@ -160,7 +164,7 @@ class ReportPharmacyController extends Controller
         $ReportPharmacy = ReportPharmacy::find($id);
         $ReportPharmacy->initial_report = $request->initial_report;
         $ReportPharmacy->final_report = $request->final_report;
-        $ReportPharmacy->pharmacy_stock_id = $request->pharmacy_stock_id;
+        $ReportPharmacy->pharmacy_product_request_id = $request->pharmacy_product_request_id;
         $ReportPharmacy->status = $request->status;
         $ReportPharmacy->user_id = $request->user_id;
         $ReportPharmacy->save();
