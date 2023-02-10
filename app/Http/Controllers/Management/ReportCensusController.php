@@ -171,7 +171,7 @@ class ReportCensusController extends Controller
             ->where('bed.bed_or_office', 1);
 
         //! Camas por Pabellón
-        $xPavilion = Campus::select(
+        $xPavilion = Pavilion::select(
             'campus.id As Sede',
             'pavilion.id As Pavilion',
             'pavilion.name as name',
@@ -181,8 +181,8 @@ class ReportCensusController extends Controller
             DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
         )
-            ->leftJoin('flat', 'campus.id', 'flat.campus_id')
-            ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
+            ->leftJoin('campus', 'campus.id', 'flat.campus_id')
             ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
@@ -217,7 +217,8 @@ class ReportCensusController extends Controller
         }
         if ($request->campus_id) {
             $census->where('campus.id', [$request->campus_id]);
-            $xCampus->where('campus.id', [$request->id]);
+            $xPavilion->where('campus.id', [$request->campus_id]);
+            $xCampus->where('campus.id', [$request->campus_id]);
         }
 
         $xPavilion = $xPavilion->get()->toArray();
