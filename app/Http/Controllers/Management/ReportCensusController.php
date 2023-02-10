@@ -174,6 +174,7 @@ class ReportCensusController extends Controller
         $xPavilion = Campus::select(
             'campus.id As Sede',
             'pavilion.id As Pavilion',
+            'pavilion.name as name',
             DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),

@@ -64,11 +64,11 @@
                 <p>{{$campus['name']}} - {{$campus['address']}} - {{$campus['region']['name']}}</p>
             </div>
         </div>
-        @foreach ($xPavilion as $pavilion)
-        @if ($pavilion['Sede']==$Sede['Sede_id'])
+        @foreach ($xPavilion as $pabellon)
+        @if ($pabellon['Sede']==$Sede['Sede_id'])
         <div>
             <div style="text-align: center; font-size: 10px">
-                <p><b>CENSO DIARIO DE {{$flat['name']}}, {{$pavilion['name']}}</b></p>
+                <p><b>CENSO DIARIO DE {{$pabellon['name']}}</b></p>
             </div>
         </div>
 
@@ -191,11 +191,11 @@
         </table>
         <hr />
         <div style="float:right; font-size: 10px"><span>
-            <b>Total Camas: {{$pavilion['Total']}} - </b>
-            Libres: <b>{{$pavilion['Libres']}},</b>
-            Ocupadas: <b>{{$pavilion['Ocupadas']}}</b>
-            En Mantenimiento: <b>{{$pavilion['Mantenimiento']}},</b>
-            En Desinfección: <b>{{$pavilion['Desinfeccion']}}</b></span>
+            <b>Total Camas: {{$pabellon['Total']}} - </b>
+            Libres: <b>{{$pabellon['Libres']}},</b>
+            Ocupadas: <b>{{$pabellon['Ocupadas']}}</b>
+            En Mantenimiento: <b>{{$pabellon['Mantenimiento']}},</b>
+            En Desinfección: <b>{{$pabellon['Desinfeccion']}}</b></span>
     </div>
         @endisset
         @endforeach
