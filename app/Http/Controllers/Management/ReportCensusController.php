@@ -186,7 +186,8 @@ class ReportCensusController extends Controller
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
             ->where('bed.bed_or_office', 1)
-            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report]);
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+            ->groupBy('pavilion.id');
 
         //! Camas por Sede
         $xCampus = Campus::select(
@@ -206,8 +207,29 @@ class ReportCensusController extends Controller
             ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
             ->leftJoin('location', 'bed.id', 'location.bed_id')
             ->where('bed.bed_or_office', 1)
-            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report]);
+            ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+            ->groupBy('campus.id');
 
+            $sql = Campus::select(
+                'campus.id As Sede_id',
+                'campus.name as Sede',
+                'flat.name as Piso',
+                'pavilion.name as Pabellón',
+                DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS "Libres"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
+            )
+                ->leftJoin('flat', 'campus.id', 'flat.campus_id')
+                ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+                ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
+                ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
+                ->leftJoin('location', 'bed.id', 'location.bed_id')
+                ->where('bed.bed_or_office', 1)
+                ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
+                ->groupBy('campus.id')
+                ->tosql();
 
         if ($request->pavilion_id) {
             $census->where('pavilion.id', [$request->pavilion_id]);
@@ -286,6 +308,7 @@ class ReportCensusController extends Controller
         return response()->json([
             'status' => true,
             'ph' => $census,
+            'sql'=> $sql,
             'message' => 'Reporte generado exitosamente',
             'url' => asset('/storage' . '/' . $name),
         ]);
