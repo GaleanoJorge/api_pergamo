@@ -223,7 +223,6 @@ class ReportCensusController extends Controller
 
         $xPavilion = $xPavilion->get()->toArray();
         $xCampus = $xCampus->get()->toArray();
-
         $census = $census->get()->toArray();
 
         //? Consulta de dato especifico
@@ -264,8 +263,8 @@ class ReportCensusController extends Controller
         //? Datos a Blade
         $html = view('reports.census', [
             'census' => $census,
-            'xPavilion' => $request->pavilion_id ? $xPavilion : null,
-            'xCampus' => $request->campus_id ? $xCampus : null,
+            'xPavilion' => $xPavilion,
+            'xCampus' => $xCampus,
             'General' => $General,
             'campus' => $campus,
             'pavilion' => $pavilion,
