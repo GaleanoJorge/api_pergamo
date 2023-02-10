@@ -114,7 +114,7 @@
             </tr>
 
             @foreach ($census as $ph)
-            @if ($ph['Campus']==$campus['Sede_id'] && $ph['Pavilion']==$pavilion['pavilion_id'])
+            @if ($ph['Campus']==$campus['Sede_id'] && $ph['Pavilion']==$pavilion['Pavilion'])
             <tr>
                 <td>
                     <div style="text-align: center"><span style="font-size: 8px"></span></div>
