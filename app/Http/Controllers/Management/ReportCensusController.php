@@ -166,10 +166,53 @@ class ReportCensusController extends Controller
             ->leftJoin('admission_route', 'admission_route.id', 'scope_of_attention.admission_route_id')
             //* Condicionales
             ->whereBetween('location.entry_date', [$request->initial_report, $request->final_report])
-            ->where('bed.bed_or_office', 1)
-            ->where('campus.id', [$request->id])
-            ->where('pavilion.id', [$request->id])
-            ->get()->toArray();
+            ->where('bed.bed_or_office', 1);
+
+        if ($request->pavilion_id) {
+            $census->where('pavilion.id', [$request->pavilion_id]);
+
+            //! Camas por Pabellón
+            $xPavilion = Campus::select(
+                DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
+            )
+                ->leftJoin('flat', 'campus.id', 'flat.campus_id')
+                ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+                ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
+                ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
+                ->leftJoin('location', 'bed.id', 'location.bed_id')
+                ->where('bed.bed_or_office', 1)
+                ->where('pavilion.id', [$request->pavilion_id])
+                ->get()->toArray();
+        }
+        if ($request->campus_id) {
+            $census->where('campus.id', [$request->campus_id]);
+
+            //! Camas por Sede
+            $xCampus = Campus::select(
+                'campus.name as Sede',
+                'flat.name as Piso',
+                'pavilion.name as Pabellón',
+                DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS "Libres"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
+                DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
+            )
+                ->leftJoin('flat', 'campus.id', 'flat.campus_id')
+                ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
+                ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
+                ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
+                ->leftJoin('location', 'bed.id', 'location.bed_id')
+                ->where('bed.bed_or_office', 1)
+                ->where('campus.id', [$request->id])
+                ->get()->toArray();
+        }
+
+        $census = $census->get()->toArray();
 
         //? Consulta de dato especifico
         $campusId = $request->campus_id;
@@ -184,42 +227,9 @@ class ReportCensusController extends Controller
         //? Fecha Actual
         $date = Carbon::now();
 
-        //! Camas por Pabellón
-        $xPavilion = Campus::select(
-            DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS Libres'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
-        )
-            ->leftJoin('flat', 'campus.id', 'flat.campus_id')
-            ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
-            ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
-            ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
-            ->leftJoin('location', 'bed.id', 'location.bed_id')
-            ->where('bed.bed_or_office', 1)
-            ->where('pavilion.id', [$request->pavilion_id])
-            ->get()->toArray();
 
-        //! Camas por Sede
-        $xCampus = Campus::select(
-            'campus.name as Sede',
-            'flat.name as Piso',
-            'pavilion.name as Pabellón',
-            DB::raw('COUNT(bed.status_bed_id) AS "Total"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 1 THEN 1 END) AS "Libres"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "Ocupadas"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "Mantenimiento"'),
-            DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "Desinfeccion"'),
-        )
-            ->leftJoin('flat', 'campus.id', 'flat.campus_id')
-            ->leftJoin('pavilion', 'flat.id', 'pavilion.flat_id')
-            ->leftJoin('bed', 'pavilion.id', 'bed.pavilion_id')
-            ->leftJoin('status_bed', 'status_bed.id', 'bed.status_bed_id')
-            ->leftJoin('location', 'bed.id', 'location.bed_id')
-            ->where('bed.bed_or_office', 1)
-            ->where('campus.id', [$request->id])
-            ->get()->toArray();
+
+
 
         //! Camas en General
         $General = Campus::select(
@@ -240,18 +250,18 @@ class ReportCensusController extends Controller
 
         //? Datos a Blade
         $html = view('reports.census', [
-                    'census' => $census,
-                    'xPavilion' => $xPavilion,
-                    'xCampus' => $xCampus,
-                    'General' => $General,
-                    'campus' => $campus,
-                    'pavilion' => $pavilion,
-                    'flat' => $flat,
-                    'date' => $date,
-                    'type' => $request->type
-                ])->render();
+            'census' => $census,
+            'xPavilion' => $xPavilion,
+            'xCampus' => $xCampus,
+            'General' => $General,
+            'campus' => $campus,
+            'pavilion' => $pavilion,
+            'flat' => $flat,
+            'date' => $date,
+            'type' => $request->type
+        ])->render();
         $options = new Options();
-        
+
         //? Configuración de Blade
         $options->set('isRemoteEnabled', true);
 
@@ -270,7 +280,7 @@ class ReportCensusController extends Controller
             'url' => asset('/storage' . '/' . $name),
         ]);
     }
-    
+
     /**
      * Display the specified resource.
      *
