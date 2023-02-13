@@ -150,15 +150,18 @@ class PharmacyLotStockController extends Controller
                 'billing_stock.product.product_generic',
                 'billing_stock.product_supplies_com.product_supplies',
                 'billing_stock.product_supplies_com.factory',
-            )
-         ->where('billing_stock.product_id', '!=', null)->get()->toArray()
-         ->where('pharmacy_lot_stock.actual_amount', '>', 0)->get()->toArray();
-
+            );
 
         if ($request->type == 1) {
-            $pharmacy = $pharmacy->where('billing_stock.product_id', '!=', null)->get()->toArray();
+            $pharmacy = $pharmacy->where('billing_stock.product_id', '!=', null)
+            ->where('pharmacy_lot_stock.actual_amount', '>', 0)
+            ->where('pharmacy_stock_id', $request->pharmacy_stock_id)
+            ->get()->toArray();
         } else {
-            $pharmacy = $pharmacy->where('billing_stock.product_supplies_com_id', '!=', null)->get()->toArray();
+            $pharmacy = $pharmacy->where('billing_stock.product_supplies_com_id', '!=', null)
+            ->where('pharmacy_lot_stock.actual_amount', '>', 0)
+            ->where('pharmacy_stock_id', $request->pharmacy_stock_id)
+            ->get()->toArray();
         }
 
 
@@ -166,6 +169,7 @@ class PharmacyLotStockController extends Controller
         $html = view('reports.inventory', [
             'pharmacy' => $pharmacy,
             'type' => $request->type,
+            'pharmacy_stock_id' => $request->pharmacy_stock_id,
 
         ])->render();
         $options = new Options();
