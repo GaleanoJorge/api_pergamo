@@ -4731,6 +4731,172 @@ class ChRecordController extends Controller
         }
 
 
+        ///Psicologia
+        /////////////////////////////////
+        else if ($request->ch_type == 9) {
+            if (count($ChRecord) > 0) {
+                foreach ($ChRecord as $ch) {
+
+                    $hcAll = [];
+                    $fecharecord = Carbon::parse($ch['updated_at'])->setTimezone('America/Bogota');
+
+                    array_push($hcAll, $ch);
+
+                    $count++;
+                    if ($ch['firm_file']) {
+                        $rutaImagenPatient = storage_path('app/public/' . $ch['firm_file']);
+                        $contenidoBinarioPatient = file_get_contents($rutaImagenPatient);
+                        $imagenPAtient = base64_encode($contenidoBinarioPatient);
+                    } else {
+                        $imagenPAtient = null;
+                    }
+
+                    //Ingreso
+                    $ChPsAssessment = ChPsAssessment::with(
+                        'relationship',
+                        'ch_ps_episodes'
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsRelationship = ChPsRelationship::with(
+                        'ch_ps_awareness',
+                        'ch_ps_sleep'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsIntellective = ChPsIntellective::with(
+                        'ch_ps_attention'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsThought = ChPsThought::with(
+                        'ch_ps_speed',
+                        'ch_ps_delusional',
+                        'ch_ps_overrated',
+                        'ch_ps_obsessive',
+                        'ch_ps_association'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsLanguage = ChPsLanguage::with(
+                        'ch_ps_expressive',
+                        'ch_ps_comprehensive',
+                        'ch_ps_others',
+                        'ch_ps_paraphasias'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsSphere = ChPsSphere::with(
+                        'ch_ps_sadness',
+                        'ch_ps_joy',
+                        'ch_ps_fear',
+                        'ch_ps_anger',
+                        'ch_ps_insufficiency',
+                        'ch_ps_several'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsSynthesis = ChPsSynthesis::with(
+                        'ch_ps_judgment',
+                        'ch_ps_prospecting',
+                        'ch_ps_intelligence'
+                    )
+                        ->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+                    $ChPsMultiaxial = ChPsMultiaxial::where('ch_record_id', $ch['id'])->with(
+                        'axis_one',
+                        'axis_two',
+                        'axis_three',
+                        'axis_four'
+                    )->where('type_record_id', 1)->get()->toArray();
+                    $ChPsIntervention = ChPsIntervention::where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
+
+                    //Regular
+                    $ChPsAssessmentEvo = ChPsAssessment::with(
+                        'relationship',
+                        'ch_ps_episodes'
+                    )->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChPsOperationalization = ChPsOperationalization::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChPsConsciousness = ChPsConsciousness::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChPsObjectives = ChPsObjectives::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
+                    $ChRecommendationsEvo = ChRecommendationsEvo::with('recommendations_evo')->where('type_record_id', 3)->where('ch_record_id', $ch['id'])->get()->toArray();
+
+                    //Nota aclaratoria
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
+                    if (isset($ch['user']['assistance'][0]['file_firm']) && $ch['user']['assistance'][0]['file_firm'] != "null") {
+                        $rutaImagen = storage_path('app/public/' . $ch['user']['assistance'][0]['file_firm']);
+                        $contenidoBinario = file_get_contents($rutaImagen);
+                        $imagenComoBase64 = base64_encode($contenidoBinario);
+                    } else {
+                        $imagenComoBase64 = null;
+                    }
+                    $today = Carbon::now();
+                    $Patients = $ch['admissions']['patients'];
+
+                    $html = view('mails.psychologyhistory', [
+                        'chrecord' => $hcAll,
+                        'chrecord2' => $ChRecord[$i],
+
+                        'ChPsAssessment' => $ChPsAssessment,
+                        'ChPsRelationship' => $ChPsRelationship,
+                        'ChPsIntellective' => $ChPsIntellective,
+                        'ChPsThought' => $ChPsThought,
+                        'ChPsLanguage' => $ChPsLanguage,
+                        'ChPsSphere' => $ChPsSphere,
+                        'ChPsSynthesis' => $ChPsSynthesis,
+                        'ChPsMultiaxial' => $ChPsMultiaxial,
+                        'ChPsIntervention' => $ChPsIntervention,
+                        'fecharecord' => $fecharecord,
+
+                        'ChPsAssessmentEvo' => $ChPsAssessmentEvo,
+                        'ChPsOperationalization' => $ChPsOperationalization,
+                        'ChPsConsciousness' => $ChPsConsciousness,
+                        'ChPsObjectives' => $ChPsObjectives,
+                        'ChRecommendationsEvo' => $ChRecommendationsEvo,
+                        'Disclaimer' => $Disclaimer,
+
+
+                        'firmPatient' => $imagenPAtient,
+
+                        'fecharecord' => $fecharecord,
+                        'firm' => $imagenComoBase64,
+                        'today' => $today,
+                        //   asset('storage/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+                        //   'http://localhost:8000/storage/app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm'],
+                        //   storage_path('app/public/'.$ChRecord[0]['user']['assistance'][0]['file_firm']),
+
+
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', TRUE);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+                    $name =  $ChRecord[0]['admissions']['patients']['identification'] . $count . '.pdf';
+
+
+                    Storage::disk('public')->put($name, $file);
+                    array_push($documentos, $name);
+                }
+
+                # Crear el "combinador"
+                $combinador = new Merger;
+
+                # Agregar archivo en cada iteración
+                foreach ($documentos as $documento) {
+                    $combinador->addFile('storage' . '/' . $documento);
+                }
+
+                # Y combinar o unir
+                $salida = $combinador->merge();
+                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                Storage::disk('public')->put($name2, $salida);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Historias clinicas asociadas al paciente',
+
+                ]);
+            }
+        }
         ///Seguimiento
         /////////////////////////////////
 
