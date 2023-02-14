@@ -4203,7 +4203,7 @@ class ChRecordController extends Controller
                 $this->injectPageCount($dompdf);
                 $file = $dompdf->output();
 
-                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                $name2 = $ChRecordTR[0]['admissions']['patients']['identification'] . 'ALL.pdf';
 
 
                 Storage::disk('public')->put($name2, $file);
