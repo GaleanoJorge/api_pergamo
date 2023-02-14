@@ -1774,19 +1774,9 @@
         "icon": "",
         "show_menu": "1"
     },
-    {
-        "id": "233",
-        "item_parent_id": null,
-        "name": "Reportes",
-        "code": null,
-        "route": null,
-        "icon": "layers-outline",
-        "show_menu": "1"
-    }
 
-    ,
     {
-        "id": "234",
+        "id": "254",
         "item_parent_id": "233",
         "name": "Reporte de Rips",
         "code": "report-rips",
