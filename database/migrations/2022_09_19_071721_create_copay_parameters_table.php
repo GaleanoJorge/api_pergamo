@@ -20,7 +20,7 @@ class CreateCopayParametersTable extends Migration
             // $table->unsignedBigInteger('type_contract_id');
             $table->unsignedBigInteger('payment_type_id')->nullable(); // 1 cuota moderadora - 2 copago - 3 exento
             $table->string('category');
-            $table->float('value');
+            $table->double('value', 16, 4);
             $table->unsignedTinyInteger('status_id');
             $table->timestamps();
 

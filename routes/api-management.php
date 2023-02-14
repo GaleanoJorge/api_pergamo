@@ -732,7 +732,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Archivo del contrato
     Route::apiResource('file_contract', 'Management\FileContractController');
-    Route::apiResource('informed_consents', 'Management\ChDocumentController');
+    Route::apiResource('ch_document', 'Management\ChDocumentController');
 
     //seleccion RH
     Route::apiResource('select_rh', 'Management\SelectRhController');
@@ -890,7 +890,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     );
 
 
-
+    
     //diagnosis
     Route::apiResource('diagnosis', 'Management\DiagnosisController');
 
@@ -1393,7 +1393,25 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('fixed_assets/byUser/{user_id}', 'Management\FixedAssetsController@getFixedByUserId');
     Route::get('fixed_assets/{id}', 'Management\FixedAssetsController@getFixedId');
     Route::apiResource('services_fixed_stock', 'Management\ServicesFixedStockController');
-
+    //? Report Pharmacy
+    Route::apiResource('report_pharmacy', 'Management\ReportPharmacyController'); 
+    Route::get('report_pharmacy/export/{id}', 'Management\ReportPharmacyController@exportPharmacy');
+    //? Report Billing
+    Route::apiResource('report_billing', 'Management\ReportBillingController');
+    Route::get('report_billing/export/{id}', 'Management\ReportBillingController@exportBilling');
+    //? Report Gloss
+    Route::apiResource('report_gloss', 'Management\ReportGlossController');
+    Route::get('report_gloss/export/{id}', 'Management\ReportGlossController@exportGloss');
+    //? Report Rips
+    Route::apiResource('report_rips', 'Management\ReportRipsController');
+    Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
+    //? Report Censo EXCEL
+    Route::apiResource('report_censusEXCEL', 'Management\ReportCensusController');
+    Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
+    //? Report Censo PDF
+    Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
+    // Route::get('report_censusPDF2', 'Management\ReportCensusController@exportCensusPDF2');
+    
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
         'FixedClasification/byGroup/{fixed_type_id}',
@@ -1420,6 +1438,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     Route::post('pharmacy_lot_stock/updateInventoryByLot/{lot_id}', 'Management\PharmacyLotStockController@updateInventoryByLot');
     Route::get('pharmacy_lot_stock/pharmacies/{user_id}', 'Management\PharmacyLotStockController@getPharmacyByUserId');
+    Route::get('pharmacy_lot_stock/pharmacies/{id}', 'Management\PharmacyLotStockController@getPharmacyId');
 
     Route::apiResource('ch_type_gynecologists', 'Management\ChTypeGynecologistsController');
     Route::apiResource('ch_planning_gynecologists', 'Management\ChPlanningGynecologistsController');
@@ -1454,7 +1473,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');
 
-
+    
     //Answer
     Route::apiResource('answer', 'Management\AnswerController');
     Route::put('answer/{id}/move/{direction}', 'Management\AnswerController@move');

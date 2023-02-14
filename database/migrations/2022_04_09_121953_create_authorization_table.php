@@ -22,7 +22,7 @@ class CreateAuthorizationTable extends Migration
             $table->unsignedBigInteger('authorized_amount')->nullable();
             $table->string('observation')->nullable();
             $table->integer('quantity')->nullable();
-            $table->integer('copay_value')->nullable();
+            $table->double('copay_value', 16, 4)->nullable();
             $table->unsignedBigInteger('auth_status_id');
             $table->unsignedBigInteger('auth_package_id')->nullable();
             $table->unsignedBigInteger('fixed_add_id')->nullable();//
