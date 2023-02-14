@@ -4155,8 +4155,20 @@ class ChRecordController extends Controller
 
                 ->where('admissions.patient_id', $request->admissions)
                 ->where('ch_record.status', 'CERRADO')
-                ->where('ch_type_id', $request->ch_type)
-                ->groupBy('ch_record.id')->get()->toArray();
+                ->where('ch_type_id', $request->ch_type);
+
+                if ($request->start_date != 'null' && isset($request->start_date)) {
+                    $init_date = Carbon::parse($request->start_date);
+    
+                    $ChRecordTR
+                        ->where('ch_record.date_attention', '>=', $init_date);
+                }
+    
+                if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                    $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                    $ChRecordTR->where('ch_record.date_attention', '<=', $finish_date);
+                }
+                $ChRecordTR= $ChRecordTR->groupBy('ch_record.id')->get()->toArray();
 
             if (count($ChRecordTR) > 0) {
                 // $fecharecord = Carbon::parse($ChRecordTR[0]['updated_at'])->setTimezone('America/Bogota');
@@ -4203,7 +4215,7 @@ class ChRecordController extends Controller
                 $this->injectPageCount($dompdf);
                 $file = $dompdf->output();
 
-                $name2 = $ChRecord[0]['admissions']['patients']['identification'] . 'ALL.pdf';
+                $name2 = $ChRecordTR[0]['admissions']['patients']['identification'] . 'ALL.pdf';
 
 
                 Storage::disk('public')->put($name2, $file);
