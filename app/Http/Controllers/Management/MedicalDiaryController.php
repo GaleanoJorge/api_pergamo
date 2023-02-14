@@ -97,10 +97,12 @@ class MedicalDiaryController extends Controller
                 ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
                 ->where('medical_diary.diary_status_id', 1)
                 ->where('assistance_id', $request->assistance_id)
+                ->where('medical_status_id', '!=', 6)
                 ->where(function ($query) use ($request, $item) {
                     $low_border = Carbon::parse($item . $request->start_time);
                     $high_border = Carbon::parse($item . $request->finish_time);
-                    $query->where('start_hour', '>', $low_border)
+                    $query
+                        ->where('start_hour', '>', $low_border)
                         ->Where('start_hour', '<', $high_border)
                         ->orWhere(function ($que) use ($low_border, $high_border) {
                             $que->Where('finish_hour', '>', $low_border)
