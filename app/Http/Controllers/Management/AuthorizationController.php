@@ -639,7 +639,7 @@ class AuthorizationController extends Controller
             ->groupBy('assistance_supplies.id')
             ->get()->toArray();
 
-        foreach($product_supplies as $element) {
+        foreach ($product_supplies as $element) {
             $new_auth = new Authorization;
             $new_auth->services_briefcase_id = $element['services_briefcase_id'];
             $new_auth->assigned_management_plan_id = $element['assigned_management_plan_id'];
@@ -648,11 +648,10 @@ class AuthorizationController extends Controller
             $new_auth->supplies_com_id = $element['product_supplies_com_id'];
             $new_auth->auth_status_id = 3;
             $new_auth->save();
-            
+
             $product_supplies_2 = AssistanceSupplies::find($element['assistance_supplies_id']);
             $product_supplies_2->authorization_id = $new_auth->id;
             $product_supplies_2->save();
-
         }
 
         return response()->json([
@@ -817,8 +816,8 @@ class AuthorizationController extends Controller
     public function update(AuthorizationRequest $request, int $id): JsonResponse
     {
 
-        $copay_id = $request->copay == 'null' ? null:$request->copay;
-        $copay_value = $request->copay_value == 'null' ? null:$request->copay_value;
+        $copay_id = $request->copay == 'null' ? null : $request->copay;
+        $copay_value = $request->copay_value == 'null' ? null : $request->copay_value;
 
         $Authorization = Authorization::find($id);
 
@@ -826,8 +825,12 @@ class AuthorizationController extends Controller
             $Authorization->auth_number = $request->auth_number;
             $Authorization->auth_status_id = $request->auth_status_id;
             $Authorization->observation = $request->observation;
-            $Authorization->copay_id = $copay_id;
-            $Authorization->copay_value = $copay_value;
+            if ($copay_id != null && $copay_id != 'null') {
+                $Authorization->copay_id = $copay_id;
+            }
+            if ($copay_value != null && $copay_value != 'null' ) {
+                $Authorization->copay_value = $copay_value;
+            }
             if ($request->file('file_auth')) {
                 $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
                 $Authorization->file_auth = $path;
