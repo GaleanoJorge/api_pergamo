@@ -1928,6 +1928,13 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Nota aclaratoria
     Route::apiResource('disclaimer', 'Management\DisclaimerController');
     Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+    
+    //Vías de administración de oxígeno
+    Route::apiResource('oxigen_administration_way', 'Management\OxigenAdministrationWayController');
+    
+    //Control de oxígeno
+    Route::apiResource('oxigen_control', 'Management\OxigenControlController');
+    Route::get('oxigen_control/by_record/{id}/{type_record_id}', 'Management\OxigenControlController@getByRecord');
 
 
 });
