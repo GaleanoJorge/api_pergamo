@@ -4,7 +4,7 @@
     use Illuminate\Database\Schema\Blueprint;
     use Illuminate\Support\Facades\Schema;
 
-    class UserChLaboratory extends Migration
+    class CreateUserChLaboratory extends Migration
     {
         /**
          * Run the migrations.

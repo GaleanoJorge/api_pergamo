@@ -8,7 +8,7 @@ namespace App\Models\Base;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use UserChLaboratory;
+use App\Models\UserChLaboratory;
 
 /**
  * Class Bed
@@ -37,6 +37,6 @@ class ChLaboratory extends Model
 	}
 	public function user_ch_laboratory()
 	{
-		return $this->hasMany(UserChLaboratory::class, );
+		return $this->hasMany(UserChLaboratory::class);
 	}
 }

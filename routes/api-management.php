@@ -1911,7 +1911,8 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
 
     //Laboratorios
-    Route::apiResource('laboratory', 'Management\ChLaboratoryController');
+    Route::apiResource('ch_laboratory', 'Management\ChLaboratoryController');
+    Route::post('ch_laboratory_update', 'Management\ChLaboratoryController@update');
 
 
 });

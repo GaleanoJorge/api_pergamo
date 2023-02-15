@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Management;
 
-use App\Models\Bed;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Base\LaboratoryStatus;
 use App\Models\ChLaboratory;
 use Illuminate\Http\Request;
-use App\Models\Patient;
 use App\Models\UserChLaboratory;
-use Carbon\Carbon;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\LaboratoryRequest;
+use App\Models\Authorization;
 
 class ChLaboratoryController extends Controller
 {
@@ -24,14 +23,40 @@ class ChLaboratoryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $chLaboratories = ChLaboratory::select('patients.*')
-            ->join('admissions', 'patients.id', 'admissions.patient_id')
-            ->join('ch_record', 'admissions.id', 'ch_record.admissions_id')
-            ->join('ch_medical_orders', 'ch_record.id', 'ch_medical_orders.ch_record_id')
-            ->join('ch_laboratory', 'ch_medical_orders.id', 'ch_laboratory.medical_order_id')
+        $chLaboratories = ChLaboratory::select('ch_laboratory.*')
+            ->with(
+                'laboratory_status',
+                'medical_order.ch_record.admissions.patients',
+                'medical_order.services_briefcase.manual_price.procedure',
+                'user_ch_laboratory'
+            )
+            ->join('ch_medical_orders', 'ch_medical_orders.id', 'ch_laboratory.medical_order_id')
+            ->join('services_briefcase', 'services_briefcase.id', 'ch_medical_orders.services_briefcase_id')
+            ->join('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->join('procedure', 'procedure.id', 'manual_price.procedure_id')
+            ->join('ch_record', 'ch_record.id', 'ch_medical_orders.ch_record_id')
+            ->join('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->join('patients', 'patients.id', 'admissions.patient_id')
             ->where('ch_laboratory.laboratory_status_id', '!=', LaboratoryStatus::$CANCELED_STATUS_ID);
+
         if ($request->patient_id) {
             $chLaboratories->where('patients.id', '=', $request->patient_id);
+        }
+
+
+        if ($request->semaphore) {
+            $chLaboratories->where('ch_laboratory.laboratory_status_id', '=', $request->semaphore);
+        }
+
+        if ($request->search) {
+            $chLaboratories->where(function ($query) use ($request) {
+                $query->where('patients.firstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
+                    ->orWhere('patients.identification', 'like', '%' . $request->search . '%')
+                    ->orWhere('procedure.name', 'like', '%' . $request->search . '%');
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -45,7 +70,7 @@ class ChLaboratoryController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Pacientes obtenidos exitosamente',
+            'message' => 'Laboratorios obtenidos exitosamente',
             'data' => ['laboratories' => $chLaboratories]
         ]);
     }
@@ -73,6 +98,18 @@ class ChLaboratoryController extends Controller
             $userChLaboratory->observation = $request->observation;
 
             $userChLaboratory->save();
+
+            $authorization = new Authorization;
+            $authorization->services_briefcase_id = $chLaboratory->medical_order->services_briefcase->id;
+            $authorization->assigned_management_plan_id = $chLaboratory->medical_order->ch_record->assigned_management_plan_id;
+            $authorization->medical_diary_days_id = $chLaboratory->medical_order->ch_record->medical_diary_days_id;
+            $authorization->ch_interconsultation_id = $chLaboratory->medical_order->ch_record->ch_interconsultation_id;
+            $authorization->admissions_id = $chLaboratory->medical_order->ch_record->admissions_id;
+            $authorization->authorized_amount = $chLaboratory->medical_order->amount;
+            $authorization->quantity = $chLaboratory->medical_order->amount;
+            $authorization->auth_status_id = 1;
+
+            $authorization->save();
 
             DB::commit();
 
@@ -113,13 +150,18 @@ class ChLaboratoryController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(LaboratoryRequest $request): JsonResponse
     {
+
         DB::beginTransaction();
         try {
-            $chLaboratory = ChLaboratory::find($id);
+            $chLaboratory = ChLaboratory::find($request->id);
             $chLaboratory->laboratory_status_id = $request->laboratory_status_id;
-            $chLaboratory->file = $request->file;
+
+            if ($request->laboratory_status_id == 4) {
+                $path = Storage::disk('public')->put('laboratoryFiles', $request->file('file'));
+                $chLaboratory->file = $path;
+            }
 
             $chLaboratory->save();
 
@@ -128,7 +170,6 @@ class ChLaboratoryController extends Controller
             $userChLaboratory->ch_laboratory_id = $chLaboratory->id;
             $userChLaboratory->laboratory_status_id = $chLaboratory->laboratory_status_id;
             $userChLaboratory->observation = $request->observation;
-
             $userChLaboratory->save();
 
             DB::commit();
@@ -142,7 +183,7 @@ class ChLaboratoryController extends Controller
             DB::rollback();
             return response()->json([
                 'status' => false,
-                'message' => 'No fue posible actualizar el laboratorio'
+                'message' => ['No fue posible actualizar el laboratorio', $e]
             ], 423);
         }
     }
