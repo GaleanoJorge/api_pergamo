@@ -772,7 +772,9 @@ class AuthorizationController extends Controller
             $Auth->observation = $request->observation;
             $Auth->auth_number = $request->auth_number;
             $Auth->auth_status_id = 3;
-            $Auth->copay_id = $request->copay;
+            if ($request->copay != null && $request->copay != 'null' && $request->copay != 'undefined') {
+                $Auth->copay_id = $request->copay;
+            }
             $Auth->copay_value = $request->copay_value;
             if ($request->file('file_auth')) {
                 $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
