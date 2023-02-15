@@ -20,6 +20,7 @@ class CreateChFormulationTable extends Migration
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             $table->unsignedBigInteger('administration_route_id')->nullable();
             $table->unsignedBigInteger('hourly_frequency_id')->nullable();
+            $table->unsignedBigInteger('oxigen_administration_way_id')->nullable();
             $table->string('required');
             $table->boolean('medical_formula')->nullable();
             $table->Integer('treatment_days')->nullable();
@@ -53,6 +54,10 @@ class CreateChFormulationTable extends Migration
             $table->index('hourly_frequency_id');
             $table->foreign('hourly_frequency_id')->references('id')
                 ->on('hourly_frequency');
+
+            $table->index('oxigen_administration_way_id');
+            $table->foreign('oxigen_administration_way_id')->references('id')
+                ->on('oxigen_administration_way');
 
             $table->index('pharmacy_product_request_id');
             $table->foreign('pharmacy_product_request_id')->references('id')

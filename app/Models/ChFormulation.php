@@ -24,5 +24,6 @@ class ChFormulation extends BaseChFormulation
     'pharmacy_product_request_id',
     'type_record_id',
     'ch_record_id',
+    'oxigen_administration_way_id',
 	];
 }

@@ -74,6 +74,7 @@ class ChFormulationController extends Controller
                 'product_generic.drug_concentration',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
+                'oxigen_administration_way',
             )
             ->orderBy('ch_formulation.created_at', 'DESC')
             ->groupBy('ch_formulation.id')
@@ -111,6 +112,7 @@ class ChFormulationController extends Controller
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
                 'product_supplies',
+                'oxigen_administration_way',
             )
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
             ->where('ch_formulation.created_at', '>=', Carbon::now()->subDay())
@@ -182,7 +184,7 @@ class ChFormulationController extends Controller
             if (!$request->pharmacy_product_request_id || $request->pharmacy_product_request_id == 'false') {
                 $PharmacyProductRequest = new PharmacyProductRequest;
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
-                $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
+                $PharmacyProductRequest->request_amount = !$request->oxigen_administration_way_id ? $request->outpatient_formulation : 1;
                 $PharmacyProductRequest->observation = $request->observation;
                 $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
                 $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
@@ -199,6 +201,7 @@ class ChFormulationController extends Controller
             $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
             $ChFormulation->medical_formula = 0;
             $ChFormulation->treatment_days = $request->treatment_days;
+            $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
             $ChFormulation->dose = $request->dose;
             $ChFormulation->observation = $request->observation;
@@ -223,6 +226,7 @@ class ChFormulationController extends Controller
             $ChFormulation->medical_formula = $request->medical_formula;
             $ChFormulation->treatment_days = $request->treatment_days;
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+            $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
             $ChFormulation->dose = $request->dose;
             $ChFormulation->observation = $request->observation;
             $ChFormulation->number_mipres = $request->number_mipres;
@@ -277,6 +281,7 @@ class ChFormulationController extends Controller
         $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
         $ChFormulation->treatment_days = $request->treatment_days;
         $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+        $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
         $ChFormulation->dose = $request->dose;
         $ChFormulation->observation = $request->observation;
         $ChFormulation->number_mipres = $request->number_mipres;
