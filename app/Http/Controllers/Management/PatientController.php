@@ -802,9 +802,6 @@ class PatientController extends Controller
                     ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('locality.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
                     ->orWhere('company.name', 'like', '%' . $request->search . '%');
             });
         }
