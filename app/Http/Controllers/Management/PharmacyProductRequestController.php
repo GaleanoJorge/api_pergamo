@@ -728,6 +728,7 @@ class PharmacyProductRequestController extends Controller
         if ($id != -1) {
             $PharmacyProductRequest = PharmacyProductRequest::find($id);
             $PharmacyProductRequest2 = PharmacyProductRequest::find($id);
+            $ppr_validation_oxigen = PharmacyProductRequest::select('*')->with('product_generic')->where('id', $id)->get()->first();
             $COUNT2 = PharmacyRequestShipping::where('pharmacy_product_request_id', $id)->orderBy('created_at', 'asc');
             $COUNT2 = $COUNT2->get()->toArray();
 
@@ -835,7 +836,8 @@ class PharmacyProductRequestController extends Controller
                                     $PharmacyRequestShipping2->save();
 
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
-                                    $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount;
+                                    // Validar si el medicamento es oxigeno
+                                    $PharmacyLotStock->actual_amount = $ppr_validation_oxigen->product_generic && $ppr_validation_oxigen->product_generic->nom_product_id != 304 ? $PharmacyLotStock->actual_amount - $element->amount : $PharmacyLotStock->actual_amount;
                                     $PharmacyLotStock->save();
                                     if ($PharmacyProductRequest->request_amount <= 0) {
                                         $PharmacyProductRequest->status = 'ACEPTADO';
