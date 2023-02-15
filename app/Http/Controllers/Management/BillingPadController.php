@@ -434,6 +434,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -518,6 +519,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -541,10 +543,22 @@ class BillingPadController extends Controller
             ->whereNull('authorization.fixed_add_id')
             ->whereNotNull('authorization.product_com_id')
             ->whereNotNull('authorization.application_id')
-            ->whereNotNull('authorization.assigned_management_plan_id')
+            // ->whereNotNull('authorization.assigned_management_plan_id')
             ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            ->leftJoin('assistance_supplies', 'authorization.application_id', 'assistance_supplies.id')
             ->groupBy('authorization.id')
-            ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
+            ->where(function($query) use ($request) {
+                $query->where(function($q) use ($request) {
+                    $q->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1);
+    
+                })
+                ->orWhere(function($q) use ($request) {
+                    $q->when('authorization.assigned_management_plan_id IS NULL', function($que) use ($request) {
+                        $que->where('assistance_supplies.supplies_status_id', 2);
+                    });
+    
+                });
+            })
             // ->where('assigned_management_plan.created_at', '<', Carbon::parse($BillingPad->validation_date)->endOfMonth())
             ;
 
@@ -602,6 +616,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -683,6 +698,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -752,6 +768,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -837,6 +854,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -921,6 +939,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -956,6 +975,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -993,6 +1013,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1029,6 +1050,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1062,6 +1084,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1091,6 +1114,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1120,6 +1144,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1150,6 +1175,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1340,6 +1366,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1397,6 +1424,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1420,8 +1448,8 @@ class BillingPadController extends Controller
             ->whereNull('authorization.fixed_add_id')
             ->whereNotNull('authorization.product_com_id')
             // ->whereNotNull('authorization.application_id')
-            ->whereNotNull('authorization.assigned_management_plan_id')
-            ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
+            // ->whereNotNull('authorization.assigned_management_plan_id')
+            // ->leftJoin('assigned_management_plan', 'authorization.assigned_management_plan_id', 'assigned_management_plan.id')
             // ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')->where('assigned_management_plan.approved', 1)
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
             ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1451,6 +1479,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1502,6 +1531,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1552,6 +1582,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1603,6 +1634,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -1665,6 +1697,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1700,6 +1733,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1737,6 +1771,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1774,6 +1809,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1810,6 +1846,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1839,6 +1876,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1868,6 +1906,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -1898,6 +1937,7 @@ class BillingPadController extends Controller
         // 'location',
         // 'ch_interconsultation',
         //                         'ch_interconsultation.many_ch_record',
+//                'applications',
         //             'services_briefcase',
         //             'services_briefcase.manual_price',
         //             'product_com',
@@ -2087,6 +2127,7 @@ class BillingPadController extends Controller
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -2177,6 +2218,7 @@ class BillingPadController extends Controller
                     'location',
                     'ch_interconsultation',
                     'ch_interconsultation.many_ch_record',
+                'applications',
                     'supplies_com',
                     'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
@@ -2675,6 +2717,7 @@ class BillingPadController extends Controller
                         'location',
                         'ch_interconsultation',
                         'ch_interconsultation.many_ch_record',
+                'applications',
                         'services_briefcase',
                         'services_briefcase.manual_price',
                         'product_com',
@@ -2743,6 +2786,7 @@ class BillingPadController extends Controller
                             'location',
                             'ch_interconsultation',
                             'ch_interconsultation.many_ch_record',
+                'applications',
                             'supplies_com',
                             'services_briefcase.manual_price.procedure',
                             'assigned_management_plan',
@@ -3190,6 +3234,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'location',
                 'ch_interconsultation',
                 'ch_interconsultation.many_ch_record',
+                'applications',
                 'services_briefcase',
                 'services_briefcase.manual_price',
                 'product_com',
@@ -3268,6 +3313,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'location',
                     'ch_interconsultation',
                     'ch_interconsultation.many_ch_record',
+                'applications',
                     'services_briefcase.manual_price',
                     'product_com',
                     'supplies_com',
