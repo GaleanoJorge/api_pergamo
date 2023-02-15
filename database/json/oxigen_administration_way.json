@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "name": "CANULA NASAL"
+    },
+    {
+        "id": 2,
+        "name": "TIENDA DE TRAQUEOSTOMIA"
+    },
+    {
+        "id": 3,
+        "name": "MASCARA DE NO REINHALACIÓN"
+    },
+    {
+        "id": 4,
+        "name": "MASCARA SIMPLE"
+    },
+    {
+        "id": 5,
+        "name": "VENTURY"
+    },
+    {
+        "id": 6,
+        "name": "VENTILACION MECANICA"
+    },
+    {
+        "id": 7,
+        "name": "VMNI"
+    },
+    {
+        "id": 8,
+        "name": "CAF"
+    }
+]
