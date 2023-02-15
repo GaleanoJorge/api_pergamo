@@ -390,7 +390,8 @@ class PharmacyProductRequestController extends Controller
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product.product_generic',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com.product_supplies',
                 'pharmacy_request_shipping.pharmacy_lot_stock.billing_stock.product_supplies_com',
-                'user_request'
+                'user_request',
+                'ch_formulation.oxigen_administration_way'
             )->groupBy('pharmacy_product_request.id');
 
         // if ($request->user) {
@@ -460,11 +461,17 @@ class PharmacyProductRequestController extends Controller
             //     ->where('patients.id', $request->user_id)
             //     ->where('discharge_date', '0000-00-00 00:00:00')->orderBy('created_at', 'desc')->get()->toArray();
             $PharmacyProductRequest
+                ->leftJoin('product_generic', 'product_generic.id', 'manual_price.product_id')
                 ->where(function ($query) use ($request) {
                     $query->where('status', 'ACEPTADO')
                         ->orWhere('status', 'ENVIO PATIENT');
                 })
                 ->whereNotNull('manual_price.product_id');
+            if ($request->is_oxigen) {
+                $PharmacyProductRequest->where('product_generic.nom_product_id', 304);
+            } else {
+                $PharmacyProductRequest->where('product_generic.nom_product_id', '!=', 304);
+            }
             // foreach ($EnabledAdmissions as $item) {
             $PharmacyProductRequest->where(function ($query) use ($request) {
                 $query->Where('admissions_id', $request->admissions);
