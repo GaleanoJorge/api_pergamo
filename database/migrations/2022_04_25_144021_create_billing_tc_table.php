@@ -29,6 +29,7 @@ class CreateBillingTcTable extends Migration
             $table->string('consecutive2');
             $table->string('ambit');
             $table->string('campus');
+            $table->strig('year');
             $table->timestamps();
         });
     }
