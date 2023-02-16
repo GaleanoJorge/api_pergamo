@@ -33,6 +33,7 @@ class CreateChFormulationTable extends Migration
             $table->unsignedBigInteger('management_plan_id')->nullable();
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
+            $table->boolean('suspended')->nullable();
             $table->timestamps();
 
             $table->index('product_supplies_id');

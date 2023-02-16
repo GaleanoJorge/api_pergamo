@@ -468,7 +468,9 @@ class PharmacyProductRequestController extends Controller
                 })
                 ->whereNotNull('manual_price.product_id');
             if ($request->is_oxigen) {
-                $PharmacyProductRequest->where('product_generic.nom_product_id', 304);
+                $PharmacyProductRequest->leftJoin('ch_forulation', 'ch_forulation.pharmacy_product_request_id', 'pharmacy_product_request.id')
+                    ->where('product_generic.nom_product_id', 304)
+                    ->whereNull('ch_forulation.suspended');
             } else {
                 $PharmacyProductRequest->where('product_generic.nom_product_id', '!=', 304);
             }

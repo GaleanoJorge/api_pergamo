@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property unsignedBigInteger $oxigen_administration_way_id
  * @property string $required
  * @property string $medical_formula
+ * @property string $suspended
  * @property Integer $treatment_days 
  * @property string $outpatient_formulation
  * @property string $dose
