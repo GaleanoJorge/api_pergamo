@@ -345,7 +345,7 @@ class BillingPadController extends Controller
             if ($request->billing_pad_pgp_id) {
                 $EnabledAdmissions->where('billing_pad.billing_pad_pgp_id', $request->billing_pad_pgp_id);
             } else {
-                $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
+                $EnabledAdmissions->where('billing_pad.billing_pad_status_id', '>=', 1);
             }
         } else {
             $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
@@ -354,7 +354,7 @@ class BillingPadController extends Controller
                     $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
                 }
             }
-            $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
+            $EnabledAdmissions->where('billing_pad.billing_pad_status_id', '>=', 1);
         }
         $EnabledAdmissions->orderBy('admissions.created_at', 'desc');
 
