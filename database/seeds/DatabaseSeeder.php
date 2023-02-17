@@ -354,6 +354,9 @@ class DatabaseSeeder extends Seeder
                 //seeding ext-consult
                 $this->call(DaysSeeder::class);
                 $this->call(MedicalStatusSeeder::class);
+                
+                //Sistema de administración de Oxigano
+                $this->call(OxigenAdministrationWaySeeder::class);
 
 
         }

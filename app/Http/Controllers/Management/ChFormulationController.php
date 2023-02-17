@@ -130,8 +130,11 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if (!$request->administration_route_id ||
-            !$request->product_supplies_id) {} else {
+        if (
+            !$request->administration_route_id ||
+            !$request->product_supplies_id
+        ) {
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Debe seleccionarse un elemento de la lista',
@@ -141,7 +144,8 @@ class ChFormulationController extends Controller
 
         if ($request->medical_formula == "" || $request->medical_formula == false) {
 
-            if ($request->services_briefcase_id) {} else {
+            if ($request->services_briefcase_id) {
+            } else {
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe seleccionarse un elemento de la lista',
@@ -243,6 +247,41 @@ class ChFormulationController extends Controller
             'status' => true,
             'message' => 'Formulación Medica  creado exitosamente',
             'data' => ['ch_formulation' => $ChFormulation->toArray()]
+        ]);
+    }
+
+    /**
+     * suspend formulations.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function suspendFormulations(int $id): JsonResponse
+    {
+        $ChFormulation = ChFormulation::where('id', $id)
+            ->with('ch_record')
+            ->get()->toArray();
+
+        $formulations = ChFormulation::select('ch_formulation.*')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
+            ->where('ch_record.admissions_id', $ChFormulation[0]['ch_record']['admissions_id'])
+            ->where('ch_formulation.services_briefcase_id', $ChFormulation[0]['services_briefcase_id'])
+            ->get()->toArray();
+        
+        foreach($formulations as $element) {
+            $ChFormulationSuspend = ChFormulation::find($element['id']);
+            $ChFormulationSuspend->suspended = true;
+            $ChFormulationSuspend->save();
+
+            $PharmacyProductRequestSuspend = PharmacyProductRequest::find($element['pharmacy_product_request_id']);
+            $PharmacyProductRequestSuspend->request_amount = 0;
+            $PharmacyProductRequestSuspend->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Formulaciones Medicas suspendidas exitosamente',
+            'data' => ['ch_formulation' => $ChFormulation]
         ]);
     }
 

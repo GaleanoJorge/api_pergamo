@@ -1469,6 +1469,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
     Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
     Route::get('ch_formulation/getByAdmission/{admission_id}', 'Management\ChFormulationController@getByAdmission');
+    Route::post('ch_formulation/suspendFormulations/{ch_formulation_id}', 'Management\ChFormulationController@suspendFormulations');
 
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');
