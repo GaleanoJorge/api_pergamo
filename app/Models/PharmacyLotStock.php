@@ -16,5 +16,7 @@ protected $fillable = [
 	'pharmacy_lot_id',
 	'billing_stock_id',
 	'pharmacy_stock_id',
+	'pharmacy_adjustment_id',
+    'sign',
 	];
 }

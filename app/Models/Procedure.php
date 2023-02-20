@@ -12,6 +12,7 @@ class Procedure extends BaseProcedure
 		'equivalent',
         'name',
 		'procedure_category_id',
+		'payment_type_id',
 		'pbs_type_id',
         'procedure_age_id',
 		'gender_id',
@@ -19,6 +20,5 @@ class Procedure extends BaseProcedure
         'procedure_purpose_id',
 		'purpose_service_id',
 		'time',
-		
 	];
 }

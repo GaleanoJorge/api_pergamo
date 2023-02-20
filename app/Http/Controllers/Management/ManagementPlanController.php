@@ -254,10 +254,16 @@ class ManagementPlanController extends Controller
                 'service_briefcase',
                 'service_briefcase.manual_price',
             )
+            ->leftJoin('type_of_attention', 'type_of_attention.id', '=', 'management_plan.type_of_attention_id')
+            ->leftJoin('services_briefcase', 'services_briefcase.id', '=', 'management_plan.procedure_id')
+            ->leftJoin('manual_price', 'manual_price.id', '=', 'services_briefcase.manual_price_id')
+            ->leftJoin('services_briefcase as sb', 'sb.id', '=', 'management_plan.product_id')
+            ->leftJoin('manual_price as mp', 'mp.id', '=', 'sb.manual_price_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
             ->where('admissions.patient_id', $id)->where('management_plan.status_id', 1)
-            ->groupBy('management_plan.id');
+            ->groupBy('management_plan.id')
+            ->orderBy('management_plan.created_at', 'DESC');
         if ($request->start_date) {
             $ManagementPlan->where('assigned_management_plan.start_date', '>=', $request->start_date);
         }
@@ -360,10 +366,12 @@ class ManagementPlanController extends Controller
         }
 
         if ($request->search) {
-            $ManagementPlan->where('invoice_prefix', 'like', '%' . $request->search . '%')
-                ->orWhere('invoice_consecutive', 'like', '%' . $request->search . '%')
-                ->orWhere('received_date', 'like', '%' . $request->search . '%')
-                ->orWhere('company.name', 'like', '%' . $request->search . '%');
+            $ManagementPlan->where(function($query) use ($request) {
+                $query->where('type_of_attention.name', 'like', '%' . $request->search . '%')
+                ->orWhere('manual_price.name', 'like', '%' . $request->search . '%')
+                ->orWhere('mp.name', 'like', '%' . $request->search . '%')
+                ;
+            });
         }
 
         if ($request->query("pagination", true) == "false") {
@@ -395,6 +403,13 @@ class ManagementPlanController extends Controller
             ->leftJoin('admissions', 'admissions.contract_id', 'contract.id')
             ->where('admissions.id', $request->admissions_id)
             ->first();
+
+        if($request->type_of_attention_id != 20 && !$request->procedure_id && !$request->ch_formulation_id){
+            return response()->json([
+                'status' => false,
+                'message' => 'Debe seleccionar un procedimiento',
+            ]);
+        }
 
         $ManagementPlan = new ManagementPlan;
         $ManagementPlan->type_of_attention_id = $request->type_of_attention_id;

@@ -12,6 +12,7 @@ use App\Models\ServicesBriefcase;
 use App\Models\User;
 use App\Models\Admissions;
 use App\Models\ManagementPlan;
+use App\Models\Pavilion;
 use App\Models\ProductSupplies;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -93,5 +94,9 @@ class PharmacyProductRequest extends Model
 	public function user_request_pad()
 	{
 		return $this->belongsTo(User::class);
+	}
+	public function pavilion()
+	{
+		return $this->belongsTo(Pavilion::class);
 	}
 }

@@ -104,17 +104,17 @@ class ChDietsEvoController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        if($request->diet_consistency != null){
         $supplies = json_decode($request->diet_consistency);
+  
+        if(count($supplies) > 0){
         foreach ($supplies as $element) {
-
             $ChDietsEvo = new ChDietsEvo;
             $ChDietsEvo->enterally_diet_id = $request->enterally_diet_id;
             $ChDietsEvo->observation =  $request ->observation;
             $ChDietsEvo->diet_consistency  = $element;
             $ChDietsEvo->type_record_id = $request->type_record_id;
             $ChDietsEvo->ch_record_id = $request->ch_record_id;
-
+            $ChDietsEvo->save();
            
         }
     }else{
@@ -124,8 +124,9 @@ class ChDietsEvoController extends Controller
         $ChDietsEvo->diet_consistency  = $request->diet_consistency;
         $ChDietsEvo->type_record_id = $request->type_record_id;
         $ChDietsEvo->ch_record_id = $request->ch_record_id;
+        $ChDietsEvo->save();
     }
-    $ChDietsEvo->save();
+
 
         return response()->json([
             'status' => true,

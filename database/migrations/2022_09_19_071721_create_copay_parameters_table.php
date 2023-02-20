@@ -18,15 +18,19 @@ class CreateCopayParametersTable extends Migration
 
             $table->bigIncrements('id');
             // $table->unsignedBigInteger('type_contract_id');
-            $table->integer('payment_type')->nullable(); // 1 cuota moderadora - 2 copago - 3 exento
+            $table->unsignedBigInteger('payment_type_id')->nullable(); // 1 cuota moderadora - 2 copago - 3 exento
             $table->string('category');
-            $table->float('value');
+            $table->double('value', 16, 4);
             $table->unsignedTinyInteger('status_id');
             $table->timestamps();
 
             $table->index('status_id');
+            $table->index('payment_type_id');
+
             $table->foreign('status_id')->references('id')
                 ->on('status');
+            $table->foreign('payment_type_id')->references('id')
+                ->on('payment_type');
         });
     }
 

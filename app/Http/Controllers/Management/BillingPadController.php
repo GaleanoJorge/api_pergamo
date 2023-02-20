@@ -345,7 +345,7 @@ class BillingPadController extends Controller
             if ($request->billing_pad_pgp_id) {
                 $EnabledAdmissions->where('billing_pad.billing_pad_pgp_id', $request->billing_pad_pgp_id);
             } else {
-                $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
+                $EnabledAdmissions->where('billing_pad.billing_pad_status_id', '>=', 1);
             }
         } else {
             $EnabledAdmissions->where('contract.type_contract_id', '<>', 5);
@@ -354,7 +354,7 @@ class BillingPadController extends Controller
                     $EnabledAdmissions->where('briefcase.id', $request->briefcase_id);
                 }
             }
-            $EnabledAdmissions->where('admissions.discharge_date', '0000-00-00 00:00:00');
+            $EnabledAdmissions->where('billing_pad.billing_pad_status_id', '>=', 1);
         }
         $EnabledAdmissions->orderBy('admissions.created_at', 'desc');
 
@@ -2361,7 +2361,7 @@ class BillingPadController extends Controller
                         $Auth_B->auth_number = $Auth_A->auth_number;
                         $Auth_B->authorized_amount = $Auth_A->authorized_amount;
                         $Auth_B->observation = $Auth_A->observation;
-                        $Auth_B->copay = $Auth_A->copay;
+                        $Auth_B->copay_id = $Auth_A->copay_id;
                         $Auth_B->quantity = $Auth_A->quantity;
                         $Auth_B->copay_value = $Auth_A->copay_value;
                         $Auth_B->auth_status_id = $Auth_A->auth_status_id;
@@ -3162,6 +3162,12 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $doc_types[10]['internal_code'] = null;
         $doc_types[10]['name'] = 'NIT de otro país';
         $doc_types[10]['code'] = '50';
+        $doc_types[11]['internal_code'] = 'PE';
+        $doc_types[11]['name'] = 'Identificación usuarios Salud';
+        $doc_types[11]['code'] = '47';
+        $doc_types[12]['internal_code'] = 'PEP';
+        $doc_types[12]['name'] = 'Identificación usuarios Salud';
+        $doc_types[12]['code'] = '47';
 
         $res = '';
         foreach ($doc_types as $element) {

@@ -1515,8 +1515,8 @@
         "id": "220",
         "item_parent_id": "219",
         "name": "Recepción tecnica",
-        "code": "pharmacy-lot",
-        "route": "/pages/pharmacy/pharmacy-lot",
+        "code": "pharma-lot-stock-tab",
+        "route": "/pages/pharmacy/pharma-lot-stock-tab",
         "icon": "",
         "show_menu": "1"
     },
@@ -1620,6 +1620,15 @@
         "show_menu": "1"
     },
     {
+        "id": "233",
+        "item_parent_id": null,
+        "name": "Reportes",
+        "code": null,
+        "route": null,
+        "icon": "layers-outline",
+        "show_menu": "1"
+    },
+    {
         "id": "234",
         "item_parent_id": "174",
         "name": "Cuarentena",
@@ -1715,6 +1724,63 @@
         "name": "Transferencia de agenda",
         "code": "schedule-transfer",
         "route": "/pages/scheduling/schedule-transfer",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "249",
+        "item_parent_id": "233",
+        "name": "Admisiones",
+        "code": null,
+        "route": null,
+        "icon": "",
+        "show_menu": "1"
+    },
+    
+    {
+        "id": "252",
+        "item_parent_id": "249",
+        "name": "Censo",
+        "code": "report-census",
+        "route": "/pages/setting/report-census",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+
+        "id": "250",
+        "item_parent_id": "219",
+        "name": "Ajuste inventarios",
+        "code": "pharmacy-inventory-adjustment",
+        "route": "/pages/pharmacy/pharmacy-inventory-adjustment",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "251",
+        "item_parent_id": "169",
+        "name": "Motivos ajuste inv.",
+        "code": "pharmacy-adjustment",
+        "route": "/pages/setting/pharmacy-adjustment",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "253",
+        "item_parent_id": "229",
+        "name": "Bloqueo de agenda",
+        "code": "schedule-disable",
+        "route": "/pages/scheduling/schedule-disable",
+        "icon": "",
+        "show_menu": "1"
+    },
+
+    {
+        "id": "254",
+        "item_parent_id": "233",
+        "name": "Reporte de Rips",
+        "code": "report-rips",
+        "route": "/pages/setting/report-rips",
         "icon": "",
         "show_menu": "1"
     }

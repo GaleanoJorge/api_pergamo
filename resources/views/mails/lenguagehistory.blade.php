@@ -41,7 +41,7 @@
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
                         <p>HEATLTH & LIFE IPS S.A.S </p>
-                        <p> Avenida Cra 68 No 13-61, Bogotá. Sede Montevideo </p>
+                        <p style="font-size:9px">{{$chrecord[0]["admissions"]["campus"]["address"]}}, {{$chrecord[0]["admissions"]["campus"]["region"]["name"]}}, {{$chrecord[0]["admissions"]["campus"]["name"]}}</p>
                         <p> Nit: 900900122 - 7</p>
                     </div>
 
@@ -2970,7 +2970,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        @if($chrecord[0]['ch_interconsultation_id'] == null )
+        @if($chrecord[0]['ch_interconsultation_id'] == null || $chrecord[0]['medical_diary_days_id'] == null) 
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)

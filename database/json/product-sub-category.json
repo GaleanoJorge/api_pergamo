@@ -1390,5 +1390,1413 @@
     {
         "name": "humidificador de alto flujo",
         "product_category_id": "15"
-    }
+    },
+    {
+        "name": "ADAPTADOR CATETER LUER-LOCK CON TAPA DE CIERRE  ",
+        "product_category_id": 16
+      },
+      {
+        "name": "ADAPTADOR MOUNT CON CODO ANGULADO",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJA HIPODERMICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJA HIPODERMICA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJA HIPODERMICA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJA HIPODERMICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJA PARA TOMA DE MUESTRAS",
+        "product_category_id": 16
+      },
+      {
+        "name": "AGUJAS HIPODERMICAS PARA PUERTOS DE ACCESO",
+        "product_category_id": 16
+      },
+      {
+        "name": "ALCOHOL ANTISEPTICO 70%",
+        "product_category_id": 19
+      },
+      {
+        "name": "ALGODON EN TORUNDAS PQTE  500 UND",
+        "product_category_id": 15
+      },
+      {
+        "name": "APLICADORES ASEPTICOS",
+        "product_category_id": 15
+      },
+      {
+        "name": "APOSITO ABSORBENTE",
+        "product_category_id": 16
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA CON ALMOHADILLA MULTICAPA ABSORBENTE",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA CON ALMOHADILLA MULTICAPA ABSORBENTE",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA CON ALMOHADILLA MULTICAPA ABSORBENTE",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE ALGINATO DE CALCIO CON MIEL ACTIVA",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE DE HIDROFIBRA GELIFICANTE",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA CON PLATA",
+        "product_category_id": 18
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA CON PLATA",
+        "product_category_id": 18
+      },
+      {
+        "name": "APOSITO HIDROCOLOIDE CGF ",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO HIDROCOLOIDE CGF ",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO DE HIDROFIBRA EXTRA DELGADO",
+        "product_category_id": 18
+      },
+      {
+        "name": "APOSITO HIDRATANTE CON ALGINATO",
+        "product_category_id": 18
+      },
+      {
+        "name": "APOSITO HIDROCOLOIDE CGF ",
+        "product_category_id": 17
+      },
+      {
+        "name": "APOSITO TRANSPARENTE IV PARA FIJACION DE CATETER ",
+        "product_category_id": 16
+      },
+      {
+        "name": "APOSITO TRANSPARENTE IV PARA FIJACION DE CATETER ",
+        "product_category_id": 16
+      },
+      {
+        "name": "ATRIL PD CON SOPORTE ORG  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "BAJALENGUAS",
+        "product_category_id": 19
+      },
+      {
+        "name": "BARRERA CUTÁNEA NO IRRITANTE SPRAY ",
+        "product_category_id": 15
+      },
+      {
+        "name": "BARRERA PARA COLOSTOMIA",
+        "product_category_id": 15
+      },
+      {
+        "name": "BARRERA PARA COLOSTOMIA",
+        "product_category_id": 15
+      },
+      {
+        "name": "BARRERA PARA COLOSTOMIA",
+        "product_category_id": 15
+      },
+      {
+        "name": "BATA CIRUJANO ESTERIL",
+        "product_category_id": 15
+      },
+      {
+        "name": "BATA PACIENTE MANGA LARGA",
+        "product_category_id": 16
+      },
+      {
+        "name": "BOLSA MORTAJA DE 150 MICRAS  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "BOLSA DE COLOSTOMIA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "BOLSA DE COLOSTOMIA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "BOLSA DE COLOSTOMIA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "BOLSA NEGRA PEQUEÑA 120 LITROS  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "BOLSA RECOLECTORA DE ORINA",
+        "product_category_id": 15
+      },
+      {
+        "name": "BOLSA ROJA PEQUEÑA 120 LITROS  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "BOLSA VERDE PEQUEÑA 120 LITROS  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "BOTON PARA GASTROSTOMIA BAJO PERFIL ESTOMA",
+        "product_category_id": 17
+      },
+      {
+        "name": "BOTON PARA GASTROSTOMIA BAJO PERFIL ESTOMA",
+        "product_category_id": 17
+      },
+      {
+        "name": "BOTON PARA GASTROSTOMIA BAJO PERFIL ESTOMA",
+        "product_category_id": 17
+      },
+      {
+        "name": "BOTON PARA GASTROSTOMIA BAJO PERFIL ESTOMA",
+        "product_category_id": 17
+      },
+      {
+        "name": "BOTON PARA GASTROSTOMIA BAJO PERFIL ESTOMA",
+        "product_category_id": 17
+      },
+      {
+        "name": "CAMARA DE AGUA CON AUTO LLENADO Y MANGUERA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CAMISA PARA VACUETTE",
+        "product_category_id": 15
+      },
+      {
+        "name": "CAMPO AUXILIAR ESTERIL ABIERTO",
+        "product_category_id": 15
+      },
+      {
+        "name": "CAMPO AUXILIAR ESTERIL CERRADO",
+        "product_category_id": 15
+      },
+      {
+        "name": "CAMPO AUXILIAR ESTERIL ABIERTO",
+        "product_category_id": 15
+      },
+      {
+        "name": "CAMPO AUXILIAR ESTERIL ABIERTO",
+        "product_category_id": 15
+      },
+      {
+        "name": "CANDADO CARRO DE PARO",
+        "product_category_id": 19
+      },
+      {
+        "name": "CANISTER",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE OXIGENO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE OXIGENO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA",
+        "product_category_id": 17
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA NO FENESTRADA SIN BALON ",
+        "product_category_id": 17
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA S/B",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA S/B",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE TRAQUEOSTOMIA S/B",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA NASAL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATATER VENOSO CENTRAL TRILUMEN",
+        "product_category_id": 18
+      },
+      {
+        "name": "CATETER AUTOADHESIVO RECOLECTOR DE ORINA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "CATETER BILUMEN",
+        "product_category_id": 18
+      },
+      {
+        "name": "CATETER DE HEMODIALISIS DOBLE LUMEN RECTO",
+        "product_category_id": 18
+      },
+      {
+        "name": "CATETER DE HEMODIALISIS TEMPORAL PRECURVO ",
+        "product_category_id": 18
+      },
+      {
+        "name": "CATETER HEPARINIZADO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATETER INTRAVENOSO PERIFERICO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATETER INTRAVENOSO PERIFERICO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATETER INTRAVENOSO PERIFERICO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATETER INTRAVENOSO PERIFERICO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CATETER TEMPORAL RECTO DOBLE LUMEN",
+        "product_category_id": 18
+      },
+      {
+        "name": "CAUCHO DE SUCCIÓN",
+        "product_category_id": 16
+      },
+      {
+        "name": "CAUCHO DE SUCCIÓN",
+        "product_category_id": 16
+      },
+      {
+        "name": "CANULA DE GUEDEL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CINTURON CPAD",
+        "product_category_id": 19
+      },
+      {
+        "name": "CIRCUITO DE ANESTESIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO DE ANESTESIA PEDIATRICO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO DE VENTILACION",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO DE VENTILACION",
+        "product_category_id": 17
+      },
+      {
+        "name": "CIRCUITO DE VENTILACION ",
+        "product_category_id": 17
+      },
+      {
+        "name": "CIRCUITO JACKSON RESS",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO PARA VENTILADOR ASTRAL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO PARA VENTILADOR ASTRAL",
+        "product_category_id": 17
+      },
+      {
+        "name": "CIRCUITO RESPIRATORIO ALMA LISA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO RESPIRATORIO CALENTADO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CIRCUITO RESPIRATORIO CALENTADO",
+        "product_category_id": 16
+      },
+      {
+        "name": "CLIP PARA ORGANIZADOR  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "COMPRESA ESTERIL",
+        "product_category_id": 15
+      },
+      {
+        "name": "COMPRESA NO ESTERIL",
+        "product_category_id": 16
+      },
+      {
+        "name": "CONCENTR. ACIDO PARA HEMODIALISIS CON BICARBONATO",
+        "product_category_id": 17
+      },
+      {
+        "name": "CONCENTRADO ACIDO PARA HEMODIALISIS ",
+        "product_category_id": 17
+      },
+      {
+        "name": "CONCENTRADO DE BICARBONATO DE SODIO PARA DIALISIS ",
+        "product_category_id": 17
+      },
+      {
+        "name": "CONCENTRADO DE BICARBONATO DE SODIO PARA DIALISIS ",
+        "product_category_id": 17
+      },
+      {
+        "name": "CONECTOR PARA NUTRICION ENTERAL",
+        "product_category_id": 15
+      },
+      {
+        "name": "CONJUNTO DE AGUJAS DESECHABLES PARA FISTULA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CONJUNTO DE AGUJAS DESECHABLES PARA FISTULA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "CONJUNTO DE AGUJAS DESECHABLES PARA FISTULA",
+        "product_category_id": 16
+      },
+      {
+        "name": "CONOS DE OTOSCOPIO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "CONOS DE OTOSCOPIO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "DESINFEC PARA LIMPIEZA DE EQUIPOS DE HEMODIALISIS GALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "DESINFECTANTE GERMICIDA CUATERNARIO  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "DIGLUCONATO DE CLORHEXIDINA SOL TOPICA 2%",
+        "product_category_id": 19
+      },
+      {
+        "name": "DINAMOMETRO SPRING SCALE",
+        "product_category_id": 19
+      },
+      {
+        "name": "DISP. LIMPIEZA SANGRE EXTRACORPOREO DIALIZADOR ",
+        "product_category_id": 17
+      },
+      {
+        "name": "DISP. LIMPIEZA SANGRE EXTRACORPOREO DIALIZADOR ",
+        "product_category_id": 17
+      },
+      {
+        "name": "SISTEMA DE VENDAJES DE COMPRESION",
+        "product_category_id": 16
+      },
+      {
+        "name": "ELECTRODO DE MONITOREO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ELECTRODO DE MONITOREO",
+        "product_category_id": 15
+      },
+      {
+        "name": "ELECTRODO PARA DESFIBRILADOR ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ELECTRODOS PARA DESFIBRILADOR WELCH ALLYN ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ELIMINADOR DE ADHESIVO NO IRRITANTE SPRAY",
+        "product_category_id": 15
+      },
+      {
+        "name": "EQUIPO ADMINISTRACIÓN DE NUTRICIÓN POR SONDA TIPO ROSCA",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO DE ADMINISTRACION MACROGOTEO CON LUER",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO DE BOMBA INFUSION",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO DE BOMBA INFUSION FOTOSENSIBLE",
+        "product_category_id": 17
+      },
+      {
+        "name": "EQUIPO DE BURETROL",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO DE TRANSFUSION DE SANGRE",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO MICROGOTEO SIN AGUJA",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO MICRONEBULIZADOR",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO ADMINISTRACIÓN DE NUTRICIÓN POR SONDA TIPO BOLSA",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO VENTURY",
+        "product_category_id": 16
+      },
+      {
+        "name": "EQUIPO VENTURY ",
+        "product_category_id": 16
+      },
+      {
+        "name": "ESPARADRAO FIXOMULL ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ESPARADRAPO DE TELA",
+        "product_category_id": 15
+      },
+      {
+        "name": "ESPARADRAPO MICROPORE PIEL ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ESPARADRAPO MICROPORE PIEL ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ESPARADRAPO MICROPORE PIEL ",
+        "product_category_id": 15
+      },
+      {
+        "name": "ESTEEM + SISTEMA DE OSTOMIA DE UNA PIEZA",
+        "product_category_id": 15
+      },
+      {
+        "name": "EXTENSION CATETER LUER-LOCK",
+        "product_category_id": 16
+      },
+      {
+        "name": "EXTENSION DE ANESTESIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "EXTENSION DE ANESTESIA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "EXTENSION DE OXIGENO",
+        "product_category_id": 16
+      },
+      {
+        "name": "EXTENSION DE OXIGENO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "EXTENSION PARA NUTRICION CON CLAMP",
+        "product_category_id": 17
+      },
+      {
+        "name": "EXTENSION PARA NUTRICION CON CLAMP",
+        "product_category_id": 17
+      },
+      {
+        "name": "FILTRO VIRAL ANTIBACTERIAL ",
+        "product_category_id": 15
+      },
+      {
+        "name": "FILTRO ANTIMICROBIANO NARIZ DE CAMELLO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "FILTRO ANTIMICROBIANO NARIZ DE CAMELLO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "FILTRO ANTIMICROBIANO NARIZ DE CAMELLO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "FILTRO HIDROFOBICO PARA SUCCIONADOR",
+        "product_category_id": 16
+      },
+      {
+        "name": "FILTRO PARA LA SOLUCION DE DIALISIS",
+        "product_category_id": 16
+      },
+      {
+        "name": "FRASCO RECOLECCION COPROLOGICO",
+        "product_category_id": 15
+      },
+      {
+        "name": "FRASCO RECOLECTOR DE ORINA",
+        "product_category_id": 15
+      },
+      {
+        "name": "FRASCO RECOLECTOR DE ORINA 24 HORAS",
+        "product_category_id": 15
+      },
+      {
+        "name": "GASA ESTERIL PRECORTADA",
+        "product_category_id": 15
+      },
+      {
+        "name": "GEL ANTIBACTERIAL",
+        "product_category_id": 19
+      },
+      {
+        "name": "GEL CON PECTINA",
+        "product_category_id": 17
+      },
+      {
+        "name": "GEL CONDUCTOR",
+        "product_category_id": 15
+      },
+      {
+        "name": "GLUCONATO DE CLORHEXIDINA JABON 2%",
+        "product_category_id": 19
+      },
+      {
+        "name": "GLUCONATO DE CLORHEXIDINA JABON 2%",
+        "product_category_id": 19
+      },
+      {
+        "name": "GORRO ENFERMERIA",
+        "product_category_id": 15
+      },
+      {
+        "name": "GUANTES DE LATEX PARA EXAMEN ",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES DE LATEX PARA EXAMEN",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES DE LATEX PARA EXAMEN",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES DE NITRILO PARA EXAMEN ",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES DE NITRILO PARA EXAMEN",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES DE NITRILO PARA EXAMEN",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES ESTÉRILES ",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES ESTÉRILES ",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES ESTERILES",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES ESTERILES ",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUANTES ESTERILES",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUIA DE INTUBACION",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUIA DE INTUBACION",
+        "product_category_id": 16
+      },
+      {
+        "name": "GUIA DE INTUBACION",
+        "product_category_id": 16
+      },
+      {
+        "name": "HISOPO DE PLASTICO PARA TOMA DE MUESTRA  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "HOJA DE BISTURI ",
+        "product_category_id": 16
+      },
+      {
+        "name": "HUMIDIFICADOR DE ALTO FLUJO",
+        "product_category_id": 16
+      },
+      {
+        "name": "HUMIDIFICADOR DE OXIGENO",
+        "product_category_id": 16
+      },
+      {
+        "name": "INCENTIVO RESPIRATORIO DE TRES BOLAS",
+        "product_category_id": 15
+      },
+      {
+        "name": "INCENTIVO RESPIRATORIO DE UNA ESFERA",
+        "product_category_id": 15
+      },
+      {
+        "name": "INHALOCAMARA",
+        "product_category_id": 15
+      },
+      {
+        "name": "INHALOCAMARA",
+        "product_category_id": 15
+      },
+      {
+        "name": "INTERFACE NASAL",
+        "product_category_id": 16
+      },
+      {
+        "name": "INTERFASE NASAL ",
+        "product_category_id": 16
+      },
+      {
+        "name": "JABON LIQUIDO ANTIBACTERIAL",
+        "product_category_id": 19
+      },
+      {
+        "name": "JERINGA",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA HEPARINIZADA PARA TOMA DE GASES ARTERIALES",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA PUNTA CATETER ",
+        "product_category_id": 16
+      },
+      {
+        "name": "JERINGA PUNTA CATETER",
+        "product_category_id": 16
+      },
+      {
+        "name": "KIT ASPIRADOR DE SECRECIONES ",
+        "product_category_id": 16
+      },
+      {
+        "name": "KIT DE GASTROSTOMIA PERCUTANEA ",
+        "product_category_id": 17
+      },
+      {
+        "name": "KIT MICRONEBULIZACION",
+        "product_category_id": 16
+      },
+      {
+        "name": "KIT OVEROL DE ALTA PROTECCION",
+        "product_category_id": 15
+      },
+      {
+        "name": "LANCETAS",
+        "product_category_id": 16
+      },
+      {
+        "name": "LINEA PARA DEPURACION SANGUINEA EXTRACORPOREA",
+        "product_category_id": 16
+      },
+      {
+        "name": "LINNER CON SOLIDIFICANTE",
+        "product_category_id": 16
+      },
+      {
+        "name": "LLAVE DE TRES VÍAS AZUL",
+        "product_category_id": 16
+      },
+      {
+        "name": "MANGUERA CORRUGADA PARA OXIGENO",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA DE NO REINHALACION ",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA DE NO REINHALACION ",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA DE OXIGENO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA DE OXIGENO ",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA ORONASAL VENTILACION MECANICA NO INVASIVA",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA ORONASAL VENTILACION MECANICA NO INVASIVA",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA PARA AEROSOLTERAPIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "MASCARA VENTILACION MECANICA NO INVASIVA FULL FACE ",
+        "product_category_id": 16
+      },
+      {
+        "name": "MIEL EN GEL GRADO MEDICO",
+        "product_category_id": 18
+      },
+      {
+        "name": "NEBULIZADOR CON VENTURY ALTO VOLUMEN",
+        "product_category_id": 16
+      },
+      {
+        "name": "PAÑAL DESECHABLE",
+        "product_category_id": 19
+      },
+      {
+        "name": "PAÑAL DESECHABLE",
+        "product_category_id": 19
+      },
+      {
+        "name": "PAÑINES IMPREGNADOS DE ALCOHOL 70%",
+        "product_category_id": 18
+      },
+      {
+        "name": "PAPEL PARA ELECTROCARDIOGRAMA",
+        "product_category_id": 19
+      },
+      {
+        "name": "PAPEL TERMICO PARA DESFIBRILADOR ROLLO",
+        "product_category_id": 15
+      },
+      {
+        "name": "PASTA PARA OSTOMIA Y FISTULA",
+        "product_category_id": 17
+      },
+      {
+        "name": "POLAINAS RESORTADAS",
+        "product_category_id": 15
+      },
+      {
+        "name": "POLIPROPILENO 2/0 C/A CURVA CORTANTE ",
+        "product_category_id": 18
+      },
+      {
+        "name": "POLIPROPILENO 2/0 C/A RECTA KS",
+        "product_category_id": 17
+      },
+      {
+        "name": "POLIPROPILENO 5/0 C/A CURVA CORTANTE ",
+        "product_category_id": 18
+      },
+      {
+        "name": "POLIPROPILENO 4/0 C/A CURVA CORTANTE ",
+        "product_category_id": 18
+      },
+      {
+        "name": "POLIPROPILENO 3/0 C/A CURVA CORTANTE ",
+        "product_category_id": 17
+      },
+      {
+        "name": "POLVO PARA OSTOMIA Y FISTULA",
+        "product_category_id": 15
+      },
+      {
+        "name": "POLIPROPILENO 2/0 C/A CURVA CORTANTE ",
+        "product_category_id": 18
+      },
+      {
+        "name": "PUERTO DE FUGA",
+        "product_category_id": 16
+      },
+      {
+        "name": "RACORD O NIPLE DE OXÍGENO",
+        "product_category_id": 16
+      },
+      {
+        "name": "RECAMARA HUMIDIFICADORA",
+        "product_category_id": 16
+      },
+      {
+        "name": "RECOLECTOR CORTOPUNZANTE (GUARDIAN)",
+        "product_category_id": 19
+      },
+      {
+        "name": "RECOLECTOR DE CORTOPUNZANTE CILINDRICO ",
+        "product_category_id": 19
+      },
+      {
+        "name": "RECOLECTOR DE CORTOPUNZANTES MEDIDA",
+        "product_category_id": 19
+      },
+      {
+        "name": "RESUCITADOR MANUAL DESECHABLE ",
+        "product_category_id": 16
+      },
+      {
+        "name": "RESUCITADOR MANUAL DESECHABLE",
+        "product_category_id": 16
+      },
+      {
+        "name": "SABANA PARA AMORTAJAR",
+        "product_category_id": 15
+      },
+      {
+        "name": "SAL PARA DIALISIS",
+        "product_category_id": 19
+      },
+      {
+        "name": "SEDA 2-0 AGUJA RECTA ",
+        "product_category_id": 17
+      },
+      {
+        "name": "SEDA 2-0 AGUJA CURVA",
+        "product_category_id": 17
+      },
+      {
+        "name": "SEDA 4-0 AGUJA CURVA",
+        "product_category_id": 17
+      },
+      {
+        "name": "SET CATETER TUNELIZADO DOBLE LUMEN ",
+        "product_category_id": 18
+      },
+      {
+        "name": "SET DRENAJE PD-NIGHT  ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SET HEMODIALISIS CATETER PARA RECAMBIO",
+        "product_category_id": 15
+      },
+      {
+        "name": "SET PARA NUTRICIÓN CON BOLSA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SET PARA NUTRICION ENTERAL CON BOLSA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SET PARA NUTRICION ENTERAL CON TAPA ROSCA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SISTEMA DE NOCHE VARIO-PLUS CON PIN  ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SOND FOLEY DOS VIAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 17
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 17
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 17
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE GASTROSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION CERRADA PARA TRAQUEOSTOMIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA DE SUCCION",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VIAS CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VIAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VIAS",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VÍAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VÍAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VIAS",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 2 VIAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 3 VIAS",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY 3 VIAS ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA FOLEY ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NASOGASTRICA",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 15
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 15
+      },
+      {
+        "name": "SONDA NELATON ",
+        "product_category_id": 15
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NELATON",
+        "product_category_id": 16
+      },
+      {
+        "name": "SONDA NELATON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "SUTURA MONOFILAMENTO 4-0 QUIRURGICO C/A CURVA CORTANTE",
+        "product_category_id": 17
+      },
+      {
+        "name": "SUTURA MULTIFILAMENTO 5-0 C/A CURVA CORTANTE",
+        "product_category_id": 18
+      },
+      {
+        "name": "TAPABOCAS CON ELASTICO",
+        "product_category_id": 15
+      },
+      {
+        "name": "TAPABOCAS N95",
+        "product_category_id": 16
+      },
+      {
+        "name": "TAPON DE POLICARBONATO Y SILICONA",
+        "product_category_id": 16
+      },
+      {
+        "name": "TAPON PROTECTOR ESTERIL PARA DCPA",
+        "product_category_id": 16
+      },
+      {
+        "name": "TERMOMETRO DIGITAL",
+        "product_category_id": 16
+      },
+      {
+        "name": "TIENDA DE TRAQUEOSTOMÍA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TIENDA DE TRAQUEOSTOMÍA ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TIRAS DE GLUCOMETRIA",
+        "product_category_id": 16
+      },
+      {
+        "name": "TOALLAS DE MANOS PAQUETE * 150  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "TRAMPA DE ESPECIMEN MEDIDA 40ML",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL CON BALON ",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO ENDOTRAQUEAL S/B",
+        "product_category_id": 16
+      },
+      {
+        "name": "TUBO PRIMARIO PARA MUESTRA COVID  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "TUBO SEGUNDARIO PARA TOMA DE MUESTRA  ",
+        "product_category_id": 19
+      },
+      {
+        "name": "TUBO TAPA AMARILLA",
+        "product_category_id": 15
+      },
+      {
+        "name": "TUBO TAPA AZUL",
+        "product_category_id": 15
+      },
+      {
+        "name": "TUBO TAPA LILA",
+        "product_category_id": 15
+      },
+      {
+        "name": "TUBO TAPA ROJA",
+        "product_category_id": 15
+      },
+      {
+        "name": "TUBO TORAX",
+        "product_category_id": 17
+      },
+      {
+        "name": "VASELINA FRASCO",
+        "product_category_id": 19
+      },
+      {
+        "name": "VASO DESECHABLE CON TAPA PARA ESPUTO",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE ALGODÓN",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE ALGODON ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE YESO",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE YESO",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE YESO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE YESO ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA ELASTICA",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA ELASTICA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA ELASTICA",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA ELASTICA ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDAJE DE MALLA TUBULAR ",
+        "product_category_id": 15
+      },
+      {
+        "name": "VENDA DE ALGODÓN",
+        "product_category_id": 15
+      }
 ]
