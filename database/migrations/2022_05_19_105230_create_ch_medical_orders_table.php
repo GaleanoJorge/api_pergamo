@@ -23,6 +23,7 @@ class CreateChMedicalOrdersTable extends Migration
             $table->string('observations')->nullable();
             $table->unsignedBigInteger('type_record_id')->nullable();
             $table->unsignedBigInteger('ch_record_id')->nullable();
+            $table->boolean('canceled')->nullable();
 
             $table->timestamps();
 

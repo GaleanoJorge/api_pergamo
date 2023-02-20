@@ -461,10 +461,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
     Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
-
-
-
-
+    Route::get('GetPatientsWithLaboratory', 'Management\PatientController@getPatientsWithLaboratories');
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');
@@ -1936,6 +1933,10 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Control de oxígeno
     Route::apiResource('oxigen_control', 'Management\OxigenControlController');
     Route::get('oxigen_control/by_record/{id}/{type_record_id}', 'Management\OxigenControlController@getByRecord');
+
+    //Laboratorios
+    Route::apiResource('ch_laboratory', 'Management\ChLaboratoryController');
+    Route::post('ch_laboratory_update', 'Management\ChLaboratoryController@update');
 
 
 });
