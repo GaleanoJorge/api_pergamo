@@ -122,7 +122,7 @@ class ChLaboratoryController extends Controller
             DB::rollback();
             return response()->json([
                 'status' => false,
-                'message' => 'No fue posible crear el laboratorio'
+                'message' => 'No fue posible crear el laboratorio: ' + $e
             ], 423);
         }
     }
