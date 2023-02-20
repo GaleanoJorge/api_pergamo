@@ -1407,7 +1407,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
     //? Report Censo PDF
     Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
-    // Route::get('report_censusPDF2', 'Management\ReportCensusController@exportCensusPDF2');
+    Route::get('report_censusPDFGeneral', 'Management\ReportCensusController@exportCensusPDF');
     
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
