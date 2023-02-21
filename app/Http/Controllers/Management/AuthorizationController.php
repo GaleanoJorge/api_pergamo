@@ -122,6 +122,7 @@ class AuthorizationController extends Controller
                 'manual_price',
                 'auth_package',
                 'manual_price.procedure',
+                'ch_laboratory.user_ch_laboratory'
             )->where(
                 function ($query) use ($request) {
                     $query->where('management_plan.status_id', 1);

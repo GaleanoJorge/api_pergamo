@@ -115,4 +115,9 @@ class Authorization extends Model
 	{
 		return $this->belongsTo(MedicalDiaryDays::class, 'regime_id');
 	}
+
+	public function ch_laboratory()
+	{
+		return $this->hasOne(ChLaboratory::class, 'authorization_id');
+	}
 }
