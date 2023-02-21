@@ -85,19 +85,10 @@ class ChLaboratoryController extends Controller
     {
         DB::beginTransaction();
         try {
+
             $chLaboratory = new ChLaboratory;
             $chLaboratory->medical_order_id = $request->medical_order_id;
             $chLaboratory->laboratory_status_id = LaboratoryStatus::$ORDERED_STATUS_ID;
-
-            $chLaboratory->save();
-
-            $userChLaboratory = new UserChLaboratory;
-            $userChLaboratory->user_id = $request->user_id;
-            $userChLaboratory->ch_laboratory_id = $chLaboratory->id;
-            $userChLaboratory->laboratory_status_id = LaboratoryStatus::$ORDERED_STATUS_ID;
-            $userChLaboratory->observation = $request->observation;
-
-            $userChLaboratory->save();
 
             $authorization = new Authorization;
             $authorization->services_briefcase_id = $chLaboratory->medical_order->services_briefcase->id;
@@ -110,6 +101,18 @@ class ChLaboratoryController extends Controller
             $authorization->auth_status_id = 1;
 
             $authorization->save();
+
+            $chLaboratory->authorization_id = $authorization->id;
+
+            $chLaboratory->save();
+
+            $userChLaboratory = new UserChLaboratory;
+            $userChLaboratory->user_id = $request->user_id;
+            $userChLaboratory->ch_laboratory_id = $chLaboratory->id;
+            $userChLaboratory->laboratory_status_id = LaboratoryStatus::$ORDERED_STATUS_ID;
+            $userChLaboratory->observation = $request->observation;
+
+            $userChLaboratory->save();
 
             DB::commit();
 

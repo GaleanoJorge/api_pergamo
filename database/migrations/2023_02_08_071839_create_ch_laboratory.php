@@ -17,6 +17,7 @@
                 $table->bigIncrements('id');
                 $table->unsignedBigInteger('medical_order_id');
                 $table->unsignedBigInteger('laboratory_status_id');
+                $table->unsignedBigInteger('authorization_id');
                 $table->string('file')->nullable();
 
                 $table->index('medical_order_id');
