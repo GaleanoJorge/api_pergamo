@@ -1155,9 +1155,6 @@
      "value": "308.3"
     },
     {
-     "name": "Trastornos de adaptación"
-    },
-    {
      "code": "F43.21",
      "name": "Trastorno de adaptación con estado de ánimo deprimido",
      "value": 309
@@ -1298,9 +1295,6 @@
      "value": "300.82"
     },
     {
-     "name": "Pica"
-    },
-    {
      "code": "F98.3",
      "name": "Pica en niños",
      "value": "307.52"
@@ -1319,9 +1313,6 @@
      "code": "F50.8",
      "name": "Trastorno de evitación\/restricción de ingesta de alimentos",
      "value": "307.59"
-    },
-    {
-     "name": "Anorexia nerviosa"
     },
     {
      "code": "F50.01",
@@ -1844,9 +1835,6 @@
      "value": "312.34"
     },
     {
-     "name": "Trastorno de conducta"
-    },
-    {
      "code": "F91.1",
      "name": "Trastorno de conducta Tipo de inicio infantil",
      "value": "312.81"
@@ -1900,9 +1888,6 @@
      "code": "F10.232",
      "name": "Abstinencia de alcohol con alteraciones de la percepción",
      "value": "291.81"
-    },
-    {
-     "name": "Otros trastornos inducidos por el alcohol"
     },
     {
      "code": "F10.99",
@@ -2045,9 +2030,6 @@
      "value": "292.89"
     },
     {
-     "name": "Trastornos inducidos por otros alucinógenos"
-    },
-    {
      "code": "F16.99",
      "name": "Trastorno relacionado con la fenciclidina no especificado",
      "value": "292.9"
@@ -2136,9 +2118,6 @@
      "code": "F11.99",
      "name": "Trastorno relacionado con opiáceos no especificado",
      "value": "292.9"
-    },
-    {
-     "name": "Trastorno por consumo de sedantes. hipnóticos o ansiolíticos"
     },
     {
      "code": "F13.10",
@@ -2586,15 +2565,6 @@
      "value": "780.09"
     },
     {
-     "name": "Trastornos neurocognitivos mayores y leves"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer. con alteración del comportamiento",
      "value": "294.11"
@@ -2603,9 +2573,6 @@
      "code": "F02.80",
      "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer. sin alteración del comportamiento",
      "value": "294.1"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Alzheimer posible"
     },
     {
      "code": "F02.81",
@@ -2623,12 +2590,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo frontotemporal mayor o leve"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal. con alteración del comportamiento",
      "value": "294.11"
@@ -2637,9 +2598,6 @@
      "code": "F02.80",
      "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal. sin alteración del comportamiento",
      "value": "294.1"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a una degeneración del lóbulo frontotemporal posible"
     },
     {
      "code": "F02.81",
@@ -2657,12 +2615,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve con cuerpos de Lewy"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy. con alteración del comportamiento",
      "value": "294.11"
@@ -2671,9 +2623,6 @@
      "code": "F02.80",
      "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy. sin alteración del comportamiento",
      "value": "294.1"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor con cuerpos de Lewy posible"
     },
     {
      "code": "F02.81",
@@ -2691,12 +2640,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo vascular mayor o leve"
-    },
-    {
-     "name": "Trastorno neurocognitivo vascular mayor probable"
-    },
-    {
      "code": "F01.51",
      "name": "Trastorno neurocognitivo vascular mayor probable. con alteración del comportamiento",
      "value": "290.4"
@@ -2705,9 +2648,6 @@
      "code": "F01.50",
      "name": "Trastorno neurocognitivo vascular mayor probable. sin alteración del comportamiento",
      "value": "290.4"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor probablemente debido a una enfermedad vascular"
     },
     {
      "code": "F02.81",
@@ -2725,12 +2665,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve debido a un traumatismo cerebral"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a un traumatismo cerebral"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor debido a un traumatismo cerebral. con alteración del comportamiento",
      "value": "294.11"
@@ -2744,15 +2678,6 @@
      "code": "G31.84",
      "name": "Trastorno neurocognitivo leve debido a un traumatismo cerebral",
      "value": "331.83"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor o leve inducido por sustancias\/medicamentos"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor o leve debido a infección por VIH"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a infección por VIH"
     },
     {
      "code": "F02.81",
@@ -2770,12 +2695,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve debido a enfermedad por priones"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a enfermedad por priones"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor debido a enfermedad por priones. con alteración del comportamiento",
      "value": "294.11"
@@ -2791,12 +2710,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve debido a la enfermedad de Parkinson"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson. con alteración del comportamiento",
      "value": "294.11"
@@ -2805,9 +2718,6 @@
      "code": "F02.80",
      "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson. sin alteración del comportamiento",
      "value": "294.1"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor posiblemente debido a la enfermedad de Parkinson"
     },
     {
      "code": "F02.81",
@@ -2825,12 +2735,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve debido a la enfermedad de Huntington"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Huntington"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Huntington. con alteración del comportamiento",
      "value": "294.11"
@@ -2846,9 +2750,6 @@
      "value": "331.83"
     },
     {
-     "name": "Trastorno neurocognitivo mayor o leve debido a otra afección médica"
-    },
-    {
      "code": "F02.81",
      "name": "Trastorno neurocognitivo mayor o leve debido a otra afección médica. con alteración del comportamiento",
      "value": "294.11"
@@ -2862,9 +2763,6 @@
      "code": "G31.84",
      "name": "Trastorno neurocognitivo leve debido a otra afección médica",
      "value": "331.83"
-    },
-    {
-     "name": "Trastorno neurocognitivo mayor o leve debido a etiologías múltiples"
     },
     {
      "code": "F02.81",
@@ -3055,9 +2953,6 @@
      "code": "Z62.898",
      "name": "Niño afectado por una relación parental conflictiva",
      "value": "V61.29"
-    },
-    {
-     "name": "Otros problemas relacionados con el grupo de apoyo primario"
     },
     {
      "code": "Z63.0",
@@ -3278,9 +3173,6 @@
      "code": "T76.11XD",
      "name": "Violencia física por parte del cónyuge o la pareja. sospechada hallazgo ulterior",
      "value": "995.81"
-    },
-    {
-     "name": "Otras circunstancias relacionadas con la violencia física por parte del cónyuge o la pareja"
     },
     {
      "code": "Z69.11",
