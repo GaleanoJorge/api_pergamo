@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Base\BillingPad as BaseBillingPad;
+use App\Models\Base\BillingPadMu as BaseBillingPadMu;
 
-class BillingPad extends BaseBillingPad
+class BillingPadMu extends BaseBillingPadMu
 {
 	protected $fillable = [
 		'total_value',
@@ -14,9 +14,6 @@ class BillingPad extends BaseBillingPad
 		'billing_pad_consecutive_id',
 		'billing_pad_prefix_id',
 		'billing_pad_status_id',
-		'admissions_id',
-		'billing_pad_pgp_id',
-		'billing_pad_mu_id',
 		'billing_credit_note_id',
 	];
 }

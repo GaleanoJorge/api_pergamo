@@ -1666,14 +1666,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //prefactura PAD
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
+    Route::get('billing_pad/getEnabledPatients/{id}', 'Management\BillingPadController@getEnabledPatients');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
     Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
+    Route::post('billing_pad/generateMuBilling/{id}', 'Management\BillingPadController@generateMuBilling');
     Route::post('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{bill_type}/{id}', 'Management\BillingPadController@generateBillingDat');
     Route::get('billing_pad/generateBillingPdf/{id}', 'Management\BillingPadController@generateBillingPdf');
+    Route::get('billing_pad/generateBillingPdfMu/{id}', 'Management\BillingPadController@PdfMu');
     Route::get('billing_pad/creditNoteNoPgp/{id}', 'Management\BillingPadController@creditNoteNoPgp');
     Route::get('billing_pad/creditNotePgp/{id}', 'Management\BillingPadController@creditNotePgp');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');

@@ -34,6 +34,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $finish_date_invoice
  * @property int $expiration_days_portafolio
  * @property int $discount
+ * @property int $min_attention
+ * @property int $max_attention
+ * @property int $discount_rate
  * @property string $observations
  * @property string $objective
  * @property Carbon $created_at
