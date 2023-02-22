@@ -186,6 +186,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Maatwebsite\Excel\Concerns\ToArray;
 use Ramsey\Uuid\Type\Integer;
 
 class ChRecordController extends Controller
@@ -974,7 +975,7 @@ class ChRecordController extends Controller
         $Patients = $ChRecord[0]['admissions']['patients'];
 
 
-        $html = view('mails.chAllMedicalOrder', [
+        $html = view('mails.AllMedicalOrder', [
             'chrecord' => $ChRecord,
             'ChMedicalOrders' => $ChMedicalOrders,
             'fecharecord' => $fecharecord,
@@ -3198,6 +3199,228 @@ class ChRecordController extends Controller
             }
         }
 
+        if ($request->ch_type == 22) {
+
+            ///Ordenes Medicas
+            /////////////////////////////////////////////////
+
+            $today = Carbon::now();
+
+            $ChRecord2 = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.campus.region',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )
+                ->where('ch_record.admissions_id', $request->admissions)->get()->toArray();
+
+            $ChMedicalOrders = ChMedicalOrders::select('ch_medical_orders.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
+                'ch_record.user.user_role.role',
+                'ch_record.user.assistance',
+                'ch_record.admissions.patients.marital_status',
+                'ch_record.admissions.campus.region',
+                'ch_record.admissions.patients.gender',
+                'ch_record.admissions.patients.activities',
+                'ch_record.admissions.patients.academic_level',
+                'ch_record.admissions.patients.residence_municipality',
+                'ch_record.admissions.contract.company',
+                'ch_record.admissions.contract.type_briefcase',
+                'procedure',
+                'frequency',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+            )->leftJoin('ch_record', 'ch_medical_orders.ch_record_id', 'ch_record.id')
+                ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+                ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 6);
+
+                // return response()->json([
+                //     'status' => false,
+                //     'ch' => $ChMedicalOrders->get()->toArray()
+                // ]);
+
+            //Interconsulta
+            $ChInterconsultation = ChInterconsultation::select('ch_interconsultation.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
+                'ch_record.user.user_role.role',
+                'ch_record.user.assistance',
+                'ch_record.admissions.patients.marital_status',
+                'ch_record.admissions.campus.region',
+                'ch_record.admissions.patients.gender',
+                'ch_record.admissions.patients.activities',
+                'ch_record.admissions.patients.academic_level',
+                'ch_record.admissions.patients.residence_municipality',
+                'ch_record.admissions.contract.company',
+                'ch_record.admissions.contract.type_briefcase',
+                'specialty',
+                'frequency',
+                'services_briefcase',
+                'services_briefcase.manual_price',
+                'services_briefcase.manual_price.procedure',
+                'type_of_attention',
+                'procedure',
+            )->leftJoin('ch_record', 'ch_interconsultation.ch_record_id', 'ch_record.id')
+                ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+                ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 6);
+
+            // Plan de manejo
+            $ManagementPlan = ChRecord::where('ch_record.admissions_id', $request->admissions,  'assistance.file_firm')->with(
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure',
+                'assigned_management_plan.management_plan.frequency',
+                'assigned_management_plan.management_plan.procedure.manual_price'
+            )
+                ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+                ->where('admissions.patient_id', $request->admissions);
+
+
+
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
+
+                $ChMedicalOrders
+                    ->where('ch_record.date_attention', '>=', $init_date);
+                $ChInterconsultation
+                    ->where('ch_record.date_attention', '>=', $init_date);
+                $ManagementPlan
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChMedicalOrders->where('ch_record.date_attention', '<=', $finish_date);
+                $ChInterconsultation->where('ch_record.date_attention', '<=', $finish_date);
+                $ManagementPlan->where('ch_record.date_attention', '<=', $finish_date);
+            }
+
+            $ChMedicalOrders = $ChMedicalOrders->get()->toArray();
+            $ChInterconsultation = $ChInterconsultation->get()->toArray();
+            $ManagementPlan = $ManagementPlan->get()->toArray();
+
+            if ($ChMedicalOrders) {
+                $hcAll = [];
+
+                foreach ($ChMedicalOrders as $ch) {
+                    array_push($hcAll, $ch['record_id']);
+                }
+
+                $hcAll = array_unique($hcAll);
+            }
+
+            if ($ChInterconsultation) {
+                $hcAll2 = [];
+
+                foreach ($ChInterconsultation as $ch) {
+                    array_push($hcAll2, $ch['record_id']);
+                }
+
+                $hcAll2 = array_unique($hcAll2);
+            }
+
+            // if ($ManagementPlan) {
+            //     $hcAll = [];
+
+            //     foreach ($ManagementPlan as $ch) {
+            //         array_push($hcAll, $ch['record_id']);
+            //     }
+
+            //     $hcAll = array_unique($hcAll);
+            // }
+
+            if (count($ChMedicalOrders) > 0 || count($ChInterconsultation) > 0  || count($ManagementPlan) > 0) {
+
+     
+                    $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+
+                    // if (isset($ChRecord2[0]['user']['assistance'][0]['file_firm']) && $ChRecord2[0]['user']['assistance'][0]['file_firm'] != "null") {
+                    //     $rutaImagen = storage_path('app/public/' . $ChRecord2[0]['user']['assistance'][0]['file_firm']);
+                    //     $contenidoBinario = file_get_contents($rutaImagen);
+                    //     $imagenComoBase64 = base64_encode($contenidoBinario);
+                    // } else {
+                    //     $imagenComoBase64 = null;
+                    //     return response()->json([
+                    //         'status' => false,
+                    //         'message' => 'No se encontró firma por parte del personal asistencial para generar este documento, por favor diligenciar su firma desde su perfil',
+
+                    //     ]);
+                    // }
+
+                    $html = view('mails.GaAllMedicalOrder', [
+                        'chrecord' => $ChRecord2,
+                        'ChMedicalOrders' => $ChMedicalOrders,
+                        'ChInterconsultation' => $ChInterconsultation,
+                        'hcAll' => $hcAll,
+                        'hcAll2' => $hcAll2,
+                        // 'ManagementPlan' => $ManagementPlan,
+                        'fecharecord' => $fecharecord,
+                        // 'firm' => $imagenComoBase64,
+                        'today' => $today,
+
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', true);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+                    $name = 'OrdenesMedicas.pdf';
+
+                    Storage::disk('public')->put($name, $file);
+
+      
+                
+
+
+                return response()->json([
+                    'status' => true,
+                    'persona' => $ChMedicalOrders,
+                    'ch' => $ChRecord,
+                    'message' => 'Reporte generado exitosamente',
+                    'url' => asset('/storage' . '/' . $name),
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Ordenes Médicas asociadas al paciente',
+
+                ]);
+            }
+        }
+
         if ($request->ch_type == 1) {
             if (count($ChRecord) > 0) {
                 foreach ($ChRecord as $ch) {
@@ -4157,18 +4380,18 @@ class ChRecordController extends Controller
                 ->where('ch_record.status', 'CERRADO')
                 ->where('ch_type_id', $request->ch_type);
 
-                if ($request->start_date != 'null' && isset($request->start_date)) {
-                    $init_date = Carbon::parse($request->start_date);
-    
-                    $ChRecordTR
-                        ->where('ch_record.date_attention', '>=', $init_date);
-                }
-    
-                if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                    $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
-                    $ChRecordTR->where('ch_record.date_attention', '<=', $finish_date);
-                }
-                $ChRecordTR= $ChRecordTR->groupBy('ch_record.id')->get()->toArray();
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
+
+                $ChRecordTR
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChRecordTR->where('ch_record.date_attention', '<=', $finish_date);
+            }
+            $ChRecordTR = $ChRecordTR->groupBy('ch_record.id')->get()->toArray();
 
             if (count($ChRecordTR) > 0) {
                 // $fecharecord = Carbon::parse($ChRecordTR[0]['updated_at'])->setTimezone('America/Bogota');
