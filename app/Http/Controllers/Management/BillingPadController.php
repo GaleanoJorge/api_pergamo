@@ -3979,7 +3979,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
             $consecutive = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_prefix']['name'] . $auth_billing_pad[0]['consecutive'];
             $billing_resolution = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_consecutive']['resolution'];
-
             foreach ($auth_billing_pad as $e) {
                 array_push($selected_procedures_ids, $e['authorization_id']);
             }

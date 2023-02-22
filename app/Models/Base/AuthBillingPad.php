@@ -36,14 +36,17 @@ class AuthBillingPad extends Model
 	{
 		return $this->belongsTo(BillingPad::class);
 	}
+
 	public function billing_pad_pgp()
 	{
 		return $this->belongsTo(BillingPadPgp::class);
 	}
+
 	public function billing_pad_mu()
 	{
 		return $this->belongsTo(BillingPadMu::class);
 	}
+	
 	public function authorization()
 	{
 		return $this->belongsTo(Authorization::class);
