@@ -1,635 +1,3825 @@
 [
-    {"code":"F70","name":"Discapacidad intelectual leve","value":"317"}
-    ,
-    {"code":"F71","name":"Discapacidad intelectual moderada","value":"318.0"}
-    ,
-    {"code":"F72","name":"Discapacidad intelectual grave","value":"318.1"}
-    ,
-    {"code":"F73","name":"Discapacidad intelectual profunda","value":"318.2"}
-    ,
-    {"code":"F79","name":"Discapacidad intelectual de gravedad no especificada","value":"319"}
-    ,
-    {"code":"F81","name":"Trastorno de la lectura","value":"315.00"}
-    ,
-    {"code":"F81","name":"Trastorno del clculo","value":"315.1"}
-    ,
-    {"code":"F81","name":"Trastorno de la expresin escrita","value":"315.2"}
-    ,
-    {"code":"F81","name":"Trastorno del aprendizaje no especificado","value":"315.9"}
-    ,
-    {"code":"F82","name":"Trastorno del desarrollo de la coordinacin","value":"315.4"}
-    ,
-    {"code":"F80.1","name":"Trastorno del lenguaje expresivo","value":"315.31"}
-    ,
-    {"code":"F80.2","name":"Trastorno mixto del lenguaje receptivo-expresivo","value":"315.31"}
-    ,
-    {"code":"F80.0","name":"Trastorno fonolgico","value":"315.39"}
-    ,
-    {"code":"F98.5","name":"Tartamudeo","value":"307.01"}
-    ,
-    {"code":"F80.9","name":"Trastorno de la comunicacin no especificado","value":"307.9"}
-    ,
-    {"code":"F84.0","name":"Trastorno autista","value":"299.00"}
-    ,
-    {"code":"F84.2","name":"Trastorno de Rett","value":"299.80"}
-    ,
-    {"code":"F84.3","name":"Trastorno desintegrativo infantil","value":"299.10"}
-    ,
-    {"code":"F84.5","name":"Trastorno de Asperger","value":"299.80"}
-    ,
-    {"code":"F84.9","name":"Trastorno generalizado del desarrollo no especificado","value":"299.80"}
-    ,
-    {"code":"F88.0  ","name":"Retraso global del desarrollo","value":"315.8"}
-    ,
-    {"code":"F90.0","name":"Trastorno por dficit de atencin con hiperactividad, con predominio de dficit de atencin","value":"314.00"}
-    ,
-    {"code":"F90.1  ","name":"Trastorno por dficit de atencin con hiperactividad, con predominio de hiperactividad/impulsividad","value":"314.01"}
-    ,
-    {"code":"F90.2  ","name":"Trastorno por dficit de atencin con hiperactividad, combinada","value":"314.01"}
-    ,
-    {"code":"F90.8  ","name":"Otro trastorno por dficit de atencin/hiperactividad especificado","value":"314.01"}
-    ,
-    {"code":"F90.9  ","name":"Trastorno por dficit de atencin/hiperactividad no especificado","value":"314.01"}
-    ,
-    {"code":"F91.8","name":"Trastorno disocial","value":"312.8"}
-    ,
-    {"code":"F91.3","name":"Trastorno negativista desafiante","value":"313.81"}
-    ,
-    {"code":"F91.9","name":"Trastorno de comportamiento perturbador no especificado","value":"312.9"}
-    ,
-    {"code":"F98.3","name":"Pica","value":"307.52"}
-    ,
-    {"code":"F98.2","name":"Trastorno por rumiacin","value":"307.59"}
-    ,
-    {"code":"F98.2","name":"Trastorno de la ingestin alimentaria de la infancia o la niez","value":"307.59"}
-    ,
-    {"code":"F95.2","name":"Trastorno de la Tourette","value":"307.23"}
-    ,
-    {"code":"F95.1","name":"Trastorno de tics motores o vocales crnicos","value":"307.22"}
-    ,
-    {"code":"F95.0","name":"Trastorno de tics transitorios","value":"307.21"}
-    ,
-    {"code":"F95.9","name":"Trastorno de tics no especificado","value":"307.20"}
-    ,
-    {"code":"F98.1","name":"Encopresis","value":"307.7"}
-    ,
-    {"code":"F98.0","name":"Enuresis","value":"307.6"}
-    ,
-    {"code":"F93.0","name":"Ansiedad por separacin","value":"309.21"}
-    ,
-    {"code":"F94.0","name":"Mutismo selectivo","value":"313.23"}
-    ,
-    {"code":"F94.2","name":"Trastorno reactivo de la vinculacin de la infancia o la niez","value":"313.89"}
-    ,
-    {"code":"F98.4","name":"Trastorno de movimientos estereotipados","value":"307.3"}
-    ,
-    {"code":"F98.9","name":"Trastorno de la infancia, la niez o la adolescencia no especificado","value":"313.9"}
-    ,
-    {"code":"F20.9  ","name":"Esquizofrenia","value":"295.90"}
-    ,
-    {"code":"F21    ","name":"Trastorno de la personalidad esquizotpico","value":"301.22"}
-    ,
-    {"code":"F25.0  ","name":"Trastorno esquizoafectivo de tipo bipolar","value":"295.70"}
-    ,
-    {"code":"F25.1  ","name":"Trastorno esquizoafectivo de tipo depresivo","value":"295.70"}
-    ,
-    {"code":"F60.1  ","name":"Trastorno de la personalidad esquizoide","value":"301.20"}
-    ,
-    {"code":"F20.81 ","name":"Trastorno esquizofreniforme","value":"295.40"}
-    ,
-    {"code":"F23    ","name":"Trastorno psictico breve","value":"298.8"}
-    ,
-    {"code":"F06.2  ","name":"Trastorno psictico con ideas delirantes","value":"293.81"}
-    ,
-    {"code":"F06.0  ","name":"Trastorno psictico con alucinaciones","value":"293.82"}
-    ,
-    {"code":"F06.1  ","name":"Catatonia relacionada con otro trastorno mental","value":"293.89"}
-    ,
-    {"code":"F60.1  ","name":"Trastorno catatnico debidoa otra afeccin mdica","value":"293.89"}
-    ,
-    {"code":"F22    ","name":"Trastorno delirante","value":"297.1"}
-    ,
-    {"code":"F28    ","name":"Otro trastorno especfico del espectrode la esquizofrenia y otro trastorno psictico","value":"298.8"}
-    ,
-    {"code":"F33.2  ","name":"Trastorno depresivo mayor","value":"296.33"}
-    ,
-    {"code":"F31.2  ","name":"Trastorno bipolar I","value":"296.44"}
-    ,
-    {"code":"F31.81 ","name":"Trastorno bipolar II","value":"296.89"}
-    ,
-    {"code":"F31.9  ","name":"Trastorno bipolar no especificado y relacionado","value":"296.80"}
-    ,
-    {"code":"F34.1  ","name":"Trastorno depresivo persistente distimia","value":"300.4"}
-    ,
-    {"code":"F34.0  ","name":"Trastorno ciclotmico","value":"301.13"}
-    ,
-    {"code":"N94.3  ","name":"Trastorno disfrico premenstrual","value":"625.4"}
-    ,
-    {"code":"F34.8  ","name":"Trastorno de desregulacin disruptivadel estado de nimo","value":"296.99"}
-    ,
-    {"code":"F19.94 ","name":"Trastorno depresivo inducido por interfern","value":"292.84"}
-    ,
-    {"code":"F06.31 ","name":"Trastorno depresivodebido a otra afeccin mdica con caractersticas depresivas","value":"293.83"}
-    ,
-    {"code":"F06.32 ","name":"Trastorno depresivodebido a otra afeccin mdica con episodio similar a la depresin mayor","value":"293.83"}
-    ,
-    {"code":"F06.34 ","name":"Trastorno depresivodebido a otra afeccin mdica con caractersticas mixtas","value":"293.83"}
-    ,
-    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con episodio similar al manaco o al hipomanaco","value":"293.83"}
-    ,
-    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con caractersticas manacas","value":"293.83"}
-    ,
-    {"code":"F06.33 ","name":"Trastorno bipolary otros trastornos relacionados debidosa otra afeccin mdica con caractersticas mixtas","value":"293.83"}
-    ,
-    {"code":"F31.89 ","name":"Otro trastorno bipolar especificado y relacionado","value":"296.89"}
-    ,
-    {"code":"F32.8  ","name":"Otro trastorno depresivo especificado","value":"311"}
-    ,
-    {"code":"F41.1  ","name":"Trastorno de ansiedad generalizada","value":"300.02"}
-    ,
-    {"code":"F41.0 ","name":"Trastorno de pnico","value":"300.01"}
-    ,
-    {"code":"F40.00 ","name":"Agorafobia","value":"300.22"}
-    ,
-    {"code":"F93.0  ","name":"Trastorno de ansiedad por separacin","value":"309.21"}
-    ,
-    {"code":"F41.8  ","name":"Otro trastorno de ansiedad especificado","value":"300.09"}
-    ,
-    {"code":"F41.9  ","name":"Trastorno de ansiedad no especificado","value":"300.00"}
-    ,
-    {"code":"F40.218 ","name":"Por animales serpientes, araas.","value":"300.29"}
-    ,
-    {"code":"F40.228 ","name":"Por elementos del ambiente natural tormentas elctricas,alturas.","value":"300.29"}
-    ,
-    {"code":"F40.230 ","name":"Sangre.","value":"300.29"}
-    ,
-    {"code":"F40.231 ","name":"Inyecciones y transfusiones.","value":"300.29"}
-    ,
-    {"code":"F40.232 ","name":"Otro tipo de atencin mdica.","value":"300.29"}
-    ,
-    {"code":"F40.233 ","name":"Lesin.","value":"300.29"}
-    ,
-    {"code":"F40.248 ","name":"Situacional viaje areo, enclaustramiento.","value":"300.29"}
-    ,
-    {"code":"F40.298 ","name":"De otro tipo situaciones en que la persona podra vomitar oasfixiarse; en nios, ruidos fuertes o personas disfrazadas.","value":"300.29"}
-    ,
-    {"code":"F42   ","name":"Trastorno obsesivo-compulsivo","value":"300.3"}
-    ,
-    {"code":"F45.22 ","name":"Trastorno de dismorfia corporal","value":"300.7"}
-    ,
-    {"code":"F42   ","name":"Trastorno de acumulacin","value":"300.3"}
-    ,
-    {"code":"F63.3  ","name":"Tricotilomanatrastorno de arrancamiento del pelo","value":"312.39"}
-    ,
-    {"code":"L98.1  ","name":"Trastorno de excoriacin rascarse la piel","value":"698.4"}
-    ,
-    {"code":"F42   ","name":"Trastorno obsesivo-compulsivoy trastornos relacionados no especificados","value":"300.3"}
-    ,
-    {"code":"F43.10 ","name":"Trastorno de estrs postraumtico","value":"309.81"}
-    ,
-    {"code":"F43   ","name":"Trastornode estrs agudo","value":"308.3"}
-    ,
-    {"code":"F43.21 ","name":"Con estado de nimo depresivo","value":"309.0"}
-    ,
-    {"code":"F43.22 ","name":"Con ansiedad","value":"309.24"}
-    ,
-    {"code":"F43.23 ","name":"Con ansiedad mixta y estado de nimo depresivo","value":"309.28"}
-    ,
-    {"code":"F43.24 ","name":"Con anomalas de la conducta","value":"309.3"}
-    ,
-    {"code":"F43.25 ","name":"Con alteracin mixta de las emociones y la conducta","value":"309.4"}
-    ,
-    {"code":"F43.20 ","name":"No especificado","value":"309.9"}
-    ,
-    {"code":"F94.1  ","name":"Trastorno de apego reactivo","value":"313.89"}
-    ,
-    {"code":"F94.2  ","name":"Trastorno de relacin social desinhibida","value":"313.89"}
-    ,
-    {"code":"F43.8  ","name":"Otro trastorno relacionadocon traumas o factores de estrs especificado","value":"309.89"}
-    ,
-    {"code":"F48.1  ","name":"Trastorno de despersonalizacin/desrealizacin","value":"300.6"}
-    ,
-    {"code":"F44.0  ","name":"Amnesia disociativa","value":"300.12"}
-    ,
-    {"code":"F44.1  ","name":"Amnesia con fuga disociativa","value":"300.13"}
-    ,
-    {"code":"F44.81 ","name":"Trastorno de la identidad disociativo","value":"300.14"}
-    ,
-    {"code":"F44.89 ","name":"Otro trastorno disociativo especificado","value":"300.15"}
-    ,
-    {"code":"F44.9  ","name":"Trastorno disociativo no especificado","value":"300.15"}
-    ,
-    {"code":"F45.1  ","name":"Trastorno de sntomas somticos","value":"300.82"}
-    ,
-    {"code":"F45.1  ","name":"Trastorno de sntomas somticos, con predominio de dolor","value":"300.82"}
-    ,
-    {"code":"F45.21 ","name":"Trastorno de ansiedad por enfermedad","value":"300.7"}
-    ,
-    {"code":"F54   ","name":"Factores psicolgicosque influyen sobre otras afecciones mdicas","value":"316"}
-    ,
-    {"code":"F68.10 ","name":"Trastorno facticio","value":"300.19"}
-    ,
-    {"code":"F45.8  ","name":"Otro trastorno de sntomas somticoso relacionado especificado","value":"300.89"}
-    ,
-    {"code":"F45.9  ","name":"Trastorno de sntomas somticos no especificado","value":"300.82"}
-    ,
-    {"code":"F44.4  ","name":"Con debilidad o parlisis; con movimiento anormal temblor,distona, marcha anormal; con sntomas para la deglucin; o con sntomadel lenguaje.","value":"300.11"}
-    ,
-    {"code":"F44.5  ","name":"Con convulsiones.","value":"300.11"}
-    ,
-    {"code":"F44.6  ","name":"Con anestesia o prdida sensorial; o con un sntoma sensorialparticular alucinaciones u otros trastornos visuales, auditivos, olfativos.","value":"300.11"}
-    ,
-    {"code":"F44.7  ","name":"Con sntomas mixtos.","value":"300.11"}
-    ,
-    {"code":"F50.02 ","name":"Tipo de atracones/purgas.","value":"307.1"}
-    ,
-    {"code":"F50.01 ","name":"Tipo restrictivo","value":"307.1"}
-    ,
-    {"code":"F50.2  ","name":"Bulimia nerviosa","value":"307.51"}
-    ,
-    {"code":"F50.8  ","name":"Trastorno de atracones","value":"307.51"}
-    ,
-    {"code":"F98.3  ","name":"Pica en nios.","value":"307.52"}
-    ,
-    {"code":"F50.8  ","name":"Pica en adultos.","value":"307.52"}
-    ,
-    {"code":"F50.8  ","name":"Trastorno de evitacin/restriccin de la ingesta de alimentos","value":"307.59"}
-    ,
-    {"code":"F50.8  ","name":"Otro trastorno alimentarioo del consumo de alimentos especificado","value":"307.59"}
-    ,
-    {"code":"F50.9  ","name":"Trastorno alimentario o del consumode alimentos no especificado","value":"307.50"}
-    ,
-    {"code":"F51.01 ","name":"Trastorno de insomnio","value":"307.42"}
-    ,
-    {"code":"F51.11 ","name":"Trastorno de hipersomnolencia","value":"307.44"}
-    ,
-    {"code":"G47.33 ","name":"Apnea-hipopnea obstructiva del sueo","value":"327.23"}
-    ,
-    {"code":"G47.21 ","name":"Tipo con fases del sueo retardadas","value":"307.45"}
-    ,
-    {"code":"G47.22 ","name":"Tipo con fases del sueo avanzadas","value":"307.45"}
-    ,
-    {"code":"G47.23 ","name":"Tipo con ciclo sueo-vigilia irregular","value":"307.45"}
-    ,
-    {"code":"G47.24 ","name":"Tipo con ciclo sueo-vigilia no ajustado a las 24 h. ","value":"307.45"}
-    ,
-    {"code":"G47.26 ","name":"Tipo asociado a turnos laborales","value":"307.45"}
-    ,
-    {"code":"G47.20 ","name":"Tipo no especificado.","value":"307.45"}
-    ,
-    {"code":"F51.3   ","name":"Tipo con sonambulismo","value":"307.46"}
-    ,
-    {"code":"F51.4   ","name":"Tipo con terrores nocturnos","value":"307.46"}
-    ,
-    {"code":"G25.81  ","name":"Sndrome de las piernas inquietas","value":"333.94"}
-    ,
-    {"code":"F51.5   ","name":"Trastorno de pesadillas","value":"307.47"}
-    ,
-    {"code":"G47.52  ","name":"Trastorno del comportamiento del sueo REM","value":"327.42"}
-    ,
-    {"code":"G47.09 ","name":"Otro trastorno de insomnio especificado","value":"780.52"}
-    ,
-    {"code":"G47.00  ","name":"Trastorno de insomnio no especificado","value":"780.52"}
-    ,
-    {"code":"G47.19  ","name":"Otro trastorno de hipersomnolencia especificado","value":"780.54"}
-    ,
-    {"code":"G47.10  ","name":"Trastorno de hipersomnolencia no especificado","value":"780.54"}
-    ,
-    {"code":"G47.8   ","name":"Otro trastorno sueo-vigilia especificado","value":"780.59"}
-    ,
-    {"code":"G47.9   ","name":"Trastorno sueo-vigilia no especificado","value":"780.59"}
-    ,
-    {"code":"F52.0   ","name":"Trastorno de deseo sexual hipoactivo en el varn","value":"302.71"}
-    ,
-    {"code":"F52.21  ","name":"Trastorno erctil","value":"302.72"}
-    ,
-    {"code":"F52.4   ","name":"Eyaculacin prematura precoz","value":"302.75"}
-    ,
-    {"code":"F52.32  ","name":"Eyaculacin retardada","value":"302.74"}
-    ,
-    {"code":"F52.22  ","name":"Trastorno del inters/excitacin sexualfemenino","value":"302.72"}
-    ,
-    {"code":"F52.6   ","name":"Trastorno de dolor genito-plvico/por penetracin","value":"302.76"}
-    ,
-    {"code":"F52.31  ","name":"Trastorno orgsmico femenino","value":"302.73"}
-    ,
-    {"code":"F52.8   ","name":"Otra disfuncin sexual especificada","value":"302.79"}
-    ,
-    {"code":"F52.9   ","name":"Disfuncin sexual no especificada","value":"302.70"}
-    ,
-    {"code":"F64.2   ","name":"Disforia de gnero en nios","value":"302.6"}
-    ,
-    {"code":"F64.1   ","name":"Disforia de gnero en adulto","value":"302.85"}
-    ,
-    {"code":"F64.8   ","name":"Otra disforia de gnero especificada","value":"302.6"}
-    ,
-    {"code":"F64.9   ","name":"Disforia de gnero no especificada","value":"302.6"}
-    ,
-    {"code":"F91.3   ","name":"Trastorno negativista desafiante","value":"313.81"}
-    ,
-    {"code":"F60.2   ","name":"Trastorno de la personalidad antisocial","value":"301.7"}
-    ,
-    {"code":"F63.1   ","name":"Piromana","value":"312.33"}
-    ,
-    {"code":"F63.2   ","name":"Cleptomana","value":"312.32"}
-    ,
-    {"code":"F91.8   ","name":"Otro trastorno disruptivo, del controlde los impulsos y de la conducta especificado","value":"312.89"}
-    ,
-    {"code":"F91.9   ","name":"Otro trastorno disruptivo, del controlde los impulsos y de la conducta no especificado","value":"312.9"}
-    ,
-    {"code":"F60.1   ","name":"Trastorno de la personalidad esquizoide","value":"301.20"}
-    ,
-    {"code":"F21    ","name":"Trastorno de la personalidad esquizotpico","value":"301.22"}
-    ,
-    {"code":"F60.2   ","name":"Trastorno de la personalidad antisocial","value":"301.7"}
-    ,
-    {"code":"F60.3   ","name":"Trastorno de la personalidad limtrofe","value":"301.83"}
-    ,
-    {"code":"F60.4   ","name":"Trastorno de la personalidad histrinico","value":"301.50"}
-    ,
-    {"code":"F60.81  ","name":"Trastorno de la personalidad narcisista","value":"301.81"}
-    ,
-    {"code":"F60.6   ","name":"Trastorno de la personalidad por evitacin","value":"301.82"}
-    ,
-    {"code":"F60.7   ","name":"Trastorno de la personalidad dependiente","value":"301.6"}
-    ,
-    {"code":"F60.5   ","name":"Trastorno de la personalidadobsesivo-compulsivo","value":"301.4"}
-    ,
-    {"code":"F07.0   ","name":"Cambio de la personalidaddebido a otra afeccin mdica","value":"310.1"}
-    ,
-    {"code":"F60.89  ","name":"Otro trastorno de la personalidad especificado","value":"301.89"}
-    ,
-    {"code":"F60.9   ","name":"Trastorno de la personalidad no especificado","value":"301.9"}
-    ,
-    {"code":"F65.0  ","name":"Trastorno de fetichismo","value":"302.81"}
-    ,
-    {"code":"F65.81 ","name":"Trastorno de frotteurismo","value":"302.89"}
-    ,
-    {"code":"F65.4  ","name":"Trastorno de pedofilia","value":"302.2"}
-    ,
-    {"code":"F65.51 ","name":"Trastornode masoquismo sexual","value":"302.83"}
-    ,
-    {"code":"F65.52 ","name":"Trastorno de sadismo sexual","value":"302.84"}
-    ,
-    {"code":"F65.1  ","name":"Trastorno de travestismo","value":"302.3"}
-    ,
-    {"code":"F65.3  ","name":"Trastorno de voyeurismo","value":"302.82"}
-    ,
-    {"code":"F65.89 ","name":"Otro trastorno paraflico especificado","value":"302.89"}
-    ,
-    {"code":"F65.9  ","name":"Trastorno paraflico no especificado","value":"302.9"}
-    ,
-    {"code":"F05.0","name":"Delirium debido a otra condicin mdica","value":"293.0"}
-    ,
-    {"code":"F05    ","name":"Delirium debido a etiologas mltiples","value":"293.0"}
-    ,
-    {"code":"F05.9","name":"Delirium no especificado","value":""}
-    ,
-    {"code":"F00","name":"Demencia tipo Alzheimer","value":""}
-    ,
-    {"code":"F01","name":"Demencia vascular","value":"290.4"}
-    ,
-    {"code":"F02","name":"Demencia debida a otras enfermedades mdicas","value":""}
-    ,
-    {"code":"F03","name":"Demencia no especificada","value":""}
-    ,
-    {"code":"F04","name":"Trastorno amnsico debido a otra condicin mdica","value":"294.0"}
-    ,
-    {"code":"","name":"Trastorno amnsico no especificado","value":"294.8"}
-    ,
-    {"code":"F06.9","name":"Trastorno cognoscitivo no especificado","value":"249.9"}
-    ,
-    {"code":"F06.1","name":"Trastorno catatnico debido a otra condicin mdica","value":"293.89"}
-    ,
-    {"code":"F07.0","name":"Cambio de personalidad debido a otra  condicin mdica","value":"310.1"}
-    ,
-    {"code":"F09","name":"Trastorno mental no especificado debido a otra condicin mdica","value":"239.9"}
-    ,
-    {"code":"F1x.2x","name":"Dependencia de sustancias","value":""}
-    ,
-    {"code":"F1x.1","name":"Abuso de sustancias","value":""}
-    ,
-    {"code":"F1x.00","name":"Intoxicacin por sustancias","value":""}
-    ,
-    {"code":"F1x.3","name":"Abstinencia de sustancias","value":""}
-    ,
-    {"code":"F10.2x","name":"Dependencia del alcohol","value":"303.90"}
-    ,
-    {"code":"F10.1","name":"Abuso de alcohol","value":"305.00"}
-    ,
-    {"code":"F10.00","name":"Intoxicacin por alcohol","value":"303.00"}
-    ,
-    {"code":"F10.3","name":"Abstinencia de alcohol","value":"291.81"}
-    ,
-    {"code":"F10.03","name":"Delirium por intoxicacin por alcohol","value":"291.0"}
-    ,
-    {"code":"F10.4","name":"Delirium por abstinencia de alcohol","value":"291.0"}
-    ,
-    {"code":"F10.73","name":"Demencia persistente inducida por el alcohol","value":"291.2"}
-    ,
-    {"code":"F10.6","name":"Trastorno amnsico persistente inducido por alcohol","value":"291.1"}
-    ,
-    {"code":"F10.51","name":"Trastorno psictico inducido por alcohol: con ideas delirantes","value":"291.5"}
-    ,
-    {"code":"F10.52","name":"Trastorno psictico inducido por alcohol: con alucinaciones","value":"291.3"}
-    ,
-    {"code":"F10.8","name":"Trastorno del estado de nimo inducido por alcohol","value":"291.8"}
-    ,
-    {"code":"F10.8","name":"Trastorno del estado de ansiedad inducido por alcohol","value":"291.8"}
-    ,
-    {"code":"F10.8","name":"Trastorno sexual inducido por alcohol","value":"291.8"}
-    ,
-    {"code":"F10.8","name":"Trastorno de sueo inducido por alcohol","value":"291.8"}
-    ,
-    {"code":"F10.9","name":"Trastorno relacionado con el alcohol no especificado","value":"291.9"}
-    ,
-    {"code":"F16.2x","name":"Dependencia de alucingenos","value":"304.50"}
-    ,
-    {"code":"F16.1","name":"Abuso de alucingenos","value":"305.30"}
-    ,
-    {"code":"F16.00","name":"Intoxicacin por alucingenos","value":"292.89"}
-    ,
-    {"code":"F16.70","name":"Trastorno perceptivo persistente por alucingenos flashbacks","value":"292.89"}
-    ,
-    {"code":"F16.03","name":"Delirium por intoxicacin por alucingenos","value":"292.81"}
-    ,
-    {"code":"F16.51","name":"Trastorno psictico inducido por alucingenos: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F16.52","name":"Trastorno psictico inducido por alucingenos: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F16.8","name":"Trastorno del estado de nimo inducido por alucingenos","value":"292.84"}
-    ,
-    {"code":"F16.8","name":"Trastorno del estado de ansiedad inducido por alucingenos","value":"292.89"}
-    ,
-    {"code":"F16.9","name":"Trastorno relacionado con el alucingenos no especificado","value":"292.9"}
-    ,
-    {"code":"F15.2x","name":"Dependencia de anfetamina","value":"304.50"}
-    ,
-    {"code":"F15.1","name":"Abuso de anfetamina","value":"305.30"}
-    ,
-    {"code":"F15.00","name":"Intoxicacin por anfetamina","value":"292.89"}
-    ,
-    {"code":"F15.04","name":"Intoxicacin por anfetamina, con alteraciones perceptivas","value":""}
-    ,
-    {"code":"F15.3","name":"Abstinencia de anfetamina","value":"292.0"}
-    ,
-    {"code":"F15.03","name":"Delirium por intoxicacin por anfetamina","value":"292.81"}
-    ,
-    {"code":"F15.51","name":"Trastorno psictico inducido por anfetamina: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F15.52","name":"Trastorno psictico inducido por anfetamina: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F15.8","name":"Trastorno del estado de nimo inducido por anfetamina","value":"292.84"}
-    ,
-    {"code":"F15.8","name":"Trastorno de ansiedad inducido por anfetamina","value":"292.89"}
-    ,
-    {"code":"F15.8","name":"Trastorno sexual inducido por anfetamina","value":"292.89"}
-    ,
-    {"code":"F15.8","name":"Trastorno del sueo inducido por anfetamina","value":"292.89"}
-    ,
-    {"code":"F15.9","name":"Trastorno relacionado con anfetamina no especificado","value":"292.9"}
-    ,
-    {"code":"F15.00","name":"Intoxicacin por cafena","value":"305.90"}
-    ,
-    {"code":"F15.8","name":"Trastorno de ansiedad inducido por cafena","value":"292.89"}
-    ,
-    {"code":"F15.8","name":"Trastorno del sueo inducido por cafena","value":"292.89"}
-    ,
-    {"code":"F15.9","name":"Trastorno relacionado con cafena no especificado","value":"292.9"}
-    ,
-    {"code":"F12.2x","name":"Dependencia de Cannabis","value":"304.30"}
-    ,
-    {"code":"F12.1","name":"Abuso de Cannabis","value":"305.20"}
-    ,
-    {"code":"F12.00","name":"Intoxicacin por Cannabis","value":"292.89"}
-    ,
-    {"code":"F12.04","name":"Intoxicacin por Cannabis, con alteraciones perceptivas","value":""}
-    ,
-    {"code":"F12.03","name":"Delirium por intoxicacin por Cannabis","value":"292.81"}
-    ,
-    {"code":"F12.51","name":"Trastorno psictico inducido por Cannabis: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F12.52","name":"Trastorno psictico inducido por Cannabis: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F12.8","name":"Trastorno de ansiedad inducido por Cannabis","value":"292.89"}
-    ,
-    {"code":"F12.9","name":"Trastorno relacionado con Cannabis no especificado","value":"292.9"}
-    ,
-    {"code":"F14.2x","name":"Dependencia de cocana","value":"304.50"}
-    ,
-    {"code":"F14.1","name":"Abuso de cocana","value":"305.30"}
-    ,
-    {"code":"F14.00","name":"Intoxicacin por cocana","value":"292.89"}
-    ,
-    {"code":"F14.04","name":"Intoxicacin por cocana, con alteraciones perceptivas","value":""}
-    ,
-    {"code":"F14.3","name":"Abstinencia de cocana","value":"292.0"}
-    ,
-    {"code":"F14.03","name":"Delirium por intoxicacin por cocana","value":"292.81"}
-    ,
-    {"code":"F14.51","name":"Trastorno psictico inducido por cocana: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F14.52","name":"Trastorno psictico inducido por cocana: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F14.8","name":"Trastorno del estado de nimo inducido por cocana","value":"292.84"}
-    ,
-    {"code":"F14.8","name":"Trastorno de ansiedad inducido por cocana","value":"292.89"}
-    ,
-    {"code":"F14.8","name":"Trastorno sexual inducido por cocana","value":"292.89"}
-    ,
-    {"code":"F14.8","name":"Trastorno del sueo inducido por cocana","value":"292.89"}
-    ,
-    {"code":"F14.9","name":"Trastorno relacionado con cocana no especificado","value":"292.9"}
-    ,
-    {"code":"F19.2x","name":"Dependencia de fenciclidina","value":"304.60"}
-    ,
-    {"code":"F19.1","name":"Abuso de fenciclidina","value":"305.90"}
-    ,
-    {"code":"F19.00","name":"Intoxicacin por fenciclidina","value":"292.89"}
-    ,
-    {"code":"F19.04","name":"Intoxicacin por fenciclidina, con alteraciones perceptivas","value":""}
-    ,
-    {"code":"F19.03","name":"Delirium por intoxicacin por fenciclidina","value":"292.81"}
-    ,
-    {"code":"F19.51","name":"Trastorno psictico inducido por fenciclidina: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F19.52","name":"Trastorno psictico inducido por fenciclidina: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F19.8","name":"Trastorno del estado de nimo inducido por fenciclidina","value":"292.84"}
-    ,
-    {"code":"F19.8","name":"Trastorno de ansiedad inducido por fenciclidina","value":"292.89"}
-    ,
-    {"code":"F19.9","name":"Trastorno relacionado con fenciclidina no especificado","value":"292.9"}
-    ,
-    {"code":"F18.2x","name":"Dependencia de inhalantes","value":"304.60"}
-    ,
-    {"code":"F18.1","name":"Abuso de inhalantes","value":"305.90"}
-    ,
-    {"code":"F18.00","name":"Intoxicacin por inhalantes","value":"292.89"}
-    ,
-    {"code":"F18.03","name":"Delirium por intoxicacin por inhalantes","value":"292.81"}
-    ,
-    {"code":"F18.73","name":"Demencia persistente inducida por inhalantes","value":"292.82"}
-    ,
-    {"code":"F18.51","name":"Trastorno psictico inducido por inhalantes: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F18.52","name":"Trastorno psictico inducido por inhalantes: con alucinaciones","value":"292.12"}
-    ,
-    {"code":"F18.8","name":"Trastorno del estado de nimo inducido por inhalantes","value":"292.84"}
-    ,
-    {"code":"F18.8","name":"Trastorno de ansiedad inducido por inhalantes","value":"292.89"}
-    ,
-    {"code":"F18.9","name":"Trastorno relacionado con inhalantes no especificado","value":"292.9"}
-    ,
-    {"code":"F17.2x","name":"Dependencia de nicotina","value":"305.1"}
-    ,
-    {"code":"F17.3","name":"Abstinencia de nicotina","value":"292.0"}
-    ,
-    {"code":"F17.9","name":"Trastorno relacionado con nicotina no especificado","value":"292.9"}
-    ,
-    {"code":"F11.2x","name":"Dependencia de opiceos","value":"304.00"}
-    ,
-    {"code":"F11.1","name":"Abuso de opiceos","value":"305.50"}
-    ,
-    {"code":"F11.00","name":"Intoxicacin por opiceos","value":"292.89"}
-    ,
-    {"code":"F11.04","name":"Intoxicacin por opiceos, con alteraciones perceptivas","value":""}
-    ,
-    {"code":"F11.3","name":"Abstinencia de opiceos","value":"292.0"}
-    ,
-    {"code":"F11.03","name":"Delirium por intoxicacin por opiceos","value":"292.81"}
-    ,
-    {"code":"F11.51","name":"Trastorno psictico inducido por opiceos: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F11.52","name":"Trastorno psictico inducido por opiceos: con alucinaciones 29","value":"2.12"}
-    ,
-    {"code":"F11.8","name":"Trastorno del estado de nimo inducido por opiceos","value":"292.84"}
-    ,
-    {"code":"F11.8","name":"Trastorno sexual inducido por opiceos","value":"292.89"}
-    ,
-    {"code":"F11.8","name":"Trastorno del sueo inducido por opiceos","value":"292.89"}
-    ,
-    {"code":"F11.9","name":"Trastorno relacionado con opiceos no especificado","value":"292.9"}
-    ,
-    {"code":"F13.2x","name":"Dependencia de sedantes, hipnticos o ansiolticos","value":"304.10"}
-    ,
-    {"code":"F13.1","name":"Abuso de sedantes, hipnticos o ansiolticos","value":"305.40"}
-    ,
-    {"code":"F13.00","name":"Intoxicacin por sedantes, hipnticos o ansiolticos","value":"292.89"}
-    ,
-    {"code":"F13.3","name":"Abstinencia de sedantes, hipnticos o ansiolticos","value":"292.0"}
-    ,
-    {"code":"F13.03","name":"Delirium por intoxicacin por sedantes, hipnticos o ansiolticos","value":"292.81"}
-    ,
-    {"code":"F13.4","name":"Delirium por abstinencia de sedantes, hipnticos o ansiolticos","value":"292.81"}
-    ,
-    {"code":"F13.73","name":"Demencia persistente inducida por sedantes, hipnticos o ansiolticos","value":"292.82"}
-    ,
-    {"code":"F13.6","name":"Trastorno amnsico persistente inducido por sedantes, hipnticos o ansiolticos","value":"292.83"}
-    ,
-    {"code":"F13.51","name":"Trastorno psictico inducido por sedantes, hipnticos o ansiolticos: con ideas delirantes","value":"292.11"}
-    ,
-    {"code":"F13.52","name":"Trastorno psictico inducido por sedantes, hipnticos o ansiolticos: con alucinaciones","value":"292.12"}
-    
-    ]
-    
+    {
+     "code": "F80.2",
+     "name": "Trastorno del lenguaje",
+     "value": "315.32"
+    },
+    {
+     "code": "F80.0",
+     "name": "Trastorno fonológico",
+     "value": "315.39"
+    },
+    {
+     "code": "F80.81",
+     "name": "Trastorno de fluidez de inicio en la infancia tartamudeo",
+     "value": "315.35"
+    },
+    {
+     "code": "F98.5",
+     "name": "Trastorno de fluidez de inicio en el adulto",
+     "value": 307
+    },
+    {
+     "code": "F80.89",
+     "name": "Trastorno de la comunicación social pragmático",
+     "value": "315.39"
+    },
+    {
+     "code": "F80.9",
+     "name": "Trastorno de la comunicación no especificado",
+     "value": "307.9"
+    },
+    {
+     "code": "F84.0",
+     "name": "Trastorno del espectro autista",
+     "value": 299
+    },
+    {
+     "code": "F90.2",
+     "name": "Trastorno por déficit de atención\/hiperactividad. presentación combinada",
+     "value": "314.01"
+    },
+    {
+     "code": "F90.0",
+     "name": "Trastorno por déficit de atención\/hiperactividad. presentación predominante con falta de atención",
+     "value": 314
+    },
+    {
+     "code": "F90.1",
+     "name": "Trastorno por déficit de atención\/hiperactividad. presentación predominante hiperactiva\/impulsiva",
+     "value": "314.01"
+    },
+    {
+     "code": "F90.8",
+     "name": "Otro trastorno por déficit de atención\/hiperactividad especificado",
+     "value": "314.01"
+    },
+    {
+     "code": "F90.9",
+     "name": "Trastorno por déficit de atención\/hiperactividad no especificado",
+     "value": "314.01"
+    },
+    {
+     "code": "F81.0",
+     "name": "Trastorno específico del aprendizaje. con dificultades en la lectura especificar si con precisión en la lectura de palabras. velocidad o fluidez de la lectura. comprensión de la lectura",
+     "value": 315
+    },
+    {
+     "code": "F81.81",
+     "name": "Trastorno específico del aprendizaje. con dificultad en la expresión escrita especificar si con corrección ortográfica. corrección gramatical y de la puntuación. claridad u organización de la expresión escrita",
+     "value": "315.2"
+    },
+    {
+     "code": "F81.2",
+     "name": "Trastorno específico del aprendizaje. con dificultad matemática especificar si con sentido de los números. memorización de operaciones aritméticas. cálculo correcto o fluido. razonamiento matemático correcto",
+     "value": "315.1"
+    },
+    {
+     "code": "F82",
+     "name": "Trastorno del desarrollo de la coordinación",
+     "value": "315.4"
+    },
+    {
+     "code": "F98.4",
+     "name": "Trastorno de movimientos estereotipados",
+     "value": "307.3"
+    },
+    {
+     "code": "F95.2",
+     "name": "Trastorno de Guilles de la Tourette",
+     "value": "307.23"
+    },
+    {
+     "code": "F95.1",
+     "name": "Trastorno de tics motores o vocales persistente crónico",
+     "value": "307.22"
+    },
+    {
+     "code": "F95.0",
+     "name": "Trastorno de tics transitorio",
+     "value": "307.21"
+    },
+    {
+     "code": "F95.8",
+     "name": "Otro trastorno de tics especificado",
+     "value": "307.2"
+    },
+    {
+     "code": "F95.9",
+     "name": "Trastorno de tics no especificado",
+     "value": "307.2"
+    },
+    {
+     "code": "F88",
+     "name": "Otro trastorno del neurodesarrollo especificado",
+     "value": "315.8"
+    },
+    {
+     "code": "F89",
+     "name": "Trastorno del neurodesarrollo no especificado",
+     "value": "315.9"
+    },
+    {
+     "code": "F22",
+     "name": "Trastorno delirante",
+     "value": "297.1"
+    },
+    {
+     "code": "F23",
+     "name": "Trastorno psicótico breve",
+     "value": "298.8"
+    },
+    {
+     "code": "F20.81",
+     "name": "Trastorno esquizofreniforme",
+     "value": "295.4"
+    },
+    {
+     "code": "F20.9",
+     "name": "Esquizofrenia",
+     "value": "295.9"
+    },
+    {
+     "code": "F25.0",
+     "name": "Trastorno esquizoafectivo. tipo bipolar",
+     "value": "295.7"
+    },
+    {
+     "code": "F25.1",
+     "name": "Trastorno esquizoafectivo. tipo depresivo",
+     "value": "295.7"
+    },
+    {
+     "code": "F10.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos alcohol",
+     "value": "291.9"
+    },
+    {
+     "code": "F10.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos alcohol",
+     "value": "291.9"
+    },
+    {
+     "code": "F10.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos alcohol",
+     "value": "291.9"
+    },
+    {
+     "code": "F12.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos cannabis",
+     "value": "292.9"
+    },
+    {
+     "code": "F12.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos cannabis",
+     "value": "292.9"
+    },
+    {
+     "code": "F12.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos cannabis",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.9"
+    },
+    {
+     "code": "F18.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos Inhalante",
+     "value": "292.9"
+    },
+    {
+     "code": "F18.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos Inhalante",
+     "value": "292.9"
+    },
+    {
+     "code": "F18.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos Inhalante",
+     "value": "292.9"
+    },
+    {
+     "code": "F13.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos Sedante. hipnótico o ansiolítico",
+     "value": "292.9"
+    },
+    {
+     "code": "F13.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos Sedante. hipnótico o ansiolítico",
+     "value": "292.9"
+    },
+    {
+     "code": "F13.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos Sedante. hipnótico o ansiolítico",
+     "value": "292.9"
+    },
+    {
+     "code": "F15.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos Anfetamina u otro estimulante",
+     "value": "292.9"
+    },
+    {
+     "code": "F15.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos Anfetamina u otro estimulante",
+     "value": "292.9"
+    },
+    {
+     "code": "F15.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos Anfetamina u otro estimulante",
+     "value": "292.9"
+    },
+    {
+     "code": "F14.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos Cocaína",
+     "value": "292.9"
+    },
+    {
+     "code": "F14.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos Cocaína",
+     "value": "292.9"
+    },
+    {
+     "code": "F14.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos Cocaína",
+     "value": "292.9"
+    },
+    {
+     "code": "F19.159",
+     "name": "Trastorno psicótico leve por consumo inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida",
+     "value": "292.9"
+    },
+    {
+     "code": "F19.259",
+     "name": "Trastorno psicótico moderado o grave por consumo inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida",
+     "value": "292.9"
+    },
+    {
+     "code": "F19.959",
+     "name": "Sin trastorno psicótico por consumo inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida",
+     "value": "292.9"
+    },
+    {
+     "code": "F06.2",
+     "name": "Trastorno psicótico debido a otra afección médica. con delirios",
+     "value": "293.81"
+    },
+    {
+     "code": "F06.0",
+     "name": "Trastorno psicótico debido a otra afección médica. con alucinaciones",
+     "value": "293.82"
+    },
+    {
+     "code": "F06.1",
+     "name": "Catatonía asociada a otro trastorno mental especificador de catatonía",
+     "value": "293.89"
+    },
+    {
+     "code": "F06.1",
+     "name": "Trastorno catatónico debido a otra afección médica",
+     "value": "293.89"
+    },
+    {
+     "code": "F06.1",
+     "name": "Catatonía no especificada",
+     "value": "293.89"
+    },
+    {
+     "code": "F28",
+     "name": "Otro trastorno del espectro de la esquizofrenia especificado y otro trastorno psicótico",
+     "value": "298.8"
+    },
+    {
+     "code": "F29",
+     "name": "Trastorno del espectro de la esquizofrenia no especificado y otro trastorno psicótico",
+     "value": "298.9"
+    },
+    {
+     "code": "F31.0",
+     "name": "Trastorno bipolar tipo I sin remisión",
+     "value": "296.4"
+    },
+    {
+     "code": "F31.11",
+     "name": "Trastorno bipolar tipo I con episodio maníaco actual o más reciente leve",
+     "value": "296.41"
+    },
+    {
+     "code": "F31.31",
+     "name": "Trastorno bipolar tipo I con episodio depresivo actual o más reciente leve",
+     "value": "296.51"
+    },
+    {
+     "code": "F31.12",
+     "name": "Trastorno bipolar tipo I con episodio maníaco actual o mas reciente moderado",
+     "value": "296.42"
+    },
+    {
+     "code": "F31.32",
+     "name": "Trastorno bipolar tipo I con episodio depresivo actual o mas reciente moderado",
+     "value": "296.52"
+    },
+    {
+     "code": "F31.13",
+     "name": "Trastorno bipolar tipo I con episodio maníaco actual o más reciente grave",
+     "value": "296.43"
+    },
+    {
+     "code": "F31.4",
+     "name": "Trastorno bipolar tipo I con episodio depresivo actual o más reciente grave",
+     "value": "296.53"
+    },
+    {
+     "code": "F31.2",
+     "name": "Trastorno bipolar tipo I con características psicóticas. episodio maníaco actual o más reciente",
+     "value": "296.44"
+    },
+    {
+     "code": "F31.5",
+     "name": "Trastorno bipolar tipo I con características psicóticas. episodio depresivo actual o más reciente",
+     "value": "296.54"
+    },
+    {
+     "code": "F31.73",
+     "name": "Trastorno bipolar tipo I en remisión parcial. episodio maníaco actual o más reciente",
+     "value": "296.45"
+    },
+    {
+     "code": "F31.71",
+     "name": "Trastorno bipolar tipo I en remisión parcial. episodio hipomaníaco actual o más reciente",
+     "value": "296.45"
+    },
+    {
+     "code": "F31.75",
+     "name": "Trastorno bipolar tipo I en remisión parcial. episodio depresivo actual o más reciente",
+     "value": "296.55"
+    },
+    {
+     "code": "F31.74",
+     "name": "Trastorno bipolar tipo I en remisión total. episodio maníaco actual o más reciente",
+     "value": "296.45"
+    },
+    {
+     "code": "F31.72",
+     "name": "Trastorno bipolar tipo I en remisión total. episodio hipomaníaco actual o más reciente",
+     "value": "296.46"
+    },
+    {
+     "code": "F31.76",
+     "name": "Trastorno bipolar tipo I en remisión total. episodio depresivo actual o más reciente",
+     "value": "296.56"
+    },
+    {
+     "code": "F31.9",
+     "name": "Trastorno bipolar tipo I no especificado. episodio maníaco actual o más reciente",
+     "value": "296.4"
+    },
+    {
+     "code": "F31.9",
+     "name": "Trastorno bipolar tipo I no especificado. episodio hipomaníaco actual o más reciente",
+     "value": "296.4"
+    },
+    {
+     "code": "F31.9",
+     "name": "Trastorno bipolar tipo I no especificado. episodio depresivo actual o más reciente",
+     "value": "296.5"
+    },
+    {
+     "code": "F31.9",
+     "name": "Episodio no especificado actual o más reciente",
+     "value": "296.7"
+    },
+    {
+     "code": "F31.81",
+     "name": "Trastorno bipolar tipo II",
+     "value": "296.89"
+    },
+    {
+     "code": "F34.0",
+     "name": "Trastorno ciclotímico",
+     "value": "301.13"
+    },
+    {
+     "code": "F10.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos alcohol leve",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos alcohol moderado o grave",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos alcohol",
+     "value": "291.89"
+    },
+    {
+     "code": "F16.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos fenciclidina leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos fenciclidina moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos otro alucinógeno leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos otro alucinógeno moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos anfetamina u otro estimulante leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos anfetamina u otro estimulante moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos anfetamina u otro estimulante",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos cocaína leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos cocaína",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.14",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.24",
+     "name": "Trastorno bipolar y trastorno relacionado inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.94",
+     "name": "Trastorno bipolar sin trastorno relacionado inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida",
+     "value": "292.84"
+    },
+    {
+     "code": "F06.33",
+     "name": "Trastorno bipolar y trastorno relacionado debido a otra afección médica. con características maníacas",
+     "value": "293.83"
+    },
+    {
+     "code": "F06.33",
+     "name": "Trastorno bipolar y trastorno relacionado debido a otra afección médica. con episodio de tipo maníaco o hipomaníaco",
+     "value": "293.83"
+    },
+    {
+     "code": "F06.34",
+     "name": "Trastorno bipolar y trastorno relacionado debido a otra afección médica con características mixtas",
+     "value": "293.83"
+    },
+    {
+     "code": "F31.89",
+     "name": "Otro trastorno bipolar y trastorno relacionado no especificado",
+     "value": "296.89"
+    },
+    {
+     "code": "F31.9",
+     "name": "Trastorno bipolar y trastorno relacionado no especificado",
+     "value": "296.8"
+    },
+    {
+     "code": "F34.8",
+     "name": "Trastorno de desregulación disruptiva del estado de ánimo",
+     "value": "296.99"
+    },
+    {
+     "code": "F32.0",
+     "name": "Trastorno de depresión mayor leve con episodio único",
+     "value": "296.21"
+    },
+    {
+     "code": "F33.0",
+     "name": "Trastorno de depresión mayor leve con episodio recurrente",
+     "value": "296.21"
+    },
+    {
+     "code": "F32.1",
+     "name": "Trastorno de depresión mayor moderado con episodio único",
+     "value": "296.22"
+    },
+    {
+     "code": "F33.1",
+     "name": "Trastorno de depresión mayor moderado con episodio recurrente",
+     "value": "296.22"
+    },
+    {
+     "code": "F32.2",
+     "name": "Trastorno de depresión mayor grave con episodio único",
+     "value": "296.23"
+    },
+    {
+     "code": "F33.2",
+     "name": "Trastorno de depresión mayor grave con episodio recurrente",
+     "value": "296.23"
+    },
+    {
+     "code": "F32.3",
+     "name": "Trastorno de depresión mayor con características psicóticas con episodio único",
+     "value": "296.24"
+    },
+    {
+     "code": "F33.3",
+     "name": "Trastorno de depresión mayor con características psicóticas con episodio recurrente",
+     "value": "296.24"
+    },
+    {
+     "code": "F32.4",
+     "name": "Trastorno de depresión mayor en remisión parcial episodio único",
+     "value": "296.25"
+    },
+    {
+     "code": "F33.41",
+     "name": "Trastorno de depresión mayor en remisión parcial episodio recurrente",
+     "value": "296.25"
+    },
+    {
+     "code": "F32.5",
+     "name": "Trastorno de depresión mayor en remisión total episodio único",
+     "value": "296.26"
+    },
+    {
+     "code": "F33.42",
+     "name": "Trastorno de depresión mayor en remisión total episodio recurrente",
+     "value": "296.26"
+    },
+    {
+     "code": "F32.9",
+     "name": "Trastorno de depresión mayor no especificado episodio único",
+     "value": "296.2"
+    },
+    {
+     "code": "F33.9",
+     "name": "Trastorno de depresión mayor no especificado episodio recurrente",
+     "value": "296.3"
+    },
+    {
+     "code": "F34.1",
+     "name": "Trastorno depresivo persistente distimia",
+     "value": "300.4"
+    },
+    {
+     "code": "N94.3",
+     "name": "Trastorno disfórico premenstrual",
+     "value": "625.4"
+    },
+    {
+     "code": "F10.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos alcohol leve",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos alcohol moderado o grave",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.94",
+     "name": "Trastorno depresivo sin trastorno relacionado inducido por sustancias\/medicamentos alcohol",
+     "value": "291.89"
+    },
+    {
+     "code": "F16.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos fenciclidina leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos fenciclidina moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.94",
+     "name": "Trastorno depresivo sin trastorno relacionado inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otro alucinógeno leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otro alucinógeno moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F16.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.84"
+    },
+    {
+     "code": "F18.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos inhalante leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F18.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos inhalante moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F18.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos inhalante",
+     "value": "292.84"
+    },
+    {
+     "code": "F11.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos opiáceo leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F11.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos opiáceo moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F11.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos opiáceo",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F13.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos anfetamina u otro estimulante leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos anfetamina u otro estimulante moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F15.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos anfetamina u otro estimulante",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos cocaína leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F14.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos cocaína",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.14",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida leve",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.24",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.84"
+    },
+    {
+     "code": "F19.94",
+     "name": "Trastorno depresivo inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida",
+     "value": "292.84"
+    },
+    {
+     "code": "F06.31",
+     "name": "Trastorno depresivo con características depresivas",
+     "value": "293.83"
+    },
+    {
+     "code": "F06.32",
+     "name": "Trastorno depresivo con episodio del tipo de depresión mayor",
+     "value": "293.83"
+    },
+    {
+     "code": "F06.34",
+     "name": "Trastorno depresivo con características mixtas",
+     "value": "293.83"
+    },
+    {
+     "code": "F32.8",
+     "name": "Otro trastorno depresivo especificado",
+     "value": 311
+    },
+    {
+     "code": "F32.9",
+     "name": "Otro trastorno depresivo no especificado",
+     "value": 311
+    },
+    {
+     "code": "F93.0",
+     "name": "Trastorno de ansiedad por separación",
+     "value": "309.21"
+    },
+    {
+     "code": "F94.0",
+     "name": "Mutismo selectivo",
+     "value": "313.23"
+    },
+    {
+     "code": "F40.218",
+     "name": "Fobia Animal",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.228",
+     "name": "Fobia Entorno natural",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.230",
+     "name": "Miedo a la sangre",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.231",
+     "name": "Miedo a las inyecciones y transfusiones",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.232",
+     "name": "Miedo a otra atención médica",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.233",
+     "name": "Miedo a una lesión",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.248",
+     "name": "Fobia Situacional",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.298",
+     "name": "Otra sustancia o sustancia desconocida",
+     "value": "300.29"
+    },
+    {
+     "code": "F40.10",
+     "name": "Trastorno de ansiedad social fobia social",
+     "value": "300.23"
+    },
+    {
+     "code": "F41.0",
+     "name": "Trastorno de pánico",
+     "value": "300.01"
+    },
+    {
+     "code": "F40.00",
+     "name": "Agorafobia",
+     "value": "300.22"
+    },
+    {
+     "code": "F41.1",
+     "name": "Trastorno de ansiedad generalizada",
+     "value": "300.02"
+    },
+    {
+     "code": "F10.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos alcohol leve",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos alcohol moderado o grave",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.980",
+     "name": "Trastorno de ansiedad sin trastorno relacionado inducido por sustancias\/medicamentos alcohol",
+     "value": "291.89"
+    },
+    {
+     "code": "F15.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cafeína leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cafeína moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.980",
+     "name": "Trastorno de ansiedad sin trastorno relacionado inducido por sustancias\/medicamentos cafeína",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cannabis leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cannabis moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.980",
+     "name": "Trastorno de ansiedad sin trastorno relacionado inducido por sustancias\/medicamentos cannabis",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos fenciclidina leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos fenciclidina moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.980",
+     "name": "Trastorno de ansiedad sin trastorno relacionado inducido por sustancias\/medicamentos fenciclidina",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otro alucinógeno leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otro alucinógeno moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otro alucinógeno",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos inhalante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos inhalante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos inhalante",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.188",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos opiáceo leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.288",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos opiáceo moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.988",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos opiáceo",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos anfetamina u otro estimulante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos anfetamina u otro estimulante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos anfetamina u otro estimulante",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cocaína leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos cocaína",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.180",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.280",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.980",
+     "name": "Trastorno de ansiedad inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida",
+     "value": "292.89"
+    },
+    {
+     "code": "F06.4",
+     "name": "Trastorno de ansiedad debido a otra afección médica",
+     "value": "293.84"
+    },
+    {
+     "code": "F41.8",
+     "name": "Otro trastorno de ansiedad especificado",
+     "value": "300.09"
+    },
+    {
+     "code": "F41.9",
+     "name": "Otro trastorno de ansiedad no especificado",
+     "value": 300
+    },
+    {
+     "code": "F42",
+     "name": "Trastorno obsesivo-compulsivo",
+     "value": "300.3"
+    },
+    {
+     "code": "F45.22",
+     "name": "Trastorno dismórfico corporal",
+     "value": "300.7"
+    },
+    {
+     "code": "F42",
+     "name": "Trastorno de acumulación",
+     "value": "300.3"
+    },
+    {
+     "code": "F63.3",
+     "name": "Tricotilomanía trastorno de arrancarse el pelo",
+     "value": "312.39"
+    },
+    {
+     "code": "-198.1",
+     "name": "Trastorno de excoriación rascarse la piel",
+     "value": "698.4"
+    },
+    {
+     "code": "F15.188",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos anfetaminas leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.288",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos anfetaminas moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.988",
+     "name": "Trastorno obsesivo-compulsivo sin trastorno relacionado inducido por sustancias\/medicamentos anfetaminas",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.188",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos cocaína leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.288",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.988",
+     "name": "Trastorno obsesivo-compulsivo sin trastorno relacionado inducido por sustancias\/medicamentos cocaína",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.188",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.288",
+     "name": "Trastorno obsesivo-compulsivo y trastorno relacionado inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.988",
+     "name": "Trastorno obsesivo-compulsivo sin trastorno relacionado inducido por sustancias\/medicamentos Otra sustancia o sustancia desconocida",
+     "value": "292.89"
+    },
+    {
+     "code": "F06.8",
+     "name": "Trastorno obsesivo-compulsivo y trastornos relacionados a otra afección médica",
+     "value": "294.8"
+    },
+    {
+     "code": "F42",
+     "name": "Otros trastornos obsesivo-compulsivos y trastornos relacionados especificados",
+     "value": "300.3"
+    },
+    {
+     "code": "F42",
+     "name": "Trastorno obsesivo-compulsivo y trastornos relacionados no especificados",
+     "value": "300.3"
+    },
+    {
+     "code": "F94.1",
+     "name": "Trastorno de apego reactivo",
+     "value": "313.89"
+    },
+    {
+     "code": "F94.2",
+     "name": "Trastorno de relación social desinhibida",
+     "value": "313.89"
+    },
+    {
+     "code": "F43.10",
+     "name": "Trastorno de estrés postraumático",
+     "value": "309.81"
+    },
+    {
+     "code": "F43.0",
+     "name": "Trastorno de estrés agudo",
+     "value": "308.3"
+    },
+    {
+     "name": "Trastornos de adaptación"
+    },
+    {
+     "code": "F43.21",
+     "name": "Trastorno de adaptación con estado de ánimo deprimido",
+     "value": 309
+    },
+    {
+     "code": "F43.22",
+     "name": "Trastorno de adaptación con ansiedad",
+     "value": "309.24"
+    },
+    {
+     "code": "F43.23",
+     "name": "Trastorno de adaptación con ansiedad mixta y estado de ánimo deprimido",
+     "value": "309.28"
+    },
+    {
+     "code": "F43.24",
+     "name": "Trastorno de adaptación con alteración de la conducta",
+     "value": "309.3"
+    },
+    {
+     "code": "F43.25",
+     "name": "Trastorno de adaptación con alteración mixta de las emociones y la conducta",
+     "value": "309.4"
+    },
+    {
+     "code": "F43.20",
+     "name": "Trastorno de adaptación sin especificar",
+     "value": "309.9"
+    },
+    {
+     "code": "F43.8",
+     "name": "Otro trastorno relacionado con traumas y factores de estrés especificado",
+     "value": "309.89"
+    },
+    {
+     "code": "F43.9",
+     "name": "Trastorno relacionado con traumas y factores de estrés no especificado",
+     "value": "309.9"
+    },
+    {
+     "code": "F44.81",
+     "name": "Trastorno de identidad disociativo",
+     "value": "300.14"
+    },
+    {
+     "code": "F44.0",
+     "name": "Amnesia disociativa",
+     "value": "300.12"
+    },
+    {
+     "code": "F44.1",
+     "name": "Con fuga disociativa",
+     "value": "300.13"
+    },
+    {
+     "code": "F48.1",
+     "name": "Trastorno de despersonalización\/desrealización",
+     "value": "300.6"
+    },
+    {
+     "code": "F44.89",
+     "name": "Otro trastorno disociativo especificado",
+     "value": "300.15"
+    },
+    {
+     "code": "F44.9",
+     "name": "Trastorno disociativo no especificado",
+     "value": "300.15"
+    },
+    {
+     "code": "F45.1",
+     "name": "Trastorno de síntomas somáticos",
+     "value": "300.82"
+    },
+    {
+     "code": "F45.21",
+     "name": "Trastorno de ansiedad por enfermedad",
+     "value": "300.7"
+    },
+    {
+     "code": "F44.4",
+     "name": "Trastorno de conversión Con debilidad o parálisis",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.4",
+     "name": "Trastorno de conversión Con movimiento anómalo",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.4",
+     "name": "Trastorno de conversión Con síntomas de la deglución",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.4",
+     "name": "Trastorno de conversión Con síntomas del habla",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.5",
+     "name": "Trastorno de conversión Con ataques o convulsiones",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.6",
+     "name": "Trastorno de conversión Con anestesia o pérdida sensitiva",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.6",
+     "name": "Trastorno de conversión Con síntomas sensitivo especial",
+     "value": "300.11"
+    },
+    {
+     "code": "F44.7",
+     "name": "Trastorno de conversión Con síntomas mixtos",
+     "value": "300.11"
+    },
+    {
+     "code": "F54",
+     "name": "Factores psicológicos que influyen en otras afecciones médicas",
+     "value": 316
+    },
+    {
+     "code": "F68.10",
+     "name": "Trastorno facticio incluye trastorno facticio aplicado a uno mismo. trastorno facticio aplicado a otro",
+     "value": "300.19"
+    },
+    {
+     "code": "F45.8",
+     "name": "Otro trastorno de síntomas somáticos y trastornos relacionados especificados",
+     "value": "300.89"
+    },
+    {
+     "code": "F45.9",
+     "name": "Trastorno de síntomas somáticos y trastornos relacionados no especificados",
+     "value": "300.82"
+    },
+    {
+     "name": "Pica"
+    },
+    {
+     "code": "F98.3",
+     "name": "Pica en niños",
+     "value": "307.52"
+    },
+    {
+     "code": "F50.8",
+     "name": "En adultos",
+     "value": "307.52"
+    },
+    {
+     "code": "F98.21",
+     "name": "Trastorno de rumiación",
+     "value": "307.53"
+    },
+    {
+     "code": "F50.8",
+     "name": "Trastorno de evitación\/restricción de ingesta de alimentos",
+     "value": "307.59"
+    },
+    {
+     "name": "Anorexia nerviosa"
+    },
+    {
+     "code": "F50.01",
+     "name": "Tipo restrictivo",
+     "value": "307.1"
+    },
+    {
+     "code": "F50.02",
+     "name": "Tipo con atracones\/purgas",
+     "value": "307.1"
+    },
+    {
+     "code": "F50.2",
+     "name": "Bulimia nerviosa",
+     "value": "307.51"
+    },
+    {
+     "code": "F50.8",
+     "name": "Trastorno de atracones",
+     "value": "307.51"
+    },
+    {
+     "code": "F50.8",
+     "name": "Otro trastorno de la conducta alimentaria o de la ingesta de alimentos especificado",
+     "value": "307.59"
+    },
+    {
+     "code": "F50.9",
+     "name": "Trastorno de la conducta alimentaria o de la ingesta de alimentos no especificado",
+     "value": "307.5"
+    },
+    {
+     "code": "F98.0",
+     "name": "Enuresis",
+     "value": "307.6"
+    },
+    {
+     "code": "F98.1",
+     "name": "Encopresis",
+     "value": "307.7"
+    },
+    {
+     "code": "N39.498",
+     "name": "Otro trastorno de la excreción especificado. con síntomas urinarios",
+     "value": "788.39"
+    },
+    {
+     "code": "R15.9",
+     "name": "Otro trastorno de la excreción especificado. con síntomas fecales",
+     "value": "787.6"
+    },
+    {
+     "code": "R32",
+     "name": "Trastorno de la excreción no especificado. con síntomas urinarios",
+     "value": "788.3"
+    },
+    {
+     "code": "R15.9",
+     "name": "Trastorno de la excreción no especificado. con síntomas fecales",
+     "value": "787.6"
+    },
+    {
+     "code": "F51.01",
+     "name": "Trastorno de insomnio",
+     "value": "307.42"
+    },
+    {
+     "code": "F51.11",
+     "name": "Trastorno de hipersomnia",
+     "value": "307.44"
+    },
+    {
+     "code": "G47.419",
+     "name": "Narcolepsia sin cataplejía pero con deficiencia de hipocretina",
+     "value": 347
+    },
+    {
+     "code": "G47.411",
+     "name": "Narcolepsia con cataplejía pero sin deficiencia de hipocreatina",
+     "value": "347.01"
+    },
+    {
+     "code": "G47.419",
+     "name": "Ataxia cerebelosa autosómica dominante. sordera y narcolepsia",
+     "value": 347
+    },
+    {
+     "code": "G47.419",
+     "name": "Narcolepsia autosómica dominante. obesidad y diabetes de tipo 2",
+     "value": 347
+    },
+    {
+     "code": "G47.429",
+     "name": "Narcolepsia secundaria a otra afección médica",
+     "value": "347.1"
+    },
+    {
+     "code": "G47.33",
+     "name": "Apnea e hipopnea obstructiva del sueño",
+     "value": 327238
+    },
+    {
+     "code": "G47.31",
+     "name": "Apnea central del sueño idiopática",
+     "value": "327.21"
+    },
+    {
+     "code": "R06.3",
+     "name": "Respiración de Cheyne-Stokes",
+     "value": "786.04"
+    },
+    {
+     "code": "G47.37",
+     "name": "Apnea central del sueño con consumo concurrente de opiáceos",
+     "value": "780.57"
+    },
+    {
+     "code": "F11.10",
+     "name": "Trastorno leve por consumo de opiáceos",
+     "value": "305.5"
+    },
+    {
+     "code": "F11.20",
+     "name": "Trastorno leve por consumo de opiáceos",
+     "value": 304
+    },
+    {
+     "code": "G47.37",
+     "name": "Apnea central del sueño con consumo concurrente de opiáceos",
+     "value": "780.57"
+    },
+    {
+     "code": "G47.34",
+     "name": "Hipoventilación idiopática",
+     "value": "327.24"
+    },
+    {
+     "code": "G47.35",
+     "name": "Hipoventilación alveolar central congénita",
+     "value": "327.25"
+    },
+    {
+     "code": "G47.36",
+     "name": "Hipoventilación concurrente relacionada con el sueño",
+     "value": "327.26"
+    },
+    {
+     "code": "G47.21",
+     "name": "Tipo de fases de sueño retrasadas",
+     "value": "307.45"
+    },
+    {
+     "code": "G47.22",
+     "name": "Tipo de fases de sueño avanzadas",
+     "value": "307.45"
+    },
+    {
+     "code": "G47.23",
+     "name": "Tipo de sueño-vigilia irregular",
+     "value": "307.45"
+    },
+    {
+     "code": "G47.24",
+     "name": "Tipo de sueño- vigilia no ajustado a las 24 horas",
+     "value": "307.45"
+    },
+    {
+     "code": "G47.26",
+     "name": "Tipo asociado a turnos laborales",
+     "value": "307.45"
+    },
+    {
+     "code": "G47.20",
+     "name": "Trastornos del ritmo cardiaco de sueño-vigilia Tipo no especificado",
+     "value": "307.45"
+    },
+    {
+     "code": "F51.3",
+     "name": "Tipo con sonambulismo",
+     "value": "307.46"
+    },
+    {
+     "code": "F51.4",
+     "name": "Tipo con terrores nocturnos",
+     "value": "307.46"
+    },
+    {
+     "code": "F51.5",
+     "name": "Trastorno de pesadillas",
+     "value": "307.47"
+    },
+    {
+     "code": "G47.52",
+     "name": "Trastorno del comportamiento del sueño REM",
+     "value": "327.42"
+    },
+    {
+     "code": "G25.81",
+     "name": "Síndrome de las piernas inquietas",
+     "value": "333.94"
+    },
+    {
+     "code": "F10.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos alcohol leve",
+     "value": "291.82"
+    },
+    {
+     "code": "F10.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos alcohol moderado o grave",
+     "value": "291.82"
+    },
+    {
+     "code": "F10.982",
+     "name": "Trastorno del sueño sin trastorno relacionado inducido por sustancias\/medicamentos alcohol",
+     "value": "291.82"
+    },
+    {
+     "code": "F15.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cafeína leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F15.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cafeína moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F15.982",
+     "name": "Trastorno del sueño sin trastorno relacionado inducido por sustancias\/medicamentos cafeína",
+     "value": "291.85"
+    },
+    {
+     "code": "F12.188",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cannabis leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F12.288",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cannabis moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F12.988",
+     "name": "Trastorno del sueño sin trastorno relacionado inducido por sustancias\/medicamentos cannabis",
+     "value": "291.85"
+    },
+    {
+     "code": "F11.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos opiáceo leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F11.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos opiáceo moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F11.982",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos opiáceo",
+     "value": "291.85"
+    },
+    {
+     "code": "F13.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F13.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F13.982",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos sedante. hipnótico o ansiolítico",
+     "value": "291.85"
+    },
+    {
+     "code": "F15.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos anfetamina u otro estimulante leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F15.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos anfetamina u otro estimulante moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F15.982",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos anfetamina u otro estimulante",
+     "value": "291.85"
+    },
+    {
+     "code": "F14.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cocaína leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F14.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F14.982",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos cocaína",
+     "value": "291.85"
+    },
+    {
+     "code": "F17.208",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos tabaco moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F19.182",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida leve",
+     "value": "291.85"
+    },
+    {
+     "code": "F19.282",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida moderado o grave",
+     "value": "291.85"
+    },
+    {
+     "code": "F19.982",
+     "name": "Trastorno del sueño inducido por sustancias\/medicamentos otra sustancia o sustancia desconocida",
+     "value": "291.85"
+    },
+    {
+     "code": "G47.069",
+     "name": "Otro trastorno de insomnio especificado",
+     "value": "780.52"
+    },
+    {
+     "code": "G47.00",
+     "name": "Trastorno de insomnio no especificado",
+     "value": "780.52"
+    },
+    {
+     "code": "G47.19",
+     "name": "Otro trastorno de hipersomnia especificado",
+     "value": "780.54"
+    },
+    {
+     "code": "G47.10",
+     "name": "Trastorno de hipersomnia no especificado",
+     "value": "780.54"
+    },
+    {
+     "code": "G47.8",
+     "name": "Otro trastorno del sueño-vigilia especificado",
+     "value": "780.59"
+    },
+    {
+     "code": "G47.9",
+     "name": "Trastorno del sueño-vigilia no especificado",
+     "value": "780.59"
+    },
+    {
+     "code": "F52.32",
+     "name": "Eyaculación retardada",
+     "value": "302.74"
+    },
+    {
+     "code": "F52.21",
+     "name": "Trastorno eréctil",
+     "value": "302.72"
+    },
+    {
+     "code": "F52.31",
+     "name": "Trastorno orgásmico femenino",
+     "value": "302.73"
+    },
+    {
+     "code": "F52.22",
+     "name": "Trastorno del interés\/excitación sexual femenino",
+     "value": "302.72"
+    },
+    {
+     "code": "F52.6",
+     "name": "Trastorno de dolor génito-pélvico\/penetración",
+     "value": "302.76"
+    },
+    {
+     "code": "F52.0",
+     "name": "Trastorno de deseo sexual hipoactivo en el varón",
+     "value": "302.71"
+    },
+    {
+     "code": "F52.4",
+     "name": "Eyaculación prematura precoz",
+     "value": "302.75"
+    },
+    {
+     "code": "F10.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos alcohol leve",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos alcohol moderado o grave",
+     "value": "291.89"
+    },
+    {
+     "code": "F10.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos alcohol",
+     "value": "291.89"
+    },
+    {
+     "code": "F11.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos opiáceo leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos opiáceo moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos opiáceo",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos sedante. hipnótico o ansiolítico leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos sedante. hipnótico o ansiolítico",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos anfetamina u otro estimulante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentosanfetamina u otro estimulante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos anfetamina u otro estimulante",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos cocaína leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos cocaína moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos cocaína",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.181",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos otra sustancia o sustancia desconocida leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.281",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.981",
+     "name": "Disfunción sexual inducida por sustancias\/medicamentos otra sustancia o sustancia desconocida",
+     "value": "292.89"
+    },
+    {
+     "code": "F52.8",
+     "name": "Otra disfunción sexual especificada",
+     "value": "302.79"
+    },
+    {
+     "code": "F52.9",
+     "name": "Disfunción sexual no especificada",
+     "value": "302.7"
+    },
+    {
+     "code": "F64.2",
+     "name": "Disforia de género",
+     "value": "302.6"
+    },
+    {
+     "code": "F64.1",
+     "name": "Disforia de género en adolescentes y adultos",
+     "value": "302.85"
+    },
+    {
+     "code": "F64.8",
+     "name": "Otra disforia de género especificada",
+     "value": "302.6"
+    },
+    {
+     "code": "F64.9",
+     "name": "Disforia de género no especificada",
+     "value": "302.6"
+    },
+    {
+     "code": "F91.3",
+     "name": "Trastorno negativista desafiante",
+     "value": "313.81"
+    },
+    {
+     "code": "F63.81",
+     "name": "Trastorno explosivo intermitente",
+     "value": "312.34"
+    },
+    {
+     "name": "Trastorno de conducta"
+    },
+    {
+     "code": "F91.1",
+     "name": "Trastorno de conducta Tipo de inicio infantil",
+     "value": "312.81"
+    },
+    {
+     "code": "F91.2",
+     "name": "Trastorno de conducta Tipo de inicio adolescente",
+     "value": "312.82"
+    },
+    {
+     "code": "F91.9",
+     "name": "Trastorno de conducta Tipo de inicio no especificado",
+     "value": "312.89"
+    },
+    {
+     "code": "F10.10",
+     "name": "Trastorno por consumo de alcohol leve",
+     "value": 305
+    },
+    {
+     "code": "F10.20",
+     "name": "Trastorno por consumo de alcohol moderado",
+     "value": "303.9"
+    },
+    {
+     "code": "F10.20",
+     "name": "Trastorno por consumo de alcohol grave",
+     "value": "303.9"
+    },
+    {
+     "code": "F10.129",
+     "name": "Intoxicación por alcohol leve",
+     "value": 303
+    },
+    {
+     "code": "F10.229",
+     "name": "Intoxicación por alcohol moderado o grave",
+     "value": 303
+    },
+    {
+     "code": "F10.929",
+     "name": "Intoxicación por alcohol sin trastorno por consumo",
+     "value": 303
+    },
+    {
+     "code": "F10.239",
+     "name": "Abstinencia de alcohol sin alteraciones de la percepción",
+     "value": "291.81"
+    },
+    {
+     "code": "F10.232",
+     "name": "Abstinencia de alcohol con alteraciones de la percepción",
+     "value": "291.81"
+    },
+    {
+     "name": "Otros trastornos inducidos por el alcohol"
+    },
+    {
+     "code": "F10.99",
+     "name": "Trastorno relacionado con el alcohol no especificado",
+     "value": "291.9"
+    },
+    {
+     "code": "F15.929",
+     "name": "Intoxicación por cafeína",
+     "value": "305.9"
+    },
+    {
+     "code": "F15.93",
+     "name": "Abstinencia de cafeína",
+     "value": 292
+    },
+    {
+     "code": "F15.99",
+     "name": "Trastorno relacionado con la cafeína no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F12.10",
+     "name": "Trastorno por consumo de cannabis leve",
+     "value": "305.2"
+    },
+    {
+     "code": "F12.20",
+     "name": "Trastorno por consumo de cannabis moderado",
+     "value": "304.3"
+    },
+    {
+     "code": "F12.20",
+     "name": "Trastorno por consumo de cannabis grave",
+     "value": "304.3"
+    },
+    {
+     "code": "F12.129",
+     "name": "Intoxicación por cannabis sin alteraciones de la percepción",
+     "value": "292.89"
+    },
+    {
+     "code": "F122.229",
+     "name": "Intoxicación por cannabis sin alteraciones de la percepción",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.929",
+     "name": "Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.122",
+     "name": "Intoxicación por cannabis con alteraciones leves de la percepción",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.222",
+     "name": "Intoxicación por cannabis con alteraciones de la percepción",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.922",
+     "name": "Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.288",
+     "name": "Abstinencia de Cannabis",
+     "value": 292
+    },
+    {
+     "code": "F12.99",
+     "name": "Trastorno relacionado con el cannabis no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.10",
+     "name": "Trastorno por consumo de fenciclidina leve",
+     "value": "305.9"
+    },
+    {
+     "code": "F16.20",
+     "name": "Trastorno por consumo de fenciclidina moderado",
+     "value": "304.6"
+    },
+    {
+     "code": "F16.20",
+     "name": "Trastorno por consumo de fenciclidina grave",
+     "value": "604.6"
+    },
+    {
+     "code": "F16.10",
+     "name": "Trastorno por consumo de otros alucinógenos leve",
+     "value": "305.3"
+    },
+    {
+     "code": "F16.20",
+     "name": "Trastorno por consumo de otros alucinógenos moderado",
+     "value": "304.5"
+    },
+    {
+     "code": "F16.20",
+     "name": "Trastorno por consumo de otros alucinógenos grave",
+     "value": "304.5"
+    },
+    {
+     "code": "F16.129",
+     "name": "Intoxicación por fenciclidina con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.229",
+     "name": "Intoxicación por fenciclidina Con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.929",
+     "name": "Intoxicación por fenciclidina Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.129",
+     "name": "Intoxicación por otros alucinógenos con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.229",
+     "name": "Intoxicación por otros alucinógenos con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.929",
+     "name": "Intoxicación por otros alucinógenos sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F16.983",
+     "name": "Trastorno persistente por alucinógenos",
+     "value": "292.89"
+    },
+    {
+     "name": "Trastornos inducidos por otros alucinógenos"
+    },
+    {
+     "code": "F16.99",
+     "name": "Trastorno relacionado con la fenciclidina no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F16.99",
+     "name": "Trastorno relacionado con los alucinógenos no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F18.10",
+     "name": "Trastorno por consumo de inhalantes leve",
+     "value": "305.9"
+    },
+    {
+     "code": "F18.20",
+     "name": "Trastorno por consumo de inhalantes moderado",
+     "value": "304.6"
+    },
+    {
+     "code": "F18.20",
+     "name": "Trastorno por consumo de inhalantes grave",
+     "value": "304.6"
+    },
+    {
+     "code": "F18.129",
+     "name": "Con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.229",
+     "name": "Con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.929",
+     "name": "Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F18.99",
+     "name": "Trastorno relacionado con inhalantes no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F11.10",
+     "name": "Trastorno por consumo de opiáceos leve",
+     "value": "305.5"
+    },
+    {
+     "code": "F11.20",
+     "name": "Trastorno por consumo de opiáceos moderado",
+     "value": 304
+    },
+    {
+     "code": "F11.20",
+     "name": "Trastorno por consumo de opiáceos grave",
+     "value": 304
+    },
+    {
+     "code": "F11.129",
+     "name": "Sin alteraciones de la percepción",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.122",
+     "name": "Con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.122",
+     "name": "Con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.922",
+     "name": "Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F11.23",
+     "name": "Abstinencia de opiáceos",
+     "value": 292
+    },
+    {
+     "code": "F11.99",
+     "name": "Trastorno relacionado con opiáceos no especificado",
+     "value": "292.9"
+    },
+    {
+     "name": "Trastorno por consumo de sedantes. hipnóticos o ansiolíticos"
+    },
+    {
+     "code": "F13.10",
+     "name": "Trastorno por consumo de sedantes. hipnóticos o ansiolíticos leve",
+     "value": "305.4"
+    },
+    {
+     "code": "F13.20",
+     "name": "Trastorno por consumo de sedantes. hipnóticos o ansiolíticos moderado",
+     "value": "304.1"
+    },
+    {
+     "code": "F13.20",
+     "name": "Trastorno por consumo de sedantes. hipnóticos o ansiolíticos grave",
+     "value": "304.1"
+    },
+    {
+     "code": "F13.129",
+     "name": "Con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F12.229",
+     "name": "Con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.929",
+     "name": "Sin trastorno por consumo",
+     "value": "292.89"
+    },
+    {
+     "code": "F13.239",
+     "name": "Sin alteraciones de la percepción",
+     "value": 292
+    },
+    {
+     "code": "F13.232",
+     "name": "Con trastorno concomitante leve",
+     "value": 292
+    },
+    {
+     "code": "F13.99",
+     "name": "Trastorno relacionado con los sedantes. hipnóticos o ansiolíticos no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F15.10",
+     "name": "Leve sustancia anfetamínica",
+     "value": "305.7"
+    },
+    {
+     "code": "F14.10",
+     "name": "Leve Cocaína",
+     "value": "305.6"
+    },
+    {
+     "code": "F15.10",
+     "name": "Leve otro estimulante o un estimulante no especificado",
+     "value": "305.7"
+    },
+    {
+     "code": "F15.20",
+     "name": "Moderado sustancia anfetamínica",
+     "value": "304.4"
+    },
+    {
+     "code": "F14.20",
+     "name": "Moderado Cocaína",
+     "value": "304.2"
+    },
+    {
+     "code": "F15.20",
+     "name": "Moderado otro estimulante o un estimulante no especificado",
+     "value": "304.4"
+    },
+    {
+     "code": "F15.20",
+     "name": "Grave sustancia anfetamínica",
+     "value": "304.4"
+    },
+    {
+     "code": "F14.20",
+     "name": "Grave Cocaína",
+     "value": "304.2"
+    },
+    {
+     "code": "F15.20",
+     "name": "Grave otro estimulante o un estimulante no especificado",
+     "value": "304.4"
+    },
+    {
+     "code": "F15.129",
+     "name": "Intoxicación por anfetamina sin alteraciones de la percepción con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.229",
+     "name": "Intoxicación por anfetamina sin alteraciones de la percepción con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.929",
+     "name": "Intoxicación por anfetamina sin alteraciones de la percepción sin trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.129",
+     "name": "Intoxicación por cocaína sin alteraciones de la percepción con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.229",
+     "name": "Intoxicación por cocaína sin alteraciones de la percepción con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.929",
+     "name": "Intoxicación por cocaína sin alteraciones de la percepción sin trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.122",
+     "name": "Intoxicación leve por anfetamina u otro estimulante. con alteraciones de la percepción con trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.222",
+     "name": "Intoxicación moderada o grave por anfetamina u otro estimulante. con alteraciones de la percepción con trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.922",
+     "name": "Intoxicación por anfetamina u otro estimulante. con alteraciones de la percepción sin trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.122",
+     "name": "Intoxicación por cocaína con alteraciones de la percepción con trastorno concomitante leve",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.222",
+     "name": "Intoxicación por cocaína con alteraciones de la percepción con trastorno concomitante moderado o grave",
+     "value": "292.89"
+    },
+    {
+     "code": "F14.922",
+     "name": "Intoxicación por cocaína con alteraciones de la percepción sin trastorno concomitante",
+     "value": "292.89"
+    },
+    {
+     "code": "F15.23",
+     "name": "Abstinencia de anfetamina u otros estimulantes",
+     "value": 292
+    },
+    {
+     "code": "F14.23",
+     "name": "Abstinencia de cocaína",
+     "value": 292
+    },
+    {
+     "code": "F15.99",
+     "name": "Trastorno relacionado con estimulantes por anfetamina u otro estimulante no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F14.99",
+     "name": "Trastorno relacionado con cocaína no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "Z72.0",
+     "name": "Trastorno por consumo de tabaco leve",
+     "value": "305.1"
+    },
+    {
+     "code": "F17.200",
+     "name": "Trastorno por consumo de tabaco moderado",
+     "value": "305.1"
+    },
+    {
+     "code": "F17.200",
+     "name": "Trastorno por consumo de tabaco grave",
+     "value": "305.1"
+    },
+    {
+     "code": "F17.203",
+     "name": "Abstinencia de tabaco",
+     "value": 292
+    },
+    {
+     "code": "F17.209",
+     "name": "Trastorno relacionado con el tabaco no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F19.10",
+     "name": "Trastornos relacionados con otras sustancias o sustancias desconocidas leve",
+     "value": "305.9"
+    },
+    {
+     "code": "F19.20",
+     "name": "Trastornos relacionados con otras sustancias o sustancias desconocidas moderado",
+     "value": "304.9"
+    },
+    {
+     "code": "F19.20",
+     "name": "Trastornos relacionados con otras sustancias o sustancias desconocidas grave",
+     "value": "304.9"
+    },
+    {
+     "code": "F19.129",
+     "name": "Trastorno concomitante leve por consumo de otra sustancia o sustancia desconocida",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.229",
+     "name": "Trastorno concomitante moderado o grave por consumo de otra sustancia o sustancia desconocida",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.929",
+     "name": "Sin trastorno concomitante por consumo de otra sustancia o sustancia desconocida relacionado con la misma sustancia",
+     "value": "292.89"
+    },
+    {
+     "code": "F19.239",
+     "name": "Abstinencia de otras sustancias o sustancias desconocidas",
+     "value": 292
+    },
+    {
+     "code": "F19.99",
+     "name": "Trastorno relacionado con el uso de otras sustancias o sustancias desconocidas no especificado",
+     "value": "292.9"
+    },
+    {
+     "code": "F63.0",
+     "name": "Juego patológico",
+     "value": "312.31"
+    },
+    {
+     "code": "F10.121",
+     "name": "Delirium por intoxicación por sustancias alcohol leve",
+     "value": 291
+    },
+    {
+     "code": "F10.221",
+     "name": "Delirium por intoxicación por sustancia alcohol moderado o grave",
+     "value": 291
+    },
+    {
+     "code": "F10.921",
+     "name": "Delirium sin intoxicación por sustancia alcohol",
+     "value": 291
+    },
+    {
+     "code": "F12.121",
+     "name": "Delirium por intoxicación por sustancias cannabis leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F12.221",
+     "name": "Delirium por intoxicación por sustancia cannabis moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F12.921",
+     "name": "Delirium sin intoxicación por sustancia cannabis",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.121",
+     "name": "Delirium por intoxicación por sustancias fenciclidina leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.221",
+     "name": "Delirium por intoxicación por sustancia fenciclidina moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.921",
+     "name": "Delirium sin intoxicación por sustancia fenciclidina",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.121",
+     "name": "Delirium por intoxicación por sustancias otro alucinógeno leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.221",
+     "name": "Delirium por intoxicación por sustancia otro alucinógeno moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F16.921",
+     "name": "Delirium sin intoxicación por sustancia otro alucinógeno",
+     "value": "292.81"
+    },
+    {
+     "code": "F18.121",
+     "name": "Delirium por intoxicación por sustancias inhalante leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F18.221",
+     "name": "Delirium por intoxicación por sustancia inhalante moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F18.921",
+     "name": "Delirium sin intoxicación por sustancia inhalante",
+     "value": "292.81"
+    },
+    {
+     "code": "F11.121",
+     "name": "Delirium por intoxicación por sustancias opiáceo leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F11.221",
+     "name": "Delirium por intoxicación por sustancia opiáceo moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F11.921",
+     "name": "Delirium sin intoxicación por sustancia opiáceo",
+     "value": "292.81"
+    },
+    {
+     "code": "F13.121",
+     "name": "Delirium por intoxicación por sustancias Sedante. hipnótico o ansiolítico leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F13.221",
+     "name": "Delirium por intoxicación por sustancia Sedante. hipnótico o ansiolítico moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F13.921",
+     "name": "Delirium sin intoxicación por sustancia Sedante. hipnótico o ansiolítico",
+     "value": "292.81"
+    },
+    {
+     "code": "F15.121",
+     "name": "Delirium por intoxicación por sustancias Anfetamina u otro estimulante leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F15.221",
+     "name": "Delirium por intoxicación por sustancia Anfetamina u otro estimulante moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F15.921",
+     "name": "Delirium sin intoxicación por sustancia Anfetamina u otro estimulante",
+     "value": "292.81"
+    },
+    {
+     "code": "F14.121",
+     "name": "Delirium por intoxicación por sustancias Cocaína leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F14.221",
+     "name": "Delirium por intoxicación por sustancia Cocaína moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F14.921",
+     "name": "Delirium sin intoxicación por sustancia Cocaína",
+     "value": "292.81"
+    },
+    {
+     "code": "F19.121",
+     "name": "Delirium por intoxicación por sustancias Otra sustancia o sustancia desconocida leve",
+     "value": "292.81"
+    },
+    {
+     "code": "F19.221",
+     "name": "Delirium por intoxicación por sustancia Otra sustancia o sustancia desconocida moderado o grave",
+     "value": "292.81"
+    },
+    {
+     "code": "F19.921",
+     "name": "Delirium sin intoxicación por sustancia Otra sustancia o sustancia desconocida",
+     "value": "292.81"
+    },
+    {
+     "code": "F10.231",
+     "name": "Delirium por abstinencia de alcohol",
+     "value": 291
+    },
+    {
+     "code": "F11.23",
+     "name": "Delirium por abstinencia de opiáceo",
+     "value": 292
+    },
+    {
+     "code": "F13.231",
+     "name": "Delirium por abstinencia a sedante. hipnótico o ansiolítico",
+     "value": 292
+    },
+    {
+     "code": "F19.231",
+     "name": "Delirium por abstinencia a otra sustancia o medicamento o sustancia o medicamento desconocido",
+     "value": 292
+    },
+    {
+     "code": "F11.921",
+     "name": "Delirium inducido por medicamento. opiáceo tomado como se ha recetado",
+     "value": "292.81"
+    },
+    {
+     "code": "F13.921",
+     "name": "Delirium inducido por medicamento. sedante. hipnótico o ansiolítico tomado como se ha recetado",
+     "value": "292.81"
+    },
+    {
+     "code": "F15.921",
+     "name": "Delirium inducido por sustancia anfetamínica y otro estimulante tomado como se ha recetado",
+     "value": "292.81"
+    },
+    {
+     "code": "F19.921",
+     "name": "Delirium inducido por otra sustancia que sea un factor etiológico tomado como se ha recetado",
+     "value": "292.81"
+    },
+    {
+     "code": "F05",
+     "name": "Delirium debido a otra afección médica",
+     "value": 293
+    },
+    {
+     "code": "R41.0",
+     "name": "Otro delirium especificado",
+     "value": "780.09"
+    },
+    {
+     "code": "R41.0",
+     "name": "Delirium no especificado",
+     "value": "780.09"
+    },
+    {
+     "name": "Trastornos neurocognitivos mayores y leves"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor probable debido a la enfermedad de Alzheimer. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Alzheimer posible"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Alzheimer posible. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Alzheimer posible. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a la enfermedad de Alzheimer",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo frontotemporal mayor o leve"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor probable debido a la degeneración del lóbulo frontotemporal. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a una degeneración del lóbulo frontotemporal posible"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a una degeneración del lóbulo frontotemporal posible. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a una degeneración del lóbulo frontotemporal posible. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a una degeneración del lóbulo frontotemporal",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve con cuerpos de Lewy"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor probable con cuerpos de Lewy. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor con cuerpos de Lewy posible"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor con cuerpos de Lewy posible. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor con cuerpos de Lewy posible. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve con cuerpos de Lewy",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo vascular mayor o leve"
+    },
+    {
+     "name": "Trastorno neurocognitivo vascular mayor probable"
+    },
+    {
+     "code": "F01.51",
+     "name": "Trastorno neurocognitivo vascular mayor probable. con alteración del comportamiento",
+     "value": "290.4"
+    },
+    {
+     "code": "F01.50",
+     "name": "Trastorno neurocognitivo vascular mayor probable. sin alteración del comportamiento",
+     "value": "290.4"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor probablemente debido a una enfermedad vascular"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor probablemente debido a una enfermedad vascular. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor probablemente debido a una enfermedad vascular. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo vascular leven",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a un traumatismo cerebral"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a un traumatismo cerebral"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a un traumatismo cerebral. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a un traumatismo cerebral. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a un traumatismo cerebral",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve inducido por sustancias\/medicamentos"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a infección por VIH"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a infección por VIH"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a infección por VIH. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a infección por VIH. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a infección por VIH",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a enfermedad por priones"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a enfermedad por priones"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a enfermedad por priones. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a enfermedad por priones. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a enfermedad por priones",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a la enfermedad de Parkinson"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor probablemente debido a la enfermedad de Parkinson. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor posiblemente debido a la enfermedad de Parkinson"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor posiblemente debido a la enfermedad de Parkinson. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor posiblemente debido a la enfermedad de Parkinson. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a la enfermedad de Parkinson",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a la enfermedad de Huntington"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Huntington"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Huntington. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor debido a la enfermedad de Huntington. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a la enfermedad de Huntington",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a otra afección médica"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor o leve debido a otra afección médica. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor o leve debido a otra afección médica. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a otra afección médica",
+     "value": "331.83"
+    },
+    {
+     "name": "Trastorno neurocognitivo mayor o leve debido a etiologías múltiples"
+    },
+    {
+     "code": "F02.81",
+     "name": "Trastorno neurocognitivo mayor o leve debido a etiologías múltiples. con alteración del comportamiento",
+     "value": "294.11"
+    },
+    {
+     "code": "F02.80",
+     "name": "Trastorno neurocognitivo mayor o leve debido a etiologías múltiples. sin alteración del comportamiento",
+     "value": "294.1"
+    },
+    {
+     "code": "G31.84",
+     "name": "Trastorno neurocognitivo leve debido a etiologías múltiples",
+     "value": "331.83"
+    },
+    {
+     "code": "R41.9",
+     "name": "Trastorno neurocognitivo no especificado",
+     "value": "799.59"
+    },
+    {
+     "code": "F65.3",
+     "name": "Trastorno de voyerismo",
+     "value": "302.82"
+    },
+    {
+     "code": "F65.2",
+     "name": "Trastorno de exhibicionismo",
+     "value": "302.4"
+    },
+    {
+     "code": "F65.81",
+     "name": "Trastorno de froteurismo",
+     "value": "302.89"
+    },
+    {
+     "code": "F65.51",
+     "name": "Trastorno de masoquismo sexual",
+     "value": "302.83"
+    },
+    {
+     "code": "F65.52",
+     "name": "Trastorno de sadismo sexual",
+     "value": "302.84"
+    },
+    {
+     "code": "F65.4",
+     "name": "Trastorno de pedofilia",
+     "value": "302.2"
+    },
+    {
+     "code": "F65.0",
+     "name": "Trastorno de fetichismo",
+     "value": "302.81"
+    },
+    {
+     "code": "F65.1",
+     "name": "Trastorno de travestismo",
+     "value": "302.3"
+    },
+    {
+     "code": "F65.89",
+     "name": "Otro trastorno parafílico especificado",
+     "value": "302.89"
+    },
+    {
+     "code": "F65.9",
+     "name": "Trastorno parafílico no especificado",
+     "value": "302.9"
+    },
+    {
+     "code": "F06.8",
+     "name": "Otro trastorno mental especificado debido a otra afección médica",
+     "value": "294.8"
+    },
+    {
+     "code": "F09",
+     "name": "Trastorno mental no especificado debido a otra afección médica",
+     "value": "294.9"
+    },
+    {
+     "code": "F99",
+     "name": "Otro trastorno mental especificado debido a otra afección médica",
+     "value": "300.9"
+    },
+    {
+     "code": "F99",
+     "name": "Trastorno mental no especificado",
+     "value": "300.9"
+    },
+    {
+     "code": "G21.11",
+     "name": "Parkinsonismo inducido por neurolépticos",
+     "value": "332.1"
+    },
+    {
+     "code": "G21.19",
+     "name": "Parkinsonismo inducido por otros medicamentos",
+     "value": "332.1"
+    },
+    {
+     "code": "G21.0",
+     "name": "Síndrome neuroléptico maligno",
+     "value": "333.92"
+    },
+    {
+     "code": "G24.02",
+     "name": "Distonía aguda inducida por medicamentos",
+     "value": "333.72"
+    },
+    {
+     "code": "G25.71",
+     "name": "Actasia aguda inducida por medicamentos",
+     "value": "333.99"
+    },
+    {
+     "code": "G24.01",
+     "name": "Discinesia tardía",
+     "value": "333.85"
+    },
+    {
+     "code": "G24.09",
+     "name": "Distonía tardía",
+     "value": "333.72"
+    },
+    {
+     "code": "G25.71",
+     "name": "Actasia tardía",
+     "value": "333.99"
+    },
+    {
+     "code": "G25.1",
+     "name": "Temblor postural inducido por medicamentos",
+     "value": "333.1"
+    },
+    {
+     "code": "G25.79",
+     "name": "Otro trastorno motor inducido por medicamentos",
+     "value": "333.99"
+    },
+    {
+     "code": "T43.205A",
+     "name": "Síndrome de suspensión de antidepresivos hallazgo inicial",
+     "value": "995.29"
+    },
+    {
+     "code": "T43.205D",
+     "name": "Síndrome de suspensión de antidepresivos hallazgo ulterior",
+     "value": "995.29"
+    },
+    {
+     "code": "T43.205S",
+     "name": "Síndrome de suspensión de antidepresivos secuelas",
+     "value": "995.29"
+    },
+    {
+     "code": "T50.905A",
+     "name": "Otro efecto adverso de medicamentos hallazgo inicial",
+     "value": "995.2"
+    },
+    {
+     "code": "T50.905D",
+     "name": "Otro efecto adverso de medicamentos hallazgo ulterior",
+     "value": "995.2"
+    },
+    {
+     "code": "T50.905S",
+     "name": "Otro efecto adverso de medicamentos secuelas",
+     "value": "995.2"
+    },
+    {
+     "code": "Z62.820",
+     "name": "Problema de relación entre padres e hijos",
+     "value": "V61.20"
+    },
+    {
+     "code": "Z62.891",
+     "name": "Problema de relación con los hermanos",
+     "value": "V61.8"
+    },
+    {
+     "code": "Z62.29",
+     "name": "Educación lejos de los padres",
+     "value": "V61.8"
+    },
+    {
+     "code": "Z62.898",
+     "name": "Niño afectado por una relación parental conflictiva",
+     "value": "V61.29"
+    },
+    {
+     "name": "Otros problemas relacionados con el grupo de apoyo primario"
+    },
+    {
+     "code": "Z63.0",
+     "name": "Relación conflictiva con el cónyuge o la pareja",
+     "value": "V61.10"
+    },
+    {
+     "code": "Z63.5",
+     "name": "Ruptura familiar por separación o divorcio",
+     "value": "V61.03"
+    },
+    {
+     "code": "Z63.8",
+     "name": "Nivel elevado de emoción expresada en la familia",
+     "value": "V61.8"
+    },
+    {
+     "code": "Z63.4",
+     "name": "Duelo no complicado",
+     "value": "V62.82"
+    },
+    {
+     "code": "T74.12XA",
+     "name": "Maltrato físico infantil. confirmado hallazgo inicial",
+     "value": "995.54"
+    },
+    {
+     "code": "T74.12XD",
+     "name": "Maltrato físico infantil. confirmado hallazgo ulterior",
+     "value": "995.54"
+    },
+    {
+     "code": "T76.12XA",
+     "name": "Maltrato físico infantil. sospechado hallazgo inicial",
+     "value": "995.54"
+    },
+    {
+     "code": "T76.12XD",
+     "name": "Maltrato físico infantil. sospechado hallazgo ulterior",
+     "value": "995.54"
+    },
+    {
+     "code": "Z69.010",
+     "name": "Visita de salud mental para la víctima de maltrato infantil por parte de los padres",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z69.020",
+     "name": "Visita de salud mental para la victima de maltrato infantil no parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z62.810",
+     "name": "Historia personal antecedentes de maltrato físico infantil",
+     "value": "V15.41"
+    },
+    {
+     "code": "Z69.011",
+     "name": "Visita de salud mental para el autor de maltrato infantil parental",
+     "value": "V61.22"
+    },
+    {
+     "code": "Z69.021",
+     "name": "Visita de salud mental para el autor de maltrato infantil no parental",
+     "value": "V62.83"
+    },
+    {
+     "code": "T74.22XA",
+     "name": "Abuso sexual infantil. confirmado hallazgo inicial",
+     "value": "995.53"
+    },
+    {
+     "code": "T74.22XD",
+     "name": "Abuso sexual infantil. confirmado hallazgo ulterior",
+     "value": "995.53"
+    },
+    {
+     "code": "T76.22XA",
+     "name": "Abuso sexual infantil. sospechado hallazgo inicial",
+     "value": "995.53"
+    },
+    {
+     "code": "T76.22XD",
+     "name": "Abuso sexual infantil. sospechado hallazgo ulterior",
+     "value": "995.53"
+    },
+    {
+     "code": "Z69.010",
+     "name": "Visita de salud mental para la víctima de abuso sexual infantil por parte de los padres",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z69.020",
+     "name": "Visita de salud mental para la victima de abuso sexual infantil no parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z62.810",
+     "name": "Historia personal antecedentes de abuso sexual infantil",
+     "value": "V15.41"
+    },
+    {
+     "code": "Z69.011",
+     "name": "Visita de salud mental para el autor de abuso sexual infantil parental",
+     "value": "V61.22"
+    },
+    {
+     "code": "Z69.021",
+     "name": "Visita de salud mental para el autor de abuso sexual infantil no parental",
+     "value": "V62.83"
+    },
+    {
+     "code": "T74.02XA",
+     "name": "Negligencia infantil. confirmada hallazgo inicial",
+     "value": "995.52"
+    },
+    {
+     "code": "T74.02XD",
+     "name": "Negligencia infantil. confirmada hallazgo ulterior",
+     "value": "995.52"
+    },
+    {
+     "code": "T76.02XA",
+     "name": "Negligencia infantil. sospechada hallazgo inicial",
+     "value": "995.52"
+    },
+    {
+     "code": "T76.02XD",
+     "name": "Negligencia infantil. sospechada hallazgo ulterior",
+     "value": "995.52"
+    },
+    {
+     "code": "Z69.010",
+     "name": "Visita de salud mental para la víctima de negligencia infantil parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z69.020",
+     "name": "Visita de salud mental para la víctima de negligencia infantil no parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z62.812",
+     "name": "Historia personal antecedentes de negligencia infantil",
+     "value": "V15.42"
+    },
+    {
+     "code": "Z69.011",
+     "name": "Visita de salud mental para el autor de negligencia infantil parental",
+     "value": "V61.22"
+    },
+    {
+     "code": "Z69.021",
+     "name": "Visita de salud mental para el autor de negligencia infantil no parental",
+     "value": "V62.83"
+    },
+    {
+     "code": "T74.32XA",
+     "name": "Maltrato psicológico infantil. confirmado hallazgo inicial",
+     "value": "995.51"
+    },
+    {
+     "code": "T74.32XD",
+     "name": "Maltrato psicológico infantil. confirmado hallazgo ulterior",
+     "value": "995.51"
+    },
+    {
+     "code": "T76.32XA",
+     "name": "Maltrato psicológico infantil. sospechado hallazgo inicial",
+     "value": "995.51"
+    },
+    {
+     "code": "T76.32XD",
+     "name": "Maltrato psicológico infantil. sospechado hallazgo ulterior",
+     "value": "995.51"
+    },
+    {
+     "code": "Z69.010",
+     "name": "Visita de salud mental para la víctima de maltrato psicológico infantil parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z69.020",
+     "name": "Visita de salud mental para la víctima de maltrato psicológico infantil no parental",
+     "value": "V61.21"
+    },
+    {
+     "code": "Z62.811",
+     "name": "Historia personal antecedentes de maltrato psicológico infantil",
+     "value": "V15.42"
+    },
+    {
+     "code": "Z69.011",
+     "name": "Visita de salud mental para el autor de maltrato psicológico infantil parental",
+     "value": "V61.22"
+    },
+    {
+     "code": "Z69.021",
+     "name": "Visita de salud mental para el autor de maltrato psicológico infantil no parental",
+     "value": "V62.83"
+    },
+    {
+     "code": "T74.11XA",
+     "name": "Violencia física por parte del cónyuge o la pareja. confirmada hallazgo inicial",
+     "value": "995.81"
+    },
+    {
+     "code": "T74.11XD",
+     "name": "Violencia física por parte del cónyuge o la pareja. confirmada hallazgo ulterior",
+     "value": "995.81"
+    },
+    {
+     "code": "T76.11XA",
+     "name": "Violencia física por parte del cónyuge o la pareja. sospechada hallazgo inicial",
+     "value": "995.81"
+    },
+    {
+     "code": "T76.11XD",
+     "name": "Violencia física por parte del cónyuge o la pareja. sospechada hallazgo ulterior",
+     "value": "995.81"
+    },
+    {
+     "name": "Otras circunstancias relacionadas con la violencia física por parte del cónyuge o la pareja"
+    },
+    {
+     "code": "Z69.11",
+     "name": "Visita de salud mental para la víctima de violencia física por parte del cónyuge o la pareja",
+     "value": "V61.11"
+    },
+    {
+     "code": "Z91.410",
+     "name": "Historia personal antecedentes de violencia física por parte del cónyuge o la pareja",
+     "value": "V15.41"
+    },
+    {
+     "code": "Z69.12",
+     "name": "Visita de salud mental para el autor de violencia física hacia el cónyuge o la pareja",
+     "value": "V61.12"
+    },
+    {
+     "code": "T74.21XA",
+     "name": "Violencia sexual por parte del cónyuge o la pareja. confirmada hallazgo inicial",
+     "value": "995.83"
+    },
+    {
+     "code": "T74.21XD",
+     "name": "Violencia sexual por parte del cónyuge o la pareja. confirmada hallazgo ulterior",
+     "value": "995.83"
+    },
+    {
+     "code": "T76.21XA",
+     "name": "Violencia sexual por parte del cónyuge o la pareja. sospechada hallazgo inicial",
+     "value": "995.83"
+    },
+    {
+     "code": "T76.21XD",
+     "name": "Violencia sexual por parte del cónyuge o la pareja. sospechada hallazgo ulterior",
+     "value": "995.83"
+    },
+    {
+     "code": "Z69.81",
+     "name": "Visita de salud mental para la víctima de violencia sexual por parte del cónyuge o la pareja",
+     "value": "V61.11"
+    },
+    {
+     "code": "Z91.410",
+     "name": "Historia personal antecedentes de violencia sexual por parte del cónyuge o la pareja",
+     "value": "V15.41"
+    },
+    {
+     "code": "Z69.12",
+     "name": "Visita de salud mental para el autor de violencia sexual por parte del cónyuge cónyuge o la pareja",
+     "value": "V61.12"
+    },
+    {
+     "code": "T74.01XA",
+     "name": "Negligencia por parte del cónyuge o la pareja. confirmada hallazgo inicial",
+     "value": "995.85"
+    },
+    {
+     "code": "T74.01XD",
+     "name": "Negligencia por parte del cónyuge o la pareja. confirmada hallazgo ulterior",
+     "value": "995.85"
+    },
+    {
+     "code": "T76.01XA",
+     "name": "Negligencia por parte del cónyuge o la pareja. sospechada hallazgo inicial",
+     "value": "995.85"
+    },
+    {
+     "code": "T76.01XD",
+     "name": "Negligencia por parte del cónyuge o la pareja. sospechada hallazgo ulterior",
+     "value": "995.85"
+    },
+    {
+     "code": "Z69.11",
+     "name": "Visita de salud mental para la víctima de negligencia por parte del cónyuge o la pareja",
+     "value": "V61.11"
+    },
+    {
+     "code": "Z91.412",
+     "name": "Historia personal antecedentes de negligencia por parte del cónyuge o la pareja",
+     "value": "V15.42"
+    },
+    {
+     "code": "Z69.12",
+     "name": "Visita de salud mental para el autor de negligencia por parte del cónyuge o la pareja",
+     "value": "V61.12"
+    },
+    {
+     "code": "T74.31XA",
+     "name": "Maltrato psicológico por parte del cónyuge o la pareja. confirmado hallazgo inicial",
+     "value": "995.82"
+    },
+    {
+     "code": "T74.31XD",
+     "name": "Maltrato psicológico por parte del cónyuge o la pareja. confirmado hallazgo ulterior",
+     "value": "995.82"
+    },
+    {
+     "code": "T76.31XA",
+     "name": "Maltrato psicológico por parte del cónyuge o la pareja. sospechado hallazgo inicial",
+     "value": "995.82"
+    },
+    {
+     "code": "T76.31XD",
+     "name": "Maltrato psicológico por parte del cónyuge o la pareja. sospechado hallazgo ulterior",
+     "value": "995.82"
+    },
+    {
+     "code": "Z69.11",
+     "name": "Visita de salud mental para la víctima de maltrato psicológico por parte del cónyuge o la pareja",
+     "value": "V61.11"
+    },
+    {
+     "code": "Z91.411",
+     "name": "Historia personal antecedentes de maltrato psicológico por parte del cónyuge o la pareja",
+     "value": "V15.42"
+    },
+    {
+     "code": "Z69.12",
+     "name": "Visita de salud mental para el autor de maltrato psicológico por parte del cónyuge o la pareja",
+     "value": "V61.12"
+    },
+    {
+     "code": "T74.11XA",
+     "name": "Maltrato del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo inicial",
+     "value": "995.81"
+    },
+    {
+     "code": "T74.11XD",
+     "name": "Maltrato del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo ulterior",
+     "value": "995.81"
+    },
+    {
+     "code": "T76.11XA",
+     "name": "Maltrato físico del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo inicial",
+     "value": "995.81"
+    },
+    {
+     "code": "T76.11XD",
+     "name": "Maltrato físico del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo ulterior",
+     "value": "995.81"
+    },
+    {
+     "code": "T74.21XA",
+     "name": "Abuso sexual del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo inicial",
+     "value": "995.83"
+    },
+    {
+     "code": "T74.21XD",
+     "name": "Abuso sexual del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo ulterior",
+     "value": "995.83"
+    },
+    {
+     "code": "T76.21XA",
+     "name": "Abuso sexual del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo inicial",
+     "value": "995.83"
+    },
+    {
+     "code": "T76.21XD",
+     "name": "Abuso sexual del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo ulterior",
+     "value": "995.83"
+    },
+    {
+     "code": "T74.31XA",
+     "name": "Maltrato psicológico del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo inicial",
+     "value": "995.82"
+    },
+    {
+     "code": "T74.31XD",
+     "name": "Maltrato psicológico del adulto por parte de una persona distinta del cónyuge o la pareja. confirmado hallazgo ulterior",
+     "value": "995.82"
+    },
+    {
+     "code": "T76.31XA",
+     "name": "Maltrato psicológico del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo inicial",
+     "value": "995.82"
+    },
+    {
+     "code": "T76.31XD",
+     "name": "Maltrato psicológico del adulto por parte de una persona distinta del cónyuge o la pareja. sospechado hallazgo ulterior",
+     "value": "995.82"
+    },
+    {
+     "code": "Z69.81",
+     "name": "Visita de salud mental para la víctima de maltrato o abuso del adulto por parte de una persona distinta del cónyuge",
+     "value": "V65.49"
+    },
+    {
+     "code": "Z69.82",
+     "name": "Visita de salud mental para el autor de maltrato o abuso del adulto por parte de una persona distinta del cónyuge",
+     "value": "V62.83"
+    },
+    {
+     "code": "Z55.9",
+     "name": "Problema académico o educativo",
+     "value": "V62.3"
+    },
+    {
+     "code": "Z56.82",
+     "name": "Problema relacionado con el estado actual de despliegue militar",
+     "value": "V62.21"
+    },
+    {
+     "code": "Z56.9",
+     "name": "Otro problema relacionado con el empleo",
+     "value": "V62.29"
+    },
+    {
+     "code": "Z59.0",
+     "name": "Personas sin hogar",
+     "value": "V60.0"
+    },
+    {
+     "code": "Z59.1",
+     "name": "Alojamiento inadecuado",
+     "value": "V60.1"
+    },
+    {
+     "code": "Z59.2",
+     "name": "Discordia con un vecino. inquilino o arrendador",
+     "value": "V60.89"
+    },
+    {
+     "code": "Z59.3",
+     "name": "Problema relacionado con la vida en una residencia institucional",
+     "value": "V60.6"
+    },
+    {
+     "code": "Z59.4",
+     "name": "Falta de alimentos adecuados o de agua potable",
+     "value": "V60.2"
+    },
+    {
+     "code": "Z59.5",
+     "name": "Pobreza extrema",
+     "value": "V60.2"
+    },
+    {
+     "code": "Z59.6",
+     "name": "Ingresos bajos",
+     "value": "V60.2"
+    },
+    {
+     "code": "Z59.7",
+     "name": "Seguro social o asistencia pública insuficiente",
+     "value": "V60.2"
+    },
+    {
+     "code": "Z59.9",
+     "name": "Problema de vivienda o económico no especificado",
+     "value": "V60.9"
+    },
+    {
+     "code": "Z60.0",
+     "name": "Problema de fase de la vida",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z60.2",
+     "name": "Problema relacionado con vivir solo",
+     "value": "V60.3"
+    },
+    {
+     "code": "Z60.3",
+     "name": "Dificultad de aculturación",
+     "value": "V62.4"
+    },
+    {
+     "code": "Z60.4",
+     "name": "Exclusión o rechazo social",
+     "value": "V62.4"
+    },
+    {
+     "code": "Z60.5",
+     "name": "Blanco percibido de discriminación adversa o persecución",
+     "value": "V62.4"
+    },
+    {
+     "code": "Z60.9",
+     "name": "Problema relacionado con el entorno social no especificado",
+     "value": "V62.9"
+    },
+    {
+     "code": "Z65.4",
+     "name": "Víctima de delincuencia",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z65.0",
+     "name": "Sentencia civil o penal sin encarcelamiento",
+     "value": "V62.5"
+    },
+    {
+     "code": "Z65.1",
+     "name": "Encarcelamiento u otra reclusión",
+     "value": "V62.5"
+    },
+    {
+     "code": "Z65.2",
+     "name": "Problemas relacionados con la excarcelación",
+     "value": "V62.5"
+    },
+    {
+     "code": "Z65.3",
+     "name": "Problemas relacionados con otras circunstancias legales",
+     "value": "V62.5"
+    },
+    {
+     "code": "Z70.9",
+     "name": "Asesoramiento sexual",
+     "value": "V65.49"
+    },
+    {
+     "code": "Z71.9",
+     "name": "Otro asesoramiento o consulta",
+     "value": "V65.40"
+    },
+    {
+     "code": "Z65.8",
+     "name": "Problema religioso o espiritual",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z64.0",
+     "name": "Problemas relacionados con embarazo no deseado",
+     "value": "V61.7"
+    },
+    {
+     "code": "Z64.1",
+     "name": "Problemas relacionados con multiparidad",
+     "value": "V61.5"
+    },
+    {
+     "code": "Z64.4",
+     "name": "Discordia con el proveedor de servicios sociales. incluido perito. gestor de casos o asistente social",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z65.4",
+     "name": "Víctima de terrorismo o tortura",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z65.5",
+     "name": "Exposición a catástrofe. guerra u otras hostilidades",
+     "value": "V62.22"
+    },
+    {
+     "code": "Z65.8",
+     "name": "Otro problema relacionado con circunstancias psicosociales",
+     "value": "V62.89"
+    },
+    {
+     "code": "Z65.9",
+     "name": "Problema no especificado relacionado con circunstancias psicosociales no especificadas",
+     "value": "V62.9"
+    },
+    {
+     "code": "Z91.49",
+     "name": "Otra historia personal de trauma psicológico",
+     "value": "V15.49"
+    },
+    {
+     "code": "Z91.5",
+     "name": "Historia personal de autolesión",
+     "value": "V15.59"
+    },
+    {
+     "code": "Z91.82",
+     "name": "Historia personal de despliegue militar",
+     "value": "V62.22"
+    },
+    {
+     "code": "Z9 39",
+     "name": "Otros factores de riesgo personal",
+     "value": "V15.89"
+    },
+    {
+     "code": "Z72.9",
+     "name": "Problema relacionado con el estilo de vida",
+     "value": "V69.9"
+    },
+    {
+     "code": "Z72.811",
+     "name": "Comportamiento antisocial del adulto",
+     "value": "V71.01"
+    },
+    {
+     "code": "Z72.810",
+     "name": "Comportamiento antisocial infantil o adolescente",
+     "value": "V71.02"
+    },
+    {
+     "code": "Z75.3",
+     "name": "No disponibilidad o acceso a centros de asistencia sanitaria",
+     "value": "V63.9"
+    },
+    {
+     "code": "Z75.4",
+     "name": "No disponibilidad o acceso a otros centros de ayuda",
+     "value": "V63.8"
+    },
+    {
+     "code": "Z91.19",
+     "name": "Incumplimiento de tratamiento médico",
+     "value": "V15.81"
+    },
+    {
+     "code": "E66.9",
+     "name": "Sobrepeso u obesidad",
+     "value": 278
+    },
+    {
+     "code": "Z76.5",
+     "name": "Simulación",
+     "value": "V65.2"
+    },
+    {
+     "code": "Z91.83",
+     "name": "Vagabundeo asociado a un trastorno mental",
+     "value": "V40.31"
+    },
+    {
+     "code": "R41.83",
+     "name": "Funcionamiento intelectual límite",
+     "value": "V62.89"
+    },
+    {
+     "code": "F70",
+     "name": "Discapacidad intelectual Trastorno del desarrollo intelectual leve",
+     "value": 317
+    },
+    {
+     "code": "F71",
+     "name": "Discapacidad intelectual Trastorno del desarrollo intelectual moderado",
+     "value": 318
+    },
+    {
+     "code": "F72",
+     "name": "Discapacidad intelectual Trastorno del desarrollo intelectual grave",
+     "value": "318.1"
+    },
+    {
+     "code": "F73",
+     "name": "Discapacidad intelectual Trastorno del desarrollo intelectual profundo",
+     "value": "318.2"
+    },
+    {
+     "code": "F88",
+     "name": "Retraso global del desarrollo",
+     "value": "315.8"
+    },
+    {
+     "code": "F79",
+     "name": "Discapacidad intelectual trastorno del desarrollo intelectual no especificada",
+     "value": 319
+    },
+    {
+     "code": "F63.1",
+     "name": "Piromanía",
+     "value": "312.33"
+    },
+    {
+     "code": "F63.2",
+     "name": "Cleptomanía",
+     "value": "312.32"
+    },
+    {
+     "code": "F91.8",
+     "name": "Otro trastorno disruptivo. del control de los impulsos y de la conducta especificado",
+     "value": "312.89"
+    },
+    {
+     "code": "F91.9",
+     "name": "Trastorno disruptivo. del control de los impulsos y de la conducta no especificado",
+     "value": "312.9"
+    },
+    {
+     "code": "F60.0",
+     "name": "Trastorno de la personalidad paranoide",
+     "value": 301
+    },
+    {
+     "code": "F60.1",
+     "name": "Trastorno de la personalidad esquizoide",
+     "value": "301.2"
+    },
+    {
+     "code": "F21",
+     "name": "Trastorno de la personalidad esquizotípica",
+     "value": "301.22"
+    },
+    {
+     "code": "F60.2",
+     "name": "Trastorno de la personalidad antisocial",
+     "value": "301.7"
+    },
+    {
+     "code": "F60.3",
+     "name": "Trastorno de la personalidad límite",
+     "value": "301.83"
+    },
+    {
+     "code": "F60.4",
+     "name": "Trastorno de la personalidad histriónica",
+     "value": "301.5"
+    },
+    {
+     "code": "F60.81",
+     "name": "Trastorno de la personalidad narcisista",
+     "value": "301.81"
+    },
+    {
+     "code": "F60.6",
+     "name": "Trastorno de la personalidad evitativa",
+     "value": "301.82"
+    },
+    {
+     "code": "F60.7",
+     "name": "Trastorno de la personalidad dependiente",
+     "value": "301.6"
+    },
+    {
+     "code": "F60.5",
+     "name": "Trastorno de la personalidad obsesivo-compulsiva",
+     "value": "301.4"
+    },
+    {
+     "code": "F07.0",
+     "name": "Cambio de la personalidad debido a otra afección médica",
+     "value": "310.1"
+    },
+    {
+     "code": "F60.89",
+     "name": "Otro trastorno de la personalidad especificado",
+     "value": "301.89"
+    },
+    {
+     "code": "F60.9",
+     "name": "Otro trastorno de la personalidad no especificado",
+     "value": "301.9"
+    }
+   ]
