@@ -89,6 +89,9 @@ class ContractController extends Controller
         $Contract->discount = $request->discount;
         $Contract->observations = $request->observations;
         $Contract->objective = $request->objective;
+        $Contract->min_attention = $request->min_attention;
+        $Contract->max_attention = $request->max_attention;
+        $Contract->discount_rate = $request->discount_rate;
         $Contract->save();
 
         return response()->json([
@@ -160,6 +163,9 @@ class ContractController extends Controller
         $Contract->discount = $request->discount;
         $Contract->observations = $request->observations;
         $Contract->objective = $request->objective;
+        $Contract->min_attention = $request->min_attention;
+        $Contract->max_attention = $request->max_attention;
+        $Contract->discount_rate = $request->discount_rate;
         $Contract->save();
 
         return response()->json([

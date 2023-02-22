@@ -33,6 +33,9 @@ class CreateContractTable extends Migration
             $table->integer('discount')->nullable();
             $table->string('observations')->nullable();
             $table->string('objective')->nullable();
+            $table->bigInteger('min_attention')->nullable();
+            $table->bigInteger('max_attention')->nullable();
+            $table->double('discount_rate', 16, 4)->nullable();
             $table->timestamps();
 
             $table->index('company_id');
