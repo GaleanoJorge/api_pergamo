@@ -28,9 +28,11 @@ class CreateMedicalDiaryDaysTable extends Migration
             $table->longText('observations')->nullable();
             $table->unsignedBigInteger('reason_cancel_id')->nullable();
             $table->string('cancel_description')->nullable();
-
+            
             $table->dateTime('start_hour');
             $table->dateTime('finish_hour');
+            $table->tinyInteger('is_telemedicine')->nullable();
+            $table->longText('url_teams')->nullable();
             $table->timestamps();
 
             $table->index('days_id');
