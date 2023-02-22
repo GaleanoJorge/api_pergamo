@@ -469,10 +469,10 @@ class PharmacyProductRequestController extends Controller
                 ->whereNotNull('manual_price.product_id');
             if ($request->is_oxigen) {
                 $PharmacyProductRequest->leftJoin('ch_formulation', 'ch_formulation.pharmacy_product_request_id', 'pharmacy_product_request.id')
-                    ->where('product_generic.nom_product_id', 304)
+                    ->where('product_generic.nom_product_id', 301)
                     ->whereNull('ch_formulation.suspended');
             } else {
-                $PharmacyProductRequest->where('product_generic.nom_product_id', '!=', 304);
+                $PharmacyProductRequest->where('product_generic.nom_product_id', '!=', 301);
             }
             // foreach ($EnabledAdmissions as $item) {
             $PharmacyProductRequest->where(function ($query) use ($request) {
@@ -839,7 +839,7 @@ class PharmacyProductRequestController extends Controller
 
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                     // Validar si el medicamento es oxigeno
-                                    $PharmacyLotStock->actual_amount = $ppr_validation_oxigen->product_generic && $ppr_validation_oxigen->product_generic->nom_product_id != 304 ? $PharmacyLotStock->actual_amount - $element->amount : $PharmacyLotStock->actual_amount;
+                                    $PharmacyLotStock->actual_amount = $ppr_validation_oxigen->product_generic && $ppr_validation_oxigen->product_generic->nom_product_id != 301 ? $PharmacyLotStock->actual_amount - $element->amount : $PharmacyLotStock->actual_amount;
                                     $PharmacyLotStock->save();
                                     if ($PharmacyProductRequest->request_amount <= 0) {
                                         $PharmacyProductRequest->status = 'ACEPTADO';
