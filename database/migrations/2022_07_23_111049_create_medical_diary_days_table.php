@@ -24,6 +24,7 @@ class CreateMedicalDiaryDaysTable extends Migration
             $table->unsignedBigInteger('services_briefcase_id')->nullable();
             // $table->unsignedBigInteger('procedure_id')->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
+            $table->string('relative_name')->nullable();
             $table->unsignedBigInteger('admissions_id')->nullable();
             $table->longText('observations')->nullable();
             $table->unsignedBigInteger('reason_cancel_id')->nullable();

@@ -12,6 +12,7 @@ use App\Models\Authorization;
 use App\Models\MedicalDiary;
 use App\Models\User;
 use App\Actions\Transform\NumerosEnLetras;
+use App\Models\CopayParameters;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,16 +34,18 @@ class MedicalDiaryDaysController extends Controller
     {
         $MedicalDiaryDays = MedicalDiaryDays::select(
             'medical_diary_days.*',
+            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL or ch_record.status = "ACTIVO" then 0 else 1 end) AS exist_finalized_ch_record'),
+            DB::raw('SUM(case when ch_record.medical_diary_days_id IS NULL then 0 else 1 end) AS exist_ch_record'),
             // 'medical_diary_days.id AS Id',
             DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo'),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             'Libre',
                             IF(medical_diary_days.medical_status_id = 2,
-                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                CONCAT('Reservada por :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                 IF(medical_diary_days.medical_status_id = 3,
-                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                    CONCAT('Confirmada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                     IF(medical_diary_days.medical_status_id = 4,
-                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),'')),
+                                    CONCAT('Facturada :', ' ',IFNULL(CONCAT(patients.lastname,' '),''),IFNULL(CONCAT(patients.middlelastname,' '),''),IFNULL(CONCAT(patients.firstname,' '),''),IFNULL(CONCAT(patients.middlefirstname,' '),''), CONCAT('<br>Edad: ', patients.age), CONCAT('<br>Tipo de identificación: ', identification_type.name), CONCAT('<br>Identificación: ', patients.identification)),
                                             'Cancelada')))) AS Subject"),
             DB::raw("IF(medical_diary_days.medical_status_id = 1, 
                             '#37B24D',
@@ -59,7 +62,10 @@ class MedicalDiaryDaysController extends Controller
         )
             ->leftJoin('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
             ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
+            ->leftJoin('identification_type', 'patients.identification_type_id', 'identification_type.id')
             ->leftJoin('assistance', 'medical_diary.assistance_id', 'assistance.id')
+            ->leftJoin('ch_record','ch_record.medical_diary_days_id', 'medical_diary_days.id')
+            ->groupBy('medical_diary_days.id')
             ->with(
                 // 'days',
                 'medical_status',
@@ -69,7 +75,8 @@ class MedicalDiaryDaysController extends Controller
                 'medical_diary.office.pavilion.flat',
                 'medical_diary.assistance.user',
                 'services_briefcase.manual_price.manual',
-                'services_briefcase.manual_price.procedure'
+                'services_briefcase.manual_price.procedure',
+                'user_cancel'
             )
             // ->whereNull('diary_days_id')
             ->orderBy('start_hour', 'ASC');
@@ -101,11 +108,15 @@ class MedicalDiaryDaysController extends Controller
         if ($request->medical_status_id && $request->medical_status_id != 'null') {
             $MedicalDiaryDays->where('medical_diary_days.medical_status_id', $request->medical_status_id);
         } else {
-            $MedicalDiaryDays->where([
-                // ['medical_diary_days.medical_status_id', '!=', 1],
-                // ['medical_diary_days.medical_status_id', '!=', 4],
-                ['medical_diary_days.medical_status_id', '!=', 5]
-            ]);
+            $MedicalDiaryDays->where('medical_diary_days.medical_status_id', '!=', 6);
+            if (!$request->show_cancel) {
+                $MedicalDiaryDays->where([
+                    // ['medical_diary_days.medical_status_id', '!=', 1],
+                    // ['medical_diary_days.medical_status_id', '!=', 4],
+                    ['medical_diary_days.medical_status_id', '!=', 5]
+
+                ]);
+            }
         }
 
         if ($request->scheduling && $request->scheduling != 'null') {
@@ -216,14 +227,12 @@ class MedicalDiaryDaysController extends Controller
             ->join('medical_diary', 'medical_diary_days.medical_diary_id', 'medical_diary.id')
             ->join('assistance', 'medical_diary.assistance_id', 'assistance.id')
             ->LeftJoin('patients', 'medical_diary_days.patient_id', 'patients.id')
-            ->join('assistance_procedure', 'assistance_procedure.assistance_id', 'assistance.id')
-            ->join('procedure', 'assistance_procedure.procedure_id', 'procedure.id')
             ->join('users', 'assistance.user_id', 'users.id')
             ->where('users.id', '=', $userId)
-            ->where('procedure.id', '=', $procedureId)
+            ->where('medical_diary.procedure_id', '=', $procedureId)
             ->where('medical_diary_days.start_hour', '>=', $init_date_with_hour)
             ->where('medical_diary_days.finish_hour', '<=', $finish_date_with_hour)
-            ->where('medical_diary_days.medical_status_id', '!=', 5)
+            ->whereNotIn('medical_diary_days.medical_status_id', [5, 6])
             ->get();
         return response()->json([
             'status' => true,
@@ -272,12 +281,15 @@ class MedicalDiaryDaysController extends Controller
                 $Subsittute->finish_hour = $MedicalDiaryDays->finish_hour;
                 $Subsittute->save();
             }
+            $MedicalDiaryDays->reason_cancel_id = $request->reason_cancel_id;
+            $MedicalDiaryDays->cancel_description = $request->cancel_description;
+            $MedicalDiaryDays->user_cancel_id = $request->user_cancel_id;
+            $MedicalDiaryDays->relationship_id = $request->relationship_id;
+            $MedicalDiaryDays->relative_name = $request->relative_name;
         } else if ($request->status_id) {
             $MedicalDiaryDays->medical_status_id = $request->status_id;
         }
-        $MedicalDiaryDays->reason_cancel_id = $request->reason_cancel_id;
-        $MedicalDiaryDays->cancel_description = $request->cancel_description;
-        $MedicalDiaryDays->user_cancel_id = $request->user_cancel_id;
+
         $MedicalDiaryDays->save();
 
 
@@ -541,8 +553,16 @@ class MedicalDiaryDaysController extends Controller
         $MedicalDiaryDays->services_briefcase_id = $request->service_briefcase_id;
         $MedicalDiaryDays->patient_id = $request->patient_id;
         $MedicalDiaryDays->copay_id = $request->copay_id;
-        $MedicalDiaryDays->copay_value = $request->copay_value;
-        $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
+        //$MedicalDiaryDays->copay_value = $request->copay_value;
+        if ($request->copay_id) {
+            $copayParameter = CopayParameters::find($request->copay_id);
+            $copayValue = $copayParameter->value;
+            if ($copayParameter->payment_type_id == 2) {
+                $copayValue *= $procedure->manual_price->value;
+            }
+            $MedicalDiaryDays->copay_value = $copayValue;
+            $MedicalDiaryDays->is_telemedicine = $request->is_telemedicine;
+        }
 
         if ($request->is_telemedicine != 0) {
             $myrequest->setMethod('POST');

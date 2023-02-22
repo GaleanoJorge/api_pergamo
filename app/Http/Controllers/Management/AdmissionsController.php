@@ -14,6 +14,8 @@ use App\Models\Briefcase;
 use App\Models\ChInterconsultation;
 use App\Models\LogAdmissions;
 use App\Models\MedicalDiaryDays;
+use App\Models\CopayParameters;
+use App\Models\ServicesBriefcase;
 use App\Models\Patient;
 use App\Models\Reference;
 use App\Models\TypeContract;
@@ -503,6 +505,7 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
+
         $count = 0;
         global $Admission;
         $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
@@ -535,7 +538,9 @@ class AdmissionsController extends Controller
             $Location->admissions_id = $Admissions->id;
             $Location->admission_route_id = $request->admission_route_id;
             $Location->scope_of_attention_id = $request->scope_of_attention_id;
-            $Location->procedure_id = $request->procedure_id;
+            if($request->procedure_id != 'null' && $request->procedure_id != null){
+                $Location->procedure_id = $request->procedure_id;
+            }
             $Location->program_id = $request->program_id;
             $Location->pavilion_id = $request->pavilion_id;
             $Location->flat_id = $request->flat_id;
@@ -548,6 +553,8 @@ class AdmissionsController extends Controller
             $LogAdmissions->admissions_id = $Admissions->id;
             $LogAdmissions->status = 'Admisión creada';
             $LogAdmissions->save();
+
+            
 
             if ($request->admission_route_id == 2) {
                 $Admission = Admissions::where('id', $Admissions->id)->with('locationUnique')->first();
@@ -596,11 +603,16 @@ class AdmissionsController extends Controller
                 $medical_diary_days = MedicalDiaryDays::find($request->ambulatory_data);
                 $medical_diary_days->admissions_id = $Admissions->id;
                 $medical_diary_days->medical_status_id = 4;
-                if($request->copay_id){
+                if ($request->copay_id) {
                     $medical_diary_days->copay_id = $request->copay_id;
-                }
-                if($request->copay_value){
-                    $medical_diary_days->copay_value = $request->copay_value;
+                    $copayParameter = CopayParameters::find($request->copay_id);
+                    $copayValue = $copayParameter->value;
+                    if ($copayParameter->payment_type_id == 2) {
+                        $serviceBriefcase = ServicesBriefcase::find($request->procedure_id);
+                        $copayValue *= $serviceBriefcase->value;
+                    }
+                    $medical_diary_days->copay_value = $copayValue;
+                    //$medical_diary_days->copay_value = $request->copay_value;
                 }
                 $medical_diary_days->save();
 
