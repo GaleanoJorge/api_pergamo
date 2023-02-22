@@ -1150,5 +1150,9 @@
     {
         "name": "TRIMETROPIN+SULFAMETAZOL",
         "product_subcategory_id": "31"
+    },
+    {
+        "name": "OXIGENO",
+        "product_subcategory_id": "59"
     }
 ]

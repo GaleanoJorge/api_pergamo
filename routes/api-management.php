@@ -461,10 +461,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
     Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
-
-
-
-
+    Route::get('GetPatientsWithLaboratory', 'Management\PatientController@getPatientsWithLaboratories');
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');
@@ -1469,6 +1466,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
     Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
     Route::get('ch_formulation/getByAdmission/{admission_id}', 'Management\ChFormulationController@getByAdmission');
+    Route::post('ch_formulation/suspendFormulations/{ch_formulation_id}', 'Management\ChFormulationController@suspendFormulations');
 
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');
@@ -1928,6 +1926,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Nota aclaratoria
     Route::apiResource('disclaimer', 'Management\DisclaimerController');
     Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+    
+    //Vías de administración de oxígeno
+    Route::apiResource('oxigen_administration_way', 'Management\OxigenAdministrationWayController');
+    
+    //Control de oxígeno
+    Route::apiResource('oxigen_control', 'Management\OxigenControlController');
+    Route::get('oxigen_control/by_record/{id}/{type_record_id}', 'Management\OxigenControlController@getByRecord');
+
+    //Laboratorios
+    Route::apiResource('ch_laboratory', 'Management\ChLaboratoryController');
+    Route::post('ch_laboratory_update', 'Management\ChLaboratoryController@update');
 
 
 });

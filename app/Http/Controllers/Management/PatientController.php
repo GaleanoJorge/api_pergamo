@@ -50,6 +50,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\Base\LaboratoryStatus;
 use App\Models\CostCenter;
 use App\Models\LogAdmissions;
 use App\Models\Specialty;
@@ -1053,6 +1054,38 @@ class PatientController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patients]
+        ]);
+    }
+
+    /**
+     * Display patients with laboratories
+     *
+     * @return JsonResponse
+     */
+    public function getPatientsWithLaboratories(Request $request): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )->join('admissions', 'patients.id', 'admissions.patient_id')
+        ->join('ch_record', 'admissions.id', 'ch_record.admissions_id')
+        ->join('ch_medical_orders', 'ch_record.id', 'ch_medical_orders.ch_record_id')
+        ->join('ch_laboratory', 'ch_medical_orders.id', 'ch_laboratory.medical_order_id')
+        ->where('ch_laboratory.laboratory_status_id', '!=', LaboratoryStatus::$CANCELED_STATUS_ID);
+
+        if ($request->query("pagination", true) == "false") {
+            $patients = $patients->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pacientes obtenidos exitosamente',
             'data' => ['patients' => $patients]
         ]);
     }

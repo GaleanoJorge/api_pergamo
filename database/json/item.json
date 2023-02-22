@@ -1774,6 +1774,23 @@
         "icon": "",
         "show_menu": "1"
     },
+    {
+        "id": "255",
+        "item_parent_id": null,
+        "name": "Laboratorios",
+        "code": "laboratories",
+        "route": "/pages/laboratories/list"
+    },
+    
+    {
+        "id": "233",
+        "item_parent_id": null,
+        "name": "Reportes",
+        "code": null,
+        "route": null,
+        "icon": "layers-outline",
+        "show_menu": "1"
+    },
 
     {
         "id": "254",
