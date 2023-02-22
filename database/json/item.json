@@ -1736,7 +1736,7 @@
         "icon": "",
         "show_menu": "1"
     },
-    
+
     {
         "id": "252",
         "item_parent_id": "249",
@@ -1774,13 +1774,76 @@
         "icon": "",
         "show_menu": "1"
     },
-
+    
     {
         "id": "254",
         "item_parent_id": "233",
         "name": "Reporte de Rips",
         "code": "report-rips",
         "route": "/pages/setting/report-rips",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "260",
+        "item_parent_id": null,
+        "name": "Indicadores PBX Nacional",
+        "code": null,
+        "route": null,
+        "icon": "smartphone-outline",
+        "show_menu": "1"
+    },
+    {
+        "id": "261",
+        "item_parent_id": "260",
+        "name": "Base Pura",
+        "code": "tc-pare-base",
+        "route": "/pages/setting/tc-pare-base",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "262",
+        "item_parent_id": "260",
+        "name": "Atendidas",
+        "code": "tc-attended",
+        "route": "/pages/setting/tc-attended",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "263",
+        "item_parent_id": "260",
+        "name": "Abandonos",
+        "code": "tc-quit",
+        "route": "/pages/setting/tc-quit",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "264",
+        "item_parent_id": "260",
+        "name": "Nivel de servicio",
+        "code": "tc-service-level",
+        "route": "/pages/setting/tc-service-level",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "265",
+        "item_parent_id": "260",
+        "name": "Base Adherencia",
+        "code": "tc-base-adhesion",
+        "route": "/pages/setting/tc-base-adhesion",
+        "icon": "",
+        "show_menu": "1"
+    },
+    {
+        "id": "266",
+        "item_parent_id": "260",
+        "name": "Auxiliares",
+        "code": "tc-assistant",
+        "route": "/pages/setting/tc-assistant",
         "icon": "",
         "show_menu": "1"
     }
