@@ -3248,6 +3248,11 @@ class ChRecordController extends Controller
                 'ch_record.admissions.patients.residence_municipality',
                 'ch_record.admissions.contract.company',
                 'ch_record.admissions.contract.type_briefcase',
+                'ch_record.admissions.patients.ethnicity',
+                'ch_record.admissions.patients.municipality',
+                'ch_record.admissions.patients.identification_type',
+                'ch_record.admissions.patients.residence',
+                'ch_record.admissions.patients.population_group',
                 'procedure',
                 'frequency',
                 'services_briefcase',
@@ -3276,6 +3281,11 @@ class ChRecordController extends Controller
                 'ch_record.admissions.patients.residence_municipality',
                 'ch_record.admissions.contract.company',
                 'ch_record.admissions.contract.type_briefcase',
+                'ch_record.admissions.patients.ethnicity',
+                'ch_record.admissions.patients.municipality',
+                'ch_record.admissions.patients.identification_type',
+                'ch_record.admissions.patients.residence',
+                'ch_record.admissions.patients.population_group',
                 'specialty',
                 'frequency',
                 'services_briefcase',
@@ -3326,9 +3336,10 @@ class ChRecordController extends Controller
             $ChMedicalOrders = $ChMedicalOrders->get()->toArray();
             $ChInterconsultation = $ChInterconsultation->get()->toArray();
             $ManagementPlan = $ManagementPlan->get()->toArray();
+            $hcAll = [];
+            $hcAll2 = [];
 
             if ($ChMedicalOrders) {
-                $hcAll = [];
 
                 foreach ($ChMedicalOrders as $ch) {
                     array_push($hcAll, $ch['record_id']);
@@ -3338,7 +3349,6 @@ class ChRecordController extends Controller
             }
 
             if ($ChInterconsultation) {
-                $hcAll2 = [];
 
                 foreach ($ChInterconsultation as $ch) {
                     array_push($hcAll2, $ch['record_id']);
