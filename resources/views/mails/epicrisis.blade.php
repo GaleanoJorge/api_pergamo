@@ -1591,6 +1591,32 @@
             </div>
     </div>
 
+    <!-- NOTA ACLARATORIA -->
+    <div>
+
+        @if (count($Disclaimer) > 0)
+
+            <hr />
+            <p
+                style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                NOTA ACLARATORIA<br>
+            </p>
+            
+            <hr />
+
+            @foreach ($Disclaimer as $ch)
+                <p
+                    style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                    <b> @if (isset($ch['created_at'])) FECHA:</b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset
+                    <br />
+                    <b> @if (isset($ch['observation'])) NOTA ACLARATORIA:</b> {{ $ch['observation'] }} @endisset
+                    </span>
+                </p>
+            @endforeach
+
+        @endisset
+    </div>
 
     @endisset
 </div>

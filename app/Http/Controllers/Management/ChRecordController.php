@@ -3106,6 +3106,8 @@ class ChRecordController extends Controller
                         'ch_method_planning_gyneco'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     //Evolución
                     $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3127,7 +3129,7 @@ class ChRecordController extends Controller
 
                     // $patient=$ChRecord['admissions'];
 
-                    $html = view('mails.epicrisis', [
+                    $html = view('mails.', [
                         'chrecord' => $ChRecord,
                         'chrecord2' => $ChRecord[$i],
 
@@ -3147,6 +3149,8 @@ class ChRecordController extends Controller
 
                         'ChDiagnosisEvo' => $ChDiagnosisEvo,
                         'ChApEvo' => $ChApEvo,
+
+                        'Disclaimer' => $Disclaimer,
 
                         // 'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
