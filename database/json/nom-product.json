@@ -1150,5 +1150,10 @@
     {
         "name": "TRIMETROPIN+SULFAMETAZOL",
         "product_subcategory_id": "31"
+    },
+    {
+        "id": 301,
+        "name": "301",
+        "product_subcategory_id": "57"
     }
 ]

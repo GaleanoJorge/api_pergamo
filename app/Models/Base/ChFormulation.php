@@ -10,6 +10,7 @@ use App\Models\AdministrationRoute;
 use App\Models\HourlyFrequency;
 use App\Models\ChTypeRecord;
 use App\Models\ChRecord;
+use App\Models\OxigenAdministrationWay;
 use App\Models\PharmacyProductRequest;
 use App\Models\ProductGeneric;
 use App\Models\ProductSupplies;
@@ -26,8 +27,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property unsignedBigInteger $services_briefcase_id
  * @property unsignedBigInteger $administration_route_id
  * @property unsignedBigInteger $hourly_frequency_id
+ * @property unsignedBigInteger $oxigen_administration_way_id
  * @property string $required
  * @property string $medical_formula
+ * @property string $suspended
  * @property Integer $treatment_days 
  * @property string $outpatient_formulation
  * @property string $dose
@@ -83,6 +86,10 @@ class ChFormulation extends Model
 	public function ch_record()
 	{
 		return $this->belongsTo(ChRecord::class);
+	}
+	public function oxigen_administration_way()
+	{
+		return $this->belongsTo(OxigenAdministrationWay::class);
 	}
 
 }

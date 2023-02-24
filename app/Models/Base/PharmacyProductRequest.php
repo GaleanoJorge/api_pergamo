@@ -11,6 +11,7 @@ use App\Models\ProductGeneric;
 use App\Models\ServicesBriefcase;
 use App\Models\User;
 use App\Models\Admissions;
+use App\Models\ChFormulation;
 use App\Models\ManagementPlan;
 use App\Models\Pavilion;
 use App\Models\ProductSupplies;
@@ -98,5 +99,9 @@ class PharmacyProductRequest extends Model
 	public function pavilion()
 	{
 		return $this->belongsTo(Pavilion::class);
+	}
+	public function ch_formulation()
+	{
+		return $this->belongsTo(ChFormulation::class, 'id', 'pharmacy_product_request_id');
 	}
 }
