@@ -3178,6 +3178,7 @@ class ChRecordController extends Controller
                     array_push($documentos, $name);
 
                     $i++;
+                    $count++;
                 }
 
 
