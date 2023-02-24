@@ -76,7 +76,7 @@ class ServicesBriefcaseController extends Controller
         )
             ->leftjoin('manual_price', 'services_briefcase.manual_price_id', 'manual_price.id')
             ->leftjoin('procedure', 'manual_price.procedure_id', 'procedure.id')
-            ->leftjoin('product', 'manual_price.product_id', 'product.id')
+            ->leftjoin('product_generic', 'manual_price.product_id', 'product_generic.id')
             ->leftjoin('product_supplies', 'manual_price.supplies_id', 'product_supplies.id')
             ->where('briefcase_id', $briefcaseId);
         if ($request->type == 1) {
@@ -105,6 +105,11 @@ class ServicesBriefcaseController extends Controller
                 $ServicesBriefcase
                 ->where('procedure.procedure_category_id', '=', 5);
             }
+        }
+
+        if ($request->is_oxigen) {
+            $ServicesBriefcase
+                ->where('product_generic.nom_product_id', '=', 301);
         }
 
         //External consult CUPS atention
