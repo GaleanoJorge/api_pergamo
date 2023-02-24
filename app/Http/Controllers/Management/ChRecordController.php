@@ -3131,7 +3131,7 @@ class ChRecordController extends Controller
 
                     $html = view('mails.epicrisis', [
                         'chrecord' => $ChRecord,
-                        'chrecord2' => $ChRecord[$i],
+                        'chrecord2' => $ch,
 
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
