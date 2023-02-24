@@ -2856,14 +2856,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
@@ -2919,14 +2919,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
