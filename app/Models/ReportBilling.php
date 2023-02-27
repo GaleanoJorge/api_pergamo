@@ -10,8 +10,7 @@ class ReportBilling extends BaseReportBilling
 protected $fillable = [
 	'initial_report',
 	'final_report',
-	'billing',
-	'status',
+	'company_id',
 	'user_id',
 	];
 }

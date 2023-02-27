@@ -20,7 +20,7 @@ use phpseclib3\Math\BigInteger;
  * @property int $id 
  * @property Date $initial_report
  * @property date $final_report
- * @property BigInteger $pharmacy_product_request_id
+ * @property BigInteger $pharmacy_stock_id
  * @property BigInteger $user_id
  * @property string $status
  * @property Carbon $created_at
@@ -33,10 +33,6 @@ class ReportPharmacy extends Model
 {
 	protected $table = 'report_pharmacy';
 
-	public function pharmacy_product_request()
-	{
-		return $this->belongsTo(PharmacyProductRequest::class);
-	}
 	public function pharmacy_stock()
 	{
 		return $this->belongsTo(PharmacyStock::class);

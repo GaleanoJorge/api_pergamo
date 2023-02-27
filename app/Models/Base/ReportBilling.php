@@ -18,9 +18,8 @@ use Illuminate\Support\Facades\Date;
  * @property int $id 
  * @property Date $initial_report
  * @property Date $final_report
- * @property BigInteger $billing_pad
+ * @property BigInteger $company_id
  * @property BigInteger $user_id
- * @property string $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -29,11 +28,11 @@ use Illuminate\Support\Facades\Date;
  */
 class ReportBilling extends Model
 {
-	protected $table = 'billing';
+	protected $table = 'report_billing';
 
-	public function billing()
+	public function company()
 	{
-		return $this->belongsTo(Billing::class);
+		return $this->belongsTo(Company::class);
 	}
 	public function user()
 	{
