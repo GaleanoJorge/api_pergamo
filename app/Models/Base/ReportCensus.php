@@ -20,7 +20,7 @@ use phpseclib3\Math\BigInteger;
  * @property int $id 
  * @property Date $initial_report
  * @property date $final_report
- * @property BigInteger $location_id
+ * @property BigInteger $campus_id
  * @property BigInteger $user_id
  * @property Carbon $created_at
  * @property Carbon $updated_at

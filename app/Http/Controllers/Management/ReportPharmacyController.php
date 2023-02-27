@@ -49,7 +49,7 @@ class ReportPharmacyController extends Controller
         $ReportPharmacy = new ReportPharmacy;
         $ReportPharmacy->initial_report = $request->initial_report;
         $ReportPharmacy->final_report = $request->final_report;
-        $ReportPharmacy->pharmacy_product_request_id = $request->pharmacy_product_request_id;
+        $ReportPharmacy->pharmacy_stock_id = $request->pharmacy_stock_id;
         $ReportPharmacy->status = $request->status;
         $ReportPharmacy->user_id = $request->user_id;
         $ReportPharmacy->save();
@@ -114,16 +114,16 @@ class ReportPharmacyController extends Controller
             ->leftJoin('users', 'users.id', 'pharmacy_product_request.user_request_pad_id')
             ->leftJoin('pharmacy_stock', 'pharmacy_stock.id', 'pharmacy_lot_stock.pharmacy_stock_id')
             ->leftJoin('campus', 'campus.id', 'pharmacy_stock.campus_id')
-            //* Condicionales
-            ->where('log_pharmacy_shipping.status', [$request->status])
-            ->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id)
-            ->where('pharmacy_request_shipping.amount', '>', 0)
             //* Consulta Entre Fechas
             ->whereBetween('log_pharmacy_shipping.created_at', [$request->initial_report, $request->final_report])
+            //* Condicionales
+            ->where('pharmacy_lot_stock.pharmacy_stock_id', $request->pharmacy_stock_id)
+            ->where('log_pharmacy_shipping.status', [$request->status])
+            // ->where('pharmacy_request_shipping.amount', '>', 0)
             //* Agrupación por datos especificos
             ->groupBy('pharmacy_request_shipping.id')
             ->get()->toArray();
-
+            
         $response = [
             'report_pharmacy' => $stock,
         ];
@@ -164,7 +164,7 @@ class ReportPharmacyController extends Controller
         $ReportPharmacy = ReportPharmacy::find($id);
         $ReportPharmacy->initial_report = $request->initial_report;
         $ReportPharmacy->final_report = $request->final_report;
-        $ReportPharmacy->pharmacy_product_request_id = $request->pharmacy_product_request_id;
+        $ReportPharmacy->pharmacy_stock_id = $request->pharmacy_stock_id;
         $ReportPharmacy->status = $request->status;
         $ReportPharmacy->user_id = $request->user_id;
         $ReportPharmacy->save();
@@ -195,7 +195,7 @@ class ReportPharmacyController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Reporte Farmacia en uso, no es posible eliminarlo'
+                'message' => 'Reporte Farmacia en uso, imposible eliminarlo'
             ], 423);
         }
     }
