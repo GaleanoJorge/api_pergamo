@@ -2856,14 +2856,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
@@ -2919,14 +2919,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
@@ -3106,6 +3106,8 @@ class ChRecordController extends Controller
                         'ch_method_planning_gyneco'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     //Evolución
                     $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3129,7 +3131,7 @@ class ChRecordController extends Controller
 
                     $html = view('mails.epicrisis', [
                         'chrecord' => $ChRecord,
-                        'chrecord2' => $ChRecord[$i],
+                        'chrecord2' => $ch,
 
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
@@ -3147,6 +3149,8 @@ class ChRecordController extends Controller
 
                         'ChDiagnosisEvo' => $ChDiagnosisEvo,
                         'ChApEvo' => $ChApEvo,
+
+                        'Disclaimer' => $Disclaimer,
 
                         // 'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
@@ -3174,6 +3178,7 @@ class ChRecordController extends Controller
                     array_push($documentos, $name);
 
                     $i++;
+                    $count++;
                 }
 
 
