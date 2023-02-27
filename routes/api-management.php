@@ -1641,6 +1641,20 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Tablero Doc Mariana.
     Route::apiResource('billing_tc', 'Management\BillingTcController');
+
+    Route::apiResource('assistant_tc', 'Management\AssistantTcController');
+    Route::apiResource('attended_tc', 'Management\AttendedTcController');
+    Route::apiResource('base_adhesion_tc', 'Management\BaseAdhesionTcController');
+    Route::apiResource('pare_base_tc', 'Management\PareBaseTcController');
+    Route::apiResource('quit_tc', 'Management\QuitTcController');
+    Route::apiResource('service_level_tc', 'Management\ServiceLevelTcController');
+
+    Route::post('assistant_tc/file', 'Management\AssistantTcController@import');
+    Route::post('attended_tc/file', 'Management\AttendedTcController@import');
+    Route::post('base_adhesion_tc/file', 'Management\BaseAdhesionTcController@import');
+    Route::post('pare_base_tc/file', 'Management\PareBaseTcController@import');
+    Route::post('quit_tc/file', 'Management\QuitTcController@import');
+    Route::post('service_level_tc/file', 'Management\ServiceLevelTcController@import');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
     Route::apiResource('rentability_tc', 'Management\RentabilityTcController');

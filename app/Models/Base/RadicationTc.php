@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ambit
  * @property string $campus
  * @property string $filing_period
+ * @property string $year
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
