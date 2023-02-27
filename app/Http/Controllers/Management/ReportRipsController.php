@@ -163,9 +163,9 @@ class ReportRipsController extends Controller
             // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
-        $hoja1 = $this->TypeUser($hoja1);
-        $hoja1 = $this->TypeSex($hoja1);
-        $hoja1 = $this->TypeZone($hoja1);
+        // $hoja1 = $this->TypeUser($hoja1);
+        // $hoja1 = $this->TypeSex($hoja1);
+        // $hoja1 = $this->TypeZone($hoja1);
 
         //!--AC - Archivo de Consulta
         $hoja2 = AuthBillingPad::select(
