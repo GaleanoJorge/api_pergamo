@@ -18,6 +18,7 @@ use App\Models\User;
  * @property BigInteger $pharmacy_request_shipping_id
  * @property BigInteger $user_id
  * @property string $status
+ * @property string $quantity
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

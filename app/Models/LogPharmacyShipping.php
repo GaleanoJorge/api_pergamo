@@ -10,6 +10,7 @@ class LogPharmacyShipping extends BaseLogPharmacyShipping
     protected $fillable = [
 		'user_id',
     'status',
+    'quantity',
     'pharmacy_request_shipping_id',
 	];
 }
