@@ -26,6 +26,7 @@ class LogPharmacyShippingRequest extends FormRequest
         return [
             'user_id' => 'required',
             'status' => 'required',
+            'quantity' => 'required',
             'pharmacy_request_shipping_id' => 'required'
         ];
     }

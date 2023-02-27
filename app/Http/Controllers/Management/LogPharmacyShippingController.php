@@ -79,6 +79,7 @@ class LogPharmacyShippingController extends Controller
         $LogPharmacyShipping = new LogPharmacyShipping;
         $LogPharmacyShipping->user_id = $request->user_id;
         $LogPharmacyShipping->status = $request->status;
+        $LogPharmacyShipping->quantity = $request->quantity;
         $LogPharmacyShipping->pharmacy_request_shipping_id = $request->pharmacy_request_shipping_id;
         $LogPharmacyShipping->save();
 
@@ -127,6 +128,7 @@ class LogPharmacyShippingController extends Controller
         $LogPharmacyShipping = LogPharmacyShipping::find($id);
         $LogPharmacyShipping->user_id = $request->user_id;
         $LogPharmacyShipping->status = $request->status;
+        $LogPharmacyShipping->quantity = $request->quantity;
         $LogPharmacyShipping->pharmacy_request_shipping_id = $request->pharmacy_request_shipping_id;
         $LogPharmacyShipping->save();
 
