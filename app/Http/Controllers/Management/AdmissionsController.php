@@ -505,6 +505,7 @@ class AdmissionsController extends Controller
      */
     public function store(AdmissionsRequest $request): JsonResponse
     {
+
         $count = 0;
         global $Admission;
         $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
@@ -537,7 +538,9 @@ class AdmissionsController extends Controller
             $Location->admissions_id = $Admissions->id;
             $Location->admission_route_id = $request->admission_route_id;
             $Location->scope_of_attention_id = $request->scope_of_attention_id;
-            $Location->procedure_id = $request->procedure_id;
+            if($request->procedure_id != 'null' && $request->procedure_id != null){
+                $Location->procedure_id = $request->procedure_id;
+            }
             $Location->program_id = $request->program_id;
             $Location->pavilion_id = $request->pavilion_id;
             $Location->flat_id = $request->flat_id;

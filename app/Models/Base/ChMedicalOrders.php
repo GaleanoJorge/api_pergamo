@@ -10,6 +10,7 @@ use App\Models\Admissions;
 use App\Models\ChRecord;
 use App\Models\ChTypeRecord;
 use App\Models\Frequency;
+use App\Models\ChLaboratory;
 
 use App\Models\Procedure;
 use App\Models\ServicesBriefcase;
@@ -60,5 +61,9 @@ class ChMedicalOrders extends Model
 	public function services_briefcase()
 	{
 		return $this->belongsTo(ServicesBriefcase::class);
+	}
+	public function ch_laboratory()
+	{
+		return $this->hasOne(ChLaboratory::class, 'medical_order_id');
 	}
 }

@@ -26,5 +26,8 @@ class ScopeOfAttention extends Model
 {
 	protected $table = 'scope_of_attention';
 
-	
+	public function admission_route()
+	{
+		return $this->belongsTo(AdmissionRoute::class);
+	}
 }

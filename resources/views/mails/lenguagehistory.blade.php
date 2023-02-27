@@ -324,9 +324,8 @@
                     <th><span style="font-family:Calibri; font-size:9pt">TIPO</span></th>
 
                     <th><span style="font-family:Calibri; font-size:9pt">REVISIÓN</span></th>
-                    @if(isset($chrecord[0]['observation']))
+                
                     <th><span style="font-family:Calibri; font-size:9pt">OBSERVACIÓN</span></th>
-                    @endisset
                 </tr>
 
                 @foreach($ChBackground as $ch)
@@ -350,13 +349,12 @@
                     </td>
                     @endisset
 
-                    @if(isset($chrecord[0]['observation']))
+                 
 
                     @if(isset($ch['observation']))
                     <td>
                         <span style="font-family:Calibri; font-size:9pt">{{$ch['observation']}}</span>
                     </td>
-                    @endisset
                     @endisset
                 
                 </tr>
@@ -1170,18 +1168,10 @@
             @foreach($OstomiesTl as $ch)
             <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                 <span style="font-family:Calibri; font-size:9pt">
-                    @if(isset($chrecord[0]['created_at']))
                     <b>@if(isset($ch['created_at'])) FECHA: </b> {{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset <br/>
-                    @endisset
-                    @if(isset($chrecord[0]['jejunostomy']))
                     <b>@if(isset($ch['jejunostomy'])) YEYUNOSTOMÍA:</b> {{$ch['jejunostomy']}} @endisset <br/>
-                    @endisset
-                    @if(isset($chrecord[0]['colostomy']))
                     <b>@if(isset($ch['colostomy']))  COLOSTOMÍA: </b> {{$ch['colostomy']}} @endisset <br/>
-                    @endisset
-                    @if(isset($chrecord[0]['observations']))
                     <b>@if(isset($ch['observations'])) OBSERVACIÓN: </b> {{$ch['observations']}} @endisset</span>
-                    @endisset
                 </p>
              @endforeach
             @endisset
@@ -1285,11 +1275,10 @@
 
         
                 <br/>
-                @if(isset($chrecord[0]['observations']))
             
                 <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
                 </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-                @endisset
+          
                 </p>
                 @endforeach
                 @endisset
@@ -1362,11 +1351,11 @@
         
         
             <br/>
-            @if(isset($chrecord[0]['observations']))
+          
         
             <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
             </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-            @endisset
+   
             </p>
             @endforeach
             @endisset
@@ -1437,12 +1426,11 @@
             </table>
             
                     
-                    <br/>
-                    @if(isset($chrecord[0]['observations']))
+                    <br/>               
                 
                     <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
                     </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-                    @endisset
+           
                     </p>
                     @endforeach
                     @endisset
@@ -1606,11 +1594,10 @@
                
                 </table>
                 <br/>
-                @if(isset($chrecord[0]['observations']))
         
                 <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
                 </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-                @endisset 
+     
                 </p>
                 @endforeach
                 @endisset 
@@ -1738,11 +1725,11 @@
      
             
             <br/>
-            @if(isset($chrecord[0]['observations']))
+           
         
             <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
             </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-            @endisset
+    
             </p>
                 
             
@@ -1812,11 +1799,11 @@
      
             
             <br/>
-            @if(isset($chrecord[0]['observations']))
+    
         
             <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
             </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-            @endisset
+
             </p>
                 
             </div> 
@@ -1953,10 +1940,10 @@
      
             
             <br/>
-            @if(isset($chrecord[0]['observations']))
+       
             <span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:8pt"> &nbsp;&nbsp;<b>OBSERVACIÓN:</b> 
             </span><span style="margin-top:1.5pt; margin-left:2.5pt; margin-bottom:0pt; line-height:9.4pt; widows:0; orphans:0 font-family:Calibri; font-size:7pt"> &nbsp;&nbsp;@if(isset($ch['observations'])) {{$ch['observations']}} @endisset</span>
-            @endisset
+          
             </p>
                 
             </div> 
@@ -2006,10 +1993,9 @@
 
             <table class="tablehc">
                 <tr>
-                    @if(isset($chrecord[0]['created_at']))
+                   
                     <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
                     <th><span style="font-family:Calibri; font-size:9pt">OBJETIVOS</th>
-                    @endisset
                 </tr>
 
                 @foreach($TherapeuticGoalsTl as $ch)
@@ -2124,10 +2110,8 @@
                     <tr>
                         <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
                         <th><span style="font-family:Calibri; font-size:9pt">SESIONES MENSUALES:</th>
-                        <th><span style="font-family:Calibri; font-size:9pt">INTENSIDAD SEMANAL:</th>
-                            @if(isset($chrecord[0]['recomendations']))
+                        <th><span style="font-family:Calibri; font-size:9pt">INTENSIDAD SEMANAL:</th>                      
                         <th><span style="font-family:Calibri; font-size:9pt">RECOMENDACIONES</th>
-                            @endisset
 
 
 
@@ -2161,14 +2145,13 @@
                             </td>
 
                             @endisset
-                            @if(isset($chrecord[0]['recomendations']))
+                           
                             @if(isset($ch['recomendations']))
                             <td>
 
                             <span style="font-family:Calibri; font-size:9pt">    {{$ch['recomendations']}} </span>
 
                             </td>
-                            @endisset
                             @endisset
 
             
@@ -2564,10 +2547,9 @@
 
                 <tr>
                     
-                    @if(isset($chrecord[0]['created_at']))
+                
                     <th><span style="font-family:Calibri; font-size:9pt">FECHA</th>
                     <th><span style="font-family:Calibri; font-size:9pt">OBJETIVOS</th>
-                        @endisset
                 </tr>
 
                 @foreach($TherapeuticGoalsTlEvo as $ch)
@@ -2819,9 +2801,8 @@
                         <th><span style="font-family:Calibri; font-size:9pt">SESIONES MENSUALES:</th>
                         <th><span style="font-family:Calibri; font-size:9pt">INTENSIDAD SEMANAL:</th>
 
-                        @if(isset($chrecord[0]['recomendations']))
+                 
                         <th><span style="font-family:Calibri; font-size:9pt">RECOMENDACIONES</th>
-                            @endisset
 
 
 
@@ -2856,14 +2837,13 @@
 
                             @endisset
 
-                            @if(isset($chrecord[0]['recomendations']))
+                         
                             @if(isset($ch['recomendations']))
                             <td>
 
                             <span style="font-family:Calibri; font-size:9pt">    {{$ch['recomendations']}} </span>
 
                             </td>
-                            @endisset
                             @endisset
     
 
@@ -2970,7 +2950,7 @@
 </td>
 <td style="margin-left:50px;width:130pt; vertical-align:top">
     <div style="">
-        @if($chrecord[0]['ch_interconsultation_id'] == null )
+        @if($chrecord[0]['ch_interconsultation_id'] == null || $chrecord[0]['medical_diary_days_id'] == null) 
         <span style="font-family:Calibri;font-size: 10px;"> <b>FIRMA A SATISFACCIÓN DEL PACIENTE / RESPONSABLE / ACUDIENTE / CUIDADOR</b> </span>
     
         @if($firmPatient != null)

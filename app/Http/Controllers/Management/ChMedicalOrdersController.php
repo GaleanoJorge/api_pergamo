@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ChMedicalOrdersController extends Controller
 {
@@ -19,12 +21,13 @@ class ChMedicalOrdersController extends Controller
     public function index(Request $request): JsonResponse
     {
         $ChMedicalOrders = ChMedicalOrders::with(
-            'procedure', 
+            'procedure',
             'services_briefcase',
             'services_briefcase.manual_price',
             'services_briefcase.manual_price.procedure',
-            'frequency', 
-            'admissions');
+            'frequency',
+            'admissions'
+        );
 
         if ($request->_sort) {
             $ChMedicalOrders->orderBy($request->_sort, $request->_order);
@@ -71,7 +74,7 @@ class ChMedicalOrdersController extends Controller
 
         $chrecord = ChRecord::find($id);
         $ChMedicalOrders = ChMedicalOrders::select('ch_medical_orders.*')
-        ->leftJoin('ch_record', 'ch_record.id', 'ch_medical_orders.ch_record_id')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_medical_orders.ch_record_id')
             ->with(
                 'procedure',
                 'services_briefcase',
@@ -80,6 +83,7 @@ class ChMedicalOrdersController extends Controller
                 'frequency',
             )
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
+            ->whereNull('ch_medical_orders.canceled')
             ->orderBy('ch_medical_orders.id', 'DESC')
             ->get()->toArray();
 
@@ -163,18 +167,48 @@ class ChMedicalOrdersController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
+        DB::beginTransaction();
         try {
+
             $ChMedicalOrders = ChMedicalOrders::find($id);
-            $ChMedicalOrders->delete();
+
+            $procedureCategoryId = $ChMedicalOrders->services_briefcase->manual_price->procedure->procedure_category_id;
+            $action = 'eliminada';
+
+            if ($procedureCategoryId == 5) {
+
+                $action = 'cancelada';
+
+                $laboratory = $ChMedicalOrders->ch_laboratory;
+                if ($laboratory->laboratory_status_id != 1) {
+                    throw new Exception();
+                }
+
+                $ChMedicalOrders->canceled = true;
+                $ChMedicalOrders->save();
+
+                $laboratory->laboratory_status_id = 6;
+                $laboratory->save();
+            } else {
+                $ChMedicalOrders->delete();
+            }
+
+            DB::commit();
 
             return response()->json([
                 'status' => true,
-                'message' => 'Ordenes Medicas eliminado exitosamente'
+                'message' => 'Orden médica ' . $action . ' exitosamente'
             ]);
         } catch (QueryException $e) {
+            DB::rollback();
             return response()->json([
                 'status' => false,
-                'message' => 'Ordenes Medicas en uso, no es posible eliminarlo'
+                'message' => 'Orden médica en uso, no pudo ser ' . $action
+            ], 423);
+        } catch (Exception $ex) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se puede cancelar un laboratorio que ya ha sido tomado'
             ], 423);
         }
     }
