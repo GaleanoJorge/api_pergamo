@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Management;
 
+use App\Models\AuthBillingPad;
 use App\Models\ReportRips;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -34,19 +35,15 @@ class ReportRipsController extends Controller
         } else {
             $page = $request->query("current_page", 1);
             $per_page = $request->query("per_page", 10);
-
             $ReportRips = $ReportRips->paginate($per_page, '*', 'page', $page);
         }
 
-
         return response()->json([
             'status' => true,
-            'message' => 'Reporte Rips exitosamente',
+            'message' => 'Reporte Rips Exitoso',
             'data' => ['report_rips' => $ReportRips]
         ]);
     }
-
-
     public function store(Request $request): JsonResponse
     {
         $ReportRips = new ReportRips;
@@ -62,8 +59,6 @@ class ReportRipsController extends Controller
             'data' => ['report_rips' => $ReportRips->toArray()]
         ]);
     }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -72,25 +67,87 @@ class ReportRipsController extends Controller
      */
     public function exportRips(Request $request, int $id): JsonResponse
     {
-        //--US
-        $hoja1 = BillingPad::select(
-            'identification_type.code AS Tipo de Identifiación del Usuario en el Sistema',
-            'patients.identification AS Número de Identifiación del Usuario en el Sistema',
-            'company.administrator AS Código Entidad Administradora', //Codigo Entidad Administradora
-            'type_briefcase.name AS Tipo de Usuario', // validar info para arreglar json
-            'patients.lastname AS Primer Apellido del Usuario',
-            'patients.middlelastname AS Segundo Apellido del Usuario',
-            'patients.firstname AS Primer Nombre del Usuario',
-            'patients.middlefirstname AS Segundo Nombre del Usuario',
-            'patients.age AS Edad',
-            //Unidad de medida de la Edad  /la data que llegue a traer // 1 años //2 meses //3 dias
-            'gender.name AS Sexo',
-            'region.code AS Código del departamento de residencia habitual',
-            'municipality.id AS Código de municipios de residencia habitual',
-            'residence.name AS Zona de residencia habitual',
-        )
-            ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
+        //! Rips Simplificado
+        $RipsUnico = DB::table('auth_billing_pad')
+            ->select(
+                'auth_billing_pad.id AS ID',
+                DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS Factura'),
+                DB::raw('CAST(billing_pad.facturation_date AS DATE) AS Fecha_Factura'),
+                DB::raw('assigned_management_plan.start_date AS Fecha_Servicio'),
+                'identification_type.code AS Tipo_Documento',
+                'patients.identification AS Documento',
+                DB::raw('IF(type_briefcase.name = "Subsidiado", 2, 1) AS Regimen'),
+                'patients.lastname AS 1er_Apellido',
+                'patients.middlelastname AS 2do_Apellido',
+                'patients.firstname AS 1er_Nombre',
+                'patients.middlefirstname AS 2do_Nombre',
+                DB::raw('IF((DATEDIFF(NOW(), patients.birthday) / 365.25) >= 1, FLOOR(DATEDIFF(NOW(), patients.birthday) / 365.25), if((DATEDIFF(NOW(), patients.birthday) / 30) >= 1, FLOOR(DATEDIFF(NOW(), patients.birthday) / 30), FLOOR(DATEDIFF(NOW(), patients.birthday)))) AS Edad'),
+                DB::raw('IF((DATEDIFF(NOW(), patients.birthday) / 365.25) >= 1, 1, IF((DATEDIFF(NOW(), patients.birthday) / 30) >= 1, 2, 3)) AS "Unidad de Medida de Edad"'),
+                DB::raw('IF(gender.name = "Masculino", "M", "F") AS Genero'),
+                'region.code AS Departamento',
+                'municipality.sga_origin_fk AS Municipio',
+                DB::raw('IF(residence.name = "URBANA", "U", IF(residence.name = "URBANA DISPERSA", "UD", IF(residence.name = "RURAL DISPERSA", "RD", IF(residence.name = "RURAL", "R", NULL)))) AS Zona_Residencial'),
+                DB::raw('IF(ISNULL(product.code_cum), manual_price.own_code, product.code_cum) AS Cums_Cups'),
+                'manual_price.name AS Procedimiento',
+                'authorization.id AS Autorizacion_ID',
+                'services_briefcase.id AS Paquete_ID',
+                // 'diagnosis.name AS Diagnostico',
+                DB::raw('SUM(IF(ISNULL(authorization.quantity), 1, authorization.quantity)) AS Cantidad'),
+                'services_briefcase.value AS Valor_Unitario',
+                'authorization.copay_value AS COPAGO',
+                DB::raw('SUM(IF(ISNULL(authorization.quantity), 1, authorization.quantity)) * manual_price.value AS Total'),
+                'company.name AS EPS',
+                'company.administrator AS Cod_EPS'
+            )
             ->leftJoin('authorization', 'authorization.id', 'auth_billing_pad.authorization_id')
+            ->leftJoin('assigned_management_plan', 'assigned_management_plan.id', 'authorization.assigned_management_plan_id')
+            ->leftJoin('services_briefcase', 'services_briefcase.id', 'authorization.services_briefcase_id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('type_briefcase', 'type_briefcase.id', 'admissions.regime_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('region', 'region.id', '=', 'patients.residence_region_id')
+            ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
+            ->leftJoin('residence', 'residence.id', 'patients.residence_id')
+            ->leftJoin('gender', 'gender.id', '=', 'patients.gender_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
+            ->leftJoin('billing_pad AS bp', 'bp.billing_credit_note_id', 'billing_pad.id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('campus', 'campus.billing_pad_prefix_id', 'billing_pad_prefix.id')
+            ->where('billing_pad.billing_pad_status_id', 2)
+            // ->where('billing_pad.facturation_date', '>=', '2023-01-00 00:00:00')
+            ->whereBetween('billing_pad.facturation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->company_id)
+            ->whereNull('bp.id')
+            ->whereNotNull('campus.id')
+            ->groupBy('product.code_cum', 'billing_pad.consecutive', 'manual_price.id')
+            ->orderBy('patients.identification', 'ASC')
+            ->get()->toArray();
+
+        //!--US - Archivo de Usuarios
+        $hoja1 = AuthBillingPad::select(
+            'identification_type.code AS Tipo de Identificación',
+            DB::raw('CAST(patients.identification AS INT) AS "Identificación del Usuario"'),
+            'company.administrator AS Código de Entidad Administradora',
+            DB::raw('CAST(type_briefcase.name AS INT) AS "Tipo de Usuario"'),
+            'patients.lastname AS Primer Apellido',
+            'patients.middlelastname AS Segundo Apellido',
+            'patients.firstname AS Primer Nombre',
+            'patients.middlefirstname AS Segundo Nombre',
+            DB::raw('IF((DATEDIFF(NOW(), patients.birthday) / 365.25) >= 1, FLOOR(DATEDIFF(NOW(), patients.birthday) / 365.25), if((DATEDIFF(NOW(), patients.birthday) / 30) >= 1, FLOOR(DATEDIFF(NOW(), patients.birthday) / 30), FLOOR(DATEDIFF(NOW(), patients.birthday)))) AS Edad'),
+            DB::raw('IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, 1, IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, 2, 3)) AS "Unidad de Medida de Edad"'),
+            'gender.name AS Sexo',
+            'region.code AS Código del Departamento Residencial',
+            'municipality.id AS Código del Municipio Residencial',
+            'residence.name AS Zona de Residecial Habitual',
+        )
+            ->leftJoin('authorization', 'authorization.id', 'auth_billing_pad.authorization_id')
+            ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
@@ -101,37 +158,39 @@ class ReportRipsController extends Controller
             ->leftJoin('region', 'region.id', 'patients.residence_region_id')
             ->leftJoin('municipality', 'municipality.id', 'patients.residence_municipality_id')
             ->leftJoin('residence', 'residence.id', 'patients.residence_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
         $hoja1 = $this->TypeUser($hoja1);
         $hoja1 = $this->TypeSex($hoja1);
         $hoja1 = $this->TypeZone($hoja1);
-        
 
-        //--AC
-        $hoja2 = BillingPad::select(
-            DB::raw('CONCAT_WS("-",billing_pad_prefix.name,admissions.consecutive) AS factura'),
-            'campus.enable_code AS Codigo del prestador salud',
-            'identification_type.code AS Identificacion del Usuario',
-            'patients.identification AS Numero de identificacion del usuario en el sistema',
-            'assigned_management_plan.execution_date AS Fecha de la consulta',
-            'authorization.auth_number AS Numero de Autorizacion',
-            'procedure.code AS Codigo de consulta',
-            'procedure.name AS Finalidad de la consulta', //el motivo validar campos con excel 1-2-3-4-5-6-7-8-9 finalidad de la consulta
-            'ch_external_cause.name AS Causa externa', //Causa externa
-            'diagnosis.code AS Codigo del Diagnostico principal', //Codigo del Diagnostico principal  CIE10
-            //Codigo del diagnostico relacionado N° 1
-            //Codigo del diagnostico relacionado N° 2
-            //Codigo del diagnostico relacionado N° 3
-            //Tipo de diagnostico principal
-            'services_briefcase.value AS Valor de la consulta', //Valor de la consulta
-            //'0 AS Valor de la cuota moderadora', //Valor de la consulta
-            'services_briefcase.value AS Valor Neto a pagar', //Valor Neto a pagar
+        //!--AC - Archivo de Consulta
+        $hoja2 = AuthBillingPad::select(
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'campus.enable_code AS Código del Prestador de Servicios',
+            'identification_type.code AS Tipo de Identificación',
+            'patients.identification AS Identificación del Usuario',
+            'assigned_management_plan.execution_date AS Fecha de Consulta',
+            'authorization.auth_number AS Número de Autorización',
+            'procedure.code AS Código de Consulta',
+            'procedure.name AS Finalidad de Consulta',
+            //el motivo validar campos con excel 1-2-3-4-5-6-7-8-9 finalidad de la consulta
+            'ch_external_cause.id AS Causa externa',
+            'diagnosis.code AS Código del Diagnóstico Principal', //Codigo del Diagnostico principal  CIE10
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N°1"'), //? Falta Consulta
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N°2"'), //? Falta Consulta
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N°3"'), //? Falta Consulta
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Tipo de Diagnóstico Principal"'),
+            //? Falta Consulta
+            'services_briefcase.value AS Valor de Consulta',
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor de Cuota Moderadora"'),
+            //? Falta Consulta
+            'services_briefcase.value AS Valor Neto',
         )
-            ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
+            ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
             ->leftJoin('authorization', 'authorization.id', 'auth_billing_pad.authorization_id')
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.id', 'authorization.assigned_management_plan_id')
             ->leftJoin('services_briefcase', 'services_briefcase.id', 'authorization.services_briefcase_id')
@@ -141,36 +200,42 @@ class ReportRipsController extends Controller
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
-            ->leftJoin('procedure', 'procedure.id', 'admissions.procedure_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('services_briefcase AS SB', 'SB.id', 'location.procedure_id')
+            ->leftJoin('manual_price AS MP', 'MP.id', 'SB.manual_price_id')
+            ->leftJoin('procedure', 'procedure.id', 'MP.procedure_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
             ->leftJoin('ch_record', 'ch_record.admissions_id', 'admissions.id')
             ->leftJoin('ch_reason_consultation', 'ch_reason_consultation.ch_record_id', 'ch_record.id')
             ->leftJoin('ch_external_cause', 'ch_external_cause.id', 'ch_reason_consultation.ch_external_cause_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
-        $hoja2 = $this->ExternalCause($hoja2);
+        //  $hoja2 = $this->ExternalCause($hoja2);
+        // $hoja2 = $this->QueryPurpose($hoja2);
 
-        //--AP
+        //!--AP - Archivo de Procedimientos
         $hoja3 = BillingPad::select(
-            DB::raw('CONCAT_WS("-",billing_pad_prefix.name,admissions.consecutive) AS factura'),
-            'campus.enable_code AS Codigo del prestador salud', // Codigo del prestador de servicios de salud
-            'identification_type.code AS Tipo de Identificacion del Usuario',
-            'patients.identification AS Numero de identificacion del usuario en el sistema',
-            'assigned_management_plan.execution_date AS Fecha del procedimiento', //Fecha del procedimiento
-            'authorization.auth_number AS Numero de Autorizacion',          //Numero de Autorizacion
-            'procedure.code AS Codigo del procedimiento', //Codigo del procedimiento
-            'admission_route.name AS Ambito de realizacion del procedimiento', //Ambito de realizacion del procedimiento
-            'type_of_attention.name AS Finalidad del procedimiento', //Causa externa
-            //Personal que atiende
-            'diagnosis.code AS Diagnostico principal', //Diagnostico principal
-            // 'diagnosis.code AS Codigo del diagnostico relacionado', //Codigo del diagnostico relacionado
-            //nada    //Codigo del diagnostico de la Complicacion
-            //nada   //Forma de realizacion del acto quirurgico
-            'manual_price.value AS Valor del Procedimiento', //Valor del Procedimiento
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'campus.enable_code AS Código del Prestador de Servicios',
+            'identification_type.code AS Tipo de Identificación',
+            'patients.identification AS Identificación del Usuario',
+            'assigned_management_plan.execution_date AS Fecha del Procedimiento',
+            'authorization.auth_number AS Número de Autorización',
+            'procedure.code AS Código del Procedimiento',
+            'admission_route.name AS Ámbito de Realización del Procedimiento',
+            'type_of_attention.name AS Finalidad Procedimiento',
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Personal que Atiende"'),
+            //? Falta Consulta
+            'diagnosis.code AS Diagnóstico Principal',
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado"'), //? Falta Consulta
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico de Complicación"'), //? Falta Consulta
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Forma de Realización del Acto Quirúrgico"'),
+            //? Falta Consulta
+            'services_briefcase.value AS Valor Procedimiento',
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -184,8 +249,10 @@ class ReportRipsController extends Controller
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('diagnosis', 'diagnosis.id', 'admissions.diagnosis_id')
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
-            ->leftJoin('procedure', 'procedure.id', 'admissions.procedure_id')
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('services_briefcase AS SB', 'SB.id', 'location.procedure_id')
+            ->leftJoin('manual_price AS MP', 'MP.id', 'SB.manual_price_id')
+            ->leftJoin('procedure', 'procedure.id', 'MP.procedure_id')
             ->leftJoin('services_briefcase', 'services_briefcase.id', 'authorization.services_briefcase_id')
             ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
@@ -194,26 +261,27 @@ class ReportRipsController extends Controller
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
             ->leftJoin('admission_route', 'admission_route.id', 'location.admission_route_id')
             ->leftJoin('gender', 'gender.id', 'patients.gender_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
         $hoja3 = $this->Ambit($hoja3);
 
-        //--AT
+        //!--AT - Archivo de Otros Servicios
         $hoja4 = BillingPad::select(
-            DB::raw('CONCAT_WS("-",billing_pad_prefix.name,admissions.consecutive) AS factura'),
-            'campus.enable_code AS Codigo del prestador salud', // Codigo del prestador de servicios de salud
-            'identification_type.code AS Tipo de Identificacion del Usuario',
-            'patients.identification AS Numero de identificacion del usuario en el sistema',
-            'authorization.auth_number AS Numero de Autorizacion',          //Numero de Autorizacion
-            // '1 AS Tipo de servicio '
-            //Codigo del servicio
-            //Nombre del servicio
-            //Cantidad 
-            //Valor unitario del material e insumo
-            //Valor total del material e insumo
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'campus.enable_code AS Código del Prestador de Servicios',
+            'identification_type.code AS Tipo de Identificación',
+            'patients.identification AS Identificación del Usuario',
+            'authorization.auth_number AS Número de Autorización',
+            //? Campos por Consultar
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Tipo de Servicio"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Servicio"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Nombre del Servicio"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Cantidad"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor Unitario del Insumo"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor Total del Insumo"'),
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -226,27 +294,27 @@ class ReportRipsController extends Controller
             ->leftJoin('services_briefcase', 'services_briefcase.id', 'authorization.services_briefcase_id')
             ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
 
-        //--AM
+        //!--AM - Archivo de Medicamentos
         $hoja5 = BillingPad::select(
-            DB::raw('CONCAT_WS("-",billing_pad_prefix.name,admissions.consecutive) AS factura'),
-            'identification_type.code AS Tipo de Identificacion del Usuario',
-            'patients.identification AS Numero de identificacion del usuario en el sistema',
-            'authorization.auth_number AS Numero de Autorizacion',          //Numero de Autorizacion
-            //DB::raw('CONCAT_WS("-",product.code_cum_file,product.code_cum_consecutive) AS Codigo del medicamento'),
-            'pbs_type.name as Tipo de medicamento',
-            'nom_product.name as Nombre genérico del medicamento',
-            'product_presentation.name as Forma farmaceutica',
-            'product_concentration.value as Concentracion',
-            'measurement_units.name as Unidad de medida del medicamento',
-            'management_plan.quantity as Numero de unidades',
-            'manual_price.value as Valor unitario del medicamento',
-            'manual_price.value as Valor total del medicamento'
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'identification_type.code AS Tipo de Identificación',
+            'patients.identification AS Identificación del Usuario',
+            'authorization.auth_number AS Número de Autorización',
+            DB::raw('CONCAT_WS("-", product.code_cum_file, product.code_cum_consecutive) AS "Código del Medicamento"'),
+            'pbs_type.name AS Tipo de Medicamento',
+            'nom_product.name AS Nombre Genérico',
+            'product_presentation.name AS Forma Farmacéutica',
+            'product_concentration.value AS Concentración',
+            'measurement_units.name AS Unidad de Medida',
+            'management_plan.quantity AS Unidades',
+            'manual_price.value AS Valor Unitario',
+            'manual_price.value AS Valor Total'
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -267,33 +335,34 @@ class ReportRipsController extends Controller
             ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
 
-        //--AH
+        //!--AH - Archivo Hospitalario
         $hoja6 = BillingPad::select(
-            DB::raw('CONCAT_WS("-",billing_pad_prefix.name,admissions.consecutive) AS factura'),
-            'campus.enable_code AS Codigo del prestador de salud',
-            'identification_type.code AS Tipo de Identificacion del Usuario',
-            'patients.identification AS Numero de identificacion del usuario en el sistema',
-            //'3 AS Via de ingreso a la institucion',
-            'admissions.entry_date AS Fecha de ingreso del usuario a la institucion',
-            'admissions.entry_date AS Hora de ingreso del usuario a la institucion',
-            'authorization.auth_number AS Numero de Autorizacion', //Numero de Autorizacion
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'campus.enable_code AS Código del Prestador de Servicios',
+            'identification_type.code AS Tipo de Identificación',
+            'patients.identification AS Identificación de Usuario',
+            DB::raw('IF(billing_pad.id > 0, 3, 0) AS "Vía de Ingreso a la Institución"'),
+            'admissions.entry_date AS Fecha de Ingreso',
+            'admissions.entry_date AS Hora de Ingreso',
+            'authorization.auth_number AS Número de Autorización',
             'ch_external_cause.name AS Causa externa',
-            'diagnosis.code AS Diagnostico prinicipal de ingreso',
-            //'exit_diagnosis.name as Diagnostico principal de egreso ',
-            //'relations_diagnosis.code as Codigo del diagnostico relacionado N° 1',
-            //Codigo del diagnostico relacionado N° 2
-            //Codigo del diagnostico relacionado N° 3
-            //Diagnostico de la complicacion 
-            'ch_patient_exit.exit_status as Estado a la salida',
-            //'death_diagnosis.name as Diagnostico de la causa básica de muerte',
-            'admissions.discharge_date AS Fecha de egreso del usuario a la institucion',
-            'admissions.discharge_date AS Hora de egreso del usuario a la institucion',
+            'diagnosis.code AS Diagnóstico Prinicipal de Ingreso',
+            //? Campos por Consultar
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Diagnóstico Principal de Egreso"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N° 1"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N° 2"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Diagnóstico Relacionado N° 3"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Diagnóstico de Complicación"'),
+            DB::raw('IF(ch_patient_exit.exit_status > 0, 1, "Medio Vivo") AS "Estado de Salida"'),
+            DB::raw('if(billing_pad.id > 0, NULL, 0) AS "Diagnóstico de Causa Básica de Muerte"'),
+            'admissions.discharge_date AS Fecha de Egreso',
+            'admissions.discharge_date AS Hora de Egreso',
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -317,31 +386,33 @@ class ReportRipsController extends Controller
             ->leftJoin('ch_reason_consultation', 'ch_reason_consultation.ch_record_id', 'ch_record.id')
             ->leftJoin('ch_external_cause', 'ch_external_cause.id', 'ch_reason_consultation.ch_external_cause_id')
             ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
+        // $hoja6 = $this->ExternalCause($hoja6);
 
-        //--AF
+        //!--AF - Archivo de Transacciones
         $hoja7 = BillingPad::select(
-            'campus.enable_code AS Codigo del prestador salud',
-            // 'HEALTH LIFE IPS   AS      Razon Social o Apellidos y nombres del prestador',
-            // 'NI                AS      Tipo de Identificacion',
-            // '900900122         AS      Numero de Identificacion',
-            'billing_pad_prefix.name AS factura',
-            'billing_pad.created_at AS Fecha de expedicion de la factura',
-            'assigned_management_plan.start_date AS Fecha de Inicio',
-            'assigned_management_plan.start_date AS Fecha final',
-            //  'company.administrador AS Codigo entidad Administradora',
-            //  'company.name AS Nombre entidad administradora',
-            //Numero del Contrato
-            //Plan de Beneficios
-            //Numero de la poliza
-            //Valor total del pago compartido COPAGO
-            //Valor de la comision
-            //Valor total de Descuentos
-            //Valor Neto a Pagar por la entidad Contratante
+            'campus.enable_code AS Código del Prestador de Servicios',
+            DB::raw('IF(billing_pad.id > 0, "HEALTH & LIFE IPS", 0) AS "Razón Social o Nombre del Prestador"'),
+            DB::raw('IF(billing_pad.id > 0, "NIT", 0) AS "Tipo de Identificación"'),
+            DB::raw('IF(billing_pad.id > 0, "900900122", 0) AS "Número de Identificación"'),
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
+            'billing_pad.created_at AS Fecha de Expedición Factura',
+            'assigned_management_plan.start_date AS Fecha Inicio',
+            'assigned_management_plan.start_date AS Fecha Final',
+            'company.administrator AS Código de Entidad Administradora',
+            'company.name AS Nombre Entidad Administradora',
+            //? Campos por Consultar
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Número de Contrato"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Plan de Beneficios"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Número de Póliza"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor Total del COPAGO"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor de Comisión"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor Total de Descuentos"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Valor Neto para Entidad Contratante"'),
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -352,18 +423,19 @@ class ReportRipsController extends Controller
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
 
-        //--CT
+        //!--CT - Archivo de Control
         $hoja8 = BillingPad::select(
-            'campus.enable_code AS Codigo del prestador de salud',
-            // Fecha de remision
-            // Codigo del archivo
-            // Total de Registros
+            'campus.enable_code AS Código del Prestador de Servicios',
+            //? Campos por Consultar
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Fecha de Remisión"'),
+            DB::raw('IF(billing_pad.id > 0, NULL, 0) AS "Código del Archivo"'),
+            DB::raw('count(billing_pad.id) AS "Total de Registros"'),
         )
             ->leftJoin('auth_billing_pad', 'auth_billing_pad.billing_pad_id', 'billing_pad.id')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
@@ -373,11 +445,9 @@ class ReportRipsController extends Controller
             ->leftJoin('campus', 'campus.id', 'admissions.campus_id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
-
-
-            ->where('company.id', $id)
-            ->where('billing_pad.billing_pad_status_id', 2)
             ->whereBetween('billing_pad.validation_date', [$request->initial_report, $request->final_report])
+            ->where('company.id', $request->id)
+            // ->where('billing_pad.billing_pad_status_id', 2)
             ->groupBy('patients.id')
             ->get()->toArray();
 
@@ -393,11 +463,14 @@ class ReportRipsController extends Controller
             'h7' => $hoja7,
             'h8' => $hoja8,
         ];
+        $unico = [
+            'rips' => $RipsUnico,
+        ];
 
         return response()->json([
             'status' => true,
             'message' => 'Reporte Rips solicitado exitosamente',
-            'data' => ['report_rips' => $response]
+            'data' => ['report_rips' => $unico],
         ]);
     }
     public function TypeUser(array $arr)
@@ -422,7 +495,6 @@ class ReportRipsController extends Controller
             $aux[$i]['Tipo de Usuario'] = $ele['Tipo de Usuario'];
             $i++;
         }
-
         return $aux;
     }
     public function ExternalCause(array $arr)
@@ -435,7 +507,7 @@ class ReportRipsController extends Controller
             "Accidente rabico" => "3",
             "Accidente ofidico" => "4",
             "Otro tipo de accidente" => "5",
-            "Evento catrastrofico" => "6",
+            "Evento catastrofico" => "6",
             "Lesion por agresion" => "7",
             "Lesion autoinfligida" => "8",
             "Sospecha por matrato fisico" => "9",
@@ -454,8 +526,29 @@ class ReportRipsController extends Controller
 
         return $aux;
     }
-
-
+    public function QueryPurpose(array $arr)
+    {
+        $aux = $arr;
+        $i = 0;
+        $codes = [
+            "Atención del parto(Atención del embarazo y del postparto)" => "1",
+            "Atención Recién Nacido" => "2",
+            "Atención Planificación familiar" => "3",
+            "Detección alteraciones de crecimiento y desarrollo en menor de 10 años" => "4",
+            "Detección de alteración del desarrollo joven" => "5",
+            "Detección de alteraciones del embarazo" => "6",
+            "Detección de alteraciones del adulto" => "7",
+            "Detección de alteracions de agudeza visual" => "8",
+            "Detección de Enfermedad Profesional" => "9",
+            "No Aplica" => "10",
+        ];
+        foreach ($arr as $ele) {
+            $ele['Finalidad de Consulta'] = $codes[$ele['Finalidad de Consulta']];
+            $aux[$i]['Finalidad de Consulta'] = $ele['Finalidad de Consulta'];
+            $i++;
+        }
+        return $aux;
+    }
     public function TypeSex(array $arr)
     {
         $aux = $arr;
@@ -471,26 +564,23 @@ class ReportRipsController extends Controller
             $aux[$i]['Sexo'] = $ele['Sexo'];
             $i++;
         }
-
         return $aux;
     }
-
     public function Ambit(array $arr)
     {
         $aux = $arr;
         $i = 0;
         $codes = [
-            "Intramural" => "1",
+            "Hospitalario" => "1",
             "Domiciliario" => "2"
         ];
         foreach ($arr as $ele) {
-            $ele['Ambito de realizacion del procedimiento'] = $codes[$ele['Ambito de realizacion del procedimiento']];
-            $aux[$i]['Ambito de realizacion del procedimiento'] = $ele['Ambito de realizacion del procedimiento'];
+            $ele['Ámbito de Realización del Procedimiento'] = $codes[$ele['Ámbito de Realización del Procedimiento']];
+            $aux[$i]['Ámbito de Realización del Procedimiento'] = $ele['Ámbito de Realización del Procedimiento'];
             $i++;
         }
         return $aux;
     }
-
     public function TypeZone(array $arr)
     {
         $aux = $arr;
@@ -502,14 +592,12 @@ class ReportRipsController extends Controller
             "URBANA DISPERSA" => "U",
         ];
         foreach ($arr as $ele) {
-            $ele['Zona de residencia habitual'] = $codes[$ele['Zona de residencia habitual']];
-            $aux[$i]['Zona de residencia habitual'] = $ele['Zona de residencia habitual'];
+            $ele['Zona de Residecial Habitual'] = $codes[$ele['Zona de Residecial Habitual']];
+            $aux[$i]['Zona de Residecial Habitual'] = $ele['Zona de Residecial Habitual'];
             $i++;
         }
-
         return $aux;
     }
-
     public function getAge(array $arr)
     {
         $aux = $arr;
@@ -521,8 +609,6 @@ class ReportRipsController extends Controller
         }
         return $aux;
     }
-
-
     /**
      * Display the specified resource.
      *
@@ -540,7 +626,6 @@ class ReportRipsController extends Controller
             'data' => ['report_rips' => $ReportRips]
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -562,7 +647,6 @@ class ReportRipsController extends Controller
             'data' => ['report_rips' => $ReportRips]
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -582,7 +666,7 @@ class ReportRipsController extends Controller
         } catch (QueryException $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Reporte Rips en uso, no es posible eliminarlo'
+                'message' => 'Reporte Rips en uso, imposible eliminarlo'
             ], 423);
         }
     }
