@@ -496,7 +496,7 @@ class PharmacyProductRequestController extends Controller
                         }
                     })
                     ->whereNotNull('pharmacy_product_request.product_supplies_id');
-                    
+
             });
         }
 
@@ -641,6 +641,7 @@ class PharmacyProductRequestController extends Controller
             $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
             $LogPharmacyShipping->user_id = Auth::user()->id;
             $LogPharmacyShipping->status = 'DEVUELTO PACIENTE';
+            $LogPharmacyShipping->quantity = $request->request_amount;
             $LogPharmacyShipping->save();
 
 
@@ -718,7 +719,7 @@ class PharmacyProductRequestController extends Controller
     {
 
         $user_id = Auth::user()->id;
-        if ($id != -1) {
+        if ($id != -1 && $id != -2) {
             $PharmacyProductRequest = PharmacyProductRequest::find($id);
             $PharmacyProductRequest2 = PharmacyProductRequest::find($id);
             $COUNT2 = PharmacyRequestShipping::where('pharmacy_product_request_id', $id)->orderBy('created_at', 'asc');
@@ -755,11 +756,6 @@ class PharmacyProductRequestController extends Controller
                         $PharmacyRequestShipping->amount_operation =  $varamount;
                         $PharmacyRequestShipping->save();
 
-                        $LogPharmacyShipping = new LogPharmacyShipping;
-                        $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                        $LogPharmacyShipping->user_id = Auth::user()->id;
-                        $LogPharmacyShipping->status = 'ENVIO FARMACIA';
-                        $LogPharmacyShipping->save();
                     }
                     $COUNT3 = PharmacyProductRequest::where('id', $id)->orderBy('created_at', 'DESC');
                     $COUNT3 = $COUNT3->get()->toArray();
@@ -777,7 +773,9 @@ class PharmacyProductRequestController extends Controller
                     $LogPharmacyShipping = new LogPharmacyShipping;
                     $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
                     $LogPharmacyShipping->user_id = Auth::user()->id;
-                    $LogPharmacyShipping->status = 'ENVIADO PACIAL FARMACIA';
+                    $LogPharmacyShipping->status = 'ENVIO SOLICITADO FARMACIA';
+                    $LogPharmacyShipping->quantity = $element->amount;
+
                     $LogPharmacyShipping->save();
                 }
                 if ($request->status == "ENVIADO") {
@@ -837,6 +835,7 @@ class PharmacyProductRequestController extends Controller
                                         $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
                                         $LogPharmacyShipping->user_id = Auth::user()->id;
                                         $LogPharmacyShipping->status = 'ENVIO TOTAL PACIENTE';
+                                        $LogPharmacyShipping->quantity = $PharmacyProductRequest2->request_amount;
                                         $LogPharmacyShipping->save();
                                         $PharmacyProductRequest->save();
                                     } else {
@@ -845,7 +844,8 @@ class PharmacyProductRequestController extends Controller
                                         $LogPharmacyShipping = new LogPharmacyShipping;
                                         $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping2->id;
                                         $LogPharmacyShipping->user_id = Auth::user()->id;
-                                        $LogPharmacyShipping->status = 'PARCIAL PACIENTE';
+                                        $LogPharmacyShipping->status = 'ENVIO PARCIAL PACIENTE';
+                                        $LogPharmacyShipping->quantity = $element->amount;
                                         $LogPharmacyShipping->save();
                                         $PharmacyProductRequest->save();
                                     }
@@ -870,6 +870,7 @@ class PharmacyProductRequestController extends Controller
                                     $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping2->id;
                                     $LogPharmacyShipping->user_id = Auth::user()->id;
                                     $LogPharmacyShipping->status = 'TOTAL PACIENTE';
+                                    $LogPharmacyShipping->quantity = $COUNT[0]['amount_provition'];
                                     $LogPharmacyShipping->save();
 
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
@@ -921,12 +922,6 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                                 $PharmacyRequestShipping->amount_operation = $PharmacyProductRequest2->request_amount;
                                 $PharmacyRequestShipping->save();
-
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'SOLICITADO ALGUIEN';
-                                $LogPharmacyShipping->save();
                             }
                             $COUNT2 = PharmacyRequestShipping::where('pharmacy_product_request_id', $id)->orderBy('created_at', 'asc');
                             $COUNT2 = $COUNT2->get()->toArray();
@@ -940,12 +935,6 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping2->pharmacy_lot_stock_id = $element->pharmacy_lot_stock_id;
                                 $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
                                 $PharmacyRequestShipping2->save();
-
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping2->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'MIRAR';
-                                $LogPharmacyShipping->save();
 
                                 $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                 $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount;
@@ -980,11 +969,6 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping->amount_operation = $PharmacyProductRequest2->request_amount;
                                 $PharmacyRequestShipping->save();
 
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'SOLI FARMACIA';
-                                $LogPharmacyShipping->save();
                             }
                             $COUNT2 = PharmacyRequestShipping::where('pharmacy_product_request_id', $id)->orderBy('created_at', 'asc');
                             $COUNT2 = $COUNT2->get()->toArray();
@@ -999,11 +983,6 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyRequestShipping2->amount_operation = end($COUNT2)['amount_operation'] - $element->amount;
                                 $PharmacyRequestShipping2->save();
 
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping2->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'AÑÑÑ';
-                                $LogPharmacyShipping->save();
 
 
                                 $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
@@ -1050,7 +1029,9 @@ class PharmacyProductRequestController extends Controller
                             $LogPharmacyShipping = new LogPharmacyShipping;
                             $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
                             $LogPharmacyShipping->user_id = Auth::user()->id;
-                            $LogPharmacyShipping->status = 'ÑERD';
+                            $LogPharmacyShipping->status = 'iknow';
+                            $LogPharmacyShipping->quantity = $element->amount;
+
                             $LogPharmacyShipping->save();
                         }
                     }
@@ -1100,6 +1081,7 @@ class PharmacyProductRequestController extends Controller
                                 $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping3->id;
                                 $LogPharmacyShipping->user_id = Auth::user()->id;
                                 $LogPharmacyShipping->status = 'ACEPTADO DAÑADO';
+                                $LogPharmacyShipping->quantity = $element->amount_damaged;
                                 $LogPharmacyShipping->save();
                             }
                             if ($request->status == "ACEPTADO") {
@@ -1119,11 +1101,6 @@ class PharmacyProductRequestController extends Controller
                                 $PharmacyProductRequest->status = $request->status;
                                 $PharmacyProductRequest->save();
                                 $PharmacyRequestShipping->save();
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'ENVIO--';
-                                $LogPharmacyShipping->save();
                             } else {
                                 $PharmacyProductRequest->status = "ENVIO PARCIAL";
                                 $PharmacyProductRequest->save();
@@ -1132,6 +1109,7 @@ class PharmacyProductRequestController extends Controller
                                 $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
                                 $LogPharmacyShipping->user_id = Auth::user()->id;
                                 $LogPharmacyShipping->status = 'ENVIO PARCIAL';
+                                $LogPharmacyShipping->quantity = $element->amount;
                                 $LogPharmacyShipping->save();
                             }
 
@@ -1225,7 +1203,8 @@ class PharmacyProductRequestController extends Controller
                                 $LogPharmacyShipping = new LogPharmacyShipping;
                                 $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping3->id;
                                 $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'DAÑADO';
+                                $LogPharmacyShipping->status = 'DEVUELTO POR DAÑO';
+                                $LogPharmacyShipping->quantity = $element->amount_damaged;
                                 $LogPharmacyShipping->save();
                             }
                             if ($request->status == "ACEPTADO") {
@@ -1245,22 +1224,28 @@ class PharmacyProductRequestController extends Controller
                             if ($PharmacyRequestShipping->amount_operation <= 0) {
                                 $PharmacyProductRequest->status = $request->status;
                                 $PharmacyProductRequest->save();
-                                $PharmacyRequestShipping->save();
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'ACEPTADO TOTAL';
+                                $PharmacyRequestShipping->save();             
+                                if ($element->amount > 0) {
+                                    $LogPharmacyShipping = new LogPharmacyShipping;
+                                    $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
+                                    $LogPharmacyShipping->user_id = Auth::user()->id;
+                                    $LogPharmacyShipping->status = 'ACEPTADO TOTAL';
+                                    $LogPharmacyShipping->quantity = $element->amount;
+                                }
                                 $LogPharmacyShipping->save();
                             } else {
                                 $PharmacyProductRequest->status = "ENVIO PARCIAL FARMACIA";
                                 $PharmacyProductRequest->save();
                                 $PharmacyRequestShipping->save();
 
-                                $LogPharmacyShipping = new LogPharmacyShipping;
-                                $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
-                                $LogPharmacyShipping->user_id = Auth::user()->id;
-                                $LogPharmacyShipping->status = 'ACEPTADO PACIAL';
-                                $LogPharmacyShipping->save();
+                                if ($element->amount > 0) {
+                                    $LogPharmacyShipping = new LogPharmacyShipping;
+                                    $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
+                                    $LogPharmacyShipping->user_id = Auth::user()->id;
+                                    $LogPharmacyShipping->status = 'ACEPTADO PACIAL';
+                                    $LogPharmacyShipping->quantity = $element->amount;
+                                    $LogPharmacyShipping->save();
+                                }
                             }
 
                             if ($PharmacyProductRequest->product_generic_id) {
@@ -1318,7 +1303,7 @@ class PharmacyProductRequestController extends Controller
                 $PharmacyProductRequest->user_request_id = $request->user_request_id;
                 $PharmacyProductRequest->save();
             }
-        } else {
+        } else if ($id != -2) {
 
             $PharmacyProductRequest = new PharmacyProductRequest;
             $PharmacyProductRequest->request_amount = $request->amount_provition;
@@ -1347,6 +1332,7 @@ class PharmacyProductRequestController extends Controller
             $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
             $LogPharmacyShipping->user_id = Auth::user()->id;
             $LogPharmacyShipping->status = 'ENVIADO SIN SOLICITUD';
+            $LogPharmacyShipping->quantity = $request->amount_provition;
             $LogPharmacyShipping->save();
 
             $PharmacyLotStock = PharmacyLotStock::find($request->pharmacy_lot_stock_id);
@@ -1354,6 +1340,58 @@ class PharmacyProductRequestController extends Controller
             $PharmacyLotStock->save();
         }
 
+        if ($id == -2) {
+            
+            if ($request->pharmacy_lot_stock_id) {
+                $elements = json_decode($request->pharmacy_lot_stock_id);
+                
+                foreach ($elements as $element) {
+                    $PharmacyProductRequest = new PharmacyProductRequest;
+                    $PharmacyProductRequest->request_amount = $element->amount_provition;
+                    $pharmacu_lot_stock_selected = PharmacyLotStock::select('*')
+                        ->with(
+                            'billing_stock',
+                            'billing_stock.product',
+                            'billing_stock.product_supplies_com',
+                        )
+                        ->where('pharmacy_lot_stock.id', $element->pharmacy_lot_stock_id)
+                        ->get()->first();
+
+                    if ($pharmacu_lot_stock_selected->billing_stock->product) {
+                        $PharmacyProductRequest->product_generic_id = $pharmacu_lot_stock_selected->billing_stock->product->product_generic_id;
+                    }
+
+                    if ($pharmacu_lot_stock_selected->billing_stock->product_supplies_com) {
+                        $PharmacyProductRequest->product_supplies_id = $pharmacu_lot_stock_selected->billing_stock->product_supplies_com->product_supplies_id;
+                    }
+
+                    $PharmacyProductRequest->status = 'ENVIO FARMACIA';
+                    $PharmacyProductRequest->own_pharmacy_stock_id = $request->own_pharmacy_stock_id;
+                    $PharmacyProductRequest->request_pharmacy_stock_id = $request->request_pharmacy_stock_id;
+                    $PharmacyProductRequest->save();
+
+                    $PharmacyRequestShipping = new PharmacyRequestShipping;
+                    $PharmacyRequestShipping->pharmacy_product_request_id =  $PharmacyProductRequest->id;
+                    $PharmacyRequestShipping->pharmacy_lot_stock_id =  $element->pharmacy_lot_stock_id;
+                    $PharmacyRequestShipping->amount_damaged =  0;
+                    $PharmacyRequestShipping->amount =  0;
+                    $PharmacyRequestShipping->amount_provition =  $element->amount_provition;
+                    $PharmacyRequestShipping->amount_operation =  $element->amount_provition;
+                    $PharmacyRequestShipping->save();
+
+                    $LogPharmacyShipping = new LogPharmacyShipping;
+                    $LogPharmacyShipping->pharmacy_request_shipping_id = $PharmacyRequestShipping->id;
+                    $LogPharmacyShipping->user_id = Auth::user()->id;
+                    $LogPharmacyShipping->status = 'ENVIO MASIVO';
+                    $LogPharmacyShipping->quantity = $element->amount_provition;
+                    $LogPharmacyShipping->save();
+
+                    $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
+                    $PharmacyLotStock->actual_amount = $PharmacyLotStock->actual_amount - $element->amount_provition;
+                    $PharmacyLotStock->save();
+                }
+            }
+        }
         return response()->json([
             'status' => true,
             'message' => 'Inventario lote actualizado exitosamente',
