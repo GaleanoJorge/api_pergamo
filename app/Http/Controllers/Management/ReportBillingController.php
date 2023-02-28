@@ -71,7 +71,7 @@ class ReportBillingController extends Controller
     {
         //!--Facturadas
         $hoja1 = BillingPad::select(
-            DB::raw('CONCAT_WS("-", billing_pad.billing_pad_prefix_id, billing_pad.consecutive) AS "Número de Factura"'),
+            DB::raw('CONCAT_WS("-", billing_pad_prefix.name, billing_pad.consecutive) AS "Número de Factura"'),
             'billing_pad.facturation_date AS Fecha de Facturación',
             'identification_type.name AS Tipo de Identificación',
             'patients.identification AS Identificación de Paciente',
