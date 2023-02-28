@@ -1783,5 +1783,15 @@
         "route": "/pages/setting/report-rips",
         "icon": "",
         "show_menu": "1"
+    },
+
+    {
+        "id": "267",
+        "item_parent_id": "189",
+        "name": "Facturas",
+        "code": "billing-pad-all",
+        "route": "/pages/billing-pad/billing-pad-all",
+        "icon": "",
+        "show_menu": "1"
     }
 ]
