@@ -773,8 +773,8 @@ class AuthorizationController extends Controller
             $Auth->observation = $request->observation;
             $Auth->auth_number = $request->auth_number;
             $Auth->auth_status_id = 3;
-            $Auth->copay_id = $request->copay != null && $request->copay != 'null' && $request->copay != 'undefined' ? $request->copay : null;
-            $Auth->copay_value = $request->copay_value;
+            $Auth->copay_id = $request->copay != null && $request->copay != 'null' && $request->copay != 'undefined' && ($request->copay == true || $request->copay == 'true') ? $request->category_id : null;
+            $Auth->copay_value = $request->copay != null && $request->copay != 'null' && $request->copay != 'undefined' && ($request->copay == true || $request->copay == 'true') ? $request->copay_value : null;
             if ($request->file('file_auth')) {
                 $path = Storage::disk('public')->put('file_auth', $request->file('file_auth'));
                 $Auth->file_auth = $path;
@@ -817,8 +817,8 @@ class AuthorizationController extends Controller
     public function update(AuthorizationRequest $request, int $id): JsonResponse
     {
 
-        $copay_id = $request->copay == 'null' ? null : $request->copay;
-        $copay_value = $request->copay_value == 'null' ? null : $request->copay_value;
+        $copay_id = $request->copay != null && $request->copay != 'null' && $request->copay != 'undefined' && ($request->copay == true || $request->copay == 'true') ? $request->category_id : null;
+        $copay_value = $request->copay != null && $request->copay != 'null' && $request->copay != 'undefined' && ($request->copay == true || $request->copay == 'true') ? $request->copay_value : null;
 
         $Authorization = Authorization::find($id);
 

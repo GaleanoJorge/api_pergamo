@@ -1402,6 +1402,9 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //? Report Rips
     Route::apiResource('report_rips', 'Management\ReportRipsController');
     Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
+    //? Report Consulta Externa
+    Route::apiResource('report_external_query', 'Management\ReportExternalQueryController');
+    Route::get('report_external_query/export/{id}', 'Management\ReportExternalQueryController@exportExternalQuery');
     //? Report Censo EXCEL
     Route::apiResource('report_censusEXCEL', 'Management\ReportCensusController');
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
