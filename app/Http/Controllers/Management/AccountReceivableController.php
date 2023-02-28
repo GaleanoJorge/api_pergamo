@@ -101,13 +101,14 @@ class AccountReceivableController extends Controller
                 // DB::raw("IF(" . $ancualDate . ">=" . $LastDayMonth . " OR users.status_id = 2,1,0) AS show_file"), // VALIDACIÓN PARA RESTRINGIR CTA DE COBRO
                 DB::raw("1 AS show_file"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
                 DB::raw("SUM(IF(bill_user_activity.status != 'APROBADO',1,0)) AS pendientes"), // PRUEBA PARA GENERAR PDF CTA DE COBRO
+                DB::raw('SUM(IF(bill_user_activity.status = "APROBADO",tariff.amount,0)) as calculated_value'),
             )
             ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', 'account_receivable.id')
+            ->LeftJoin('tariff', 'tariff.id', '=', 'bill_user_activity.tariff_id')
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', 'account_receivable.id')
             ->LeftJoin('assistance', 'assistance.user_id', 'account_receivable.user_id')
             ->leftJoin('users', 'users.id', '=', 'account_receivable.user_id')
-            ->LeftJoin('user_campus', 'user_campus.user_id', 'users.id')
-            ;
+            ->LeftJoin('user_campus', 'user_campus.user_id', 'users.id');
 
         if ($user_id != 0) {
             $AccountReceivable->groupBy('account_receivable.id');
@@ -346,7 +347,14 @@ class AccountReceivableController extends Controller
             DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo')
         )
             ->where('id', $request->user_id)->get()->first();
-        $AccountReceivable = AccountReceivable::where('id', $id)->first();
+        $AccountReceivable = AccountReceivable::select(
+            'account_receivable.*', 
+            DB::raw('SUM(IF(bill_user_activity.status = "APROBADO",tariff.amount,0)) as calculated_value'),
+        )
+            ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', '=', 'account_receivable.id')
+            ->LeftJoin('tariff', 'tariff.id', '=', 'bill_user_activity.tariff_id')
+            ->groupBy('account_receivable.id')
+            ->where('id', $id)->first();
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
@@ -400,7 +408,7 @@ class AccountReceivableController extends Controller
         $retCalculator = app('App\Http\Controllers\Management\SourceRetentionController')->getByAccountReceivableId($request, $id);
         $retCalculator = json_decode($retCalculator->content(), true)['data']['source_retention'];
         $consecutive = $AccountReceivable->id;
-        $gross_value = $this->currencyTransform($AccountReceivable->gross_value_activities);
+        $gross_value = $this->currencyTransform($AccountReceivable->calculated_value);
         $net_value = $this->currencyTransform($AccountReceivable->net_value_activities);
         $letter_value = $this->NumToLetters($AccountReceivable->net_value_activities);
         $account_type = strtoupper($FinancialData['account_type']['name']);
