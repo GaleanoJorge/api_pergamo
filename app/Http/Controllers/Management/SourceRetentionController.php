@@ -67,8 +67,14 @@ class SourceRetentionController extends Controller
     {
         $AccountReceivable = AccountReceivable::with('user', 'status_bill', 'minimum_salary')
             ->where('account_receivable.id', $account_receivable_id)
-            ->select('account_receivable.*', DB::raw('IF(source_retention.id,1,0) as has_retention'))
+            ->select(
+                'account_receivable.*', 
+                DB::raw('IF(source_retention.id,1,0) as has_retention'),
+                DB::raw('SUM(IF(bill_user_activity.status = "APROBADO",tariff.amount,0)) as calculated_value'),
+            )
             ->LeftJoin('source_retention', 'source_retention.account_receivable_id', '=', 'account_receivable.id')
+            ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', '=', 'account_receivable.id')
+            ->LeftJoin('tariff', 'tariff.id', '=', 'bill_user_activity.tariff_id')
             ->groupBy('account_receivable.id')
             ->first()
             ->toArray();
@@ -130,13 +136,13 @@ class SourceRetentionController extends Controller
         $Rete_ica = 0;
 
 
-        if ($AccountReceivable['gross_value_activities'] >= $AccountReceivable['minimum_salary']['value']) {
-            $salud = $AccountReceivable['gross_value_activities'] * 0.04;
-            $arl = $AccountReceivable['gross_value_activities'] * 0.01;
-            $pension = $AccountReceivable['gross_value_activities'] * 0.04;
+        if ($AccountReceivable['calculated_value'] >= $AccountReceivable['minimum_salary']['value']) {
+            $salud = $AccountReceivable['calculated_value'] * 0.04;
+            $arl = $AccountReceivable['calculated_value'] * 0.01;
+            $pension = $AccountReceivable['calculated_value'] * 0.04;
         }
         $ingresos_no_constitutivos = $salud + $arl + $pension;
-        $sub_total_1 = $AccountReceivable['gross_value_activities'] - (round(( $salud + $arl + $pension) / 1000) * 1000);
+        $sub_total_1 = $AccountReceivable['calculated_value'] - (round(( $salud + $arl + $pension) / 1000) * 1000);
 
         foreach ($SourceRetention as $element) {
             $limit = round(($element['source_retention_type']['tax_value_unit']['value'] * $element['source_retention_type']['value']) / 1000) * 1000;
@@ -207,10 +213,10 @@ class SourceRetentionController extends Controller
         }
         $Retencion_por_aplicar = round(($sub_response) / 1000) * 1000;
 
-        $Rete_ica = $AccountReceivable['gross_value_activities'] > 142000 ? round((($AccountReceivable['gross_value_activities'] - $Retencion_por_aplicar) / 1000) * $ReteicaValue) : 0;
+        $Rete_ica = $AccountReceivable['calculated_value'] > 142000 ? round((($AccountReceivable['calculated_value'] - $Retencion_por_aplicar) / 1000) * $ReteicaValue) : 0;
 
         $response = array(
-            'gross_value_activities' => $AccountReceivable['gross_value_activities'],
+            'gross_value_activities' => $AccountReceivable['calculated_value'],
             'salud' => $salud,
             'arl' => $arl,
             'pension' => $pension,
