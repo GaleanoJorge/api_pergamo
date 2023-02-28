@@ -465,7 +465,7 @@ class BillUserActivityController extends Controller
         if ($request->status == 'APROBADO') {
             $tariff = Tariff::where('id', $BillUserActivity->tariff_id)->get()->first();
             $AccountReceivable = AccountReceivable::find($BillUserActivity->account_receivable_id);
-            $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
+            // $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
             $AccountReceivable->save();
             $AssignedManagementPlan = AssignedManagementPlan::find($BillUserActivity->assigned_management_plan_id);
             $AssignedManagementPlan->approved = 1;

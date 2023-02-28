@@ -183,7 +183,7 @@ class ReportBillingController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Reporte de facturación solicitado exitosamente',
-            'data' => ['report_billing' => $response],
+            'data' => $response,
         ]);
     }
 

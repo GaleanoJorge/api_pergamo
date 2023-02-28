@@ -590,14 +590,16 @@ alternativas de tratamiento.
         <table class="tabla-firm">
             <tr>
                 <td style="width: 50%">
+                    @if ($consentsinformed[0]['dissent'] != 'NO')
+                    @if($consentsinformed[0]['confirmation']=="Paciente")
                     <p>
                     <div><span class="stl_09">Firma: &nbsp;</span></div>
-                    @if ($consentsinformed[0]['dissent'] != 'NO')
-                        <div class="stl_01"><span class="stl_09 stl_10"><img
-                                    src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
-                                    alt="" style="" /></span></span></div>
-                        </p>
-                    @endisset
+                    <div class="stl_01"><span class="stl_09 stl_10"><img
+                                src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
+                                alt="" style="" /></span></span></div>
+                    </p>
+                    @endisset 
+					@endisset
                     <p>
                         Nombre de Paciente:
                         {{ $consentsinformed[0]['admissions']['patients']['firstname'] }}
@@ -614,7 +616,7 @@ alternativas de tratamiento.
                         <p>
                         <div><span class="stl_09">Firma: &nbsp;</span></div>
                         <div class="stl_01"><span class="stl_09 stl_10"><img
-                                    src="data:image/png;base64,{{ $firmpatient }}" width="150"
+                                    src="data:image/png;base64,{{ $firmresponsible }}" width="150"
                                     height="90" alt="" style="" /></span></span></div>
                         </p>
 
@@ -759,11 +761,14 @@ el Programa Atención Domiciliaria.
 <tr>
 <td style="width: 50%">
 <p>
-<div><span class="stl_09">Firma: &nbsp;</span></div>
 @if ($consentsinformed[0]['dissent'] != 'SI')
+@if($consentsinformed[0]['confirmation']=="Paciente")
+<div><span class="stl_09">Firma: &nbsp;</span></div>
+
 <div class="stl_01"><span class="stl_09 stl_10"><img
         src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
         alt="" style="" /></span></span></div>
+@endisset 
 @endisset
 </p>
 <p>
@@ -782,7 +787,7 @@ Documento:
 <p>
 <div><span class="stl_09">Firma: &nbsp;</span></div>
 <div class="stl_01"><span class="stl_09 stl_10"><img
-        src="data:image/png;base64,{{ $firmpatient }}" width="150"
+        src="data:image/png;base64,{{ $firmresponsible }}" width="150"
         height="90" alt="" style="" /></span></span></div>
 </p>
 
