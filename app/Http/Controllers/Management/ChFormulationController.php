@@ -190,6 +190,7 @@ class ChFormulationController extends Controller
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
                 $PharmacyProductRequest->request_amount = !$request->oxigen_administration_way_id ? $request->outpatient_formulation : 1;
                 $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
                 $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
                 $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
                 $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
