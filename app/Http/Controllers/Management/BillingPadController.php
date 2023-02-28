@@ -119,6 +119,169 @@ class BillingPadController extends Controller
         ]);
     }
 
+    /**
+     * Get all factured billings 
+     */
+    public function getAllBillings(Request $request, int $id): JsonResponse
+    {
+        $BillingPad = array();
+
+        $BillingPadBasic = BillingPad::select(
+            'billing_pad.*',
+            'contract.name as contract_name',
+            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
+            DB::raw('IF(billing_pad.id > 0, 1, 0) as billing_type'),
+            DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad.consecutive) AS billing_consecutive'),
+            DB::raw('CONCAT_WS("",BPP.name,BPCN.consecutive) AS credit_note_consecutive'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+        )
+            ->with(
+                'its_credit_note',
+                'its_credit_note.billing_pad_prefix',
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+                'admissions',
+                'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'admissions.patients.gender',
+                'admissions.patients.admissions',
+                'admissions.patients.admissions.briefcase',
+                'admissions.patients.admissions.contract',
+                'admissions.patients.admissions.contract.company',
+            )
+            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('billing_pad_log', 'billing_pad_log.billing_pad_id', 'billing_pad.id', 'billing_pad_log.billing_pad_status_id', 'billing_pad.billing_pad_status_id')
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad.billing_pad_prefix_id')
+            ->leftJoin('billing_pad as BPC', 'BPC.id', 'billing_pad.billing_credit_note_id')
+            ->leftJoin('billing_pad as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad.id')
+            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
+            ->whereIn('billing_pad.billing_pad_status_id', [2, 3, 4])
+            ->whereNull('billing_pad.billing_pad_pgp_id')
+            ->whereNull('billing_pad.billing_pad_mu_id')
+            ->orderBy('billing_pad.facturation_date', 'DESC')
+            ->groupBy('billing_pad.id');
+
+        $BillingPadMu = BillingPadMu::select(
+            'billing_pad_mu.*',
+            'contract.name as contract_name',
+            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
+            DB::raw('IF(billing_pad_mu.id > 0, 3, 0) as billing_type'),
+            DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad_mu.consecutive) AS billing_consecutive'),
+            DB::raw('CONCAT_WS("",BPP.name,BPCN.consecutive) AS credit_note_consecutive'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+        )
+            ->with(
+                'its_credit_note',
+                'its_credit_note.billing_pad_prefix',
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+            )
+            ->leftJoin('briefcase', 'briefcase.id', 'billing_pad_mu.briefcase_id')
+            ->leftJoin('contract', 'contract.id', 'briefcase.contract_id')
+            ->leftJoin('billing_pad_log', 'billing_pad_log.billing_pad_mu_id', 'billing_pad_mu.id', 'billing_pad_log.billing_pad_status_id', 'billing_pad_mu.billing_pad_status_id')
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_mu.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_mu as BPC', 'BPC.id', 'billing_pad_mu.billing_credit_note_id')
+            ->leftJoin('billing_pad_mu as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad_mu.id')
+            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
+            ->whereIn('billing_pad_mu.billing_pad_status_id', [2, 3, 4])
+            ->orderBy('billing_pad_mu.facturation_date', 'DESC')
+            ->groupBy('billing_pad_mu.id');
+
+        $BillingPadPgp = BillingPadPgp::select(
+            'billing_pad_pgp.*',
+            'contract.name as contract_name',
+            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
+            DB::raw('IF(billing_pad_pgp.id > 0, 2, 0) as billing_type'),
+            DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad_pgp.consecutive) AS billing_consecutive'),
+            DB::raw('CONCAT_WS("",BPP.name,BPCN.consecutive) AS credit_note_consecutive'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+        )
+            ->with(
+                'its_credit_note',
+                'its_credit_note.billing_pad_prefix',
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+            )
+            ->leftJoin('contract', 'contract.id', 'billing_pad_pgp.contract_id')
+            ->leftJoin('billing_pad_log', 'billing_pad_log.billing_pad_pgp_id', 'billing_pad_pgp.id', 'billing_pad_log.billing_pad_status_id', 'billing_pad_pgp.billing_pad_status_id')
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_pgp.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_pgp as BPC', 'BPC.id', 'billing_pad_pgp.billing_credit_note_id')
+            ->leftJoin('billing_pad_pgp as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad_pgp.id')
+            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
+            ->whereIn('billing_pad_pgp.billing_pad_status_id', [2, 3, 4])
+            ->orderBy('billing_pad_pgp.facturation_date', 'DESC')
+            ->groupBy('billing_pad_pgp.id');
+
+        if ($request->_sort) {
+            $BillingPadBasic->orderBy($request->_sort, $request->_order);
+            $BillingPadMu->orderBy($request->_sort, $request->_order);
+            $BillingPadPgp->orderBy($request->_sort, $request->_order);
+        }
+
+        if ($request->company_id && $request->company_id != 'null' && $request->company_id != 'undefined') {
+            $BillingPadBasic->where('contract.company_id', $request->company_id);
+            $BillingPadMu->where('contract.company_id', $request->company_id);
+            $BillingPadPgp->where('contract.company_id', $request->company_id);
+        }
+
+        if ($request->start_date) {
+            $BillingPadBasic->where('billing_pad.facturation_date', '>=', $request->start_date);
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', $request->start_date);
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', $request->start_date);
+        }
+
+        if ($request->finish_date) {
+            $BillingPadBasic->where('billing_pad.facturation_date', '<=', $request->finish_date);
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', $request->finish_date);
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', $request->finish_date);
+        }
+
+        if ($request->search) {
+            $BillingPadBasic->having('billing_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('contract_name', 'like', '%' . $request->search . '%')
+                ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
+            $BillingPadMu->having('billing_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('contract_name', 'like', '%' . $request->search . '%')
+                ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
+            $BillingPadPgp->having('billing_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('contract_name', 'like', '%' . $request->search . '%')
+                ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
+        }
+
+        $BillingPadBasic = $BillingPadBasic->get()->toArray();
+        $BillingPadMu = $BillingPadMu->get()->toArray();
+        $BillingPadPgp = $BillingPadPgp->get()->toArray();
+
+        foreach ($BillingPadBasic as $element) {
+            array_push($BillingPad, $element);
+        }
+        foreach ($BillingPadMu as $element) {
+            array_push($BillingPad, $element);
+        }
+        foreach ($BillingPadPgp as $element) {
+            array_push($BillingPad, $element);
+        }
+
+        $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
+
+        return response()->json([
+            'status' => true,
+            'message' => 'facturas obtenidas exitosamente',
+            'data' => ['billing_pad' => $BillingPad]
+        ]);
+    }
+
     public function store(BillingPadRequest $request): JsonResponse
     {
         $BillingPad = new BillingPad;
@@ -342,7 +505,12 @@ class BillingPadController extends Controller
         }
 
         $total_auths = 0;
+        $briefcase_id = null;
         foreach ($admissions as $a_id) {
+            if ($briefcase_id == null) {
+                $authorization = Authorization::find($a_id);
+                $briefcase_id = $authorization->briefcase_id;
+            }
             $auths = count($this->arraySupport($request, $a_id)['billing_pad']);
             $total_auths += $auths;
         }
@@ -380,6 +548,7 @@ class BillingPadController extends Controller
             $BillingPadMu->billing_pad_prefix_id = $campus[0]['billing_pad_prefix_id'];
             $BillingPadMu->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $BillingPadMu->consecutive = $consecutive;
+            $BillingPadMu->briefcase_id = $briefcase_id;
             $BillingPadMu->validation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPadMu->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPadMu->save();
@@ -4023,7 +4192,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->get()->toArray();
 
-            $consecutive = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_prefix']['name'] . $auth_billing_pad[0]['consecutive'];
+            $consecutive = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_prefix']['name'] . $auth_billing_pad[0]['billing_pad_mu']['consecutive'];
             $billing_resolution = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_consecutive']['resolution'];
             foreach ($auth_billing_pad as $e) {
                 array_push($selected_procedures_ids, $e['authorization_id']);

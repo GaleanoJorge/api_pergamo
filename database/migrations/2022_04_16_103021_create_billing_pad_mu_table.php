@@ -24,6 +24,7 @@ class CreateBillingPadMuTable extends Migration
             $table->unsignedBigInteger('billing_pad_prefix_id')->nullable();
             $table->unsignedBigInteger('billing_pad_status_id')->nullable();
             $table->unsignedBigInteger('billing_credit_note_id')->nullable();
+            $table->unsignedBigInteger('briefcase_id');
             $table->timestamps();
 
             $table->index('billing_pad_consecutive_id');
@@ -41,6 +42,10 @@ class CreateBillingPadMuTable extends Migration
             $table->index('billing_credit_note_id');
             $table->foreign('billing_credit_note_id')->references('id')
                 ->on('billing_pad_mu');
+
+            $table->index('briefcase_id');
+            $table->foreign('briefcase_id')->references('id')
+                ->on('briefcase');
         });
     }
 
