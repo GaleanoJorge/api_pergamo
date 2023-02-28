@@ -3240,7 +3240,8 @@ class ChRecordController extends Controller
                 // 'assistance_supplies.user_incharge_id',
                 // 'assistance_supplies.application_hour',
             )
-                ->where('ch_record.admissions_id', $request->admissions)->get()->toArray();
+            ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->where('admissions.patient_id', $request->admissions)->get()->toArray();
 
             $ChMedicalOrders = ChMedicalOrders::select('ch_medical_orders.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
                 'ch_record.user.user_role.role',
