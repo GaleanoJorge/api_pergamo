@@ -354,7 +354,7 @@ class AccountReceivableController extends Controller
             ->LeftJoin('bill_user_activity', 'bill_user_activity.account_receivable_id', '=', 'account_receivable.id')
             ->LeftJoin('tariff', 'tariff.id', '=', 'bill_user_activity.tariff_id')
             ->groupBy('account_receivable.id')
-            ->where('id', $id)->first();
+            ->where('account_receivable.id', $id)->first();
         $User = User::where('id', $AccountReceivable->user_id)->first();
         $IdentificationType = IdentificationType::where('id', $User->identification_type_id)->first();
         $UserRole = UserRole::where('user_id', $User->id)->first();
