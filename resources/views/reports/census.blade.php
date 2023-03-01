@@ -217,6 +217,15 @@
         @endforeach
         @endisset
     </div>
+    <div style="float:right; font-size: 10px">@foreach ($xCampus as $xC)
+        <div><b>TOTAL CAMAS EN {{$xC['sedeName']}}: {{$xC['camasTotalSede']}} - </b>
+            | Libres: <b>{{$xC['camasLibresSede']}}</b>
+            | Ocupadas: <b>{{$xC['camasOcupadasSede']}}</b>
+            | En Mantenimiento: <b>{{$xC['camasEnMantenimientoSede']}}</b>
+            | En Desinfección: <b>{{$xC['CamasEnDesinfeccionSede']}} |</b>
+        </div>
+        @endforeach
+    </div>
     <footer style="display:block">
         <div style="position: fixed; bottom:3%; font-size: 12px">
             <div style="font-family: 'Open Sans', 'arial', 'sans-serif'; float: right; margin-right: 10pt">
@@ -229,6 +238,7 @@
                 | En Mantenimiento: <b>{{$xC['camasEnMantenimientoSede']}}</b>
                 | En Desinfección: <b>{{$xC['CamasEnDesinfeccionSede']}} |</b>
             </div>
+            <div><b>ÍNDICE OCUPACIONAL EN {{$xC['sedeName']}}: {{$xC['IndiceSede']}}%</b></div>
             @endforeach
 
             @foreach ($General as $g)
@@ -238,7 +248,7 @@
                 | En Mantenimiento: <b>{{$g['camasGeneralMantenimiento']}}</b>
                 | En Desinfección: <b>{{$g['camasGeneralDesinfeccion']}} |</b>
             </div>
-            <div><b>ÍNDICE OCUPACIONAL: {{$g['Indice']}}%</b></div>
+            <div><b>ÍNDICE OCUPACIONAL GENERAL: {{$g['IndiceGeneral']}}%</b></div>
             @endforeach
         </div>
     </footer>

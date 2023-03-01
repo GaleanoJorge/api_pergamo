@@ -1408,6 +1408,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //? Report Censo EXCEL
     Route::apiResource('report_censusEXCEL', 'Management\ReportCensusController');
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
+    Route::get('report_censusEXCELGeneral', 'Management\ReportCensusController@exportCensusEXCEL');
     //? Report Censo PDF
     Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
     Route::get('report_censusPDFGeneral', 'Management\ReportCensusController@exportCensusPDF');
