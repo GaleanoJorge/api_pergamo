@@ -837,8 +837,8 @@ class PharmacyProductRequestController extends Controller
 
                                     $PharmacyLotStock = PharmacyLotStock::find($element->pharmacy_lot_stock_id);
                                     // Validar si el medicamento es oxigeno
-                                    $validattt = $ppr_validation_oxigen->product_generic && $ppr_validation_oxigen->product_generic->nom_product_id != 301;
-                                    $PharmacyLotStock->actual_amount = $validattt ? $PharmacyLotStock->actual_amount - $element->amount : $PharmacyLotStock->actual_amount;
+                                    $validattt = $ppr_validation_oxigen->product_generic && $ppr_validation_oxigen->product_generic->nom_product_id == 301;
+                                    $PharmacyLotStock->actual_amount = !$validattt ? $PharmacyLotStock->actual_amount - $element->amount : $PharmacyLotStock->actual_amount;
                                     $PharmacyLotStock->save();
                                     if ($PharmacyProductRequest->request_amount <= 0) {
                                         $PharmacyProductRequest->status = 'ACEPTADO';
