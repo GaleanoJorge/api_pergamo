@@ -56,7 +56,7 @@ class ChFormulationController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByAdmission(int $admission_id): JsonResponse
+    public function getByAdmission(Request $request, int $admission_id): JsonResponse
     {
         $ChFormulation = ChFormulation::select('ch_formulation.*')
             ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
@@ -77,8 +77,15 @@ class ChFormulationController extends Controller
                 'oxigen_administration_way',
             )
             ->orderBy('ch_formulation.created_at', 'DESC')
-            ->groupBy('ch_formulation.id')
-            ->get()->toArray();
+            ->groupBy('ch_formulation.id');
+
+            if ($request->with_oxigen) {
+            } else {
+                $ChFormulation->leftJoin('product_generic', 'product_generic.id', 'ch_formulation.product_generic_id')
+                ->where('product_generic.nom_product_id', '!=', 301);
+            }
+
+            $ChFormulation = $ChFormulation->get()->toArray();
 
 
         return response()->json([
@@ -190,6 +197,7 @@ class ChFormulationController extends Controller
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
                 $PharmacyProductRequest->request_amount = !$request->oxigen_administration_way_id ? $request->outpatient_formulation : 1;
                 $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
                 $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
                 $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
                 $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
