@@ -224,23 +224,16 @@
             | En Mantenimiento: <b>{{$xC['camasEnMantenimientoSede']}}</b>
             | En Desinfección: <b>{{$xC['CamasEnDesinfeccionSede']}} |</b>
         </div>
+        <div><b>ÍNDICE OCUPACIONAL: {{$xC['IndiceSede']}}%</b></div>
         @endforeach
     </div>
     <footer style="display:block">
         <div style="position: fixed; bottom:3%; font-size: 12px">
             <div style="font-family: 'Open Sans', 'arial', 'sans-serif'; float: right; margin-right: 10pt">
-                <b>PERGAMO</b>
+                PERGAMO
+                {{-- <img src="assets/images/logop.png" alt="Pergamo" width="10%" /> --}}
+                {{-- <img src="{{asset('assets/images/logop.png')}}" alt="Pergamo" width="10%" /> --}}
             </div>
-            @foreach ($xCampus as $xC)
-            <div><b>TOTAL CAMAS EN {{$xC['sedeName']}}: {{$xC['camasTotalSede']}} - </b>
-                | Libres: <b>{{$xC['camasLibresSede']}}</b>
-                | Ocupadas: <b>{{$xC['camasOcupadasSede']}}</b>
-                | En Mantenimiento: <b>{{$xC['camasEnMantenimientoSede']}}</b>
-                | En Desinfección: <b>{{$xC['CamasEnDesinfeccionSede']}} |</b>
-            </div>
-            <div><b>ÍNDICE OCUPACIONAL EN {{$xC['sedeName']}}: {{$xC['IndiceSede']}}%</b></div>
-            @endforeach
-
             @foreach ($General as $g)
             <div><b>TOTAL CAMAS GENERAL: {{$g['camasGeneralTotal']}} - </b>
                 | Libres: <b>{{$g['camasGeneralLibres']}}</b>
