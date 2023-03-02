@@ -2134,7 +2134,7 @@
                                 <span style="font-family:Calibri; font-size:9pt">{{$ch['pharmacy_product_request']['services_briefcase']['manual_price']['name']}}</span>
                             </td>
                             <td>
-                                <span style="font-family:Calibri; font-size:9pt">{{substr($ch['created_at'],0,10)}} {{$ch['application_hour']}}</span>
+                                <span style="font-family:Calibri; font-size:9pt">{{(new DateTime($ch['updated_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} - {{$ch['application_hour']}}</span>
                             </td>
                             <td>
                                 <span style="font-family:Calibri; font-size:9pt">@if(isset($ch['observation'])) {{$ch['observation']}} @endisset</span>
