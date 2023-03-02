@@ -106,6 +106,13 @@ class LocationController extends Controller
      */
     public function changeService(Request $request, int $id): JsonResponse
     {
+        $Authorization_end = Authorization::where('location_id', $id)->whereNull('close_date')->where('services_briefcase_id', '!=', $request->procedure_id)->first();
+        if (!$Authorization_end) {
+            return response()->json([
+                'status' => false,
+                'message' => 'No se encuentran nuevas autorizaciones',
+            ]);
+        }
         $Location = Location::where('admissions_id', $id)->orderBy('created_at', 'desc')->first();
         $Location->discharge_date = Carbon::now()->format('Y-m-d H:i:s');
         $Location->save();
@@ -139,13 +146,12 @@ class LocationController extends Controller
         $Location2->entry_date = Carbon::now();
         $Location2->save();
 
-        $Authorization_end = Authorization::where('location_id', $Location->id)->whereNull('close_date')->where('services_briefcase_id', '!=', $request->procedure_id)->first();
         if ($Authorization_end) {
             $Authorization_end->quantity = $diff_days;
             $Authorization_end->close_date = Carbon::now();
             $Authorization_end->save();
         } else {
-            $Authorization_old = Authorization::where('location_id', $Location->id)->whereNull('close_date')->first();
+            $Authorization_old = Authorization::where('location_id', $id)->whereNull('close_date')->first();
             $Authorization_old->location_id = $Location2->id;
             $Authorization_old->save();
         }
