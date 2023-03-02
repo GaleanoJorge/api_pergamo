@@ -511,7 +511,7 @@ class AdmissionsController extends Controller
         $admissions = Admissions::where('patient_id', $request->patient_id)->get()->toArray();
         foreach ($admissions as $admission) {
             $nowlocation = Location::LeftJoin('admissions', 'location.admissions_id', 'admissions.id')->where('admissions_id', $admission['id'])->where('program_id', $request->program_id)->where('scope_of_attention_id', '!=', 2)
-            ->where('admissions.discharge_date','!=','0000-00-00 00:00:00')->get()->toArray();
+            ->where('admissions.discharge_date','==','0000-00-00 00:00:00')->get()->toArray();
             if (sizeof($nowlocation) > 0) {
                 $count++;
             }
