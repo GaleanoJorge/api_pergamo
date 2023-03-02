@@ -2856,14 +2856,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
@@ -2919,14 +2919,14 @@ class ChRecordController extends Controller
                 ->groupBy('ch_record.id');
 
             if ($request->start_date != 'null' && isset($request->start_date)) {
-                $init_date = Carbon::parse($request->start_date);
+                $init_date = Carbon::parse($request->start_date)->startOfDay();
 
                 $ChRecord
                     ->where('ch_record.date_attention', '>=', $init_date);
             }
 
             if ($request->finish_date != 'null' && isset($request->finish_date)) {
-                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $finish_date = Carbon::parse($request->finish_date)->endOfDay();
                 $ChRecord->where('ch_record.date_attention', '<=', $finish_date);
             }
 
@@ -3106,6 +3106,8 @@ class ChRecordController extends Controller
                         'ch_method_planning_gyneco'
                     )->where('ch_record_id', $ch['id'])->where('type_record_id', 1)->get()->toArray();
 
+                    $Disclaimer = Disclaimer::where('ch_record_id', $ch['id'])->get()->toArray();
+
                     //Evolución
                     $ChDiagnosisEvo = ChDiagnosis::with('diagnosis', 'ch_diagnosis_class', 'ch_diagnosis_type')->where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
                     $ChApEvo = ChAp::where('ch_record_id', $ch['id'])->where('type_record_id', 3)->get()->toArray();
@@ -3129,7 +3131,7 @@ class ChRecordController extends Controller
 
                     $html = view('mails.epicrisis', [
                         'chrecord' => $ChRecord,
-                        'chrecord2' => $ChRecord[$i],
+                        'chrecord2' => $ch,
 
                         'ChReasonConsultation' => $ChReasonConsultation,
                         'ChSystemExam' => $ChSystemExam,
@@ -3147,6 +3149,8 @@ class ChRecordController extends Controller
 
                         'ChDiagnosisEvo' => $ChDiagnosisEvo,
                         'ChApEvo' => $ChApEvo,
+
+                        'Disclaimer' => $Disclaimer,
 
                         // 'firmPatient' => $imagenPAtient,
                         'fecharecord' => $fecharecord,
@@ -3174,6 +3178,7 @@ class ChRecordController extends Controller
                     array_push($documentos, $name);
 
                     $i++;
+                    $count++;
                 }
 
 
@@ -3235,7 +3240,8 @@ class ChRecordController extends Controller
                 // 'assistance_supplies.user_incharge_id',
                 // 'assistance_supplies.application_hour',
             )
-                ->where('ch_record.admissions_id', $request->admissions)->get()->toArray();
+            ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->where('admissions.patient_id', $request->admissions)->get()->toArray();
 
             $ChMedicalOrders = ChMedicalOrders::select('ch_medical_orders.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
                 'ch_record.user.user_role.role',
@@ -3426,6 +3432,146 @@ class ChRecordController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'No se encuentran Ordenes Médicas asociadas al paciente',
+
+                ]);
+            }
+        }
+
+        if ($request->ch_type == 23) {
+
+            ///Incapacidad
+            /////////////////////////////////////////////////
+
+            $today = Carbon::now();
+
+            $ChRecord2 = ChRecord::select('ch_record.*')->with(
+                'user',
+                'user.assistance',
+                'user.user_role.role',
+                'admissions.contract',
+                'admissions.contract.company',
+                'admissions',
+                'admissions.patients',
+                'admissions.campus.region',
+                'admissions.patients.academic_level',
+                'admissions.patients.municipality',
+                'admissions.patients.ethnicity',
+                'admissions.patients.gender',
+                'admissions.patients.identification_type',
+                'admissions.patients.residence_municipality',
+                'admissions.patients.residence',
+                'admissions.patients.marital_status',
+                'admissions.patients.population_group',
+                'admissions.patients.activities',
+                'admissions.contract.type_briefcase',
+                'assigned_management_plan',
+                'assigned_management_plan.management_plan',
+                'assigned_management_plan.management_plan.type_of_attention',
+                'assigned_management_plan.management_plan.procedure.manual_price',
+                'assigned_management_plan.management_plan.service_briefcase.manual_price',
+                // 'assistance_supplies',
+                // 'assistance_supplies.user_incharge_id',
+                // 'assistance_supplies.application_hour',
+            )
+            ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->where('admissions.patient_id', $request->admissions)->get()->toArray();
+            
+            $ChInability = ChInability::select('ch_inability.*', 'assistance.file_firm', 'ch_record.id as record_id')->with(
+                'ch_record.user.user_role.role',
+                'ch_record.user.assistance',
+                'ch_record.admissions.patients.marital_status',
+                'ch_record.admissions.campus.region',
+                'ch_record.admissions.patients.gender',
+                'ch_record.admissions.patients.activities',
+                'ch_record.admissions.patients.academic_level',
+                'ch_record.admissions.patients.residence_municipality',
+                'ch_record.admissions.contract.company',
+                'ch_record.admissions.contract.type_briefcase',
+                'ch_record.admissions.patients.ethnicity',
+                'ch_record.admissions.patients.municipality',
+                'ch_record.admissions.patients.identification_type',
+                'ch_record.admissions.patients.residence',
+                'ch_record.admissions.patients.population_group',
+                'ch_contingency_code',
+                'ch_type_inability',
+                'ch_type_procedure',
+                'diagnosis'
+            )   ->leftJoin('ch_record', 'ch_inability.ch_record_id', 'ch_record.id')
+                ->leftJoin('admissions', 'ch_record.admissions_id', 'admissions.id')
+                ->leftJoin('users', 'ch_record.user_id', 'users.id')
+                ->leftJoin('assistance', 'assistance.user_id', 'users.id')
+                ->where('admissions.patient_id', $request->admissions)->where('type_record_id', 7);
+
+                // return response()->json([
+                //     'status' => false,
+                //     'ch' => $ChMedicalOrders->get()->toArray()
+                // ]);
+
+
+            if ($request->start_date != 'null' && isset($request->start_date)) {
+                $init_date = Carbon::parse($request->start_date);
+
+                $ChInability
+                    ->where('ch_record.date_attention', '>=', $init_date);
+            }
+
+            if ($request->finish_date != 'null' && isset($request->finish_date)) {
+                $finish_date = new DateTime($request->finish_date . 'T23:59:59.9');
+                $ChInability->where('ch_record.date_attention', '<=', $finish_date);
+            }
+
+            $ChInability = $ChInability->get()->toArray();
+            $hcAll = [];
+
+            if ($ChInability) {
+
+                foreach ($ChInability as $ch) {
+                    array_push($hcAll, $ch['record_id']);
+                }
+
+                $hcAll = array_unique($hcAll);
+            }
+
+            if (count($ChInability) > 0 ) {
+
+     
+                    $fecharecord = Carbon::parse($ChRecord2[0]['updated_at'])->setTimezone('America/Bogota');
+
+
+                    $html = view('mails.GaAllInability', [
+                        'chrecord' => $ChRecord2,
+                        'ChInability' => $ChInability,
+                        'hcAll' => $hcAll,
+                        'fecharecord' => $fecharecord,
+                        // 'firm' => $imagenComoBase64,
+                        'today' => $today,
+
+                    ])->render();
+
+                    $options = new Options();
+                    $options->set('isRemoteEnabled', true);
+                    $dompdf = new PDF($options);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('Carta', 'portrait');
+                    $dompdf->render();
+                    $this->injectPageCount($dompdf);
+                    $file = $dompdf->output();
+
+                    $name = 'Incapacidades.pdf';
+
+                    Storage::disk('public')->put($name, $file);
+
+                return response()->json([
+                    'status' => true,
+                    'persona' => $ChInability,
+                    'ch' => $ChRecord,
+                    'message' => 'Reporte generado exitosamente',
+                    'url' => asset('/storage' . '/' . $name),
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentran Incapacidades asociadas al paciente',
 
                 ]);
             }

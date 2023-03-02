@@ -36,8 +36,8 @@
                 <span style="height:0pt; display:block; position:absolute; z-index:-65543">
                     <div style="float:right;">
                         <p>No de Historia Clínica: {{$chrecord[0]['admissions']['patients']['identification']}}</p>
-                        <p>Fecha de registro: {{$fecharecord}}</p>
-                        <p>Folio: {{$chrecord[0]['consecutive']}}</p>
+                        <p>Fecha de registro: {{(new DateTime($chrecord2['date_attention']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}}</p>
+                        <p>Folio: {{$chrecord2['consecutive']}}</p>
                     </div>
                 </span><span style="height:0pt; display:block; position:absolute; z-index:-65545">
                     <div style="text-align: center;    margin-left: 60px;">
@@ -222,7 +222,7 @@
             </td>
             <td style="width:203pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:8.2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['consecutive'] ? $chrecord[0]['admissions']['consecutive'] : 'No registra'}} </span>
+                    <span style="font-family:Calibri">{{$chrecord2['admissions']['consecutive'] ? $chrecord2['admissions']['consecutive'] : 'No registra'}} </span>
                 </p>
             </td>
             <td style="width:106pt; vertical-align:top">
@@ -232,7 +232,7 @@
             </td>
             <td style="width:141.6pt; vertical-align:top">
                 <p style="margin-top:0pt; margin-left:2pt; margin-bottom:0pt; widows:0; orphans:0; font-size:8pt">
-                    <span style="font-family:Calibri">{{$chrecord[0]['admissions']['entry_date'] ? $chrecord[0]['admissions']['entry_date'] : 'No registra'}}</span>
+                    <span style="font-family:Calibri">{{$chrecord2['admissions']['entry_date'] ? $chrecord2['admissions']['entry_date'] : 'No registra'}}</span>
                     <span style="width:40pt; display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:80.35pt">&#xa0;</span>
                 </p>
             </td>
@@ -266,7 +266,7 @@
 
  <!-- Medicina General-->
  <div>
-    @if($chrecord[0]['ch_type_id'] == 1 )
+    @if($chrecord2['ch_type_id'] == 1 )
 
     <!-- INGRESO -->
     <div>
@@ -1591,6 +1591,32 @@
             </div>
     </div>
 
+    <!-- NOTA ACLARATORIA -->
+    <div>
+
+        @if (count($Disclaimer) > 0)
+
+            <hr />
+            <p
+                style="text-align: center; margin-top:0.4pt; margin-bottom:0pt; PADDING: 0.3EM;COLOR: WHITE;BACKGROUND-COLOR: #70ad47;widows:0; orphans:0; font-size:9.5pt">
+                NOTA ACLARATORIA<br>
+            </p>
+            
+            <hr />
+
+            @foreach ($Disclaimer as $ch)
+                <p
+                    style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
+                    <span style="font-family:Calibri; font-size:9pt">
+                    {{-- <b> @if (isset($ch['created_at'])) FECHA:</b>{{(new DateTime($ch['created_at']))->setTimezone(new DateTimeZone('America/Bogota'))->format("Y-m-d H:i:s")}} @endisset
+                    <br /> --}}
+                    <b> @if (isset($ch['observation'])) NOTA ACLARATORIA:</b> {{ $ch['observation'] }} @endisset
+                    </span>
+                </p>
+            @endforeach
+
+        @endisset
+    </div>
 
     @endisset
 </div>

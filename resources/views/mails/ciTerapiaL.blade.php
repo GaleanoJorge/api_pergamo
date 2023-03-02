@@ -615,13 +615,15 @@
         <table class="tabla-firm">
             <tr>
                 <td style="width: 50%">
+                    @if ($consentsinformed[0]['dissent'] != 'NO')
+                    @if($consentsinformed[0]['confirmation']=="Paciente")
                     <p>
                     <div><span class="stl_09">Firma: &nbsp;</span></div>
-				    @if ($consentsinformed[0]['dissent'] != 'NO')
                     <div class="stl_01"><span class="stl_09 stl_10"><img
                                 src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
                                 alt="" style="" /></span></span></div>
                     </p>
+                    @endisset 
 					@endisset
                     <p>
                         Nombre de Paciente:
@@ -639,7 +641,7 @@
                         <p>
                         <div><span class="stl_09">Firma: &nbsp;</span></div>
                         <div class="stl_01"><span class="stl_09 stl_10"><img
-                                    src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
+                                    src="data:image/png;base64,{{ $firmresponsible }}" width="150" height="90"
                                     alt="" style="" /></span></span></div>
                         </p>
 
@@ -773,14 +775,16 @@ el Programa Atención Domiciliaria.
 <table class="tabla-firm">
 <tr>
 <td style="width: 50%">
-<p>
 <div><span class="stl_09">Firma: &nbsp;</span></div>
 @if ($consentsinformed[0]['dissent'] != 'SI')
+@if($consentsinformed[0]['confirmation']=="Paciente")
+<p>
+<div><span class="stl_09">Firma: &nbsp;</span></div>
 <div class="stl_01"><span class="stl_09 stl_10"><img
-        src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
-        alt="" style="" /></span></span></div>
-		@endisset
+            src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
+            alt="" style="" /></span></span></div>
 </p>
+@endisset 
 <p>
 Nombre de Paciente:
 {{ $consentsinformed[0]['admissions']['patients']['firstname'] }}
@@ -797,7 +801,7 @@ Documento:
 <p>
 <div><span class="stl_09">Firma: &nbsp;</span></div>
 <div class="stl_01"><span class="stl_09 stl_10"><img
-            src="data:image/png;base64,{{ $firmpatient }}" width="150" height="90"
+            src="data:image/png;base64,{{ $firmresponsible }}" width="150" height="90"
             alt="" style="" /></span></span></div>
 </p>
 

@@ -237,6 +237,8 @@ class BedController extends Controller
             ->with(
                 'status_bed',
                 'location',
+                'location.procedure',
+                'location.procedure.manual_price',
                 'location.admissions',
                 'location.admissions.patients',
                 'reference'
