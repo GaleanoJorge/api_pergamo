@@ -400,13 +400,32 @@ class PharmacyProductRequestController extends Controller
 
         //desde historia clinica
         if ($request->patient) {
-            $ch_record = ChRecord::find($request->patient);
+            $ch_record = ChRecord::with('admissions.locationUnique')->where('id', $request->patient)->first();
             if ($ch_record->assigned_management_plan_id) {
-                $assigned = AssignedManagementPlan::find($ch_record->assigned_management_plan_id);
+                $assigned = AssignedManagementPlan::select(
+                    'assigned_management_plan.*',
+                    DB::raw('CONCAT_WS(" ",assigned_management_plan.start_date,assigned_management_plan.start_hour) AS date_attention'),
+                )
+                ->where('id', $ch_record->assigned_management_plan_id)->first();
+                $assigned2 = array();
+                $assigned3 = AssignedManagementPlan::select(
+                    'management_plan.id as id',
+                    DB::raw('CONCAT_WS(" ",assigned_management_plan.start_date,assigned_management_plan.start_hour) AS date_attention'),
+                )
+                    ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                    ->where( 'management_plan.admissions_id', $ch_record->admissions_id)
+                    ->havingBetween('date_attention', [Carbon::parse($assigned['date_attention'])->subHours(3), Carbon::parse($assigned['date_attention'])->addHours(3)])
+                    ->groupBy('management_plan.id')->get()->toArray();
+                foreach($assigned3 as $element) {
+                    array_push($assigned2, $element['id']);
+                }
                 if ($request->product) {
-                    $PharmacyProductRequest
-                        ->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id)
-                        ->whereNotNull('manual_price.product_id');
+                    $PharmacyProductRequest->whereNotNull('manual_price.product_id');
+                    if ($ch_record->admissions->locationUnique->scope_of_attention_id == 1) {
+                        $PharmacyProductRequest->whereIn('pharmacy_product_request.management_plan_id', $assigned2);
+                    } else {
+                        $PharmacyProductRequest->where('pharmacy_product_request.management_plan_id', $assigned->management_plan_id);
+                    }
                     $PharmacyProductRequest->where(function ($query) use ($request) {
                         $query->where(function ($query) use ($request) {
                             $query->where('status', 'ACEPTADO')
