@@ -85,17 +85,17 @@ class ReportCensusController extends Controller
                 'campus.name AS Sede',
                 'pavilion.name AS Pabellón',
                 'b.name AS Cama',
-                DB::raw('IF(status_bed.id = 2, "", CONCAT_WS("-", identification_type.code, patients.identification)) AS "Documento"'),
+                DB::raw('IF(status_bed.id = 2, CONCAT_WS("-", identification_type.code, patients.identification), "") AS "Documento"'),
                 DB::raw('IF(status_bed.id = 2, CONCAT_WS(" ", patients.firstname, patients.middlefirstname, patients.lastname, patients.middlelastname), status_bed.name) AS Paciente'),
-                DB::raw('IF(status_bed.id = 2, "", IF(patients.birthday = 0, NULL, CONCAT_WS(" ", FLOOR(DATEDIFF(NOW(), patients.birthday)/365.25), IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, "A", IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, "M", "D"))))) AS Edad'),
-                DB::raw('IF(status_bed.id = 2, "", diagnosis.code) AS "Cod."'),
-                DB::raw('IF(status_bed.id = 2, "", diagnosis.name) AS "Diagnóstico"'),
+                DB::raw('IF(status_bed.id = 2, IF(patients.age > 0, CONCAT_WS(" ", FLOOR(DATEDIFF(NOW(), patients.birthday)/365.25), IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, "A", IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, "M", "D"))), NULL), "") AS Edad'),
+                DB::raw('IF(status_bed.id = 2, diagnosis.code, "") AS "Cod."'),
+                DB::raw('IF(status_bed.id = 2, diagnosis.name, "") AS "Diagnóstico"'),
                 // DB::raw('CAST(location.entry_date AS DATE) AS "Fecha de Ingreso 2"'),
-                DB::raw('DATE(l.entry_date) AS "Fecha de Ingreso"'),
-                DB::raw('IF(status_bed.id = 2, "", DATEDIFF(NOW(), l.entry_date)) AS "Estancia-(Días)"'),
-                DB::raw('IF(status_bed.id = 2, "", company.name) AS "ARS-EPS"'),
-                DB::raw('IF(status_bed.id = 2, "", modality.name) AS Contrato'),
-                DB::raw('IF(status_bed.id = 2, "", procedure.name) AS "Especialidad Tratante"'),
+                DB::raw('IF(status_bed.id = 2, DATE(l.entry_date), "") AS "Fecha de Ingreso"'),
+                DB::raw('IF(status_bed.id = 2, DATEDIFF(NOW(), l.entry_date), "") AS "Estancia-(Días)"'),
+                DB::raw('IF(status_bed.id = 2, company.name, "") AS "ARS-EPS"'),
+                DB::raw('IF(status_bed.id = 2, modality.name, "") AS Contrato'),
+                DB::raw('IF(status_bed.id = 2, procedure.name, "") AS "Especialidad Tratante"'),
             )
             //* Apuntadores de Consulta
             ->leftJoin('status_bed', 'status_bed.id', 'b.status_bed_id')
@@ -156,17 +156,17 @@ class ReportCensusController extends Controller
                 //* Consulta Especifica con Respectivos Encabezados
                 DB::raw('IF(l.id > 0, NULL, NULL) AS "Prio."'),
                 'b.name AS Cama',
-                DB::raw('IF(status_bed.id = 2, "", CONCAT_WS("-", identification_type.code, patients.identification)) AS "Documento"'),
-                DB::raw('IF(status_bed.id = 2, status_bed.name, CONCAT_WS(" ", patients.firstname, patients.middlefirstname, patients.lastname, patients.middlelastname)) AS Paciente'),
-                DB::raw('IF(status_bed.id = 2, "", IF(patients.birthday = 0, NULL, CONCAT_WS(" ", FLOOR(DATEDIFF(NOW(), patients.birthday)/365.25), IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, "A", IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, "M", "D"))))) AS Edad'),
-                DB::raw('IF(status_bed.id = 2, "", diagnosis.code) AS "Cod."'),
-                DB::raw('IF(status_bed.id = 2, "", diagnosis.name) AS "Diagnóstico"'),
+                DB::raw('IF(status_bed.id = 2, CONCAT_WS("-", identification_type.code, patients.identification), "") AS "Documento"'),
+                DB::raw('IF(status_bed.id = 2, CONCAT_WS(" ", patients.firstname, patients.middlefirstname, patients.lastname, patients.middlelastname), status_bed.name) AS Paciente'),
+                DB::raw('IF(status_bed.id = 2, IF(patients.age > 0, CONCAT_WS(" ", FLOOR(DATEDIFF(NOW(), patients.birthday)/365.25), IF((DATEDIFF(NOW(), patients.birthday)/365.25) >= 1, "A", IF((DATEDIFF(NOW(), patients.birthday)/30) >= 1, "M", "D"))), NULL), "") AS Edad'),
+                DB::raw('IF(status_bed.id = 2, diagnosis.code, "") AS "Cod."'),
+                DB::raw('IF(status_bed.id = 2, diagnosis.name, "") AS "Diagnóstico"'),
                 // DB::raw('CAST(location.entry_date AS DATE) AS "Fecha de Ingreso 2"'),
-                DB::raw('DATE(l.entry_date) AS "Fecha de Ingreso"'),
-                DB::raw('IF(status_bed.id = 2, "", DATEDIFF(NOW(), l.entry_date)) AS "Estancia-(Días)"'),
-                DB::raw('IF(status_bed.id = 2, "", company.name) AS "ARS-EPS"'),
-                DB::raw('IF(status_bed.id = 2, "", modality.name) AS Contrato'),
-                DB::raw('IF(status_bed.id = 2, "", procedure.name) AS "Especialidad Tratante"'),
+                DB::raw('IF(status_bed.id = 2, DATE(l.entry_date), "") AS "Fecha de Ingreso"'),
+                DB::raw('IF(status_bed.id = 2, DATEDIFF(NOW(), l.entry_date), "") AS "Estancia-(Días)"'),
+                DB::raw('IF(status_bed.id = 2, company.name, "") AS "ARS-EPS"'),
+                DB::raw('IF(status_bed.id = 2, modality.name, "") AS Contrato'),
+                DB::raw('IF(status_bed.id = 2, procedure.name, "") AS "Especialidad Tratante"'),
                 'campus.id AS sedeId',
                 'pavilion.id AS pabellonId',
             )
@@ -216,6 +216,7 @@ class ReportCensusController extends Controller
             DB::raw('COUNT(CASE WHEN status_bed.id = 2 THEN 2 END) AS "camasOcupadasPabellon"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 3 THEN 3 END) AS "camasMantenimientoPabellon"'),
             DB::raw('COUNT(CASE WHEN status_bed.id = 4 THEN 4 END) AS "camasDesinfeccionPabellon"'),
+            DB::raw('ROUND((COUNT(CASE WHEN status_bed_id = 2 THEN 2 END)/COUNT(b.status_bed_id))*100, 2) AS "IndicePabellon"'),
         )
             ->leftJoin('flat', 'flat.id', 'pavilion.flat_id')
             ->leftJoin('campus', 'campus.id', 'flat.campus_id')
@@ -271,28 +272,19 @@ class ReportCensusController extends Controller
         $census = $census->get()->toArray();
 
         //? Consulta de dato especifico
-        $campusId = $request->campus_id;
-        $campus = Campus::find($campusId);
+        // $campusId = $request->campus_id;
+        // $campus = Campus::find($campusId);
 
-        $pavilionId = $request->pavilion_id;
-        $pavilion = Pavilion::find($pavilionId);
+        // $pavilionId = $request->pavilion_id;
+        // $pavilion = Pavilion::find($pavilionId);
 
-        $flatId = $request->flat_id;
-        $flat = Flat::find($flatId);
+        // $flatId = $request->flat_id;
+        // $flat = Flat::find($flatId);
 
         //? Fecha Actual
         $date = Carbon::now()->format('Y-m-d H:i:s');
         $today = Carbon::now()->format('Y-m-d');
         $hour = Carbon::now()->format('h-i-s A');
-
-        //     if (isset($pdf)) {
-        //         $pdf->page_script(
-        //              if ($PAGE_COUNT > 1) {
-        //                  $font = $fontMetrics->getFont("Lato", "regular");
-        //                  $pdf->page_text(522, 770, "Page {PAGE_NUM} / {PAGE_COUNT}", $font, 8, array(.5,.5,.5));
-        //             }
-        //         );
-        //    }
 
         //! Camas en General
         $General = Campus::select(
@@ -318,7 +310,6 @@ class ReportCensusController extends Controller
             })
             ->get()->toArray();
 
-
         $census = json_decode(json_encode($census), true);
 
         //? Datos a Blade
@@ -327,9 +318,9 @@ class ReportCensusController extends Controller
                     'xPavilion' => $xPavilion,
                     'xCampus' => $xCampus,
                     'General' => $General,
-                    'campus' => $campus,
-                    'pavilion' => $pavilion,
-                    'flat' => $flat,
+                    // 'campus' => $campus,
+                    // 'pavilion' => $pavilion,
+                    // 'flat' => $flat,
                     'date' => $date,
                     'type' => $request->type
                 ])->render();
@@ -344,12 +335,6 @@ class ReportCensusController extends Controller
         $dompdf->render();
         $file = $dompdf->output();
 
-        //? Paginación
-        // $pdf = app('dompdf.wrapper');
-        // $dompdf->getDomPDF()->set_option("enable_php", true);
-        // $pdf->loadView('your.view.here', $data);
-
-        // $name = 'reporte_censo_hospitalario.pdf';
         if ($request->campus_id) {
             $name = 'reporte_censo_hospitalario_del_[' . $today . ']_a_las_[' . $hour . '].pdf';
         } else {

@@ -26,8 +26,8 @@
             padding: 8px;
         }
 
-        tr:nth-child(even) {
-            /* background-color: #dddddd; */
+        .page-break {
+            page-break-after: always;
         }
     </STYLE>
 </head>
@@ -81,7 +81,7 @@
         @foreach ($xPavilion as $pabellon)
         @if ($pabellon['sedeId']==$Sede['sedeId'])
         <div>
-            <div style="text-align: center; font-size: 10px">
+            <div style="text-align: center; font-size: 11px">
                 <p><b>{{$pabellon['pisoName']}} - {{$pabellon['pabellonName']}}</b></p>
             </div>
         </div>
@@ -209,7 +209,9 @@
                 | Libres: <b>{{$pabellon['camasLibresPabellon']}} </b>
                 | Ocupadas: <b>{{$pabellon['camasOcupadasPabellon']}} </b>
                 | En Mantenimiento: <b>{{$pabellon['camasMantenimientoPabellon']}} </b>
-                | En Desinfección: <b>{{$pabellon['camasDesinfeccionPabellon']}} |</b></span>
+                | En Desinfección: <b>{{$pabellon['camasDesinfeccionPabellon']}} |</b>
+                <div style="font-size: 8px"><i><b>ÍNDICE OCUPACIONAL: {{$pabellon['IndicePabellon']}}%</b></i></div>
+            </span>
         </div>
         <br>
         @endisset
@@ -217,7 +219,8 @@
         @endforeach
         @endisset
     </div>
-    <div style="float:right; font-size: 10px">@foreach ($xCampus as $xC)
+    <br>
+    <div style="float:right; font-size: 11px">@foreach ($xCampus as $xC)
         <div><b>TOTAL CAMAS EN {{$xC['sedeName']}}: {{$xC['camasTotalSede']}} - </b>
             | Libres: <b>{{$xC['camasLibresSede']}}</b>
             | Ocupadas: <b>{{$xC['camasOcupadasSede']}}</b>
@@ -227,15 +230,16 @@
         <div><b>ÍNDICE OCUPACIONAL: {{$xC['IndiceSede']}}%</b></div>
         @endforeach
     </div>
+    {{-- <div class="page-break"></div> --}}
     <footer style="display:block">
         <div style="position: fixed; bottom:3%; font-size: 12px">
-            <div style="font-family: 'Open Sans', 'arial', 'sans-serif'; float: right; margin-right: 10pt">
-                PERGAMO
+            <div style="font-family: 'Open Sans'; float: right; margin-right: 12pt">
+                <i><b>PERGAMO</b></i>
                 {{-- <img src="assets/images/logop.png" alt="Pergamo" width="10%" /> --}}
                 {{-- <img src="{{asset('assets/images/logop.png')}}" alt="Pergamo" width="10%" /> --}}
             </div>
             @foreach ($General as $g)
-            <div><b>TOTAL CAMAS GENERAL: {{$g['camasGeneralTotal']}} - </b>
+            <div><b>TOTAL CAMAS EN GENERAL: {{$g['camasGeneralTotal']}} - </b>
                 | Libres: <b>{{$g['camasGeneralLibres']}}</b>
                 | Ocupadas: <b>{{$g['camasGeneralOcupadas']}}</b>
                 | En Mantenimiento: <b>{{$g['camasGeneralMantenimiento']}}</b>
