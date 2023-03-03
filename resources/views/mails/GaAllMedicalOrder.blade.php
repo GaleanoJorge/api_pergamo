@@ -310,8 +310,8 @@
             @endisset
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:8pt">
-                    <b>@if(isset($ch['procedure'])) PROCEDIMIENTO: </b> {{$ch['procedure']['name']}} <br/> @endisset 
-                    <b>@if(isset($ch['services_briefcase'])) PROCEDIMIENTO: </b> {{$ch['services_briefcase']['manual_price']['procedure']['name']}} <br/> @endisset </span>
+                    <b>@if(isset($ch['procedure'])) PROCEDIMIENTO: </b>{{$ch['procedure']['equivalent']}} - {{$ch['procedure']['name']}} <br/> @endisset 
+                    <b>@if(isset($ch['services_briefcase'])) PROCEDIMIENTO: </b>{{$ch['services_briefcase']['manual_price']['procedure']['equivalent']}} - {{$ch['services_briefcase']['manual_price']['procedure']['name']}} <br/> @endisset </span>
                 </p>
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
@@ -664,14 +664,14 @@
                 @if(isset($ch['procedure'])) 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>PROCEDIMIENTO: </b> {{$ch['procedure']['name']}}
+                    <b>PROCEDIMIENTO: </b> {{$ch['procedure']['equivalent']}} - {{$ch['procedure']['name']}}
                 </p>
                 @endisset
 
                 @if( isset($ch['services_briefcase'])) 
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:9pt">
-                    <b>PROCEDIMIENTO:</b> {{$ch['services_briefcase']['manual_price']['procedure']['name']}}<br/></span>
+                    <b>PROCEDIMIENTO:</b>{{$ch['services_briefcase']['manual_price']['procedure']['equivalent']}} - {{$ch['services_briefcase']['manual_price']['procedure']['name']}}<br/></span>
                 </p>
                 @endisset
 
