@@ -135,7 +135,7 @@ class ReportRipsController extends Controller
             'status' => true,
             'message' => 'Reporte Rips solicitado exitosamente',
             // 'data' => ['report_rips' => $unico],
-            'data' => ['report_rips' => $SimplifiedRips],
+            'data' => $SimplifiedRips,
         ]);
     }
     

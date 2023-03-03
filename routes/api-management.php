@@ -1399,6 +1399,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //? Report Gloss
     Route::apiResource('report_gloss', 'Management\ReportGlossController');
     Route::get('report_gloss/export/{id}', 'Management\ReportGlossController@exportGloss');
+    Route::get('report_gloss_General', 'Management\ReportGlossController@exportGloss');
     //? Report Rips
     Route::apiResource('report_rips', 'Management\ReportRipsController');
     Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
@@ -1408,6 +1409,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //? Report Censo EXCEL
     Route::apiResource('report_censusEXCEL', 'Management\ReportCensusController');
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
+    Route::get('report_censusEXCELGeneral', 'Management\ReportCensusController@exportCensusEXCEL');
     //? Report Censo PDF
     Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
     Route::get('report_censusPDFGeneral', 'Management\ReportCensusController@exportCensusPDF');
