@@ -66,6 +66,7 @@ class BillingTcController extends Controller
         $BillingTc->consecutive2 = $request->consecutive2;
         $BillingTc->ambit = $request->ambit;
         $BillingTc->campus = $request->campus;
+        $BillingTc->year = $request->year;
 
         $BillingTc->save();
 
@@ -116,6 +117,7 @@ class BillingTcController extends Controller
         $BillingTc->consecutive2 = $request->consecutive2;
         $BillingTc->ambit = $request->ambit;
         $BillingTc->campus = $request->campus;
+        $BillingTc->year = $request->year;
 
         $BillingTc->save();
 
@@ -175,6 +177,9 @@ class BillingTcController extends Controller
             }  
             if(isset($item['SEDE'])){
                 $BillingTc->campus = $item['SEDE'];
+            }
+            if(isset($item['AÑO'])){
+                $BillingTc->year = $item['AÑO'];
             }  
             $BillingTc->save();
         }

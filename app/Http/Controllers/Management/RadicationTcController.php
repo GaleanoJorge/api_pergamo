@@ -61,6 +61,7 @@ class RadicationTcController extends Controller
         $RadicationTc->ambit = $request->ambit;
         $RadicationTc->campus = $request->campus;
         $RadicationTc->filing_period = $request->filing_period;
+        $RadicationTc->year = $request->year;
 
         $RadicationTc->save();
 
@@ -107,6 +108,7 @@ class RadicationTcController extends Controller
         $RadicationTc->ambit = $request->ambit;
         $RadicationTc->campus = $request->campus;
         $RadicationTc->filing_period = $request->filing_period;
+        $RadicationTc->year = $request->year;
 
         $RadicationTc->save();
 
@@ -154,7 +156,10 @@ class RadicationTcController extends Controller
             }            
              if(isset($item['PERIODO RADICADO'])){
                 $RadicationTc->filing_period = $item['PERIODO RADICADO'];
-            }           
+            } 
+            if(isset($item['AÑO'])){
+                $RadicationTc->year = $item['AÑO'];
+            }         
             $RadicationTc->save();
         }
         return response()->json([

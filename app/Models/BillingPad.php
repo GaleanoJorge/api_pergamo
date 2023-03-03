@@ -16,6 +16,7 @@ class BillingPad extends BaseBillingPad
 		'billing_pad_status_id',
 		'admissions_id',
 		'billing_pad_pgp_id',
+		'billing_pad_mu_id',
 		'billing_credit_note_id',
 	];
 }

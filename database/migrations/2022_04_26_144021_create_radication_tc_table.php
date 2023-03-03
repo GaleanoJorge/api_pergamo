@@ -25,6 +25,7 @@ class CreateRadicationTcTable extends Migration
             $table->string('ambit');
             $table->string('campus');
             $table->string('filing_period');
+            $table->string('year');
             $table->timestamps();
         });
     }

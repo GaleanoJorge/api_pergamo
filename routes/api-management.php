@@ -1644,6 +1644,20 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Tablero Doc Mariana.
     Route::apiResource('billing_tc', 'Management\BillingTcController');
+
+    Route::apiResource('assistant_tc', 'Management\AssistantTcController');
+    Route::apiResource('attended_tc', 'Management\AttendedTcController');
+    Route::apiResource('base_adhesion_tc', 'Management\BaseAdhesionTcController');
+    Route::apiResource('pare_base_tc', 'Management\PareBaseTcController');
+    Route::apiResource('quit_tc', 'Management\QuitTcController');
+    Route::apiResource('service_level_tc', 'Management\ServiceLevelTcController');
+
+    Route::post('assistant_tc/file', 'Management\AssistantTcController@import');
+    Route::post('attended_tc/file', 'Management\AttendedTcController@import');
+    Route::post('base_adhesion_tc/file', 'Management\BaseAdhesionTcController@import');
+    Route::post('pare_base_tc/file', 'Management\PareBaseTcController@import');
+    Route::post('quit_tc/file', 'Management\QuitTcController@import');
+    Route::post('service_level_tc/file', 'Management\ServiceLevelTcController@import');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
     Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
@@ -1669,16 +1683,20 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //prefactura PAD
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
+    Route::get('billing_pad/getEnabledPatients/{id}', 'Management\BillingPadController@getEnabledPatients');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
     Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
+    Route::post('billing_pad/generateMuBilling/{id}', 'Management\BillingPadController@generateMuBilling');
     Route::post('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{bill_type}/{id}', 'Management\BillingPadController@generateBillingDat');
     Route::get('billing_pad/generateBillingPdf/{id}', 'Management\BillingPadController@generateBillingPdf');
+    Route::get('billing_pad/generateBillingPdfMu/{id}', 'Management\BillingPadController@PdfMu');
     Route::get('billing_pad/creditNoteNoPgp/{id}', 'Management\BillingPadController@creditNoteNoPgp');
     Route::get('billing_pad/creditNotePgp/{id}', 'Management\BillingPadController@creditNotePgp');
+    Route::get('billing_pad/getAllBillings/{id}', 'Management\BillingPadController@getAllBillings');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
     Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
     Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');

@@ -17,5 +17,6 @@ class RadicationTc extends BaseRadicationTc
     'ambit',
     'campus',
     'filing_period',
+    'year'
   ];
 }
