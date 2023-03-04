@@ -5936,6 +5936,10 @@ class ChRecordController extends Controller
 
             $applicatedCount = 0;
 
+            if ($request->route==1){
+                $applicatedCount++;
+            }else{
+
             foreach ($applicated as $item) {
 
                 $compare = ChRecord::find($item['ch_record_id']);
@@ -5944,6 +5948,7 @@ class ChRecordController extends Controller
                     break;
                 }
             }
+        }
 
             if ($applicatedCount == 0) {
                 return response()->json([
