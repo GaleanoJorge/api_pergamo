@@ -259,6 +259,7 @@ class AuthorizationController extends Controller
                         ->WhereNull('authorization.auth_package_id')
                         ->WhereNull('authorization.fixed_add_id')
                         ->WhereNotNull('authorization.manual_price_id')
+                        ->WhereNotNull('AUTH.id')
                         ->WhereNull('authorization.application_id')
                         ->WhereNull('authorization.procedure_id')
                         ->WhereNull('authorization.supplies_com_id')
