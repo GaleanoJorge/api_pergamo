@@ -1168,7 +1168,7 @@ class ManagementPlanController extends Controller
             $error_count = 0;
             $firstDateMonth = Carbon::now()->startOfMonth();
             $lastDateMonth = Carbon::now()->endOfMonth();
-            if ($request->type_of_attention_id == 12) {
+            if ($request->type_of_attention_id == 12 || $request->type_of_attention_id == 13) {
 
                 for ($i = 0; $i < $request->quantity; $i++) {
 
