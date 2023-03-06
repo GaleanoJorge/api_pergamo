@@ -7,15 +7,18 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceSuppliesRequest;
+use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\ChRecord;
+use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\PharmacyProductRequest;
 use App\Models\Product;
 use App\Models\ProductGeneric;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AssistanceSuppliesController extends Controller
 {
@@ -306,6 +309,9 @@ class AssistanceSuppliesController extends Controller
 
                 $ch_record = ChRecord::find($request->ch_record_id);
 
+                $locationValidate = Location::where('location.admissions_id', $ch_record->admissions_id)
+                    ->where('location.discharge_date', '0000-00-00 00:00:00')->get()->toArray();
+
                 if ($PharmacyProductRequest[0]['product_id'] != null) {
 
                     $applicated = AssistanceSupplies::select('assistance_supplies.*')
@@ -432,7 +438,24 @@ class AssistanceSuppliesController extends Controller
                         $AssistanceSupplies->save();
                     }
                     
-
+                    // fecha de ejecución al assigned_management_plan para hospitalización
+                    if ($locationValidate[0]['scope_of_attention_id'] == 1) {
+                        $AssignedManagementPlan = AssignedManagementPlan::select(
+                            'assigned_management_plan.*',
+                            DB::raw('CONCAT_WS(" ",assigned_management_plan.start_date,assigned_management_plan.start_hour) AS date_attention'),
+                        )
+                            ->leftjoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                            ->leftjoin('pharmacy_product_request', 'pharmacy_product_request.management_plan_id', 'management_plan.id')
+                            ->where('pharmacy_product_request.id',$PharmacyProductRequest_id)
+                            ->where('assigned_management_plan.execution_date', '0000-00-00 00:00:00')
+                            ->havingBetween('date_attention', [Carbon::now()->subHours(3), Carbon::now()->addHours(3)])
+                            ->orderBy('assigned_management_plan.start_date', 'ASC')
+                            ->orderBy('assigned_management_plan.start_hour', 'ASC')
+                            ->first();
+    
+                        $AssignedManagementPlan->execution_date = Carbon::now();
+                        $AssignedManagementPlan->save();
+                    }
 
 
                     return response()->json([

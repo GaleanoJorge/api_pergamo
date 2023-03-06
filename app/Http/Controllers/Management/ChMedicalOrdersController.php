@@ -97,6 +97,13 @@ class ChMedicalOrdersController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if (!$request->services_briefcase_id && !$request->procedure_id) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debe seleccionar un procedimiento de la lista',
+            ]);
+        }
+
         $ChMedicalOrders = new ChMedicalOrders;
         $ChMedicalOrders->ambulatory_medical_order = $request->ambulatory_medical_order;
         $ChMedicalOrders->procedure_id = $request->procedure_id;

@@ -832,14 +832,14 @@ class BillingPadController extends Controller
             }
         }
 
-        if ($request->query("pagination", true) == "false") {
-            $EnabledAdmissions = $EnabledAdmissions->get()->toArray();
-        } else {
-            $page = $request->query("current_page", 1);
-            $per_page = $request->query("per_page", 30);
+        $EnabledAdmissions = $EnabledAdmissions->get()->toArray();
+        // if ($request->query("pagination", true) == "false") {
+        // } else {
+        //     $page = $request->query("current_page", 1);
+        //     $per_page = $request->query("per_page", 30);
 
-            $EnabledAdmissions = $EnabledAdmissions->paginate($per_page, '*', 'page', $page);
-        }
+        //     $EnabledAdmissions = $EnabledAdmissions->paginate($per_page, '*', 'page', $page);
+        // }
 
         return response()->json([
             'status' => true,

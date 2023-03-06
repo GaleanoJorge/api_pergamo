@@ -170,7 +170,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <div><span>{{ $auths_numbers[$patients[$i]['document']] }}&nbsp;</span></div>
+                            <div><span>{{ array_key_exists($patients[$i]['document'], $auths_numbers) ? $auths_numbers[$patients[$i]['document']] : "" }}&nbsp;</span></div>
                         </td>
                     </tr>
                 </table>
