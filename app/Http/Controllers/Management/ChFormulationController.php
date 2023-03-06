@@ -187,7 +187,7 @@ class ChFormulationController extends Controller
             if (count($pharmacy) == 0) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'No hay farmacias en esta cede y este ambito',
+                    'message' => 'No hay farmacias en esta sede y este ambito',
                     'data' => ['ch_formulation' => []]
                 ]);
             }
