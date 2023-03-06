@@ -170,7 +170,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <div><span>{{ $auths_numbers[$patients[$i]['document']] }}&nbsp;</span></div>
+                            <div><span>{{ $auths_numbers[$patients[$i]['document']] ? $auths_numbers[$patients[$i]['document']] : "" }}&nbsp;</span></div>
                         </td>
                     </tr>
                 </table>
