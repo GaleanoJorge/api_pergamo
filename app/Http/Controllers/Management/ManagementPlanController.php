@@ -560,7 +560,7 @@ class ManagementPlanController extends Controller
 
         if ($request->medical == false &&  $request->isnewrequest != 1) {
 
-            if ($request->type_of_attention_id == 12) {
+            if ($request->type_of_attention_id == 12 || $request->type_of_attention_id == 13) {
 
                 for ($i = 0; $i < $request->quantity; $i++) {
 
