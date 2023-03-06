@@ -364,7 +364,9 @@
                 @endforeach
         </div>
 
+        @if(count($hcAll-1) != array_search($om, $hcAll)) 
         <div class="page_break">
+            @endisset
         
         @endforeach
         
