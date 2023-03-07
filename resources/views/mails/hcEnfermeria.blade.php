@@ -264,9 +264,11 @@
 </div>
 
        
-        <hr />
+    <hr />
 
-        <!-- {{-- Plan de Manejo Cabecero Enfermería --}} -->
+    <!-- {{-- Plan de Manejo Cabecero Enfermería --}} -->
+    @if($chrecord[0]['ch_interconsultation_id'] == null || $chrecord[0]['medical_diary_days_id'] == null) 
+
         <p style="text-align: center; margin-top:8.95pt; margin-left:8pt; margin-bottom:0pt; widows:0; orphans:0; font-size:9pt"><span style="font-family:Calibri; font-weight:bold; color:#057591; background-color:#ffffff">PLAN DE MANEJO</span><span style="display:inline-block; -aw-tabstop-align:left; -aw-tabstop-pos:257.05pt">&#xa0;</span>
         </p>
 
@@ -459,7 +461,7 @@
             @endisset
 
             </p>
-
+    @endisset
 
 
 
