@@ -94,9 +94,9 @@ class ChPatientExitController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'No se puede cerrar Historia Clinica, hay procedimientos pendientes por ejecutar:' . 
-                (count($assistanceSuplies) > 0 ? ('Medicamentos: ' . count($assistanceSuplies)) : "") . "  , " . 
-                (count($chRecord) > 0 ? ('Registros de historias clínicas: ' . count($chRecord)) : ""). "  ,  " . 
-                (count($chLaboratoty) > 0 ? ('Laboratorios: ' . count($chLaboratoty)) : ""),
+                (count($assistanceSuplies) > 0 ? ('MEDICAMENTOS : ' . count($assistanceSuplies)) : "") . "  , " . 
+                (count($chRecord) > 0 ? ('REGISTROS DE HISTORIAS CLINICAS : ' . count($chRecord)) : ""). "  ,  " . 
+                (count($chLaboratoty) > 0 ? ('LABORATORIOS : ' . count($chLaboratoty)) : ""),
             ]);
         }
 
