@@ -3620,7 +3620,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $name = '900900122-7_' . $year . '_' . $name_number . '.dat';
 
         Storage::disk('public')->put($name, $file);
-        // Storage::disk('sftp')->put($name, $file[0]);
+        Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
             'status' => true,

@@ -402,11 +402,14 @@ class PharmacyProductRequestController extends Controller
         if ($request->patient) {
             $ch_record = ChRecord::with('admissions.locationUnique')->where('id', $request->patient)->first();
             if ($ch_record->assigned_management_plan_id) {
+                $offset_hours = 3;
                 $assigned = AssignedManagementPlan::select(
                     'assigned_management_plan.*',
                     DB::raw('CONCAT_WS(" ",assigned_management_plan.start_date,assigned_management_plan.start_hour) AS date_attention'),
                 )
                 ->where('id', $ch_record->assigned_management_plan_id)->first();
+                $start_hour = Carbon::parse($assigned->date_attention)->subHours($offset_hours);
+                $finish_hour = Carbon::parse($assigned->date_attention)->addHours($offset_hours);
                 $assigned2 = array();
                 $assigned3 = AssignedManagementPlan::select(
                     'management_plan.id as id',
@@ -414,10 +417,14 @@ class PharmacyProductRequestController extends Controller
                 )
                     ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
                     ->where( 'management_plan.admissions_id', $ch_record->admissions_id)
-                    ->havingBetween('date_attention', [Carbon::parse($assigned['date_attention'])->subHours(3), Carbon::parse($assigned['date_attention'])->addHours(3)])
-                    ->groupBy('management_plan.id')->get()->toArray();
+                    ->where( 'assigned_management_plan.execution_date', '0000-00-00 00:00:00')
+                    ->having('date_attention', '>=', $start_hour)
+                    ->having('date_attention', '<=', $finish_hour)
+                    ->groupBy('assigned_management_plan.id')->get()->toArray();
                 foreach($assigned3 as $element) {
-                    array_push($assigned2, $element['id']);
+                    if (!in_array($element['id'], $assigned2)) {
+                        array_push($assigned2, $element['id']);
+                    }
                 }
                 if ($request->product) {
                     $PharmacyProductRequest->whereNotNull('manual_price.product_id');
