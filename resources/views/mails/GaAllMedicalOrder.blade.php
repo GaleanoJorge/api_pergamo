@@ -34,11 +34,11 @@
    <!-- Ordenes Médicas -->
     <div>
       
-      
         @foreach($hcAll as $om)
-        
+       
         <?php
             $medicalOrders = array_filter($ChMedicalOrders, fn($element) => $element['ch_record_id'] == $om);
+            $i++;
         ?>
 
         <!-- Encabezado-->
@@ -364,9 +364,9 @@
                 @endforeach
         </div>
 
-        @if(count($hcAll-1) != array_search($om, $hcAll)) 
+        @if( $i!=1) 
         <div class="page_break">
-            @endisset
+        @endisset
         
         @endforeach
         
