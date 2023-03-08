@@ -16,7 +16,7 @@ class CreateChPatientExitTable extends Migration
         Schema::create('ch_patient_exit', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('exit_status');
-            $table->int ('legal_medicine_transfer')->nullable();
+            $table->integer ('legal_medicine_transfer')->nullable();
             $table->string('date_time')->nullable();
             $table->unsignedBigInteger('death_diagnosis_id')->nullable();
             $table->string('medical_signature')->nullable();
