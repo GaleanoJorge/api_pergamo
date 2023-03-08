@@ -2822,7 +2822,7 @@ class BillingPadController extends Controller
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
                         $initial_date = Carbon::parse($Location->entry_date);
                         $finish_date = Carbon::parse($Location->discharge_date);
-                        $days = $initial_date->diffInDays($finish_date + 1);
+                        $days = $initial_date->diffInDays($finish_date) + 1;
                         $Auth_A[0]['quantity'] = $days;
                     } else {
                         $Auth_B = Authorization::find($Auth_A[0]['id']);
