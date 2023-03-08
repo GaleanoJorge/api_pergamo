@@ -81,6 +81,10 @@ class ChPatientExitController extends Controller
 
     public function store(ChPatientExitRequest $request): JsonResponse
     {
+        $assistanceSuplies=[];
+        $chRecord=[];
+        $chLaboratoty=[];
+
         if ($request->route == 1) {
             $assistanceSuplies = AssistanceSupplies::leftjoin('pharmacy_product_request', 'pharmacy_product_request.id', 'assistance_supplies.pharmacy_product_request_id')
                 ->where('pharmacy_product_request.admissions_id', $request->admission_id)->where('assistance_supplies.supplies_status_id', 1)->get()->toArray();
