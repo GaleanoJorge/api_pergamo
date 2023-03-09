@@ -189,9 +189,9 @@
 
                     <td><span style="font-size: 10px">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span></td>
 
-                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px; text-align: right">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
 
-                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px; text-align: right">{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
                 </tr>
             @endfor
         @endisset
