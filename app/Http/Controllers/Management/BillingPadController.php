@@ -2799,31 +2799,35 @@ class BillingPadController extends Controller
             foreach ($components as $conponent) {
                 $Auth_A = Authorization::select('authorization.*')
                 ->with(
-                    'services_briefcase',
-                    'services_briefcase.manual_price',
-                    'product_com',
                     'location',
                     'ch_interconsultation',
                     'ch_interconsultation.many_ch_record',
-                'applications',
+                    'applications',
+                    'services_briefcase',
+                    'services_briefcase.manual_price',
+                    'product_com',
                     'supplies_com',
                     'services_briefcase.manual_price.procedure',
                     'assigned_management_plan',
+                    'assigned_management_plan.ch_record',
+                    'assigned_management_plan.ch_record.user',
                     'assigned_management_plan.management_plan',
                     'assigned_management_plan.user',
                     'assigned_management_plan.management_plan.service_briefcase',
                     'assigned_management_plan.management_plan.procedure',
                     'manual_price',
+                    'copay',
+                    'copay.payment_type',
                     'manual_price.procedure',
                 )
                 ->where('authorization.id', $conponent)->get()->toArray();
                 if ($Auth_A[0]['location_id']) {
                     $Location = Location::find($Auth_A[0]['location_id']);
                     if ($Location->discharge_date != '0000-00-00 00:00:00') {
-                        $initial_date = Carbon::parse($Location->entry_date);
-                        $finish_date = Carbon::parse($Location->discharge_date);
-                        $days = $initial_date->diffInDays($finish_date) + 1;
-                        $Auth_A[0]['quantity'] = $days;
+                        // $initial_date = Carbon::parse($Location->entry_date);
+                        // $finish_date = Carbon::parse($Location->discharge_date);
+                        // $days = $initial_date->diffInDays($finish_date) + 1;
+                        // $Auth_A[0]['quantity'] = $days;
                     } else {
                         $Auth_B = Authorization::find($Auth_A[0]['id']);
                         $Auth_B->close_date = Carbon::now()->endOfDay()->format('Y-m-d H:i:s');
