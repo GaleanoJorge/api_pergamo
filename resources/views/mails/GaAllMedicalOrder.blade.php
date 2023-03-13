@@ -34,6 +34,10 @@
    <!-- Ordenes Médicas -->
     <div>
       
+        <?php
+            $i = 0;
+        ?>
+
         @foreach($hcAll as $om)
        
         <?php
