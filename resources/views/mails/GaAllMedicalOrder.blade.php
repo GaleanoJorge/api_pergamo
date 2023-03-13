@@ -367,11 +367,15 @@
                 @break
                 @endforeach
         </div>
-
+{{-- 
         @if( $i!=1) 
         <div class="page_break">
-        @endisset
+        @endisset --}}
         
+        @if((count($hcAll1)-1) != array_search($om, $hcAll1)) 
+        <div class="page_break">
+            @endisset
+
         @endforeach
         
     </div>
