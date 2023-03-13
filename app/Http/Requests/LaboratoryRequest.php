@@ -26,7 +26,6 @@ class LaboratoryRequest extends FormRequest
         return [
             'laboratory_status_id' => 'required',
             'user_id' => 'required',
-            'observation' => 'required',
         ];
     }
 }

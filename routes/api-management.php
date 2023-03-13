@@ -1611,6 +1611,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
     Route::get('bill_user_activity/getByPatient/{Id}', 'Management\BillUserActivityController@getByPatient');
+    Route::put('bill_user_activity/RecalculateTariff/{id}', 'Management\BillUserActivityController@RecalculateTariff');
 
 
     Route::apiResource('user_activity', 'Management\UserActivityController');
