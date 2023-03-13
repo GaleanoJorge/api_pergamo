@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $exit_status
- * @property string $legal_medicine_transfer
+ * @property int $legal_medicine_transfer
  * @property string $date_time
  * @property unsignedBigInteger $death_diagnosis_id
  * @property string $medical_signature
