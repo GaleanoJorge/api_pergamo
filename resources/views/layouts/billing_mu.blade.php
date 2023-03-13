@@ -212,10 +212,10 @@
                                     <td><span style="font-size: 10px">{{ $procedures[$j]['quantity'] }}
                                             &nbsp;</span></td>
 
-                                    <td><span style="font-size: 10px">{{ $procedures[$j]['value_und'] }}
+                                    <td><span style="font-size: 10px; text-align: right">{{ $procedures[$j]['value_und'] }}
                                             &nbsp;</span></td>
 
-                                    <td><span style="font-size: 10px">{{ $procedures[$j]['value_tot'] }} &nbsp;</span>
+                                    <td><span style="font-size: 10px; text-align: right">{{ $procedures[$j]['value_tot'] }} &nbsp;</span>
                                     </td>
                                 </tr>
                             @endisset
