@@ -4355,7 +4355,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
                 ->whereIn('authorization.id', $admissions)
                 ->groupBy('patients.id')
-                ->orderBy('patients.id', 'ASC');
+                ->orderBy('patients.id', 'ASC')
+                ->get()->toArray();
         } else {
             $selected_procedures_ids = Authorization::select(
                 'authorization.id',
@@ -4411,7 +4412,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('patients.id')
-                ->orderBy('patients.id', 'ASC');
+                ->orderBy('patients.id', 'ASC')
+                ->get()->toArray();
 
             $consecutive = $selected_procedures_ids[0]['billing_pad_prefix'] . $selected_procedures_ids[0]['consecutive'];
             $billing_resolution = $selected_procedures_ids[0]['resolution'];
