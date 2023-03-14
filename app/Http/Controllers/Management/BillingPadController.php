@@ -508,7 +508,7 @@ class BillingPadController extends Controller
         $briefcase_id = null;
         foreach ($admissions as $a_id) {
             if ($briefcase_id == null) {
-                $authorization = Authorization::find($a_id);
+                $authorization = Admissions::find($a_id);
                 $briefcase_id = $authorization->briefcase_id;
             }
             $auths = count($this->arraySupport($request, $a_id)['billing_pad']);
