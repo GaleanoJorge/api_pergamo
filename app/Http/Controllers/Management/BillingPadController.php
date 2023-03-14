@@ -4334,6 +4334,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function PdfMu(Request $request, int $id): JsonResponse
     {
         $selected_procedures_ids = array();
+        $admissions = array();
         $consecutive = '';
         $billing_resolution = '';
         if ($id == 0) {
@@ -4562,9 +4563,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     'status' => false,
                     'message' => 'poblema de facturación',
                     // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
-                    'data_2' => $patients_ids,
-                    'data_3' => $patients_ids_sql,
-                    'data_3' => $selected_procedures_ids,
+                    'data_patientes' => $patients_ids,
+                    'data_sql' => $patients_ids_sql,
+                    'data_$admissions' => $$admissions,
+                    'data_procedures' => $selected_procedures_ids,
                 ]);
             }
             
