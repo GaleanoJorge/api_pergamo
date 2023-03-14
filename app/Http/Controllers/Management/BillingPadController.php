@@ -4486,10 +4486,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
 
         if (count($selected_procedures_ids) > 0) {
 
-            if (count($patients_ids) == 0) {
+            if (count($patients_ids) == 0 || count($selected_procedures_ids) == 0) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'poblema de facturación',
+                    'message' => 'poblema de facturación, contador cero',
                     'data_patientes' => $patients_ids,
                     'data_admissions' => $admissions,
                     'data_procedures' => $selected_procedures_ids,
