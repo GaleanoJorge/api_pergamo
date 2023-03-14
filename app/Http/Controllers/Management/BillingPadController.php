@@ -4353,6 +4353,21 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
+            $patients_ids_sql = Patient::select(
+                DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
+                DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+                'patients.phone AS phone',
+                'patients.residence_address AS residence_address',
+                'program.name AS program',
+            )
+                ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+                ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                ->leftJoin('program', 'program.id', 'location.program_id')
+                ->whereIn('admissions.id', $admissions)
+                ->groupBy('patients.id')
+                ->orderBy('patients.id', 'ASC')
+                ->toSQL();
             foreach ($admissions as $element) {
                 $auths = $this->arraySupport($request, $element)['billing_pad'];
                 // $selected_procedures_ids = $selected_procedures_ids + $auths;
@@ -4420,6 +4435,24 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
+
+            $patients_ids_sql = Patient::select(
+                DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
+                DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+                'patients.phone AS phone',
+                'patients.residence_address AS residence_address',
+                'program.name AS program',
+            )
+                ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+                ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                ->leftJoin('program', 'program.id', 'location.program_id')
+                ->leftJoin('authorization', 'authorization.admissions_id', 'admissions.id')
+                ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+                ->where('auth_billing_pad.billing_pad_mu_id', $id)
+                ->groupBy('patients.id')
+                ->orderBy('patients.id', 'ASC')
+                ->toSQL();
 
             $consecutive = $selected_procedures_ids[0]['billing_pad_prefix'] . $selected_procedures_ids[0]['consecutive'];
             $billing_resolution = $selected_procedures_ids[0]['resolution'];
@@ -4524,16 +4557,16 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             //     ->orderBy('patients.id', 'ASC')
             //     ->get()->toArray();
 
-            // if (count($selected_procedures_ids) == 0) {
-            //     return response()->json([
-            //         'status' => false,
-            //         'message' => 'poblema de facturación',
-            //         // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
-            //         'data_2' => $selected_procedures,
-            //         'data_3' => $selected_procedures_ids,
-            //         'data_4' => $selected_procedures_sql,
-            //     ]);
-            // }
+            if (count($patients_ids) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'poblema de facturación',
+                    // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
+                    'data_2' => $patients_ids,
+                    'data_3' => $patients_ids_sql,
+                    'data_3' => $selected_procedures_ids,
+                ]);
+            }
             
             try {
                 if ($contract_name == '') {
