@@ -506,6 +506,7 @@ class BillingPadController extends Controller
 
         $total_auths = 0;
         $briefcase_id = null;
+        $BillingsPad = array();
         foreach ($admissions as $a_id) {
             if ($briefcase_id == null) {
                 $authorization = Admissions::find($a_id);
@@ -513,21 +514,25 @@ class BillingPadController extends Controller
             }
             $auths = count($this->arraySupport($request, $a_id)['billing_pad']);
             $total_auths += $auths;
+            $BillingsPad_aux = BillingPad::select('billing_pad.*')
+                ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+                ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+                ->where('billing_pad.billing_pad_status_id', 1)
+                ->where('billing_pad.admissions_id', $admissions)
+                ->get()
+                ->toArray();
+
+            foreach($BillingsPad_aux as $element) {
+                array_push($BillingsPad, $element);
+            }
         }
 
-        $BillingsPad = BillingPad::select('billing_pad.*')
-            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
-            ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
-            ->where('billing_pad.billing_pad_status_id', 1)
-            ->whereIn('billing_pad.admissions_id', $admissions)
-            ->get()
-            ->toArray();
 
         if ($total_auths == 0 || count($BillingsPad) == 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible facturar ya que no se encuentran elementos facturables para los pacientes seleccionados',
-                'data' => ['billing_pad' => []]
+                'data' => ['billing_pad' => $BillingsPad]
             ]);
         }
 
