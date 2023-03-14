@@ -4353,6 +4353,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'program.name AS program',
             )
                 ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+                ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                ->leftJoin('program', 'program.id', 'location.program_id')
                 ->whereIn('authorization.id', $admissions)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
@@ -4408,8 +4411,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'program.name AS program',
             )
                 ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
-                ->leftJoin('authorization', 'admissions.id', 'authorization.admissions_id')
-                ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+                ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                ->leftJoin('program', 'program.id', 'location.program_id')
                 ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
