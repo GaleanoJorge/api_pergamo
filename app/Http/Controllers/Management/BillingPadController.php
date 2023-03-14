@@ -4208,6 +4208,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $total_pay = 0;
         $copay_value = 0;
         $mod_value = 0;
+        $contract_name = '';
         $auths_numbers = array();
         $to_bill = array();
 
@@ -4264,6 +4265,10 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
+            
+            if ($contract_name == '') {
+                $contract_name = $selected_procedures[0]['contract_name'];
+            }
 
             foreach ($selected_procedures as $procedure) {
 
@@ -4341,40 +4346,51 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $totalin_letters = $this->NumToLettersBill($total_pay);
         $generate_date  = Carbon::now()->setTimezone('America/Bogota');
 
-        $html = view('layouts.billing_mu', [
-            'billing_type' => $request->billing_type,
-            'patients' => $patients_ids,
-            'procedures' => $to_bill,
-            'auths_numbers' => $auths_numbers,
-            'total_value_letters' => $total_value_letters,
-            'copay_value_letters' => $copay_value_letters,
-            'mod_value_letters' => $mod_value_letters,
-            'total_letters' => $total_letters,
-            'totalin_letters' => $totalin_letters,
-            'generate_date' => $generate_date,
-            'consecutive' => $consecutive,
-            'billing_resolution' => $billing_resolution,
-        ])->render();
-
-        $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
-        $dompdf = new PDF($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('Carta', 'vertical');
-        $dompdf->render();
-        $this->injectPageCount($dompdf);
-        $file = $dompdf->output();
-
-        $name = 'cuenta_cobro/factura.pdf';
-
-        Storage::disk('public')->put($name, $file);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Documento generado exitosamente',
-            'url' => asset('/storage' .  '/' . $name),
-            'data' => $selected_procedures,
-        ]);
+        try {
+            $html = view('layouts.billing_mu', [
+                'billing_type' => $request->billing_type,
+                'patients' => $patients_ids,
+                'contract_name' => $contract_name,
+                'procedures' => $to_bill,
+                'auths_numbers' => $auths_numbers,
+                'total_value_letters' => $total_value_letters,
+                'copay_value_letters' => $copay_value_letters,
+                'mod_value_letters' => $mod_value_letters,
+                'total_letters' => $total_letters,
+                'totalin_letters' => $totalin_letters,
+                'generate_date' => $generate_date,
+                'consecutive' => $consecutive,
+                'billing_resolution' => $billing_resolution,
+            ])->render();
+    
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'vertical');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+    
+            $name = 'cuenta_cobro/factura.pdf';
+    
+            Storage::disk('public')->put($name, $file);
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Documento generado exitosamente',
+                'url' => asset('/storage' .  '/' . $name),
+                'data' => $selected_procedures,
+                'data_2' => $to_bill,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'poblema de facturación',
+                'data' => $e->getLine() . ' - ' . $e->getMessage(),
+                'data_2' => $to_bill,
+            ]);
+        }
     }
 
     private function injectPageCount(PDF $dompdf): void
