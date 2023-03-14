@@ -512,7 +512,8 @@ class BillingPadController extends Controller
                 $authorization = Admissions::find($a_id);
                 $briefcase_id = $authorization->briefcase_id;
             }
-            $auths = count($this->arraySupport($request, $a_id)['billing_pad']);
+            $aux = $this->arraySupport($request, $a_id);
+            $auths = count($aux['billing_pad']);
             $total_auths += $auths;
             $BillingsPad_aux = BillingPad::select('billing_pad.*')
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
@@ -673,6 +674,17 @@ class BillingPadController extends Controller
             $BillingPadMu->billing_pad_status_id = 4;
             $BillingPadMu->billing_credit_note_id = $NCBillingPadMu->id;
             $BillingPadMu->save();
+
+            $billin_pad_asociated = BillingPad::select('*')
+                ->where('billing_pad_mu_id', $BillingPadMu->id)
+                ->get()->toArray();
+            
+            foreach ($billin_pad_asociated as $element) {
+                $billin_pad_disasociated = BillingPad::where('id', $element['id'])->first();
+                $billin_pad_disasociated->billing_pad_status_id = 1;
+                $billin_pad_disasociated->billing_pad_mu_id = null;
+                $billin_pad_disasociated->save();
+            }
 
             $AuthBillingPadDelete = AuthBillingPad::with(
                 'authorization',
@@ -3243,8 +3255,12 @@ class BillingPadController extends Controller
      */
     public function creditNotePgp(Request $request, int $id): JsonResponse
     {
-        $campus = Campus::with('billing_pad_prefix')
-            ->where('id', $request->campus_id)->get()->toArray();
+        $campus = Campus::select('campus.*')->with('billing_pad_prefix')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_pgp', 'billing_pad_pgp.billing_pad_prefix_id', 'billing_pad_prefix.id')
+            ->where('billing_pad_pgp.id', $id)
+            ->groupBy('campus.id')
+            ->get()->toArray();
 
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_credit_note_prefix_id'])
