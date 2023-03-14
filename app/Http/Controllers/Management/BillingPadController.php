@@ -760,7 +760,20 @@ class BillingPadController extends Controller
             ->leftJoin('program', 'program.id', 'location.program_id')
             ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
             ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
-            ->groupBy('admissions.patient_id');
+            ->groupBy('patients.id');
+
+        if ($request->regime_id && $request->regime_id > 1) {
+            if ($request->regime_id == 2) {
+                $EnabledAdmissions->whereIn('admissions.regime_id', [1, 2, 3]);
+            }
+            if ($request->regime_id == 3) {
+                $EnabledAdmissions->where('admissions.regime_id', 4);
+            }
+            if ($request->regime_id == 4) {
+                $EnabledAdmissions->where('admissions.regime_id', '>', 4);
+            }
+        }
+
         if ($request->pgp == "true") {
             $EnabledAdmissions->where('contract.type_contract_id', '=', 5);
             if ($request->billing_pad_pgp_id) {
