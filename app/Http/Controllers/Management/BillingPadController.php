@@ -4565,7 +4565,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
                     'data_patientes' => $patients_ids,
                     'data_sql' => $patients_ids_sql,
-                    'data_$admissions' => $$admissions,
+                    'data_admissions' => $admissions,
                     'data_procedures' => $selected_procedures_ids,
                 ]);
             }
