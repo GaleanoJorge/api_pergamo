@@ -4248,6 +4248,40 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
 
+            $selected_procedures_sql = Authorization::select(
+                'authorization.id',
+                'authorization.auth_number',
+                DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+                DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+                DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+                'services_briefcase.value AS value_und',
+                DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+                'manual_price.name As service',
+                DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+                'program.name AS program',
+                DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+                'company.name AS eps_name',
+                'contract.name AS contract_name',
+                DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+            )
+                ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+                ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+                ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+                ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+                ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+                ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+                ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+                ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+                ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                ->leftJoin('program', 'program.id', 'location.program_id')
+                ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+                ->leftJoin('company', 'company.id', 'contract.company_id')
+                ->whereIn('authorization.id', $selected_procedures_ids)
+                ->groupBy('authorization.id')
+                ->orderBy('patients.id', 'ASC')
+                ->toSql();
+
             // pacientes que van a ser facturados
             $patients_ids = Authorization::select(
                 DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
@@ -4273,6 +4307,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                     // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
                     'data_2' => $selected_procedures,
                     'data_3' => $selected_procedures_ids,
+                    'data_4' => $selected_procedures_sql,
                 ]);
             }
             
