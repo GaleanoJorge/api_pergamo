@@ -4265,6 +4265,16 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
+
+            if (count($selected_procedures) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'poblema de facturación',
+                    // 'data' => $e->getLine() . ' - ' . $e->getMessage(),
+                    'data_2' => $selected_procedures,
+                    'data_3' => $selected_procedures_ids,
+                ]);
+            }
             
             try {
                 if ($contract_name == '') {
