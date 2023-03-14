@@ -233,15 +233,15 @@ class BillingPadController extends Controller
         }
 
         if ($request->start_date) {
-            $BillingPadBasic->where('billing_pad.facturation_date', '>=', $request->start_date);
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', $request->start_date);
-            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', $request->start_date);
+            $BillingPadBasic->where('billing_pad.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
         }
 
         if ($request->finish_date) {
-            $BillingPadBasic->where('billing_pad.facturation_date', '<=', $request->finish_date);
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', $request->finish_date);
-            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', $request->finish_date);
+            $BillingPadBasic->where('billing_pad.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
         }
 
         if ($request->search) {
@@ -779,7 +779,7 @@ class BillingPadController extends Controller
         }
 
         if ($request->finish_date) {
-            $EnabledAdmissions->where('admissions.entry_date', '<=', Carbon::parse($request->finish_date)->startOfDay());
+            $EnabledAdmissions->where('admissions.entry_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
         }
 
         if ($request->pgp == "true") {
