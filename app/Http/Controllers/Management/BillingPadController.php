@@ -4338,13 +4338,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $billing_resolution = '';
         if ($id == 0) {
             $admissions = json_decode($request->admissions, true);
-            foreach ($admissions as $element) {
-                $auths = $this->arraySupport($request, $element)['billing_pad'];
-                $selected_procedures_ids = $selected_procedures_ids + $auths;
-                // foreach ($auths as $e) {
-                //     array_push($selected_procedures_ids, $e['id']);
-                // }
-            }
             $patients_ids = Patient::select(
                 DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
                 DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
@@ -4360,6 +4353,14 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
+            foreach ($admissions as $element) {
+                $auths = $this->arraySupport($request, $element)['billing_pad'];
+                // $selected_procedures_ids = $selected_procedures_ids + $auths;
+                foreach ($auths as $e) {
+                    array_push($selected_procedures_ids, $e);
+                }
+            }
+            
         } else {
             $selected_procedures_ids = Authorization::select(
                 'authorization.id',
@@ -4393,7 +4394,6 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('program', 'program.id', 'location.program_id')
                 ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
                 ->leftJoin('company', 'company.id', 'contract.company_id')
-                ->leftJoin('company', 'company.id', 'contract.company_id')
                 ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad_mu', 'billing_pad_mu.id', 'auth_billing_pad.billing_pad_mu_id')
                 ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_mu.billing_pad_prefix_id')
@@ -4414,6 +4414,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
                 ->leftJoin('location', 'location.admissions_id', 'admissions.id')
                 ->leftJoin('program', 'program.id', 'location.program_id')
+                ->leftJoin('authorization', 'authorization.admissions_id', 'admissions.id')
+                ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
