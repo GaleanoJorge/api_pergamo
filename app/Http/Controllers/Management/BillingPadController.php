@@ -4356,7 +4356,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
                 ->leftJoin('location', 'location.admissions_id', 'admissions.id')
                 ->leftJoin('program', 'program.id', 'location.program_id')
-                ->whereIn('authorization.id', $admissions)
+                ->whereIn('admissions.id', $admissions)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
