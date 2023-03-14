@@ -774,6 +774,14 @@ class BillingPadController extends Controller
             }
         }
 
+        if ($request->start_date) {
+            $EnabledAdmissions->where('admissions.entry_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+        }
+
+        if ($request->finish_date) {
+            $EnabledAdmissions->where('admissions.entry_date', '<=', Carbon::parse($request->finish_date)->startOfDay());
+        }
+
         if ($request->pgp == "true") {
             $EnabledAdmissions->where('contract.type_contract_id', '=', 5);
             if ($request->billing_pad_pgp_id) {
@@ -4582,7 +4590,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'No hay proceedimientos para facturar',
+                'message' => 'No hay procedimientos para facturar',
             ]);
         }
 
