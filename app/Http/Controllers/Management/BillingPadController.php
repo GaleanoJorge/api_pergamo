@@ -4368,7 +4368,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->whereIn('admissions.id', $admissions)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
-                ->toSQL();
+                ->toSql();
             foreach ($admissions as $element) {
                 $auths = $this->arraySupport($request, $element)['billing_pad'];
                 // $selected_procedures_ids = $selected_procedures_ids + $auths;
@@ -4453,7 +4453,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
-                ->toSQL();
+                ->toSql();
 
             $consecutive = $selected_procedures_ids[0]['billing_pad_prefix'] . $selected_procedures_ids[0]['consecutive'];
             $billing_resolution = $selected_procedures_ids[0]['resolution'];
