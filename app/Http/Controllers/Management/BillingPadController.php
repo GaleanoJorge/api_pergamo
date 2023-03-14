@@ -4340,7 +4340,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             $admissions = json_decode($request->admissions, true);
             foreach ($admissions as $element) {
                 $auths = $this->arraySupport($request, $element)['billing_pad'];
-                $selected_procedures_ids += $auths;
+                $selected_procedures_ids = $selected_procedures_ids + $auths;
                 // foreach ($auths as $e) {
                 //     array_push($selected_procedures_ids, $e['id']);
                 // }
@@ -4657,8 +4657,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 'status' => true,
                 'message' => 'Documento generado exitosamente',
                 'url' => asset('/storage' .  '/' . $name),
-                'data' => $selected_procedures_ids,
-                'data_2' => $to_bill,
+                'data_procedures' => $selected_procedures_ids,
+                'data_to_bill' => $to_bill,
+                'data_patients_ids' => $patients_ids,
             ]);
         } catch (Exception $e) {
             return response()->json([
