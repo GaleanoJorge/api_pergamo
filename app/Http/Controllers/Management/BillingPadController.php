@@ -667,6 +667,7 @@ class BillingPadController extends Controller
             $NCBillingPadMu->validation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadMu->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadMu->consecutive = $consecutive;
+            $NCBillingPadMu->briefcase_id = $BillingPadMu->briefcase_id;
             $NCBillingPadMu->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $NCBillingPadMu->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
             $NCBillingPadMu->save();
@@ -1102,7 +1103,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1115,7 +1120,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1228,7 +1238,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1241,7 +1255,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1343,7 +1362,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1356,7 +1379,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1442,7 +1470,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1455,7 +1487,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1554,7 +1591,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1567,7 +1608,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1661,7 +1707,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorizationpackages['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1674,7 +1724,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorizationpackages);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorizationpackages);
                     } else {
                         array_push($AlreadyBilling, $Authorizationpackages);
