@@ -94,7 +94,7 @@ class TariffController extends Controller
 
     public function store(TariffRequest $request): JsonResponse
     {
-        $TariffTest = Tariff::select();
+        $TariffTest = Tariff::select('tariff.*')->with('pad_risk', 'status', 'type_of_attention', 'program', 'admissions');
         if ($request->quantity) {
             $TariffTest->where('quantity', $request->quantity);
         } else {
@@ -126,7 +126,7 @@ class TariffController extends Controller
             $TariffTest->whereNull('pad_risk_id');
         }
         if ($request->program_id) {
-            $TariffTest->where('program_id', $request->program_id);
+            $TariffTest->whereIn('program_id', $request->program_id);
         } else {
             $TariffTest->whereNull('program_id');
         }
@@ -136,13 +136,21 @@ class TariffController extends Controller
             $TariffTest->whereNull('admissions_id');
         }
         $TariffTest->where('status_id', $request->status_id)
-            ->where('type_of_attention_id', $request->type_of_attention_id);
+            ->whereIn('type_of_attention_id', $request->type_of_attention_id);
         $TariffTest = $TariffTest->get()->toArray();
         if (count($TariffTest) > 0) {
+            $str = '';
+            foreach ($TariffTest as $t) {
+                if ($str == '') {
+                    $str = $t['name'];
+                }  else {
+                    $str = $str . ', ' . $t['name'];
+                }
+            }
             return response()->json([
                 'status' => false,
-                'message' => 'Tarifa ya existe, o se encuentra en estado activa',
-                'data' => ['tariff' => []]
+                'message' => 'Tarifa ya existe, o se encuentra en estado activa, tarifas: ' . $str,
+                'data' => ['tariff' => $TariffTest]
             ]);
         }
         $TariffTest2 = Tariff::select()
@@ -152,24 +160,28 @@ class TariffController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Nombre de tarifa ya existe',
-                'data' => ['tariff' => []]
+                'data' => ['tariff' => $TariffTest2]
             ]);
         }
-        $Tariff = new Tariff;
-        $Tariff->name = $request->name;
-        $Tariff->amount = $request->amount;
-        $Tariff->quantity = $request->quantity;
-        $Tariff->has_car = $request->has_car;
-        $Tariff->extra_dose = $request->extra_dose;
-        $Tariff->phone_consult = $request->phone_consult;
-        $Tariff->status_id = $request->status_id;
-        $Tariff->pad_risk_id = $request->pad_risk_id;
-        $Tariff->program_id = $request->program_id;
-        $Tariff->type_of_attention_id = $request->type_of_attention_id;
-        $Tariff->admissions_id = $request->admissions_id;
-        $Tariff->failed = $request->failed;
-
-        $Tariff->save();
+        foreach ($request->type_of_attention_id as $type) {
+            foreach ($request->program_id as $element) {
+                $Tariff = new Tariff;
+                $Tariff->name = $request->name;
+                $Tariff->amount = $request->amount;
+                $Tariff->quantity = $request->quantity;
+                $Tariff->has_car = $request->has_car;
+                $Tariff->extra_dose = $request->extra_dose;
+                $Tariff->phone_consult = $request->phone_consult;
+                $Tariff->status_id = $request->status_id;
+                $Tariff->pad_risk_id = $request->pad_risk_id;
+                $Tariff->program_id = $element;
+                $Tariff->type_of_attention_id = $type;
+                $Tariff->admissions_id = $request->admissions_id;
+                $Tariff->failed = $request->failed;
+        
+                // $Tariff->save();
+            }
+        }
 
         return response()->json([
             'status' => true,
