@@ -179,7 +179,7 @@ class TariffController extends Controller
                 $Tariff->admissions_id = $request->admissions_id;
                 $Tariff->failed = $request->failed;
         
-                // $Tariff->save();
+                $Tariff->save();
             }
         }
 
