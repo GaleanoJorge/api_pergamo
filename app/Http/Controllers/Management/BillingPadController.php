@@ -274,7 +274,7 @@ class BillingPadController extends Controller
         }
 
         if ($request->billing_type) {
-            $BillingPad += ($request->billing_type == 1 ? $BillingPadBasic : ($request->billing_type == 3 ? $BillingPadMu : $BillingPadPgp));
+            $BillingPad = ($request->billing_type == 1 ? $BillingPad + $BillingPadBasic : ($request->billing_type == 3 ? $BillingPad + $BillingPadMu : $BillingPad + $BillingPadPgp));
         } else {
             $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
         }
