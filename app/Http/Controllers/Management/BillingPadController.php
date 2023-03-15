@@ -651,7 +651,7 @@ class BillingPadController extends Controller
         try {
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
-            $BillingPadMu = BillingPad::find($id);
+            $BillingPadMu = BillingPadMu::find($id);
 
 
             $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
