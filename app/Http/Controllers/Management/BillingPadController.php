@@ -259,6 +259,12 @@ class BillingPadController extends Controller
                 ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->billing_type) {
+            $BillingPadBasic->having('billing_type', 'like', '%' . $request->search . '%');
+            $BillingPadMu->having('billing_type', 'like', '%' . $request->search . '%');
+            $BillingPadPgp->having('billing_type', 'like', '%' . $request->search . '%');
+        } 
+
         $BillingPadBasic = $BillingPadBasic->get()->toArray();
         $BillingPadMu = $BillingPadMu->get()->toArray();
         $BillingPadPgp = $BillingPadPgp->get()->toArray();
@@ -273,11 +279,7 @@ class BillingPadController extends Controller
             array_push($BillingPad, $element);
         }
 
-        if ($request->billing_type) {
-            $BillingPadBasic->having('billing_type', 'like', '%' . $request->search . '%');
-            $BillingPadMu->having('billing_type', 'like', '%' . $request->search . '%');
-            $BillingPadPgp->having('billing_type', 'like', '%' . $request->search . '%');
-        } 
+        
         $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
 
 
