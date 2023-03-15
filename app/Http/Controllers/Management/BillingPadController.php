@@ -260,9 +260,9 @@ class BillingPadController extends Controller
         }
 
         if ($request->billing_type) {
-            $BillingPadBasic->having('billing_type', 'like', '%' . $request->search . '%');
-            $BillingPadMu->having('billing_type', 'like', '%' . $request->search . '%');
-            $BillingPadPgp->having('billing_type', 'like', '%' . $request->search . '%');
+            $BillingPadBasic->having('billing_type', $request->billing_type);
+            $BillingPadMu->having('billing_type', $request->billing_type);
+            $BillingPadPgp->having('billing_type', $request->billing_type);
         } 
 
         $BillingPadBasic = $BillingPadBasic->get()->toArray();
