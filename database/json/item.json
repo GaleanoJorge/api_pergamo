@@ -1846,5 +1846,14 @@
         "route": "/pages/setting/tc-assistant",
         "icon": "",
         "show_menu": "1"
+    },
+    {
+        "id": "278",
+        "item_parent_id": "183",
+        "name": "Talento humano",
+        "code": "tc-human-talent-2",
+        "route": "/pages/setting/tc-human-talent-2",
+        "icon": "",
+        "show_menu": "1"
     }
 ]

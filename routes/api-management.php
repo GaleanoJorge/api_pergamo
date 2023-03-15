@@ -1650,6 +1650,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('pare_base_tc', 'Management\PareBaseTcController');
     Route::apiResource('quit_tc', 'Management\QuitTcController');
     Route::apiResource('service_level_tc', 'Management\ServiceLevelTcController');
+    Route::apiResource('human_talent_2_tc', 'Management\HumanTalent2TcController');
 
     Route::post('assistant_tc/file', 'Management\AssistantTcController@import');
     Route::post('attended_tc/file', 'Management\AttendedTcController@import');
@@ -1657,6 +1658,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('pare_base_tc/file', 'Management\PareBaseTcController@import');
     Route::post('quit_tc/file', 'Management\QuitTcController@import');
     Route::post('service_level_tc/file', 'Management\ServiceLevelTcController@import');
+    Route::post('human_talent_2_tc/file', 'Management\HumanTalent2TcController@import');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
     Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
