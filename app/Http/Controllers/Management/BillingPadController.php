@@ -482,8 +482,7 @@ class BillingPadController extends Controller
      */
     public function generateMuBilling(Request $request): JsonResponse
     {
-        $firstDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->startOfMonth();
-        $lastDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->endOfMonth();
+        
 
         $admissions = json_decode($request->admissions, true);
 
@@ -508,10 +507,12 @@ class BillingPadController extends Controller
         $briefcase_id = null;
         $BillingsPad = array();
         foreach ($admissions as $a_id) {
+            $authorization = Admissions::find($a_id);
             if ($briefcase_id == null) {
-                $authorization = Admissions::find($a_id);
                 $briefcase_id = $authorization->briefcase_id;
             }
+            $firstDateLastMonth = Carbon::parse($authorization->entry_date)->setTimezone('America/Bogota')->startOfMonth();
+            $lastDateLastMonth = Carbon::parse($authorization->entry_date)->setTimezone('America/Bogota')->endOfMonth();
             $aux = $this->arraySupport($request, $a_id);
             $auths = count($aux['billing_pad']);
             $total_auths += $auths;
@@ -519,7 +520,7 @@ class BillingPadController extends Controller
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
                 ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
                 ->where('billing_pad.billing_pad_status_id', 1)
-                ->where('billing_pad.admissions_id', $admissions)
+                ->where('billing_pad.admissions_id', $a_id)
                 ->get()
                 ->toArray();
 
@@ -703,7 +704,7 @@ class BillingPadController extends Controller
                 'authorization.manual_price',
                 'authorization.manual_price.procedure',
             )
-                ->where('billing_pad_id', $id)->get()->toArray();
+                ->where('billing_pad_mu_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
 
                 $a = 1;
@@ -714,7 +715,7 @@ class BillingPadController extends Controller
                 }
 
                 $AuthBillingPad = new AuthBillingPad;
-                $AuthBillingPad->billing_pad_id = $NCBillingPadMu->id;
+                $AuthBillingPad->billing_pad_mu_id = $NCBillingPadMu->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
                 if ($conponent['authorization']['services_briefcase']) {
                     $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'] * $a;
