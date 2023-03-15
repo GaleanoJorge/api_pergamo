@@ -274,10 +274,11 @@ class BillingPadController extends Controller
         }
 
         if ($request->billing_type) {
-            $BillingPad = ($request->billing_type == 1 ? $BillingPad + $BillingPadBasic : ($request->billing_type == 3 ? $BillingPad + $BillingPadMu : $BillingPad + $BillingPadPgp));
-        } else {
-            $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
-        }
+            $BillingPadBasic->having('billing_type', 'like', '%' . $request->search . '%');
+            $BillingPadMu->having('billing_type', 'like', '%' . $request->search . '%');
+            $BillingPadPgp->having('billing_type', 'like', '%' . $request->search . '%');
+        } 
+        $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
 
 
         return response()->json([
