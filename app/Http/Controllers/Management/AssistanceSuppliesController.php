@@ -452,10 +452,14 @@ class AssistanceSuppliesController extends Controller
                             ->havingBetween('date_attention', [Carbon::now()->subHours(3), Carbon::now()->addHours(3)])
                             ->orderBy('assigned_management_plan.start_date', 'ASC')
                             ->orderBy('assigned_management_plan.start_hour', 'ASC')
-                            ->first();
+                            ->get()->first();
+
+                        if ($AssignedManagementPlan) {
+                            $udated_assignedManagementPlan = AssignedManagementPlan::find($AssignedManagementPlan->id);
+                            $udated_assignedManagementPlan->execution_date = Carbon::now();
+                            $udated_assignedManagementPlan->save();
+                        }
     
-                        $AssignedManagementPlan->execution_date = Carbon::now();
-                        $AssignedManagementPlan->save();
                     }
 
 
