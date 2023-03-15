@@ -40,6 +40,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property unsignedBigInteger $pharmacy_product_request_id
  * @property unsignedBigInteger $type_record_id
  * @property unsignedBigInteger $ch_record_id
+ * @property unsignedBigInteger $status_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 

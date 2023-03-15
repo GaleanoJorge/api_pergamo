@@ -26,5 +26,6 @@ class ChFormulation extends BaseChFormulation
     'ch_record_id',
     'oxigen_administration_way_id',
     'suspended',
+    'status_id',
 	];
 }
