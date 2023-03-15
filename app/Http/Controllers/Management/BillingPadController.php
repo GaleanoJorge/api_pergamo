@@ -273,7 +273,12 @@ class BillingPadController extends Controller
             array_push($BillingPad, $element);
         }
 
-        $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
+        if ($request->billing_type) {
+            $BillingPad += ($request->billing_type == 1 ? $BillingPadBasic : ($request->billing_type == 3 ? $BillingPadMu : $BillingPadPgp));
+        } else {
+            $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
+        }
+
 
         return response()->json([
             'status' => true,
