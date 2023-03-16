@@ -5954,6 +5954,8 @@ class ChRecordController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe registrar aplicación de medicamento',
+                    'data' => [$applicated],
+                    'data2' => [$validate_aplication]
                 ]);
             }
         }
