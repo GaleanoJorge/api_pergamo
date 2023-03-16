@@ -233,15 +233,15 @@ class BillingPadController extends Controller
         }
 
         if ($request->start_date) {
-            $BillingPadBasic->where('billing_pad.facturation_date', '>=', $request->start_date);
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', $request->start_date);
-            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', $request->start_date);
+            $BillingPadBasic->where('billing_pad.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
         }
 
         if ($request->finish_date) {
-            $BillingPadBasic->where('billing_pad.facturation_date', '<=', $request->finish_date);
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', $request->finish_date);
-            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', $request->finish_date);
+            $BillingPadBasic->where('billing_pad.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+            $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
         }
 
         if ($request->search) {
@@ -259,6 +259,12 @@ class BillingPadController extends Controller
                 ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
         }
 
+        if ($request->billing_type) {
+            $BillingPadBasic->having('billing_type', $request->billing_type);
+            $BillingPadMu->having('billing_type', $request->billing_type);
+            $BillingPadPgp->having('billing_type', $request->billing_type);
+        } 
+
         $BillingPadBasic = $BillingPadBasic->get()->toArray();
         $BillingPadMu = $BillingPadMu->get()->toArray();
         $BillingPadPgp = $BillingPadPgp->get()->toArray();
@@ -273,7 +279,9 @@ class BillingPadController extends Controller
             array_push($BillingPad, $element);
         }
 
+        
         $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
+
 
         return response()->json([
             'status' => true,
@@ -482,8 +490,7 @@ class BillingPadController extends Controller
      */
     public function generateMuBilling(Request $request): JsonResponse
     {
-        $firstDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->startOfMonth();
-        $lastDateLastMonth = Carbon::now()->setTimezone('America/Bogota')->endOfMonth();
+        
 
         $admissions = json_decode($request->admissions, true);
 
@@ -506,28 +513,36 @@ class BillingPadController extends Controller
 
         $total_auths = 0;
         $briefcase_id = null;
+        $BillingsPad = array();
         foreach ($admissions as $a_id) {
+            $authorization = Admissions::find($a_id);
             if ($briefcase_id == null) {
-                $authorization = Authorization::find($a_id);
                 $briefcase_id = $authorization->briefcase_id;
             }
-            $auths = count($this->arraySupport($request, $a_id)['billing_pad']);
+            $firstDateLastMonth = Carbon::parse($authorization->entry_date)->setTimezone('America/Bogota')->startOfMonth();
+            $lastDateLastMonth = Carbon::parse($authorization->entry_date)->setTimezone('America/Bogota')->endOfMonth();
+            $aux = $this->arraySupport($request, $a_id);
+            $auths = count($aux['billing_pad']);
             $total_auths += $auths;
+            $BillingsPad_aux = BillingPad::select('billing_pad.*')
+                ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
+                ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
+                ->where('billing_pad.billing_pad_status_id', 1)
+                ->where('billing_pad.admissions_id', $a_id)
+                ->get()
+                ->toArray();
+
+            foreach($BillingsPad_aux as $element) {
+                array_push($BillingsPad, $element);
+            }
         }
 
-        $BillingsPad = BillingPad::select('billing_pad.*')
-            ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
-            ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
-            ->where('billing_pad.billing_pad_status_id', 1)
-            ->whereIn('billing_pad.admissions_id', $admissions)
-            ->get()
-            ->toArray();
 
         if ($total_auths == 0 || count($BillingsPad) == 0) {
             return response()->json([
                 'status' => false,
                 'message' => 'No es posible facturar ya que no se encuentran elementos facturables para los pacientes seleccionados',
-                'data' => ['billing_pad' => []]
+                'data' => ['billing_pad' => $BillingsPad]
             ]);
         }
 
@@ -645,7 +660,7 @@ class BillingPadController extends Controller
         try {
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
-            $BillingPadMu = BillingPad::find($id);
+            $BillingPadMu = BillingPadMu::find($id);
 
 
             $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
@@ -661,6 +676,7 @@ class BillingPadController extends Controller
             $NCBillingPadMu->validation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadMu->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadMu->consecutive = $consecutive;
+            $NCBillingPadMu->briefcase_id = $BillingPadMu->briefcase_id;
             $NCBillingPadMu->billing_pad_consecutive_id = $BillingPadConsecutive->id;
             $NCBillingPadMu->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
             $NCBillingPadMu->save();
@@ -668,6 +684,17 @@ class BillingPadController extends Controller
             $BillingPadMu->billing_pad_status_id = 4;
             $BillingPadMu->billing_credit_note_id = $NCBillingPadMu->id;
             $BillingPadMu->save();
+
+            $billin_pad_asociated = BillingPad::select('*')
+                ->where('billing_pad_mu_id', $BillingPadMu->id)
+                ->get()->toArray();
+            
+            foreach ($billin_pad_asociated as $element) {
+                $billin_pad_disasociated = BillingPad::where('id', $element['id'])->first();
+                $billin_pad_disasociated->billing_pad_status_id = 1;
+                $billin_pad_disasociated->billing_pad_mu_id = null;
+                $billin_pad_disasociated->save();
+            }
 
             $AuthBillingPadDelete = AuthBillingPad::with(
                 'authorization',
@@ -685,7 +712,7 @@ class BillingPadController extends Controller
                 'authorization.manual_price',
                 'authorization.manual_price.procedure',
             )
-                ->where('billing_pad_id', $id)->get()->toArray();
+                ->where('billing_pad_mu_id', $id)->get()->toArray();
             foreach ($AuthBillingPadDelete as $conponent) {
 
                 $a = 1;
@@ -696,7 +723,7 @@ class BillingPadController extends Controller
                 }
 
                 $AuthBillingPad = new AuthBillingPad;
-                $AuthBillingPad->billing_pad_id = $NCBillingPadMu->id;
+                $AuthBillingPad->billing_pad_mu_id = $NCBillingPadMu->id;
                 $AuthBillingPad->authorization_id = $conponent['authorization_id'];
                 if ($conponent['authorization']['services_briefcase']) {
                     $AuthBillingPad->value = $conponent['authorization']['services_briefcase']['value'] * $a;
@@ -760,7 +787,28 @@ class BillingPadController extends Controller
             ->leftJoin('program', 'program.id', 'location.program_id')
             ->leftJoin('briefcase', 'briefcase.id', 'admissions.briefcase_id')
             ->leftJoin('billing_pad', 'billing_pad.admissions_id', 'admissions.id')
-            ->groupBy('admissions.patient_id');
+            ->groupBy('patients.id');
+
+        if ($request->regime_id && $request->regime_id > 1) {
+            if ($request->regime_id == 2) {
+                $EnabledAdmissions->whereIn('admissions.regime_id', [1, 2, 3]);
+            }
+            if ($request->regime_id == 3) {
+                $EnabledAdmissions->where('admissions.regime_id', 4);
+            }
+            if ($request->regime_id == 4) {
+                $EnabledAdmissions->where('admissions.regime_id', '>', 4);
+            }
+        }
+
+        if ($request->start_date) {
+            $EnabledAdmissions->where('admissions.entry_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+        }
+
+        if ($request->finish_date) {
+            $EnabledAdmissions->where('admissions.entry_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+        }
+
         if ($request->pgp == "true") {
             $EnabledAdmissions->where('contract.type_contract_id', '=', 5);
             if ($request->billing_pad_pgp_id) {
@@ -977,7 +1025,21 @@ class BillingPadController extends Controller
         }
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN PROCEDIMIENTOS Y POR EVENTO (NO PAQUETIZADAS)
-        $eventos = Authorization::select('authorization.*')
+        $eventos = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1002,6 +1064,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.supplies_com_id')
@@ -1037,7 +1112,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1050,7 +1129,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1065,7 +1149,21 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN MEDICAMENTOS Y POR EVENTO (NO PAQUETIZADAS)
-        $MedicamentosEventos = Authorization::select('authorization.*')
+        $MedicamentosEventos = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1090,6 +1188,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
@@ -1136,7 +1247,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1149,7 +1264,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1165,7 +1285,21 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN INSUMOS Y POR EVENTO (NO PAQUETIZADAS)
-        $InsumosEventos = Authorization::select('authorization.*')
+        $InsumosEventos = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1190,6 +1324,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
@@ -1224,7 +1371,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1237,7 +1388,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1250,7 +1406,21 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES QUE SEAN ACTIVOS FIJOS
-        $ActivosFijosEvento = Authorization::select('authorization.*')
+        $ActivosFijosEvento = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1275,6 +1445,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
@@ -1283,8 +1466,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
-            ->groupBy('authorization.id')
-            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
+            ->groupBy('authorization.id');
         if ($request->show) {
             $ActivosFijosEvento->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1297,7 +1479,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1310,7 +1496,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1322,8 +1513,22 @@ class BillingPadController extends Controller
         }
 
 
-        // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
-        $InternacionesHospitalarias = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
+        // BÚSQUEDA DE AUTORIZACIONES POR INTERNACIONES
+        $InternacionesHospitalarias = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1348,6 +1553,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
@@ -1357,11 +1575,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.product_com_id')
             ->whereNull('authorization.application_id')
             ->whereNull('authorization.assigned_management_plan_id')
-            ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
-            ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->leftJoin('location', 'location.id', 'authorization.location_id')
-            ->groupBy('authorization.id')
-            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
+            ->groupBy('authorization.id');
 
         if ($request->start_date) {
             $InternacionesHospitalarias->where(function ($query) use ($request) {
@@ -1386,7 +1600,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorization['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1399,7 +1617,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorization);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorization);
                     } else {
                         array_push($AlreadyBilling, $Authorization);
@@ -1412,7 +1635,22 @@ class BillingPadController extends Controller
 
 
         // BÚSQUEDA DE AUTORIZACIONES POR PAQUETE
-        $Authorizationspackages = Authorization::select('authorization.*', DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes'))
+        $Authorizationspackages = Authorization::select(
+            'authorization.*',
+            DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
+            DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
+            DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
+            'services_briefcase.value AS value_und',
+            DB::raw('services_briefcase.value * (IF(authorization.quantity IS NULL, 1, authorization.quantity)) AS value_tot'),
+            'manual_price.name As service',
+            DB::raw('(IF(manual_price.own_code IS NOT NULL, manual_price.own_code, IF(authorization.product_com_id IS NOT NULL, product.code_cum, IF(authorization.supplies_com_id IS NOT NULL,product_supplies_com.code_udi, "")))) AS code'),
+            'program.name AS program',
+            DB::raw('CONCAT_WS("-",company.identification,company.verification)  AS eps_identification'),
+            'company.name AS eps_name',
+            'contract.name AS contract_name',
+            DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+            DB::raw('SUM(IF(assigned_management_plan.approved = 1,0,1)) AS pendientes')
+        )
             ->with(
                 'location',
                 'ch_interconsultation',
@@ -1437,6 +1675,19 @@ class BillingPadController extends Controller
                 'auth_package',
                 'manual_price.procedure',
             )
+            ->leftJoin('product', 'product.id', 'authorization.product_com_id')
+            ->leftJoin('product_supplies_com', 'product_supplies_com.id', 'authorization.supplies_com_id')
+            ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
+            ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+            ->leftJoin('manual_price', 'manual_price.id', 'services_briefcase.manual_price_id')
+            ->leftJoin('copay_parameters', 'copay_parameters.id', 'authorization.copay_id')
+            ->leftJoin('payment_type', 'payment_type.id', 'copay_parameters.payment_type_id')
+            ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            ->leftJoin('program', 'program.id', 'location.program_id')
+            ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
+            ->leftJoin('company', 'company.id', 'contract.company_id')
             ->where('authorization.admissions_id', $admission_id)
             ->where('authorization.auth_status_id', 3)
             ->whereNull('authorization.auth_package_id')
@@ -1448,8 +1699,7 @@ class BillingPadController extends Controller
             ->whereNull('authorization.assigned_management_plan_id')
             ->leftJoin('authorization AS AUTH', 'AUTH.auth_package_id', 'authorization.id')
             ->leftJoin('assigned_management_plan', 'AUTH.assigned_management_plan_id', 'assigned_management_plan.id')
-            ->groupBy('authorization.id')
-            ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id');
+            ->groupBy('authorization.id');
         if ($request->show) {
             $Authorizationspackages->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1466,7 +1716,11 @@ class BillingPadController extends Controller
                 ->with(
                     'billing_pad',
                     'billing_pad.its_credit_note',
-                    'authorization'
+                    'billing_pad_pgp',
+                    'billing_pad_pgp.its_credit_note',
+                    'billing_pad_mu',
+                    'billing_pad_mu.its_credit_note',
+                    'authorization',
                 )
                 ->where('auth_billing_pad.authorization_id', $Authorizationpackages['id'])
                 ->leftJoin('billing_pad', 'billing_pad.id', 'auth_billing_pad.billing_pad_id')
@@ -1479,7 +1733,12 @@ class BillingPadController extends Controller
                 array_push($AlreadyBilling, $Authorizationpackages);
             } else if (count($AuthBillingPad) > 1) {
                 if ($request->bill) {
-                    if ($AuthBillingPad[0]['billing_pad']['its_credit_note']) {
+                    if (
+                        $AuthBillingPad[0]['billing_pad'] ? $AuthBillingPad[0]['billing_pad']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_pgp'] ? $AuthBillingPad[0]['billing_pad_pgp']['its_credit_note'] :
+                        ($AuthBillingPad[0]['billing_pad_mu'] ? $AuthBillingPad[0]['billing_pad_mu']['its_credit_note'] :
+                        false))
+                    ) {
                         array_push($Authorizations, $Authorizationpackages);
                     } else {
                         array_push($AlreadyBilling, $Authorizationpackages);
@@ -3060,8 +3319,12 @@ class BillingPadController extends Controller
      */
     public function creditNotePgp(Request $request, int $id): JsonResponse
     {
-        $campus = Campus::with('billing_pad_prefix')
-            ->where('id', $request->campus_id)->get()->toArray();
+        $campus = Campus::select('campus.*')->with('billing_pad_prefix')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_pgp', 'billing_pad_pgp.billing_pad_prefix_id', 'billing_pad_prefix.id')
+            ->where('billing_pad_pgp.id', $id)
+            ->groupBy('campus.id')
+            ->get()->toArray();
 
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_credit_note_prefix_id'])
@@ -4177,45 +4440,70 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function PdfMu(Request $request, int $id): JsonResponse
     {
         $selected_procedures_ids = array();
+        $admissions = array();
+        $patients_ids = array();
         $consecutive = '';
         $billing_resolution = '';
         if ($id == 0) {
             $admissions = json_decode($request->admissions, true);
+            
+            // $patients_ids_sql = Patient::select(
+            //     DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
+            //     DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+            //     'patients.phone AS phone',
+            //     'patients.residence_address AS residence_address',
+            //     'program.name AS program',
+            // )
+            //     ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+            //     ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            //     ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            //     ->leftJoin('program', 'program.id', 'location.program_id')
+            //     ->whereIn('admissions.id', $admissions)
+            //     ->groupBy('patients.id')
+            //     ->orderBy('patients.id', 'ASC')
+            //     ->toSql();
             foreach ($admissions as $element) {
+                $patient = Patient::select(
+                    'patients.id AS id',
+                    DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
+                    DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+                    'patients.phone AS phone',
+                    'patients.residence_address AS residence_address',
+                    'program.name AS program',
+                )
+                    ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+                    ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+                    ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+                    ->leftJoin('program', 'program.id', 'location.program_id')
+                    ->where('admissions.id', $element)
+                    ->groupBy('patients.id')
+                    ->orderBy('patients.id', 'ASC')
+                    ->get()->toArray();
                 $auths = $this->arraySupport($request, $element)['billing_pad'];
+                // $selected_procedures_ids = $selected_procedures_ids + $auths;
                 foreach ($auths as $e) {
-                    array_push($selected_procedures_ids, $e['id']);
+                    array_push($selected_procedures_ids, $e);
+                }
+
+                if (count($patients_ids) > 0) {
+                    if (array_search($patient[0]['id'], array_column($patients_ids, 'id')) !== FALSE) {
+                        // echo 'FOUND!';
+                    } else {
+                        // echo 'NOT FOUND!';
+                        array_push($patients_ids, $patient[0]);
+                    }
+                } else {
+                    array_push($patients_ids, $patient[0]);
                 }
             }
+            
         } else {
-            $auth_billing_pad = AuthBillingPad::select('auth_billing_pad.*')
-                ->with(
-                    'billing_pad_mu',
-                    'billing_pad_mu.billing_pad_prefix',
-                    'billing_pad_mu.billing_pad_consecutive',
-                )
-                ->where('auth_billing_pad.billing_pad_mu_id', $id)
-                ->get()->toArray();
-
-            $consecutive = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_prefix']['name'] . $auth_billing_pad[0]['billing_pad_mu']['consecutive'];
-            $billing_resolution = $auth_billing_pad[0]['billing_pad_mu']['billing_pad_consecutive']['resolution'];
-            foreach ($auth_billing_pad as $e) {
-                array_push($selected_procedures_ids, $e['authorization_id']);
-            }
-        }
-
-        $total_value = 0;
-        $total_pay = 0;
-        $copay_value = 0;
-        $mod_value = 0;
-        $auths_numbers = array();
-        $to_bill = array();
-
-        if (count($selected_procedures_ids) > 0) {
-            // servicios para ser facturados
-            $selected_procedures = Authorization::select(
+            $selected_procedures_ids = Authorization::select(
                 'authorization.id',
                 'authorization.auth_number',
+                'billing_pad_prefix.name AS billing_pad_prefix',
+                'billing_pad_consecutive.resolution AS resolution',
+                'billing_pad_mu.consecutive AS consecutive',
                 DB::raw('IF(authorization.quantity IS NULL, 1, authorization.quantity) AS quantity'),
                 DB::raw('IF(authorization.copay_value IS NULL, 0, authorization.copay_value) AS copay_value'),
                 DB::raw('IF(authorization.copay_id IS NULL, "", payment_type.name) AS payment_type'),
@@ -4242,30 +4530,93 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 ->leftJoin('program', 'program.id', 'location.program_id')
                 ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
                 ->leftJoin('company', 'company.id', 'contract.company_id')
-                ->whereIn('authorization.id', $selected_procedures_ids)
+                ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+                ->leftJoin('billing_pad_mu', 'billing_pad_mu.id', 'auth_billing_pad.billing_pad_mu_id')
+                ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_mu.billing_pad_prefix_id')
+                ->leftJoin('billing_pad_consecutive', 'billing_pad_consecutive.id', 'billing_pad_mu.billing_pad_consecutive_id')
+                ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('authorization.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
 
-            // pacientes que van a ser facturados
-            $patients_ids = Authorization::select(
+            $patients_ids = Patient::select(
                 DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
                 DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
                 'patients.phone AS phone',
                 'patients.residence_address AS residence_address',
                 'program.name AS program',
             )
-                ->leftJoin('admissions', 'admissions.id', 'authorization.admissions_id')
-                ->leftJoin('patients', 'patients.id', 'admissions.patient_id')
+                ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
                 ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
                 ->leftJoin('location', 'location.admissions_id', 'admissions.id')
                 ->leftJoin('program', 'program.id', 'location.program_id')
-                ->whereIn('authorization.id', $selected_procedures_ids)
+                ->leftJoin('authorization', 'authorization.admissions_id', 'admissions.id')
+                ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+                ->where('auth_billing_pad.billing_pad_mu_id', $id)
                 ->groupBy('patients.id')
                 ->orderBy('patients.id', 'ASC')
                 ->get()->toArray();
 
-            foreach ($selected_procedures as $procedure) {
+            // $patients_ids_sql = Patient::select(
+            //     DB::raw('CONCAT_WS(" ",patients.firstname,patients.middlefirstname,patients.lastname,patients.middlelastname) AS nombre_completo'),
+            //     DB::raw('CONCAT_WS(" ",identification_type.code,patients.identification) AS document'),
+            //     'patients.phone AS phone',
+            //     'patients.residence_address AS residence_address',
+            //     'program.name AS program',
+            // )
+            //     ->leftJoin('admissions', 'admissions.patient_id', 'patients.id')
+            //     ->leftJoin('identification_type', 'identification_type.id', 'patients.identification_type_id')
+            //     ->leftJoin('location', 'location.admissions_id', 'admissions.id')
+            //     ->leftJoin('program', 'program.id', 'location.program_id')
+            //     ->leftJoin('authorization', 'authorization.admissions_id', 'admissions.id')
+            //     ->leftJoin('auth_billing_pad', 'auth_billing_pad.authorization_id', 'authorization.id')
+            //     ->where('auth_billing_pad.billing_pad_mu_id', $id)
+            //     ->groupBy('patients.id')
+            //     ->orderBy('patients.id', 'ASC')
+            //     ->toSql();
+
+            $consecutive = $selected_procedures_ids[0]['billing_pad_prefix'] . $selected_procedures_ids[0]['consecutive'];
+            $billing_resolution = $selected_procedures_ids[0]['resolution'];
+            // foreach ($auth_billing_pad as $e) {
+            //     array_push($selected_procedures_ids, $e['authorization_id']);
+            // }
+        }
+
+        $total_value = 0;
+        $total_pay = 0;
+        $copay_value = 0;
+        $mod_value = 0;
+        $contract_name = '';
+        $auths_numbers = array();
+        $to_bill = array();
+
+        if (count($selected_procedures_ids) > 0) {
+
+            if (count($patients_ids) == 0 || count($selected_procedures_ids) == 0) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'poblema de facturación, contador cero',
+                    'data_patientes' => $patients_ids,
+                    'data_admissions' => $admissions,
+                    'data_procedures' => $selected_procedures_ids,
+                ]);
+            }
+            
+            try {
+                if ($contract_name == '') {
+                    $contract_name = $selected_procedures_ids[0]['contract_name'];
+                }
+            } catch (Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'poblema de facturación',
+                    'data' => $e->getLine() . ' - ' . $e->getMessage(),
+                    // 'data_2' => $selected_procedures,
+                    'data_3' => $selected_procedures_ids,
+                ]);
+            }
+
+            foreach ($selected_procedures_ids as $procedure) {
 
                 // Identificar valor de copaoa y cuotas moderadoras
                 $total_value +=  $procedure['value_tot'];
@@ -4324,7 +4675,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'No hay proceedimientos para facturar',
+                'message' => 'No hay procedimientos para facturar',
             ]);
         }
 
@@ -4341,40 +4692,52 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $totalin_letters = $this->NumToLettersBill($total_pay);
         $generate_date  = Carbon::now()->setTimezone('America/Bogota');
 
-        $html = view('layouts.billing_mu', [
-            'billing_type' => $request->billing_type,
-            'patients' => $patients_ids,
-            'procedures' => $to_bill,
-            'auths_numbers' => $auths_numbers,
-            'total_value_letters' => $total_value_letters,
-            'copay_value_letters' => $copay_value_letters,
-            'mod_value_letters' => $mod_value_letters,
-            'total_letters' => $total_letters,
-            'totalin_letters' => $totalin_letters,
-            'generate_date' => $generate_date,
-            'consecutive' => $consecutive,
-            'billing_resolution' => $billing_resolution,
-        ])->render();
-
-        $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
-        $dompdf = new PDF($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('Carta', 'vertical');
-        $dompdf->render();
-        $this->injectPageCount($dompdf);
-        $file = $dompdf->output();
-
-        $name = 'cuenta_cobro/factura.pdf';
-
-        Storage::disk('public')->put($name, $file);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Documento generado exitosamente',
-            'url' => asset('/storage' .  '/' . $name),
-            'data' => $selected_procedures,
-        ]);
+        try {
+            $html = view('layouts.billing_mu', [
+                'billing_type' => $request->billing_type,
+                'patients' => $patients_ids,
+                'contract_name' => $contract_name,
+                'procedures' => $to_bill,
+                'auths_numbers' => $auths_numbers,
+                'total_value_letters' => $total_value_letters,
+                'copay_value_letters' => $copay_value_letters,
+                'mod_value_letters' => $mod_value_letters,
+                'total_letters' => $total_letters,
+                'totalin_letters' => $totalin_letters,
+                'generate_date' => $generate_date,
+                'consecutive' => $consecutive,
+                'billing_resolution' => $billing_resolution,
+            ])->render();
+    
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'vertical');
+            $dompdf->render();
+            $this->injectPageCount($dompdf);
+            $file = $dompdf->output();
+    
+            $name = 'cuenta_cobro/factura.pdf';
+    
+            Storage::disk('public')->put($name, $file);
+    
+            return response()->json([
+                'status' => true,
+                'message' => 'Documento generado exitosamente',
+                'url' => asset('/storage' .  '/' . $name),
+                'data_procedures' => $selected_procedures_ids,
+                'data_to_bill' => $to_bill,
+                'data_patients_ids' => $patients_ids,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'poblema de facturación',
+                'data' => $e->getLine() . ' - ' . $e->getMessage(),
+                'data_2' => $to_bill,
+            ]);
+        }
     }
 
     private function injectPageCount(PDF $dompdf): void

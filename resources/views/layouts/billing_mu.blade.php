@@ -102,7 +102,7 @@
         <table>
             <tr>
                 <td>
-                    <div><span style="font-size: 10px">Contrato: {{ $procedures[0]['contract_name'] }} &nbsp;</span></div>
+                    <div><span style="font-size: 10px">Contrato: {{ $contract_name }} &nbsp;</span></div>
                 </td>
             </tr>
         </table>

@@ -34,19 +34,20 @@ class CreateChFormulationTable extends Migration
             $table->unsignedBigInteger('type_record_id');
             $table->unsignedBigInteger('ch_record_id');
             $table->boolean('suspended')->nullable();
+            $table->unsignedTinyInteger('status_id')->nullable();
             $table->timestamps();
 
             $table->index('product_supplies_id');
-            $table->foreign('product_supplies_id') ->references('id')
+            $table->foreign('product_supplies_id')->references('id')
                 ->on('product_supplies');
 
             $table->index('product_generic_id');
-            $table->foreign('product_generic_id') ->references('id')
+            $table->foreign('product_generic_id')->references('id')
                 ->on('product_generic');
 
             $table->index('services_briefcase_id');
-            $table->foreign('services_briefcase_id') ->references('id')
-                    ->on('services_briefcase');
+            $table->foreign('services_briefcase_id')->references('id')
+                ->on('services_briefcase');
 
             $table->index('administration_route_id');
             $table->foreign('administration_route_id')->references('id')
@@ -67,14 +68,18 @@ class CreateChFormulationTable extends Migration
             $table->index('ch_record_id');
             $table->foreign('ch_record_id')->references('id')
                 ->on('ch_record');
-                
+
             $table->index('management_plan_id');
             $table->foreign('management_plan_id')->references('id')
                 ->on('management_plan');
-                
+
             $table->index('type_record_id');
             $table->foreign('type_record_id')->references('id')
                 ->on('type_record');
+
+            $table->index('status_id');
+            $table->foreign('status_id')->references('id')
+                ->on('status');
         });
     }
 
