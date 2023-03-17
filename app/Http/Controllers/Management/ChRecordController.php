@@ -5928,7 +5928,12 @@ class ChRecordController extends Controller
                 ->leftJoin('management_plan', 'management_plan.id', 'pharmacy_product_request.management_plan_id')
                 ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', 'management_plan.id')
                 ->leftJoin('ch_record', 'ch_record.assigned_management_plan_id', 'assigned_management_plan.id')
-                ->where('ch_record.id', $id)->first();
+                ->where('ch_record.id', $id)
+                ->where(function($query) use ($request) {
+                    $query->where('pharmacy_product_request.status', 'ACEPTADO')
+                        ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT');
+                })
+                ->groupBy('pharmacy_product_request.id')->first();
 
             $applicated = AssistanceSupplies::select('assistance_supplies.*')
                 ->where('supplies_status_id', 2)
@@ -5954,6 +5959,9 @@ class ChRecordController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe registrar aplicación de medicamento',
+                    'data_applicated' => [$applicated],
+                    'data_validate_aplication' => [$validate_aplication],
+                    'data_pharmacy' =>[$pharmacy]
                 ]);
             }
         }
