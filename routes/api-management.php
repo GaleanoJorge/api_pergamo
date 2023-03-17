@@ -1695,6 +1695,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::post('billing_pad/generateMuBilling/{id}', 'Management\BillingPadController@generateMuBilling');
     Route::post('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{bill_type}/{id}', 'Management\BillingPadController@generateBillingDat');
+    Route::get('billing_pad/testBillingDat/{bill_type}/{id}', 'Management\BillingPadController@testBillingDat');
     Route::get('billing_pad/generateBillingPdf/{id}', 'Management\BillingPadController@generateBillingPdf');
     Route::get('billing_pad/generateBillingPdfMu/{id}', 'Management\BillingPadController@PdfMu');
     Route::get('billing_pad/creditNoteNoPgp/{id}', 'Management\BillingPadController@creditNoteNoPgp');
