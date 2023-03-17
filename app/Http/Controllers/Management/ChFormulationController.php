@@ -61,9 +61,15 @@ class ChFormulationController extends Controller
         $ChFormulation = ChFormulation::select('ch_formulation.*')
             ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
             ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'ch_formulation.pharmacy_product_request_id')
             ->where('admissions.id', $admission_id)
             ->where('ch_formulation.medical_formula', 0)
             ->where('ch_formulation.status_id', 1)
+            ->where(function($query) use ($request) {
+                $query->where('pharmacy_product_request.status', 'PATIENT')
+                ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT')
+                ->orWhere('pharmacy_product_request.status', 'ACEPTADO');
+            })
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
