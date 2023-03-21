@@ -4127,6 +4127,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                         ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
                         ->groupBy('authorization.id')
                         ->get()->toArray();
+                        $test_variable = $packedAuths;
                     foreach ($packedAuths as $element) {
                         if ($element['assigned_management_plan']) {
                             try {
