@@ -4089,6 +4089,8 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 } else {
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
+                            'authorization.*',
+                            'authorization.id AS authorization_id',
                             'authorization.auth_number AS auth_number',
                             'authorization.quantity AS quantity',
                             'authorization.open_date AS open_date',
