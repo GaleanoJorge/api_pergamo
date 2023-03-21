@@ -3631,6 +3631,8 @@ class BillingPadController extends Controller
                 } else {
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
+                            'authorization.*',
+                            'authorization.id AS authorization_id',
                             'authorization.auth_number AS auth_number',
                             'authorization.quantity AS quantity',
                             'authorization.open_date AS open_date',
