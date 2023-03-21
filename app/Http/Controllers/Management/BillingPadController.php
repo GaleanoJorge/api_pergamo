@@ -3905,6 +3905,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     public function testBillingDat(int $bill_type, int $id): JsonResponse
     {
         $BillingPadCreditNote = null;
+        $test_variable = '--';
         if ($bill_type == 1) {
             $BillingPadAux = BillingPad::where('id', $id)->with('its_credit_note')->get()->first();
             if ($BillingPadAux->its_credit_note) {
@@ -4078,6 +4079,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
                 } else if ($Auth[0]['ch_interconsultation'] != null) {
                     foreach ($Auth[0]['ch_interconsultation']['many_ch_record'] as $rec) {
                         if ($rec['status'] === 'CERRADO') {
+                            $test_variable = $rec['date_finish'];
                             array_push($services_date, $rec['date_finish']);
                             if ($assistance_name == '') {
                                 $assistance_name = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
@@ -4348,6 +4350,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return response()->json([
             'status' => true,
             'message' => 'Factura generada exitosamente',
+            'test_variable' => $test_variable,
             'name' => $name,
             'content' => $file,
         ]);
