@@ -69,6 +69,7 @@ class MedicalDiaryDaysController extends Controller
             ->with(
                 // 'days',
                 'medical_status',
+                'ch_record',
                 'patient.identification_type',
                 'contract',
                 'briefcase',
