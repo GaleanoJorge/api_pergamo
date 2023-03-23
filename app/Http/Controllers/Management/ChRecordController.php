@@ -5935,6 +5935,15 @@ class ChRecordController extends Controller
                 })
                 ->groupBy('pharmacy_product_request.id')->first();
 
+            if(!$pharmacy) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No se encuentra despacho de farmacia para este plan de manejo',
+                    'data_validate_aplication' => [$validate_aplication],
+                    'data_pharmacy' =>[$pharmacy],
+                ]);
+            }
+            
             $applicated = AssistanceSupplies::select('assistance_supplies.*')
                 ->where('supplies_status_id', 2)
                 ->where('pharmacy_product_request_id', $pharmacy->id)->get()->toArray();
