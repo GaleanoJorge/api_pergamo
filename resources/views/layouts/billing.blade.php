@@ -189,9 +189,9 @@
 
                     <td><span style="font-size: 10px">{{ $selected_procedures[$i]['amount'] }} &nbsp;</span></td>
 
-                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px; text-align: right">{{ $selected_procedures[$i]['val_und'] }} &nbsp;</span></td>
 
-                    <td><span style="font-size: 10px">{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
+                    <td><span style="font-size: 10px; text-align: right">{{ $selected_procedures[$i]['value'] }} &nbsp;</span></td>
                 </tr>
             @endfor
         @endisset
@@ -212,7 +212,7 @@
 
     <tr>
 
-        <td rowspan="3"><span style="font-size: 10px">Son: &nbsp;{{ $letter_value }} &nbsp;</span></td>
+        <td rowspan="4"><span style="font-size: 10px">Son: &nbsp;{{ $letter_value }} &nbsp;</span></td>
         <td>
             <div style="text-align: left"><span style="font-size: 10px">TOTAL &nbsp;</span></div>
         </td>
@@ -223,10 +223,18 @@
     </tr>
     <tr>
         <td>
-            <div style="text-align: left"><span style="font-size: 10px">DESCUENTO &nbsp;</span></div>
+            <div style="text-align: left"><span style="font-size: 10px">COPAGOS &nbsp;</span></div>
         </td>
         <td>
-            <div style="text-align: right"><span style="font-size: 10px">$0.00</span></div>
+            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_copay }}</span></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="text-align: left"><span style="font-size: 10px">CUOTAS MODERADORAS &nbsp;</span></div>
+        </td>
+        <td>
+            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_mod }}</span></div>
         </td>
     </tr>
     <tr>
@@ -234,7 +242,7 @@
             <div style="text-align: left"><span style="font-size: 10px">TOTAL A PAGAR &nbsp;</span></div>
         </td>
         <td>
-            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_value }}</span></div>
+            <div style="text-align: right"><span style="font-size: 10px">{{ $currency_pay }}</span></div>
         </td>
     </tr>
     {{-- <tr>

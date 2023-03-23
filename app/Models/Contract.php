@@ -25,6 +25,9 @@ class Contract extends BaseContract
         'discount',
         'observations',
         'objective',
+        'min_attention',
+        'max_attention',
+        'discount_rate',
             
 	];
 }

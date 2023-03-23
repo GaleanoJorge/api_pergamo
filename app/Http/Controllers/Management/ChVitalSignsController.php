@@ -57,21 +57,21 @@ class ChVitalSignsController extends Controller
      */
     public function byrecord(Request $request, int $id, int $type_record_id = null): JsonResponse
     {
-        $ChVitalSigns = ChVitalSigns::with(
-            'ch_vital_hydration',
-            'ch_vital_ventilated',
-            'ch_vital_temperature',
-            'ch_vital_neurological',
-            'oxygen_type',
-            'liters_per_minute',
-            'parameters_signs',
-            'type_record',
-            'ch_record'
-        )
-            ->where('ch_record_id', $id);
+        // $ChVitalSigns = ChVitalSigns::with(
+        //     'ch_vital_hydration',
+        //     'ch_vital_ventilated',
+        //     'ch_vital_temperature',
+        //     'ch_vital_neurological',
+        //     'oxygen_type',
+        //     'liters_per_minute',
+        //     'parameters_signs',
+        //     'type_record',
+        //     'ch_record'
+        // )
+        //     ->where('ch_record_id', $id);
 
-        if ($request->has_input) { //
-            if ($request->has_input == 'true') { //
+        // if ($request->has_input) { //
+        //     if ($request->has_input == 'true') { //
                 $chrecord = ChRecord::find($id); //
                 $ChVitalSigns = ChVitalSigns::select('ch_vital_signs.*')
                     ->with(
@@ -85,13 +85,13 @@ class ChVitalSignsController extends Controller
                         'type_record',
                         'ch_record'
                     )
-                    ->where('ch_vital_signs.type_record_id', 1)
+                    // ->where('ch_vital_signs.type_record_id', 1)
                     ->where('ch_record.admissions_id', $chrecord->admissions_id)
                     ->leftJoin('ch_record', 'ch_record.id', 'ch_vital_signs.ch_record_id') //
                     // ->get()->toArray() // tener cuidado con esta linea si hay dos get()->toArray()
                 ;
-            }
-        }
+        //     }
+        // }
 
         if ($type_record_id) {
             $ChVitalSigns->where('type_record_id', $type_record_id);

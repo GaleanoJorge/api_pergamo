@@ -13,11 +13,16 @@ use App\Models\Admissions;
 use App\Models\AssignedManagementPlan;
 use App\Models\Tariff;
 use App\Models\Assistance;
+use App\Models\ChFailed;
+use App\Models\ChRecord;
 use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\MinimumSalary;
 use App\Models\NeighborhoodOrResidence;
+use App\Models\PadRisk;
 use App\Models\Patient;
+use App\Models\Program;
+use App\Models\TypeOfAttention;
 use Carbon\Carbon;
 
 class BillUserActivityController extends Controller
@@ -140,7 +145,7 @@ class BillUserActivityController extends Controller
             $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
             $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
 
-            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan);
+            $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $element['management_plan']['admissions_id'], $AssignedManagementPlan, null);
 
             if ((count($valuetariff) > 0 || ($Assistance == 1 || $Assistance == 2 || $Assistance == 3)) && count($validate) > 0) {
                 $procedure_id = $element['management_plan']['procedure_id'];
@@ -172,7 +177,106 @@ class BillUserActivityController extends Controller
         ]);
     }
 
-    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan)
+    /**
+     * Recaltulate tariff from a service
+     */
+    public function RecalculateTariff(int $id)
+    {
+        $BillUserActivity = BillUserActivity::find($id);
+
+        $ChRecord = ChRecord::find($BillUserActivity->ch_record_id);
+
+        $mes = Carbon::now()->month;
+
+        $validate = AccountReceivable::whereMonth('created_at', $mes)->where('user_id', $ChRecord->user_id)->whereBetween('status_bill_id', [1, 2])->get()->toArray();
+
+        $AssignedManagementPlan = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+        $ManagementPlan = ManagementPlan::find($AssignedManagementPlan->management_plan_id);
+        $admissions = Admissions::find($ChRecord->admissions_id);
+        $Location = Location::where('admissions_id', $admissions->id)->where('location.discharge_date', '=', '0000-00-00 00:00:00')->first();
+        $patient = Patient::find($admissions->patient_id)->neighborhood_or_residence_id;
+        $tariff = NeighborhoodOrResidence::find($patient)->pad_risk_id;
+        $Assistance = Assistance::where('user_id', $ChRecord->user_id)->get()->toArray();
+
+        $is_falied = ChFailed::select('*')->where('ch_record_id', $ChRecord->id)->first();
+
+        $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, null, $ChRecord->admissions_id, $AssignedManagementPlan, $is_falied);
+        if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (count($valuetariff) == 0 && $Location->scope_of_attention_id != 1) {
+                $extra_dose = 0;
+                $has_car = 0;
+                $Assistance = Assistance::select('assistance.*')
+                    ->where('assistance.user_id', $AssignedManagementPlan->user_id)
+                    ->groupBy('assistance.id')->get()->toArray();
+                if (count($Assistance) > 0) {
+                    if ($Assistance[0]['has_car']) {
+                        $has_car = $Assistance[0]['has_car'];
+                    }
+                }
+                if ($ManagementPlan->type_of_attention_id == 17) {
+                    $assigned_validation = AssignedManagementPlan::select('assigned_management_plan.*')
+                        ->where('assigned_management_plan.redo', 0)
+                        ->where('assigned_management_plan.execution_date', '!=', '0000-00-00 00:00:00')
+                        ->where('assigned_management_plan.user_id', $AssignedManagementPlan->user_id)
+                        ->where('management_plan.admissions_id', $ChRecord->admissions_id)
+                        ->where('management_plan.type_of_attention_id', 17)
+                        ->leftJoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                        ->groupBy('assigned_management_plan.id')
+                        ->get()->toArray();
+                    $validate = array();
+
+                    if (count($assigned_validation) > 0) {
+                        foreach ($assigned_validation as $element) {
+                            $offset = 3;
+                            $application_hour = Carbon::createFromFormat('Y-m-d H:i:s', $element['execution_date']);
+                            $inidiat_time = Carbon::now()->subHours($offset);
+                            $final_time = Carbon::now()->addHours($offset);
+                            if ($application_hour->gt($inidiat_time) && $application_hour->lt($final_time)) {
+                                array_push($validate, $element);
+                            }
+                        }
+                    }
+                    if (count($validate) > 0) {
+                        $extra_dose = 1;
+                    }
+                }
+                $p = Program::find($Location->program_id)->name;
+                $t = TypeOfAttention::find($ManagementPlan->type_of_attention_id)->name;
+                $ph = $ManagementPlan->phone_consult == 0 ? "NO" : "SI";
+                $z = PadRisk::find($tariff)->name;
+                $h = $ManagementPlan->hours ? $ManagementPlan->hours : "N.A";
+                $f = $is_falied ? "SI" : "NO";
+                $x = $extra_dose == 0 ? "NO" : "SI";
+                $c = $has_car == 0 ? "NO" : "SI";
+                return response()->json([
+                    'status' => false,
+                    'message' => 'No existe tarifa para este servicio, por favor comuníquese con talento humano con la siguiente información:
+TIPO DE ATENCIÓN: ' . $t . ', 
+PROGRAMA: ' . $p . ', 
+ZONA: ' . $z . ', 
+FALLIDA: ' . $f . ', 
+CON CARRO: ' . $c . ', 
+EXTRADOSIS: ' . $x . ', 
+HORAS: ' . $h . ', 
+TELECONSULTA: ' . $ph . '
+',
+                    'data' => ['ch_record' => []],
+                ]);
+            }
+        }
+
+        $BillUserActivity->tariff_id = (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) ? ($valuetariff ? $valuetariff[0]['id'] : 583) : 583;
+        $BillUserActivity->save();
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Servicio actualizado exitosamente',
+            'data' => ['bill_user_activity' => $BillUserActivity]
+        ]);
+    }
+
+    public function getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan, $is_falied)
     {
         $extra_dose = 0;
         $has_car = 0;
@@ -211,8 +315,8 @@ class BillUserActivityController extends Controller
                 $extra_dose = 1;
             }
         }
-        if ($request->is_failed) {
-            if ($request->is_failed === true || $request->is_failed === "true") {
+        if (($request ? $request->is_failed : $is_falied)) {
+            if (($request ? $request->is_failed === true || $request->is_failed === "true" : $is_falied)) {
                 $valuetariff = Tariff::where('failed', 1)
                     ->where('type_of_attention_id', $ManagementPlan->type_of_attention_id)
                     ->where('pad_risk_id', $tariff)
@@ -239,8 +343,8 @@ class BillUserActivityController extends Controller
                             ->whereNotNull('failed')->where('failed', 0);
                     }
                     // definir cuando la atención es fallida
-                    if ($request->is_failed) {
-                        if ($request->is_failed === true || $request->is_failed === "true") {
+                    if (($request ? $request->is_failed : $is_falied)) {
+                        if (($request ? $request->is_failed === true || $request->is_failed === "true" : $is_falied)) {
                             $valuetariff->whereNotNull('failed')->where('failed', 1);
                         } else {
                             $valuetariff->whereNotNull('failed')->where('failed', 0);
@@ -283,8 +387,8 @@ class BillUserActivityController extends Controller
                         ->whereNotNull('failed')->where('failed', 0);
                 }
                 // definir cuando la atención es fallida
-                if ($request->is_failed) {
-                    if ($request->is_failed === true || $request->is_failed === "true") {
+                if (($request ? $request->is_failed : $is_falied)) {
+                    if (($request ? $request->is_failed === true || $request->is_failed === "true" : $is_falied)) {
                         $valuetariff->whereNotNull('failed')->where('failed', 1);
                     } else {
                         $valuetariff->whereNotNull('failed')->where('failed', 0);
@@ -339,6 +443,7 @@ class BillUserActivityController extends Controller
         $BillUserActivity = BillUserActivity::select('bill_user_activity.*')
             ->where('account_receivable_id', $id)
             ->with(
+                'account_receivable',
                 'admissions',
                 'procedure',
                 'procedure.manual_price',
@@ -352,8 +457,7 @@ class BillUserActivityController extends Controller
                 'assigned_management_plan.management_plan.admissions.patients.identification_type',
             )
             ->orderBy('bill_user_activity.status', 'ASC')
-            ->orderBy('bill_user_activity.created_at', 'ASC')
-            ;
+            ->orderBy('bill_user_activity.created_at', 'ASC');
 
         if ($request->_sort) {
             $BillUserActivity->orderBy($request->_sort, $request->_order);
@@ -465,7 +569,7 @@ class BillUserActivityController extends Controller
         if ($request->status == 'APROBADO') {
             $tariff = Tariff::where('id', $BillUserActivity->tariff_id)->get()->first();
             $AccountReceivable = AccountReceivable::find($BillUserActivity->account_receivable_id);
-            $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
+            // $AccountReceivable->gross_value_activities = $AccountReceivable->gross_value_activities + $tariff->amount;
             $AccountReceivable->save();
             $AssignedManagementPlan = AssignedManagementPlan::find($BillUserActivity->assigned_management_plan_id);
             $AssignedManagementPlan->approved = 1;

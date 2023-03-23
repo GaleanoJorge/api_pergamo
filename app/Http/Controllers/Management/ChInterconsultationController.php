@@ -169,13 +169,13 @@ class ChInterconsultationController extends Controller
         }
         $ChInterconsultationExist = $ChInterconsultationExist->get()->toArray();
 
-        // if (count($ChInterconsultationExist) > 0) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => 'Ya existe una interconsulta con este procedimiento',
-        //         'data' => ['ch_interconsultation' => []]
-        //     ]);
-        // }
+        if (!$request->ambulatory_medical_order && !$request->services_briefcase_id ) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Debe seleccionar un procedimiento del listado',
+                'data' => ['ch_interconsultation' => $request]
+            ]);
+        }
 
         $ChInterconsultation = new ChInterconsultation;
         $ChInterconsultation->specialty_id = $request->specialty_id;

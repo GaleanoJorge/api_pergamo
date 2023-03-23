@@ -19,6 +19,7 @@ class CreateLogPharmacyShippingTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('status');
             $table->unsignedBigInteger('pharmacy_request_shipping_id');
+            $table->string('quantity');
             $table->timestamps();
 
             $table->index('user_id');

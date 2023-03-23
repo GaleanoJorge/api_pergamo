@@ -101,6 +101,12 @@
                         <td>
                             <div><span style="font-size: 9px"><b>Valor IVA</b></span></div>
                         </td>
+                        <td>
+                            <div><span style="font-size: 9px"><b>Lote</b></span></div>
+                        </td>
+                        <td>
+                            <div><span style="font-size: 9px"><b>Fecha vencimiento</b></span></div>
+                        </td>
                     </tr>
 
                     @foreach ($pharmacy as $ph)
@@ -134,6 +140,12 @@
                             </td>
                             <td>
                                 <div><span style="font-size: 8px">@if(isset($ph['actual_amount'])) {{$ph['billing_stock']['iva']}} @endisset </span></div>
+                            </td>
+                            <td>
+                                <div><span style="font-size: 8px">@if(isset($ph['lot'])) {{$ph['lot']}} @endisset </span></div>
+                            </td>
+                            <td>
+                                <div><span style="font-size: 8px">@if(isset($ph['expiration_date'])) {{$ph['expiration_date']}} @endisset </span></div>
                             </td>
                         </tr>
                     @endforeach
@@ -187,6 +199,12 @@
                         <td>
                             <div><span style="font-size: 9px"><b>Valor IVA</b></span></div>
                         </td>
+                        <td>
+                            <div><span style="font-size: 9px"><b>Lote</b></span></div>
+                        </td>
+                        <td>
+                            <div><span style="font-size: 9px"><b>Fecha vencimiento</b></span></div>
+                        </td>
                     </tr>
 
                     @foreach ($pharmacy as $ph)
@@ -217,6 +235,12 @@
                             </td>
                             <td>
                                 <div><span style="font-size: 8px">@if(isset($ph['actual_amount'])) {{$ph['billing_stock']['iva']}} @endisset </span></div>
+                            </td>
+                            <td>
+                                <div><span style="font-size: 8px">@if(isset($ph['lot'])) {{$ph['lot']}} @endisset </span></div>
+                            </td>
+                            <td>
+                                <div><span style="font-size: 8px">@if(isset($ph['expiration_date'])) {{$ph['expiration_date']}} @endisset </span></div>
                             </td>
                         </tr>
                     @endforeach

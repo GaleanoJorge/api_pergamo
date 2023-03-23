@@ -9,6 +9,8 @@ class AuthBillingPad extends BaseAuthBillingPad
 	protected $fillable = [
 		'value',
 		'billing_pad_id',
+		'billing_pad_pgp_id',
+		'billing_pad_mu_id',
 		'authorization_id',
 	];
 }

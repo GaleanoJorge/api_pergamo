@@ -54,7 +54,7 @@
 <div>
         
     <h2 style="margin-top:70px; margin-bottom:1.9pt; widows:0; orphans:0; font-size:9pt;    background: #4472c4;
-            padding: 0.8em;font-family:Calibri;color: white;text-align: center;">FORMULACIÓN
+            padding: 0.8em;font-family:Calibri;color: white;text-align: center;">ORDEN MÉDICA
     </h2>
     <hr />
     <h2 style=" text-align: center; margin-top:7.25pt; margin-bottom:1.9pt; widows:0; orphans:0; font-size:9pt"><span style="font-family:Calibri; color:#057591; background-color:#ffffff"> DATOS PERSONALES</span></h2>
@@ -287,8 +287,8 @@
             @endisset
                 <p style="margin-top:10pt; margin-left:9.45pt; margin-bottom:0pt; line-height:9.6pt; widows:0; orphans:0">
                     <span style="font-family:Calibri; font-size:8pt">
-                    <b>@if(isset($ch['procedure'])) PROCEDIMIENTO: </b> {{$ch['procedure']['name']}} <br/> @endisset 
-                    <b>@if(isset($ch['services_briefcase'])) PROCEDIMIENTO: </b> {{$ch['services_briefcase']['manual_price']['procedure']['name']}} <br/> @endisset </span>
+                    <b>@if(isset($ch['procedure'])) PROCEDIMIENTO: </b> {{$ch['procedure']['equivalent']}} - {{$ch['procedure']['name']}} <br/> @endisset 
+                    <b>@if(isset($ch['services_briefcase'])) PROCEDIMIENTO: </b>  {{$ch['services_briefcase']['manual_price']['procedure']['equivalent']}} - {{$ch['services_briefcase']['manual_price']['procedure']['name']}} <br/> @endisset </span>
                 </p>
                 <table cellspacing="0" cellpadding="0" style="margin-left:5.9pt; border-collapse:collapse">
                     <tr style="height:11.95pt">
@@ -310,13 +310,7 @@
                         <span style="font-family:Calibri; font-size:9pt">
                         <b>@if(isset($ch['observations'])) OBSERVACIONES: </b> {{$ch['observations']}} @endisset</span>
                     </p>    
-           
-            @if(count($ChMedicalOrders) > 1)
-                {{-- @if($ChFormulation[count($ChFormulation)-1]['id'] != $ch['id']) --}}
-                    <hr/>
-                {{-- @endisset --}}
-            @endisset
-
+        
         @endforeach
         @endisset
    </div>    

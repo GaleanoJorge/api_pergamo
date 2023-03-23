@@ -21,5 +21,6 @@ class BillingTc extends BaseBillingTc
     'consecutive2',
     'ambit',
     'campus',
+    'year',
   ];
 }

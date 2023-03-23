@@ -11,6 +11,7 @@ use App\Models\AssistanceSupplies;
 use App\Models\Authorization as ModelsAuthorization;
 use App\Models\AuthStatus;
 use App\Models\ChInterconsultation;
+use App\Models\CopayParameters;
 use App\Models\FixedAdd;
 use App\Models\Location;
 use App\Models\ManagementPlan;
@@ -114,5 +115,14 @@ class Authorization extends Model
 	public function regime()
 	{
 		return $this->belongsTo(MedicalDiaryDays::class, 'regime_id');
+	}
+
+	public function ch_laboratory()
+	{
+		return $this->hasOne(ChLaboratory::class, 'authorization_id');
+	}
+	public function copay()
+	{
+		return $this->belongsTo(CopayParameters::class, 'copay_id', 'id');
 	}
 }

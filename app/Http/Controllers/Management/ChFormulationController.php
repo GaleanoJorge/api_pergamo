@@ -23,7 +23,7 @@ class ChFormulationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ChFormulation = ChFormulation::select();
+        $ChFormulation = ChFormulation::select()->where('ch_formulation.status_id', 1);
 
         if ($request->_sort) {
             $ChFormulation->orderBy($request->_sort, $request->_order);
@@ -56,13 +56,20 @@ class ChFormulationController extends Controller
      * @param  int  $type_record_id
      * @return JsonResponse
      */
-    public function getByAdmission(int $admission_id): JsonResponse
+    public function getByAdmission(Request $request, int $admission_id): JsonResponse
     {
         $ChFormulation = ChFormulation::select('ch_formulation.*')
             ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
             ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'ch_formulation.pharmacy_product_request_id')
             ->where('admissions.id', $admission_id)
             ->where('ch_formulation.medical_formula', 0)
+            ->where('ch_formulation.status_id', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('pharmacy_product_request.status', 'PATIENT')
+                    ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT')
+                    ->orWhere('pharmacy_product_request.status', 'ACEPTADO');
+            })
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -74,10 +81,18 @@ class ChFormulationController extends Controller
                 'product_generic.drug_concentration',
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
+                'oxigen_administration_way',
             )
             ->orderBy('ch_formulation.created_at', 'DESC')
-            ->groupBy('ch_formulation.id')
-            ->get()->toArray();
+            ->groupBy('ch_formulation.id');
+
+        if ($request->with_oxigen) {
+        } else {
+            $ChFormulation->leftJoin('product_generic', 'product_generic.id', 'ch_formulation.product_generic_id')
+                ->where('product_generic.nom_product_id', '!=', 301);
+        }
+
+        $ChFormulation = $ChFormulation->get()->toArray();
 
 
         return response()->json([
@@ -111,7 +126,9 @@ class ChFormulationController extends Controller
                 'product_generic.measurement_units',
                 'product_generic.multidose_concentration',
                 'product_supplies',
+                'oxigen_administration_way',
             )
+            ->where('ch_formulation.status_id', 1)
             ->where('ch_record.admissions_id', $chrecord->admissions_id)
             ->where('ch_formulation.created_at', '>=', Carbon::now()->subDay())
             ->orderBy('ch_formulation.id', 'DESC')
@@ -128,8 +145,11 @@ class ChFormulationController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        if (!$request->administration_route_id ||
-            !$request->product_supplies_id) {} else {
+        if (
+            !$request->administration_route_id ||
+            !$request->product_supplies_id
+        ) {
+        } else {
             return response()->json([
                 'status' => false,
                 'message' => 'Debe seleccionarse un elemento de la lista',
@@ -139,7 +159,8 @@ class ChFormulationController extends Controller
 
         if ($request->medical_formula == "" || $request->medical_formula == false) {
 
-            if ($request->services_briefcase_id) {} else {
+            if ($request->services_briefcase_id) {
+            } else {
                 return response()->json([
                     'status' => false,
                     'message' => 'Debe seleccionarse un elemento de la lista',
@@ -174,7 +195,7 @@ class ChFormulationController extends Controller
             if (count($pharmacy) == 0) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'No hay farmacias en esta cede y este ambito',
+                    'message' => 'No hay farmacias en esta sede y este ambito',
                     'data' => ['ch_formulation' => []]
                 ]);
             }
@@ -182,8 +203,9 @@ class ChFormulationController extends Controller
             if (!$request->pharmacy_product_request_id || $request->pharmacy_product_request_id == 'false') {
                 $PharmacyProductRequest = new PharmacyProductRequest;
                 $PharmacyProductRequest->services_briefcase_id = $request->services_briefcase_id;
-                $PharmacyProductRequest->request_amount = $request->outpatient_formulation;
+                $PharmacyProductRequest->request_amount = !$request->oxigen_administration_way_id ? $request->outpatient_formulation : 1;
                 $PharmacyProductRequest->observation = $request->observation;
+                $PharmacyProductRequest->product_supplies_id = $request->product_supplies_id;
                 $PharmacyProductRequest->admissions_id = $ChRecordVal->admissions_id;
                 $PharmacyProductRequest->product_generic_id = $request->product_generic_id;
                 $PharmacyProductRequest->user_request_pad_id = Auth()->user()->id;
@@ -198,7 +220,9 @@ class ChFormulationController extends Controller
             $ChFormulation->hourly_frequency_id = $request->hourly_frequency_id;
             $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
             $ChFormulation->medical_formula = 0;
+            $ChFormulation->status_id = 1;
             $ChFormulation->treatment_days = $request->treatment_days;
+            $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
             $ChFormulation->dose = $request->dose;
             $ChFormulation->observation = $request->observation;
@@ -215,6 +239,18 @@ class ChFormulationController extends Controller
             $ChFormulation->save();
         } else {
 
+            if ($request->product_supplies_id) {
+            } else {
+                if ($request->product_generic_id) {
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Debe seleccionarse un elemento de la lista',
+                        'data' => ['ch_formulation' => []]
+                    ]);
+                }
+            }
+
             $ChFormulation = new ChFormulation;
             $ChFormulation->product_generic_id = $request->product_generic_id;
             $ChFormulation->administration_route_id = $request->administration_route_id;
@@ -223,7 +259,9 @@ class ChFormulationController extends Controller
             $ChFormulation->medical_formula = $request->medical_formula;
             $ChFormulation->treatment_days = $request->treatment_days;
             $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+            $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
             $ChFormulation->dose = $request->dose;
+            $ChFormulation->status_id = 1;
             $ChFormulation->observation = $request->observation;
             $ChFormulation->number_mipres = $request->number_mipres;
             $ChFormulation->product_supplies_id = $request->product_supplies_id;
@@ -239,6 +277,41 @@ class ChFormulationController extends Controller
             'status' => true,
             'message' => 'Formulación Medica  creado exitosamente',
             'data' => ['ch_formulation' => $ChFormulation->toArray()]
+        ]);
+    }
+
+    /**
+     * suspend formulations.
+     *
+     * @param  int  $id
+     * @return JsonResponse
+     */
+    public function suspendFormulations(int $id): JsonResponse
+    {
+        $ChFormulation = ChFormulation::where('id', $id)
+            ->with('ch_record')
+            ->get()->toArray();
+
+        $formulations = ChFormulation::select('ch_formulation.*')
+            ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
+            ->where('ch_record.admissions_id', $ChFormulation[0]['ch_record']['admissions_id'])
+            ->where('ch_formulation.services_briefcase_id', $ChFormulation[0]['services_briefcase_id'])
+            ->get()->toArray();
+
+        foreach ($formulations as $element) {
+            $ChFormulationSuspend = ChFormulation::find($element['id']);
+            $ChFormulationSuspend->suspended = true;
+            $ChFormulationSuspend->save();
+
+            $PharmacyProductRequestSuspend = PharmacyProductRequest::find($element['pharmacy_product_request_id']);
+            $PharmacyProductRequestSuspend->request_amount = 0;
+            $PharmacyProductRequestSuspend->save();
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Formulaciones Medicas suspendidas exitosamente',
+            'data' => ['ch_formulation' => $ChFormulation]
         ]);
     }
 
@@ -277,6 +350,7 @@ class ChFormulationController extends Controller
         $ChFormulation->services_briefcase_id = $request->services_briefcase_id;
         $ChFormulation->treatment_days = $request->treatment_days;
         $ChFormulation->outpatient_formulation = $request->outpatient_formulation;
+        $ChFormulation->oxigen_administration_way_id = $request->oxigen_administration_way_id;
         $ChFormulation->dose = $request->dose;
         $ChFormulation->observation = $request->observation;
         $ChFormulation->number_mipres = $request->number_mipres;
@@ -303,18 +377,39 @@ class ChFormulationController extends Controller
     public function destroy(int $id, Request $request): JsonResponse
     {
         try {
+            /**
+             * 
+             * ya no se va a eliminar, se va a inactivar
+             */
 
             $ChFormulation = ChFormulation::find($id);
+
             if ($ChFormulation->product_supplies_id) {
-                $ChFormulation->delete();
+                // $ChFormulation->delete();
             } else {
                 if ($ChFormulation->pharmacy_product_request_id) {
                     $PharmacyProductRequest = PharmacyProductRequest::find($ChFormulation->pharmacy_product_request_id);
                     $PharmacyProductRequest->status = 'CANCELADO';
                     $PharmacyProductRequest->save();
                 }
-                $ChFormulation->delete();
             }
+            $ChFormulation->status_id = 2;
+            $ChFormulation->save();
+
+            /**
+             * 
+             * proceso de eliminación
+             */
+            // if ($ChFormulation->product_supplies_id) {
+            //     // $ChFormulation->delete();
+            // } else {
+            //     if ($ChFormulation->pharmacy_product_request_id) {
+            //         $PharmacyProductRequest = PharmacyProductRequest::find($ChFormulation->pharmacy_product_request_id);
+            //         $PharmacyProductRequest->status = 'CANCELADO';
+            //         $PharmacyProductRequest->save();
+            //     }
+            // }
+            // $ChFormulation->delete();
 
             return response()->json([
                 'status' => true,

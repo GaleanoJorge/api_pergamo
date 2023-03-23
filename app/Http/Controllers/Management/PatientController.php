@@ -50,6 +50,7 @@ use App\Http\Requests\ForceResetPasswordRequest;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\FindEmailRequest;
 use App\Models\AssistanceSpecial;
+use App\Models\Base\LaboratoryStatus;
 use App\Models\CostCenter;
 use App\Models\LogAdmissions;
 use App\Models\Specialty;
@@ -710,10 +711,6 @@ class PatientController extends Controller
             DB::raw('IF(patients.id = NULL , 1, 0) AS new_formulations'),
         )
             ->leftjoin('admissions', 'patients.id', 'admissions.patient_id')
-            ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id')
-            ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
-            ->leftjoin('management_plan', 'admissions.id', 'management_plan.admissions_id')
-            ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('contract', 'contract.id', 'admissions.contract_id')
             ->leftJoin('company', 'company.id', 'contract.company_id')
             ->leftJoin('location', 'location.admissions_id', 'admissions.id')
@@ -752,7 +749,10 @@ class PatientController extends Controller
         }
 
         if ($request->role_id && isset($request->role_id) && $request->role_id != 'null') {
-            $patients->whereNotNull('ch_interconsultation.ch_record_id');
+            $patients
+                ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id', 'ch_interconsultation.ch_record_id IS NOT NULL')
+                ->leftjoin('role_attention', 'role_attention.type_of_attention_id', 'ch_interconsultation.type_of_attention_id')
+                ->whereNotNull('ch_interconsultation.ch_record_id');
             $patients->where('role_attention.role_id', $request->role_id);
 
             $assistance = AssistanceSpecial::select('assistance_special.*')
@@ -768,6 +768,10 @@ class PatientController extends Controller
                 }
                 $patients->whereIn('role_attention.specialty_id', $specielties);
             }
+        } else {
+            $patients
+                ->leftjoin('ch_interconsultation', 'ch_interconsultation.admissions_id', 'admissions.id', 'ch_interconsultation.ch_record_id IS NULL')
+                ;
         }
 
         if ($request->eps && isset($request->eps) && $request->eps != 'null') {
@@ -802,9 +806,6 @@ class PatientController extends Controller
                     ->orWhere('patients.middlefirstname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.lastname', 'like', '%' . $request->search . '%')
                     ->orWhere('patients.middlelastname', 'like', '%' . $request->search . '%')
-                    ->orWhere('locality.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('municipality.name', 'like', '%' . $request->search . '%')
-                    ->orWhere('neighborhood_or_residence.name', 'like', '%' . $request->search . '%')
                     ->orWhere('company.name', 'like', '%' . $request->search . '%');
             });
         }
@@ -1056,6 +1057,38 @@ class PatientController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Usuarios obtenidos exitosamente',
+            'data' => ['patients' => $patients]
+        ]);
+    }
+
+    /**
+     * Display patients with laboratories
+     *
+     * @return JsonResponse
+     */
+    public function getPatientsWithLaboratories(Request $request): JsonResponse
+    {
+        $patients = Patient::select(
+            'patients.*',
+            DB::raw('CONCAT_WS(" ",patients.lastname,patients.middlelastname,patients.firstname,patients.middlefirstname) AS nombre_completo')
+        )->join('admissions', 'patients.id', 'admissions.patient_id')
+        ->join('ch_record', 'admissions.id', 'ch_record.admissions_id')
+        ->join('ch_medical_orders', 'ch_record.id', 'ch_medical_orders.ch_record_id')
+        ->join('ch_laboratory', 'ch_medical_orders.id', 'ch_laboratory.medical_order_id')
+        ->where('ch_laboratory.laboratory_status_id', '!=', LaboratoryStatus::$CANCELED_STATUS_ID);
+
+        if ($request->query("pagination", true) == "false") {
+            $patients = $patients->get()->toArray();
+        } else {
+            $page = $request->query("current_page", 1);
+            $per_page = $request->query("per_page", 10);
+
+            $patients = $patients->paginate($per_page, '*', 'page', $page);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Pacientes obtenidos exitosamente',
             'data' => ['patients' => $patients]
         ]);
     }

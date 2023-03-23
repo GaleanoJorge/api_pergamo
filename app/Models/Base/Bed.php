@@ -42,9 +42,13 @@ class Bed extends Model
 	{
 		return $this->belongsTo(Procedure::class);
 	}
-	public function location()
+	public function location_all()
 	{
 		return $this->hasMany(Location::class);
+	}
+	public function location()
+	{
+		return $this->hasMany(Location::class, 'bed_id', 'id')->where('discharge_date', '0000-00-00 00:00:00');
 	}
 	public function reference()
 	{

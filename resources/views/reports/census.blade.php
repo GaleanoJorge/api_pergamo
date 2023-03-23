@@ -26,8 +26,8 @@
             padding: 8px;
         }
 
-        tr:nth-child(even) {
-            /* background-color: #dddddd; */
+        .page-break {
+            page-break-after: always;
         }
     </STYLE>
 </head>
@@ -36,19 +36,32 @@
     <div>
         <div>
             <div style="float: right; font-size: 10px"><i>{{$date}}</i></div>
+            {{-- <script>
+                if (isset($dompdf)) {
+                    $x = 250;
+                    $y = 10;
+                    $text = "Page {PAGE_NUM} of {PAGE_COUNT}";
+                    $font = null;
+                    $size = 14;
+                    $color = array(255,0,0);
+                    $word_space = 0.0;  //  default
+                    $char_space = 0.0;  //  default
+                    $angle = 0.0;   //  default
+                    $dompdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+                }
+            </script> --}}
             <p style="margin-top:0pt; margin-bottom:0pt; line-height:6%; widows:0; orphans:0; font-size:10pt">
                 <span>
-                    {{-- <img src="C:\Users\USUARIO\Downloads\Reportes con Estilos\LOGO-HL-COLOR.svg" width="142"
-                        height="100" /> --}}
                     <img src="https://storage.googleapis.com/detecta/ajz5a-4q5bb.006.png" width="142" height="59" />
                 </span>
 
                 <span style="height:0pt; display:block; position:absolute">
-                    <div style="text-align: center;  padding-right: 30%">
-                        <p>HEALTH & LIFE IPS S.A.S </p>
-                        <p>Nit: 900900122 - 7</p>
-                        
-                    </div>
+                    <h3>
+                        <div style="text-align: center;  padding-right: 30%">
+                            <p>HEALTH & LIFE IPS S.A.S </p>
+                            <p>Nit: 900900122 - 7</p>
+                        </div>
+                    </h3>
                 </span>
         </div>
         </p>
@@ -57,18 +70,19 @@
     <hr />
 
     <div>
-        @if (count($census) > 0)
+        @if (count($census) >= 0)
         @foreach ($xCampus as $Sede)
-        <div>
-            <div style="text-align: center; font-size: 10px">
-                <p>{{$campus['name']}} - {{$campus['address']}} - {{$campus['region']['name']}}</p>
+        <div style="text-align: center">
+            <div style="font-size: 14px"><b>CENSO DIARIO</b></div>
+            <div style="font-size: 12px">
+                <b>{{$Sede['sedeName']}} / {{$Sede['sedeAddress']}} de {{$Sede['region']['name']}}</b>
             </div>
         </div>
         @foreach ($xPavilion as $pabellon)
-        @if ($pabellon['Sede']==$Sede['Sede_id'])
+        @if ($pabellon['sedeId']==$Sede['sedeId'])
         <div>
-            <div style="text-align: center; font-size: 10px">
-                <p><b>CENSO DIARIO DE {{$pabellon['name']}}</b></p>
+            <div style="text-align: center; font-size: 11px">
+                <p><b>{{$pabellon['pisoName']}} - {{$pabellon['pabellonName']}}</b></p>
             </div>
         </div>
 
@@ -114,7 +128,7 @@
             </tr>
 
             @foreach ($census as $ph)
-            @if ($ph['Campus']==$Sede['Sede_id'] && $ph['Pavilion']==$pabellon['Pavilion'])
+            @if ($ph['sedeId']==$Sede['sedeId'] && $ph['pabellonId']==$pabellon['pabellonId'])
             <tr>
                 <td>
                     <div style="text-align: center"><span style="font-size: 8px"></span></div>
@@ -191,47 +205,47 @@
         </table>
         <hr />
         <div style="float:right; font-size: 10px"><span>
-            <b>Total Camas: {{$pabellon['Total']}} - </b>
-            Libres: <b>{{$pabellon['Libres']}},</b>
-            Ocupadas: <b>{{$pabellon['Ocupadas']}}</b>
-            En Mantenimiento: <b>{{$pabellon['Mantenimiento']}},</b>
-            En Desinfección: <b>{{$pabellon['Desinfeccion']}}</b></span>
-    </div>
-        @endisset
-        @endforeach
-        @endforeach
-        @endisset
-        {{-- @endisset --}}
-    </div>
-    <footer>
-        {{-- @foreach ($xPavilion as $xP)
-        <div style="float:right; font-size: 10px"><span>
-                <b>Total Camas: {{$xP['Total']}} - </b>
-                Libres: <b>{{$xP['Libres']}},</b>
-                Ocupadas: <b>{{$xP['Ocupadas']}}</b>
-                En Mantenimiento: <b>{{$xP['Mantenimiento']}},</b>
-                En Desinfección: <b>{{$xP['Desinfeccion']}}</b></span>
+                <b>Total Camas: {{$pabellon['camasTotalPabellon']}} - </b>
+                | Libres: <b>{{$pabellon['camasLibresPabellon']}} </b>
+                | Ocupadas: <b>{{$pabellon['camasOcupadasPabellon']}} </b>
+                | En Mantenimiento: <b>{{$pabellon['camasMantenimientoPabellon']}} </b>
+                | En Desinfección: <b>{{$pabellon['camasDesinfeccionPabellon']}} |</b>
+                <div style="font-size: 8px"><i><b>ÍNDICE OCUPACIONAL: {{$pabellon['IndicePabellon']}}%</b></i></div>
+            </span>
         </div>
-        @endforeach --}}
+        <br>
+        @endisset
+        @endforeach
+        @endforeach
+        @endisset
+    </div>
+    <br>
+    <div style="float:right; font-size: 11px">@foreach ($xCampus as $xC)
+        <div><b>TOTAL CAMAS EN {{$xC['sedeName']}}: {{$xC['camasTotalSede']}} - </b>
+            | Libres: <b>{{$xC['camasLibresSede']}}</b>
+            | Ocupadas: <b>{{$xC['camasOcupadasSede']}}</b>
+            | En Mantenimiento: <b>{{$xC['camasEnMantenimientoSede']}}</b>
+            | En Desinfección: <b>{{$xC['CamasEnDesinfeccionSede']}} |</b>
+        </div>
+        <div><b>ÍNDICE OCUPACIONAL: {{$xC['IndiceSede']}}%</b></div>
+        @endforeach
+    </div>
+    {{-- <div class="page-break"></div> --}}
+    <footer style="display:block">
         <div style="position: fixed; bottom:3%; font-size: 12px">
-            <div style="font-family: 'Open Sans', 'arial', 'sans-serif'; float: right; margin-right: 10pt"><b>PERGAMO</b></div>
-            @foreach ($xCampus as $xC)
-            <div><b>TOTAL CAMAS EN {{$xC['Sede']}}: {{$xC['Total']}} - </b>
-                Libres: <b>{{$xC['Libres']}},</b>
-                Ocupadas: <b>{{$xC['Ocupadas']}},</b>
-                En Mantenimiento: <b>{{$xC['Mantenimiento']}},</b>
-                En Desinfección: <b>{{$xC['Desinfeccion']}}</b>
+            <div style="font-family: 'Open Sans'; float: right; margin-right: 12pt">
+                <i><b>PERGAMO</b></i>
+                {{-- <img src="assets/images/logop.png" alt="Pergamo" width="10%" /> --}}
+                {{-- <img src="{{asset('assets/images/logop.png')}}" alt="Pergamo" width="10%" /> --}}
             </div>
-            @endforeach
-
             @foreach ($General as $g)
-            <div><b>TOTAL CAMAS GENERAL: {{$g['General Total']}} - </b>
-                Libres: <b>{{$g['General Libres']}},</b>
-                Ocupadas: <b>{{$g['General Ocupadas']}}</b>
-                En Mantenimiento: <b>{{$g['General Mantenimiento']}},</b>
-                En Desinfección: <b>{{$g['General Desinfeccion']}}</b>
+            <div><b>TOTAL CAMAS EN GENERAL: {{$g['camasGeneralTotal']}} - </b>
+                | Libres: <b>{{$g['camasGeneralLibres']}}</b>
+                | Ocupadas: <b>{{$g['camasGeneralOcupadas']}}</b>
+                | En Mantenimiento: <b>{{$g['camasGeneralMantenimiento']}}</b>
+                | En Desinfección: <b>{{$g['camasGeneralDesinfeccion']}} |</b>
             </div>
-            <div><b>ÍNDICE OCUPACIONAL: {{$g['Indice']}}%</b></div>
+            <div><b>ÍNDICE OCUPACIONAL GENERAL: {{$g['IndiceGeneral']}}%</b></div>
             @endforeach
         </div>
     </footer>

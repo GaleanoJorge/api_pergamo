@@ -31,6 +31,10 @@ class ChReasonConsultationController extends Controller
             }
         }
 
+        if ($request->record_id) {
+            $ChReasonConsultation->where('ch_record_id', $request->record_id)->where('type_record_id', 1);
+        }
+
         if ($request->ch_record_id) {
             $ChReasonConsultation->where('ch_record_id', $request->ch_record_id)->where('type_record_id', 1);
         }

@@ -7,15 +7,18 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AssistanceSuppliesRequest;
+use App\Models\AssignedManagementPlan;
 use App\Models\Authorization;
 use App\Models\ChRecord;
+use App\Models\Location;
 use App\Models\ManagementPlan;
 use App\Models\PharmacyProductRequest;
 use App\Models\Product;
 use App\Models\ProductGeneric;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AssistanceSuppliesController extends Controller
 {
@@ -306,6 +309,9 @@ class AssistanceSuppliesController extends Controller
 
                 $ch_record = ChRecord::find($request->ch_record_id);
 
+                $locationValidate = Location::where('location.admissions_id', $ch_record->admissions_id)
+                    ->where('location.discharge_date', '0000-00-00 00:00:00')->get()->toArray();
+
                 if ($PharmacyProductRequest[0]['product_id'] != null) {
 
                     $applicated = AssistanceSupplies::select('assistance_supplies.*')
@@ -347,11 +353,12 @@ class AssistanceSuppliesController extends Controller
                         ]);
                     } else if ($request->quantity) {
                         // $min_border = 
-                        $center = $request->quantity * $product_dose + $value;
-                        $validator = $center == $management_plan_dose ? true
-                            : ($center <= $management_plan_dose ? true
-                                : ($center - $product_dose < $management_plan_dose ? true
-                                    : false));
+                        // $center = $request->quantity * $product_dose + $value;
+                        // $validator = $center == $management_plan_dose ? true
+                        //     : ($center <= $management_plan_dose ? true
+                        //         : ($center - $product_dose < $management_plan_dose ? true
+                        //             : false));
+                        $validator = is_int($request->quantity + 0) && $request->quantity <=  $request->applicated ? true : false;
 
                         if (!$validator) {
                             return response()->json([
@@ -377,12 +384,12 @@ class AssistanceSuppliesController extends Controller
 
                         $supplies = AssistanceSupplies::select('assistance_supplies.*')
                             ->where('supplies_status_id', 1)
-                            ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get();
+                            ->where('pharmacy_product_request_id', $PharmacyProductRequest_id)->get()->toArray();
 
-                        $counter = 0;
+                        // $counter = 0;
 
-                        foreach ($supplies as $item) {
-                            $AssistanceSupplies = AssistanceSupplies::find($item->id);
+                        for ($i = 0; $i < $request->quantity; $i++) {
+                            $AssistanceSupplies = AssistanceSupplies::find($supplies[0]['id']);
 
                             $AssistanceSupplies->observation = $request->observation;
                             $AssistanceSupplies->application_hour = $request->clock;
@@ -393,11 +400,11 @@ class AssistanceSuppliesController extends Controller
 
                             $AssistanceSupplies->save();
 
-                            $counter++;
+                            // $counter++;
 
-                            if ($request->quantity == $counter) {
-                                break;
-                            }
+                            // if ($request->quantity == $counter) {
+                            //     break;
+                            // }
 
                             // $request->quantity > $counter ? $counter++ : break;
                         }
@@ -432,7 +439,28 @@ class AssistanceSuppliesController extends Controller
                         $AssistanceSupplies->save();
                     }
                     
+                    // fecha de ejecución al assigned_management_plan para hospitalización
+                    if ($locationValidate[0]['scope_of_attention_id'] == 1 && $request->quantity ==  $request->applicated) {
+                        $AssignedManagementPlan = AssignedManagementPlan::select(
+                            'assigned_management_plan.*',
+                            DB::raw('CONCAT_WS(" ",assigned_management_plan.start_date,assigned_management_plan.start_hour) AS date_attention'),
+                        )
+                            ->leftjoin('management_plan', 'management_plan.id', 'assigned_management_plan.management_plan_id')
+                            ->leftjoin('pharmacy_product_request', 'pharmacy_product_request.management_plan_id', 'management_plan.id')
+                            ->where('pharmacy_product_request.id',$PharmacyProductRequest_id)
+                            ->where('assigned_management_plan.execution_date', '0000-00-00 00:00:00')
+                            ->havingBetween('date_attention', [Carbon::now()->subHours(3), Carbon::now()->addHours(3)])
+                            ->orderBy('assigned_management_plan.start_date', 'ASC')
+                            ->orderBy('assigned_management_plan.start_hour', 'ASC')
+                            ->get()->first();
 
+                        if ($AssignedManagementPlan) {
+                            $udated_assignedManagementPlan = AssignedManagementPlan::find($AssignedManagementPlan->id);
+                            $udated_assignedManagementPlan->execution_date = Carbon::now();
+                            $udated_assignedManagementPlan->save();
+                        }
+    
+                    }
 
 
                     return response()->json([

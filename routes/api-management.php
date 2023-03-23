@@ -461,10 +461,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::get('patient/byPAC/{roleId}', 'Management\PatientController@indexPacientByPAC');
     Route::get('patient/GetPatientByIdentification/{identification}', 'Management\PatientController@GetPatientByIdentification');
     Route::get('user/byAdmission/{roleId}', 'Management\PatientController@indexPacientByAdmission');
-
-
-
-
+    Route::get('GetPatientsWithLaboratory', 'Management\PatientController@getPatientsWithLaboratories');
 
     //Coursebase
     Route::apiResource('basecourses', 'Management\CoursebaseController');
@@ -1402,15 +1399,20 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //? Report Gloss
     Route::apiResource('report_gloss', 'Management\ReportGlossController');
     Route::get('report_gloss/export/{id}', 'Management\ReportGlossController@exportGloss');
+    Route::get('report_gloss_General', 'Management\ReportGlossController@exportGloss');
     //? Report Rips
     Route::apiResource('report_rips', 'Management\ReportRipsController');
     Route::get('report_rips/export/{id}', 'Management\ReportRipsController@exportRips');
+    //? Report Consulta Externa
+    Route::apiResource('report_external_query', 'Management\ReportExternalQueryController');
+    Route::get('report_external_query/export/{id}', 'Management\ReportExternalQueryController@exportExternalQuery');
     //? Report Censo EXCEL
     Route::apiResource('report_censusEXCEL', 'Management\ReportCensusController');
     Route::get('report_censusEXCEL/export/{id}', 'Management\ReportCensusController@exportCensusEXCEL');
+    Route::get('report_censusEXCELGeneral', 'Management\ReportCensusController@exportCensusEXCEL');
     //? Report Censo PDF
     Route::get('report_censusPDF/export/{id}', 'Management\ReportCensusController@exportCensusPDF');
-    // Route::get('report_censusPDF2', 'Management\ReportCensusController@exportCensusPDF2');
+    Route::get('report_censusPDFGeneral', 'Management\ReportCensusController@exportCensusPDF');
     
     Route::apiResource('fixed_clasification', 'Management\FixedClasificationController');
     Route::get(
@@ -1469,6 +1471,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('hourly_frequency', 'Management\HourlyFrequencyController');
     Route::get('ch_formulation/by_record/{id}/{type_record_id}', 'Management\ChFormulationController@getByRecord');
     Route::get('ch_formulation/getByAdmission/{admission_id}', 'Management\ChFormulationController@getByAdmission');
+    Route::post('ch_formulation/suspendFormulations/{ch_formulation_id}', 'Management\ChFormulationController@suspendFormulations');
 
     //Scales
     Route::apiResource('ch_scales', 'Management\ChScalesController');
@@ -1608,6 +1611,7 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     Route::apiResource('bill_user_activity', 'Management\BillUserActivityController');
     Route::get('bill_user_activity/byAccountReceivable/{Id}', 'Management\BillUserActivityController@getByAccountReceivable');
     Route::get('bill_user_activity/getByPatient/{Id}', 'Management\BillUserActivityController@getByPatient');
+    Route::put('bill_user_activity/RecalculateTariff/{id}', 'Management\BillUserActivityController@RecalculateTariff');
 
 
     Route::apiResource('user_activity', 'Management\UserActivityController');
@@ -1643,6 +1647,22 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
 
     //Tablero Doc Mariana.
     Route::apiResource('billing_tc', 'Management\BillingTcController');
+
+    Route::apiResource('assistant_tc', 'Management\AssistantTcController');
+    Route::apiResource('attended_tc', 'Management\AttendedTcController');
+    Route::apiResource('base_adhesion_tc', 'Management\BaseAdhesionTcController');
+    Route::apiResource('pare_base_tc', 'Management\PareBaseTcController');
+    Route::apiResource('quit_tc', 'Management\QuitTcController');
+    Route::apiResource('service_level_tc', 'Management\ServiceLevelTcController');
+    Route::apiResource('human_talent_2_tc', 'Management\HumanTalent2TcController');
+
+    Route::post('assistant_tc/file', 'Management\AssistantTcController@import');
+    Route::post('attended_tc/file', 'Management\AttendedTcController@import');
+    Route::post('base_adhesion_tc/file', 'Management\BaseAdhesionTcController@import');
+    Route::post('pare_base_tc/file', 'Management\PareBaseTcController@import');
+    Route::post('quit_tc/file', 'Management\QuitTcController@import');
+    Route::post('service_level_tc/file', 'Management\ServiceLevelTcController@import');
+    Route::post('human_talent_2_tc/file', 'Management\HumanTalent2TcController@import');
     Route::apiResource('radication_tc', 'Management\RadicationTcController');
     Route::apiResource('human_talent_tc', 'Management\HumanTalentTcController');
     Route::apiResource('rentability_tc', 'Management\RentabilityTcController');
@@ -1668,16 +1688,22 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //prefactura PAD
     Route::apiResource('billing_pad', 'Management\BillingPadController');
     Route::get('billing_pad/getEnabledAdmissions/{id}', 'Management\BillingPadController@getEnabledAdmissions');
+    Route::get('billing_pad/getEnabledPatients/{id}', 'Management\BillingPadController@getEnabledPatients');
     Route::get('billing_pad/getAuthorizedProcedures/{id}', 'Management\BillingPadController@getAuthorizedProcedures');
     Route::get('billing_pad/getPreBillingProcedures/{id}', 'Management\BillingPadController@getPreBillingProcedures');
     Route::get('billing_pad/getProceduresByAuthPackage/{id}', 'Management\BillingPadController@getProceduresByAuthPackage');
     Route::get('billing_pad/getPgpContracts/{id}', 'Management\BillingPadController@getPgpContracts');
     Route::get('billing_pad/getPgpBillings/{id}', 'Management\BillingPadController@getPgpBillings');
+    Route::post('billing_pad/generateMuBilling/{id}', 'Management\BillingPadController@generateMuBilling');
     Route::post('billing_pad/generatePgpBilling/{id}', 'Management\BillingPadController@generatePgpBilling');
     Route::get('billing_pad/generateBillingDat/{bill_type}/{id}', 'Management\BillingPadController@generateBillingDat');
+    Route::get('billing_pad/testBillingDat/{bill_type}/{id}', 'Management\BillingPadController@testBillingDat');
     Route::get('billing_pad/generateBillingPdf/{id}', 'Management\BillingPadController@generateBillingPdf');
+    Route::get('billing_pad/generateBillingPdfMu/{id}', 'Management\BillingPadController@PdfMu');
     Route::get('billing_pad/creditNoteNoPgp/{id}', 'Management\BillingPadController@creditNoteNoPgp');
     Route::get('billing_pad/creditNotePgp/{id}', 'Management\BillingPadController@creditNotePgp');
+    Route::get('billing_pad/creditNoteMu/{id}', 'Management\BillingPadController@creditNoteMu');
+    Route::get('billing_pad/getAllBillings/{id}', 'Management\BillingPadController@getAllBillings');
     Route::post('billing_pad/newBillingPad', 'Management\BillingPadController@newBillingPad');
     Route::apiResource('billing_pad_prefix', 'Management\BillingPadPrefixController');
     Route::apiResource('billing_pad_consecutive', 'Management\BillingPadConsecutiveController');
@@ -1928,6 +1954,17 @@ Route::group(['middleware' => ['cors', 'jwt.auth', 'api']], function () {
     //Nota aclaratoria
     Route::apiResource('disclaimer', 'Management\DisclaimerController');
     Route::get('disclaimer/by_record/{id}', 'Management\DisclaimerController@getByRecord');
+    
+    //Vías de administración de oxígeno
+    Route::apiResource('oxigen_administration_way', 'Management\OxigenAdministrationWayController');
+    
+    //Control de oxígeno
+    Route::apiResource('oxigen_control', 'Management\OxigenControlController');
+    Route::get('oxigen_control/by_record/{id}/{type_record_id}', 'Management\OxigenControlController@getByRecord');
+
+    //Laboratorios
+    Route::apiResource('ch_laboratory', 'Management\ChLaboratoryController');
+    Route::post('ch_laboratory_update', 'Management\ChLaboratoryController@update');
 
 
 });

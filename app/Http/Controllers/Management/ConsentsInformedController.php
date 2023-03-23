@@ -14,6 +14,7 @@ use Dompdf\Dompdf as PDF;
 use Dompdf\Options;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Exception;
 
 
 
@@ -271,54 +272,117 @@ class ConsentsInformedController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $ConsentsInformed = new ConsentsInformed;
-        $ConsentsInformed->admissions_id = $request->admissions_id;
+        DB::beginTransaction();
 
-        if ($request->firm_patient) {
-            $image = $request->get('firm_patient');  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas-consentimientos/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
+        try {
+            $ConsentsInformed = new ConsentsInformed;
+            $ConsentsInformed->admissions_id = $request->admissions_id;
 
-            $ConsentsInformed->firm_patient = $imagePath;
+            if ($request->firm_patient && $request->firm_patient != 'null' && $request->firm_patient != 'undefined') {
+                $image = $request->get('firm_patient');  // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas-consentimientos/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                $ConsentsInformed->firm_patient = $imagePath;
+            }
+
+            if ($request->firm_responsible && $request->firm_responsible != 'null' && $request->firm_responsible != 'undefined') {
+                $image = $request->get('firm_responsible');  // your base64 encoded
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $random = Str::random(10);
+                $imagePath = 'firmas-consentimientos/' . $random . '.png';
+                Storage::disk('public')->put($imagePath, base64_decode($image));
+
+                $ConsentsInformed->firm_responsible = $imagePath;
+            }
+            $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
+            $ConsentsInformed->type_consents_id = $request->type_consents_id;
+            $ConsentsInformed->name_responsible = $request->name_responsible;
+            $ConsentsInformed->parent_responsible = $request->parent_responsible;
+            $ConsentsInformed->identification_responsible = $request->identification_responsible;
+
+            $ConsentsInformed->relationship_id = $request->relationship_id;
+            $ConsentsInformed->observations = $request->observations;
+            $ConsentsInformed->because_patient = $request->because_patient;
+            $ConsentsInformed->because_carer = $request->because_carer;
+            $ConsentsInformed->number_contact = $request->number_contact;
+            $ConsentsInformed->confirmation = $request->confirmation;
+            $ConsentsInformed->dissent = $request->dissent;
+            $ConsentsInformed->save();
+
+            if ($ConsentsInformed->firm_patient) {
+                $rutaImagen2 = storage_path('app/public/' . $ConsentsInformed->firm_patient);
+                $contenidoBinario2 = file_get_contents($rutaImagen2);
+                $imagenPatient = base64_encode($contenidoBinario2);
+            } else {
+                $imagenPatient = null;
+            }
+            if ($ConsentsInformed->firm_responsible) {
+                $rutaImagen3 = storage_path('app/public/' . $ConsentsInformed->firm_responsible);
+                $contenidoBinario3 = file_get_contents($rutaImagen3);
+                $imagenResponsible = base64_encode($contenidoBinario3);
+            } else {
+                $imagenResponsible = null;
+            }
+
+            $today = Carbon::now();
+
+            $ConsentsInformedValidate = ConsentsInformed::with(
+                'type_consents',
+                'relationship',
+                'admissions',
+                'admissions.patients',
+                'admissions.patients.identification_type',
+                'assigned_user',
+                'assigned_user.assistance',
+                'assigned_user.roles',
+                // 'assigned_user.assistance.medical_record', 
+                // 'user_role.role',
+
+            )
+                ->where('id', $ConsentsInformed->id)->get()->toArray();
+
+            if (count($ConsentsInformedValidate[0]['assigned_user']['assistance']) > 0) {
+                $rutaImagen = storage_path('app/public/' . $ConsentsInformedValidate[0]['assigned_user']['assistance'][0]['file_firm']);
+                $contenidoBinario = file_get_contents($rutaImagen);
+                $imagenAssistence = base64_encode($contenidoBinario);
+            }
+            $html = view('mails.ciPsicologia', [
+                'consentsinformed' => $ConsentsInformedValidate,
+                'firmpatient' => $imagenPatient,
+                'firmassistance' => $imagenAssistence,
+                'firmresponsible' => $imagenResponsible,
+                'today' => $today,
+            ])->render();
+            $options = new Options();
+            $options->set('isRemoteEnabled', TRUE);
+            $dompdf = new PDF($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('Carta', 'vertical');
+            $dompdf->render();
+            $file = $dompdf->output();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Concentimiento creado exitosamente',
+                'data' => ['consents_informed' => $ConsentsInformed->toArray()]
+            ]);
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'status' => false,
+                'message' => 'Hubo un problema al procesar la firma, por favor vuelve a intentar',
+                'error' => $e->getLine() . ' - ' . $e->getMessage(),
+            ], 423);
         }
-
-        if ($request->firm_responsible) {
-            $image = $request->get('firm_responsible');  // your base64 encoded
-            $image = str_replace('data:image/png;base64,', '', $image);
-            $image = str_replace(' ', '+', $image);
-            $random = Str::random(10);
-            $imagePath = 'firmas-consentimientos/' . $random . '.png';
-            Storage::disk('public')->put($imagePath, base64_decode($image));
-
-            $ConsentsInformed->firm_responsible = $imagePath;
-        }
-        $ConsentsInformed->assigned_user_id = $request->assigned_user_id;
-        $ConsentsInformed->type_consents_id = $request->type_consents_id;
-        $ConsentsInformed->name_responsible = $request->name_responsible;
-        $ConsentsInformed->parent_responsible = $request->parent_responsible;
-        $ConsentsInformed->identification_responsible = $request->identification_responsible;
-
-        $ConsentsInformed->relationship_id = $request->relationship_id;
-        $ConsentsInformed->observations = $request->observations;
-        $ConsentsInformed->because_patient = $request->because_patient;
-        $ConsentsInformed->because_carer = $request->because_carer;
-        $ConsentsInformed->number_contact = $request->number_contact;
-        $ConsentsInformed->confirmation = $request->confirmation;
-        $ConsentsInformed->dissent = $request->dissent;
-        $ConsentsInformed->save();
-
-
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Concentimiento creado exitosamente',
-            'data' => ['consents_informed' => $ConsentsInformed->toArray()]
-        ]);
     }
-   
+
     /**
      * Display the specified resource.
      *

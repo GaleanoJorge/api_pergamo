@@ -18,9 +18,8 @@ use Illuminate\Support\Facades\Date;
  * @property int $id 
  * @property Date $initial_report
  * @property Date $final_report
- * @property BigInteger $gloss
+ * @property BigInteger $campus_id
  * @property BigInteger $user_id
- * @property string $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -29,11 +28,11 @@ use Illuminate\Support\Facades\Date;
  */
 class ReportGloss extends Model
 {
-	protected $table = 'gloss';
+	protected $table = 'report_gloss';
 
-	public function gloss()
+	public function campus_id()
 	{
-		return $this->belongsTo(Gloss::class);
+		return $this->belongsTo(Campus::class);
 	}
 	public function user()
 	{
