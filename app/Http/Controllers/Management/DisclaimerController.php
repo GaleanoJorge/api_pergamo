@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Management;
 use App\Models\Disclaimer;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Models\AssignedManagementPlan;
+use App\Models\Assistance;
+use App\Models\BillUserActivity;
 use App\Models\ChRecord;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
 
 class DisclaimerController extends Controller
 {
@@ -79,8 +83,18 @@ class DisclaimerController extends Controller
         $Disclaimer->ch_record_id = $request->ch_record_id;
         $Disclaimer->save();      
 
-           
-       
+        $ChRecord = ChRecord::find($request->ch_record_id);
+        $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+        if ($billActivity) {
+            if ($billActivity->status == 'RECHAZADO') {
+                $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                $assigned_redo->redo = '00000000000000';
+                $assigned_redo->save();
+                $billActivity->status = 'REENVIADO';
+                $billActivity->ch_record_id = $ChRecord->id;
+                $billActivity->save();
+            }
+        }
 
         return response()->json([
             'status' => true,
@@ -121,7 +135,18 @@ class DisclaimerController extends Controller
         $Disclaimer->ch_record_id = $request->ch_record_id;
         $Disclaimer->save();           
    
-       
+        $ChRecord = ChRecord::find($request->ch_record_id);
+        $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+        if ($billActivity) {
+            if ($billActivity->status == 'RECHAZADO') {
+                $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                $assigned_redo->redo = '00000000000000';
+                $assigned_redo->save();
+                $billActivity->status = 'REENVIADO';
+                $billActivity->ch_record_id = $ChRecord->id;
+                $billActivity->save();
+            }
+        }
 
         return response()->json([
             'status' => true,
