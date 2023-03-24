@@ -82,7 +82,7 @@ class ChSwEconomicAspectsController extends Controller
 
 
         $ChSwEconomicAspects = new ChSwEconomicAspects;
-        $ChSwEconomicAspects->copay_id = $request->copay;
+        $ChSwEconomicAspects->copay = $request->copay;
         $ChSwEconomicAspects->type_record_id = $request->type_record_id;
         $ChSwEconomicAspects->ch_record_id = $request->ch_record_id;
         $ChSwEconomicAspects->save();

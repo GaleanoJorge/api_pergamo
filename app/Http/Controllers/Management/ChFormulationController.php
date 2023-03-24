@@ -61,9 +61,15 @@ class ChFormulationController extends Controller
         $ChFormulation = ChFormulation::select('ch_formulation.*')
             ->leftJoin('ch_record', 'ch_record.id', 'ch_formulation.ch_record_id')
             ->leftJoin('admissions', 'admissions.id', 'ch_record.admissions_id')
+            ->leftJoin('pharmacy_product_request', 'pharmacy_product_request.id', 'ch_formulation.pharmacy_product_request_id')
             ->where('admissions.id', $admission_id)
             ->where('ch_formulation.medical_formula', 0)
             ->where('ch_formulation.status_id', 1)
+            ->where(function ($query) use ($request) {
+                $query->where('pharmacy_product_request.status', 'PATIENT')
+                    ->orWhere('pharmacy_product_request.status', 'ENVIO PATIENT')
+                    ->orWhere('pharmacy_product_request.status', 'ACEPTADO');
+            })
             ->with(
                 'services_briefcase',
                 'services_briefcase.manual_price',
@@ -80,13 +86,13 @@ class ChFormulationController extends Controller
             ->orderBy('ch_formulation.created_at', 'DESC')
             ->groupBy('ch_formulation.id');
 
-            if ($request->with_oxigen) {
-            } else {
-                $ChFormulation->leftJoin('product_generic', 'product_generic.id', 'ch_formulation.product_generic_id')
+        if ($request->with_oxigen) {
+        } else {
+            $ChFormulation->leftJoin('product_generic', 'product_generic.id', 'ch_formulation.product_generic_id')
                 ->where('product_generic.nom_product_id', '!=', 301);
-            }
+        }
 
-            $ChFormulation = $ChFormulation->get()->toArray();
+        $ChFormulation = $ChFormulation->get()->toArray();
 
 
         return response()->json([
@@ -233,6 +239,18 @@ class ChFormulationController extends Controller
             $ChFormulation->save();
         } else {
 
+            if ($request->product_supplies_id) {
+            } else {
+                if ($request->product_generic_id) {
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Debe seleccionarse un elemento de la lista',
+                        'data' => ['ch_formulation' => []]
+                    ]);
+                }
+            }
+
             $ChFormulation = new ChFormulation;
             $ChFormulation->product_generic_id = $request->product_generic_id;
             $ChFormulation->administration_route_id = $request->administration_route_id;
@@ -279,8 +297,8 @@ class ChFormulationController extends Controller
             ->where('ch_record.admissions_id', $ChFormulation[0]['ch_record']['admissions_id'])
             ->where('ch_formulation.services_briefcase_id', $ChFormulation[0]['services_briefcase_id'])
             ->get()->toArray();
-        
-        foreach($formulations as $element) {
+
+        foreach ($formulations as $element) {
             $ChFormulationSuspend = ChFormulation::find($element['id']);
             $ChFormulationSuspend->suspended = true;
             $ChFormulationSuspend->save();

@@ -121,11 +121,22 @@ class BillingPadController extends Controller
 
     /**
      * Get all factured billings 
+     * 
+     * Esta función permite visualizar todas las facturas generadas por pérgamo incluidas las notas crédito
      */
     public function getAllBillings(Request $request, int $id): JsonResponse
     {
+        /**
+         * variable de respuesta final, que compilará el resultado de tres consultas distintas correspondientes a los 3 tipos de facturas:
+         * -evento / unitarias
+         * -pgp
+         * -multiusuario
+         */
         $BillingPad = array();
 
+        /**
+         * consulta de facturas por evento o unitarias
+         */
         $BillingPadBasic = BillingPad::select(
             'billing_pad.*',
             'contract.name as contract_name',
@@ -165,6 +176,39 @@ class BillingPadController extends Controller
             ->orderBy('billing_pad.facturation_date', 'DESC')
             ->groupBy('billing_pad.id');
 
+        /**
+         * consulta de facturas pgp
+         */
+        $BillingPadPgp = BillingPadPgp::select(
+            'billing_pad_pgp.*',
+            'contract.name as contract_name',
+            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
+            DB::raw('IF(billing_pad_pgp.id > 0, 2, 0) as billing_type'),
+            DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad_pgp.consecutive) AS billing_consecutive'),
+            DB::raw('CONCAT_WS("",BPP.name,BPCN.consecutive) AS credit_note_consecutive'),
+            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
+        )
+            ->with(
+                'its_credit_note',
+                'its_credit_note.billing_pad_prefix',
+                'billing_pad_consecutive',
+                'billing_pad_prefix',
+                'billing_pad_status',
+            )
+            ->leftJoin('contract', 'contract.id', 'billing_pad_pgp.contract_id')
+            ->leftJoin('billing_pad_log', 'billing_pad_log.billing_pad_pgp_id', 'billing_pad_pgp.id', 'billing_pad_log.billing_pad_status_id', 'billing_pad_pgp.billing_pad_status_id')
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_pgp.billing_pad_prefix_id')
+            ->leftJoin('billing_pad_pgp as BPC', 'BPC.id', 'billing_pad_pgp.billing_credit_note_id')
+            ->leftJoin('billing_pad_pgp as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad_pgp.id')
+            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
+            ->whereIn('billing_pad_pgp.billing_pad_status_id', [2, 3, 4])
+            ->orderBy('billing_pad_pgp.facturation_date', 'DESC')
+            ->groupBy('billing_pad_pgp.id');
+
+        /**
+         * consulta de facturas multiusuario
+         */
         $BillingPadMu = BillingPadMu::select(
             'billing_pad_mu.*',
             'contract.name as contract_name',
@@ -193,63 +237,46 @@ class BillingPadController extends Controller
             ->orderBy('billing_pad_mu.facturation_date', 'DESC')
             ->groupBy('billing_pad_mu.id');
 
-        $BillingPadPgp = BillingPadPgp::select(
-            'billing_pad_pgp.*',
-            'contract.name as contract_name',
-            DB::raw('SUM(IF(BPC.id > 0, 1, 0)) as has_cancel'),
-            DB::raw('IF(billing_pad_pgp.id > 0, 2, 0) as billing_type'),
-            DB::raw('CONCAT_WS("",billing_pad_prefix.name,billing_pad_pgp.consecutive) AS billing_consecutive'),
-            DB::raw('CONCAT_WS("",BPP.name,BPCN.consecutive) AS credit_note_consecutive'),
-            DB::raw('CONCAT_WS(" ",users.lastname,users.middlelastname,users.firstname,users.middlefirstname) AS nombre_completo'),
-        )
-            ->with(
-                'its_credit_note',
-                'its_credit_note.billing_pad_prefix',
-                'billing_pad_consecutive',
-                'billing_pad_prefix',
-                'billing_pad_status',
-            )
-            ->leftJoin('contract', 'contract.id', 'billing_pad_pgp.contract_id')
-            ->leftJoin('billing_pad_log', 'billing_pad_log.billing_pad_pgp_id', 'billing_pad_pgp.id', 'billing_pad_log.billing_pad_status_id', 'billing_pad_pgp.billing_pad_status_id')
-            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
-            ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'billing_pad_pgp.billing_pad_prefix_id')
-            ->leftJoin('billing_pad_pgp as BPC', 'BPC.id', 'billing_pad_pgp.billing_credit_note_id')
-            ->leftJoin('billing_pad_pgp as BPCN', 'BPCN.billing_credit_note_id', 'billing_pad_pgp.id')
-            ->leftJoin('billing_pad_prefix as BPP', 'BPP.id', 'BPCN.billing_pad_prefix_id')
-            ->whereIn('billing_pad_pgp.billing_pad_status_id', [2, 3, 4])
-            ->orderBy('billing_pad_pgp.facturation_date', 'DESC')
-            ->groupBy('billing_pad_pgp.id');
-
+        /**
+         * ordenar facturas
+         */
         if ($request->_sort) {
             $BillingPadBasic->orderBy($request->_sort, $request->_order);
-            $BillingPadMu->orderBy($request->_sort, $request->_order);
             $BillingPadPgp->orderBy($request->_sort, $request->_order);
+            $BillingPadMu->orderBy($request->_sort, $request->_order);
         }
 
+        //-----------------------------------------------------------------------------------------------------------------------------
+        /**
+         * filtrar facturas por compañía (EPS)
+         */
         if ($request->company_id && $request->company_id != 'null' && $request->company_id != 'undefined') {
             $BillingPadBasic->where('contract.company_id', $request->company_id);
-            $BillingPadMu->where('contract.company_id', $request->company_id);
             $BillingPadPgp->where('contract.company_id', $request->company_id);
+            $BillingPadMu->where('contract.company_id', $request->company_id);
         }
 
+        //-----------------------------------------------------------------------------------------------------------------------------
+        /**
+         * fieltrar facturas por fecha de facturación
+         */
         if ($request->start_date) {
             $BillingPadBasic->where('billing_pad.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
             $BillingPadPgp->where('billing_pad_pgp.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '>=', Carbon::parse($request->start_date)->startOfDay());
         }
 
         if ($request->finish_date) {
             $BillingPadBasic->where('billing_pad.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
-            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
             $BillingPadPgp->where('billing_pad_pgp.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
+            $BillingPadMu->where('billing_pad_mu.facturation_date', '<=', Carbon::parse($request->finish_date)->endOfDay());
         }
-
+        //-----------------------------------------------------------------------------------------------------------------------------
+        /**
+         * Búsqueda de factura por caracteres (nombre del contrato, número de factura, facturador)
+         */
         if ($request->search) {
             $BillingPadBasic->having('billing_consecutive', 'like', '%' . $request->search . '%')
-                ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
-                ->orHaving('contract_name', 'like', '%' . $request->search . '%')
-                ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
-            $BillingPadMu->having('billing_consecutive', 'like', '%' . $request->search . '%')
                 ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
                 ->orHaving('contract_name', 'like', '%' . $request->search . '%')
                 ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
@@ -257,30 +284,38 @@ class BillingPadController extends Controller
                 ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
                 ->orHaving('contract_name', 'like', '%' . $request->search . '%')
                 ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
+            $BillingPadMu->having('billing_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('credit_note_consecutive', 'like', '%' . $request->search . '%')
+                ->orHaving('contract_name', 'like', '%' . $request->search . '%')
+                ->orHaving('nombre_completo', 'like', '%' . $request->search . '%');
         }
+        //-----------------------------------------------------------------------------------------------------------------------------
 
+        /**
+         * filtro por tipo de factura
+         */
         if ($request->billing_type) {
             $BillingPadBasic->having('billing_type', $request->billing_type);
-            $BillingPadMu->having('billing_type', $request->billing_type);
             $BillingPadPgp->having('billing_type', $request->billing_type);
+            $BillingPadMu->having('billing_type', $request->billing_type);
         } 
 
         $BillingPadBasic = $BillingPadBasic->get()->toArray();
-        $BillingPadMu = $BillingPadMu->get()->toArray();
         $BillingPadPgp = $BillingPadPgp->get()->toArray();
+        $BillingPadMu = $BillingPadMu->get()->toArray();
 
         foreach ($BillingPadBasic as $element) {
-            array_push($BillingPad, $element);
-        }
-        foreach ($BillingPadMu as $element) {
             array_push($BillingPad, $element);
         }
         foreach ($BillingPadPgp as $element) {
             array_push($BillingPad, $element);
         }
+        foreach ($BillingPadMu as $element) {
+            array_push($BillingPad, $element);
+        }
 
         
-        $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadMu + $BillingPadPgp;
+        $BillingPad = $BillingPad + $BillingPadBasic + $BillingPadPgp + $BillingPadMu;
 
 
         return response()->json([
@@ -307,6 +342,10 @@ class BillingPadController extends Controller
         ]);
     }
 
+    /**
+     * creación de nueva factura con fecha de validación correspondiente al mes en curso,
+     * esto sirve para dividir fácilmente los servicios de una facturación unitaria
+     */
     public function newBillingPad(Request $request): JsonResponse
     {
         $BillingPad = new BillingPad;
@@ -327,6 +366,8 @@ class BillingPadController extends Controller
     /**
      * Get pgp contacts.
      *
+     * consulta de contratos de tipo pgp
+     * 
      * @param  int  $id
      * @return JsonResponse
      */
@@ -354,6 +395,8 @@ class BillingPadController extends Controller
 
     /**
      * Get pgp billings.
+     * 
+     * consulta de facturas pgp
      *
      * @param  int  $id
      * @return JsonResponse
@@ -382,6 +425,8 @@ class BillingPadController extends Controller
 
     /**
      * Generate Pgp billing.
+     * 
+     * generar factura pgp
      *
      * @param  int  $contract_id
      * @return JsonResponse
@@ -464,6 +509,9 @@ class BillingPadController extends Controller
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(2, $BillingPadPgp->id);
 
             return response()->json([
@@ -483,7 +531,9 @@ class BillingPadController extends Controller
     }
 
     /**
-     * Generate Pgp billing.
+     * Generate Mu billing.
+     * 
+     * generación de facturas multiusuario
      *
      * @param  int  $contract_id
      * @return JsonResponse
@@ -491,12 +541,25 @@ class BillingPadController extends Controller
     public function generateMuBilling(Request $request): JsonResponse
     {
         
-
+        /**
+         * Recepción de ids de las admisiones de los pacientes seleccionados
+         */
         $admissions = json_decode($request->admissions, true);
 
+        /**
+         * búsqueda de la sede correspondiente para la facturación (La sede de donde se está facturando),
+         * esto con el fin de encontrar un prefijo de facxturación
+         */
         $campus = Campus::with('billing_pad_prefix')
             ->where('id', $request->campus_id)->get()->toArray();
 
+        /**
+         * Búsqueda de resoluciones activas según el prefijo de facturación,
+         * condiciones:
+         * -estar activa
+         * -tener consecutivos para facturar
+         * -no haber expirado
+         */
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
@@ -514,6 +577,10 @@ class BillingPadController extends Controller
         $total_auths = 0;
         $briefcase_id = null;
         $BillingsPad = array();
+
+        /**
+         * Iteración de admisiones para identificar las facturas asociadas (billing_pad)
+         */
         foreach ($admissions as $a_id) {
             $authorization = Admissions::find($a_id);
             if ($briefcase_id == null) {
@@ -524,6 +591,10 @@ class BillingPadController extends Controller
             $aux = $this->arraySupport($request, $a_id);
             $auths = count($aux['billing_pad']);
             $total_auths += $auths;
+
+            /**
+             * captura de facturas segín la fecha de ingreso de las admisiones
+             */
             $BillingsPad_aux = BillingPad::select('billing_pad.*')
                 ->leftJoin('admissions', 'admissions.id', 'billing_pad.admissions_id')
                 ->whereBetween('billing_pad.validation_date', [$firstDateLastMonth, $lastDateLastMonth])
@@ -538,6 +609,9 @@ class BillingPadController extends Controller
         }
 
 
+        /**
+         * conteo de autorizaciones facturables
+         */
         if ($total_auths == 0 || count($BillingsPad) == 0) {
             return response()->json([
                 'status' => false,
@@ -546,6 +620,9 @@ class BillingPadController extends Controller
             ]);
         }
 
+        /**
+         * incremento de consecutivo de facturación, si el consecutivo de facturación es igual al ultimo consecutivo entonces se inactiva automáticamente
+         */
         $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
         if ($consecutive == $BillingPadConsecutive->final_consecutive) {
             $BillingPadConsecutive->stats_id = 2;
@@ -554,9 +631,16 @@ class BillingPadController extends Controller
         $BillingPadConsecutive->save();
 
         try {
+
+            /**
+             * validación de conección al sftp
+             */
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
 
+            /**
+             * nueva factura multiusuario
+             */
             $BillingPadMu = new BillingPadMu;
             $BillingPadMu->total_value = 0;
             $BillingPadMu->billing_pad_status_id = 2;
@@ -568,8 +652,9 @@ class BillingPadController extends Controller
             $BillingPadMu->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $BillingPadMu->save();
 
-
-
+            /**
+             * asociar facturas unitarias (billing_pad) con la factura multiusuario
+             */
             foreach ($BillingsPad as $element) {
                 $BillingPad = BillingPad::where('id', $element['id'])->first();
                 $BillingPad->billing_pad_status_id = 2;
@@ -579,6 +664,10 @@ class BillingPadController extends Controller
 
             $total_value = 0;
             foreach ($admissions as $a_id) {
+
+                /**
+                 * obtener autorizaciones facturables
+                 */
                 $auths = $this->arraySupport($request, $a_id)['billing_pad'];
 
                 // realizar calculo de valor total con autorizaciones
@@ -592,6 +681,10 @@ class BillingPadController extends Controller
                             $a = $conponent['quantity'];
                         }
                     }
+
+                    /**
+                     * Asociar autorizaciones con su respectiva factura multiusuario
+                     */
 
                     $AuthBillingPad = new AuthBillingPad;
                     $AuthBillingPad->billing_pad_mu_id = $BillingPadMu->id;
@@ -609,12 +702,18 @@ class BillingPadController extends Controller
             $BillingPadMu->total_value = $total_value;
             $BillingPadMu->save();
 
+            /**
+             * registro de log de facturación, se asocia la factura generada con el usuario quien la generó
+             */
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_mu_id = $BillingPadMu->id;
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = Auth::user()->id;
             $BillingPadLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(3, $BillingPadMu->id);
 
             return response()->json([
@@ -634,7 +733,7 @@ class BillingPadController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Generate credit note to Mu billing.
      *
      * @param  int  $id
      * @return JsonResponse
@@ -643,6 +742,14 @@ class BillingPadController extends Controller
     {
         $billingInfo = $this->getBillingPadInformation($id); // get multiuser info
 
+        /**
+         * Búsqueda de resoluciones activas según el prefijo de facturación,
+         * condiciones:
+         * -estar activa
+         * -corresponder con el prefijo de notacrédito de la sede asociada a la factura (campus_billing_pad_credit_note_prefix_id)
+         * -tener consecutivos para facturar
+         * -no haber expirado
+         */
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
@@ -658,11 +765,21 @@ class BillingPadController extends Controller
         }
 
         try {
+
+            /**
+             * validación de conección al sftp
+             */
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
+
+            /**
+             * busqueda de la factura multiusuario a la que se le va a hacer la nota crédito
+             */
             $BillingPadMu = BillingPadMu::find($id);
 
-
+            /**
+             * incremento de consecutivo de facturación, si el consecutivo de facturación es igual al ultimo consecutivo entonces se inactiva automáticamente
+             */
             $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
             if ($consecutive == $BillingPadConsecutive->final_consecutive) {
                 $BillingPadConsecutive->stats_id = 2;
@@ -670,6 +787,9 @@ class BillingPadController extends Controller
             $BillingPadConsecutive->actual_consecutive = $consecutive;
             $BillingPadConsecutive->save();
 
+            /**
+             * Nueva factura nota crédito
+             */
             $NCBillingPadMu = new BillingPadMu;
             $NCBillingPadMu->billing_pad_status_id = 2;
             $NCBillingPadMu->total_value = $BillingPadMu->total_value;
@@ -681,10 +801,17 @@ class BillingPadController extends Controller
             $NCBillingPadMu->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
             $NCBillingPadMu->save();
 
+            /**
+             * asociar nota crédito a la factura original
+             */
             $BillingPadMu->billing_pad_status_id = 4;
             $BillingPadMu->billing_credit_note_id = $NCBillingPadMu->id;
             $BillingPadMu->save();
 
+            /**
+             * identificar las facturas puntuales asociadas a la multiusuario 
+             * con el fin de ponerlas en estado activas
+             */
             $billin_pad_asociated = BillingPad::select('*')
                 ->where('billing_pad_mu_id', $BillingPadMu->id)
                 ->get()->toArray();
@@ -696,6 +823,10 @@ class BillingPadController extends Controller
                 $billin_pad_disasociated->save();
             }
 
+            /**
+             * copiar y asociar servicios correspondientes a la factura multiusuario 
+             * para la nota crédito
+             */
             $AuthBillingPadDelete = AuthBillingPad::with(
                 'authorization',
                 'authorization.location',
@@ -733,6 +864,9 @@ class BillingPadController extends Controller
                 $AuthBillingPad->save();
             }
 
+            /**
+             * registro de log de facturación, se asocia la factura generada con el usuario quien la generó
+             */
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_mu_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -745,6 +879,9 @@ class BillingPadController extends Controller
             $BillingPadNCLog->user_id = Auth::user()->id;
             $BillingPadNCLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(1, $NCBillingPadMu->id);
 
             return response()->json([
@@ -764,7 +901,7 @@ class BillingPadController extends Controller
     }
 
     /**
-     * Get get enabled admissions with their EPS
+     * Get get enabled patients with their EPS
      * 
      * @param Request $request
      * @param int $id
@@ -3032,8 +3169,19 @@ class BillingPadController extends Controller
      */
     public function update(BillingPadRequest $request, int $id): JsonResponse
     {
+        /**
+         * obtener información de la factura
+         */
         $billingInfo = $this->getBillingPadInformation($id);
 
+        /**
+         * Búsqueda de resoluciones activas según el prefijo de facturación,
+         * condiciones:
+         * -estar activa
+         * -corresponder con el prefijo de notacrédito de la sede asociada a la factura (campus_billing_pad_prefix_id)
+         * -tener consecutivos para facturar
+         * -no haber expirado
+         */
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
@@ -3049,10 +3197,22 @@ class BillingPadController extends Controller
         }
 
         try {
+
+            /**
+             * validación de conección al sftp
+             */
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
+
+            /**
+             * eliminación de autorizaciones asociadas a la factura en caso de existir
+             */
             $AuthBillingPadDelete = AuthBillingPad::where('billing_pad_id', $id);
             $AuthBillingPadDelete->delete();
+
+            /**
+             * arreglo de autorizaciones a facturar para ser iteradas
+             */
             $components = json_decode($request->authorizations);
             $total_value = 0;
             foreach ($components as $conponent) {
@@ -3117,6 +3277,9 @@ class BillingPadController extends Controller
                 $total_value += $AuthBillingPad->value;
             }
 
+            /**
+             * incremento de consecutivo de facturación, si el consecutivo de facturación es igual al ultimo consecutivo entonces se inactiva automáticamente
+             */
             $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
             if ($consecutive == $BillingPadConsecutive->final_consecutive) {
                 $BillingPadConsecutive->stats_id = 2;
@@ -3133,12 +3296,18 @@ class BillingPadController extends Controller
             $BillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_prefix_id'];
             $BillingPad->save();
 
+            /**
+             * registro de log de facturación, se asocia la factura generada con el usuario quien la generó
+             */
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 2;
             $BillingPadLog->user_id = $request->user_id;
             $BillingPadLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(1, $id);
 
             return response()->json([
@@ -3159,14 +3328,27 @@ class BillingPadController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * 
+     * notas crédito de facturas unitarias
      *
      * @param  int  $id
      * @return JsonResponse
      */
     public function creditNoteNoPgp(Request $request, int $id): JsonResponse
     {
+        /**
+         * buscar información de la factura referencia
+         */
         $billingInfo = $this->getBillingPadInformation($id);
 
+        /**
+         * Búsqueda de resoluciones activas según el prefijo de facturación,
+         * condiciones:
+         * -estar activa
+         * -corresponder con el prefijo de notacrédito de la sede asociada a la factura (campus_billing_pad_credit_note_prefix_id)
+         * -tener consecutivos para facturar
+         * -no haber expirado
+         */
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
@@ -3182,11 +3364,21 @@ class BillingPadController extends Controller
         }
 
         try {
+
+            /**
+             * validación de conección al sftp
+             */
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
+
+            /**
+             * busqueda de la factura unitaria a la que se le va a hacer la nota crédito
+             */
             $BillingPad = BillingPad::find($id);
 
-
+            /**
+             * incremento de consecutivo de facturación, si el consecutivo de facturación es igual al ultimo consecutivo entonces se inactiva automáticamente
+             */
             $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
             if ($consecutive == $BillingPadConsecutive->final_consecutive) {
                 $BillingPadConsecutive->stats_id = 2;
@@ -3194,6 +3386,9 @@ class BillingPadController extends Controller
             $BillingPadConsecutive->actual_consecutive = $consecutive;
             $BillingPadConsecutive->save();
 
+            /**
+             * Nueva factura nota crédito
+             */
             $NCBillingPad = new BillingPad;
             $NCBillingPad->billing_pad_status_id = 2;
             $NCBillingPad->total_value = $BillingPad->total_value;
@@ -3206,10 +3401,17 @@ class BillingPadController extends Controller
             $NCBillingPad->billing_pad_prefix_id = $billingInfo[0]['campus_billing_pad_credit_note_prefix_id'];
             $NCBillingPad->save();
 
+            /**
+             * asociar nota crédito a la factura original
+             */
             $BillingPad->billing_pad_status_id = 4;
             $BillingPad->billing_credit_note_id = $NCBillingPad->id;
             $BillingPad->save();
 
+            /**
+             * copiar y asociar servicios correspondientes a la factura unitaria 
+             * para la nota crédito
+             */
             $AuthBillingPadDelete = AuthBillingPad::with(
                 'authorization',
                 'authorization.location',
@@ -3234,40 +3436,38 @@ class BillingPadController extends Controller
                     if ($conponent['authorization']['quantity'] >= 1) {
                         $a = $conponent['authorization']['quantity'];
                     }
-                }
-
-                if ($conponent['authorization']['location_id']) {
+                } else if ($conponent['authorization']['location_id']) {
                     $start_date = Carbon::parse($conponent['authorization']['open_date'])->setTimezone('America/Bogota')->startOfDay();
                     $finish_date = /*$conponent['authorization']['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($conponent['authorization']['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : */ ($conponent['authorization']['close_date'] ? Carbon::parse($conponent['authorization']['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
                     $diff = $start_date->diffInDays($finish_date) + 1;
                     $conponent['authorization']['quantity'] = $diff;
                     $a = $conponent['authorization']['quantity'];
 
-                    $Location = Location::find($conponent['authorization']['location_id']);
-                    if ($Location->discharge_date != '0000-00-00 00:00:00') {
-                        $Auth_A = Authorization::find($conponent['authorization_id']);
-                        $Auth_B = new Authorization;
-                        $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
-                        $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
-                        $Auth_B->admissions_id = $Auth_A->admissions_id;
-                        $Auth_B->auth_number = $Auth_A->auth_number;
-                        $Auth_B->authorized_amount = $Auth_A->authorized_amount;
-                        $Auth_B->observation = $Auth_A->observation;
-                        $Auth_B->copay_id = $Auth_A->copay_id;
-                        $Auth_B->quantity = $Auth_A->quantity;
-                        $Auth_B->copay_value = $Auth_A->copay_value;
-                        $Auth_B->auth_status_id = $Auth_A->auth_status_id;
-                        $Auth_B->auth_package_id = $Auth_A->auth_package_id;
-                        $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
-                        $Auth_B->manual_price_id = $Auth_A->manual_price_id;
-                        $Auth_B->application_id = $Auth_A->application_id;
-                        $Auth_B->procedure_id = $Auth_A->procedure_id;
-                        $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
-                        $Auth_B->product_com_id = $Auth_A->product_com_id;
-                        $Auth_B->location_id = $Auth_A->location_id;
-                        $Auth_B->file_auth = $Auth_A->file_auth;
-                        $Auth_B->save();
-                    }
+                    // $Location = Location::find($conponent['authorization']['location_id']);
+                    // if ($Location->discharge_date != '0000-00-00 00:00:00') {
+                    //     $Auth_A = Authorization::find($conponent['authorization_id']);
+                    //     $Auth_B = new Authorization;
+                    //     $Auth_B->services_briefcase_id = $Auth_A->services_briefcase_id;
+                    //     $Auth_B->assigned_management_plan_id = $Auth_A->assigned_management_plan_id;
+                    //     $Auth_B->admissions_id = $Auth_A->admissions_id;
+                    //     $Auth_B->auth_number = $Auth_A->auth_number;
+                    //     $Auth_B->authorized_amount = $Auth_A->authorized_amount;
+                    //     $Auth_B->observation = $Auth_A->observation;
+                    //     $Auth_B->copay_id = $Auth_A->copay_id;
+                    //     $Auth_B->quantity = $Auth_A->quantity;
+                    //     $Auth_B->copay_value = $Auth_A->copay_value;
+                    //     $Auth_B->auth_status_id = $Auth_A->auth_status_id;
+                    //     $Auth_B->auth_package_id = $Auth_A->auth_package_id;
+                    //     $Auth_B->fixed_add_id = $Auth_A->fixed_add_id;
+                    //     $Auth_B->manual_price_id = $Auth_A->manual_price_id;
+                    //     $Auth_B->application_id = $Auth_A->application_id;
+                    //     $Auth_B->procedure_id = $Auth_A->procedure_id;
+                    //     $Auth_B->supplies_com_id = $Auth_A->supplies_com_id;
+                    //     $Auth_B->product_com_id = $Auth_A->product_com_id;
+                    //     $Auth_B->location_id = $Auth_A->location_id;
+                    //     $Auth_B->file_auth = $Auth_A->file_auth;
+                    //     $Auth_B->save();
+                    // }
                 }
 
                 $AuthBillingPad = new AuthBillingPad;
@@ -3281,6 +3481,9 @@ class BillingPadController extends Controller
                 $AuthBillingPad->save();
             }
 
+            /**
+             * registro de log de facturación, se asocia la factura generada con el usuario quien la generó
+             */
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -3293,6 +3496,9 @@ class BillingPadController extends Controller
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(1, $NCBillingPad->id);
 
             return response()->json([
@@ -3312,13 +3518,16 @@ class BillingPadController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Credit note pgp billing.
      *
      * @param  int  $id
      * @return JsonResponse
      */
     public function creditNotePgp(Request $request, int $id): JsonResponse
     {
+        /**
+         * besqueda de sede mediante el id de la factura pgp
+         */
         $campus = Campus::select('campus.*')->with('billing_pad_prefix')
             ->leftJoin('billing_pad_prefix', 'billing_pad_prefix.id', 'campus.billing_pad_prefix_id')
             ->leftJoin('billing_pad_pgp', 'billing_pad_pgp.billing_pad_prefix_id', 'billing_pad_prefix.id')
@@ -3326,6 +3535,14 @@ class BillingPadController extends Controller
             ->groupBy('campus.id')
             ->get()->toArray();
 
+        /**
+         * Búsqueda de resoluciones activas según el prefijo de facturación,
+         * condiciones:
+         * -estar activa
+         * -corresponder con el prefijo de notacrédito de la sede asociada a la factura (billing_pad_credit_note_prefix_id)
+         * -tener consecutivos para facturar
+         * -no haber expirado
+         */
         $BillingPadConsecutive = BillingPadConsecutive::where('status_id', 1)
             ->where('billing_pad_prefix_id', $campus[0]['billing_pad_credit_note_prefix_id'])
             ->where('final_consecutive', '>', 'actual_consecutive')
@@ -3340,19 +3557,34 @@ class BillingPadController extends Controller
             ]);
         }
 
-        $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
-        if ($consecutive == $BillingPadConsecutive->final_consecutive) {
-            $BillingPadConsecutive->stats_id = 2;
-        }
-        $BillingPadConsecutive->actual_consecutive = $consecutive;
-        $BillingPadConsecutive->save();
+        
 
         try {
+
+            /**
+             * validación de conección al sftp
+             */
             if (Storage::disk('sftp')->exists('900900122-7_2021_HUI4379.dat')) {
             }
 
+            /**
+             * incremento de consecutivo de facturación, si el consecutivo de facturación es igual al ultimo consecutivo entonces se inactiva automáticamente
+             */
+            $consecutive = ($BillingPadConsecutive->actual_consecutive == 0 ?  $BillingPadConsecutive->initial_consecutive : $BillingPadConsecutive->actual_consecutive + 1);
+            if ($consecutive == $BillingPadConsecutive->final_consecutive) {
+                $BillingPadConsecutive->stats_id = 2;
+            }
+            $BillingPadConsecutive->actual_consecutive = $consecutive;
+            $BillingPadConsecutive->save();
+
+            /**
+             * busqueda de la factura pgp a la que se le va a hacer la nota crédito
+             */
             $BillingPadPgp = BillingPadPgp::find($id);
 
+            /**
+             * Nueva factura nota crédito
+             */
             $NCBillingPadPgp = new BillingPadPgp;
             $NCBillingPadPgp->total_value = $BillingPadPgp->total_value;
             $NCBillingPadPgp->contract_id = $BillingPadPgp->contract_id;
@@ -3364,6 +3596,9 @@ class BillingPadController extends Controller
             $NCBillingPadPgp->facturation_date = Carbon::now()->setTimezone('America/Bogota');
             $NCBillingPadPgp->save();
 
+            /**
+             * asociar nota crédito a la factura original
+             */
             $BillingPadPgp->billing_pad_status_id = 4;
             $BillingPadPgp->billing_credit_note_id = $NCBillingPadPgp->id;
             $BillingPadPgp->save();
@@ -3386,6 +3621,9 @@ class BillingPadController extends Controller
                 $BillingPad->save();
             }
 
+            /**
+             * registro de log de facturación, se asocia la factura generada con el usuario quien la generó
+             */
             $BillingPadLog = new BillingPadLog;
             $BillingPadLog->billing_pad_pgp_id = $id;
             $BillingPadLog->billing_pad_status_id = 4;
@@ -3398,6 +3636,9 @@ class BillingPadController extends Controller
             $BillingPadNCLog->user_id = $request->user_id;
             $BillingPadNCLog->save();
 
+            /**
+             * generar archivo .DAT para facturación
+             */
             $this->generateBillingDat(2, $NCBillingPadPgp->id);
 
             return response()->json([
@@ -3441,13 +3682,24 @@ class BillingPadController extends Controller
     }
 
     /**
-     * Generate PDF file with all information of the account receivable
+     * Generate .DAT file with all information of the billing
      * 
      * @param  int  $id
-     * @param  int  $bill_type 1 = no pgp ; 2 = pgp
+     * @param  int  $bill_type 1 = unitaria ; 2 = pgp ; 3 = Mu
      */
     public function generateBillingDat(int $bill_type, int $id): JsonResponse
     {
+        
+        /**
+         * busqueda de información de la factura dependiendo del tipo de factura
+         * bill_type:
+         * 1 = unitaria
+         * 2 = pgp
+         * 3 = Mu
+         * 
+         * identificar en la variable BillingPadCreditNote la información de nota crédito 
+         * en el caso de serlo
+         */
         $BillingPadCreditNote = null;
         if ($bill_type == 1) {
             $BillingPadAux = BillingPad::where('id', $id)->with('its_credit_note')->get()->first();
@@ -3475,6 +3727,11 @@ class BillingPadController extends Controller
             }
         }
 
+        /**
+         * busqueda de la información del facturador, 
+         * en el caso de no encontrar por defecto será
+         * la doctoria MARIANA RODRIGUEZ
+         */
         $billMaker = BillingPadLog::select(
             'users.firstname AS billing_maker_firstname',
             'users.lastname AS billing_maker_lastname',
@@ -3488,6 +3745,9 @@ class BillingPadController extends Controller
             $billMakerName = $this->nameBuilder('MARIANA', null, 'RODRIGUEZ', null);
         }
 
+        /**
+         * busqueda de información de la eps a la que pertenece la factura
+         */
         $CompanyLocationInfo = Company::where('company.id', $BillingPad[0]['eps_id'])
             ->select(
                 'company.registration AS eps_registration',
@@ -3515,6 +3775,11 @@ class BillingPadController extends Controller
         $payer_fiscal_characteristics = '';
         $user_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $BillingPad[0]['user_departament_code'] : $BillingPad[0]['user_departament_code']);
         $eps_name = '';
+
+        /**
+         * captura de información de quien paga
+         * por ahora siempre será la eps ya que los copagos no se envían a la DIAN
+         */
         if ($copago && $bill_type == 1) {
             $payer_type = '2';
             $payer_identification = $BillingPad[0]['identification'];
@@ -3541,10 +3806,16 @@ class BillingPadController extends Controller
             $payer_city_code = $CompanyLocationInfo[0]['company_city_code'] ? $CompanyLocationInfo[0]['company_city_code'] : '11001';
         }
 
+        /**
+         * camptura del nombre completo y el documento con su tipo
+         */
         $full_name = $bill_type == 1 ? $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']) : ($bill_type == 3 ? "VARIOS" : "");
         $full_identification = $bill_type == 1 ? $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] : "";
 
-
+        /**
+         * búsqueda de servicios facturados sin agrupar, esto solo en el caso de ser factura multiusuario o unitaria
+         * las pgp no relacionan los servicios facturados
+         */
         $copay_total = 0;
         $cuota_mod_total = 0;
         if ($bill_type == 1 || $bill_type == 3) {
@@ -3559,6 +3830,12 @@ class BillingPadController extends Controller
             } else if ($bill_type == 3) {
                 $components = AuthBillingPad::where('billing_pad_mu_id', $id)->get()->toArray();
             }
+            /**
+             * iteración de los servicios asociados a la factura para capturar múltiples datos:
+             * - nombre de algún asistencial que haya atendido al paciente (assistance_name)
+             * - fechas de ejecución de cada una de las atenciones facturadas (services_date)
+             * - servicios sin agrupar
+             */
             foreach ($components as $component) {
                 $Auth = Authorization::where('authorization.id', $component['authorization_id'])
                     ->select(
@@ -3631,6 +3908,8 @@ class BillingPadController extends Controller
                 } else {
                     $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
                         ->select(
+                            'authorization.*',
+                            'authorization.id AS authorization_id',
                             'authorization.auth_number AS auth_number',
                             'authorization.quantity AS quantity',
                             'authorization.open_date AS open_date',
@@ -3705,6 +3984,13 @@ class BillingPadController extends Controller
                     }
                 }
 
+                /**
+                 * tratamiento de la autorización para capturar datos relevantes para la factura:
+                 * - nombre del servicio
+                 * - codigo del servicio
+                 * - valor unitario
+                 * - cantidad (por defecto será 1 a menos que la autorización indique una cantidad mayor)
+                 */
                 $q = 1;
                 if ($Auth[0]['quantity']) {
                     $q = $Auth[0]['quantity'];
@@ -3737,10 +4023,17 @@ class BillingPadController extends Controller
                     }
                 }
             }
+
+            /**
+             * organización de los servicios capturados por nombre y código
+             */
             $service_column  = array_column($services, 'service');
             $code_column  = array_column($services, 'code');
             array_multisort($service_column, SORT_DESC, $code_column, SORT_ASC, $services);
 
+            /**
+             * en caso de contar con servicios facturados se realiza la agrupación de servicios equivalentes en line_service
+             */
             if (count($services) > 0) {
                 $line_service = array();
                 $line_service_aux = array();
@@ -3783,6 +4076,10 @@ class BillingPadController extends Controller
                         $j++;
                     }
                 }
+
+                /**
+                 * creación de líneas de servicios para el archivo .DAT con respecto a los servicios agrupados en line_service
+                 */
                 $consec = 1;
                 foreach ($line_service as $sss) {
                     $line = $consec . ';' . $sss['service'] . ';999;' . $sss['code'] . ';94;;;;' . $sss['amount'] . ';' . $sss['value_unid'] . ';' . $sss['value'] . ';0;0;' . $sss['value'] . ';0;0;01';
@@ -3797,6 +4094,10 @@ class BillingPadController extends Controller
             }
 
             $file = [];
+
+            /**
+             * organización de fechas de atención con el fin de seleccionar primera y última fecha de ejecución
+             */
             $collection = collect($services_date);
             $sortDates = $collection->sort()->toArray();
             $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
@@ -3805,19 +4106,33 @@ class BillingPadController extends Controller
                 $assistance_name = $b != '' ? $b : 'MARIANA RODRIGUEZ';
             }
         }
+
+        /**
+         * captura de datos de fecha de expiración de factura, año de la factura y fecha actual
+         */
         $now_date = Carbon::now()->setTimezone('America/Bogota');
         $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
         $year = Carbon::parse($BillingPad[0]['billing_facturation_date'])->setTimezone('America/Bogota')->year;
 
 
-        $common_first_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
+        /**
+         * construcción de las primera y segunda línea del documento .DAT,
+         * en todo caso, la primera y segunda línea tienen exactamente la misma información sin importar el tipo de factura a menos que sea nota crédito
+         */
+        $name_number = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
+        $common_first_line = $name_number . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
         $common_secont_line = ';;;';
 
-        $name_number = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
+        /**
+         * En caso de que en el paso anterior donde se captura el nombre del asistencial no haya sido exitoso, por defecto se le asignará el nombre de la gerente "MARIANA RODRIGUEZ"
+         */
         if ($assistance_name == '') {
             $assistance_name = 'MARIANA RODRIGUEZ';
         }
 
+        /**
+         * en caso de ser factura multiusuario el nombre del asistencial se asigna como "VARIOS"
+         */
         if ($bill_type == 3) {
             $assistance_name = 'VARIOS';
         }
@@ -3836,15 +4151,23 @@ ANTICIPOS;' . ($copay_total + $cuota_mod_total) . ';;' . ($copay_total + $cuota_
             }
         }
 
-
+        /**
+         * conversión del valor numérico de la factura a letras
+         */
         $totalToPay = $this->NumToLetters(($BillingPad[0]['billing_total_value'] - ($copay_total + $cuota_mod_total)));
 
+        /**
+         * en caso de ser nota crédito se modifica un poco la primera y segunda línea de factura, ya que hace referencia a una factura original
+         */
         if ($BillingPadCreditNote) {
-            $common_first_line = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'] . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;2;' . $BillingPad[0]['billing_resolution'];
-            $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
             $name_number = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'];
+            $common_first_line = $name_number . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;2;' . $BillingPad[0]['billing_resolution'];
+            $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
         }
 
+        /**
+         * creación de archivo .DAT identificando las facturas PGP y las no PGP
+         */
         if ($bill_type == 1 || $bill_type == 3) {
             // FACTURAS NO PGP
             $file_no_pgp = [
@@ -3882,11 +4205,19 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         }
 
 
-
-
+        /**
+         * creación del nombre del documento .DAT
+         */
         $name = '900900122-7_' . $year . '_' . $name_number . '.dat';
 
+        /**
+         * giardado del documento de manera local
+         */
         Storage::disk('public')->put($name, $file);
+
+        /**
+         * guardado del documento en el SFTP
+         */
         Storage::disk('sftp')->put($name, $file[0]);
 
         return response()->json([
@@ -3896,6 +4227,553 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         ]);
     }
 
+    /**
+     * Copy from generateBillingDat to make tests
+     * 
+     * @param  int  $id
+     * @param  int  $bill_type 1 = no pgp ; 2 = pgp ; 3 = Mu
+     */
+    public function testBillingDat(int $bill_type, int $id): JsonResponse
+    {
+        /**
+         * variable de prueba que permite validar el contenido de diferentes variables en prod.
+         */
+        $test_variable = '--';
+
+        /**
+         * busqueda de información de la factura dependiendo del tipo de factura
+         * bill_type:
+         * 1 = unitaria
+         * 2 = pgp
+         * 3 = Mu
+         * 
+         * identificar en la variable BillingPadCreditNote la información de nota crédito 
+         * en el caso de serlo
+         */
+        $BillingPadCreditNote = null;
+        if ($bill_type == 1) {
+            $BillingPadAux = BillingPad::where('id', $id)->with('its_credit_note')->get()->first();
+            if ($BillingPadAux->its_credit_note) {
+                $BillingPadCreditNote = $this->getBillingPadInformation($BillingPadAux->id);
+                $BillingPad = $this->getBillingPadInformation($BillingPadAux->its_credit_note->id);
+            } else {
+                $BillingPad = $this->getBillingPadInformation($id);
+            }
+        } else if ($bill_type == 2) {
+            $BillingPadAux = BillingPadPgp::where('id', $id)->with('its_credit_note')->get()->first();
+            if ($BillingPadAux->its_credit_note) {
+                $BillingPadCreditNote = $this->getBillingPadPgpInformation($BillingPadAux->id);
+                $BillingPad = $this->getBillingPadPgpInformation($BillingPadAux->its_credit_note->id);
+            } else {
+                $BillingPad = $this->getBillingPadPgpInformation($id);
+            }
+        } else if ($bill_type == 3) {
+            $BillingPadAux = BillingPadMu::where('id', $id)->with('its_credit_note')->get()->first();
+            if ($BillingPadAux->its_credit_note) {
+                $BillingPadCreditNote = $this->getBillingPadMuInformation($BillingPadAux->id);
+                $BillingPad = $this->getBillingPadMuInformation($BillingPadAux->its_credit_note->id);
+            } else {
+                $BillingPad = $this->getBillingPadMuInformation($id);
+            }
+        }
+
+        /**
+         * busqueda de la información del facturador, 
+         * en el caso de no encontrar por defecto será
+         * la doctoria MARIANA RODRIGUEZ
+         */
+        $billMaker = BillingPadLog::select(
+            'users.firstname AS billing_maker_firstname',
+            'users.lastname AS billing_maker_lastname',
+        )
+            ->leftJoin('users', 'users.id', 'billing_pad_log.user_id')
+            ->where('billing_pad_log.billing_pad_id', $id)
+            ->get()->toArray();
+        if ($billMaker) {
+            $billMakerName = $this->nameBuilder($billMaker[0]['billing_maker_firstname'], null, $billMaker[0]['billing_maker_lastname'], null);
+        } else {
+            $billMakerName = $this->nameBuilder('MARIANA', null, 'RODRIGUEZ', null);
+        }
+
+        /**
+         * busqueda de información de la eps a la que pertenece la factura
+         */
+        $CompanyLocationInfo = Company::where('company.id', $BillingPad[0]['eps_id'])
+            ->select(
+                'company.registration AS eps_registration',
+                'region.code AS eps_departament_code',
+                'identification_type.code AS eps_identification_type',
+                'municipality.sga_origin_fk AS company_city_code',
+            )
+            ->leftJoin('region', 'region.id', 'company.city_id')
+            ->leftJoin('municipality', 'municipality.id', 'company.municipality_id')
+            ->leftJoin('identification_type', 'identification_type.id', 'company.identification_type_id')
+            ->groupBy('company.id')
+            ->get()->toArray();
+
+        $copago = false; // VALIDAR SI ES UN COPAGO
+        $payer_type = '';
+        $payer_identification = '';
+        $payer_identification_type = '';
+        $payer_firstname = '';
+        $payer_lastname = '';
+        $payer_middlelastname = '';
+        $payer_email = '';
+        $payer_phone = '';
+        $payer_address = '';
+        $payer_registration = '';
+        $payer_fiscal_characteristics = '';
+        $user_departament_code = ($BillingPad[0]['user_departament_code'] == 5 || $BillingPad[0]['user_departament_code'] == 8 ? "0" . $BillingPad[0]['user_departament_code'] : $BillingPad[0]['user_departament_code']);
+        $eps_name = '';
+
+        /**
+         * captura de información de quien paga
+         * por ahora siempre será la eps ya que los copagos no se envían a la DIAN
+         */
+        if ($copago && $bill_type == 1) {
+            $payer_type = '2';
+            $payer_identification = $BillingPad[0]['identification'];
+            $payer_identification_type = $BillingPad[0]['patient_identification_type'];
+            $payer_firstname = $BillingPad[0]['firstname'];
+            $payer_lastname = $BillingPad[0]['lastname'];
+            $payer_middlelastname = $BillingPad[0]['middlelastname'];
+            $payer_email = $BillingPad[0]['email'];
+            $payer_phone = $BillingPad[0]['phone'];
+            $payer_address = $BillingPad[0]['residence_address'];
+            $payer_departament_code = $user_departament_code;
+            $payer_city_code = $BillingPad[0]['user_city_code'];
+        } else {
+            $payer_registration = $CompanyLocationInfo[0]['eps_registration'];
+            $payer_fiscal_characteristics = 'O-13';
+            $payer_type = '1';
+            $payer_identification = $BillingPad[0]['eps_identification'];
+            $payer_identification_type = $this->getDocTipe($CompanyLocationInfo[0]['eps_identification_type']);
+            $eps_name = $BillingPad[0]['eps_name'];
+            $payer_email = $BillingPad[0]['eps_mail'];
+            $payer_phone = $BillingPad[0]['eps_phone'];
+            $payer_address = $BillingPad[0]['eps_address'];
+            $payer_departament_code = ($CompanyLocationInfo[0]['eps_departament_code'] == 5 || $CompanyLocationInfo[0]['eps_departament_code'] == 8 ? "0" . $CompanyLocationInfo[0]['eps_departament_code'] : $CompanyLocationInfo[0]['eps_departament_code']);
+            $payer_city_code = $CompanyLocationInfo[0]['company_city_code'] ? $CompanyLocationInfo[0]['company_city_code'] : '11001';
+        }
+
+        /**
+         * camptura del nombre completo y el documento con su tipo
+         */
+        $full_name = $bill_type == 1 ? $this->nameBuilder($BillingPad[0]['firstname'], $BillingPad[0]['middlefirstname'], $BillingPad[0]['lastname'], $BillingPad[0]['middlelastname']) : ($bill_type == 3 ? "VARIOS" : "");
+        $full_identification = $bill_type == 1 ? $BillingPad[0]['patient_identification_type'] . ' ' . $BillingPad[0]['identification'] : "";
+
+        /**
+         * búsqueda de servicios facturados sin agrupar, esto solo en el caso de ser factura multiusuario o unitaria
+         * las pgp no relacionan los servicios facturados
+         */
+        $copay_total = 0;
+        $cuota_mod_total = 0;
+        if ($bill_type == 1 || $bill_type == 3) {
+            $consecutivo = 1;
+            $services = array();
+            $billing_line = '';
+            $assistance_name = '';
+            $b = '';
+            $services_date = array();
+            if ($bill_type == 1) {
+                $components = AuthBillingPad::where('billing_pad_id', $id)->get()->toArray();
+            } else if ($bill_type == 3) {
+                $components = AuthBillingPad::where('billing_pad_mu_id', $id)->get()->toArray();
+            }
+            /**
+             * iteración de los servicios asociados a la factura para capturar múltiples datos:
+             * - nombre de algún asistencial que haya atendido al paciente (assistance_name)
+             * - fechas de ejecución de cada una de las atenciones facturadas (services_date)
+             * - servicios sin agrupar
+             */
+            foreach ($components as $component) {
+                $Auth = Authorization::where('authorization.id', $component['authorization_id'])
+                    ->select(
+                        'authorization.*',
+                        'authorization.id AS authorization_id',
+                        'authorization.quantity AS quantity',
+                        'authorization.location_id AS location_id',
+                        'authorization.created_at AS created_at',
+                        'authorization.open_date AS open_date',
+                        'authorization.close_date AS close_date',
+                        'authorization.auth_number AS auth_number',
+                        'authorization.observation AS observation',
+                        'authorization.file_auth AS file_auth',
+                        'authorization.services_briefcase_id AS services_briefcase_id',
+                        'authorization.assigned_management_plan_id AS assigned_management_plan_id',
+                        'authorization.admissions_id AS admissions_id',
+                        'authorization.authorized_amount AS authorized_amount',
+                        'authorization.auth_status_id AS auth_status_id',
+                        'authorization.auth_package_id AS auth_package_id',
+                        'authorization.manual_price_id AS manual_price_id',
+                    )
+                    ->with(
+                        'location',
+                        'ch_interconsultation',
+                        'ch_interconsultation.many_ch_record',
+                'applications',
+                        'services_briefcase',
+                        'services_briefcase.manual_price',
+                        'product_com',
+                        'supplies_com',
+                        'services_briefcase.manual_price.procedure',
+                        'assigned_management_plan',
+                        'assigned_management_plan.user',
+                        'assigned_management_plan.management_plan',
+                        'assigned_management_plan.management_plan.service_briefcase',
+                        'assigned_management_plan.management_plan.procedure',
+                        'manual_price',
+                        'manual_price.procedure',
+                        'copay',
+                    )
+                    ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+                    ->groupBy('authorization.id')
+                    ->get()->toArray();
+
+                if ($Auth[0]['assigned_management_plan'] != null) {
+                    array_push($services_date, $Auth[0]['assigned_management_plan']['execution_date']);
+                    if ($assistance_name == '') {
+                        if ($Auth[0]['assigned_management_plan']['user']) {
+                            $assistance_name = $Auth[0]['assigned_management_plan']['user']['firstname'] . ' ' . $Auth[0]['assigned_management_plan']['user']['lastname'];
+                        }
+                    }
+                } else if ($Auth[0]['location_id'] != null) {
+                    $A = Carbon::parse($Auth[0]['open_date'])->setTimezone('America/Bogota');
+                    $AA = /*$Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota') : */ ($Auth[0]['close_date'] ? Carbon::parse($Auth[0]['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota'));
+                    $b = '';
+                    if ($assistance_name == '') {
+                        $assistance_name = $b != null ? $b : '';
+                    }
+                    array_push($services_date, $A);
+                    array_push($services_date, $AA);
+                } else if ($Auth[0]['ch_interconsultation'] != null) {
+                    foreach ($Auth[0]['ch_interconsultation']['many_ch_record'] as $rec) {
+                        if ($rec['status'] === 'CERRADO') {
+                            array_push($services_date, $rec['date_finish']);
+                            if ($assistance_name == '') {
+                                $assistance_name = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                            }
+                        }
+                    }
+                } else {
+                    $packedAuths = Authorization::where('authorization.auth_package_id', $Auth[0]['authorization_id'])
+                        ->select(
+                            'authorization.*',
+                            'authorization.id AS authorization_id',
+                            'authorization.auth_number AS auth_number',
+                            'authorization.quantity AS quantity',
+                            'authorization.open_date AS open_date',
+                            'authorization.close_date AS close_date',
+                            'authorization.location_id AS location_id',
+                            'authorization.created_at AS created_at',
+                            'authorization.observation AS observation',
+                            'authorization.file_auth AS file_auth',
+                            'authorization.services_briefcase_id AS services_briefcase_id',
+                            'authorization.assigned_management_plan_id AS assigned_management_plan_id',
+                            'authorization.admissions_id AS admissions_id',
+                            'authorization.authorized_amount AS authorized_amount',
+                            'authorization.auth_status_id AS auth_status_id',
+                            'authorization.auth_package_id AS auth_package_id',
+                            'authorization.manual_price_id AS manual_price_id',
+                        )
+                        ->with(
+                            'services_briefcase',
+                            'services_briefcase.manual_price',
+                            'product_com',
+                            'location',
+                            'ch_interconsultation',
+                            'ch_interconsultation.many_ch_record',
+                'applications',
+                            'supplies_com',
+                            'services_briefcase.manual_price.procedure',
+                            'assigned_management_plan',
+                            'assigned_management_plan.management_plan',
+                            'assigned_management_plan.user',
+                            'assigned_management_plan.management_plan.service_briefcase',
+                            'assigned_management_plan.management_plan.procedure',
+                            'manual_price',
+                            'manual_price.procedure',
+                            'copay',
+                        )
+                        ->leftJoin('services_briefcase', 'authorization.services_briefcase_id', 'services_briefcase.id')
+                        ->groupBy('authorization.id')
+                        ->get()->toArray();
+                    foreach ($packedAuths as $element) {
+                        if ($element['assigned_management_plan']) {
+                            try {
+                                $A = $element['assigned_management_plan']['execution_date'] ? $element['assigned_management_plan']['execution_date'] : null;
+                                $b = $element['assigned_management_plan']['user']['firstname'] . ' ' . $element['assigned_management_plan']['user']['lastname'];;
+                                if ($assistance_name == '') {
+                                    $assistance_name = $b;
+                                }
+                                if ($A) {
+                                    array_push($services_date, $A);
+                                }
+                            } catch (QueryException $e) {
+                            }
+                        } else if ($element['ch_interconsultation']) {
+                            foreach ($element['ch_interconsultation']['many_ch_record'] as $rec) {
+                                if ($rec['status'] === 'CERRADO') {
+                                    $A = $rec['date_finish'];
+                                    $b = $rec['user']['firstname'] . ' ' . $rec['user']['lastname'];
+                                    if ($assistance_name == '') {
+                                        $assistance_name = $b != null ? $b : '';
+                                    }
+                                    array_push($services_date, $A);
+                                }
+                            }
+                        }
+
+                        if ($element['copay']) {
+                            if ($element['copay']['payment_type_id'] == 1) {
+                                $cuota_mod_total += $element['copay_value'];
+                            } else if ($element['copay']['payment_type_id'] == 2) {
+                                $copay_total += $element['copay_value'];
+                            }
+                        }
+                    }
+                }
+
+                /**
+                 * tratamiento de la autorización para capturar datos relevantes para la factura:
+                 * - nombre del servicio
+                 * - codigo del servicio
+                 * - valor unitario
+                 * - cantidad (por defecto será 1 a menos que la autorización indique una cantidad mayor)
+                 */
+                $q = 1;
+                if ($Auth[0]['quantity']) {
+                    $q = $Auth[0]['quantity'];
+                } else if ($Auth[0]['location_id']) {
+                    $start_date = Carbon::parse($Auth[0]['open_date'])->setTimezone('America/Bogota')->startOfDay();
+                    $finish_date = /*$Auth[0]['location']['discharge_date'] != '0000-00-00 00:00:00' ? Carbon::parse($Auth[0]['location']['discharge_date'])->setTimezone('America/Bogota')->startOfDay() : */ ($Auth[0]['close_date'] ? Carbon::parse($Auth[0]['close_date'])->setTimezone('America/Bogota')->startOfDay() : Carbon::now()->setTimezone('America/Bogota')->startOfDay());
+                    $diff = $start_date->diffInDays($finish_date) + 1;
+                    $Auth[0]['quantity'] = $diff;
+                    $q = $Auth[0]['quantity'];
+                }
+                $value = $Auth[0]['services_briefcase']['value'] * $q;
+                $quantity = $q;
+                $service = $Auth[0]['services_briefcase']['manual_price']['name'];
+                $code = $Auth[0]['services_briefcase']['manual_price']['own_code'] ?
+                    $Auth[0]['services_briefcase']['manual_price']['own_code'] : ($Auth[0]['supplies_com'] ?
+                        $Auth[0]['supplies_com']['code_udi'] :
+                        $Auth[0]['product_com']['code_cum']);
+
+                $services[$consecutivo]['value'] = $value;
+                $services[$consecutivo]['quantity'] = $quantity;
+                $services[$consecutivo]['service'] = $service;
+                $services[$consecutivo]['code'] = $code;
+                $consecutivo++;
+
+                if ($Auth[0]['copay']) {
+                    if ($Auth[0]['copay']['payment_type_id'] == 1) {
+                        $cuota_mod_total += $Auth[0]['copay_value'];
+                    } else if ($Auth[0]['copay']['payment_type_id'] == 2) {
+                        $copay_total += $Auth[0]['copay_value'];
+                    }
+                }
+            }
+
+            /**
+             * organización de los servicios capturados por nombre y código
+             */
+            $service_column  = array_column($services, 'service');
+            $code_column  = array_column($services, 'code');
+            array_multisort($service_column, SORT_DESC, $code_column, SORT_ASC, $services);
+
+            /**
+             * en caso de contar con servicios facturados se realiza la agrupación de servicios equivalentes en line_service
+             */
+            if (count($services) > 0) {
+                $line_service = array();
+                $line_service_aux = array();
+                // $line_service[0]['value'] = $services[0]['value'];
+                // $line_service[0]['value_unid'] = $services[0]['value'];
+                // $line_service[0]['amount'] = 1;
+                // $line_service[0]['service'] = $services[0]['service'];
+                // $line_service[0]['code'] = $services[0]['code'];
+                // $line_service_aux = $line_service;
+                foreach ($services as $s) {
+                    $service_column  = array_column($line_service, 'service');
+                    $exist = false;
+                    foreach ($service_column as $c) {
+                        if ($c == $s['service']) {
+                            $exist = true;
+                        }
+                    }
+
+                    if ($exist) {
+                        for ($i = 0; $i < count($line_service); $i++) {
+                            if ($line_service[$i]['service'] == $s['service']) {
+                                $line_service_aux[$i]['value'] += $s['value'];
+                                $line_service_aux[$i]['amount'] += $s['quantity'];
+                            }
+                        }
+                    } else {
+                        $a['value'] = $s['value'];
+                        $a['value_unid'] = 0;
+                        $a['amount'] = $s['quantity'];
+                        $a['service'] = $s['service'];
+                        $a['code'] = $s['code'];
+                        array_push($line_service_aux, $a);
+                    }
+                    $line_service = $line_service_aux;
+                }
+                if (count($line_service) > 0) {
+                    $j = 0;
+                    foreach ($line_service as $e) {
+                        $line_service[$j]['value_unid'] = ($e['value'] / $e['amount']);
+                        $j++;
+                    }
+                }
+
+                /**
+                 * creación de líneas de servicios para el archivo .DAT con respecto a los servicios agrupados en line_service
+                 */
+                $consec = 1;
+                foreach ($line_service as $sss) {
+                    $line = $consec . ';' . $sss['service'] . ';999;' . $sss['code'] . ';94;;;;' . $sss['amount'] . ';' . $sss['value_unid'] . ';' . $sss['value'] . ';0;0;' . $sss['value'] . ';0;0;01';
+                    if (strlen($billing_line) == 0) {
+                        $billing_line = $line;
+                    } else {
+                        $billing_line = $billing_line . '
+' . $line;
+                    }
+                    $consec++;
+                }
+            }
+
+            $file = [];
+
+            /**
+             * organización de fechas de atención con el fin de seleccionar primera y última fecha de ejecución
+             */
+            $collection = collect($services_date);
+            $sortDates = $collection->sort()->toArray();
+            $first_date = (count($sortDates) > 0 ? substr($sortDates[0], 0, 10) : '');
+            $last_date = (count($sortDates) > 0 ? substr($sortDates[count($sortDates) - 1], 0, 10) : '');
+            if ($assistance_name == '') {
+                $assistance_name = $b != '' ? $b : 'MARIANA RODRIGUEZ';
+            }
+        }
+
+        /**
+         * captura de datos de fecha de expiración de factura, año de la factura y fecha actual
+         */
+        $now_date = Carbon::now()->setTimezone('America/Bogota');
+        $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
+        $year = Carbon::parse($BillingPad[0]['billing_facturation_date'])->setTimezone('America/Bogota')->year;
+
+
+        /**
+         * construcción de las primera y segunda línea del documento .DAT,
+         * en todo caso, la primera y segunda línea tienen exactamente la misma información sin importar el tipo de factura a menos que sea nota crédito
+         */
+        $name_number = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'];
+        $common_first_line = $name_number . ';;FA;01;10;' . $BillingPad[0]['billing_prefix'] . ';COP;' . $BillingPad[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;;' . $BillingPad[0]['billing_resolution'];
+        $common_secont_line = ';;;';
+
+        /**
+         * En caso de que en el paso anterior donde se captura el nombre del asistencial no haya sido exitoso, por defecto se le asignará el nombre de la gerente "MARIANA RODRIGUEZ"
+         */
+        if ($assistance_name == '') {
+            $assistance_name = 'MARIANA RODRIGUEZ';
+        }
+
+        /**
+         * en caso de ser factura multiusuario el nombre del asistencial se asigna como "VARIOS"
+         */
+        if ($bill_type == 3) {
+            $assistance_name = 'VARIOS';
+        }
+
+        //linea de salud para facturación por paciene o anticipos para factura multiusuario
+        $linea_salud_anticipos = "";
+        if ($bill_type == 1) {
+            $linea_salud_anticipos = '
+SALUD;SS-SinAporte;' . $BillingPad[0]['patient_admission_enable_code'] . ';' . (strlen($BillingPad[0]['patient_identification_type']) == 2 ? $BillingPad[0]['patient_identification_type'] : 'SI') . ';' . $BillingPad[0]['identification'] . ';' . $BillingPad[0]['lastname'] . ';' . $BillingPad[0]['middlelastname'] . ';' . $BillingPad[0]['firstname'] . ';' . $BillingPad[0]['middlefirstname'] . ';' . $BillingPad[0]['regimen_code'] . ';04;' . $BillingPad[0]['coverage_code'] . ';;;;' . $BillingPad[0]['number_contract'] . ';;' . $first_date . ';' . $last_date . ';' . $copay_total . ';' . $cuota_mod_total . ';0;0;;;;;;;';
+        } else if ($bill_type == 3) {
+            if (($copay_total + $cuota_mod_total) == 0) {
+                $linea_salud_anticipos = '';
+            } else {
+                $linea_salud_anticipos = '
+ANTICIPOS;' . ($copay_total + $cuota_mod_total) . ';;' . ($copay_total + $cuota_mod_total) . ';;;';
+            }
+        }
+
+        /**
+         * conversión del valor numérico de la factura a letras
+         */
+        $totalToPay = $this->NumToLetters(($BillingPad[0]['billing_total_value'] - ($copay_total + $cuota_mod_total)));
+
+        /**
+         * en caso de ser nota crédito se modifica un poco la primera y segunda línea de factura, ya que hace referencia a una factura original
+         */
+        if ($BillingPadCreditNote) {
+            $name_number = $BillingPadCreditNote[0]['billing_prefix'] . $BillingPadCreditNote[0]['billing_consecutive'];
+            $common_first_line = $name_number . ';;NC;91;20;' . $BillingPadCreditNote[0]['billing_prefix'] . ';COP;' . $BillingPadCreditNote[0]['billing_facturation_date'] . ';;;;;' . $BillingPad[0]['billing_prefix'] . ';;' . $expiracy_date . ';;2;' . $BillingPad[0]['billing_resolution'];
+            $common_secont_line = $BillingPad[0]['billing_prefix'] . $BillingPad[0]['billing_consecutive'] . ';;' . $BillingPadAux->facturation_date . ';FA';
+        }
+
+        /**
+         * creación de archivo .DAT identificando las facturas PGP y las no PGP
+         */
+        if ($bill_type == 1 || $bill_type == 3) {
+            // FACTURAS NO PGP
+            $file_no_pgp = [
+                $common_first_line . ';;;;;' . $BillingPad[0]['patient_admission_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+' . $common_secont_line . '
+900900122-7;;;;;;;;;;;;;;;;;;;
+' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
+' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
+' . $BillingPad[0]['billing_total_value'] . ';0;0;01
+;;;
+A;' . $BillingPad[0]['briefcase_name'] . ';1;A;;2;A;' . $full_name . ';3;A;' . $full_identification . ';4;A;' . $assistance_name . ';5;A;;6;A;' . $first_date . ';7;A;' . $last_date . ';8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
+2;1;;;;' . $expiracy_date . '
+;;;
+' . $linea_salud_anticipos . '
+' . $billing_line,
+            ];
+            $file = $file_no_pgp;
+        } else if ($bill_type == 2) {
+            // FACTURAS PGP
+            $file_pgp = [
+                $common_first_line . ';;;;;' . $BillingPad[0]['campus_address'] . ';' . $user_departament_code . ';' . $BillingPad[0]['user_city_code'] . ';;' . $BillingPad[0]['user_city_code'] . ';CO;
+' . $common_secont_line . '
+900900122-7;;;;;;;;;;;;;;;;;;;
+' . $payer_identification . ';' . $payer_identification_type . ';49;' . $eps_name . ';' . $payer_firstname . ';' . $payer_lastname . ';' . $payer_middlelastname . ';' . $payer_type . ';' . $payer_address . ';' . $payer_departament_code . ';' . $payer_city_code . ';;' . $payer_city_code . ';' . $payer_phone . ';' . $payer_email . ';CO;' . $payer_registration . ';' . $payer_fiscal_characteristics . ';;
+' . $BillingPad[0]['billing_total_value'] . ';0;0;;0;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . '
+' . $BillingPad[0]['billing_total_value'] . ';0;0;01
+;;;
+A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' . $billMakerName . ';12;A;' . $BillingPad[0]['user_city_name'] . ';13;A;' . $BillingPad[0]['regimen_name'] . ';14
+2;1;;;;' . $expiracy_date . '
+;;;
+
+1;' . $BillingPad[0]['contract_objective'] . ';999;1-' . $BillingPad[0]['regimen_name'] . ';94;;;;1;' . $BillingPad[0]['billing_total_value'] . ';' . $BillingPad[0]['billing_total_value'] . ';0;0;' . $BillingPad[0]['billing_total_value'] . ';0;0;01',
+            ];
+            $file = $file_pgp;
+        }
+
+        /**
+         * creación del nombre del documento para test
+         */
+        $name = 'TEST_' . $year . '_' . $name_number . '.dat';
+
+        // Storage::disk('public')->put($name, $file);
+        // Storage::disk('sftp')->put($name, $file[0]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Factura generada exitosamente',
+            'test_variable' => $test_variable,
+            'name' => $name,
+            'content' => $file,
+        ]);
+    }
+
+    /**
+     * Get information from unitary billings
+     */
     public function getBillingPadInformation(int $billing_id): array
     {
         $respose = array();
@@ -3967,6 +4845,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return $respose;
     }
 
+    /**
+     * get info from PGP billings
+     */
     public function getBillingPadPgpInformation(int $billing_pgp_id): array
     {
         $respose = array();
@@ -4016,6 +4897,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     }
 
 
+    /**
+     * get info from MU billings
+     */
     public function getBillingPadMuInformation(int $billing_mu_id): array
     {
         $respose = array();
@@ -4081,25 +4965,25 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return $respose;
     }
 
-
+    /**
+     * Convertir números a letras
+     */
     public function NumToLetters(int $value): string
     {
         return NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
     }
 
-    public function NumToLettersBill(int $value)
-    {
-        $lengt = 45;
-        $res = NumerosEnLetras::convertir($value, 'PESOS M CTE', false, 'Centavos', true);
-
-        return $res;
-    }
-
+    /**
+     * constructor de nombre completo
+     */
     public function nameBuilder($fn, $sn, $ln, $sln): string
     {
         return $fn . ' ' . '' . $sn . ($sn ? ' ' : '') . '' . $ln . '' . ($sln ? ' ' : '') . $sln;
     }
 
+    /**
+     * transforma el valor numérico a moneda
+     */
     private function currencyTransform($value): string
     {
         $millions = '';
@@ -4142,6 +5026,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return $Response;
     }
 
+    /**
+     * conversor de tipo de documento al código dado por la documentación
+     */
     public function getDocTipe(string $internal_code): string
     {
         $doc_types[0]['internal_code'] = 'RC';
@@ -4194,6 +5081,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         return $res;
     }
 
+    /**
+     * generador de PDF para facturas unitarias y PGP
+     */
     public function generateBillingPdf(Request $request, int $id): JsonResponse
     {
         $BillingPad = $this->getBillingPadInformation($id);
@@ -4374,7 +5264,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         }
 
         $pay_value = $total_value - ($mod_value + $copay_value);
-        $letter_value = $this->NumToLettersBill($pay_value);
+        $letter_value = $this->NumToLetters($pay_value);
         $currency_value = $this->currencyTransform($total_value);
         $currency_pay = $this->currencyTransform($pay_value);
         $currency_copay = $this->currencyTransform($copay_value);
@@ -4437,6 +5327,9 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         ]);
     }
 
+    /**
+     * generador de PDf de facturas multiusuario
+     */
     public function PdfMu(Request $request, int $id): JsonResponse
     {
         $selected_procedures_ids = array();
@@ -4689,7 +5582,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
         $copay_value_letters = $this->currencyTransform($copay_value);
         $mod_value_letters = $this->currencyTransform($mod_value);
         $total_letters = $this->currencyTransform($total_pay);
-        $totalin_letters = $this->NumToLettersBill($total_pay);
+        $totalin_letters = $this->NumToLetters($total_pay);
         $generate_date  = Carbon::now()->setTimezone('America/Bogota');
 
         try {

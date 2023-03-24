@@ -164,7 +164,25 @@ class TariffController extends Controller
             ]);
         }
         foreach ($request->type_of_attention_id as $type) {
-            foreach ($request->program_id as $element) {
+            if ($request->program_id) {
+                foreach ($request->program_id as $element) {
+                    $Tariff = new Tariff;
+                    $Tariff->name = $request->name;
+                    $Tariff->amount = $request->amount;
+                    $Tariff->quantity = $request->quantity;
+                    $Tariff->has_car = $request->has_car;
+                    $Tariff->extra_dose = $request->extra_dose;
+                    $Tariff->phone_consult = $request->phone_consult;
+                    $Tariff->status_id = $request->status_id;
+                    $Tariff->pad_risk_id = $request->pad_risk_id;
+                    $Tariff->program_id = $element;
+                    $Tariff->type_of_attention_id = $type;
+                    $Tariff->admissions_id = $request->admissions_id;
+                    $Tariff->failed = $request->failed;
+            
+                    $Tariff->save();
+                }
+            } else {
                 $Tariff = new Tariff;
                 $Tariff->name = $request->name;
                 $Tariff->amount = $request->amount;
@@ -174,7 +192,7 @@ class TariffController extends Controller
                 $Tariff->phone_consult = $request->phone_consult;
                 $Tariff->status_id = $request->status_id;
                 $Tariff->pad_risk_id = $request->pad_risk_id;
-                $Tariff->program_id = $element;
+                $Tariff->program_id = null;
                 $Tariff->type_of_attention_id = $type;
                 $Tariff->admissions_id = $request->admissions_id;
                 $Tariff->failed = $request->failed;
