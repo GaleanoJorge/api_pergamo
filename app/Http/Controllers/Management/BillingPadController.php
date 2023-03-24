@@ -3797,7 +3797,7 @@ class BillingPadController extends Controller
             $payer_fiscal_characteristics = 'O-13';
             $payer_type = '1';
             $payer_identification = $BillingPad[0]['eps_identification'];
-            $payer_identification_type = $this->getDocTipe($CompanyLocationInfo[0]['eps_identification_type']);
+            $payer_identification_type = $this->getDocType($CompanyLocationInfo[0]['eps_identification_type']);
             $eps_name = $BillingPad[0]['eps_name'];
             $payer_email = $BillingPad[0]['eps_mail'];
             $payer_phone = $BillingPad[0]['eps_phone'];
@@ -4111,7 +4111,7 @@ class BillingPadController extends Controller
          * captura de datos de fecha de expiración de factura, año de la factura y fecha actual
          */
         $now_date = Carbon::now()->setTimezone('America/Bogota');
-        $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
+        $expiracy_date = Carbon::parse($BillingPad[0]['billing_facturation_date'])->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
         $year = Carbon::parse($BillingPad[0]['billing_facturation_date'])->setTimezone('America/Bogota')->year;
 
 
@@ -4347,7 +4347,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
             $payer_fiscal_characteristics = 'O-13';
             $payer_type = '1';
             $payer_identification = $BillingPad[0]['eps_identification'];
-            $payer_identification_type = $this->getDocTipe($CompanyLocationInfo[0]['eps_identification_type']);
+            $payer_identification_type = $this->getDocType($CompanyLocationInfo[0]['eps_identification_type']);
             $eps_name = $BillingPad[0]['eps_name'];
             $payer_email = $BillingPad[0]['eps_mail'];
             $payer_phone = $BillingPad[0]['eps_phone'];
@@ -4661,7 +4661,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
          * captura de datos de fecha de expiración de factura, año de la factura y fecha actual
          */
         $now_date = Carbon::now()->setTimezone('America/Bogota');
-        $expiracy_date = Carbon::now()->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
+        $expiracy_date = Carbon::parse($BillingPad[0]['billing_facturation_date'])->addDays($BillingPad[0]['contract_expiration_days_portafolio']);
         $year = Carbon::parse($BillingPad[0]['billing_facturation_date'])->setTimezone('America/Bogota')->year;
 
 
@@ -5029,7 +5029,7 @@ A;;1;A;;2;A;;3;A;;4;A;;5;A;;6;A;;7;A;;8;A;;9;A;' . $totalToPay . ';10;A;;11;A;' 
     /**
      * conversor de tipo de documento al código dado por la documentación
      */
-    public function getDocTipe(string $internal_code): string
+    public function getDocType(string $internal_code): string
     {
         $doc_types[0]['internal_code'] = 'RC';
         $doc_types[0]['name'] = 'Registro civil';
