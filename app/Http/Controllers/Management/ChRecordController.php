@@ -6077,7 +6077,7 @@ class ChRecordController extends Controller
             $Assistance = Assistance::where('user_id', $request->user_id)->get()->toArray();
 
             $valuetariff = $this->getNotFailedTariff($tariff, $ManagementPlan, $Location, $request, $admissions_id, $AssignedManagementPlan);
-            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3) {
+            if (count($Assistance) > 0 && $Assistance[0]['contract_type_id'] != 1 && $Assistance[0]['contract_type_id'] != 2 && $Assistance[0]['contract_type_id'] != 3 && $ManagementPlan->type_of_attention_id != 20) {
                 if (count($valuetariff) == 0 && $Location->scope_of_attention_id != 1) {
                     $extra_dose = 0;
                     $has_car = 0;
