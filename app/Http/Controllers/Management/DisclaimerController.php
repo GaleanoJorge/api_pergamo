@@ -84,15 +84,17 @@ class DisclaimerController extends Controller
         $Disclaimer->save();      
 
         $ChRecord = ChRecord::find($request->ch_record_id);
-        $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
-        if ($billActivity) {
-            if ($billActivity->status == 'RECHAZADO') {
-                $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-                $assigned_redo->redo = '00000000000000';
-                $assigned_redo->save();
-                $billActivity->status = 'REENVIADO';
-                $billActivity->ch_record_id = $ChRecord->id;
-                $billActivity->save();
+        if ($ChRecord->assigned_management_plan_id) {
+            $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+            if ($billActivity) {
+                if ($billActivity->status == 'RECHAZADO') {
+                    $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                    $assigned_redo->redo = '00000000000000';
+                    $assigned_redo->save();
+                    $billActivity->status = 'REENVIADO';
+                    $billActivity->ch_record_id = $ChRecord->id;
+                    $billActivity->save();
+                }
             }
         }
 
@@ -136,15 +138,17 @@ class DisclaimerController extends Controller
         $Disclaimer->save();           
    
         $ChRecord = ChRecord::find($request->ch_record_id);
-        $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
-        if ($billActivity) {
-            if ($billActivity->status == 'RECHAZADO') {
-                $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
-                $assigned_redo->redo = '00000000000000';
-                $assigned_redo->save();
-                $billActivity->status = 'REENVIADO';
-                $billActivity->ch_record_id = $ChRecord->id;
-                $billActivity->save();
+        if ($ChRecord->assigned_management_plan_id) {
+            $billActivity = BillUserActivity::where('assigned_management_plan_id', $ChRecord->assigned_management_plan_id)->get()->first();
+            if ($billActivity) {
+                if ($billActivity->status == 'RECHAZADO') {
+                    $assigned_redo = AssignedManagementPlan::find($ChRecord->assigned_management_plan_id);
+                    $assigned_redo->redo = '00000000000000';
+                    $assigned_redo->save();
+                    $billActivity->status = 'REENVIADO';
+                    $billActivity->ch_record_id = $ChRecord->id;
+                    $billActivity->save();
+                }
             }
         }
 
