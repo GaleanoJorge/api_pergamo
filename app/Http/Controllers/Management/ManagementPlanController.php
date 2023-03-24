@@ -262,7 +262,6 @@ class ManagementPlanController extends Controller
             ->leftJoin('assigned_management_plan', 'assigned_management_plan.management_plan_id', '=', 'management_plan.id')
             ->leftJoin('admissions', 'admissions.id', '=', 'management_plan.admissions_id')
             ->where('admissions.patient_id', $id)->where('management_plan.status_id', 1)
-            ->where('admissions.discharge_date', '0000-00-00 00:00:00')
             ->groupBy('management_plan.id')
             ->orderBy('management_plan.created_at', 'DESC');
         if ($request->start_date) {
@@ -274,7 +273,9 @@ class ManagementPlanController extends Controller
         }
         if ($userId != 0) {
             $ManagementPlan
-                ->where('assigned_management_plan.user_id', $userId);
+                ->where('assigned_management_plan.user_id', $userId)
+            ->where('admissions.discharge_date', '0000-00-00 00:00:00');
+
         }
 
         if ($request->semaphore == 1) {
