@@ -273,7 +273,9 @@ class ManagementPlanController extends Controller
         }
         if ($userId != 0) {
             $ManagementPlan
-                ->where('assigned_management_plan.user_id', $userId);
+                ->where('assigned_management_plan.user_id', $userId)
+            ->where('admissions.discharge_date', '0000-00-00 00:00:00');
+
         }
 
         if ($request->semaphore == 1) {
